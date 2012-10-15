@@ -5,6 +5,7 @@
 /logs
 /.classpath
 /.project
+/test-output
 /src/cpr.properties
 /src/grouper.client.properties
 /src/hibernate.cfg.xml
