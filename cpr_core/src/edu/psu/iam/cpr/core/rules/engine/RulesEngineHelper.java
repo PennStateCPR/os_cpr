@@ -71,7 +71,6 @@ public class RulesEngineHelper {
 		}
 
 		catch (Exception e) {
-			e.printStackTrace();
 			return new RulesReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		} 
 		return rulesReturn;
