@@ -1,0 +1,11 @@
+/.settings
+/bin
+/build
+/dist
+/logs
+/.classpath
+/.project
+/src/cpr.properties
+/src/grouper.client.properties
+/src/hibernate.cfg.xml
+/src/jndi.properties

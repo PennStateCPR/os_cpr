@@ -1,0 +1,62 @@
+The purpose of this README is to provide you with instructions on how to build
+the CPR Code.
+
+Prior to building the CPR, you will need to need to configure hibernate.cfg.xml
+with the database information, you will find this file in the src directory.
+You will need to specify the following properties:
+
+<property name="hibernate.connection.password"></property>
+<property name="hibernate.connection.url"></property>
+<property name="hibernate.connection.username"></property>
+                
+NOTE: the default build for the CPR assumes a MySQL database, however you can
+specify any database for which there is a hibernate dialect for.  See this 
+page for the list of hibernate dialects:
+
+http://docs.jboss.org/hibernate/orm/3.5/api/org/hibernate/dialect/package-summary.html
+
+You will update the hibernate dialect in this line:
+
+<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+In addition, you will need to update the database connection class with the
+correct JDBC driver:
+
+<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+
+And finally you will need to place the vendor's JDBC driver jar in the build-jars 
+folder.  Currently the CPR ships with the Oracle and MySQL drivers as a 
+convenience for the user.
+
+The last change you will need to make would be if the database you have installed 
+differs in name from "cpr", you will need to update the default schema property with
+the database name:
+
+<property name="hibernate.default_schema">cpr</property>
+
+Next, you will need to update the cpr.properties file, located in the src folder.
+
+#
+# JMS
+#
+cpr.jms.broker=
+cpr.jms.userid=
+cpr.jms.password=
+cpr.jms.replyto=Queue.CPR
+
+You will need to specify values for the above properties to configure the CPR to use
+JMS.
+
+And finally you need to specify the name of the CPR database (see above).
+
+#
+# Database Information
+#
+cpr.database.name=cpr
+
+After you complete these steps you can build the cpr core software, by just
+typing ant from the main directory.  If you want to run unit tests, you will
+need to specify a parameter to the ant command -Drun.unit.tests=1
+
+When you build the code, the javadoc will be placed in the javadoc folder and
+the cpr_core.jar will be placed in the dist/lib folder.

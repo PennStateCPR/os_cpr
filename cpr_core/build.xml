@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="cpr_core" default="test">
+	
+	<property name="src.dir" value="src"/>
+	<property name="build.dir" value="build"/>
+	<property name="ddl.dir" value="${build.dir}/ddl"/>
+	<property name="classes.dir" value="${build.dir}/classes"/>
+	<property name="dist.dir" value="dist"/>
+	<property name="jar.dir" value="${dist.dir}/lib"/>
+	<property name="lib.dir" value="build-jars"/>
+	<property name="jar.file" value="${ant.project.name}.jar"/>
+	<property name="test.reports" value="${build.dir}/reports" />
+	<property name="javadoc.dir" value="javadoc" />
+    <property name="cpr.mode" value="OS" />
+
+	<taskdef resource="testngtasks" classpath="${lib.dir}/testng-6.7.jar"/>
+
+	<path id="classpath.build">
+		<fileset dir="${lib.dir}" includes="*.jar" />
+		<pathelement path="${src.dir}" />
+        <pathelement path="${classes.dir}" />
+	</path>
+		
+	<path id="classpath.test">
+		<path refid="classpath.build" />
+		<pathelement path="${src.dir}" />
+		<pathelement path="${classes.dir}" />
+	</path>
+		
+	<target name="init" depends="clean">
+		<mkdir dir="${classes.dir}"/>
+		<mkdir dir="${ddl.dir}"/>
+		<mkdir dir="${javadoc.dir}"/>
+		<mkdir dir="${test.reports}"/>
+	</target>
+	
+	<target name="compile" depends="init">
+		<javac srcdir="src" destdir="${classes.dir}" includeantruntime="false">
+			<classpath refid="classpath.build" />
+		</javac>
+		<javadoc packagenames="edu.psu.iam.cpr.core.*"
+		           sourcepath="src"
+		           excludepackagenames="edu.psu.iam.cpr.core.tests.*"
+		           defaultexcludes="yes"
+		           destdir="${javadoc.dir}"
+		           author="true"
+		           version="true"
+		           use="true"
+		           windowtitle="CPR Core JavaDoc">
+			<classpath refid="classpath.build" />
+		    <tag name="package" scope="all" description="Package:"/>
+		    <tag name="lastrevision" scope="all" description="Last Revision:"/>
+		</javadoc>
+	</target>
+			
+	<target name="dist" depends="compile">
+		<mkdir dir="${jar.dir}" />
+		<jar jarfile="${jar.dir}/${jar.file}" basedir="${classes.dir}" />
+		<copy file="${jar.dir}/${jar.file}" todir="${lib.dir}" />
+	</target>
+	
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete dir="${web.dir}" />
+		<delete dir="${javadoc.dir}" />
+	</target>
+
+	<taskdef name="hibernatetool"
+		classname="org.hibernate.tool.ant.HibernateToolTask"
+		classpathref="classpath.build" />
+	
+	<target name="hbm2ddl">
+		<hibernatetool destdir="${ddl.dir}">
+			<classpath refid="classpath.build" />
+			<annotationconfiguration configurationfile="${src.dir}/hibernate.cfg.xml"/>
+			<hbm2ddl export="false" drop="true" format="true" outputfilename="sql.ddl"/>
+		</hibernatetool>
+	</target>
+				
+	<target name="test" depends="dist" if="run.unit.tests">
+		<testng outputdir="${test.reports}" classpathref="classpath.test">
+			<sysproperty key="edu.psu.iam.cpr.core.mode" value="${cpr.mode}"/>
+			<xmlfileset dir="." includes="testng.xml"/>
+		</testng>
+	</target>
+</project>
