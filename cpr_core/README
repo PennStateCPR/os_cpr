@@ -1,62 +1,74 @@
 The purpose of this README is to provide you with instructions on how to build
 the CPR Code.
 
-Prior to building the CPR, you will need to need to configure hibernate.cfg.xml
-with the database information, you will find this file in the src directory.
-You will need to specify the following properties:
+1)  Load the CPR database using the sql.ddl file, you will find this file
+in the cpr_core folder.  The current shipped sql.ddl file is for the MySQL
+database.  If you are using a different database vendor, you will need to 
+update this file to use the correct data types and so on.  Consult your DBA
+for more information.
 
-<property name="hibernate.connection.password"></property>
-<property name="hibernate.connection.url"></property>
-<property name="hibernate.connection.username"></property>
-                
-NOTE: the default build for the CPR assumes a MySQL database, however you can
-specify any database for which there is a hibernate dialect for.  See this 
-page for the list of hibernate dialects:
+2)  In the src folder, you will need to copy some files:
+    *) cp hibernate.cfg.xml.example hibernate.cfg.xml
+    *) cp cpr.properties.example cpr.properties.
+    
+3)  Changes to the hibernate.cfg.xml file:
 
-http://docs.jboss.org/hibernate/orm/3.5/api/org/hibernate/dialect/package-summary.html
+	<property name="hibernate.connection.password">password</property>
+	* Specify the password for the database connection (cleartext).
+	
+	<property name="hibernate.connection.url"></property>
+	* Specify the URL for the database connection, for MySQL this URL
+	will be: jdbc:mysql://localhost:3306/cpr  NOTE: this assumes that you
+	created the database in step #1 as cpr.  If you did not, you will need
+	to change the cpr to the name of the database.  Again, if your database
+	is not MySQL, refer to your database vendor's documentation for the JDBC
+	connection string.
+	
+	<property name="hibernate.connection.username">userid</property>
+	* Specify the userid for the database connection.
 
-You will update the hibernate dialect in this line:
+	<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+	* Specify the hibernate dialect for the database you are using.  Refer to 
+	http://docs.jboss.org/hibernate/orm/3.5/api/org/hibernate/dialect/package-summary.html
 
-<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+	<property name="hibernate.connection.driver_class">jdbc connection class</property>
+	* Again referring to your database vendor's documentation, specify the connection
+	class for your jdbc driver.
 
-In addition, you will need to update the database connection class with the
-correct JDBC driver:
+	<property name="hibernate.default_schema">cpr</property>
+	* If you specified a different database schema, update this line with the name
+	of the new schema.
+	
+	Save the file!  Do not touch the lines below the connection information as they are
+	class definitions that are needed by the CPR.
+	
+4)	If you are using a database other than MySQL and/or Oracle, you will need to copy
+	the JDBC driver jar file to the build-jars folder.
+	
+5)	Next you will need to copy the cpr.properties file, in the src folder, 
+	cp cpr.properties.example cpr.properties
+	
+	#
+	# JMS
+	#
+	cpr.jms.broker=
+	cpr.jms.userid=
+	cpr.jms.password=
+	cpr.jms.replyto=Queue.CPR
+	* Update the above lines with the location of the JMS instance and userid/password for a queue called
+	Queue.CPR.
 
-<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+	#
+	# Database Information
+	#
+	cpr.database.name=cpr
+	* If the CPR database name is different (see above) update this line with the name of the database.
 
-And finally you will need to place the vendor's JDBC driver jar in the build-jars 
-folder.  Currently the CPR ships with the Oracle and MySQL drivers as a 
-convenience for the user.
+6)	Build the CPR code.
+	* ant
+	
+7)	To run unit tests (assumes the database exists and is populated).
+	ant -Drun.unit.tests=1
 
-The last change you will need to make would be if the database you have installed 
-differs in name from "cpr", you will need to update the default schema property with
-the database name:
-
-<property name="hibernate.default_schema">cpr</property>
-
-Next, you will need to update the cpr.properties file, located in the src folder.
-
-#
-# JMS
-#
-cpr.jms.broker=
-cpr.jms.userid=
-cpr.jms.password=
-cpr.jms.replyto=Queue.CPR
-
-You will need to specify values for the above properties to configure the CPR to use
-JMS.
-
-And finally you need to specify the name of the CPR database (see above).
-
-#
-# Database Information
-#
-cpr.database.name=cpr
-
-After you complete these steps you can build the cpr core software, by just
-typing ant from the main directory.  If you want to run unit tests, you will
-need to specify a parameter to the ant command -Drun.unit.tests=1
-
-When you build the code, the javadoc will be placed in the javadoc folder and
-the cpr_core.jar will be placed in the dist/lib folder.
+8)	When you build the code, the javadoc will be placed in the javadoc folder and
+	the cpr_core.jar will be placed in the dist/lib folder.
