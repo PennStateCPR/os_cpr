@@ -1,0 +1,8 @@
+This README details how to build the CPR Web Services.  It is assumed that
+you have build the CPR Core prior to building these services.  Also, you need
+to make sure when you clone the github, you pull cpr_core, cprws, and cprws_test.
+
+From a building perspective, all you need to is just run "ant" to build
+the services, it will generate a file called cprws.war in the dist/lib 
+directory.  That will be the file you will need to install on your application
+server.

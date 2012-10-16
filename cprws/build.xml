@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="cprws" default="dist">
+	
+	<property name="src.dir" value="src"/>
+	<property name="build.dir" value="build"/>
+	<property name="classes.dir" value="${build.dir}/classes"/>
+	<property name="dist.dir" value="dist"/>
+	<property name="jar.dir" value="${dist.dir}/lib"/>
+	<property name="lib.dir" value="build-jars" />
+	<property name="cxf.lib.dir" value="build-jars/apache-cxf-2.5.0/lib" />
+	<property name="javadoc.dir" value="javadoc" />
+	<property name="jar.file" value="${ant.project.name}.war"/>
+	<property name="web.dir" value="WebContent/WEB-INF/lib" />
+	<property name="core.file" value="cpr_core.jar"/>
+	<property name="wsdl.dir" value="WebContent/wsdl"/>
+	<property name="package.dir" value="edu.psu.iam.cpr.service"/>
+	<property name="wsdl.file" value="cprwsservice.wsdl"/>
+
+	<path id="classpath.build">
+		<fileset dir="${lib.dir}" includes="*.jar" />
+		<fileset dir="${cxf.lib.dir}" includes="*.jar" />
+	</path>
+		
+	<path id="classpath.test">
+		<path refid="classpath.build" />
+		<pathelement path="${classes.dir}" />
+	</path>
+		
+	<target name="init" depends="clean">
+		<mkdir dir="${classes.dir}"/>
+		<mkdir dir="${javadoc.dir}"/>
+		<copy file="../cpr_core/dist/lib/${core.file}" todir="${web.dir}" />
+		<copy file="../cpr_core/dist/lib/${core.file}" todir="${lib.dir}" />
+	</target>
+	
+	<target name="compile" depends="init">
+		<javac srcdir="src" destdir="${classes.dir}" includeantruntime="false">
+			<classpath refid="classpath.build" />
+		</javac>
+		<javadoc packagenames="edu.psu.iam.cpr.service.*"
+		           sourcepath="src"
+		           destdir="${javadoc.dir}"
+		           author="true"
+		           version="true"
+		           use="true"
+		           windowtitle="${ant.project.name} Web Service JavaDoc">
+			<classpath refid="classpath.build" />
+		    <tag name="package" scope="all" description="Package:"/>
+		    <tag name="lastrevision" scope="all" description="Last Revision:"/>
+		</javadoc>
+	</target>
+			
+    <target name="java2wsdl" depends="compile">
+        <java classname="org.apache.cxf.tools.java2ws.JavaToWS" fork="true">
+                   <arg value="-wsdl"/>
+                   <arg value="-servicename"/>
+                   <arg value="${ant.project.name}"/>
+                   <arg value="-o"/>
+                <arg value="${wsdl.dir}/${wsdl.file}"/>
+                <arg value="-verbose"/>
+                <arg value="-frontend"/>
+                <arg value="jaxws"/>
+                <arg value="-databinding"/>
+                <arg value="jaxb"/>
+                <arg value="-portname"/>
+                <arg value="cprws_port"/>
+                <arg value="${package.dir}.CprwsSEI"/>
+                <classpath>
+                        <path refid="classpath.test"/>
+                </classpath>
+        </java>     
+    </target>
+	
+	<target name="dist" depends="java2wsdl">
+		<mkdir dir="${jar.dir}" />
+		<war destfile="${jar.dir}/${jar.file}" webxml="WebContent/WEB-INF/web.xml">
+			<fileset dir="WebContent" />
+			<lib dir="WebContent/WEB-INF/lib" />
+			<classes dir="${classes.dir}" />
+		</war>
+	</target>
+	
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+        <delete file="${web.dir}/${core.file}" />
+	</target>
+	
+</project>
