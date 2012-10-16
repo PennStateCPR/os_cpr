@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="cpr_core" default="test">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="cpr_core" default="test">
 	
 	<property name="src.dir" value="src"/>
 	<property name="build.dir" value="build"/>
@@ -12,14 +12,16 @@
 	<property name="test.reports" value="${build.dir}/reports" />
 	<property name="javadoc.dir" value="javadoc" />
     <property name="cpr.mode" value="OS" />
-
-	<taskdef resource="testngtasks" classpath="${lib.dir}/testng-6.7.jar"/>
+    <property name="ivy.install.version" value="2.3.0-rc1"/>
+    <property name="ivy.jar.dir" value="${basedir}/ivy"/>
+    <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
 
 	<path id="classpath.build">
 		<fileset dir="${lib.dir}" includes="*.jar" />
-		<fileset dir="${lib.dir}/drools" includes="*.jar" />
 		<pathelement path="${src.dir}" />
         <pathelement path="${classes.dir}" />
+		<path refid="lib.path.id" />
+		<fileset dir="${lib.dir}/drools" includes="*.jar" />
 	</path>
 		
 	<path id="classpath.test">
@@ -28,6 +30,25 @@
 		<pathelement path="${classes.dir}" />
 	</path>
 		
+	<taskdef resource="testngtasks" classpath="${lib.dir}/testng-6.7.jar"/>
+
+    <target name="download-ivy" depends="init" unless="skip.download">
+		<mkdir dir="${ivy.jar.dir}"/>
+		<echo message="installing ivy..."/>
+		<get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" dest="${ivy.jar.file}" usetimestamp="true"/>
+    </target>
+
+	<target name="install-ivy" depends="download-ivy" description="--> install ivy">
+		<path id="ivy.lib.path">
+			<fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+		</path>
+		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+	</target>
+
+	<target name="get_depends" depends="install-ivy" description="--> resolve dependencies, compile and run the project">
+		<ivy:retrieve type="jar,bundle" sync="true" pathId="lib.path.id" />
+	</target>
+
 	<target name="init" depends="clean">
 		<mkdir dir="${classes.dir}"/>
 		<mkdir dir="${ddl.dir}"/>
@@ -35,7 +56,7 @@
 		<mkdir dir="${test.reports}"/>
 	</target>
 	
-	<target name="compile" depends="init">
+	<target name="compile" depends="get_depends">
 		<javac srcdir="src" destdir="${classes.dir}" includeantruntime="false">
 			<classpath refid="classpath.build" />
 		</javac>
@@ -67,6 +88,7 @@
 		<delete dir="${javadoc.dir}" />
 	</target>
 
+	<!--
 	<taskdef name="hibernatetool"
 		classname="org.hibernate.tool.ant.HibernateToolTask"
 		classpathref="classpath.build" />
@@ -78,6 +100,7 @@
 			<hbm2ddl export="false" drop="true" format="true" outputfilename="sql.ddl"/>
 		</hibernatetool>
 	</target>
+	-->
 				
 	<target name="test" depends="dist" if="run.unit.tests">
 		<testng outputdir="${test.reports}" classpathref="classpath.test">
