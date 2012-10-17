@@ -6,7 +6,7 @@
 	<property name="classes.dir" value="${build.dir}/classes"/>
 	<property name="dist.dir" value="dist"/>
 	<property name="jar.dir" value="${dist.dir}/lib"/>
-	<property name="lib.dir" value="build-jars" />
+  	<property name="lib.dir" value="build-jars" />
 	<property name="javadoc.dir" value="javadoc" />
 	<property name="jar.file" value="${ant.project.name}.war"/>
 	<property name="web.dir" value="WebContent/WEB-INF/lib" />
@@ -49,6 +49,8 @@
 		<mkdir dir="${classes.dir}"/>
 		<mkdir dir="${javadoc.dir}"/>
 		<mkdir dir="${web.dir}"/>
+		<mkdir dir="${lib.dir}"/>
+		<copy file="../cpr_core/dist/lib/${core.file}" todir="${lib.dir}" />
 	</target>
 	
 	<target name="compile" depends="get_depends">
@@ -106,6 +108,7 @@
 		<delete dir="${build.dir}" />
 		<delete dir="${dist.dir}" />
 		<delete dir="${web.dir}" />
+		<delete dir="${lib.dir}" />
 	</target>
 	
 </project>

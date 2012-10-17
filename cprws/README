@@ -2,7 +2,19 @@ This README details how to build the CPR Web Services.  It is assumed that
 you have build the CPR Core prior to building these services.  Also, you need
 to make sure when you clone the github, you pull cpr_core, cprws, and cprws_test.
 
-From a building perspective, all you need to is just run "ant" to build
-the services, it will generate a file called cprws.war in the dist/lib 
-directory.  That will be the file you will need to install on your application
-server.
+You will be using Apache's "ant" to build the software.  The build software uses
+Apache's ivy to resolve dependencies and create a single WAR file containing all
+of the required jars.  Refer to the Ivy FAQ for more information: 
+
+http://ant.apache.org/ivy/faq.html
+
+You need to make sure you have the latest Apache Ant installed
+http://ant.apache.org/
+
+And ANT_HOME needs to point to the location where you installed it and $ANT_HOME/bin
+needs to be in your path.
+
+To build the software just execute "ant".  If everything is set up correctly,
+it will download the dependencies and build a resultant war file which
+you can deploy on your server.  The war file (cprws.war) will be located
+in the dist/lib folder.
