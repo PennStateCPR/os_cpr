@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="cprws" default="dist">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="cprws" default="dist">
 	
 	<property name="src.dir" value="src"/>
 	<property name="build.dir" value="build"/>
@@ -7,7 +7,6 @@
 	<property name="dist.dir" value="dist"/>
 	<property name="jar.dir" value="${dist.dir}/lib"/>
 	<property name="lib.dir" value="build-jars" />
-	<property name="cxf.lib.dir" value="build-jars/apache-cxf-2.5.0/lib" />
 	<property name="javadoc.dir" value="javadoc" />
 	<property name="jar.file" value="${ant.project.name}.war"/>
 	<property name="web.dir" value="WebContent/WEB-INF/lib" />
@@ -15,10 +14,13 @@
 	<property name="wsdl.dir" value="WebContent/wsdl"/>
 	<property name="package.dir" value="edu.psu.iam.cpr.service"/>
 	<property name="wsdl.file" value="cprwsservice.wsdl"/>
+    <property name="ivy.install.version" value="2.3.0-rc1"/>
+    <property name="ivy.jar.dir" value="${basedir}/ivy"/>
+    <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
 
 	<path id="classpath.build">
 		<fileset dir="${lib.dir}" includes="*.jar" />
-		<fileset dir="${cxf.lib.dir}" includes="*.jar" />
+        <path refid="lib.path.id" />
 	</path>
 		
 	<path id="classpath.test">
@@ -26,14 +28,30 @@
 		<pathelement path="${classes.dir}" />
 	</path>
 		
+    <target name="download-ivy" depends="init" unless="skip.download">
+    	<mkdir dir="${ivy.jar.dir}"/>
+        <echo message="installing ivy..."/>
+        <get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" dest="${ivy.jar.file}" usetimestamp="true"/>
+    </target>
+
+    <target name="install-ivy" depends="download-ivy" description="--> install ivy">
+    	<path id="ivy.lib.path">
+        	<fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+        </path>
+        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+    </target>
+
+    <target name="get_depends" depends="install-ivy" description="--> resolve dependencies, compile and run the project">
+        <ivy:retrieve type="jar,bundle" sync="true" pathId="lib.path.id" />
+    </target>
+
 	<target name="init" depends="clean">
 		<mkdir dir="${classes.dir}"/>
 		<mkdir dir="${javadoc.dir}"/>
-		<copy file="../cpr_core/dist/lib/${core.file}" todir="${web.dir}" />
-		<copy file="../cpr_core/dist/lib/${core.file}" todir="${lib.dir}" />
+		<mkdir dir="${web.dir}"/>
 	</target>
 	
-	<target name="compile" depends="init">
+	<target name="compile" depends="get_depends">
 		<javac srcdir="src" destdir="${classes.dir}" includeantruntime="false">
 			<classpath refid="classpath.build" />
 		</javac>
@@ -73,6 +91,10 @@
 	
 	<target name="dist" depends="java2wsdl">
 		<mkdir dir="${jar.dir}" />
+		<copy todir="${web.dir}">
+			<fileset dir="lib" />
+		</copy>
+		<copy file="../cpr_core/dist/lib/${core.file}" todir="${web.dir}" />
 		<war destfile="${jar.dir}/${jar.file}" webxml="WebContent/WEB-INF/web.xml">
 			<fileset dir="WebContent" />
 			<lib dir="WebContent/WEB-INF/lib" />
@@ -83,7 +105,7 @@
 	<target name="clean">
 		<delete dir="${build.dir}" />
 		<delete dir="${dist.dir}" />
-        <delete file="${web.dir}/${core.file}" />
+		<delete dir="${web.dir}" />
 	</target>
 	
 </project>
