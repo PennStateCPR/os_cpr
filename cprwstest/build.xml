@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CprwsTest" default="test">
+	
+	<property name="src.dir" value="src"/>
+	<property name="build.dir" value="build"/>
+	<property name="classes.dir" value="${build.dir}/classes"/>
+	<property name="dist.dir" value="dist"/>
+	<property name="jar.dir" value="${dist.dir}/lib"/>
+	<property name="pass.home" value="/Volumes" />
+	<property name="lib.dir" value="${pass.home}/services/iam/jars/cpr_jars_${cpr.mode}"/>
+	<property name="jaxws.dir" value="${pass.home}/services/iam/jars/jaxws-ri/lib" />
+	<property name="jar.file" value="${ant.project.name}.jar"/>
+	<property name="test.reports" value="${build.dir}/reports" />
+	<property name="dependent.service" value="cprws"/>
+	<property name="app.server" value="${app.hostname}"/>
+
+	<taskdef resource="testngtasks" classpath="${lib.dir}/testng-6.7.jar"/>
+
+	<path id="classpath.build">
+		<fileset dir="${lib.dir}" includes="*.jar" />
+	</path>
+		
+	<path id="classpath.test">
+		<path refid="classpath.build" />
+		<pathelement path="${classes.dir}" />
+	</path>
+		
+	<target name="init" depends="clean">
+		<mkdir dir="${classes.dir}"/>
+		<mkdir dir="${test.reports}"/>
+	</target>
+	
+	<target name="compile" depends="init">
+		<taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+			<classpath>
+				<pathelement location="${jaxws.dir}/jaxws-tools.jar" />
+			</classpath>
+		</taskdef>
+		
+		<wsimport 
+			destdir="${classes.dir}"
+			keep="false"
+			xendorsed="true"
+			wsdl="${app.server}/${dependent.service}/services/${dependent.service}_port?wsdl" />
+		<javac srcdir="src" destdir="${classes.dir}" includeantruntime="false">
+			<classpath refid="classpath.build" />
+		</javac>
+	</target>
+			
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="test" depends="compile">
+		<testng outputdir="${test.reports}" classpathref="classpath.test">
+			<xmlfileset dir="." includes="testng.xml"/>
+		</testng>
+	</target>
+	
+</project>
