@@ -1394,3 +1394,173 @@ alter table user_service_status add foreign key (person_id) references person(pe
 alter table userid add foreign key (person_id) references person(person_id);
 alter table userid_policy_status add foreign key (person_id) references person(person_id);
 alter table userid_policy_status add foreign key (userid) references userid(userid);
+
+
+CREATE or replace VIEW v_database_log (number_tries, entry_timestamp, request_duration) AS 
+  (
+SELECT substr(REVERSE(output_string),2,1) as number_tries, entry_timestamp, request_duration
+ FROM database_log
+WHERE entry_type = 'INFO'
+);
+
+  CREATE OR REPLACE VIEW v_ext_affiliation_mapping (affiliation_key, affiliation, aff_enum_string, aff_active_flag, ext_affiliation_type_key, ext_affiliation_type, extafftype_active_flag, ext_affiliation_key, ext_affiliation, extaff_active_flag) AS 
+  SELECT
+	affiliations.affiliation_key,
+	affiliations.affiliation,
+	affiliations.enum_string AS aff_enum_string,
+	affiliations.active_flag AS aff_active_flag,
+	ext_affiliation_types.ext_affiliation_type_key,
+	ext_affiliation_types.ext_affiliation_type,
+	ext_affiliation_types.active_flag AS extafftype_active_flag,
+	ext_affiliation.ext_affiliation_key,
+	ext_affiliation.ext_affiliation,
+	ext_affiliation.active_flag AS extaff_active_flag
+FROM affiliations LEFT JOIN ext_affiliation_mapping
+  		ON affiliations.affiliation_key = ext_affiliation_mapping.affiliation_key
+	LEFT JOIN ext_affiliation
+  		ON ext_affiliation_mapping.ext_affiliation_key = ext_affiliation.ext_affiliation_key
+	LEFT JOIN ext_affiliation_types
+		ON ext_affiliation.ext_affiliation_type_key = ext_affiliation_types.ext_affiliation_type_key;
+
+  CREATE OR REPLACE VIEW v_external_iap_federation (person_id, userid, external_iap, federation) AS 
+  SELECT person_userid_iap.person_id,
+	person_userid_iap.userid,
+	external_iap.external_iap,
+	federation.federation
+FROM federation JOIN external_iap USING (federation_key)
+   JOIN iap_ext_mapping USING (external_iap_key)
+   JOIN iap USING (iap_key)
+   JOIN person_userid_iap USING (iap_key)
+WHERE person_userid_iap.end_date IS NULL
+  AND iap_ext_mapping.end_date IS NULL
+  AND iap.active_flag = 'Y'
+  AND external_iap.active_flag = 'Y'
+  AND federation.active_flag = 'Y';
+
+  CREATE OR REPLACE VIEW v_group_data_type_access (iam_group_key, parent_iam_group_key, iam_group, iamgrp_suspend_flag, iamgrp_active_flag, group_data_type_access_key, data_type_key, read_flag, write_flag, archive_flag, parent_data_type_key, data_type, datatype_enum_string, datatype_can_assign_flag, datatype_active_flag) AS 
+  SELECT
+	iam_groups.iam_group_key,
+	iam_groups.parent_iam_group_key,
+	iam_groups.iam_group,
+	iam_groups.suspend_flag AS iamgrp_suspend_flag,
+	iam_groups.active_flag AS iamgrp_active_flag,
+	group_data_type_access.group_data_type_access_key,
+	data_types.data_type_key,
+	group_data_type_access.read_flag,
+	group_data_type_access.write_flag,
+	group_data_type_access.archive_flag,
+	data_types.parent_data_type_key,
+	data_types.data_type,
+	data_types.enum_string AS datatype_enum_string,
+	data_types.can_assign_flag AS datatype_can_assign_flag,
+	data_types.active_flag AS datatype_active_flag
+FROM iam_groups
+	JOIN group_data_type_access ON iam_groups.iam_group_key = group_data_type_access.iam_group_key
+	JOIN data_types ON group_data_type_access.data_type_key = data_types.data_type_key;
+
+  CREATE OR REPLACE VIEW v_internal_affiliations (person_id, primary_flag, peraff_end_date, affiliation_key, affiliation, enum_string, aff_active_flag, can_assign_flag) AS 
+  SELECT person_affiliation.person_id,
+	person_affiliation.primary_flag,
+	person_affiliation.end_date AS peraff_end_date,
+	affiliations.affiliation_key,
+	affiliations.affiliation,
+	affiliations.enum_string,
+	affiliations.active_flag AS aff_active_flag,
+	affiliations.can_assign_flag
+FROM person_affiliation JOIN affiliations
+      ON person_affiliation.affiliation_key = affiliations.affiliation_key;
+
+  CREATE OR REPLACE VIEW v_person_affiliation (person_affiliation_key, person_id, affiliation_key, primary_flag, peraff_end_date, parent_affiliation_key, affiliation, aff_enum_string) AS 
+  SELECT
+	person_affiliation.person_affiliation_key,
+	person_affiliation.person_id,
+	person_affiliation.affiliation_key,
+	person_affiliation.primary_flag,
+	person_affiliation.end_date AS peraff_end_date,
+	affiliations.parent_affiliation_key,
+	affiliations.affiliation,
+	affiliations.enum_string AS aff_enum_string
+FROM person_affiliation JOIN affiliations
+		ON person_affiliation.affiliation_key = affiliations.affiliation_key;
+
+  CREATE OR REPLACE VIEW v_person_id_card_print_log (person_id_card_key, person_id, id_card_number, id_card_print_log_key, work_station_ip_address, work_station_name, printed_by, printed_on) AS 
+  SELECT
+	person_id_card.person_id_card_key,
+	person_id_card.person_id,
+	person_id_card.id_card_number,
+	id_card_print_log.id_card_print_log_key,
+	id_card_print_log.work_station_ip_address,
+	id_card_print_log.work_station_name,
+	id_card_print_log.printed_by,
+	id_card_print_log.printed_on
+FROM person_id_card JOIN id_card_print_log
+		ON person_id_card.person_id_card_key = id_card_print_log.person_id_card_key;
+
+  CREATE OR REPLACE VIEW v_ra_group_web_service (group_member_key, iam_group_key, registration_authority_key, userid, grpmbrs_suspend_flag, iamgrps_suspend_flag, grpacc_suspend_flag, web_service) AS 
+  SELECT group_members.group_member_key,
+	   iam_groups.iam_group_key,
+	   ra_groups.registration_authority_key,
+       group_members.userid,
+       group_members.suspend_flag AS grpmbrs_suspend_flag,
+       iam_groups.suspend_flag AS iamgrps_suspend_flag,
+       group_access.suspend_flag AS grpacc_suspend_flag,
+       web_service.web_service
+FROM registration_authority ra JOIN ra_groups
+      	ON ra.registration_authority_key = ra_groups.registration_authority_key
+    JOIN iam_groups ON ra_groups.iam_group_key = iam_groups.iam_group_key
+    JOIN group_members ON iam_groups.iam_group_key = group_members.iam_group_key
+    JOIN group_access ON ra_groups.ra_group_key = group_access.ra_group_key
+    JOIN web_service ON group_access.web_service_key = web_service.web_service_key
+WHERE group_members.end_date IS NULL
+AND iam_groups.active_flag = 'Y'
+AND ra_groups.end_date IS NULL
+AND group_access.end_date IS NULL
+AND web_service.end_date IS NULL;
+
+  CREATE OR REPLACE VIEW v_sp_notification (service_provisioner_key, service_provisioner, service_provisioner_queue, web_service, web_service_key) AS 
+  SELECT service_provisioner.service_provisioner_key,
+       service_provisioner.service_provisioner,
+       service_provisioner.service_provisioner_queue,
+       web_service.web_service,
+       web_service.web_service_key
+FROM service_provisioner
+  JOIN sp_notification ON service_provisioner.service_provisioner_key = sp_notification.service_provisioner_key
+    AND service_provisioner.end_date IS NULL
+    AND service_provisioner.suspend_flag = 'N'
+    AND sp_notification.end_date IS NULL
+  JOIN web_service ON sp_notification.web_service_key = web_service.web_service_key
+    AND web_service.end_date IS NULL;
+
+  CREATE OR REPLACE VIEW v_sp_response (sp_response_key, web_service_key, web_service, service_key, service_name, service_action_key, service_action, srvcaction_enum_string) AS 
+  SELECT sp_response.sp_response_key,
+       sp_response.web_service_key,
+       web_service.web_service,
+       sp_response.service_key,
+       services.service_name,
+       sp_response.service_action_key,
+       service_actions.service_action,
+       service_actions.enum_string AS srvcaction_enum_string
+FROM sp_response
+  JOIN web_service ON sp_response.web_service_key = web_service.web_service_key
+    AND web_service.end_date IS NULL
+  JOIN services ON sp_response.service_key = services.service_key
+  	AND services.active_flag = 'Y'
+  JOIN service_actions ON sp_response.service_action_key = service_actions.service_action_key
+  	AND service_actions.active_flag = 'Y';
+
+  CREATE OR REPLACE VIEW v_web_service (sp_response_key, web_service_key, web_service, service_key, service_name, service_action_key, service_action, srvcaction_enum_string) AS 
+  SELECT sp_response.sp_response_key,
+       sp_response.web_service_key,
+       web_service.web_service,
+       sp_response.service_key,
+       services.service_name,
+       sp_response.service_action_key,
+       service_actions.service_action,
+       service_actions.enum_string AS srvcaction_enum_string
+FROM sp_response
+  JOIN web_service ON sp_response.web_service_key = web_service.web_service_key
+    AND web_service.end_date IS NULL
+  JOIN services ON sp_response.service_key = services.service_key
+  	AND services.active_flag = 'Y'
+  JOIN service_actions ON sp_response.service_action_key = service_actions.service_action_key
+  	AND service_actions.active_flag = 'Y';
