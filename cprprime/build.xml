@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="cprprime" default="dist">
+	
+	<property name="src.dir" value="src"/>
+	<property name="build.dir" value="build"/>
+	<property name="classes.dir" value="${build.dir}/classes"/>
+	<property name="dist.dir" value="dist"/>
+	<property name="jar.dir" value="${dist.dir}/lib"/>
+    <property name="lib.dir" value="build-jars" />
+	<property name="javadoc.dir" value="javadoc" />
+	<property name="jar.file" value="${ant.project.name}.jar"/>
+	<property name="core.file" value="cpr_core.jar"/>
+	<property name="wsdl.dir" value="WebContent/wsdl"/>
+	<property name="package.dir" value="edu.psu.iam.cpr.service"/>
+	<property name="wsdl.file" value="cprprimeservice.wsdl"/>
+    <property name="ivy.install.version" value="2.3.0-rc1"/>
+    <property name="ivy.jar.dir" value="${basedir}/ivy"/>
+    <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
+
+	<path id="classpath.build">
+		<fileset dir="${lib.dir}" includes="*.jar" />
+        <path refid="lib.path.id" />
+	</path>
+		
+    <target name="download-ivy" depends="init" unless="skip.download">
+    	<mkdir dir="${ivy.jar.dir}"/>
+        <echo message="installing ivy..."/>
+        <get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" dest="${ivy.jar.file}" usetimestamp="true"/>
+    </target>
+
+    <target name="install-ivy" depends="download-ivy" description="--> install ivy">
+    	<path id="ivy.lib.path">
+        	<fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+        </path>
+        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+    </target>
+
+    <target name="get_depends" depends="install-ivy" description="--> resolve dependencies, compile and run the project">
+        <ivy:retrieve type="jar,bundle" sync="true" pathId="lib.path.id" />
+    </target>
+
+	<target name="init" depends="clean">
+		<mkdir dir="${classes.dir}"/>
+		<mkdir dir="${javadoc.dir}"/>
+		<mkdir dir="${lib.dir}"/>
+		<copy file="../cpr_core/dist/lib/${core.file}" todir="${lib.dir}" />
+	</target>
+	
+	<target name="compile" depends="get_depends">
+		<javac srcdir="src" destdir="${classes.dir}" includeantruntime="false">
+			<classpath refid="classpath.build" />
+		</javac>
+		<javadoc packagenames="edu.psu.iam.cpr.utility.*"
+		           sourcepath="src"
+		           destdir="${javadoc.dir}"
+		           author="true"
+		           version="true"
+		           use="true"
+		           windowtitle="${ant.project.name} Web Service JavaDoc">
+			<classpath refid="classpath.build" />
+		    <tag name="package" scope="all" description="Package:"/>
+		    <tag name="lastrevision" scope="all" description="Last Revision:"/>
+		</javadoc>
+	</target>
+			
+	<target name="dist" depends="compile">
+		<mkdir dir="${jar.dir}" />
+			<fileset dir="lib" />
+		<jar jarfile="${jar.dir}/${jar.file}" basedir="${classes.dir}" />
+	</target>
+	
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete dir="${lib.dir}" />
+	</target>
+	
+</project>
