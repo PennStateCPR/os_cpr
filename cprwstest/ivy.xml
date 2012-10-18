@@ -1,0 +1,21 @@
+<ivy-module version="2.0">
+    <info organisation="cpr" module="commonlib"/>
+
+    <publications>
+        <artifact name="commonlib" ext="jar" type="jar"/>
+    </publications>
+
+    <dependencies>
+        <dependency org="org.testng" name="testng" rev="6.7" />
+	<dependency org="com.sun.xml.ws" name="jaxws-tools" rev="2.2.8-promoted-b146"/>
+	<dependency org="javax.xml.ws" name="jaxws-api" rev="2.2.8"/>
+	<dependency org="com.sun.xml.ws" name="jaxws-rt" rev="2.2.8-promoted-b146"/>
+	<dependency org="com.sun.xml.ws" name="jaxws-ri" rev="2.2.8-promoted-b146"/>
+	<exclude org="com.sun.jdmk"/>
+       	<exclude org="com.sun.jmx"/>
+       	<exclude org="javax.jms"/>
+	<exclude org="org.glassfish.ha"/>
+	<exclude org="org.eclipse.persistence"/>
+	<exclude org="commonj.sdo"/>
+    </dependencies>
+</ivy-module>
