@@ -1,0 +1,83 @@
+
+
+The information contained within this README detail the functionality,
+requirements, and installation information for the Penn State Central Person
+Registry (CPR).
+
+Functionality
+-------------
+
+The functionality contained within this quickstart will enable you to 
+execute SOAP services that are defined here:
+
+https://wikispaces.psu.edu/display/IAM/Service+Design
+
+The services accept a variety of inputs and return a SOAP-based XML document as
+the result of its execution.  A future release of the CPR will include a
+web-based component for Identity Provisioning.
+
+Requirements
+------------
+
+To be able to use this quickstart, you will need to have the following installed
+on your system:
+
+1)	A version of the MySQL database (you can either install via a package
+        or from source).
+	*) You will need to have a CPR user and password created.  You can
+	   use the root user if you want.
+	*) In addition, you will need to create a cpr database, again you can
+	   call it whatever you want.
+	*) Here are some sample commands to create the user and database.
+	   1) mysql -u root -p
+       2) create database cpr;
+       3) use mysql;
+       4) create user 'cpruser'@'%' identified by 'pass';    
+       5) grant all privileges on cpr.* to 'cpruser'@'%' identified by 'pass';
+       6) flush privileges;
+     *) Link to docs:
+           http://dev.mysql.com/doc/refman/5.5/en/adding-users.html
+
+2)	You need to create two users, activemq and tomcat.  Refer to your 
+        operating system documentation for how to do this.  If you are
+        running Linux, you can use the useradd command to create them.
+
+3)      You need to have a version of Java 6 or higher installed.  Make sure
+        your JAVA_HOME environment variable is set to the location of the
+	JAVA_HOME.  On Linux systems it is typically installed in
+	/usr/lib/jvm/jre-1.6.0-openjdk.x86_64, you can find the location
+	by checking where java is installed.  It will be a symlink to
+	somewhere, follow that symlink and you will have Java.  For
+	MacOS, Java is located:
+	/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
+
+Installation Instructions
+-------------------------
+
+1)  Contain the CPR development team via email for a link to the
+    CPR quickstart (email cprdev@psu.edu).
+2)	Create a directory on your system for the CPR, and make that
+        your current directory.
+3)	Extract the contents on the CPR quickstart using:
+        "gzip -dc cpr-quickstart.tar.gz | tar xvfp -"
+4)	Run the installation script (./install.sh).  Make sure you
+        run the integration tests, they will tell you whether
+        the CPR is working or not.
+
+CPR WSDL
+
+The WSDL for the CPR will be located at:
+
+http://hostname:8080/cprws/services/cprws_port?wsdl, where
+hostname is the name of the host you installed the CPR on.
+
+Commands
+--------
+
+1)	To start the CPR, execute the "run_cpr.sh" command.
+
+2)	To stop the CPR, execute the "stop_cpr.sh" command.
+
+Problems?
+
+Send an email to CPR Development Team (cprdev@psu.edu).
