@@ -1,0 +1,88 @@
+package edu.psu.iam.cpr.utility;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.Date;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import edu.psu.iam.cpr.core.database.Database;
+import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
+import edu.psu.iam.cpr.utility.beans.IamGroups;
+
+public class IamGroupsLoader implements BeanLoader {
+
+	@Override
+	public void loadTable(Database db, String primeDirectory,
+			String tableName) {
+		BufferedReader bufferedReader = null;
+		try {
+			Date d = new Date();
+			String requestor = "SYSTEM";
+			
+			db.openSession(SessionFactoryUtil.getSessionFactory());
+			Session session = db.getSession();
+			
+			// Remove all of the records from the database table.
+			String sqlQuery = "delete from " + tableName;
+			Query query = session.createQuery(sqlQuery);
+			query.executeUpdate();
+
+			// Read in the first record containing the column headers.
+			bufferedReader = new BufferedReader(new FileReader(primeDirectory + System.getProperty("file.separator") + tableName));
+			String[] columns = bufferedReader.readLine().split("[|]");
+			String line;
+			
+			// Read and process the file.
+			while ((line = bufferedReader.readLine()) != null) {
+				String[] fields = line.split("[|]");
+				
+				IamGroups bean = new IamGroups();
+				bean.setCreatedBy(requestor);
+				bean.setCreatedOn(d);
+				bean.setLastUpdateBy(requestor);
+				bean.setLastUpdateOn(d);
+				
+				// parent_iam_group_key|iam_group_desc|active_flag|iam_group_key|iam_group|suspend_flag
+
+				for (int i = 0; i < columns.length; ++i) {
+					if (columns[i].equals("parent_iam_group_key")) {
+						bean.setParentIamGroupKey(new Long(fields[i]));
+					}
+					else if (columns[i].equals("iam_group_desc")) {
+						bean.setIamGroupDesc(fields[i]);
+					}
+					else if (columns[i].equals("active_flag")) {
+						bean.setActiveFlag(fields[i]);
+					}
+					else if (columns[i].equals("iam_group_key")) {
+						bean.setIamGroupKey(new Long(fields[i]));
+					}
+					else if (columns[i].equals("iam_group")) {
+						bean.setIamGroup(fields[i]);
+					}
+					else if (columns[i].equals("suspend_flag")) {
+						bean.setSuspendFlag(fields[i]);
+					}
+				}
+				
+				session.save(bean);
+			}
+			
+			db.closeSession();
+		}
+		catch (Exception e) {
+			db.rollbackSession();
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				bufferedReader.close();
+			}
+			catch (Exception e) {
+			}
+		}
+	}
+
+}
