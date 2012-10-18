@@ -1,0 +1,15 @@
+The instructions contained in this file will aid you in the building and
+installing the Penn State CPR.
+
+Requirements:
+-------------
+
+1) Apache Ant (latest). - http://ant.apache.org/
+2) Apache Tomcat 7.x. - http://tomcat.apache.org/
+3) Apache ActiveMQ 5.5.x - http://activemq.apache.org/
+4) JBoss Drools 5.x - http://www.jboss.org/drools/
+5) Internet2 Grouper - http://www.internet2.edu/grouper/
+6) A relational database that is supported by hibernate - 
+http://docs.jboss.org/hibernate/orm/3.5/api/org/hibernate/dialect/package-summary.html
+   By default, the CPR source code ships with the JDBC driver for 
+   MySQL and Oracle.  The default configuration is for MySQL.
