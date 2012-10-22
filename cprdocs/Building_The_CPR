@@ -66,6 +66,15 @@ If you have installed ActiveMQ and updated the cpr.properties file with the prop
 you will need to create two queues, Queue.CPR and Queue.UnitTest.  If you want to run the unit
 tests enter: "ant -Drun.unit.tests=1"
 
+Prime the CPR
+-------------
+
+Priming the CPR is necessary for ensuring it contains data values for the various types
+that are using by the CPR.
+
+1)	cd cpr_prime folder.
+2)	ant
+
 Build The CPR Web Services
 --------------------------
 
