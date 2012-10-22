@@ -97,21 +97,21 @@ public class ValidatePhoneTest {
 	 */
 	@Test
 	public final void testIsValidPhoneNumber3() {
-		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("No", "112-1111"), false);
+		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("N", "112-1111"), false);
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePhone#isValidPhoneNumber(java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidPhoneNumber4() {
-		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("No", "8141112456"), true);
+		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("N", "8141112456"), true);
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePhone#isValidPhoneNumber(java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidPhoneNumber5() {
-		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("No", "814 111 2456"), true);
+		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("N", "814 111 2456"), true);
 
 	}
 	/**
@@ -119,7 +119,7 @@ public class ValidatePhoneTest {
 	 */
 	@Test
 	public final void testIsValidPhoneNumber6() {
-		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("No", "814-111-2456"), true);
+		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("N", "814-111-2456"), true);
 
 	}
 
@@ -128,7 +128,7 @@ public class ValidatePhoneTest {
 	 */
 	@Test
 	public final void testIsValidPhoneNumber7() {
-		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("No", "(814)-111-2456"), true);
+		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("N", "(814)-111-2456"), true);
 
 	}
 
@@ -137,7 +137,7 @@ public class ValidatePhoneTest {
 	 */
 	@Test
 	public final void testIsValidPhoneNumber8() {
-		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("No", "(814)-111-2456"), true);
+		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("N", "(814)-111-2456"), true);
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePhone#isValidPhoneNumber(java.lang.String, java.lang.String)}.
