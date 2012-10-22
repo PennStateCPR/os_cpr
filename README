@@ -1,39 +1,5 @@
-Important Information
----------------------
+Penn State Central Person Registry (CPR) Open Source Version.
 
-Requirements For Running The OS CPR
-
-1) You need an Application Server, like Tomcat or JBoss.  
-2) You need a hibernate supported database, like MySQL or Oracle.
-3) You need a JMS broker, like ActiveMQ.
-
-NOTE: you can obtain of all these items and more if you try out the 
-CPR QuickStart (cpr-quickstart.tar.gz).  You can obtain the quick start
-at: http://www.personal.psu.edu/jvuccolo/cpr-quickstart.tar.gz
-
-When you clone the CPR from GitHub, you must build things in the following 
-order:
-
-1) cpr_core
-2) cprws
-3) cprws_test (run these after you deploy the web services).
-
-To install the CPR, you will need to do the following:
-1) Configure the database for the CPR (see cpr_core/sql.ddl for the database schema).
-NOTE: sql.ddl is set up for MySQL, you will need to update it accordingly
-for your database.
-2) Install and configure your application server.
-3) Install and configure JMS.
-4) Build cpr_core (see its README for instructions).
-5) Build cprws (see its README for instructions).
-6) Deploy the cprws.war file onto your server.
-7) Copy the cpr.properties and hibernate.cfg.xml file to your server and place
-them in the classpath of the application server.
-8) Copy the contents of the cpr_core/build-jars folder to your server and place 
-them in the classpath of the application server.
-9) Copy the DROOLS rules file (cpr_core/src/*.drl) to your server and
-place them in the classpath of the application server.
-10) Once you restart everything, you should be able to access the
-WSDL: http://server-name.edu:8080/cprws/services/cprws_port?wsdl
+Refer to the cprdocs folder for instructions on how to build and utilize the CPR.
 
 Any questions and/or concerns, please direct them cprdev@psu.edu
