@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:ivy="antlib:org.apache.ivy.ant" name="cprprime" default="dist">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="cprprime" default="prime">
 	
 	<property name="src.dir" value="src"/>
 	<property name="build.dir" value="build"/>
@@ -21,6 +21,12 @@
 		<fileset dir="${lib.dir}" includes="*.jar" />
         <path refid="lib.path.id" />
 	</path>
+
+	<path id="classpath.execute">
+		<path refid="classpath.build" />
+        <pathelement path="${src.dir}" />
+		<fileset dir="${jar.dir}" includes="*.jar" />
+	</path>
 		
     <target name="download-ivy" depends="init" unless="skip.download">
     	<mkdir dir="${ivy.jar.dir}"/>
@@ -30,7 +36,7 @@
 
     <target name="install-ivy" depends="download-ivy" description="--> install ivy">
     	<path id="ivy.lib.path">
-        	<fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+		<fileset dir="${ivy.jar.dir}" includes="*.jar"/>
         </path>
         <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
     </target>
@@ -67,6 +73,13 @@
 		<mkdir dir="${jar.dir}" />
 			<fileset dir="lib" />
 		<jar jarfile="${jar.dir}/${jar.file}" basedir="${classes.dir}" />
+	</target>
+
+	<target name="prime" depends="dist">
+		<java classname="edu.psu.iam.cpr.utility.PrimeCPR">
+			<classpath refid="classpath.execute" />
+			<arg line="prime_data/data.order prime_data"/>
+		</java>
 	</target>
 	
 	<target name="clean">
