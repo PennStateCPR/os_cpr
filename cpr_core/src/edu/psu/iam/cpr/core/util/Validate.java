@@ -74,8 +74,8 @@ public class Validate {
     	
     	final String s = yesNo.toUpperCase().trim();
     	
-    	if (s.startsWith("Y") || s.startsWith("N")) {
-    		return s.substring(0,1);
+    	if (s.equals("Y") || s.equals("N")) {
+    		return s;
     	}
     	
     	return null;
