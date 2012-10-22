@@ -1,0 +1,85 @@
+data_type_desc|active_flag|data_type_key|parent_data_type_key|can_assign_flag|enum_string|data_type
+null|Y|251|0|N|NAME|Name
+Legal Name shall be used to refer to the name for doing business at Penn State regardless of affiliation.|Y|252|251|Y|LEGAL_NAME|Legal Name
+The university recognizes that as a community many of its members use names other than their legal names to identify themselves.|Y|253|251|Y|PREFERRED_NAME|Perferred Name
+Name as it appears on a legal document such as Drivers License or Passport.|Y|254|251|Y|DOCUMENTED_NAME|Documented Name
+A full name including processional certifications degrees honorifics.|Y|255|251|Y|PROFESSIONAL_NAME|Professional Name
+The name as it will appear on official university transactions sent to Billing Address.|Y|256|251|Y|BILLING_NAME|Billing Name
+null|Y|257|0|N|ADDRESS|Address
+The address at a person receives official government correspondence such as Internal Revenue Service communications.|Y|258|257|Y|PERMANENT_ADDRESS|Permanent Address
+The residential address of a person if different from the Permanent Address.|Y|259|257|Y|LOCAL_ADDRESS|Local Address
+The address found on a persons government-issued identification to be used when required for purposes of identity proofing.|Y|260|257|Y|DOCUMENTED_ADDRESS|Documented Address
+A persons work address for example Department of Agriculture. A persons physical work location for example Turf Barn 2.|Y|261|257|Y|WORK_ADDRESS|Work Address
+financial transactional communication from the university. May be different from Local Address.|Y|262|257|Y|BILLING_ACADEMIC_ADDRESS|Billing Academic Address
+communications such as parking tickets library fines etc. May be the same as Local Address.|Y|263|257|Y|BILLING_ADMINISTRATIVE_ADDRESS|Billing Administrative Address
+null|Y|264|0|N|PHONE|Phone
+A persons phone number|Y|265|264|Y|PERMANENT_PHONE|Permanent Phone
+The phone number of a person if different from the Permanent Phone.|Y|266|264|Y|LOCAL_PHONE|Local Phone
+A persons work phone number.|Y|267|264|Y|WORK_PHONE|Work Phone
+null|Y|268|0|N|EMAIL|Email
+Email associated with Penn State.|Y|269|268|Y|UNIVERSITY_EMAIL|University Email
+Email other than Penn State email address.|Y|270|268|Y|OTHER_EMAIL|Other Email
+null|Y|271|0|N|CONFIDENTIALITY|Confidentiality
+Place a confidentiality hold on all supported data items associated with a person.|Y|272|271|Y|ALL_CONFIDENTIALITY|All Confidentiality
+Place a confidentiality hold on address data associated with a person.|Y|273|271|Y|ADDRESS_CONFIDENTIALITY|Address Confidentiality
+Place a confidentiality hold on phone data associated with a person.|Y|274|271|Y|PHONE_CONFIDENTIALITY|Phone Confidentiality
+null|Y|275|0|N|GENDER|Gender
+Female|Y|276|275|Y|GENDER_FEMALE|Female Gender
+Male|Y|277|275|Y|GENDER_MALE|Male Gender
+Other|Y|278|275|Y|GENDER_OTHER|Other Gender
+null|Y|279|0|Y|DATE_OF_BIRTH|Date of Birth
+null|Y|280|0|Y|SSN|Social Security Number
+null|Y|281|0|Y|USER_ID|User Id
+null|Y|282|0|Y|PSU_ID|PSU ID
+null|Y|283|0|N|USER_COMMENT|User Comment
+Misuse|Y|284|283|Y|USER_COMMENT_MISUSE|User comment misuse
+Deleted|Y|285|283|Y|USER_COMMENT_DELETED|User comment deleted
+Other|Y|286|283|Y|USER_COMMENT_OTHER|User comment other
+Extension|Y|287|283|Y|USER_COMMENT_EXTENSION|User comment extension
+Creation|Y|288|283|Y|USER_COMMENT_CREATION|User comment creation
+Change|Y|289|283|Y|USER_COMMENT_CHANGE|User comment change
+null|Y|290|0|N|ACCESS_OPERATION|Access Operation
+Read only|Y|291|290|Y|ACCESS_OPERATION_READ|Read Access Operation
+Write only|Y|292|290|Y|ACCESS_OPERATION_WRITE|Write Access Operation
+Archive only|Y|293|290|Y|ACCESS_OPERATION_ARCHIVE|Archive Access Operation
+null|Y|294|0|N|DOCUMENT_TYPE|Document Type
+Passport|Y|295|294|Y|PASSPORT|Passport Document Type
+State drivers license|Y|296|294|Y|STATE_DRIVERS_LICENSE|Drivers License Document Type
+State identification card|Y|297|294|Y|STATE_ID_CARD|State Identification Document Type
+Military Identification card|Y|298|294|Y|MILITARY_ID|Military Identification Document Type
+null|Y|299|0|N|LINKAGE_TYPE|Linkage Type
+Parent or guardian|Y|300|299|Y|LINKAGE_TYPE_PARENT_OR_GUARDIAN|Linkage Type
+Spouse or partner|Y|301|299|Y|LINKAGE_TYPE_SPOUSE_OR_PARTNER|Linkage Type
+Child|Y|101|299|Y|LINKAGE_TYPE_DEPENDANT|Linkage Type
+Id Card|Y|151|0|N|ID_CARD|Id Card
+Id Plus card (non Hershey)|Y|152|151|N|ID_CARD_ID_PLUS_CARD|ID+ Card
+Faculty Staff Id+ Card|Y|153|152|Y|ID_CARD_ID_PLUS_CARD_FACULTY_STAFF|Id+ Card Faculty Staff
+Faculty Staff PEMA Id+ Card|Y|154|152|Y|ID_CARD_ID_PLUS_CARD_FACULTY_STAFF_PEMA|Id+ Card Faculty Staff PEMA
+Faculty Staff PROX Id+ Card|Y|155|152|Y|ID_CARD_ID_PLUS_CARD_FACULTY_STAFF_PROX|Id+ Card Faculty Staff PROX
+Faculty Staff Student Id+ Card|Y|156|152|Y|ID_CARD_ID_PLUS_CARD_FACULTY_STAFF_STUDENT|Id+ Card Faculty Staff Student
+Affiliate Id+ Card|Y|157|152|Y|ID_CARD_ID_PLUS_CARD_AFFILIATE|Id+ Card Affiliate
+Retiree Id+ Card|Y|158|152|Y|ID_CARD_ID_PLUS_CARD_RETIREE|Id+ Card Retiree
+ARL Id Card|Y|167|151|N|ID_CARD_ID_CARD_ARL|Id Card ARL
+World Campus Id+ Card|Y|161|152|Y|ID_CARD_ID_PLUS_CARD_WORLD_CAMPUS|Id+ Card World Campus
+Health Services Id Card |Y|163|151|N|ID_CARD_ID_CARD_HEALTH_SERVICES|Id Card Health Services 
+RESCOM Id Card |Y|164|151|N|ID_CARD_ID_CARD_RESCOM|Id Card RESCOM 
+Village Resident Id Card |Y|165|151|N|ID_CARD_ID_CARD_VILLAGE|Id Card Village Resident 
+Id+ Card Hershey controlled|Y|166|151|N|ID_CARD_ID_PLUS_CARD_HERSHEY|Id+ Card Hershey
+Emeritus Id+ Card|Y|159|152|Y|ID_CARD_ID_PLUS_CARD_EMERITUS|Id+ Card Emeritus
+Contractor Id+ Card|Y|160|152|Y|ID_CARD_ID_PLUS_CARD_CONTRACTOR|Id+ Card Contractor
+Child|Y|127|299|Y|LINKAGE_DEPENDANT|Linkage Type
+null|Y|128|0|N|CREDENTIAL_TYPE|Credential Type
+OpenID|Y|129|128|Y|CREDENTIAL_TYPE_OPENID|Credential Type
+Facebook Connect|Y|130|128|Y|CREDENTIAL_TYPE_FACEBOOK|Credential Type
+SecureID|Y|131|128|Y|CREDENTIAL_TYPE_SECUREID|Credential Type
+Id+ Card Hershey Faculty Staff|Y|329|166|Y|ID_CARD_ID_PLUS_CARD_HERSHEY_FACULTY_STAFF|Id+ Card Hershey Faculty Staff
+Id+ Card Hershey Faculty Staff Student|Y|330|166|Y|ID_CARD_ID_PLUS_CARD_HERSHEY_FACULTY_STAFF_STUDENT|Id+ Card Hershey Faculty Staff Student
+Id+ Card Hershey Retiree|Y|331|166|Y|ID_CARD_ID_PLUS_CARD_HERSHEY_RETIREE|Id+ Card Hershey Retiree
+Id+ Card Hershey Emeritus|Y|332|166|Y|ID_CARD_ID_PLUS_CARD_HERSHEY_EMERITUS|Id+ Card Hershey Emeritus
+Id+ Card Hershey External|Y|333|166|Y|ID_CARD_ID_PLUS_CARD_HERSHEY_EXTERNAL|Id+ Card Hershey External
+Id+ Card Hershey Student|Y|328|166|Y|ID_CARD_ID_PLUS_CARD_HERSHEY_STUDENT|Id+ Card Hershey Student
+Id Card Health Service Photo Id|Y|334|163|Y|ID_CARD_ID_CARD_HEALTH_SERVICES_PHOTO_ID|Id Card Health Service Photo Id
+Id Card RESCOM Photo Id|Y|335|164|Y|ID_CARD_ID_CARD_RESCOM_PHOTO_ID|Id Card RESCOM Photo Id
+Id Card Village Photo Id|Y|336|165|Y|ID_CARD_ID_CARD_VILLAGE_PHOTO_ID|Id Card Village Photo Id
+Id Card ARL Photo Id|Y|337|167|Y|ID_CARD_ID_CARD_ARL_PHOTO_ID|Id Card ARL Photo Id
+Id Card Plus Student|Y|327|152|Y|ID_CARD_ID_PLUS_CARD_STUDENT|Id Card Plus Student

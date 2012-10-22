@@ -1,0 +1,4 @@
+active_flag|days_service_active|service_key|service_name
+Y|0|1|Kerberos5
+Y|0|2|LDAP
+Y|0|3|Active Directory

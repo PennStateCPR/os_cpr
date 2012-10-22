@@ -1,0 +1,5 @@
+active_flag|ext_affiliation_type_key|ext_affiliation|ext_affiliation_desc|ext_affiliation_key
+Y|1|Student|Student eduPerson affiliation|1
+Y|1|Faculty|Faculty eduPerson affiliation|2
+Y|1|Staff|Staff eduPerson affiliation|3
+Y|1|Member|Member eduPerson affiliation|4
