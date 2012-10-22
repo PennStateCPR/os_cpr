@@ -57,15 +57,15 @@ public class ServiceCoreTest {
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testIntializeService8() throws CprException, GeneralDatabaseException {
-		new ServiceCore().initializeService(new Database(), "portal1", null, null, null, null, null);
+		new ServiceCore().initializeService(new Database(), "cprblah", null, null, null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testIntializeService9() throws CprException,  GeneralDatabaseException {
-		new ServiceCore().initializeService(new Database(), "portal1", "abcd", null, null, null, null);
+		new ServiceCore().initializeService(new Database(), "cprblah", "abcd", null, null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testIntializeService10() throws CprException,  GeneralDatabaseException {
-		new ServiceCore().initializeService(new Database(), "portal1", "dun4IAM", null, null, null, null);
+		new ServiceCore().initializeService(new Database(), "cprblah", "dun4IAM", null, null, null, null);
 	}
 	
 	
