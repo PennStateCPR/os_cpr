@@ -39,8 +39,6 @@ public class SessionFactoryUtil {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			sessionFactory = null;
-			System.err.println("Exception " + e.getMessage());
 		}
 	}
 	

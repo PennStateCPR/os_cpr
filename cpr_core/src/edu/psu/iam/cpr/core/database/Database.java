@@ -73,16 +73,6 @@ public class Database {
 	 * Value that represents something that is not found.
 	 */
 	public final long NOT_FOUND_VALUE = -1L;
-	
-	/**
-	 * Number of times to try to connect to the database.
-	 */
-	private static final int MAX_TRYS = 3;
-	
-	/**
-	 * Ten seconds represented as Milliseconds.
-	 */
-	private static final int SLEEP_DELAY_MS = 2000;
 
 	/** 
 	 * Contains a table's columns.
@@ -109,18 +99,7 @@ public class Database {
 	public void openSession(SessionFactory sessionFactory) throws GeneralDatabaseException {
 		
 		try {
-			for (int sessionTry = 0; sessionTry < MAX_TRYS; ++sessionTry) {
-				session = sessionFactory.getCurrentSession();
-				if (session == null) {
-					wait(SLEEP_DELAY_MS);
-				}
-				else {
-					break;
-				}
-			}
-			if (session == null) {
-				throw new GeneralDatabaseException("Unable to obtain a database connection from the connection pool.");
-			}
+			session = sessionFactory.getCurrentSession();
 			session.beginTransaction();
 		}
 		catch (Exception e) {
