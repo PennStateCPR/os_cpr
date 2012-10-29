@@ -29,8 +29,15 @@ import edu.psu.iam.cpr.core.database.types.CprRunningMode;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-public class ValidateSSN {
+public final class ValidateSSN {
 
+	/**
+	 * Constructor
+	 */
+	private ValidateSSN() {
+		
+	}
+	
 	/**
 	 * Validate than an SSN is well-formed.
 	 *
@@ -40,26 +47,28 @@ public class ValidateSSN {
 	 */
 	public static boolean validateSSN(String ssn) {
 		
-		if (ssn == null) {
+		String localSSN = ssn;
+		
+		if (localSSN == null) {
 			return false;
 		}
 		
-		ssn = ssn.trim();
+		localSSN = localSSN.trim();
 		
-		if (ssn.length() == 0) {
+		if (localSSN.length() == 0) {
 			return false;
 		}
 		
     	// match with or without separators (hyphens or spaces)
-	    if (!Pattern.matches(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_REGEX_SSN.toString()), ssn)) {
+	    if (!Pattern.matches(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_REGEX_SSN.toString()), localSSN)) {
 	    	return false;
 	    }
 		
-	    ssn = ssn.replace("-", "").replace(" ", "");
+	    localSSN = localSSN.replace("-", "").replace(" ", "");
 	    
-	    String areaNumber = ssn.substring(0, 3);
-	    String groupNumber = ssn.substring(3, 5);
-	    String serialNumber = ssn.substring(5, 9);
+	    String areaNumber = localSSN.substring(0, 3);
+	    String groupNumber = localSSN.substring(3, 5);
+	    String serialNumber = localSSN.substring(5, 9);
 	    
 	    // validation rules from http://ssa-custhelp.ssa.gov/app/answers/detail/a_id/425
 	    

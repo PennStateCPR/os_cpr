@@ -83,7 +83,7 @@ public class GetPsuIdServiceReturn {
 	/**
 	 * @param statusCode the statusCode to set
 	 */
-	public void setStatusCode(int statusCode) {
+	public final void setStatusCode(int statusCode) {
 		this.statusCode = statusCode;
 	}
 
@@ -97,7 +97,7 @@ public class GetPsuIdServiceReturn {
 	/**
 	 * @param statusMessage the statusMessage to set
 	 */
-	public void setStatusMessage(String statusMessage) {
+	public final void setStatusMessage(String statusMessage) {
 		this.statusMessage = statusMessage;
 	}
 	
@@ -111,7 +111,7 @@ public class GetPsuIdServiceReturn {
 	/**
 	 * @param psuId the psuId to set
 	 */
-	public void setPsuId(String psuId) {
+	public final void setPsuId(String psuId) {
 		this.psuId = psuId;
 	}
 

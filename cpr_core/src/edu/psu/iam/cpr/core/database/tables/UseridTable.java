@@ -118,7 +118,7 @@ public class UseridTable {
 	/**
 	 * @param useridBean the useridBean to set
 	 */
-	public void setUseridBean(Userid useridBean) {
+	public final void setUseridBean(Userid useridBean) {
 		this.useridBean = useridBean;
 	}
 
@@ -132,7 +132,7 @@ public class UseridTable {
 	/**
 	 * @param useridHelper the useridHelper to set
 	 */
-	public void setUseridHelper(UseridHelper useridHelper) {
+	public final void setUseridHelper(UseridHelper useridHelper) {
 		this.useridHelper = useridHelper;
 	}
 
@@ -590,14 +590,14 @@ public class UseridTable {
 
 			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 				Object res[] = (Object []) it.next();
-				results.add(new UseridReturn((String) res[0], 							// userid
-								(String) res[1],										// primary flag
-								Utility.convertTimestampToString((Date) res[2]),		// start_date
-								Utility.convertTimestampToString((Date) res[3]),		// end date
-								(String) res[4],										// last_update_by
-								Utility.convertTimestampToString((Date) res[5]),		// last_update_on
-								(String) res[6],										// created_by
-								Utility.convertTimestampToString((Date) res[7])));		// created_on
+				results.add(new UseridReturn((String) res[0], 							
+								(String) res[1],										
+								Utility.convertTimestampToString((Date) res[2]),		
+								Utility.convertTimestampToString((Date) res[3]),		
+								(String) res[4],										
+								Utility.convertTimestampToString((Date) res[5]),		
+								(String) res[6],										
+								Utility.convertTimestampToString((Date) res[7])));		
 			}
 			
 			return results.toArray(new UseridReturn[results.size()]);

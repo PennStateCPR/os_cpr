@@ -36,7 +36,7 @@ public class ServiceCoreReturn {
 	private ServiceLogTable serviceLogTable;
 	
 	/** IAM Group Key. */
-	private long IamGroupKey;
+	private long iamGroupKey;
 	
 	/** Registration Authority Key. */
 	private long registrationAuthorityKey;
@@ -82,14 +82,14 @@ public class ServiceCoreReturn {
 	 * @param iamGroupKey the iamGroupKey to set
 	 */
 	public void setIamGroupKey(long iamGroupKey) {
-		IamGroupKey = iamGroupKey;
+		this.iamGroupKey = iamGroupKey;
 	}
 
 	/**
 	 * @return the iamGroupKey
 	 */
 	public long getIamGroupKey() {
-		return IamGroupKey;
+		return iamGroupKey;
 	}
 
 	/**

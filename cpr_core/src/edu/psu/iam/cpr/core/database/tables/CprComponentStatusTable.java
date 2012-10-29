@@ -47,9 +47,9 @@ public class CprComponentStatusTable {
 		Date d = new Date();
 		CprComponentStatus bean = new CprComponentStatus();
 		
-		bean.setActiveFlag(null);				// Will be set elsewhere.
-		bean.setCprComponent(null);				// Will be set elsewhere.
-		bean.setCprComponentDesc(null);			// Will be set elsewhere.
+		bean.setActiveFlag(null);		
+		bean.setCprComponent(null);			
+		bean.setCprComponentDesc(null);		
 		
 		bean.setLastUpdateBy("SYSTEM");
 		bean.setLastUpdateOn(d);
@@ -100,24 +100,24 @@ public class CprComponentStatusTable {
 			Query query = session.createQuery(sqlQuery);
 			query.setParameter("cpr_component", cprComponent.toString());
 			for (Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				CprComponentStatus cprComponentStatusBean = (CprComponentStatus) it.next();
+				CprComponentStatus bean = (CprComponentStatus) it.next();
 
 				switch (componentStatus) {
 				case ACTIVE:
-					cprComponentStatusBean.setActiveFlag("Y");
+					bean.setActiveFlag("Y");
 					break;
 					
 				case DISABLED:
-					cprComponentStatusBean.setActiveFlag("N");
+					bean.setActiveFlag("N");
 					break;
 					
 				default:
 					break;
 				}
 				
-				cprComponentStatusBean.setLastUpdateOn(new Date());
+				bean.setLastUpdateOn(new Date());
 				
-				session.update(cprComponentStatusBean);
+				session.update(bean);
 				session.flush();
 			}
 			
@@ -130,7 +130,7 @@ public class CprComponentStatusTable {
 	/**
 	 * @param cprComponentStatusBean the cprComponentStatusBean to set
 	 */
-	public void setCprComponentStatusBean(CprComponentStatus cprComponentStatusBean) {
+	public final void setCprComponentStatusBean(CprComponentStatus cprComponentStatusBean) {
 		this.cprComponentStatusBean = cprComponentStatusBean;
 	}
 

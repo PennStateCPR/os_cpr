@@ -88,7 +88,7 @@ public class Database {
 	 * Contains the identifier type.
 	 */
 	private IdentifierType identifierType = null;
-
+	
 	
 	/**
 	 * openSession routine attempts to obtain a database connection from the ESB connection
@@ -861,19 +861,19 @@ public class Database {
 		}
 			
 		// Validate the identifierType.
-		final IdentifierType identifierType = Validate.isValidIdentifierType(this, idType);
-		if (identifierType == null) {
+		final IdentifierType localIdentifierType = Validate.isValidIdentifierType(this, idType);
+		if (localIdentifierType == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Identifier type");
 		}
 		
 		// Save off the identifier type.
-		setIdentifierType(identifierType);
+		setIdentifierType(localIdentifierType);
 		
 		// Validate the length of the identifier type.
-		Validate.isIdentifierLengthValid(this, identifierType.getTypeName(), identifier);
+		Validate.isIdentifierLengthValid(this, localIdentifierType.getTypeName(), identifier);
 		
 		try {
-			personId = getPersonIdUsingIdentifier(identifierType, identifier);
+			personId = getPersonIdUsingIdentifier(localIdentifierType, identifier);
 		}
 		catch (Exception e) {
 			throw new CprException(ReturnType.PERSON_NOT_FOUND_EXCEPTION);

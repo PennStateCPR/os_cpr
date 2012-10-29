@@ -94,19 +94,6 @@ public class ServiceLogTableTest {
 
 
 	
-//	@Test(expected=Exception.class)
-//	public final void testStartLog1() throws GeneralDatabaseException, CprException {
-//		ServiceLogTable t = new ServiceLogTable();
-//		t.startLog(null);
-//		
-//	}
-//	
-//	@Test(expected=Exception.class)
-//	public final void testStartLog2() throws GeneralDatabaseException, CprException {
-//		ServiceLogTable t = new ServiceLogTable();
-//		t.startLog(db);		
-//	}
-
 	private ServiceLog makeBean() {
 		
 		ServiceLog bean = new ServiceLog();
@@ -128,25 +115,8 @@ public class ServiceLogTableTest {
 		openDbConnection();
 		ServiceLog bean = makeBean();
 		t.setServiceLogBean(bean);
-		t.startLog(db);
 		t.endLog(db, "SUCCESS!");
 		db.closeSession();
 	}
 	
-//	@Test(expected=Exception.class)
-//	public final void testEndLog1()  {
-//		ServiceLogTable t = new ServiceLogTable();
-//		t.endLog(null,null);
-//	}
-//	
-//	@Test
-//	public final void testEndLog3() throws GeneralDatabaseException, CprException  {
-//		ServiceLogTable t = new ServiceLogTable();
-//		openDbConnection();
-//		ServiceLog bean = makeBean();
-//		t.setServiceLogBean(bean);
-//		t.startLog(db);
-//		t.endLog(db, "SUCCESS!");
-//		db.closeSession();
-//	}
 }

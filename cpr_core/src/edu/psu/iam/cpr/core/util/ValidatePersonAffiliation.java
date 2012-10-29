@@ -33,8 +33,14 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  * @author llg5
  *
  */
-public class ValidatePersonAffiliation {
+public final class ValidatePersonAffiliation {
 
+	/**
+	 * Constructor.
+	 */
+	private ValidatePersonAffiliation() {
+		
+	}
 
 	/**
 	 * This routine is used to validate the parameters to the AddAffiliation, SetPrimaryAffiliation and UpdateAffiliation  service
@@ -49,24 +55,24 @@ public class ValidatePersonAffiliation {
 	 */
 	public static PersonAffiliationTable validateAddAffiliationParameters(Database db, long personId, String affiliation,  String updatedBy) throws GeneralDatabaseException, CprException {
 		
-		updatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 		
 		if (affiliation == null || affiliation.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Affiliation");
 		}
 		
-		if (updatedBy == null || updatedBy.length() == 0) {
+		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
 		}
 	
 		db.getAllTableColumns("PERSON_AFFILIATION");
-		if (updatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
 		}
 
 		PersonAffiliationTable pARTable = null;
 		try {
-			pARTable = new PersonAffiliationTable(personId, affiliation, updatedBy);
+			pARTable = new PersonAffiliationTable(personId, affiliation, localUpdatedBy);
 		}
 		catch (Exception e) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Affiliation");
@@ -87,25 +93,25 @@ public class ValidatePersonAffiliation {
 	 */
 	public static PersonAffiliationTable validateArchiveAffiliationParameters(Database db, long personId, String affiliation,  String updatedBy) throws GeneralDatabaseException, CprException {
 		
-		updatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 		
 		if (affiliation == null || affiliation.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Affiliation");
 		}
 		
 		
-		if (updatedBy == null || updatedBy.length() == 0) {
+		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
 		}
 	
 		db.getAllTableColumns("PERSON_AFFILIATION");
-		if (updatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
 		}
 
 		PersonAffiliationTable pARTable = null;
 		try {
-			pARTable = new PersonAffiliationTable(personId, affiliation, updatedBy);
+			pARTable = new PersonAffiliationTable(personId, affiliation, localUpdatedBy);
 		}
 		catch (Exception e) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Affiliation");
@@ -126,24 +132,24 @@ public class ValidatePersonAffiliation {
 	 */
 	public static PersonAffiliationTable validateGetAffiliationsForPersonIdParameters(Database db, long personId,  String requestedBy, String returnHistory) throws  GeneralDatabaseException, CprException {
 		
-		requestedBy = (requestedBy != null) ? requestedBy.trim() : null;
-		returnHistory = (returnHistory != null) ? returnHistory.trim() : null;
+		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
+		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
 		
-		if (requestedBy == null || requestedBy.length() == 0) {
+		if (localRequestedBy == null || localRequestedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
 		}
 	
 		db.getAllTableColumns("PERSON_AFFILIATION");
-		if (requestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requested by");
 		}
 
 		final PersonAffiliationTable personAffiliationTable = new PersonAffiliationTable();
 		
-		if ((returnHistory = Validate.isValidYesNo(returnHistory)) == null) {
+		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
-		personAffiliationTable.setReturnHistoryFlag((returnHistory.equals("Y")) ? true : false);
+		personAffiliationTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
 		
 		return personAffiliationTable;
 		

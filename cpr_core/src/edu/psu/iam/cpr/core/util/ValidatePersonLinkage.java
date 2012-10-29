@@ -29,8 +29,15 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-public class ValidatePersonLinkage {
+public final class ValidatePersonLinkage {
 
+	/**
+	 * Constructor
+	 */
+	private ValidatePersonLinkage() {
+		
+	}
+	
 	/**
 	 * This routine is used to validate the data passed in for GetPersonLinkage service call.  The routine will return
 	 * if successful, otherwise it will throw an exception.
@@ -46,26 +53,26 @@ public class ValidatePersonLinkage {
 					throws GeneralDatabaseException, CprException {
 		
 		// Trim off all of the string parameters.
-		requestedBy = (requestedBy != null) ? requestedBy.trim() : null;
-		returnHistory = (returnHistory != null) ? returnHistory.trim() : null;
+		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
+		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
 		
-		// Verify that the requestedBy was specified and its length is valid.
-		if (requestedBy == null || requestedBy.length() == 0) {
+		// Verify that the localRequestedBy was specified and its length is valid.
+		if (localRequestedBy == null || localRequestedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
 		}
 		
 		db.getAllTableColumns("PERSON_LINKAGE");
-		if (requestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requested by");
 		}
 		
 		final PersonLinkageTable personLinkageTable = new PersonLinkageTable();
 
 		// Verify the return history flag, and set its value to the boolean.
-		if ((returnHistory = Validate.isValidYesNo(returnHistory)) == null) {
+		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
-		personLinkageTable.setReturnHistoryFlag((returnHistory.equals("Y")) ? true : false);
+		personLinkageTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
 		
 		return personLinkageTable;
 	}
@@ -85,15 +92,15 @@ public class ValidatePersonLinkage {
 	 */
 	public static PersonLinkageTable validatePersonLinkageParameters(Database db, long personId, String linkedIdentifierType, String linkedIdentifier, String linkageType, String updatedBy) throws GeneralDatabaseException, CprException {
 		
-		updatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 		
 		// Verify that the requestedBy was specified and its length is valid.
-		if (updatedBy == null || updatedBy.length() == 0) {
+		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
 		}
 		
 		db.getAllTableColumns("PERSON_LINKAGE");
-		if (updatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
 		}
 		
@@ -103,8 +110,7 @@ public class ValidatePersonLinkage {
 		}
 		
 		try {
-			final PersonLinkageTable personLinkageTable = new PersonLinkageTable(personId, linkedPersonId, linkageType, updatedBy);
-			return personLinkageTable;
+			return new PersonLinkageTable(personId, linkedPersonId, linkageType, localUpdatedBy);
 		}
 		catch (Exception e) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Linkage type");

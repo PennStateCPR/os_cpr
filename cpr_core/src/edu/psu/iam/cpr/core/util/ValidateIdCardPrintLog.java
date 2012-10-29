@@ -31,8 +31,14 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-public class ValidateIdCardPrintLog {
+public final class ValidateIdCardPrintLog {
 
+	/**
+	 * Constructor.
+	 */
+	private ValidateIdCardPrintLog() {
+	}
+	
 	/**
 	 * Validate the AddIdCardPrintLog parameters
 	 * @param db
@@ -48,11 +54,14 @@ public class ValidateIdCardPrintLog {
 	public static IdCardPrintLogTable validateAddIdCardPrintLogParameters (final Database db,String idType, String identifier,  
 			 String eventUserId, String eventIpAddress, String eventWorkstation) throws CprException, GeneralDatabaseException {
 		String eventIdCard = null;
+		
+		String localEventUserId = (eventUserId != null) ? eventUserId.trim() : null;
+		String localEventIpAddress = (eventIpAddress != null) ? eventIpAddress .trim() : null;
+		String localEventWorkstation = (eventWorkstation != null) ? eventWorkstation .trim() : null;
 		final String dbColumnNames[] = { "WORK_STATION_NAME", "WORK_STATION_IP_ADDRESS", "PRINTED_BY"};
-		final String inputFields[] = { eventWorkstation, eventIpAddress, eventUserId };
+		final String inputFields[] = { localEventWorkstation, localEventIpAddress, localEventUserId };
 		final String prettyNames[] = {  "Work Station Name", "Work Station IpAddress ",
 				"Printed By" };
-		
 		/*
 		 * if identifier type is not id_card_number
 		 * throw an error
@@ -66,20 +75,17 @@ public class ValidateIdCardPrintLog {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Id Card Number");
 		}
 		/*
-		 * verify the eventUserId, eventIpAddress, eventWorkstation and updatedBy are valid (not null, correct lengths)
+		 * verify the localEventUserId, localEventIpAddress, localEventWorkstation and updatedBy are valid (not null, correct lengths)
 		 * 
 		 */
-		eventUserId = (eventUserId != null) ? eventUserId.trim() : null;
-		eventIpAddress = (eventIpAddress != null) ? eventIpAddress .trim() : null;
-		eventWorkstation = (eventWorkstation != null) ? eventWorkstation .trim() : null;
-		if (eventUserId == null || eventUserId.trim().length() == 0) {
+		if (localEventUserId == null || localEventUserId.trim().length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Printed By");
 		}
 		
-		if (eventIpAddress== null || eventIpAddress.trim().length() == 0) {
+		if (localEventIpAddress== null || localEventIpAddress.trim().length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "IpAddress");
 		}
-		if (eventWorkstation== null || eventWorkstation.trim().length() == 0) {
+		if (localEventWorkstation== null || localEventWorkstation.trim().length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Work Station");
 		}
 		db.getAllTableColumns("ID_CARD_PRINT_LOG");
@@ -90,7 +96,7 @@ public class ValidateIdCardPrintLog {
 				throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, prettyNames[i]);
 			}
 		}
-		return new IdCardPrintLogTable(eventIdCard, eventUserId, eventIpAddress, eventWorkstation);
+		return new IdCardPrintLogTable(eventIdCard, localEventUserId, localEventIpAddress, localEventWorkstation);
 	}
 	/**
 	 * Validate GetIdCardPrintLog parameters

@@ -82,7 +82,7 @@ public class PersonTable {
 	/**
 	 * @param personBean the personBean to set
 	 */
-	public void setPersonBean(Person personBean) {
+	public final void setPersonBean(Person personBean) {
 		this.personBean = personBean;
 	}
 

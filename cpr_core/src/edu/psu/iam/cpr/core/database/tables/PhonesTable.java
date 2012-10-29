@@ -152,7 +152,7 @@ public class PhonesTable {
 	/**
 	 * @param phonesBean the phonesBean to set
 	 */
-	public void setPhonesBean(Phones phonesBean) {
+	public final void setPhonesBean(Phones phonesBean) {
 		this.phonesBean = phonesBean;
 	}
 
@@ -175,7 +175,7 @@ public class PhonesTable {
 	/**
 	 * @param phoneType the phoneType to set
 	 */
-	public void setPhoneType(PhoneType phoneType) {
+	public final void setPhoneType(PhoneType phoneType) {
 		this.phoneType = phoneType;
 	}
 
@@ -186,7 +186,7 @@ public class PhonesTable {
 	 * @param phoneTypeString Contains the String to convert to an enumerated type.
 	 * @throws Exception
 	 */
-	public void setPhoneType(String  phoneTypeString)  {
+	public final void setPhoneType(String  phoneTypeString)  {
 		setPhoneType(PhoneType.valueOf(phoneTypeString.toUpperCase().trim()));
 	}
 

@@ -362,7 +362,6 @@ public class MessagingCore {
     				messageSent = true;
     			}
     			catch (Exception e) {
-    				System.out.println("Exception caught: " + e.getMessage());
     			}
     			
     			// If we were successful in sending the message, write it to the log.

@@ -76,7 +76,7 @@ public class PersonIdentifierTable {
 		PersonIdentifier bean = new PersonIdentifier();
 		
 		bean.setPersonId(personId);
-		bean.setTypeKey(null); // Will be set elsewhere.
+		bean.setTypeKey(null); 
 		bean.setIdentifierValue(identifierValue);
 		
 		bean.setStartDate(d);
@@ -103,7 +103,7 @@ public class PersonIdentifierTable {
 	/**
 	 * @param personIdentifierBean the personIdentifierBean to set
 	 */
-	public void setPersonIdentifierBean(PersonIdentifier personIdentifierBean) {
+	public final void setPersonIdentifierBean(PersonIdentifier personIdentifierBean) {
 		this.personIdentifierBean = personIdentifierBean;
 	}
 
@@ -328,9 +328,9 @@ public class PersonIdentifierTable {
 				// Need to find the matching identifier type object.
 				Long typeKey = (Long) res[0];
 				for (Map.Entry<String,Object> entry : map.entrySet()) {
-					IdentifierType identifierType = (IdentifierType) entry.getValue();
-					if (identifierType.getTypeKey().equals(typeKey)) {
-						personIdentifierReturn.setIdentifierTypeString(identifierType.getTypeName());
+					IdentifierType idType = (IdentifierType) entry.getValue();
+					if (idType.getTypeKey().equals(typeKey)) {
+						personIdentifierReturn.setIdentifierTypeString(idType.getTypeName());
 						break;
 					}
 				}

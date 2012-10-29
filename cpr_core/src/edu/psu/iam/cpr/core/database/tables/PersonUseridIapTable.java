@@ -69,7 +69,7 @@ public class PersonUseridIapTable {
 	 * 
 	 */
 	
-	public void setIapType (IapType iapType) {
+	public final void setIapType (IapType iapType) {
 		this.iapType = iapType;
 	}
 	
@@ -78,7 +78,7 @@ public class PersonUseridIapTable {
 	 * 
 	 */
 	
-	public void setIapType(String iapTypeString) {
+	public final void setIapType(String iapTypeString) {
 		setIapType(IapType.valueOf(iapTypeString.toUpperCase().trim()));
 	};
 
@@ -87,7 +87,7 @@ public class PersonUseridIapTable {
 	/**
 	 * @param personUseridIapBean the personUserIapBean to set
 	 */
-	public void setPersonUseridIapBean(PersonUseridIap personUseridIapBean) {
+	public final void setPersonUseridIapBean(PersonUseridIap personUseridIapBean) {
 		this.personUseridIapBean = personUseridIapBean;
 	}
 

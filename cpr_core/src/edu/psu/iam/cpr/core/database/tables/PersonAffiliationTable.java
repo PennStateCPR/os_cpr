@@ -136,7 +136,7 @@ public class PersonAffiliationTable {
 	/**
 	 * @param personAffiliationBean the personAffiliationBean to set
 	 */
-	public void setPersonAffiliationBean(PersonAffiliation personAffiliationBean) {
+	public final void setPersonAffiliationBean(PersonAffiliation personAffiliationBean) {
 		this.personAffiliationBean = personAffiliationBean;
 	}
 
@@ -150,7 +150,7 @@ public class PersonAffiliationTable {
 	/**
 	 * @param affiliationsType the affiliationsType to set
 	 */
-	public void setAffiliationsType(AffiliationsType affiliationsType) {
+	public final void setAffiliationsType(AffiliationsType affiliationsType) {
 		this.affiliationsType = affiliationsType;
 	}
 
@@ -165,7 +165,7 @@ public class PersonAffiliationTable {
 	 * @param affiliationTypeString the affilationsType to set.
 	 * @throws Exception will be thrown if the string cannot be converted to an enum.
 	 */
-	public void setAffiliationsType(String affiliationTypeString) {
+	public final void setAffiliationsType(String affiliationTypeString) {
 		setAffiliationsType(AffiliationsType.valueOf(affiliationTypeString.toUpperCase().trim()));
 	}
 

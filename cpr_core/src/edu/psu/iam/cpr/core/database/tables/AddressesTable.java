@@ -253,7 +253,7 @@ public class AddressesTable {
 	/**
 	 * @param campusName the campusName to set
 	 */
-	public void setCampusName(String campusName) {
+	public final void setCampusName(String campusName) {
 		this.campusName = campusName;
 	}
 
@@ -267,7 +267,7 @@ public class AddressesTable {
 	/**
 	 * @param countryName the countryName to set
 	 */
-	public void setCountryName(String countryName) {
+	public final void setCountryName(String countryName) {
 		this.countryName = countryName;
 	}
 
@@ -281,7 +281,7 @@ public class AddressesTable {
 	/**
 	 * @param addressesBean the addressesBean to set
 	 */
-	public void setAddressesBean(Addresses addressesBean) {
+	public final void setAddressesBean(Addresses addressesBean) {
 		this.addressesBean = addressesBean;
 	}
 
@@ -302,14 +302,14 @@ public class AddressesTable {
 	/**
 	 * @param addressType the addressType to set
 	 */
-	public void setAddressType(AddressType addressType) {
+	public final void setAddressType(AddressType addressType) {
 		this.addressType = addressType;
 	}
 	
 	/**
 	 * @param addressTypeString the addressTypeString to set
 	 */
-	public void setAddressType(String addressTypeString){
+	public final void setAddressType(String addressTypeString){
 		
 		setAddressType(AddressType.valueOf(addressTypeString.toUpperCase().trim()));
 	}
@@ -317,7 +317,7 @@ public class AddressesTable {
 	/**
 	 * @param documentType the documentType to set
 	 */
-	public void setDocumentType(DocumentType documentType) {
+	public final void setDocumentType(DocumentType documentType) {
 		this.documentType = documentType;
 	}
 
@@ -326,7 +326,7 @@ public class AddressesTable {
 	 * @param documentType contains the string value of the document type.
 	 * @throws Exception will be thrown if there are any problems.
 	 */
-	public void setDocumentType(String documentType) {
+	public final void setDocumentType(String documentType) {
 		setDocumentType(DocumentType.valueOf(documentType.toUpperCase().trim()));
 	}
 	
@@ -347,7 +347,7 @@ public class AddressesTable {
 	/**
 	 * @param countryThreeCharCode the countryThreeCharCode to set
 	 */
-	public void setCountryThreeCharCode(String countryThreeCharCode) {
+	public final void setCountryThreeCharCode(String countryThreeCharCode) {
 		this.countryThreeCharCode = countryThreeCharCode;
 	}
 

@@ -82,7 +82,7 @@ public class MessageLogTable {
 	/**
 	 * @param messageLogBean the messageLogBean to set
 	 */
-	public void setMessageLogBean(MessageLog messageLogBean) {
+	public final void setMessageLogBean(MessageLog messageLogBean) {
 		this.messageLogBean = messageLogBean;
 	}
 

@@ -80,7 +80,7 @@ public class PsuIdTable {
 		
 		// Init the constructor.
 		bean.setPersonId(personId);
-		bean.setPsuId(null); 	// Will be set elsewhere.
+		bean.setPsuId(null); 
 		
 		bean.setStartDate(d);
 		bean.setEndDate(null);
@@ -125,7 +125,7 @@ public class PsuIdTable {
 	/**
 	 * @param psuIdBean the psuIdBean to set
 	 */
-	public void setPsuIdBean(PsuId psuIdBean) {
+	public final void setPsuIdBean(PsuId psuIdBean) {
 		this.psuIdBean = psuIdBean;
 	}
 
@@ -139,7 +139,7 @@ public class PsuIdTable {
 	/**
 	 * @param psuIdHelper the psuIdHelper to set
 	 */
-	public void setPsuIdHelper(PsuIdHelper psuIdHelper) {
+	public final void setPsuIdHelper(PsuIdHelper psuIdHelper) {
 		this.psuIdHelper = psuIdHelper;
 	}
 
@@ -191,13 +191,13 @@ public class PsuIdTable {
 			
 			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 				Object res[] = (Object []) it.next();
-				results.add(new PsuIdReturn((String) res[0],									// PSU ID
-										Utility.convertTimestampToString((Date) res[1]),		// Start Date
-										Utility.convertTimestampToString((Date) res[2]),		// End Date
-										(String) res[3],										// Last Update By
-										Utility.convertTimestampToString((Date) res[4]),		// Last Update On
-										(String) res[5],										// Created By
-										Utility.convertTimestampToString((Date) res[6])));		// Created On
+				results.add(new PsuIdReturn((String) res[0],									
+										Utility.convertTimestampToString((Date) res[1]),		
+										Utility.convertTimestampToString((Date) res[2]),		
+										(String) res[3],										
+										Utility.convertTimestampToString((Date) res[4]),		
+										(String) res[5],										
+										Utility.convertTimestampToString((Date) res[6])));		
 			}
 			return results.toArray(new PsuIdReturn[results.size()]);
 		}

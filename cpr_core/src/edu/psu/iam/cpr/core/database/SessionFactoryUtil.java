@@ -28,17 +28,23 @@ import org.hibernate.cfg.Configuration;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-public class SessionFactoryUtil {
+public final class SessionFactoryUtil {
 	
 	/** The session factory enables the establishment of database connections (sessions). */
 	private static SessionFactory sessionFactory = null;
+	
+	/**
+	 * Constructor.
+	 */
+	private SessionFactoryUtil() {
+		
+	}
 	
 	static {
 		try {
 			sessionFactory = new Configuration().configure().buildSessionFactory();
 		}
 		catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 	

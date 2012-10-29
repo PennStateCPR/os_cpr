@@ -91,7 +91,7 @@ public class ServiceProvisionerQueue {
 	/**
 	 * @param spNotificationView the spNotificationView to set
 	 */
-	public void setSpNotificationView(VSpNotification spNotificationView) {
+	public final void setSpNotificationView(VSpNotification spNotificationView) {
 		this.spNotificationView = spNotificationView;
 	}
 

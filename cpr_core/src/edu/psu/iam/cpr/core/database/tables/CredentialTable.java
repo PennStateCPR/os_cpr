@@ -127,7 +127,7 @@ public class CredentialTable {
 	/**
 	 * @param credentialBean the credentialBean to set
 	 */
-	public void setCredentialBean(Credential credentialBean) {
+	public final void setCredentialBean(Credential credentialBean) {
 		this.credentialBean = credentialBean;
 	}
 
@@ -141,14 +141,14 @@ public class CredentialTable {
 	/**
 	 * @param credentialType the credentialType to set
 	 */
-	public void setCredentialType(CredentialType credentialType) {
+	public final void setCredentialType(CredentialType credentialType) {
 		this.credentialType = credentialType;
 	}
 	
 	/**
 	 * @param credentialTypeString the credentialTypeString to set
 	 */
-	public void setCredentialType(String credentialTypeString){
+	public final void setCredentialType(String credentialTypeString){
 		
 		setCredentialType(CredentialType.valueOf(credentialTypeString.toUpperCase().trim()));
 	}

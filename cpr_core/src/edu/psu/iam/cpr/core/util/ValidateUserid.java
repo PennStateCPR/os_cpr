@@ -31,7 +31,13 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-public class ValidateUserid {
+public final class ValidateUserid {
+	
+	/**
+	 * Constructor
+	 */
+	private ValidateUserid() {	
+	}
 	
 	/**
 	 * This routine is used to validate the parameters to the userid services.
@@ -44,22 +50,21 @@ public class ValidateUserid {
 	 */
 	public static UseridTable validateUseridParameters(Database db, long personId, String updatedBy) throws CprException, GeneralDatabaseException {
 		
-		updatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 
 		// Verify that they have specified an updateby.
-		if (updatedBy == null || updatedBy.length() == 0) {
+		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Userid/server principal");
 		}
 		
 		// Check the length of the updated by against the database to ensure that its less/equal the maximum column length.
 		db.getAllTableColumns("USERID");
-		if (updatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Userid/server principal");
 		}
 			
 		// Success, build the object.
-		UseridTable useridTable = new UseridTable(personId, updatedBy);
-		return useridTable;		
+		return new UseridTable(personId, localUpdatedBy);
 	}
 	
 	/**
@@ -75,12 +80,13 @@ public class ValidateUserid {
 	public static UseridTable validateGetUseridParameters(Database db, long personId, String requestedBy, String returnHistory) throws CprException, GeneralDatabaseException {
 		
 		final UseridTable useridTable = validateUseridParameters(db, personId, requestedBy);
+		String localReturnHistory = returnHistory;
 
 		// Verify the return history flag, and set its value to the boolean.
-		if ((returnHistory = Validate.isValidYesNo(returnHistory)) == null) {
+		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
-		useridTable.setReturnHistoryFlag((returnHistory.equals("Y")) ? true : false);
+		useridTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
 		return useridTable;		
 	}
 	
@@ -99,21 +105,21 @@ public class ValidateUserid {
 		
 		UseridTable useridTable = validateUseridParameters(db, personId, updatedBy);
 		
-		userid = (userid != null) ? userid.trim() : null;
+		String localUserid = (userid != null) ? userid.trim() : null;
 
 		// Verify that they have specified an userid.
-		if (userid == null || userid.length() == 0) {
+		if (localUserid == null || localUserid.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Userid");
 		}
 		
 		// Check the length of the updated by against the database to ensure that its less/equal the maximum column length.
 		db.getAllTableColumns("USERID");
-		if (userid.length() > db.getColumn("USERID").getColumnSize()) {
+		if (localUserid.length() > db.getColumn("USERID").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Userid");
 		}
 			
 		// Success, build the object.
-		useridTable.getUseridBean().setUserid(userid);
+		useridTable.getUseridBean().setUserid(localUserid);
 		return useridTable;		
 	}
 }

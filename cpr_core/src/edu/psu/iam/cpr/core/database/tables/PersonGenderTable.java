@@ -107,7 +107,7 @@ public class PersonGenderTable {
 	/**
 	 * @param personGenderBean the personGenderBean to set
 	 */
-	public void setPersonGenderBean(PersonGender personGenderBean) {
+	public final void setPersonGenderBean(PersonGender personGenderBean) {
 		this.personGenderBean = personGenderBean;
 	}
 
@@ -128,7 +128,7 @@ public class PersonGenderTable {
 	/**
 	 * @param genderType the genderType to set
 	 */
-	public void setGenderType(final GenderType genderType) {
+	public final void setGenderType(final GenderType genderType) {
 		this.genderType = genderType;
 	}
 	
@@ -137,7 +137,7 @@ public class PersonGenderTable {
 	 * @param genderType contains the gender type.
 	 * @throws Exception will be throw if the gender cannot be converted.
 	 */
-	public void setGenderType(final String genderType) throws Exception {
+	public final void setGenderType(final String genderType) throws Exception {
 		setGenderType(GenderType.valueOf(genderType.toUpperCase().trim()));
 	}
 	
@@ -218,13 +218,13 @@ public class PersonGenderTable {
 			
 			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 				Object res[] = (Object []) it.next();
-				results.add(new GenderReturn(GenderType.get((Long) res[0]).toString(),			// Gender
-											Utility.convertTimestampToString((Date) res[1]),	// Start Date
-											Utility.convertTimestampToString((Date) res[2]),	// End Date
-											(String) res[3],									// Last Update By
-											Utility.convertTimestampToString((Date) res[4]),	// Last Update On
-											(String) res[5],									// Created By
-											Utility.convertTimestampToString((Date) res[6])));	// Created On
+				results.add(new GenderReturn(GenderType.get((Long) res[0]).toString(),			
+											Utility.convertTimestampToString((Date) res[1]),	
+											Utility.convertTimestampToString((Date) res[2]),	
+											(String) res[3],									
+											Utility.convertTimestampToString((Date) res[4]),	
+											(String) res[5],									
+											Utility.convertTimestampToString((Date) res[6])));	
 			}
 			
 			return results.toArray(new GenderReturn[results.size()]);

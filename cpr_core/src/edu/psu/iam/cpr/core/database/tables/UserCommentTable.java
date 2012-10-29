@@ -121,7 +121,7 @@ public class UserCommentTable {
 	/**
 	 * @param userCommentsBean the userCommentsBean to set
 	 */
-	public void setUserCommentsBean(UserComments userCommentsBean) {
+	public final void setUserCommentsBean(UserComments userCommentsBean) {
 		this.userCommentsBean = userCommentsBean;
 	}
 
@@ -153,7 +153,7 @@ public class UserCommentTable {
 	/**
 	 * @param userCommentType the userCommentType to set
 	 */
-	public void setUserCommentType(UserCommentType userCommentType) {
+	public final void setUserCommentType(UserCommentType userCommentType) {
 		this.userCommentType = userCommentType;
 	}
 
@@ -161,7 +161,7 @@ public class UserCommentTable {
 	 * @param userCommentType the string representation of userCommentType.
 	 * @throws Exception
 	 */
-	public void setUserCommentType(String userCommentType) throws Exception {
+	public final void setUserCommentType(String userCommentType) throws Exception {
 		setUserCommentType(UserCommentType.valueOf(userCommentType.toUpperCase().trim()));
 	}
 

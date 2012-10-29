@@ -30,7 +30,14 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-public class ValidatePerson {
+public final class ValidatePerson {
+	
+	/**
+	 * Constructor
+	 */
+	private ValidatePerson() {
+		
+	}
 	
 	/**
 	 * This routine is used to validate information from the Person service.
@@ -43,19 +50,18 @@ public class ValidatePerson {
 	 */
 	public static PersonTable validatePersonParameters(Database db, long personId, String updatedBy) throws  GeneralDatabaseException, CprException {
 		
-		updatedBy = (updatedBy != null) ? updatedBy.trim() : updatedBy;		
-		if (updatedBy == null || updatedBy.length() == 0) {
+		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : updatedBy;		
+		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
 		}
 		
 		db.getAllTableColumns("PERSON");
 		
-		if (updatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
 		}
 		
-		PersonTable personTable = new PersonTable(personId, updatedBy);
-		return personTable;
+		return new PersonTable(personId, localUpdatedBy);
 
 	}
 }

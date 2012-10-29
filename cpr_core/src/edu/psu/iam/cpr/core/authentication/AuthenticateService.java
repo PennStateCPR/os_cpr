@@ -39,7 +39,14 @@ import edu.psu.iam.cpr.core.util.CprProperties;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-public class AuthenticateService {
+public final class AuthenticateService {
+	
+	/**
+	 * Constructor.
+	 */
+	private AuthenticateService() {
+		
+	}
 	
 	/**
 	 * Performs authentication for a service principal/password against

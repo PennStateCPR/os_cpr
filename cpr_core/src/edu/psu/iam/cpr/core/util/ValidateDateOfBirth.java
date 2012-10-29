@@ -53,7 +53,13 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-public class ValidateDateOfBirth {
+public final class ValidateDateOfBirth {
+	
+	/**
+	 * Constructor.
+	 */
+	private ValidateDateOfBirth() {
+	}
 	
 	/**
 	 * This routine is used to validate the parameters for an add date of birth request.  
@@ -65,27 +71,27 @@ public class ValidateDateOfBirth {
 	 */
 	public static DateOfBirthTable validateAddDateOfBirthParameters(long personId, String dateOfBirth, String updatedBy) throws CprException  {
 		
-		dateOfBirth = (dateOfBirth != null) ? dateOfBirth.trim() : dateOfBirth;
-		updatedBy = (updatedBy != null) ? updatedBy.trim() : updatedBy;
+		String localDateOfBirth = (dateOfBirth != null) ? dateOfBirth.trim() : dateOfBirth;
+		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : updatedBy;
 		
-		if (dateOfBirth == null || dateOfBirth.length() == 0) {
+		if (localDateOfBirth == null || localDateOfBirth.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Date of birth");
 		}
 		
-		if (updatedBy == null || updatedBy.length() == 0) {
+		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
 		}
 		
 		// If they happen to enter a date of birth with dashes replace it with slashes.
-		dateOfBirth = dateOfBirth.replace('-', '/');
+		localDateOfBirth = localDateOfBirth.replace('-', '/');
 		
 		// Validate the date of birth.
-		if (! isDateOfBirthValid(dateOfBirth)) {
+		if (! isDateOfBirthValid(localDateOfBirth)) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Date of birth");			
 		}
 		
 		// Create a new date of birth object.
-		DateOfBirthTable dobTable = new DateOfBirthTable(personId, dateOfBirth, updatedBy);
+		DateOfBirthTable dobTable = new DateOfBirthTable(personId, localDateOfBirth, localUpdatedBy);
 		
 		return dobTable;
 	}
@@ -169,20 +175,20 @@ public class ValidateDateOfBirth {
 	 * @throws CprException 
 	 */
 	public static DateOfBirthTable validateGetDateOfBirthParameters(long personId, String requestedBy, String returnHistory) throws CprException  {
-		requestedBy = (requestedBy != null) ? requestedBy.trim() : requestedBy;
-		returnHistory = (returnHistory != null) ? returnHistory.trim() : returnHistory;
+		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : requestedBy;
+		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : returnHistory;
 		
 		// Verify the requested by parameter.
-		if (requestedBy == null || requestedBy.length() == 0) {
+		if (localRequestedBy == null || localRequestedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
 		}
 		
 		// Validate the return history flag.
 		final DateOfBirthTable dateOfBirthTable = new DateOfBirthTable();
-		if ((returnHistory = Validate.isValidYesNo(returnHistory)) == null) {
+		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
-		dateOfBirthTable.setReturnHistoryFlag((returnHistory.equals("Y")) ? true : false);
+		dateOfBirthTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
 		
 		return dateOfBirthTable;
 	}

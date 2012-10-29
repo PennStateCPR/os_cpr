@@ -158,9 +158,6 @@ public class ServiceCore {
 			bean.setWebServiceKey(serviceLogTable.getWebServiceKey(db, serviceName));
 			serviceLogTable.setServiceLogBean(bean);
 
-			// Start the log.
-//			serviceLogTable.startLog(db);
-			
 			// Save off the service log.
 			s.setServiceLogTable(serviceLogTable);
 		}

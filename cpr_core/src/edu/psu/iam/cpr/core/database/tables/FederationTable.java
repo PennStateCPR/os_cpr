@@ -49,10 +49,10 @@ public class FederationTable {
 		
 		boolean fedValid = false;
 		final Session session = db.getSession();
-		federationName = (federationName != null) ? federationName.trim() : null;
+		String localFederationName = (federationName != null) ? federationName.trim() : null;
 
 		String activeFlag = "";
-		final String upperFed = federationName.toUpperCase();
+		final String upperFed = localFederationName.toUpperCase();
 		final StringBuilder sb = new StringBuilder(128);
 		sb.append("SELECT active_flag ");
 		sb.append("FROM federation ");

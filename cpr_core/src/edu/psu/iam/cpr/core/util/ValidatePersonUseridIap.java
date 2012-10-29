@@ -45,7 +45,15 @@ import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
-public class ValidatePersonUseridIap {
+public final class ValidatePersonUseridIap {
+	
+	/**
+	 * Constructor
+	 */
+	private ValidatePersonUseridIap() {
+		
+	}
+	
 	/**
 	 * This routine is used to validate the parameters to the GetPSUIAP service.
 	 * @param db contains the database connection.
@@ -61,35 +69,35 @@ public class ValidatePersonUseridIap {
 					throws GeneralDatabaseException, CprException {
 	
 		
-		userid = (userid != null) ? userid.trim() : null;
-		returnHistory = (returnHistory != null) ? returnHistory.trim() : null;
+		String localUserid = (userid != null) ? userid.trim() : null;
+		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
+		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
 
 		// Verify that they have specified an userid.
-		if (userid == null || userid.length() == 0) {
+		if (localUserid == null || localUserid.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Userid");
 		}
 		
 		// Verify that they have specified a requested by.
-		requestedBy = (requestedBy != null) ? requestedBy.trim() : null;
-		if (requestedBy == null || requestedBy.length() == 0) {
+		if (localRequestedBy == null || localRequestedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "requested by");
 		}
 	
-		// Verify that the length is OK for updated By and userid
+		// Verify that the length is OK for updated By and localUserid
 		db.getAllTableColumns("PERSON_USERID_IAP");
-		if (userid.length() > db.getColumn("USERID").getColumnSize()) {
+		if (localUserid.length() > db.getColumn("USERID").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Userid"); 
 		}
-		if (requestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requestedby");
 		}
 		
 		// Validate the return history flag.
 		final PersonUseridIapTable personUseridIapTable = new PersonUseridIapTable();
-		if ((returnHistory = Validate.isValidYesNo(returnHistory)) == null) {
+		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
-		personUseridIapTable.setReturnHistoryFlag((returnHistory.equals("Y")) ? true : false);
+		personUseridIapTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
 		
 		return personUseridIapTable;		
 	}
@@ -108,10 +116,11 @@ public class ValidatePersonUseridIap {
 	public static void validateGetExternalIapParameters(Database db, long personId, String userid, String requestedBy, String federation) throws GeneralDatabaseException, CprException {
 	
 
-		userid = (userid != null) ? userid.trim() : null;
+		String localUserid = (userid != null) ? userid.trim() : null;
+		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
 
-		// Verify that they have specified an userid.
-		if (userid == null || userid.length() == 0) {
+		// Verify that they have specified an localUserid.
+		if (localUserid == null || localUserid.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Userid");
 		}
 		
@@ -125,19 +134,18 @@ public class ValidatePersonUseridIap {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Federation"); 
 		}
 		
-		requestedBy = (requestedBy != null) ? requestedBy.trim() : null;
 		
-		if (requestedBy == null || requestedBy.length() == 0) {
+		if (localRequestedBy == null || localRequestedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
 		}
 	
-		// Verify that the length is OK for updated By, userid and federation.
+		// Verify that the length is OK for updated By, localUserid and federation.
 		db.getAllTableColumns("PERSON_USERID_IAP");
-		if (userid.length() > db.getColumn("USERID").getColumnSize()) {
+		if (localUserid.length() > db.getColumn("USERID").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Userid"); 
 		}
 		
-		if (requestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requested by");
 		}
 		

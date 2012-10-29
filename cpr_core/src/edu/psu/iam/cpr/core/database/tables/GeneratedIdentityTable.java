@@ -77,7 +77,7 @@ public class GeneratedIdentityTable {
 	/**
 	 * @param generatedIdentityBean the generatedIdentityBean to set
 	 */
-	public void setGeneratedIdentityBean(GeneratedIdentity generatedIdentityBean) {
+	public final void setGeneratedIdentityBean(GeneratedIdentity generatedIdentityBean) {
 		this.generatedIdentityBean = generatedIdentityBean;
 	}
 

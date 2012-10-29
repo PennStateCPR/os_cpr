@@ -27,7 +27,15 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-public class ValidatePerGenderRel {
+public final class ValidatePerGenderRel {
+	
+	/**
+	 * Constructor.
+	 */
+	private ValidatePerGenderRel() {
+		
+	}
+	
 	
 	/**
 	 * This routine is used to validate parameters for an add gender call.
@@ -39,20 +47,20 @@ public class ValidatePerGenderRel {
 	 */
 	public static PersonGenderTable validateAddGenderParameters(long personId, String genderString, String updatedBy) throws CprException {
 		
-		genderString = (genderString != null) ? genderString.toUpperCase().trim() : genderString;
-		updatedBy = (updatedBy != null) ? updatedBy.trim() : updatedBy;
+		String localGenderString = (genderString != null) ? genderString.toUpperCase().trim() : genderString;
+		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : updatedBy;
 		
-		if (genderString == null || genderString.length() == 0) {
+		if (localGenderString == null || localGenderString.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Gender");
 		}
 		
-		if (updatedBy == null || updatedBy.length() == 0) {
+		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
 		}
 		
 		PersonGenderTable gender = null;
 		try {
-			gender = new PersonGenderTable(personId, genderString, updatedBy);
+			gender = new PersonGenderTable(personId, localGenderString, localUpdatedBy);
 		}
 		catch (Exception e) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Gender");

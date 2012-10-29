@@ -79,7 +79,7 @@ public class PersonPhotoTable {
 	/**
 	 * @param personPhotoBean the personPhotoBean to set
 	 */
-	public void setPersonPhotoBean(PersonPhoto personPhotoBean) {
+	public final void setPersonPhotoBean(PersonPhoto personPhotoBean) {
 		this.personPhotoBean = personPhotoBean;
 	}
 

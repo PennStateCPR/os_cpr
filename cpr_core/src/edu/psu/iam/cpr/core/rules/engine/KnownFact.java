@@ -47,7 +47,7 @@ public class KnownFact {
 	/**
 	 * @param fact the fact to set
 	 */
-	public void setFact(String fact) {
+	public final void setFact(String fact) {
 		this.fact = fact;
 	}
 

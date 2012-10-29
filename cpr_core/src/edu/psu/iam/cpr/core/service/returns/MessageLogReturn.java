@@ -100,7 +100,7 @@ public class MessageLogReturn {
 	/**
 	 * @param messageLogKey the messageLogKey to set
 	 */
-	public void setMessageLogKey(Long messageLogKey) {
+	public final void setMessageLogKey(Long messageLogKey) {
 		this.messageLogKey = messageLogKey;
 	}
 

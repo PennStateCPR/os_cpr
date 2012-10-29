@@ -99,25 +99,6 @@ public class ServiceLogTable {
 	}
 
 	/**
-	 * This routine is used to write to the database the initialize Log Message.
-	 * @param db contains the database class.
-	 * @throws GeneralDatabaseException 
-	 */
-	public void startLog(Database db) throws GeneralDatabaseException {
-		
-//		try {
-//			
-//			Session session = db.getSession();
-//			session.save(getServiceLogBean());
-//			session.flush();
-//			
-//		}
-//		catch (Exception e) {
-//			throw new GeneralDatabaseException(e.getMessage());
-//		}
-	}
-
-	/**
 	 * This routine is used to write the end of a log record.
 	 * @param db contains an object for a database class.
 	 * @param results contains the results of executing this service.
@@ -128,17 +109,6 @@ public class ServiceLogTable {
 		Session logSession = null;
 		try {
 			
-//			Session session = db.getSession();
-//			ServiceLog bean = getServiceLogBean();
-//			
-//			Date end = new Date();
-//			bean.setRequestEnd(end);
-//			bean.setRequestDuration(end.getTime() - bean.getRequestStart().getTime());
-//			bean.setResultString(results);
-//			
-//			session.update(bean);
-//			session.flush();
-
 			logSession = SessionFactoryUtil.getSessionFactory().openSession();
 			logSession.getTransaction().begin();
 			final ServiceLog bean = getServiceLogBean();

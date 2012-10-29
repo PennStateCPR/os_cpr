@@ -27,7 +27,14 @@ package edu.psu.iam.cpr.core.util;
  * @lastrevision $Date: 2012-01-31 14:49:33 -0500 (Wed, 15 Feb 2012) $
  */
 
-public class ArgumentHelper {
+public final class ArgumentHelper {
+	
+	/**
+	 * Constructor.
+	 */
+	private ArgumentHelper() {
+		
+	}
 	
 	/**
 	 * Format arguments to service routines.

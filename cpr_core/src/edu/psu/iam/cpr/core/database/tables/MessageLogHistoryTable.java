@@ -77,7 +77,7 @@ public class MessageLogHistoryTable {
 	/**
 	 * @param messsageLogHistoryBean the messsageLogHistoryBean to set
 	 */
-	public void setMessageLogHistoryBean(MessageLogHistory messsageLogHistoryBean) {
+	public final void setMessageLogHistoryBean(MessageLogHistory messsageLogHistoryBean) {
 		this.messageLogHistoryBean = messsageLogHistoryBean;
 	}
 

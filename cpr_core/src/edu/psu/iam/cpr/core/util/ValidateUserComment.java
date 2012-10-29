@@ -52,8 +52,14 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  * 
  * @since 1.0
  */
-public class ValidateUserComment {
+public final class ValidateUserComment {
 	
+	/** 
+	 * Constructor
+	 */
+    private ValidateUserComment() {
+    	
+    }
     
     /**
      * This routine is used to valid user comment information.  If successful it will return an UserCommentTable class.
@@ -73,41 +79,41 @@ public class ValidateUserComment {
 		UserCommentTable userCommentTable = null;
 		
 		// For input strings that are non-null, trim them.
-		userCommentType = (userCommentType != null) ? userCommentType.trim() : null;
-		userId = (userId != null) ? userId.trim() : null;
-		comment = (comment != null) ? comment.trim() : null;
-		updatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		String localUserCommentType = (userCommentType != null) ? userCommentType.trim() : null;
+		String localUserId = (userId != null) ? userId.trim() : null;
+		String localComment = (comment != null) ? comment.trim() : null;
+		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 	
 		// Verify that an email address type, email address and updated by were specified.
 
-		if (userId == null || userId.length() == 0) {
+		if (localUserId == null || localUserId.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "UserId");
 		}
-		if (userCommentType == null || userCommentType.length() == 0) {
+		if (localUserCommentType == null || localUserCommentType.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "User comment type");
 		}
-		if (comment == null || comment.length() == 0) {
+		if (localComment == null || localComment.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Comments");
 		}
-		if (updatedBy == null || updatedBy.length() == 0) {
+		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
 		}
 
 		// Verify that the length for the comment and updated by do not exceed the maximums for the database.
 		db.getAllTableColumns("USER_COMMENTS");
-		if (comment.length() > db.getColumn("COMMENTS").getColumnSize()) {
+		if (localComment.length() > db.getColumn("COMMENTS").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Comments");
 		}
-		if (userId.length() > db.getColumn("USERID").getColumnSize()) {
+		if (localUserId.length() > db.getColumn("USERID").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Userid");
 		}
-		if (updatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
 		}
 		
 		// Create a new object.
 		try {
-			userCommentTable = new UserCommentTable(personId, userId, userCommentType, comment, updatedBy);
+			userCommentTable = new UserCommentTable(personId, localUserId, localUserCommentType, localComment, localUpdatedBy);
 		}
 		catch (Exception e) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "User comment type");
@@ -131,37 +137,37 @@ public class ValidateUserComment {
 						String requestedBy, String userCommentType, String returnHistory) throws GeneralDatabaseException, CprException {
 				
 		// For non-null input fields, trim them off.
-		requestedBy = (requestedBy != null) ? requestedBy.trim() : null;
-		userCommentType = (userCommentType != null) ? userCommentType.trim() : null;
-		returnHistory = (returnHistory != null) ? returnHistory.trim() : null;
+		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
+		String localUserCommentType = (userCommentType != null) ? userCommentType.trim() : null;
+		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
 		
 		// Verify that a requestor was specified.
-		if (requestedBy == null || requestedBy.length() == 0) {
+		if (localRequestedBy == null || localRequestedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
 		}
 				
 		// Verify that the fields do not exceed the database lengths.
 		db.getAllTableColumns("USER_COMMENTS");
-		if (requestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requested by");
 		}
 		
 		// If a user comment type was specified, verify that its valid. 
 		final UserCommentTable userCommentTable = new UserCommentTable();
-		if (userCommentType != null) {
+		if (localUserCommentType != null) {
 			try {
-				userCommentTable.setUserCommentType(userCommentType);
+				userCommentTable.setUserCommentType(localUserCommentType);
 			}
 			catch (Exception e) {
 				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "User comment type");
 			}
 		}
-		
+				
 		// Validate the return history flag.
-		if ((returnHistory = Validate.isValidYesNo(returnHistory)) == null) {
+		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
-		userCommentTable.setReturnHistoryFlag((returnHistory.equals("Y")) ? true : false);
+		userCommentTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
 		
 		return userCommentTable;
 	}
@@ -179,27 +185,27 @@ public class ValidateUserComment {
 	public static void validateGetUserCommentByTypeParameters(Database db, long personId, String userId, String userCommentType, String requestedBy) throws GeneralDatabaseException, CprException {
 				
 		// For non-null input fields, trim them off.
-		requestedBy = (requestedBy != null) ? requestedBy.trim() : null;
-		userCommentType = (userCommentType != null) ? userCommentType.trim() : null;
-		userId = (userId != null) ? userId.trim() : null;
+		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
+		String localUserCommentType = (userCommentType != null) ? userCommentType.trim() : null;
+		String localUserId = (userId != null) ? userId.trim() : null;
 		
 		// Verify that a requestor was specified.
-		if (userId == null || userId.length() == 0) {
+		if (localUserId == null || localUserId.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "UserId");
 		}
-		if (userCommentType == null || userCommentType.length() == 0) {
+		if (localUserCommentType == null || localUserCommentType.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "User comment type");
 		}
-		if (requestedBy == null || requestedBy.length() == 0) {
+		if (localRequestedBy == null || localRequestedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
 		}
 				
 		// Verify that the fields do not exceed the database lengths.
 		db.getAllTableColumns("USER_COMMENTS");
-		if (userId.length() > db.getColumn("USERID").getColumnSize()) {
+		if (localUserId.length() > db.getColumn("USERID").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Userid");
 		}
-		if (requestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requested by");
 		}
 	}
@@ -221,33 +227,33 @@ public class ValidateUserComment {
 		UserCommentTable userCommentTable = null;
 		
 		// For input parameters that are non-null, trim them.
-		userCommentType = (userCommentType != null) ? userCommentType.trim() : null;
-		updatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		userId = (userId != null) ? userId.trim() : null;
+		String localUserCommentType = (userCommentType != null) ? userCommentType.trim() : null;
+		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		String localUserId = (userId != null) ? userId.trim() : null;
 		
 		// Verify that the user comment fields were specified.
-		if (userId == null || userId.length() == 0) {
+		if (localUserId == null || localUserId.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "UserId");
 		}
-		if (userCommentType == null || userCommentType.length() == 0) {
+		if (localUserCommentType == null || localUserCommentType.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "User comment type");
 		}
-		if (updatedBy == null || updatedBy.length() == 0) {
+		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
 		}
 		
 		// Verify that the fields do not exceed the database lengths.
 		db.getAllTableColumns("USER_COMMENTS");
-		if (updatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
 		}
-		if (userId.length() > db.getColumn("USERID").getColumnSize()) {
+		if (localUserId.length() > db.getColumn("USERID").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Userid");
 		}
 
 		// Attempt to instantiate a new user comment table class.
 		try {
-			userCommentTable = new UserCommentTable(personId, userId, userCommentType, updatedBy);
+			userCommentTable = new UserCommentTable(personId, localUserId, localUserCommentType, localUpdatedBy);
 		}
 		catch (Exception e) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "User comment type");

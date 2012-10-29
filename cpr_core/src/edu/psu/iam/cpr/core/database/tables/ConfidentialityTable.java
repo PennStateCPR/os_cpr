@@ -107,7 +107,7 @@ public class ConfidentialityTable {
 	/**
 	 * @param confidentialityBean the confidentialityBean to set
 	 */
-	public void setConfidentialityBean(Confidentiality confidentialityBean) {
+	public final void setConfidentialityBean(Confidentiality confidentialityBean) {
 		this.confidentialityBean = confidentialityBean;
 	}
 
@@ -125,7 +125,7 @@ public class ConfidentialityTable {
 		return confidentialityType;
 	}
 
-	public void setConfidentialityType(ConfidentialityType confidentialityType) {
+	public final void setConfidentialityType(ConfidentialityType confidentialityType) {
 		this.confidentialityType = confidentialityType;
 	}
 	/**
@@ -134,7 +134,7 @@ public class ConfidentialityTable {
 	 * @param confidentialityTypeString contains the confidentiality type string value.
 	 * @throws Exception will be thrown if there are any problems.
 	 */
-	public void setConfidentialityType(String confidentialityTypeString) throws Exception {
+	public final void setConfidentialityType(String confidentialityTypeString) throws Exception {
 		setConfidentialityType(ConfidentialityType.valueOf(confidentialityTypeString.toUpperCase().trim()));
 	}
 
@@ -288,12 +288,12 @@ public class ConfidentialityTable {
 		    	Object res[] = (Object []) it.next();
 				
 				ConfidentialityReturn c = new ConfidentialityReturn(ConfidentialityType.get((Long) res[0]).toString(),
-													Utility.convertTimestampToString((Date) res[1]), 	// start date
-													Utility.convertTimestampToString((Date) res[2]), 	// end date
-													(String) res[3], 									// last update by
-													Utility.convertTimestampToString((Date) res[4]), 	// last update on
-													(String) res[5], 									// created by
-													Utility.convertTimestampToString((Date) res[6])); 	// created on
+													Utility.convertTimestampToString((Date) res[1]), 	
+													Utility.convertTimestampToString((Date) res[2]), 	
+													(String) res[3], 									
+													Utility.convertTimestampToString((Date) res[4]), 	
+													(String) res[5], 									
+													Utility.convertTimestampToString((Date) res[6])); 	
 				results.add(c);
 		    }
 		    

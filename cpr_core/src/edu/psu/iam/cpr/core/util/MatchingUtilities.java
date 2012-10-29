@@ -29,7 +29,7 @@ package edu.psu.iam.cpr.core.util;
 */
 
 
-public class MatchingUtilities {
+public final class MatchingUtilities {
 	
 	/** Matching data type for a person's name. */
 	public static final String MATCH_DATATYPE_NAME = "NAME";
@@ -49,6 +49,13 @@ public class MatchingUtilities {
 	/** Matching data type for matching of general text information */
 	public static final String MATCH_DATATYPE_TEXT = "TEXT";
 
+	/** 
+	 * Constructor
+	 */
+	private MatchingUtilities() {
+		
+	}
+	
 	/**
 	 * Format the name of a person for input to the match code generator.
 	 * 

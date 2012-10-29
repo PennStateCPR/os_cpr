@@ -135,7 +135,7 @@ public class JsonMessage {
 	 * @param value contains the value.
 	 * @throws JSONException exception will be thrown if there are any problems.
 	 */
-	public void setValue(MessageKeyName key, String value) throws JSONException {
+	public final void setValue(MessageKeyName key, String value) throws JSONException {
 		
 		// If the value is NULL, we need to set a special JSON value to indicate NULL.
 		if (value == null) {
@@ -154,7 +154,7 @@ public class JsonMessage {
 	 * @param value contains the value.
 	 * @throws JSONException exception will be thrown if there are any problems.
 	 */
-	public void setValue(MessageKeyName key, Long value) throws JSONException {
+	public final void setValue(MessageKeyName key, Long value) throws JSONException {
 		getJsonObject().put(key.toString(), Long.toString(value));
 	}
 	
@@ -168,14 +168,14 @@ public class JsonMessage {
 	/**
 	 * @param jsonObject
 	 */
-	public void setJsonObject(JSONObject jsonObject) {
+	public final void setJsonObject(JSONObject jsonObject) {
 		this.jsonObject = jsonObject;
 	}
 
 	/**
 	 * @param serviceName the serviceName to set
 	 */
-	public void setServiceName(String serviceName) {
+	public final void setServiceName(String serviceName) {
 		this.serviceName = serviceName;
 	}
 
@@ -189,7 +189,7 @@ public class JsonMessage {
 	/**
 	 * @param requestedBy the requestedBy to set
 	 */
-	public void setRequestedBy(String requestedBy) {
+	public final void setRequestedBy(String requestedBy) {
 		this.requestedBy = requestedBy;
 	}
 
@@ -367,20 +367,6 @@ public class JsonMessage {
 			throw new CprException(ReturnType.MESSAGE_INITIALIZATION_EXCEPTION, "affiliation");
 		}
 	}	
-	
-//	/**
-//	 * This routine is used to set the IAP information portion of a message.
-//	 * @param iapTable contains an AffiliationsTable object containing the affiliation information.
-//	 */
-//	public void setIAP(PersonUseridIapTable iapTable)   {
-////		try {
-////			setValue(MessageKeyName.IAP_TYPE, iapTable.getIapType().toString());
-////			setValue(MessageKeyName.USERID, iapTable.getUserId().toString());
-////		} 
-////		catch (JSONException e) {
-////			throw new CprException(ReturnType.MESSAGE_INITIALIZATION_EXCEPTION, "affiliation");
-////		}
-//	}	
 	
 	/**
 	 * This routine is used to set the user comment portion of a message.

@@ -35,8 +35,15 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-public class ValidatePhone {
+public final class ValidatePhone {
 
+	/**
+	 * Constructor.
+	 */
+	private ValidatePhone() {
+		
+	}
+	
 	/**
 	 * This routine will check the input string for a valid phone number extension format
 	 * 
@@ -46,22 +53,25 @@ public class ValidatePhone {
 	 */
     public static boolean isValidExtension(String extension) {
     	
+    	String localExtension = extension;
+    	
     	// Extension is not required
     	
     	// Null is valid
-    	if (extension == null) {
+    	if (localExtension == null) {
     		return true;
     	}
     	
-    	extension = extension.trim();
+    	localExtension = localExtension.trim();
     	
     	// Empty string is valid
-    	if (extension.length() == 0) {
+    	if (localExtension.length() == 0) {
     		return true;
     	}
     	
     	// Extension can begin with x followed by digits
-	    if (Pattern.matches(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_REGEX_PHONE_NUMBER_EXTENSION.toString()), extension)) {
+	    if (Pattern.matches(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_REGEX_PHONE_NUMBER_EXTENSION.toString()), 
+	    		localExtension)) {
 	    	return true;
 	    }
 	    
@@ -78,30 +88,35 @@ public class ValidatePhone {
 	 */
     public static boolean isValidPhoneNumber(String isInternational, String phoneNumber) {
  
-       	if (isInternational == null) {
+    	String localIsInternational = isInternational;
+    	String localPhoneNumber = phoneNumber;
+    	
+       	if (localIsInternational == null) {
     		// The inInternational flag formatting is incorrect
     		return false;
     	}
        	
-       	if (phoneNumber == null) {
+       	if (localPhoneNumber == null) {
        		return false;
        	}
 
-    	isInternational = Validate.isValidYesNo(isInternational);      	
-    	if (isInternational == null) {
+    	localIsInternational = Validate.isValidYesNo(localIsInternational);      	
+    	if (localIsInternational == null) {
     		return false;
     	}
      	
-    	if (isInternational.equals("Y")) {
+    	if (localIsInternational.equals("Y")) {
     		// Check the format for an international number format
-    		if (Pattern.matches(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_REGEX_INT_PHONE_NUMBER.toString()), phoneNumber)) {
+    		if (Pattern.matches(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_REGEX_INT_PHONE_NUMBER.toString()), 
+    				localPhoneNumber)) {
     	    	return true;
     		}
     	    return false;
     	}
     	
     	// isInternational must be 'N', validate for US number format
-    	if (Pattern.matches(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_REGEX_US_PHONE_NUMBER.toString()), phoneNumber)) {
+    	if (Pattern.matches(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_REGEX_US_PHONE_NUMBER.toString()), 
+    			localPhoneNumber)) {
 	    	return true;
     	}
     	
@@ -129,24 +144,24 @@ public class ValidatePhone {
     	String intlNumber = null;
     	PhonesTable phonesTable = null;
     	
-    	String dbColumnNames[] = { "PHONE_NUMBER", "EXTENSION",  "LAST_UPDATE_BY" };
-		String inputFields[]   = { phoneNumber, extension,  updatedBy};
-		String prettyNames[] = { "Phone number", "Extension",  "Updated by"};
-		
+ 		
 		// Trim all of the strings if they are not null.
-		phoneNumber = (phoneNumber != null) ? phoneNumber.trim() : null;
-		extension = (extension != null) ?extension.trim() : null;
-		updatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		String localPhoneNumber = (phoneNumber != null) ? phoneNumber.trim() : null;
+		String localExtension = (extension != null) ?extension.trim() : null;
+		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+	   	String dbColumnNames[] = { "PHONE_NUMBER", "EXTENSION",  "LAST_UPDATE_BY" };
+		String inputFields[]   = { localPhoneNumber, localExtension,  localUpdatedBy};
+		String prettyNames[] = { "Phone number", "Extension",  "Updated by"};
 		
 		
 		// insure phone type, phone number and updateBy specified
 		if (phoneType == null || phoneType.trim().length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Phone type");
 		}
-		if (updatedBy == null || updatedBy.length() == 0) {
+		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
 		}
-		if (phoneNumber == null || phoneNumber.length() == 0) {
+		if (localPhoneNumber == null || localPhoneNumber.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Phone number");
 		}
 
@@ -166,22 +181,23 @@ public class ValidatePhone {
     	
  
     
-    	if ( !isValidPhoneNumber(intlNumber, phoneNumber)) {
+    	if ( !isValidPhoneNumber(intlNumber, localPhoneNumber)) {
     		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Phone number");
     	}
     	
-    	if (!isValidExtension (extension)) {
+    	if (!isValidExtension (localExtension)) {
     		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Extension");
     	}
     	
     	try {
-			phonesTable = new PhonesTable(personId, phoneType,  phoneNumber, extension, intlNumber, updatedBy);
+			phonesTable = new PhonesTable(personId, phoneType,  localPhoneNumber, localExtension, intlNumber, localUpdatedBy);
 		}
 		catch (Exception e) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Phone type");
 		}
     	return phonesTable;
     }
+    
   /** This routine is used to validate the ArchivePhones information.  If successful it returns PhonesTable class.
     * 
     * @param db  contains the Database object
@@ -236,26 +252,26 @@ public class ValidatePhone {
     		String updatedBy, String phoneType, String returnHistory) throws GeneralDatabaseException, CprException {
    
     	// Trim all of the String values.
-    	updatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-    	phoneType = (phoneType != null) ? phoneType.trim() : null;
-    	returnHistory = (returnHistory != null) ? returnHistory.trim() : null;
+    	String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+    	String localPhoneType = (phoneType != null) ? phoneType.trim() : null;
+    	String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
     	
     	// Verify that the updatedBy is within the length contained in the database.
     	db.getAllTableColumns("PHONES");
-    	if (updatedBy == null || updatedBy.trim().length() == 0) {
+    	if (localUpdatedBy == null || localUpdatedBy.trim().length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
 		}
     	TableColumn c = db.getColumn("LAST_UPDATE_BY");
-		if (updatedBy.length() > c.getColumnSize()) {
+		if (localUpdatedBy.length() > c.getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requested by");
 		}
 		
 		final PhonesTable phonesTable = new PhonesTable();
 		
 		// Phone type specified?
-		if (phoneType != null) {
+		if (localPhoneType != null) {
 			try {
-				phonesTable.setPhoneType(phoneType);
+				phonesTable.setPhoneType(localPhoneType);
 			}
 			catch (Exception e) {
 				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Phone type");
@@ -263,10 +279,10 @@ public class ValidatePhone {
 		}
 		
 		// Validate the return history flag.
-		if ((returnHistory = Validate.isValidYesNo(returnHistory)) == null) {
+		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
-		phonesTable.setReturnHistoryFlag((returnHistory.equals("Y")) ? true : false);
+		phonesTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
 
 		return phonesTable;
     }
@@ -296,23 +312,23 @@ public class ValidatePhone {
     	if (groupId == null) {
     		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Group Id");
     	}
-    	String dbColumnNames[] = { "PHONE_NUMBER", "EXTENSION",  "LAST_UPDATE_BY" };
-		String inputFields[]   = { phoneNumber, extension,  updatedBy };
-		String prettyNames[] = { "Phone number", "Extension",  "Updated by" };
-		
+ 		
 		// Trim all of the strings if they are not null.
-		phoneNumber = (phoneNumber != null) ? phoneNumber.trim() : null;
-		extension = (extension != null) ?extension.trim() : null;
-		updatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		String localPhoneNumber = (phoneNumber != null) ? phoneNumber.trim() : null;
+		String localExtension = (extension != null) ?extension.trim() : null;
+		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+	   	String dbColumnNames[] = { "PHONE_NUMBER", "EXTENSION",  "LAST_UPDATE_BY" };
+		String inputFields[]   = { localPhoneNumber, localExtension,  localUpdatedBy };
+		String prettyNames[] = { "Phone number", "Extension",  "Updated by" };
 		
 		// insure phone type, phone number and updateBy specified
 		if (phoneType == null || phoneType.trim().length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Phone type");
 		}
-		if (updatedBy == null || updatedBy.length() == 0) {
+		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
 		}
-		if (phoneNumber == null || phoneNumber.length() == 0) {
+		if (localPhoneNumber == null || localPhoneNumber.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Phone number");
 		}
 
@@ -332,15 +348,15 @@ public class ValidatePhone {
     
        	
     
-    	if ( !isValidPhoneNumber(intlNumber, phoneNumber)) {
+    	if ( !isValidPhoneNumber(intlNumber, localPhoneNumber)) {
     		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Phone number");
     	}
     	
-    	if (!isValidExtension (extension)) {
+    	if (!isValidExtension (localExtension)) {
     		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Extension");
     	}
     	try {
-			phonesTable = new PhonesTable(personId, phoneType, groupId, phoneNumber, extension, intlNumber, updatedBy);
+			phonesTable = new PhonesTable(personId, phoneType, groupId, localPhoneNumber, localExtension, intlNumber, localUpdatedBy);
 		}
 		catch (Exception e) {
     		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Phone type");

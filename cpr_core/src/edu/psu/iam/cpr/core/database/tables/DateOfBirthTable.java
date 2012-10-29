@@ -123,7 +123,7 @@ public class DateOfBirthTable {
 	/**
 	 * @param dateOfBirthBean the dateOfBirthBean to set
 	 */
-	public void setDateOfBirthBean(DateOfBirth dateOfBirthBean) {
+	public final void setDateOfBirthBean(DateOfBirth dateOfBirthBean) {
 		this.dateOfBirthBean = dateOfBirthBean;
 	}
 
@@ -169,10 +169,10 @@ public class DateOfBirthTable {
 			int i = 0;
 			for (i = 0; i < dobParts.length; ++i) {
 				if (lengthArray[i] == 2) {
-					buffer.append(String.format("%02d", new Integer(dobParts[i])));
+					buffer.append(String.format("%02d", Integer.valueOf(dobParts[i])));
 				}
 				else if (lengthArray[i] == 4) {
-					buffer.append(String.format("%04d", new Integer(dobParts[i])));
+					buffer.append(String.format("%04d", Integer.valueOf(dobParts[i])));
 				}
 			}
 
@@ -274,24 +274,24 @@ public class DateOfBirthTable {
 										
 					// Only month and day of DOB was specified.
 					if (year.equals("0000")) {
-						results.add(new DateOfBirthReturn(month + "/" + day,				// DOB month and day only.
-										Utility.convertTimestampToString((Date) res[1]),	// Start date
-										Utility.convertTimestampToString((Date) res[2]),	// End date
-										(String) res[3],									// Last Update by
-										Utility.convertTimestampToString((Date) res[4]),	// Last update on.
-										(String) res[5],									// Created By.
-										Utility.convertTimestampToString((Date) res[6])));	// Created On.
+						results.add(new DateOfBirthReturn(month + "/" + day,				
+										Utility.convertTimestampToString((Date) res[1]),	
+										Utility.convertTimestampToString((Date) res[2]),	
+										(String) res[3],									
+										Utility.convertTimestampToString((Date) res[4]),	
+										(String) res[5],									
+										Utility.convertTimestampToString((Date) res[6])));	
 					}
 					
 					// Full date was specified.
 					else {
-						results.add(new DateOfBirthReturn(month + "/" + day + "/" + year,	// DOB, month, day and year.
-										Utility.convertTimestampToString((Date) res[1]),	// Start date
-										Utility.convertTimestampToString((Date) res[2]),	// End date
-										(String) res[3],									// Last Update by
-										Utility.convertTimestampToString((Date) res[4]),	// Last update on.
-										(String) res[5],									// Created By.
-										Utility.convertTimestampToString((Date) res[6])));	// Created On.
+						results.add(new DateOfBirthReturn(month + "/" + day + "/" + year,	
+										Utility.convertTimestampToString((Date) res[1]),	
+										Utility.convertTimestampToString((Date) res[2]),	
+										(String) res[3],									
+										Utility.convertTimestampToString((Date) res[4]),	
+										(String) res[5],									
+										Utility.convertTimestampToString((Date) res[6])));	
 								
 					}
 				}
@@ -308,7 +308,7 @@ public class DateOfBirthTable {
 	 * This routine is used to reformat a date string into something that FindPerson can use.
 	 * @param formattedDateOfBirth the formattedDateOfBirth to set
 	 */
-	public void setFormattedDateOfBirth(String formattedDateOfBirth) {
+	public final void setFormattedDateOfBirth(String formattedDateOfBirth) {
 		
 		final String month = formattedDateOfBirth.substring(0, 2);
 		final String day = formattedDateOfBirth.substring(2, 4);

@@ -111,7 +111,7 @@ public class PersonLinkageTable {
 	/**
 	 * @param personLinkageBean the personLinkageBean to set
 	 */
-	public void setPersonLinkageBean(PersonLinkage personLinkageBean) {
+	public final void setPersonLinkageBean(PersonLinkage personLinkageBean) {
 		this.personLinkageBean = personLinkageBean;
 	}
 
@@ -125,7 +125,7 @@ public class PersonLinkageTable {
 	/**
 	 * @param linkageType the linkageType to set
 	 */
-	public void setLinkageType(LinkageType linkageType) {
+	public final void setLinkageType(LinkageType linkageType) {
 		this.linkageType = linkageType;
 	}
 	
@@ -133,7 +133,7 @@ public class PersonLinkageTable {
 	 * @param linkageType the linkageType to set
 	 * @throws Exception
 	 */
-	public void setLinkageType(String linkageType) throws Exception {
+	public final void setLinkageType(String linkageType) throws Exception {
 		setLinkageType(LinkageType.valueOf(linkageType.trim().toUpperCase()));
 	}
 
@@ -291,15 +291,15 @@ public class PersonLinkageTable {
 			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 				Object res[] = (Object []) it.next();
 				PersonLinkageReturn personLinkageReturn = new PersonLinkageReturn(
-						LinkageType.get((Long) res[0]).toString(),			// Data type key
-						(Long) res[1],										// Person identifier
-						(Long) res[2],										// Linked person identifier
-						Utility.convertTimestampToString((Date) res[3]),	// Start date
-						Utility.convertTimestampToString((Date) res[4]),	// End date
-						(String) res[5],									// last update by
-						Utility.convertTimestampToString((Date) res[6]),	// last update on
-						(String) res[7],									// created by
-						Utility.convertTimestampToString((Date) res[8]));	// created on
+						LinkageType.get((Long) res[0]).toString(),			
+						(Long) res[1],										
+						(Long) res[2],										
+						Utility.convertTimestampToString((Date) res[3]),	
+						Utility.convertTimestampToString((Date) res[4]),	
+						(String) res[5],									
+						Utility.convertTimestampToString((Date) res[6]),
+						(String) res[7],									
+						Utility.convertTimestampToString((Date) res[8]));	
 				results.add(personLinkageReturn);
 			
 			}

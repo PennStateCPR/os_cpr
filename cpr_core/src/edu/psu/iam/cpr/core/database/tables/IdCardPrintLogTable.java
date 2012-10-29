@@ -75,7 +75,7 @@ public class IdCardPrintLogTable {
 	/**
 	 * @param idCardPrintLogBean the idCardPrintLogBean to set
 	 */
-	public void setIdCardPrintLogBean(IdCardPrintLog idCardPrintLogBean) {
+	public final void setIdCardPrintLogBean(IdCardPrintLog idCardPrintLogBean) {
 		this.idCardPrintLogBean = idCardPrintLogBean;
 	}
 

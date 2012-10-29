@@ -27,8 +27,15 @@ import edu.psu.iam.cpr.core.database.types.CprPropertyName;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-public class Utility {
+public final class Utility {
 
+	/** 
+	 * Constructor
+	 */
+	private Utility() {
+		
+	}
+	
 	/**
 	 * This routine is used to convert a java.util.Date to a String formatted based on the value of a property.
 	 * @param d contains the date to be converted.

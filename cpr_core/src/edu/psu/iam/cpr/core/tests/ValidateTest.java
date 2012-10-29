@@ -71,7 +71,7 @@ public class ValidateTest {
 	@Test
 	public final void testIsValidYesNo4() {
 		String retValue = Validate.isValidYesNo("yes");
-		AssertJUnit.assertEquals(retValue, null);
+		AssertJUnit.assertEquals(retValue, "Y");
 	}
 
 	/**

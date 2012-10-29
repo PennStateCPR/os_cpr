@@ -129,7 +129,7 @@ public class NamesTable {
 	/**
 	 * @param namesBean the namesBean to set
 	 */
-	public void setNamesBean(Names namesBean) {
+	public final void setNamesBean(Names namesBean) {
 		this.namesBean = namesBean;
 	}
 
@@ -150,7 +150,7 @@ public class NamesTable {
 	/**
 	 * @param nameType the nameType to set
 	 */
-	public void setNameType(NameType nameType) {
+	public final void setNameType(NameType nameType) {
 		this.nameType = nameType;
 	}
 	
@@ -173,14 +173,14 @@ public class NamesTable {
 	 * @param nameType
 	 * @throws Exception
 	 */
-	public void setNameType(String nameType) throws Exception {
+	public final void setNameType(String nameType) throws Exception {
 		setNameType(NameType.valueOf(nameType.toUpperCase().trim()));
 	}
 	
 	/**
 	 * @param documentType the documentType to set
 	 */
-	public void setDocumentType(DocumentType documentType) {
+	public final void setDocumentType(DocumentType documentType) {
 		this.documentType = documentType;
 	}
 
@@ -189,7 +189,7 @@ public class NamesTable {
 	 * @param documentType contains the string value of the document type.
 	 * @throws Exception will be thrown if there are any problems.
 	 */
-	public void setDocumentType(String documentType) throws Exception {
+	public final void setDocumentType(String documentType) throws Exception {
 		setDocumentType(DocumentType.valueOf(documentType.toUpperCase().trim()));
 	}
 	

@@ -83,8 +83,7 @@ public final class PasswordService
 		}
 
 		byte raw[] = md.digest();
-		String hash = Base64.encodeBase64String(raw);
-		return hash;
+		return Base64.encodeBase64String(raw);
 	}
 
 	/**

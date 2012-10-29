@@ -92,7 +92,7 @@ public class PsuDirectoryTable {
 	/**
 	 * @param psuDirectoryBean the psuDirectoryBean to set
 	 */
-	public void setPsuDirectoryBean(PsuDirectory psuDirectoryBean) {
+	public final void setPsuDirectoryBean(PsuDirectory psuDirectoryBean) {
 		this.psuDirectoryBean = psuDirectoryBean;
 	}
 

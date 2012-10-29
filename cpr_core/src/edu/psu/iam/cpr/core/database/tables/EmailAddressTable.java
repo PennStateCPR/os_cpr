@@ -115,14 +115,14 @@ public class EmailAddressTable {
 	/**
 	 * @param emailAddressType the emailAddressType to set
 	 */
-	public void setEmailAddressType(EmailAddressType emailAddressType) {
+	public final void setEmailAddressType(EmailAddressType emailAddressType) {
 		this.emailAddressType = emailAddressType;
 	}
 	
 	/**
 	 * @param emailAddressType to be set.
 	 */
-	public void setEmailAddressType(String emailAddressType) {
+	public final void setEmailAddressType(String emailAddressType) {
 		setEmailAddressType(EmailAddressType.valueOf(emailAddressType.toUpperCase().trim())); 
 	}
 
@@ -135,7 +135,7 @@ public class EmailAddressTable {
 	/**
 	 * @param emailAddressBean the emailAddressBean to set
 	 */
-	public void setEmailAddressBean(EmailAddress emailAddressBean) {
+	public final void setEmailAddressBean(EmailAddress emailAddressBean) {
 		this.emailAddressBean = emailAddressBean;
 	}
 

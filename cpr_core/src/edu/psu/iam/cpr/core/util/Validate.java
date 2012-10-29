@@ -56,7 +56,13 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  * 
  * @since 1.0
  */
-public class Validate {
+public final class Validate {
+	
+	/**
+	 * Constructor
+	 */
+	private Validate() {
+	}
 	
     /**
      * The purpose of this routine is valid a field containing a yes/no value.  
@@ -74,8 +80,9 @@ public class Validate {
     	
     	final String s = yesNo.toUpperCase().trim();
     	
-    	if (s.equals("Y") || s.equals("N")) {
-    		return s;
+    	if (s.equals("Y") || s.equals("YES") ||
+    		s.equals("N") || s.equals("NO")) {
+    		return s.substring(0,1);
     	}
     	
     	return null;

@@ -31,7 +31,13 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-public class ValidateName {
+public final class ValidateName {
+	
+	/** 
+	 * Constructor.
+	 */
+	private ValidateName() {
+	}
 	
 	/**
 	 * This routine is used to validate parameters that were passed to the GetName service.
@@ -48,25 +54,25 @@ public class ValidateName {
 						throws CprException, GeneralDatabaseException {
 		
 		// Trim all of the strings.
-		requestedBy = (requestedBy != null) ? requestedBy.trim() : null;
-		nameType = (nameType != null) ? nameType.trim() : null;
-		returnHistory = (returnHistory != null) ? returnHistory.trim() : null;
+		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
+		String localNameType = (nameType != null) ? nameType.trim() : null;
+		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
 		
 		// Ensure that a requested by was specified.
-		if (requestedBy == null || requestedBy.length() == 0) {
+		if (localRequestedBy == null || localRequestedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
 		}
 		
 		db.getAllTableColumns("NAMES");
-		if (requestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requested by");
 		}
 
 		// If a name type was specified, verify that its valid.
 		final NamesTable namesTable = new NamesTable();
-		if (nameType != null) {
+		if (localNameType != null) {
 			try {
-				namesTable.setNameType(nameType);
+				namesTable.setNameType(localNameType);
 			}
 			catch (Exception e) {
 				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Name type");
@@ -74,10 +80,10 @@ public class ValidateName {
 		}
 
 		// Verify the return history flag, and set its value to the boolean.
-		if ((returnHistory = Validate.isValidYesNo(returnHistory)) == null) {
+		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
-		namesTable.setReturnHistoryFlag((returnHistory.equals("Y")) ? true : false);
+		namesTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
 		
 		return namesTable;
 	}
@@ -95,34 +101,31 @@ public class ValidateName {
 	 */
 	public static NamesTable validateArchiveNameParameters(Database db, long personId, String nameType, String documentType, String updatedBy) throws GeneralDatabaseException, CprException {
 	
-		updatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		String localNameType = (nameType != null && nameType.trim().length() == 0) ? null : nameType;
+		String localDocumentType = (documentType != null && documentType.trim().length() == 0) ? null : documentType;
 		
-		if (nameType == null || nameType.length() == 0) {
+		if (localNameType == null || localNameType.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Name type");
 		}
 		
-		if (updatedBy == null || updatedBy.length() == 0) {
+		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
 		}
 	
 		// Verify that the length is OK for updated By.
 		db.getAllTableColumns("NAMES");
-		if (updatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
+		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
 		}
-			
-		// If the name and/or document types contain empty strings, convert them to null objects.
-		nameType = (nameType != null && nameType.trim().length() == 0) ? null : nameType;
-		documentType = (documentType != null && documentType.trim().length() == 0) ? null : documentType;
-		
+					
 		// Validate that the name type and document type combination is valid.
-		if (! isValidCombination(nameType, documentType)) {
+		if (! isValidCombination(localNameType, localDocumentType)) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Name type and/or document type");
 		}
 		
 		try {
-			final NamesTable namesTable = new NamesTable(personId, nameType, documentType, updatedBy);
-			return namesTable;
+			return new NamesTable(personId, localNameType, localDocumentType, localUpdatedBy);
 		}
 		catch (Exception e) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Name type and/or document type");
@@ -146,25 +149,27 @@ public class ValidateName {
 	 */
 	public static NamesTable validateAddNameParameters(Database db, long personId, String nameType, String documentType, String firstName, String middleNames, String lastName, String suffix, String updatedBy) throws GeneralDatabaseException, CprException {
 		
-		final String dbColumnNames[] = { "FIRST_NAME", "MIDDLE_NAMES", "LAST_NAME", "SUFFIX", "LAST_UPDATE_BY" };
-		final String inputFields[]   = { firstName, middleNames, lastName, suffix, updatedBy };
-		final String prettyNames[] = { "First name", "Middle name(s)", "Last name", "Suffix", "Updated by" };
 		
 		// Trim all of the strings if they are not null.
-		firstName = (firstName != null) ? firstName.trim() : null;
-		middleNames = (middleNames != null) ? middleNames.trim() : null;
-		lastName = (lastName != null) ? lastName.trim() : null;
-		suffix = (suffix != null) ? suffix.trim() : null;
-		updatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		String localFirstName = (firstName != null) ? firstName.trim() : null;
+		String localMiddleNames = (middleNames != null) ? middleNames.trim() : null;
+		String localLastName = (lastName != null) ? lastName.trim() : null;
+		String localSuffix = (suffix != null) ? suffix.trim() : null;
+		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		String localNameType = (nameType != null && nameType.trim().length() == 0) ? null : nameType;
+		String localDocumentType = (documentType != null && documentType.trim().length() == 0) ? null : documentType;
+		final String dbColumnNames[] = { "FIRST_NAME", "MIDDLE_NAMES", "LAST_NAME", "SUFFIX", "LAST_UPDATE_BY" };
+		final String inputFields[]   = { localFirstName, localMiddleNames, localLastName, localSuffix, localUpdatedBy };
+		final String prettyNames[] = { "First name", "Middle name(s)", "Last name", "Suffix", "Updated by" };
 		
 		// Ensure that a name type, updated by and last name was specified.
-		if (nameType == null || nameType.length() == 0) {
+		if (localNameType == null || localNameType.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Name type");
 		}
-		if (updatedBy == null || updatedBy.length() == 0) {
+		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
 		}
-		if (lastName == null || lastName.length() == 0) {
+		if (localLastName == null || localLastName.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Last name");
 		}
 
@@ -175,13 +180,9 @@ public class ValidateName {
 				throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, prettyNames[i]);
 			}
 		}
-		
-		// If the name and/or document types contain empty strings, convert them to null objects.
-		nameType = (nameType != null && nameType.trim().length() == 0) ? null : nameType;
-		documentType = (documentType != null && documentType.trim().length() == 0) ? null : documentType;
-		
+				
 		// Validate that the name type and document type combination is valid.
-		if (! isValidCombination(nameType, documentType)) {
+		if (! isValidCombination(localNameType, localDocumentType)) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Name type and/or document type");
 		}
 		
@@ -189,7 +190,8 @@ public class ValidateName {
 		
 		// At this point we are ready to save off the information to a class.
 		try {
-			final NamesTable namesTable = new NamesTable(personId, nameType, documentType, firstName, middleNames, lastName, suffix, updatedBy);
+			final NamesTable namesTable = new NamesTable(personId, localNameType, localDocumentType, localFirstName, localMiddleNames, 
+					localLastName, localSuffix, localUpdatedBy);
 			return namesTable;
 		}
 		catch (Exception e) {
