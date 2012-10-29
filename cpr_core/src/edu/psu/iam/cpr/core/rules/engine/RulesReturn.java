@@ -67,7 +67,13 @@ public class RulesReturn {
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
 		this.numberOfFacts = numberOfFacts;
-		this.facts = facts;
+		if (facts != null) {
+			this.facts = new String[facts.length];
+			System.arraycopy(facts, 0, this.facts, 0, facts.length);
+		}
+		else {
+			this.facts = null;
+		}
 	}
 
 	/**
@@ -116,7 +122,13 @@ public class RulesReturn {
 	 * @param facts the facts to set
 	 */
 	public void setFacts(String facts[]) {
-		this.facts = facts;
+		if (facts != null) {
+			this.facts = new String[facts.length];
+			System.arraycopy(facts, 0, this.facts, 0, facts.length);
+		}
+		else {
+			this.facts = null;
+		}
 	}
 
 	/**

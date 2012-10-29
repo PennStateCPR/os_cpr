@@ -65,7 +65,13 @@ public class PhotoReturn {
 			String lastUpdateBy, String lastUpdateOn,
 			String createdBy, String createdOn) {
 		super();
-		this.photo = photo;
+		if (photo != null) {
+			this.photo = new byte[photo.length];
+			System.arraycopy(photo, 0, this.photo, 0, photo.length);
+		}
+		else {
+			this.photo = null;
+		}
 		this.dateTaken = dateTaken;
 		this.lastUpdateBy = lastUpdateBy;
 		this.lastUpdateOn = lastUpdateOn;
@@ -84,7 +90,13 @@ public class PhotoReturn {
 	 * @param photo the photo to set
 	 */
 	public void setPhoto(byte[] photo) {
-		this.photo = photo;
+		if (photo != null) {
+			this.photo = new byte[photo.length];
+			System.arraycopy(photo, 0, this.photo, 0, photo.length);
+		}
+		else {
+			this.photo = null;
+		}
 	}
 
 	/**
