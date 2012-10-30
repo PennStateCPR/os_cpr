@@ -2,6 +2,8 @@
 package edu.psu.iam.cpr.core.rules.engine;
 
 /**
+ * This code implements the Rules Engine Return.
+ * 
  * Copyright 2012 The Pennsylvania State University
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

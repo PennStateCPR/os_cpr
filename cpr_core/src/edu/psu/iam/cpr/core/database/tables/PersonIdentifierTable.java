@@ -318,7 +318,7 @@ public class PersonIdentifierTable {
 			query.addScalar("created_by", StandardBasicTypes.STRING);
 			query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
 
-			HashMap<String,Object> map = DBTypesHelper.getInstance(db).getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+			HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 			
 			// Perform the query.
 			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {

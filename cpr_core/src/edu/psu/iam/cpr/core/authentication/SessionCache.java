@@ -27,13 +27,12 @@ import java.util.HashMap;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-public final class SessionCache {
+public enum SessionCache {
 
-	/** Contains the singleton instance of the class */
-	private static SessionCache instance = null;
+	INSTANCE;
 	
 	/** Contains the credential cookie hash table */
-	private static HashMap<String, SessionCookie> credsMap = null;
+	private static HashMap<String, SessionCookie> credsMap = new HashMap<String, SessionCookie>();
 	
 	/** Contains the expiration time of a session within the cache. */
 	private static final int SESSION_EXPIRATION_TIME_MINUTES = 15;
@@ -46,7 +45,7 @@ public final class SessionCache {
 	 * @param cookie contains the session cookie to be validated.
 	 * @return will return true if the cookie is still valid, otherwise it will return false.
 	 */
-	public synchronized boolean isSessionValid(SessionCookie cookie) {
+	public boolean isSessionValid(SessionCookie cookie) {
 		
 		// Determine if the principal exists in the map.
 		SessionCookie hashCookie = credsMap.get(cookie.getPrincipal());
@@ -77,30 +76,11 @@ public final class SessionCache {
 	 * This routine is used to store a session cookie in the cache.
 	 * @param cookie contains the cookie to be stored.
 	 */
-	public synchronized void storeSession(SessionCookie cookie) {
+	public void storeSession(SessionCookie cookie) {
 
 		// Verify that the cookie does not exist in the cache or not.
 		if (credsMap.get(cookie.getPrincipal()) == null) {
 			credsMap.put(cookie.getPrincipal(), cookie);
 		}
-	}
-
-	/**
-	 * This routine is used to obtain an instance of the singleton class.
-	 * @return will return the singleton instance.
-	 */
-	public static synchronized SessionCache getInstance() {
-		if (credsMap == null) {
-			credsMap = new HashMap<String, SessionCookie>();
-		}
-		if (instance == null) {
-			instance = new SessionCache();
-		}
-		return instance;
-	}
-	
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		throw new CloneNotSupportedException("Clone is not allowed.");
 	}
 }

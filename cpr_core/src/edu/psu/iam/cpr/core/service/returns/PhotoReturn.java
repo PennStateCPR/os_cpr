@@ -3,7 +3,7 @@ package edu.psu.iam.cpr.core.service.returns;
 
 /**
  * This class is used to represent the return from executing a GetPhoto service call.
- * This data is returned as an array to the caller.
+ * 
  * 
  * Copyright 2012 The Pennsylvania State University
  *

@@ -19,32 +19,14 @@ package edu.psu.iam.cpr.core.tests;
 
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
-import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.helpers.DBTypesHelper;
 import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 public class DBTypesHelperTest {
 
-	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
-		db.openSession(SessionFactoryUtil.getSessionFactory());
-	}
-	
-	@Test
-	public final void testGetInstance() throws GeneralDatabaseException {
-		openDbConnection();
-		DBTypesHelper instance = DBTypesHelper.getInstance(db);
-		db.closeSession();
-		AssertJUnit.assertNotNull(instance);
-	}
-
 	@Test
 	public final void testGetTypeMaps() throws GeneralDatabaseException {
-		openDbConnection();
-		DBTypesHelper instance = DBTypesHelper.getInstance(db);
-		db.closeSession();
-		AssertJUnit.assertNotNull(instance.getTypeMaps(0));
+		AssertJUnit.assertNotNull(DBTypesHelper.INSTANCE.getTypeMaps(0));
 	}
 
 }

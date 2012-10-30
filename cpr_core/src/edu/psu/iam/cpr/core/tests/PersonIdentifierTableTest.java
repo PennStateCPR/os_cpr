@@ -97,7 +97,7 @@ public class PersonIdentifierTableTest {
 	@Test
 	public final void _08testGetPersonIdentifiersForPersonId1() throws GeneralDatabaseException {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.getInstance(db).getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -126,7 +126,7 @@ public class PersonIdentifierTableTest {
 	@Test
 	public final void _10testAddPersonIdentifier1() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.getInstance(db).getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -143,7 +143,7 @@ public class PersonIdentifierTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _11testAddPersonIdentifier2() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.getInstance(db).getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -160,7 +160,7 @@ public class PersonIdentifierTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _12testArchivePersonIdentifier1() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.getInstance(db).getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -177,7 +177,7 @@ public class PersonIdentifierTableTest {
 	@Test
 	public final void _13testArchivePersonIdentifier2() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.getInstance(db).getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -194,7 +194,7 @@ public class PersonIdentifierTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _14testArchivePersonIdentifier3() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.getInstance(db).getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -211,7 +211,7 @@ public class PersonIdentifierTableTest {
 	@Test 
 	public final void _15testSSNStorage() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.getInstance(db).getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -240,7 +240,7 @@ public class PersonIdentifierTableTest {
 	@Test
 	public final void restoreThings() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.getInstance(db).getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();

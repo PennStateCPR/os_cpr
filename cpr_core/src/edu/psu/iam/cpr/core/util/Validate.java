@@ -115,7 +115,7 @@ public final class Validate {
     public static IdentifierType isValidIdentifierType(Database db, String identifierType) {
     	
     	try {
-			return (IdentifierType) DBTypesHelper.getInstance(db).getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE).get(identifierType.toUpperCase().trim());
+			return (IdentifierType) DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE).get(identifierType.toUpperCase().trim());
 		} 
     	catch (GeneralDatabaseException e) {
 		}

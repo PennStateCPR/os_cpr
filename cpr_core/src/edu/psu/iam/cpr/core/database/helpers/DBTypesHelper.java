@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import edu.psu.iam.cpr.core.database.Database;
+import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
@@ -34,64 +35,48 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
  * @version $Rev: 5340 $
  * @lastrevision $Date $
  */
-public class DBTypesHelper {
+public enum DBTypesHelper {
 	
-	/** Contains the instance object for the singleton class */
-	private static DBTypesHelper instance =  null;
+	INSTANCE;
 	
 	/** Contains the array of database tables for the various types */
-	private static final String[] typeTableNames = { "IdentifierType" };
+	private final String[] typeTableNames = { "IdentifierType" };
 		
 	/** Contains the index values that correspond to the table names from above. */
 	public static final int IDENTIFIER_TYPE = 0;
 	
 	/** Contains the array of hash maps of database types */
-	private static final ArrayList<HashMap<String,Object>> typeMaps = new ArrayList<HashMap<String,Object>>();
-	
-	/** 
-	 * This method is used to initialize the singleton class.
-	 * @param db contains the current database instance.
-	 * @return will return the instance of the singleton.
-	 * @throws GeneralDatabaseException will be thrown if there are any database issues.
-	 */
-	public static synchronized DBTypesHelper getInstance(Database db) throws GeneralDatabaseException {
-		
-		if (instance == null) {
-			instance = new DBTypesHelper();
-			try {
-				instance.loadDatabaseTypes(db);
-			}
-			catch (Exception e) {
-				throw new GeneralDatabaseException("Unable to load database types.");
-			}
-		}
-		return instance;
-	}
+	private final ArrayList<HashMap<String,Object>> typeMaps = new ArrayList<HashMap<String,Object>>();
 	
 	/**
 	 * This method will return a particular hashmap.
+	 * @param db contains the database connection.
 	 * @param index contains the index of the map to be returned.
 	 * @return will contain the returned hash map.
+	 * @throws GeneralDatabaseException 
 	 */
-	public synchronized HashMap<String,Object> getTypeMaps(int index) {
+	public HashMap<String,Object> getTypeMaps(int index) throws GeneralDatabaseException {
 		return typeMaps.get(index);
 	}
 	
 	/**
-	 * This method is used to load all of the various database types.
-	 * @param db contains the database instance.
-	 * @throws GeneralDatabaseException will be thrown if there are any problems.
+	 * Constructor 
+	 * Used to initialize the Enum.
 	 */
-	private synchronized void loadDatabaseTypes(Database db) throws GeneralDatabaseException {
+	private DBTypesHelper() {
 		
-		for (int i = 0; i < typeTableNames.length; ++i) {
-			try {
-				
+		Session session = null;
+		
+		try {
+			session = SessionFactoryUtil.getSessionFactory().openSession();
+			session.getTransaction().begin();
+
+			for (int i = 0; i < typeTableNames.length; ++i) {
+
 				HashMap<String,Object> map = new HashMap<String,Object>();
-				final Session session = db.getSession();
 				final String sqlQuery = "from " + typeTableNames[i];
 				final Query query = session.createQuery(sqlQuery);
-				
+
 				switch (i) {
 				case IDENTIFIER_TYPE:
 					for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
@@ -102,14 +87,13 @@ public class DBTypesHelper {
 				}
 				typeMaps.add(map);
 			}
-			catch (Exception e) {
-				throw new GeneralDatabaseException("Unable to load database types.");
-			}
+
+
+			session.getTransaction().commit();
 		}
-	}
-	
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		throw new CloneNotSupportedException("Clone is not allowed.");
-	}
+		catch (HibernateException e) {
+			session.getTransaction().rollback();
+			throw new HibernateException(e);
+		}
+	}	
 }

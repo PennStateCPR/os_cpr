@@ -112,14 +112,12 @@ public class ServiceCore {
 		}
 		
 		final SessionCookie cookie = new SessionCookie(principalId, hash, new Date().getTime());
-		
-		final SessionCache sessionCache = SessionCache.getInstance();
-		
-		if (! sessionCache.isSessionValid(cookie)) {
+				
+		if (! SessionCache.INSTANCE.isSessionValid(cookie)) {
 			AuthenticateService.authenticate(principalId, password);
 
 			try {
-				sessionCache.storeSession(cookie);
+				SessionCache.INSTANCE.storeSession(cookie);
 			}
 			catch (Exception e) {
 			}

@@ -274,7 +274,7 @@ public class DatabaseTest {
 	@Test
 	public final void _31testGetPersonIdUsingIdentifier4() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		IdentifierType i = (IdentifierType) DBTypesHelper.getInstance(db).getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE).get("UNIT_TEST_IDENTIFIER");
+		IdentifierType i = (IdentifierType) DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE).get("UNIT_TEST_IDENTIFIER");
 		long personId = db.getPersonIdUsingIdentifier(i, "TEST_VALUE");
 		db.closeSession();
 		AssertJUnit.assertEquals(personId, 100000);
