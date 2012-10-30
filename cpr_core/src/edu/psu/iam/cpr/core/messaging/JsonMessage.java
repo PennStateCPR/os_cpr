@@ -289,7 +289,7 @@ public class JsonMessage {
 	public void setDateOfBirth(DateOfBirthTable dateOfBirthTable) throws CprException  {
 		try {
 			final DateOfBirth bean = dateOfBirthTable.getDateOfBirthBean();
-			final Properties props = CprProperties.getInstance().getProperties();
+			final Properties props = CprProperties.INSTANCE.getProperties();
 			DateFormat df = new SimpleDateFormat(props.getProperty(CprPropertyName.CPR_FORMAT_RAW_DATE.toString()));
 			final Date d = df.parse(bean.getDobChar());
 			if (bean.getDobChar().endsWith("0000")) {

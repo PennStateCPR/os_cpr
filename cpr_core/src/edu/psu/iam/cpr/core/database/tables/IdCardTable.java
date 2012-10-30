@@ -49,6 +49,24 @@ import edu.psu.iam.cpr.core.util.Utility;
 */
 public class IdCardTable {
 
+	private static final int ID_CARD_TYPE = 0;
+
+	private static final int ID_CARD_NUMBER = 1;
+
+	private static final int ID_SERIAL_NUMBER = 2;
+
+	private static final int START_DATE = 3;
+
+	private static final int END_DATE = 4;
+
+	private static final int LAST_UPDATE_BY = 5;
+
+	private static final int LAST_UPDATE_ON = 6;
+
+	private static final int CREATED_BY = 7;
+
+	private static final int CREATED_ON = 8;
+
 	/** person Id Card bean. */
 	private PersonIdCard personIdCardBean;
 	
@@ -576,15 +594,15 @@ public class IdCardTable {
 			for (final Iterator<?> it=query.list().iterator(); it.hasNext();) {
 				Object res[] = (Object []) it.next();
 				PersonIdCardReturn personIdCardReturn = new PersonIdCardReturn();
-				personIdCardReturn.setIdCardType(IdCardType.get((Long) res[0]).toString());
-				personIdCardReturn.setIdCardNumber((String) res[1]);
-				personIdCardReturn.setIdSerialNumber((String) res[2]);
-				personIdCardReturn.setStartDate(Utility.convertTimestampToString((Date) res[3]));
-				personIdCardReturn.setEndDate(Utility.convertTimestampToString((Date) res[4]));
-				personIdCardReturn.setLastUpdateBy((String) res[5]);
-				personIdCardReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[6]));
-				personIdCardReturn.setCreatedBy((String) res[7]);
-				personIdCardReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[8]));
+				personIdCardReturn.setIdCardType(IdCardType.get((Long) res[ID_CARD_TYPE]).toString());
+				personIdCardReturn.setIdCardNumber((String) res[ID_CARD_NUMBER]);
+				personIdCardReturn.setIdSerialNumber((String) res[ID_SERIAL_NUMBER]);
+				personIdCardReturn.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
+				personIdCardReturn.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
+				personIdCardReturn.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
+				personIdCardReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+				personIdCardReturn.setCreatedBy((String) res[CREATED_BY]);
+				personIdCardReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
 				results.add(personIdCardReturn);
 			}
 			return results.toArray(new PersonIdCardReturn[results.size()]);

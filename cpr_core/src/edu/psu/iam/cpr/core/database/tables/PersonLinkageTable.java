@@ -46,6 +46,24 @@ import edu.psu.iam.cpr.core.util.Utility;
  */
 public class PersonLinkageTable {
 	
+	private static final int LINKAGE_TYPE = 0;
+
+	private static final int PERSON_ID = 1;
+
+	private static final int LINKED_PERSON_ID = 2;
+
+	private static final int START_DATE = 3;
+
+	private static final int END_DATE = 4;
+
+	private static final int LAST_UPDATE_BY = 5;
+
+	private static final int LAST_UPDATE_ON = 6;
+
+	private static final int CREATED_BY = 7;
+
+	private static final int CREATED_ON = 8;
+
 	/** Contains the database bean */
 	private PersonLinkage personLinkageBean;
 	
@@ -291,15 +309,15 @@ public class PersonLinkageTable {
 			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 				Object res[] = (Object []) it.next();
 				PersonLinkageReturn personLinkageReturn = new PersonLinkageReturn(
-						LinkageType.get((Long) res[0]).toString(),			
-						(Long) res[1],										
-						(Long) res[2],										
-						Utility.convertTimestampToString((Date) res[3]),	
-						Utility.convertTimestampToString((Date) res[4]),	
-						(String) res[5],									
-						Utility.convertTimestampToString((Date) res[6]),
-						(String) res[7],									
-						Utility.convertTimestampToString((Date) res[8]));	
+						LinkageType.get((Long) res[LINKAGE_TYPE]).toString(),			
+						(Long) res[PERSON_ID],										
+						(Long) res[LINKED_PERSON_ID],										
+						Utility.convertTimestampToString((Date) res[START_DATE]),	
+						Utility.convertTimestampToString((Date) res[END_DATE]),	
+						(String) res[LAST_UPDATE_BY],									
+						Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),
+						(String) res[CREATED_BY],									
+						Utility.convertTimestampToString((Date) res[CREATED_ON]));	
 				results.add(personLinkageReturn);
 			
 			}

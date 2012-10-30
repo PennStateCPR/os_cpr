@@ -60,6 +60,8 @@ public class PsuIdHelper {
 	
 	/** Array containing the maximum values for test, acceptance and production. */
 	private static final int[] maxRangeValues = { TEST_MAX_VALUE, ACCEPTANCE_MAX_VALUE, PRODUCTION_MAX_VALUE };
+
+	private static final int LARGE_BUFFER_SIZE = 2000;
 	
 	/** Contains an instance of the generated identity table implementation */
 	private GeneratedIdentityTable generatedIdentityTable;
@@ -71,7 +73,7 @@ public class PsuIdHelper {
 	 */
 	private int getRandomPSUIdNumber() {
 		
-		final int index = (int) CprProperties.getInstance().getCprMode().index();
+		final int index = (int) CprProperties.INSTANCE.getCprMode().index();
 		final int minVal = minRangeValues[index];
 		final int maxVal = maxRangeValues[index];
 		
@@ -96,7 +98,7 @@ public class PsuIdHelper {
 			String psuId = Integer.toString(getRandomPSUIdNumber());			
 			
 			// Determine if the new PSU ID is not already used, in the exception list or tagged for assignment. 
-			StringBuilder sb = new StringBuilder(2000);
+			StringBuilder sb = new StringBuilder(LARGE_BUFFER_SIZE);
 			sb.append("SELECT psu_id FROM cpr.psu_id WHERE psu_id = :psu_id_1");
 			sb.append(" UNION ");
 			sb.append("SELECT psu_id FROM cpr.psu_id_exceptions WHERE psu_id = :psu_id_2");

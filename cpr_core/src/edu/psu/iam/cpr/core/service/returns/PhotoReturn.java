@@ -1,6 +1,8 @@
 /* SVN FILE: $Id: PhotoReturn.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
 package edu.psu.iam.cpr.core.service.returns;
 
+import java.util.Arrays;
+
 /**
  * This class is used to represent the return from executing a GetPhoto service call.
  * 
@@ -61,13 +63,12 @@ public class PhotoReturn {
 	 * @param createdBy contains the entity that created the record.
 	 * @param createdOn contains the date the record was created on.
 	 */
-	public PhotoReturn(byte[] photo, String dateTaken, 
+	public PhotoReturn(byte[] photoArray, String dateTaken, 
 			String lastUpdateBy, String lastUpdateOn,
 			String createdBy, String createdOn) {
 		super();
-		if (photo != null) {
-			this.photo = new byte[photo.length];
-			System.arraycopy(photo, 0, this.photo, 0, photo.length);
+		if (photoArray != null) {
+			this.photo = Arrays.copyOf(photoArray, photoArray.length);
 		}
 		else {
 			this.photo = null;
@@ -89,10 +90,9 @@ public class PhotoReturn {
 	/**
 	 * @param photo the photo to set
 	 */
-	public void setPhoto(byte[] photo) {
-		if (photo != null) {
-			this.photo = new byte[photo.length];
-			System.arraycopy(photo, 0, this.photo, 0, photo.length);
+	public void setPhoto(byte[] photoArray) {
+		if (photoArray != null) {
+			this.photo = Arrays.copyOf(photoArray, photoArray.length);
 		}
 		else {
 			this.photo = null;

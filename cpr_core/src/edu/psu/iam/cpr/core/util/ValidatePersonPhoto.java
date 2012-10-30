@@ -84,7 +84,7 @@ public final class ValidatePersonPhoto {
 		PersonPhotoTable personPhotoTable = null;
 		try {
 			personPhotoTable = new PersonPhotoTable(personId, image, 
-					new SimpleDateFormat(CprProperties.getInstance().getProperties().getProperty(
+					new SimpleDateFormat(CprProperties.INSTANCE.getProperties().getProperty(
 							CprPropertyName.CPR_FORMAT_DATE.toString())).parse(localDateTaken), localUpdatedBy);
 		} 
 		catch (ParseException e) {

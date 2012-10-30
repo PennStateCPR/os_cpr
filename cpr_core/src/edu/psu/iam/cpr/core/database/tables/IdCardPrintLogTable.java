@@ -52,6 +52,18 @@ public class IdCardPrintLogTable {
 
 	/** Instance of logger */
 	private static final Logger Log4jLogger = Logger.getLogger(ServiceCore.class);
+
+	private static final int PERSON_ID = 0;
+
+	private static final int ID_CARD_NUMBER = 1;
+
+	private static final int IP_ADDRESS = 2;
+
+	private static final int WORKSTATION_NAME = 3;
+
+	private static final int PRINTED_BY = 4;
+
+	private static final int PRINT_DATE = 5;
 	
 	/**
 	 * contain reference to idcardprintlog
@@ -201,12 +213,12 @@ public class IdCardPrintLogTable {
 			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 				Object res[] = (Object []) it.next();
 				IdCardPrintLogReturn anIdLog = new IdCardPrintLogReturn();
-				anIdLog.setPersonId((Long) res[0]);
-				anIdLog.setIdCardNumber((String) res[1]);
-				anIdLog.setIpAddress((String) res[2]);
-				anIdLog.setWorkStationName((String) res[3]);
-				anIdLog.setPrintedBy((String)res[4]);
-			    anIdLog.setPrintDate(Utility.convertTimestampToString((Date) res[5]));
+				anIdLog.setPersonId((Long) res[PERSON_ID]);
+				anIdLog.setIdCardNumber((String) res[ID_CARD_NUMBER]);
+				anIdLog.setIpAddress((String) res[IP_ADDRESS]);
+				anIdLog.setWorkStationName((String) res[WORKSTATION_NAME]);
+				anIdLog.setPrintedBy((String)res[PRINTED_BY]);
+			    anIdLog.setPrintDate(Utility.convertTimestampToString((Date) res[PRINT_DATE]));
 			    results.add(anIdLog);
 			}
 

@@ -100,7 +100,7 @@ public final class Validate {
     	if (psuId == null || psuId.length() == 0) {
     		return false;
     	}
-	    if (Pattern.matches(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_REGEX_PSU_ID_NUMBER.toString()), psuId)) {
+	    if (Pattern.matches(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_REGEX_PSU_ID_NUMBER.toString()), psuId)) {
 	    	return true;
 	    }
 	    return false;
@@ -188,7 +188,7 @@ public final class Validate {
      */
     public static boolean isValidDate(String dateString) {
     	try {
-    		final SimpleDateFormat sdf = new SimpleDateFormat(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_FORMAT_DATE.toString()));
+    		final SimpleDateFormat sdf = new SimpleDateFormat(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_FORMAT_DATE.toString()));
     		sdf.setLenient(false);
     		sdf.parse(dateString);
     		return true;
@@ -205,7 +205,7 @@ public final class Validate {
      */
     public static boolean isValidPartialDate(String dateString) {
     	try {
-    		final SimpleDateFormat sdf = new SimpleDateFormat(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_FORMAT_PARTIAL_DATE.toString()));
+    		final SimpleDateFormat sdf = new SimpleDateFormat(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_FORMAT_PARTIAL_DATE.toString()));
     		sdf.setLenient(false);
     		sdf.parse(dateString);
     		return true;

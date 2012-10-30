@@ -57,6 +57,16 @@ public class UseridTable {
 	/** Contains a reference to the userid helper */
 	private UseridHelper useridHelper;
 	
+	private static final int USERID 		= 0;
+	private static final int PRIMARY_FLAG 	= 1;
+	private static final int START_DATE 	= 2;
+	private static final int END_DATE 		= 3;
+	private static final int LAST_UPDATE_BY = 4;
+	private static final int LAST_UPDATE_ON = 5;
+	private static final int CREATED_BY		= 6;
+	private static final int CREATED_ON 	= 7;
+
+	
 	/**
 	 * Constructor.
 	 * @param personId contains the person identifier in the CPR.
@@ -588,16 +598,17 @@ public class UseridTable {
 			query.addScalar("created_by", StandardBasicTypes.STRING);
 			query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
 
+			
 			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 				Object res[] = (Object []) it.next();
-				results.add(new UseridReturn((String) res[0], 							
-								(String) res[1],										
-								Utility.convertTimestampToString((Date) res[2]),		
-								Utility.convertTimestampToString((Date) res[3]),		
-								(String) res[4],										
-								Utility.convertTimestampToString((Date) res[5]),		
-								(String) res[6],										
-								Utility.convertTimestampToString((Date) res[7])));		
+				results.add(new UseridReturn((String) res[USERID], 							
+								(String) res[PRIMARY_FLAG],										
+								Utility.convertTimestampToString((Date) res[START_DATE]),		
+								Utility.convertTimestampToString((Date) res[END_DATE]),		
+								(String) res[LAST_UPDATE_BY],										
+								Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),		
+								(String) res[CREATED_BY],										
+								Utility.convertTimestampToString((Date) res[CREATED_ON])));		
 			}
 			
 			return results.toArray(new UseridReturn[results.size()]);

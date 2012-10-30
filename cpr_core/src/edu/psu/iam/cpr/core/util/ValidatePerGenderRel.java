@@ -47,7 +47,12 @@ public final class ValidatePerGenderRel {
 	 */
 	public static PersonGenderTable validateAddGenderParameters(long personId, String genderString, String updatedBy) throws CprException {
 		
-		String localGenderString = (genderString != null) ? genderString.toUpperCase().trim() : genderString;
+		String localGenderString = null;
+		if (genderString != null) {
+			if (genderString.trim().length() != 0) {
+				localGenderString = genderString.trim().toUpperCase();
+			}
+		}
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : updatedBy;
 		
 		if (localGenderString == null || localGenderString.length() == 0) {

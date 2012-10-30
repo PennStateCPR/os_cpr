@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 /**
  * SessionCache is a singleton class that provides a hash table
- * containing session cookie information.
+ * containing session information.
  * 
  * Copyright 2012 The Pennsylvania State University
  *

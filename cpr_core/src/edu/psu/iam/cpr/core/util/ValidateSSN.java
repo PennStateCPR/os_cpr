@@ -60,7 +60,7 @@ public final class ValidateSSN {
 		}
 		
     	// match with or without separators (hyphens or spaces)
-	    if (!Pattern.matches(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_REGEX_SSN.toString()), localSSN)) {
+	    if (!Pattern.matches(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_REGEX_SSN.toString()), localSSN)) {
 	    	return false;
 	    }
 		
@@ -87,7 +87,7 @@ public final class ValidateSSN {
 	    // area numbers 666 and 900 - 999 are invalid - for production only.
 	    // see http://www.socialsecurity.gov/employer/randomization.html
 	    int areaNum = Integer.parseInt(areaNumber);
-	    CprRunningMode mode = CprProperties.getInstance().getCprMode();
+	    CprRunningMode mode = CprProperties.INSTANCE.getCprMode();
 	    if (mode == CprRunningMode.PRODUCTION) {
 	    	if ((areaNum != 666) && (areaNum <= 899)) {
 	    		return true;

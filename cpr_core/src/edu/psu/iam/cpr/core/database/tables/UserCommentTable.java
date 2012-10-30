@@ -42,6 +42,20 @@ import edu.psu.iam.cpr.core.util.Utility;
  */
 public class UserCommentTable {
 
+	private static final int USER_COMMENT_TYPE = 0;
+
+	private static final int COMMENT = 1;
+
+	private static final int COMMENT_DATE_STRING = 2;
+
+	private static final int END_DATE = 3;
+
+	private static final int LAST_UPDATE_BY = 4;
+
+	private static final int LAST_UPDATE_ON = 5;
+
+	private static final int COMMENTER = 6;
+
 	/**
 	 * Contains the user comments bean.
 	 */
@@ -375,13 +389,13 @@ public class UserCommentTable {
 			while (it.hasNext()) {
 				Object res[] = (Object []) it.next();
 				UserCommentReturn ucr = new UserCommentReturn();
-				ucr.setUserCommentType(UserCommentType.get((Long) res[0]).toString());
-				ucr.setComment((String) res[1]);
-				ucr.setCommentDateString(Utility.convertTimestampToString((Date) res[2]));
-				ucr.setEndDate(Utility.convertTimestampToString((Date) res[3]));
-				ucr.setLastUpdatedBy((String) res[4]);
-				ucr.setLastUpdateOn(Utility.convertTimestampToString((Date) res[5]));
-				ucr.setCommenter((String) res[6]);				
+				ucr.setUserCommentType(UserCommentType.get((Long) res[USER_COMMENT_TYPE]).toString());
+				ucr.setComment((String) res[COMMENT]);
+				ucr.setCommentDateString(Utility.convertTimestampToString((Date) res[COMMENT_DATE_STRING]));
+				ucr.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
+				ucr.setLastUpdatedBy((String) res[LAST_UPDATE_BY]);
+				ucr.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+				ucr.setCommenter((String) res[COMMENTER]);				
 				results.add(ucr);
 			}
 			

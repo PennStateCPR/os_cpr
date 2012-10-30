@@ -83,6 +83,8 @@ public class MessagingCore {
 
 	/** Instance of logger */
 	private static final Logger Log4jLogger = Logger.getLogger(MessagingCore.class);
+
+	private static final int LARGE_BUFFER_SIZE = 2048;
 	
 	/** Array of message queues */
 	private List<ServiceProvisionerQueue> msgQueues = null;
@@ -127,7 +129,7 @@ public class MessagingCore {
 	 * @throws CprException
 	 */
 	public void initializeMessaging() throws CprException {
-		final Properties props = CprProperties.getInstance().getProperties();
+		final Properties props = CprProperties.INSTANCE.getProperties();
 		
 		// Get a connection and start a session.
 		connectionFactory = new ActiveMQConnectionFactory(props.getProperty(CprPropertyName.CPR_JMS_BROKER.toString()));
@@ -300,7 +302,7 @@ public class MessagingCore {
      */
     public void sendMessage(Database db, JsonMessage msg) throws CprException {
     	
-    	final String replyToQueue = CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_JMS_REPLYTO.toString());
+    	final String replyToQueue = CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_JMS_REPLYTO.toString());
     	
     	if (msg == null || msg.getJsonObject().toString().length() == 0) {
     		closeMessaging();
@@ -394,7 +396,7 @@ public class MessagingCore {
 
     	MessageLog bean = messageLogTable.getMessageLogBean();
 
-    	StringBuilder sb = new StringBuilder(2048);
+    	StringBuilder sb = new StringBuilder(LARGE_BUFFER_SIZE);
     	sb.append("Message Delivery ");
     	sb.append(status);
     	sb.append(": Web Service Key=");

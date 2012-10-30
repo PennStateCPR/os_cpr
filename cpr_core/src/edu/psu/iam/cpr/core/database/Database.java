@@ -68,6 +68,14 @@ public class Database {
 	
 	/** Instance of logger */
 	private static final Logger Log4jLogger = Logger.getLogger(Database.class);
+
+	private static final int IAM_GROUP_KEY = 0;
+
+	private static final int GRP_MBRS_SUSPEND_FLAG = 1;
+
+	private static final int IAM_GRPS_SUSPEND_FLAG = 2;
+
+	private static final int GRP_ACC_SUSPEND_FLAG = 3;
 	
 	/**
 	 * Value that represents something that is not found.
@@ -241,10 +249,10 @@ public class Database {
 			final Iterator<?> it = query.list().iterator();
 			if (it.hasNext()) {
 				Object res[] = (Object []) it.next();
-				iamGroupKey = (Long) res[0];
-				grpmbrsSuspendFlag = (String) res[1];
-				iamgrpsSuspendFlag = (String) res[2];
-				grpaccSuspendFlag = (String) res[3];
+				iamGroupKey = (Long) res[IAM_GROUP_KEY];
+				grpmbrsSuspendFlag = (String) res[GRP_MBRS_SUSPEND_FLAG];
+				iamgrpsSuspendFlag = (String) res[IAM_GRPS_SUSPEND_FLAG];
+				grpaccSuspendFlag = (String) res[GRP_ACC_SUSPEND_FLAG];
 			}
 	
 		}
@@ -907,7 +915,7 @@ public class Database {
 			session.doWork(new Work() {
 				public void execute(Connection conn) throws SQLException {
 					final ResultSet rs = conn.getMetaData().getColumns(null, 
-											CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_DATABASE_NAME.toString()), 
+											CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_DATABASE_NAME.toString()), 
 											tableName.toLowerCase(), "_%");
 					tableColumns = new HashMap<String, TableColumn>();
 					while (rs.next()) {

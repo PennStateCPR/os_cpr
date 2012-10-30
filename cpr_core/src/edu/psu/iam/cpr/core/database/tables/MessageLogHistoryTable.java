@@ -42,6 +42,14 @@ import edu.psu.iam.cpr.core.service.returns.MessageLogHistoryReturn;
  */
 public class MessageLogHistoryTable {
 
+	private static final int MESSAGE_LOG_KEY = 0;
+	private static final int MESSAGE_SENT_TIMESTAMP = 1;
+	private static final int MESSAGE_RECEIVED_TIMESTAMP = 2;
+	private static final int MESSAGE_RECEIVED = 3;
+	private static final int ERROR_CODE = 4;
+	private static final int ERROR_MESSAGE = 5;
+	private static final int TRY_NUMBER = 6;
+	
 	/** Contains a reference to the message log history database bean */
 	private MessageLogHistory messageLogHistoryBean;
 	
@@ -182,13 +190,13 @@ public class MessageLogHistoryTable {
 				
 		    	MessageLogHistoryReturn msgLogHistory = new MessageLogHistoryReturn();
 		    	msgLogHistory.setMessageId(messageId);
-		    	msgLogHistory.setMessageLogKey((Long) res[0]);
-		    	msgLogHistory.setMessageSentTimestamp((Timestamp) res[1]);
-		    	msgLogHistory.setMessageReceivedTimestamp((Timestamp) res[2]);
-		    	msgLogHistory.setMessageReceived((String) res[3]);
-		    	msgLogHistory.setErrorCode((String) res[4]);
-		    	msgLogHistory.setErrorMessage((String) res[5]);
-		    	msgLogHistory.setTryNumber((Long) res[6]);
+		    	msgLogHistory.setMessageLogKey((Long) res[MESSAGE_LOG_KEY]);
+		    	msgLogHistory.setMessageSentTimestamp((Timestamp) res[MESSAGE_SENT_TIMESTAMP]);
+		    	msgLogHistory.setMessageReceivedTimestamp((Timestamp) res[MESSAGE_RECEIVED_TIMESTAMP]);
+		    	msgLogHistory.setMessageReceived((String) res[MESSAGE_RECEIVED]);
+		    	msgLogHistory.setErrorCode((String) res[ERROR_CODE]);
+		    	msgLogHistory.setErrorMessage((String) res[ERROR_MESSAGE]);
+		    	msgLogHistory.setTryNumber((Long) res[TRY_NUMBER]);
 				results.add(msgLogHistory);
 		    }
 		    

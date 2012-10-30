@@ -47,6 +47,22 @@ import edu.psu.iam.cpr.core.util.Utility;
  */
 public class PersonIdentifierTable {
 	
+	private static final int TYPE_KEY = 0;
+
+	private static final int IDENTIFER_VALUE = 1;
+
+	private static final int START_DATE = 2;
+
+	private static final int END_DATE = 3;
+
+	private static final int LAST_UPDATE_BY = 4;
+
+	private static final int LAST_UPDATE_ON = 5;
+
+	private static final int CREATED_BY = 6;
+
+	private static final int CREATED_ON = 7;
+
 	/** Contains the person identifier bean */
 	private PersonIdentifier personIdentifierBean;
 	
@@ -326,7 +342,7 @@ public class PersonIdentifierTable {
 				PersonIdentifierReturn personIdentifierReturn = new PersonIdentifierReturn();
 
 				// Need to find the matching identifier type object.
-				Long typeKey = (Long) res[0];
+				Long typeKey = (Long) res[TYPE_KEY];
 				for (Map.Entry<String,Object> entry : map.entrySet()) {
 					IdentifierType idType = (IdentifierType) entry.getValue();
 					if (idType.getTypeKey().equals(typeKey)) {
@@ -335,13 +351,13 @@ public class PersonIdentifierTable {
 					}
 				}
 	
-				personIdentifierReturn.setIdentifierValue((String) res[1]);
-				personIdentifierReturn.setStartDate(Utility.convertTimestampToString((Date) res[2]));
-				personIdentifierReturn.setEndDate(Utility.convertTimestampToString((Date) res[3]));
-				personIdentifierReturn.setLastUpdateBy((String) res[4]);
-				personIdentifierReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[5]));
-				personIdentifierReturn.setCreatedBy((String) res[6]);
-				personIdentifierReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[7]));
+				personIdentifierReturn.setIdentifierValue((String) res[IDENTIFER_VALUE]);
+				personIdentifierReturn.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
+				personIdentifierReturn.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
+				personIdentifierReturn.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
+				personIdentifierReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+				personIdentifierReturn.setCreatedBy((String) res[CREATED_BY]);
+				personIdentifierReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
 				
 				results.add(personIdentifierReturn);
 			}

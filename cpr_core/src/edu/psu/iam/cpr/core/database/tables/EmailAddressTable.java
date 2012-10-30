@@ -42,6 +42,22 @@ import edu.psu.iam.cpr.core.util.Utility;
  */
 public class EmailAddressTable {
 	
+	private static final int EMAIL_ADDRESS_TYPE = 0;
+
+	private static final int EMAIL_ADDRESS = 1;
+
+	private static final int START_DATE = 2;
+
+	private static final int END_DATE = 3;
+
+	private static final int LAST_UPDATE_BY = 4;
+
+	private static final int LAST_UPDATE_ON = 5;
+
+	private static final int CREATED_BY = 6;
+
+	private static final int CREATED_ON = 7;
+
 	/** Email address bean */
 	private EmailAddress emailAddressBean;
 	
@@ -355,14 +371,14 @@ public class EmailAddressTable {
 			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 				Object res[] = (Object []) it.next();
 				EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
-				emailAddressReturn.setEmailAddressType(EmailAddressType.get((Long) res[0]).toString());
-				emailAddressReturn.setEmailAddress((String) res[1]);
-				emailAddressReturn.setStartDate(Utility.convertTimestampToString((Date) res[2]));
-				emailAddressReturn.setEndDate(Utility.convertTimestampToString((Date) res[3]));
-				emailAddressReturn.setLastUpdateBy((String) res[4]);
-				emailAddressReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[5]));
-				emailAddressReturn.setCreatedBy((String) res[6]);
-				emailAddressReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[7]));
+				emailAddressReturn.setEmailAddressType(EmailAddressType.get((Long) res[EMAIL_ADDRESS_TYPE]).toString());
+				emailAddressReturn.setEmailAddress((String) res[EMAIL_ADDRESS]);
+				emailAddressReturn.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
+				emailAddressReturn.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
+				emailAddressReturn.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
+				emailAddressReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+				emailAddressReturn.setCreatedBy((String) res[CREATED_BY]);
+				emailAddressReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
 				results.add(emailAddressReturn);
 			}
 			

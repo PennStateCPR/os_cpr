@@ -58,7 +58,7 @@ public final class AuthenticateService {
 	 */
 	public static void authenticate(String userid, String password) throws CprException   {
 		
-		final Properties props = CprProperties.getInstance().getProperties();
+		final Properties props = CprProperties.INSTANCE.getProperties();
 		DirContext ctx = null;
 		final Hashtable<String,String> env = new Hashtable<String,String>();
 

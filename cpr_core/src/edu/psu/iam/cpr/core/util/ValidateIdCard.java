@@ -36,6 +36,8 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  */
 public final class ValidateIdCard {
 	
+	private static final int ID_CARD_NUMBER_LENGTH = 16;
+
 	/**
 	 * Constructor
 	 */
@@ -71,14 +73,20 @@ public final class ValidateIdCard {
 		String localDateTaken = (dateTaken != null) ? dateTaken.trim() : null;
 		String localIdCardNumber = (idCardNumber  != null) ? idCardNumber.trim() : null;
 		String localIdSerialNumber = (idSerialNumber  != null) ? idSerialNumber.trim() : null;
+		String localIdCardTypeString = null;
+		if (idCardTypeString != null) {
+			if (idCardTypeString.trim().length() != 0) {
+				localIdCardTypeString = idCardTypeString.trim().toUpperCase();
+			}
+		}
 		
-		if (idCardTypeString == null || idCardTypeString.trim().length() == 0) {
+		if (localIdCardTypeString == null || localIdCardTypeString.trim().length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Id Card type");			
 		}
 		if (localIdCardNumber == null || localIdCardNumber.trim().length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Id Card Number");
 		}
-		if (localIdCardNumber.length() != 16) {
+		if (localIdCardNumber.length() != ID_CARD_NUMBER_LENGTH) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Id Card Number");
 		}
 		if (!localIdCardNumber.matches("^[0-9]{16}") ){
@@ -114,14 +122,14 @@ public final class ValidateIdCard {
 		}
 		try {
 			if (localDateTaken == null) {
-				idCardTable = new IdCardTable(personId, idCardTypeString, updatedBy, localIdCardNumber,  
+				idCardTable = new IdCardTable(personId, localIdCardTypeString, updatedBy, localIdCardNumber,  
 						localIdSerialNumber);
 			}
 			else
 			{
-			idCardTable = new IdCardTable(personId, idCardTypeString, updatedBy, localIdCardNumber,  
+			idCardTable = new IdCardTable(personId, localIdCardTypeString, updatedBy, localIdCardNumber,  
 					localIdSerialNumber, photo, new SimpleDateFormat(
-							CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_FORMAT_DATE.toString())).parse(
+							CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_FORMAT_DATE.toString())).parse(
 									localDateTaken));
 			}
 		}
@@ -148,7 +156,12 @@ public final class ValidateIdCard {
 		
 		IdCardTable IdCardTable = null;
 		String localUpdatedBy = (updatedBy  != null) ? updatedBy.trim() : null;
-		String localIdCardTypeString  = (idCardTypeString != null && idCardTypeString.trim().length() ==0)  ? null : idCardTypeString;
+		String localIdCardTypeString = null;
+		if (idCardTypeString != null) {
+			if (idCardTypeString.trim().length() != 0) {
+				localIdCardTypeString = idCardTypeString.trim().toUpperCase();
+			}
+		}
 		
 		if (localUpdatedBy == null || localUpdatedBy.trim().length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Update by");
@@ -184,7 +197,12 @@ public final class ValidateIdCard {
 
 		// Trim all of the String parameters.
 		String localRequestedBy = (requestedBy  != null) ? requestedBy.trim() : null;
-		String localIdCardType = (idCardType != null) ? idCardType.trim() : null;
+		String localIdCardType = null;
+		if (idCardType != null) {
+			if (idCardType.trim().length() != 0) {
+				localIdCardType = idCardType.trim().toUpperCase();
+			}
+		}
 		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
 
 		// Validate the requested by.

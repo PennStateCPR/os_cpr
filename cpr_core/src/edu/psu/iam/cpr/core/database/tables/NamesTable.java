@@ -49,6 +49,30 @@ import edu.psu.iam.cpr.core.util.Utility;
  */
 public class NamesTable {
 	
+	private static final int NAME_TYPE = 0;
+
+	private static final int DOCUMENT_TYPE = 1;
+
+	private static final int FIRST_NAME = 2;
+
+	private static final int MIDDLE_NAMES = 3;
+
+	private static final int LAST_NAME = 4;
+
+	private static final int SUFFIX = 5;
+
+	private static final int START_DATE = 6;
+
+	private static final int END_DATE = 7;
+
+	private static final int LAST_UPDATE_BY = 8;
+
+	private static final int LAST_UPDATE_ON = 9;
+
+	private static final int CREATED_BY = 10;
+
+	private static final int CREATED_ON = 11;
+
 	/** Names database bean */
 	private Names namesBean;
 	
@@ -263,25 +287,25 @@ public class NamesTable {
 				Object res[] = (Object []) it.next();
 				NameReturn nameReturn = new NameReturn();
 				
-				nameReturn.setNameType(NameType.get((Long) res[0]).toString());
+				nameReturn.setNameType(NameType.get((Long) res[NAME_TYPE]).toString());
 				
 				if ((Long) res[1] != null) {
-					nameReturn.setDocumentType(DocumentType.get((Long) res[1]).toString());
+					nameReturn.setDocumentType(DocumentType.get((Long) res[DOCUMENT_TYPE]).toString());
 				}
 				else {
 					nameReturn.setDocumentType(null);
 				}
 				
-				nameReturn.setFirstName((String) res[2]);
-				nameReturn.setMiddleNames((String) res[3]);
-				nameReturn.setLastName((String) res[4]);
-				nameReturn.setSuffix((String) res[5]);
-				nameReturn.setStartDate(Utility.convertTimestampToString((Date) res[6]));
-				nameReturn.setEndDate(Utility.convertTimestampToString((Date) res[7]));
-				nameReturn.setLastUpdateBy((String) res[8]);
-				nameReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[9]));
-				nameReturn.setCreatedBy((String) res[10]);
-				nameReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[11]));
+				nameReturn.setFirstName((String) res[FIRST_NAME]);
+				nameReturn.setMiddleNames((String) res[MIDDLE_NAMES]);
+				nameReturn.setLastName((String) res[LAST_NAME]);
+				nameReturn.setSuffix((String) res[SUFFIX]);
+				nameReturn.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
+				nameReturn.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
+				nameReturn.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
+				nameReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+				nameReturn.setCreatedBy((String) res[CREATED_BY]);
+				nameReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
 				
 				results.add(nameReturn);
 			
@@ -431,7 +455,7 @@ public class NamesTable {
 			// If we did not find a match, we can add the record.
 			if (! matchFound) {
 				
-				if (MatchingAlgorithmType.valueOf(CprProperties.getInstance().getProperties().getProperty(
+				if (MatchingAlgorithmType.valueOf(CprProperties.INSTANCE.getProperties().getProperty(
 						CprPropertyName.CPR_MATCHING_ALGORITHM.toString())) == MatchingAlgorithmType.PENN_STATE) {
 					getNameMatchCode(bean);
 				}

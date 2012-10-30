@@ -56,7 +56,12 @@ public final class ValidatePersonIdentifier {
 	{
 		// Trim off all of the string parameters.
 		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
-		String localIdentifierTypeName = (identifierTypeName != null) ? identifierTypeName.toUpperCase().trim() : null;
+		String localIdentifierTypeName = null;
+		if (identifierTypeName != null) {
+			if (identifierTypeName.trim().length() != 0) {
+				localIdentifierTypeName = identifierTypeName.trim().toUpperCase();
+			}
+		}
 
 		// Verify that the localRequestedBy was specified and its length is valid.
 		if (localRequestedBy == null || localRequestedBy.length() == 0) {

@@ -55,6 +55,11 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  */
 public final class ValidateDateOfBirth {
 	
+	private static final int MONTH_DAY_ONLY = 2;
+	private static final int FULL_DOB = 3;
+	private static final int ZERO_YEARS_OLD = 0;
+	private static final int ONE_FIVE_ZERO_YEARS_OLD = 150;
+
 	/**
 	 * Constructor.
 	 */
@@ -113,14 +118,14 @@ public final class ValidateDateOfBirth {
 		switch (dateOfBirth.split("/").length) {
 		
 			// MM/DD DOB
-			case 2: 
+			case MONTH_DAY_ONLY: 
 				if (! Validate.isValidPartialDate(dateOfBirth)) {
 					return false;
 				}
 				break;
 				
 			// MM/DD/YYYY DOB
-			case 3: 
+			case FULL_DOB: 
 				if (! Validate.isValidDate(dateOfBirth)) {
 					return false;
 				}
@@ -163,7 +168,7 @@ public final class ValidateDateOfBirth {
 		final DateTime now = new DateTime();
 		int age = Years.yearsBetween(birthDate, now).getYears();
 
-		return (age <= 0 || age >= 150) ? false : true;
+		return (age <= ZERO_YEARS_OLD || age >= ONE_FIVE_ZERO_YEARS_OLD) ? false : true;
 	}
 
 	/**

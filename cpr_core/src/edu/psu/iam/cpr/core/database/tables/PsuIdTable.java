@@ -46,6 +46,20 @@ import edu.psu.iam.cpr.core.util.Utility;
  */
 public class PsuIdTable {
 	
+	private static final int PSU_ID = 0;
+
+	private static final int START_DATE = 1;
+
+	private static final int END_DATE = 2;
+
+	private static final int LAST_UPDATE_BY = 3;
+
+	private static final int LAST_UPDATE_ON = 4;
+
+	private static final int CREATED_BY = 5;
+
+	private static final int CREATED_ON = 6;
+
 	/** contains a reference to the PSU ID database bean */
 	private PsuId psuIdBean;
 	
@@ -191,13 +205,13 @@ public class PsuIdTable {
 			
 			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 				Object res[] = (Object []) it.next();
-				results.add(new PsuIdReturn((String) res[0],									
-										Utility.convertTimestampToString((Date) res[1]),		
-										Utility.convertTimestampToString((Date) res[2]),		
-										(String) res[3],										
-										Utility.convertTimestampToString((Date) res[4]),		
-										(String) res[5],										
-										Utility.convertTimestampToString((Date) res[6])));		
+				results.add(new PsuIdReturn((String) res[PSU_ID],									
+										Utility.convertTimestampToString((Date) res[START_DATE]),		
+										Utility.convertTimestampToString((Date) res[END_DATE]),		
+										(String) res[LAST_UPDATE_BY],										
+										Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),		
+										(String) res[CREATED_BY],										
+										Utility.convertTimestampToString((Date) res[CREATED_ON])));		
 			}
 			return results.toArray(new PsuIdReturn[results.size()]);
 		}

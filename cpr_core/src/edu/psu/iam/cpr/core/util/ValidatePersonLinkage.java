@@ -90,9 +90,16 @@ public final class ValidatePersonLinkage {
 	 * @throws GeneralDatabaseException will be thrown for any generic database errors.
 	 * @throws CprException will be thrown for CPR specific errors.
 	 */
-	public static PersonLinkageTable validatePersonLinkageParameters(Database db, long personId, String linkedIdentifierType, String linkedIdentifier, String linkageType, String updatedBy) throws GeneralDatabaseException, CprException {
+	public static PersonLinkageTable validatePersonLinkageParameters(Database db, long personId, String linkedIdentifierType, 
+			String linkedIdentifier, String linkageType, String updatedBy) throws GeneralDatabaseException, CprException {
 		
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		String localLinkageType = null;
+		if (linkageType != null) {
+			if (linkageType.trim().length() != 0) {
+				localLinkageType = linkageType.trim().toUpperCase();
+			}
+		}
 		
 		// Verify that the requestedBy was specified and its length is valid.
 		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
@@ -110,7 +117,7 @@ public final class ValidatePersonLinkage {
 		}
 		
 		try {
-			return new PersonLinkageTable(personId, linkedPersonId, linkageType, localUpdatedBy);
+			return new PersonLinkageTable(personId, linkedPersonId, localLinkageType, localUpdatedBy);
 		}
 		catch (Exception e) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Linkage type");

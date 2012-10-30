@@ -46,6 +46,30 @@ import edu.psu.iam.cpr.core.util.Utility;
  */
 public class DateOfBirthTable {
 
+	private static final int DOB_CHAR = 0;
+
+	private static final int START_DATE = 1;
+
+	private static final int END_DATE = 2;
+
+	private static final int LAST_UPDATE_BY = 3;
+
+	private static final int LAST_UPDATE_ON = 4;
+
+	private static final int CREATED_BY = 5;
+
+	private static final int CREATED_ON = 6;
+
+	private static final int MONTH_DAY_ONLY = 2;
+
+	private static final int FULL_DOB = 3;
+
+	private static final int MONTH_DAY_SIZE = 2;
+
+	private static final int YEAR_SIZE = 4;
+
+	private static final int MMDDYYYY_SIZE = 8;
+
 	/** Date of birth Bean **/
 	private DateOfBirth dateOfBirthBean;
 	
@@ -148,7 +172,7 @@ public class DateOfBirthTable {
 	public static String toDobChar(final String dobString) {
 		
 		try {
-			final int lengthArray[] = { 2, 2, 4 };
+			final int lengthArray[] = { MONTH_DAY_SIZE, MONTH_DAY_SIZE, YEAR_SIZE };
 
 			// Empty string just return.
 			if (dobString == null) {
@@ -159,7 +183,7 @@ public class DateOfBirthTable {
 			final String[] dobParts = dobString.split("/");
 
 			// We should have received either an array of size 2 or 3, otherwise we have an array.
-			if (dobParts.length != 2 && dobParts.length != 3) {
+			if (dobParts.length != MONTH_DAY_ONLY && dobParts.length != FULL_DOB) {
 				return null;
 			}
 
@@ -168,10 +192,10 @@ public class DateOfBirthTable {
 			// Reformat the strings.
 			int i = 0;
 			for (i = 0; i < dobParts.length; ++i) {
-				if (lengthArray[i] == 2) {
+				if (lengthArray[i] == MONTH_DAY_SIZE) {
 					buffer.append(String.format("%02d", Integer.valueOf(dobParts[i])));
 				}
-				else if (lengthArray[i] == 4) {
+				else if (lengthArray[i] == YEAR_SIZE) {
 					buffer.append(String.format("%04d", Integer.valueOf(dobParts[i])));
 				}
 			}
@@ -265,9 +289,9 @@ public class DateOfBirthTable {
 			
 			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 				Object res[] = (Object []) it.next();
-				String dobChar = (String) res[0];
+				String dobChar = (String) res[DOB_CHAR];
 				
-				if (dobChar != null && dobChar.length() == 8) {
+				if (dobChar != null && dobChar.length() == MMDDYYYY_SIZE) {
 					final String month = dobChar.substring(0, 2);
 					final String day = dobChar.substring(2, 4);
 					final String year = dobChar.substring(4);
@@ -275,23 +299,23 @@ public class DateOfBirthTable {
 					// Only month and day of DOB was specified.
 					if (year.equals("0000")) {
 						results.add(new DateOfBirthReturn(month + "/" + day,				
-										Utility.convertTimestampToString((Date) res[1]),	
-										Utility.convertTimestampToString((Date) res[2]),	
-										(String) res[3],									
-										Utility.convertTimestampToString((Date) res[4]),	
-										(String) res[5],									
-										Utility.convertTimestampToString((Date) res[6])));	
+										Utility.convertTimestampToString((Date) res[START_DATE]),	
+										Utility.convertTimestampToString((Date) res[END_DATE]),	
+										(String) res[LAST_UPDATE_BY],									
+										Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),	
+										(String) res[CREATED_BY],									
+										Utility.convertTimestampToString((Date) res[CREATED_ON])));	
 					}
 					
 					// Full date was specified.
 					else {
 						results.add(new DateOfBirthReturn(month + "/" + day + "/" + year,	
-										Utility.convertTimestampToString((Date) res[1]),	
-										Utility.convertTimestampToString((Date) res[2]),	
-										(String) res[3],									
-										Utility.convertTimestampToString((Date) res[4]),	
-										(String) res[5],									
-										Utility.convertTimestampToString((Date) res[6])));	
+										Utility.convertTimestampToString((Date) res[START_DATE]),	
+										Utility.convertTimestampToString((Date) res[END_DATE]),	
+										(String) res[LAST_UPDATE_BY],									
+										Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),	
+										(String) res[CREATED_BY],									
+										Utility.convertTimestampToString((Date) res[CREATED_ON])));	
 								
 					}
 				}

@@ -73,7 +73,7 @@ public final class ValidateEmail {
     	if (emailAddress == null) {
     		return false;
     	}
-    	if (Pattern.matches(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_REGEX_EMAIL_ADDRESS.toString()), emailAddress)) {
+    	if (Pattern.matches(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_REGEX_EMAIL_ADDRESS.toString()), emailAddress)) {
 	    	return true;
 	    }
 	    return false;
@@ -96,7 +96,12 @@ public final class ValidateEmail {
 		EmailAddressTable emailAddressTable = null;
 		
 		// For input strings that are non-null, trim them.
-		String localEmailType = (emailType != null) ? emailType.trim() : null;
+		String localEmailType = null;
+		if (emailType != null) {
+			if (emailType.trim().length() != 0) {
+				localEmailType = emailType.trim().toUpperCase();
+			}
+		}
 		String localEmailAddress = (emailAddress != null) ? emailAddress.trim() : null;
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 	
@@ -153,7 +158,12 @@ public final class ValidateEmail {
 		String emailAddress = null;
 
 		// For non-null input fields, trim the strings.
-		String localEmailType = (emailType != null) ? emailType.trim() : null;
+		String localEmailType = null;
+		if (emailType != null) {
+			if (emailType.trim().length() != 0) {
+				localEmailType = emailType.trim().toUpperCase();
+			}
+		}
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 		
 		// Verify that an email type and updated by were specified.
@@ -234,7 +244,12 @@ public final class ValidateEmail {
 		EmailAddressTable emailAddressTable = null;
 		
 		// For input parameters that are non-null, trim them.
-		String localEmailAddressType = (emailAddressType != null) ? emailAddressType.trim() : null;
+		String localEmailAddressType = null;
+		if (emailAddressType != null) {
+			if (emailAddressType.trim().length() != 0) {
+				localEmailAddressType = emailAddressType.trim().toUpperCase();
+			}
+		}
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 		
 		// Verify that an email address type was specified.

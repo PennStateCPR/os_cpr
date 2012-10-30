@@ -28,13 +28,12 @@ import edu.psu.iam.cpr.core.database.types.CprRunningMode;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-public final class CprProperties {
+public enum CprProperties {
 		
-	/** Contains an instance of the singleton class */
-	private static CprProperties instance = null;
+	INSTANCE;
 	
 	/** Contains the model the CPR is running in */
-	private static CprRunningMode cprMode = CprRunningMode.PRODUCTION;
+	private CprRunningMode cprMode = CprRunningMode.PRODUCTION;
 
 	/** Contains the name of the property containing the value of the CPR mode.  This property is set by Tomcat. */
 	private static final String CPR_MODE_PROPERTY = "edu.psu.iam.cpr.core.mode";
@@ -43,68 +42,44 @@ public final class CprProperties {
 	private static final String CPR_PROPERTY_FILE = "cpr.properties";
 	
 	/** Contains all of the CPR Properties that were loaded from a file */
-	private static Properties properties = null;
+	private Properties properties = null;
 	
 	/**
-	 * Will obtain an instance of the singleton class.
-	 * @return will return the instance of the class.
+	 * Constructor.
 	 */
-	public static synchronized CprProperties getInstance() {
-		
-		if (instance == null) {
-			instance = new CprProperties();
-			
-			// Get all of the property values.
-			try {
-				final String prop = System.getProperty(CPR_MODE_PROPERTY).toUpperCase().trim();
-				cprMode = CprRunningMode.valueOf(prop);
-			}
-			catch (Exception e) {
-				cprMode = CprRunningMode.PRODUCTION;
-			}
-			
-			instance.loadProperties();
-			
+	private CprProperties() {
+		// Get all of the property values.
+		try {
+			final String prop = System.getProperty(CPR_MODE_PROPERTY).toUpperCase().trim();
+			cprMode = CprRunningMode.valueOf(prop);
 		}
-		return instance;
+		catch (Exception e) {
+			cprMode = CprRunningMode.PRODUCTION;
+		}
+		
+		loadProperties();
 		
 	}
 
 	/**
 	 * @return the cprMode
 	 */
-	public synchronized CprRunningMode getCprMode() {
+	public CprRunningMode getCprMode() {
 		return cprMode;
-	}
-	
-	/**
-	 * This routine used only by test case is used to set the running mode.
-	 * @param cprMode contain the running mode of the CPR.
-	 */
-	public synchronized void setCprMode(CprRunningMode cprMode) {
-		CprProperties.cprMode = cprMode;
 	}
 	
 	/**
 	 * @return the properties.
 	 */
-	public synchronized Properties getProperties() {
+	public Properties getProperties() {
 		return properties;
-	}
-	
-	/**
-	 * This routine used only by test cases are used to set the properties.
-	 * @param properties
-	 */
-	public synchronized void setProperties(Properties properties) {
-		CprProperties.properties = properties;
 	}
 	
 	/**
 	 * This routine is use to load a cpr properties file, which one that is loaded is based on the CPR Mode that is passed
 	 * into the routine.
 	 */
-	private synchronized void loadProperties() {
+	private void loadProperties() {
 				
 		InputStream is = null;
 		properties = new Properties();
@@ -121,10 +96,5 @@ public final class CprProperties {
 			catch (Exception e) {
 			}
 		}
-	}
-	
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		throw new CloneNotSupportedException("Clone is not allowed.");
 	}
 }

@@ -46,17 +46,9 @@ import org.apache.commons.codec.binary.Base64;
  * @author jvuccolo
  *
  */
-public final class PasswordService
+public enum PasswordService
 {
-	/** Contains an instance of the password service */
-	private static PasswordService instance;
-
-	/**
-	 * Constructor.
-	 */
-	private PasswordService()
-	{
-	}
+	INSTANCE;
 
 	/**
 	 * This routine is used to encrypt a plaintext password.
@@ -64,7 +56,7 @@ public final class PasswordService
 	 * @return contains the encrypted password.
 	 * @throws Exception will be thrown if there are any problems.
 	 */
-	public synchronized String encrypt(String plaintext) throws Exception
+	public String encrypt(String plaintext) throws Exception
 	{
 		MessageDigest md = null;
 		try
@@ -84,17 +76,5 @@ public final class PasswordService
 
 		byte raw[] = md.digest();
 		return Base64.encodeBase64String(raw);
-	}
-
-	/**
-	 * This routine returns an instance of the singleton.
-	 * @return will return the instance.
-	 */
-	public static synchronized PasswordService getInstance()
-	{
-		if(instance == null) {
-			instance = new PasswordService(); 
-		} 
-		return instance;
 	}
 }

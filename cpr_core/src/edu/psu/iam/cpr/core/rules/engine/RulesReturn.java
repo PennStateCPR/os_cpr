@@ -1,6 +1,8 @@
 /* SVN FILE: $Id: RulesReturn.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
 package edu.psu.iam.cpr.core.rules.engine;
 
+import java.util.Arrays;
+
 /**
  * This code implements the Rules Engine Return.
  * 
@@ -64,14 +66,13 @@ public class RulesReturn {
 	 * @param facts contains the facts array.
 	 */
 	public RulesReturn(int statusCode, String statusMessage, int numberOfFacts,
-			String[] facts) {
+			String[] factsArray) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
 		this.numberOfFacts = numberOfFacts;
-		if (facts != null) {
-			this.facts = new String[facts.length];
-			System.arraycopy(facts, 0, this.facts, 0, facts.length);
+		if (factsArray != null) {
+			this.facts = Arrays.copyOf(factsArray, factsArray.length);
 		}
 		else {
 			this.facts = null;
@@ -123,10 +124,9 @@ public class RulesReturn {
 	/**
 	 * @param facts the facts to set
 	 */
-	public void setFacts(String facts[]) {
-		if (facts != null) {
-			this.facts = new String[facts.length];
-			System.arraycopy(facts, 0, this.facts, 0, facts.length);
+	public void setFacts(String factsArray[]) {
+		if (factsArray != null) {
+			this.facts = Arrays.copyOf(factsArray, factsArray.length);
 		}
 		else {
 			this.facts = null;

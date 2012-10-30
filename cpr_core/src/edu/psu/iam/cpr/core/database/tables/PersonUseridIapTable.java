@@ -47,6 +47,20 @@ public class PersonUseridIapTable {
 
 	
 	
+	private static final int IAP = 0;
+
+	private static final int START_DATE = 1;
+
+	private static final int END_DATE = 2;
+
+	private static final int LAST_UPDATE_BY = 3;
+
+	private static final int LAST_UPDATE_ON = 4;
+
+	private static final int CREATED_BY = 5;
+
+	private static final int CREATED_ON = 6;
+
 	/** contains the personUseridIap Bean */
 	private PersonUseridIap personUseridIapBean;
 	
@@ -251,13 +265,13 @@ public class PersonUseridIapTable {
 				for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 					Object res[] = (Object []) it.next();
 					IAPReturn anIAP = new IAPReturn();
-					anIAP.setIap((String) res[0]);
-					anIAP.setStartDate(Utility.convertTimestampToString((Date) res[1]));
-					anIAP.setEndDate(Utility.convertTimestampToString((Date)res[2]));
-					anIAP.setLastUpdateBy((String) res[3]);
-					anIAP.setLastUpdateOn(Utility.convertTimestampToString((Date) res[4]));
-					anIAP.setCreatedBy((String) res[5]);
-					anIAP.setCreatedOn(Utility.convertTimestampToString((Date) res[6]));
+					anIAP.setIap((String) res[IAP]);
+					anIAP.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
+					anIAP.setEndDate(Utility.convertTimestampToString((Date)res[END_DATE]));
+					anIAP.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
+					anIAP.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+					anIAP.setCreatedBy((String) res[CREATED_BY]);
+					anIAP.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
 					results.add(anIAP);
 
 				}

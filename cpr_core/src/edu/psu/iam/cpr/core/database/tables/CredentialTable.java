@@ -46,6 +46,22 @@ import edu.psu.iam.cpr.core.util.Utility;
 
 public class CredentialTable {
 	
+	private static final int CREDENTIAL_TYPE = 0;
+
+	private static final int CREDENTIAL_DATA = 1;
+
+	private static final int START_DATE = 2;
+
+	private static final int END_DATE = 3;
+
+	private static final int LAST_UPDATE_BY = 4;
+
+	private static final int LAST_UPDATE_ON = 5;
+
+	private static final int CREATED_BY = 6;
+
+	private static final int CREATED_ON = 7;
+
 	/** Contains an instance of the credentials database bean. */
 	private Credential credentialBean;
 	
@@ -327,14 +343,14 @@ public class CredentialTable {
 				Object res[] = (Object []) it.next();
 				CredentialReturn credentialReturn = new CredentialReturn();
 				
-				credentialReturn.setCredentialType(CredentialType.get((Long) res[0]).toString());			
-				credentialReturn.setCredentialData((String) res[1]);
-				credentialReturn.setStartDate(Utility.convertTimestampToString((Date) res[2]));
-				credentialReturn.setEndDate(Utility.convertTimestampToString((Date) res[3]));
-				credentialReturn.setLastUpdateBy((String) res[4]);
-				credentialReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[5]));
-				credentialReturn.setCreatedBy((String) res[6]);
-				credentialReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[7]));
+				credentialReturn.setCredentialType(CredentialType.get((Long) res[CREDENTIAL_TYPE]).toString());			
+				credentialReturn.setCredentialData((String) res[CREDENTIAL_DATA]);
+				credentialReturn.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
+				credentialReturn.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
+				credentialReturn.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
+				credentialReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+				credentialReturn.setCreatedBy((String) res[CREATED_BY]);
+				credentialReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
 				
 				results.add(credentialReturn);
 			

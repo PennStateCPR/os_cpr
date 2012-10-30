@@ -14,7 +14,8 @@ import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
- * DBTypesHelper is a singleton class that is used to load database types.
+ * DBTypesHelper is a singleton class that is used to load database types
+ * and store them in a map.
  * 
  * Copyright 2012 The Pennsylvania State University
  *

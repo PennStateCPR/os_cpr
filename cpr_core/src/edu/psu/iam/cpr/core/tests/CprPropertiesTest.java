@@ -20,25 +20,13 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
-import edu.psu.iam.cpr.core.database.types.CprRunningMode;
 import edu.psu.iam.cpr.core.util.CprProperties;
 
 public class CprPropertiesTest {
 
 	@Test
-	public final void testGetInstance() {
-		CprProperties.getInstance();
-	}
-
-	@Test
-	public final void testSetCprMode() {
-		CprProperties.getInstance().setCprMode(CprRunningMode.TEST);
-		AssertJUnit.assertEquals(CprProperties.getInstance().getCprMode(),CprRunningMode.TEST);
-	}
-
-	@Test
 	public final void testGetProperties() {
-		AssertJUnit.assertEquals(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_FORMAT_DATE.toString()),"MM/dd/yyyy");
+		AssertJUnit.assertEquals(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_FORMAT_DATE.toString()),"MM/dd/yyyy");
 	}
 
 

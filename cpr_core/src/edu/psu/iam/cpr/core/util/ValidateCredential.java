@@ -100,7 +100,12 @@ public final class ValidateCredential {
 	public static CredentialTable validateArchiveCredentialParameters(Database db, long personId, String credentialType, String updatedBy) throws GeneralDatabaseException, CprException {
 	
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		String localCredentialType = (credentialType != null && credentialType.trim().length() == 0) ? null : credentialType;
+		String localCredentialType = null;
+		if (credentialType != null) {
+			if (credentialType.trim().length() != 0) {
+				localCredentialType = credentialType.trim().toUpperCase();
+			}
+		}
 		
 		if (localCredentialType == null || localCredentialType.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Credential type");
@@ -141,7 +146,12 @@ public final class ValidateCredential {
 		// Trim all of the strings if they are not null.
 		String localCredentialData = (credentialData != null) ? credentialData.trim() : null;
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		String localCredentialType = (credentialType != null && credentialType.trim().length() == 0) ? null : credentialType;
+		String localCredentialType = null;
+		if (credentialType != null) {
+			if (credentialType.trim().length() != 0) {
+				localCredentialType = credentialType.trim().toUpperCase();
+			}
+		}
 		final String dbColumnNames[] = { "CREDENTIAL_DATA", "LAST_UPDATE_BY" };
 		final String inputFields[]   = { localCredentialData, localUpdatedBy };
 		final String prettyNames[] = { "Credential data", "Updated by" };

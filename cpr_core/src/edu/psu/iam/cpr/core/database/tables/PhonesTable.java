@@ -44,6 +44,42 @@ import edu.psu.iam.cpr.core.util.Utility;
  */
 public class PhonesTable {
 	
+	private static final int PHONE_TYPE = 0;
+
+
+	private static final int GROUP_ID = 1;
+
+
+	private static final int PRIMARY_FLAG = 2;
+
+
+	private static final int PHONE_NUMBER = 3;
+
+
+	private static final int EXTENSION = 4;
+
+
+	private static final int INTERNATIONAL_NUMBER = 5;
+
+
+	private static final int START_DATE = 6;
+
+
+	private static final int END_DATE = 7;
+
+
+	private static final int LAST_UPDATE_BY = 8;
+
+
+	private static final int LAST_UPDATE_ON = 9;
+
+
+	private static final int CREATED_BY = 10;
+
+
+	private static final int CREATED_ON = 11;
+
+
 	/** Contains a phone bean reference */
 	private PhoneType phoneType;
 	
@@ -438,18 +474,18 @@ public class PhonesTable {
 			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 				Object res[] = (Object []) it.next();
 				PhoneReturn aPhone = new PhoneReturn();
-				aPhone.setPhoneType(PhoneType.get((Long) res[0]).toString());
-				aPhone.setGroupId((Long) res[1]);
-				aPhone.setPrimaryFlag((String) res[2]);
-				aPhone.setPhoneNumber((String) res[3]);
-				aPhone.setExtension((String) res[4]);
-				aPhone.setInternationalNumber((String) res[5]);
-				aPhone.setStartDate(Utility.convertTimestampToString((Date) res[6]));
-				aPhone.setEndDate(Utility.convertTimestampToString((Date) res[7]));
-				aPhone.setLastUpdateBy((String) res[8]);
-				aPhone.setLastUpdateOn(Utility.convertTimestampToString((Date) res[9]));
-				aPhone.setCreatedBy((String) res[10]);
-				aPhone.setCreatedOn(Utility.convertTimestampToString((Date) res[11]));
+				aPhone.setPhoneType(PhoneType.get((Long) res[PHONE_TYPE]).toString());
+				aPhone.setGroupId((Long) res[GROUP_ID]);
+				aPhone.setPrimaryFlag((String) res[PRIMARY_FLAG]);
+				aPhone.setPhoneNumber((String) res[PHONE_NUMBER]);
+				aPhone.setExtension((String) res[EXTENSION]);
+				aPhone.setInternationalNumber((String) res[INTERNATIONAL_NUMBER]);
+				aPhone.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
+				aPhone.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
+				aPhone.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
+				aPhone.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+				aPhone.setCreatedBy((String) res[CREATED_BY]);
+				aPhone.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
 				results.add(aPhone); 
 			}
 			

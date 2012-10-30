@@ -59,6 +59,20 @@ public class MatchingTable {
 	/** the SQL to retrieve a match set in the database with a minimum match score. Only retrieve N hits. */
 	protected static final String GET_MATCH_SET_MIN_SCORE_SQL_LIMIT = "SELECT * FROM (" +  GET_MATCH_SET_MIN_SCORE_SQL + ") WHERE ROWNUM <:rownum_in";
 
+	private static final int NAME_MATCH_CODE = 1;
+
+	private static final int ADDRESS_MATCH_CODE = 2;
+
+	private static final int CITY_MATCH_CODE = 3;
+
+	private static final int STATE = 4;
+
+	private static final int POSTAL_CODE = 5;
+
+	private static final int DATE_OF_BIRTH = 6;
+
+	private static final int MATCH_SET_KEY = 7;
+
 	
 	/** the match set identifier. */
 	protected Long matchSetKey;
@@ -117,40 +131,40 @@ public class MatchingTable {
 					
 					// Pass in the names match code if available.
 					if (namesTable != null) {
-						stmt.setString(1, namesTable.getNamesBean().getNameMatchCode());
+						stmt.setString(NAME_MATCH_CODE, namesTable.getNamesBean().getNameMatchCode());
 					}
 					else {
-						stmt.setNull(1, Types.VARCHAR);
+						stmt.setNull(NAME_MATCH_CODE, Types.VARCHAR);
 					}
 					
 					// Pass in the addresses and city match code, state and postal code if available.
 					if (addressesTable != null) {
-						stmt.setString(2, addressesTable.getAddressesBean().getAddressMatchCode());
-						stmt.setString(3, addressesTable.getAddressesBean().getCityMatchCode());
-						stmt.setString(4, addressesTable.getAddressesBean().getState());
-						stmt.setString(5, addressesTable.getAddressesBean().getPostalCode());
+						stmt.setString(ADDRESS_MATCH_CODE, addressesTable.getAddressesBean().getAddressMatchCode());
+						stmt.setString(CITY_MATCH_CODE, addressesTable.getAddressesBean().getCityMatchCode());
+						stmt.setString(STATE, addressesTable.getAddressesBean().getState());
+						stmt.setString(POSTAL_CODE, addressesTable.getAddressesBean().getPostalCode());
 					}
 					else {
-						stmt.setNull(2, Types.VARCHAR);
-						stmt.setNull(3, Types.VARCHAR);
-						stmt.setNull(4, Types.VARCHAR);
-						stmt.setNull(5, Types.VARCHAR);
+						stmt.setNull(ADDRESS_MATCH_CODE, Types.VARCHAR);
+						stmt.setNull(CITY_MATCH_CODE, Types.VARCHAR);
+						stmt.setNull(STATE, Types.VARCHAR);
+						stmt.setNull(POSTAL_CODE, Types.VARCHAR);
 					}
 					
 					// Pass in the date of birth if available.
 					if (dateOfBirthTable != null) {
-						stmt.setString(6, dateOfBirthTable.getDateOfBirthBean().getDobChar());
+						stmt.setString(DATE_OF_BIRTH, dateOfBirthTable.getDateOfBirthBean().getDobChar());
 					}
 					else {
-						stmt.setNull(6, Types.VARCHAR);
+						stmt.setNull(DATE_OF_BIRTH, Types.VARCHAR);
 					}
-					stmt.registerOutParameter(7, Types.INTEGER);
+					stmt.registerOutParameter(MATCH_SET_KEY, Types.INTEGER);
 					
 					// Execute the stored function.
 					stmt.execute();		
 					
 					// Get the status from the database.
-					setMatchSetKey(stmt.getLong(7));
+					setMatchSetKey(stmt.getLong(MATCH_SET_KEY));
 				}
 				catch (Exception e) {
 					setMatchSetKey(-1L);

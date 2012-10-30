@@ -46,6 +46,20 @@ import edu.psu.iam.cpr.core.util.Utility;
  */
 public class ConfidentialityTable {
 	
+	private static final int CONFIDENTIALITY_TYPE = 0;
+
+	private static final int START_DATE = 1;
+
+	private static final int END_DATE = 2;
+
+	private static final int LAST_UPDATE_BY = 3;
+
+	private static final int LAST_UPDATE_ON = 4;
+
+	private static final int CREATED_BY = 5;
+
+	private static final int CREATED_ON = 6;
+
 	/** Confidentiality database table bean. */
 	private Confidentiality confidentialityBean;
 	
@@ -287,13 +301,13 @@ public class ConfidentialityTable {
 		    	// For each result, store its value in the return class.
 		    	Object res[] = (Object []) it.next();
 				
-				ConfidentialityReturn c = new ConfidentialityReturn(ConfidentialityType.get((Long) res[0]).toString(),
-													Utility.convertTimestampToString((Date) res[1]), 	
-													Utility.convertTimestampToString((Date) res[2]), 	
-													(String) res[3], 									
-													Utility.convertTimestampToString((Date) res[4]), 	
-													(String) res[5], 									
-													Utility.convertTimestampToString((Date) res[6])); 	
+				ConfidentialityReturn c = new ConfidentialityReturn(ConfidentialityType.get((Long) res[CONFIDENTIALITY_TYPE]).toString(),
+													Utility.convertTimestampToString((Date) res[START_DATE]), 	
+													Utility.convertTimestampToString((Date) res[END_DATE]), 	
+													(String) res[LAST_UPDATE_BY], 									
+													Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]), 	
+													(String) res[CREATED_BY], 									
+													Utility.convertTimestampToString((Date) res[CREATED_ON])); 	
 				results.add(c);
 		    }
 		    

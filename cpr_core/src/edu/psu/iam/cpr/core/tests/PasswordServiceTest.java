@@ -35,15 +35,7 @@ public class PasswordServiceTest {
 	 */
 	@Test
 	public final void testEncrypt() throws Exception {
-		PasswordService.getInstance().encrypt("abcd");
-	}
-
-	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.PasswordService#getInstance()}.
-	 */
-	@Test
-	public final void testGetInstance() {
-		PasswordService.getInstance();
+		PasswordService.INSTANCE.encrypt("abcd");
 	}
 
 }

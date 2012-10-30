@@ -55,6 +55,48 @@ import edu.psu.iam.cpr.core.util.Utility;
 public class PersonAffiliationTable {
 
 	
+	private static final int ALL_AFFILIATION_TYPE = 0;
+
+	private static final int ALL_AFFILIATION = 1;
+
+	private static final int ALL_PRIMARY = 2;
+
+	private static final int ALL_START_DATE = 3;
+
+	private static final int ALL_END_DATE = 4;
+
+	private static final int ALL_LAST_UPDATE_BY = 5;
+
+	private static final int ALL_LAST_UPDATE_ON = 6;
+
+	private static final int ALL_CREATED_BY = 7;
+
+	private static final int ALL_CREATED_ON = 8;
+
+	private static final int EXT_AFF_PRIMARY_FLAG = 0;
+
+	private static final int EXT_AFF_AFFILIATION_TYPE = 1;
+
+	private static final int EXT_AFF_AFFILATION = 2;
+
+	private static final int INT_AFFILIATION_TYPE = 0;
+
+	private static final int INT_AFFILIATION = 1;
+
+	private static final int INT_PRIMARY_FLAG = 2;
+
+	private static final int INT_START_DATE = 3;
+
+	private static final int INT_END_DATE = 4;
+
+	private static final int INT_LAST_UPDATE_BY = 5;
+
+	private static final int INT_LAST_UPDATE_ON = 6;
+
+	private static final int INT_CREATED_BY = 7;
+
+	private static final int INT_CREATED_ON = 8;
+
 	/** 
 	 *  personAffiliationBean Contains a reference to the person affiliation database table bean 
 	 */
@@ -386,7 +428,7 @@ public class PersonAffiliationTable {
 			final ArrayList<AffiliationReturn> results = new ArrayList<AffiliationReturn>();
 			final Session session = db.getSession();
 			final StringBuilder sb = new StringBuilder(750);
-			sb.append("SELECT affiliations.enum_string, affiliations.affiliation, person_affiliation.affiliation_key,person_affiliation.primary_flag, ");
+			sb.append("SELECT affiliations.enum_string, affiliations.affiliation, person_affiliation.primary_flag, ");
 			sb.append("person_affiliation.start_date, ");
 			sb.append("person_affiliation.end_date, ");
 			sb.append("person_affiliation.last_update_by, " );
@@ -406,7 +448,6 @@ public class PersonAffiliationTable {
 			query.setParameter("person_id_in", personId);
 			query.addScalar("enum_string", StandardBasicTypes.STRING);
 			query.addScalar("affiliation", StandardBasicTypes.STRING);
-			query.addScalar("affiliation_key", StandardBasicTypes.INTEGER);
 			query.addScalar("primary_flag", StandardBasicTypes.STRING);
 			query.addScalar("start_date",StandardBasicTypes.TIMESTAMP );
 			query.addScalar("end_date",StandardBasicTypes.TIMESTAMP );
@@ -421,15 +462,15 @@ public class PersonAffiliationTable {
 			while (it.hasNext()) {
 				Object res[] = (Object []) it.next();
 				AffiliationReturn newAffRet = new AffiliationReturn();
-				newAffRet.setAffiliationType((String) res[0]);
-				newAffRet.setAffiliation((String)res[1]);
-				newAffRet.setPrimary((String) res[3]);
-				newAffRet.setStartDate(Utility.convertTimestampToString((Date) res[4]));
-				newAffRet.setEndDate(Utility.convertTimestampToString((Date) res[5]));
-				newAffRet.setLastUpdateBy((String) res[6]);
-				newAffRet.setLastUpdateOn(Utility.convertTimestampToString((Date) res[7]));
-				newAffRet.setCreatedBy((String) res[8]);
-				newAffRet.setCreatedOn(Utility.convertTimestampToString((Date) res[9]));
+				newAffRet.setAffiliationType((String) res[ALL_AFFILIATION_TYPE]);
+				newAffRet.setAffiliation((String)res[ALL_AFFILIATION]);
+				newAffRet.setPrimary((String) res[ALL_PRIMARY]);
+				newAffRet.setStartDate(Utility.convertTimestampToString((Date) res[ALL_START_DATE]));
+				newAffRet.setEndDate(Utility.convertTimestampToString((Date) res[ALL_END_DATE]));
+				newAffRet.setLastUpdateBy((String) res[ALL_LAST_UPDATE_BY]);
+				newAffRet.setLastUpdateOn(Utility.convertTimestampToString((Date) res[ALL_LAST_UPDATE_ON]));
+				newAffRet.setCreatedBy((String) res[ALL_CREATED_BY]);
+				newAffRet.setCreatedOn(Utility.convertTimestampToString((Date) res[ALL_CREATED_ON]));
 				results.add(newAffRet);
 				
 			}
@@ -456,9 +497,9 @@ public class PersonAffiliationTable {
 				Object res[] = (Object []) it.next();
 				
 				AffiliationReturn newAffRet = new AffiliationReturn();
-				newAffRet.setPrimary((String) res[0]);
-				newAffRet.setAffiliationType((String) res[1]);
-				newAffRet.setAffiliation((String) res[2]);
+				newAffRet.setPrimary((String) res[EXT_AFF_PRIMARY_FLAG]);
+				newAffRet.setAffiliationType((String) res[EXT_AFF_AFFILIATION_TYPE]);
+				newAffRet.setAffiliation((String) res[EXT_AFF_AFFILATION]);
 				results.add(newAffRet);
 				
 			}
@@ -538,7 +579,7 @@ public class PersonAffiliationTable {
 			
 			
 
-			sb.append("SELECT affiliations.enum_string, affiliations.affiliation, person_affiliation.affiliation_key,person_affiliation.primary_flag, ");
+			sb.append("SELECT affiliations.enum_string, affiliations.affiliation,person_affiliation.primary_flag, ");
 			sb.append("person_affiliation.start_date, ");
 			sb.append("person_affiliation.end_date, ");
 			sb.append("person_affiliation.last_update_by, " );
@@ -559,7 +600,6 @@ public class PersonAffiliationTable {
 			query.setParameter("person_id_in", personId);
 			query.addScalar("enum_string", StandardBasicTypes.STRING);
 			query.addScalar("affiliation", StandardBasicTypes.STRING);
-			query.addScalar("affiliation_key", StandardBasicTypes.INTEGER);
 			query.addScalar("primary_flag", StandardBasicTypes.STRING);
 			query.addScalar("start_date",StandardBasicTypes.TIMESTAMP );
 			query.addScalar("end_date",StandardBasicTypes.TIMESTAMP );
@@ -574,15 +614,15 @@ public class PersonAffiliationTable {
 			while (it.hasNext()) {
 				Object res[] = (Object []) it.next();
 				AffiliationReturn newAffRet = new AffiliationReturn();
-				newAffRet.setAffiliationType((String) res[0]);
-				newAffRet.setAffiliation((String)res[1]);
-				newAffRet.setPrimary((String) res[3]);
-				newAffRet.setStartDate(Utility.convertTimestampToString((Date) res[4]));
-				newAffRet.setEndDate(Utility.convertTimestampToString((Date) res[5]));
-				newAffRet.setLastUpdateBy((String) res[6]);
-				newAffRet.setLastUpdateOn(Utility.convertTimestampToString((Date) res[7]));
-				newAffRet.setCreatedBy((String) res[8]);
-				newAffRet.setCreatedOn(Utility.convertTimestampToString((Date) res[9]));
+				newAffRet.setAffiliationType((String) res[INT_AFFILIATION_TYPE]);
+				newAffRet.setAffiliation((String)res[INT_AFFILIATION]);
+				newAffRet.setPrimary((String) res[INT_PRIMARY_FLAG]);
+				newAffRet.setStartDate(Utility.convertTimestampToString((Date) res[INT_START_DATE]));
+				newAffRet.setEndDate(Utility.convertTimestampToString((Date) res[INT_END_DATE]));
+				newAffRet.setLastUpdateBy((String) res[INT_LAST_UPDATE_BY]);
+				newAffRet.setLastUpdateOn(Utility.convertTimestampToString((Date) res[INT_LAST_UPDATE_ON]));
+				newAffRet.setCreatedBy((String) res[INT_CREATED_BY]);
+				newAffRet.setCreatedOn(Utility.convertTimestampToString((Date) res[INT_CREATED_ON]));
 				results.add(newAffRet);
 				
 			}

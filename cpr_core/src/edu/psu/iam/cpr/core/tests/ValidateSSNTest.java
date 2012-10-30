@@ -100,11 +100,11 @@ public class ValidateSSNTest {
 	 */
 	@Test
 	public void testInvalidSSNArea900() {
-		if (CprProperties.getInstance().getCprMode() == CprRunningMode.TEST ||
-				CprProperties.getInstance().getCprMode() == CprRunningMode.ACCEPTANCE) {
+		if (CprProperties.INSTANCE.getCprMode() == CprRunningMode.TEST ||
+				CprProperties.INSTANCE.getCprMode() == CprRunningMode.ACCEPTANCE) {
 			AssertJUnit.assertEquals(ValidateSSN.validateSSN("900-11-2222"), true);
 		}
-		else if (CprProperties.getInstance().getCprMode() == CprRunningMode.PRODUCTION) {
+		else if (CprProperties.INSTANCE.getCprMode() == CprRunningMode.PRODUCTION) {
 			AssertJUnit.assertEquals(ValidateSSN.validateSSN("900-11-2222"), false);
 		}
 	}

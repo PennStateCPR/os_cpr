@@ -40,6 +40,13 @@ import edu.psu.iam.cpr.core.service.returns.MessageLogReturn;
  */
 public class MessageLogTable {
 
+	private static final int WEB_SERVICE_KEY = 0;
+	private static final int SERVICE_PROVISIONER_KEY = 1;
+	private static final int MESSAGE_SENT = 2;
+	private static final int NUMBER_OF_TRIES = 3;
+	private static final int SUCCESS_FLAG = 4;
+	private static final int REQUEST_USERID = 5;
+	
 	/** Contains a reference to the message log database bean */
 	private MessageLog messageLogBean;
 	
@@ -189,12 +196,12 @@ public class MessageLogTable {
 				
 		    	MessageLogReturn msgLog = new MessageLogReturn();
 		    	msgLog.setMessageLogKey(messageLogKey);
-		    	msgLog.setWebServiceKey((Long) res[0]);
-		    	msgLog.setServiceProvisionerKey((Long) res[1]);
-		    	msgLog.setMessageSent((String) res[2]);
-		    	msgLog.setNumberOfTries((Long) res[3]);
-		    	msgLog.setSuccessFlag((String) res[4]);
-		    	msgLog.setRequestUserid((String) res[5]);
+		    	msgLog.setWebServiceKey((Long) res[WEB_SERVICE_KEY]);
+		    	msgLog.setServiceProvisionerKey((Long) res[SERVICE_PROVISIONER_KEY]);
+		    	msgLog.setMessageSent((String) res[MESSAGE_SENT]);
+		    	msgLog.setNumberOfTries((Long) res[NUMBER_OF_TRIES]);
+		    	msgLog.setSuccessFlag((String) res[SUCCESS_FLAG]);
+		    	msgLog.setRequestUserid((String) res[REQUEST_USERID]);
 				results.add(msgLog);
 		    }
 

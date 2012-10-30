@@ -200,11 +200,11 @@ public class ValidateNameTest {
 	}
 	@Test
 	public final void _27testIsValidCombination6() {
-		AssertJUnit.assertTrue(ValidateName.isValidCombination("legal_name", null));
+		AssertJUnit.assertTrue(ValidateName.isValidCombination("LEGAL_NAME", null));
 	}
 	@Test
 	public final void _28testIsValidCombination7() {
-		AssertJUnit.assertTrue(ValidateName.isValidCombination("documented_name", "passport"));
+		AssertJUnit.assertTrue(ValidateName.isValidCombination("DOCUMENTED_NAME", "PASSPORT"));
 	}
 	
 

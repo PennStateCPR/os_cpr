@@ -46,7 +46,7 @@ public final class Utility {
 			return null;
 		}
 		else {
-			final SimpleDateFormat dateFormat = new SimpleDateFormat(CprProperties.getInstance().getProperties().getProperty(
+			final SimpleDateFormat dateFormat = new SimpleDateFormat(CprProperties.INSTANCE.getProperties().getProperty(
 																	CprPropertyName.CPR_FORMAT_DATE.toString()));
 			return dateFormat.format(d);
 		}
@@ -62,7 +62,7 @@ public final class Utility {
 			return null;
 		}
 		else {
-			final SimpleDateFormat dateFormat = new SimpleDateFormat(CprProperties.getInstance().getProperties().getProperty(
+			final SimpleDateFormat dateFormat = new SimpleDateFormat(CprProperties.INSTANCE.getProperties().getProperty(
 																	CprPropertyName.CPR_FORMAT_TIMESTAMP.toString()));
 			return dateFormat.format(d);
 		}

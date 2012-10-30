@@ -55,7 +55,14 @@ public final class ValidateName {
 		
 		// Trim all of the strings.
 		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
-		String localNameType = (nameType != null) ? nameType.trim() : null;
+		
+		String localNameType = null;
+		if (nameType != null) {
+			if (nameType.trim().length() != 0) {
+				localNameType = nameType.trim().toUpperCase();
+			}
+		}
+		
 		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
 		
 		// Ensure that a requested by was specified.
@@ -102,8 +109,20 @@ public final class ValidateName {
 	public static NamesTable validateArchiveNameParameters(Database db, long personId, String nameType, String documentType, String updatedBy) throws GeneralDatabaseException, CprException {
 	
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		String localNameType = (nameType != null && nameType.trim().length() == 0) ? null : nameType;
-		String localDocumentType = (documentType != null && documentType.trim().length() == 0) ? null : documentType;
+		
+		String localNameType = null;
+		if (nameType != null) {
+			if (nameType.trim().length() != 0) {
+				localNameType = nameType.trim().toUpperCase();
+			}
+		}
+		
+		String localDocumentType = null;
+		if (documentType != null) {
+			if (documentType.trim().length() != 0) {
+				localDocumentType = documentType.trim().toUpperCase();
+			}
+		}
 		
 		if (localNameType == null || localNameType.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Name type");
@@ -156,8 +175,8 @@ public final class ValidateName {
 		String localLastName = (lastName != null) ? lastName.trim() : null;
 		String localSuffix = (suffix != null) ? suffix.trim() : null;
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		String localNameType = (nameType != null && nameType.trim().length() == 0) ? null : nameType;
-		String localDocumentType = (documentType != null && documentType.trim().length() == 0) ? null : documentType;
+		String localNameType = (nameType != null) ? nameType.trim().toUpperCase() : null;
+		String localDocumentType = (documentType != null) ? documentType.trim().toUpperCase() : null;
 		final String dbColumnNames[] = { "FIRST_NAME", "MIDDLE_NAMES", "LAST_NAME", "SUFFIX", "LAST_UPDATE_BY" };
 		final String inputFields[]   = { localFirstName, localMiddleNames, localLastName, localSuffix, localUpdatedBy };
 		final String prettyNames[] = { "First name", "Middle name(s)", "Last name", "Suffix", "Updated by" };
@@ -215,18 +234,17 @@ public final class ValidateName {
 		}
 		
 		// Convert the nameType string to an enumerated type.
-		if (nameType != null) {
-			try {
-				nameEnum = NameType.valueOf(nameType.toUpperCase().trim());
-			}
-			catch (Exception e) {
-			}
+		try {
+			nameEnum = NameType.valueOf(nameType);
 		}
+		catch (Exception e) {
+		}
+
 		
 		// If a document type was specified, attempt to convert it to an enumerated type.
 		if (documentType != null) {
 			try {
-				documentTypeEnum = DocumentType.valueOf(documentType.toUpperCase().trim());
+				documentTypeEnum = DocumentType.valueOf(documentType);
 			}
 			catch (Exception e) {
 			}

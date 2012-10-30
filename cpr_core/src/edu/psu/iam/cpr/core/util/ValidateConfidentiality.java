@@ -52,7 +52,12 @@ public final class ValidateConfidentiality {
 	public static ConfidentialityTable validateAddConfidentialityParameters(Database db, long personId, String confidentialityType, String updatedBy) throws CprException, GeneralDatabaseException {
 
 		// Trim all of the input parameters that are string.
-		String localConfidentialityType = (confidentialityType != null) ? confidentialityType.trim() : null;
+		String localConfidentialityType = null;
+		if (confidentialityType != null) {
+			if (confidentialityType.trim().length() != 0) {
+				localConfidentialityType = confidentialityType.trim().toUpperCase();
+			}
+		}
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 		
 		// Verify that parameters have been specified.
@@ -92,7 +97,12 @@ public final class ValidateConfidentiality {
 	public static ConfidentialityTable validateArchiveConfidentialityParameters(Database db, long personId, String confidentialityType, String updatedBy) throws CprException, GeneralDatabaseException {
 		
 		// Trim all of the input parameters that are string.
-		String localConfidentialityType = (confidentialityType != null) ? confidentialityType.trim() : null;
+		String localConfidentialityType = null;
+		if (confidentialityType != null) {
+			if (confidentialityType.trim().length() != 0) {
+				localConfidentialityType = confidentialityType.trim().toUpperCase();
+			}
+		}
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 		
 		// Verify that parameters have been specified.

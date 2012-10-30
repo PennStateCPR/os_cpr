@@ -105,7 +105,7 @@ public class ServiceCore {
 		Log4jLogger.info("authenticateService: start of function.");
 
 		try {
-			hash = PasswordService.getInstance().encrypt(password);
+			hash = PasswordService.INSTANCE.encrypt(password);
 		}
 		catch (Exception e) {
 			throw new CprException(ReturnType.SERVICE_AUTHENTICATION_EXCEPTION);

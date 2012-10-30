@@ -53,6 +53,12 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
  */
 public class ServiceProvisionerQueue {
 
+	private static final int SP_KEY = 0;
+	private static final int SP_NAME = 1;
+	private static final int WEB_SERVICE_KEY = 2;
+	private static final int WEB_SERVICE = 3;
+	private static final int SP_QUEUE = 4;
+	
 	/** Contains a reference to the service providers notification view */
 	private VSpNotification spNotificationView;
 	
@@ -130,11 +136,11 @@ public class ServiceProvisionerQueue {
 			
 			while (it.hasNext()) {
 				Object res[] = (Object []) it.next();
-				results.add(new ServiceProvisionerQueue((Long) res[0], 
-						 (String) res[1],
-						 (Long) res[2],
-						 (String) res[3],
-						 (String) res[4]));
+				results.add(new ServiceProvisionerQueue((Long) res[SP_KEY], 
+						 (String) res[SP_NAME],
+						 (Long) res[WEB_SERVICE_KEY],
+						 (String) res[WEB_SERVICE],
+						 (String) res[SP_QUEUE]));
 			}
 			
 			return results;

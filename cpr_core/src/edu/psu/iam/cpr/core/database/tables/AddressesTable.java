@@ -435,7 +435,7 @@ public class AddressesTable {
 			// save off the new record
 			bean.setGroupId(maxGroupId);
 			
-			if (MatchingAlgorithmType.valueOf(CprProperties.getInstance().getProperties().getProperty(
+			if (MatchingAlgorithmType.valueOf(CprProperties.INSTANCE.getProperties().getProperty(
 					CprPropertyName.CPR_MATCHING_ALGORITHM.toString())) == MatchingAlgorithmType.PENN_STATE) {
 				getAddressCityMatchCode(bean);
 			}
@@ -895,7 +895,7 @@ public class AddressesTable {
 			// save off the new record
 			if (updateCount > 0) {
 				
-				if (MatchingAlgorithmType.valueOf(CprProperties.getInstance().getProperties().getProperty(
+				if (MatchingAlgorithmType.valueOf(CprProperties.INSTANCE.getProperties().getProperty(
 						CprPropertyName.CPR_MATCHING_ALGORITHM.toString())) == MatchingAlgorithmType.PENN_STATE) {
 					getAddressCityMatchCode(bean);
 				}
