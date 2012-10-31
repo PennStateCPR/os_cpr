@@ -61,10 +61,10 @@ public enum UserCommentType {
     *
     */   
 
-	private static final Map<Long, UserCommentType> lookup = new HashMap<Long,UserCommentType>();
+	private static final Map<Long, UserCommentType> LOOKUP = new HashMap<Long,UserCommentType>();
 	static {
 		for (UserCommentType p : EnumSet.allOf(UserCommentType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -74,7 +74,7 @@ public enum UserCommentType {
     */
 
 	public static UserCommentType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

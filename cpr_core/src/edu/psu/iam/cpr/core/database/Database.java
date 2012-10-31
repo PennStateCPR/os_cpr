@@ -67,20 +67,25 @@ public class Database {
 	public static final String ID_CARD_IDENTIFIER 	= "ID_CARD";
 	
 	/** Instance of logger */
-	private static final Logger Log4jLogger = Logger.getLogger(Database.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(Database.class);
 
+	/** IAM Group Key. */
+	private long iamGroupKey;
+	
+	/** Registration Authority Key. */
+	private long registrationAuthorityKey;
+	
 	private static final int IAM_GROUP_KEY = 0;
-
 	private static final int GRP_MBRS_SUSPEND_FLAG = 1;
-
 	private static final int IAM_GRPS_SUSPEND_FLAG = 2;
-
 	private static final int GRP_ACC_SUSPEND_FLAG = 3;
+
+	private static final int BUFFER_SIZE = 512;
 	
 	/**
 	 * Value that represents something that is not found.
 	 */
-	public final long NOT_FOUND_VALUE = -1L;
+	private static final long NOT_FOUND_VALUE = -1L;
 
 	/** 
 	 * Contains a table's columns.
@@ -174,15 +179,13 @@ public class Database {
 	 * @param principalId contains the requestor's principal identifier.
 	 * @param serviceName contains the name of the service.
 	 * @param requestor contains the userid of the person requesting access.
-	 * @param serviceCoreReturn contains the service core return class.
 	 * @throws CprException exception indicates a cpr specific java exception.
 	 * @throws GeneralDatabaseException exception indicates a general database exception.
-	 * @return ServiceCoreReturn will be returned to the caller.
 	 */
-	public ServiceCoreReturn requestorAuthorized(String principalId, String requestor, String serviceName, ServiceCoreReturn serviceCoreReturn) throws CprException, GeneralDatabaseException {
+	public void requestorAuthorized(String principalId, String requestor, String serviceName) throws CprException, GeneralDatabaseException {
 
-		Long registrationAuthorityKey = NOT_FOUND_VALUE;
-		Long iamGroupKey = NOT_FOUND_VALUE;
+		Long localRegistrationAuthorityKey = NOT_FOUND_VALUE;
+		Long localIamGroupKey = NOT_FOUND_VALUE;
 		
 		String suspendFlag = "Y";
 		String grpmbrsSuspendFlag = "Y";
@@ -192,7 +195,7 @@ public class Database {
 		// Determine what RA a person is associated with.
 		try {
 			// Build the query.
-			final StringBuilder sb = new StringBuilder(400);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT ra.registration_authority_key, ra.suspend_flag ");
 			sb.append("FROM registration_authority ra JOIN ra_server_principals rasrvrprinc ");
 			sb.append("ON ra.registration_authority_key = rasrvrprinc.registration_authority_key ");
@@ -210,7 +213,7 @@ public class Database {
 			final Iterator<?> it = query.list().iterator();
 			if (it.hasNext()) {
 				Object res[] = (Object []) it.next();
-				registrationAuthorityKey = (Long) res[0];
+				localRegistrationAuthorityKey = (Long) res[0];
 				suspendFlag = (String) res[1];
 			}
 		}
@@ -219,7 +222,7 @@ public class Database {
 		}
 	
 		// Is the RA suspended?
-		if (registrationAuthorityKey == NOT_FOUND_VALUE ||
+		if (localRegistrationAuthorityKey.equals(NOT_FOUND_VALUE) ||
 				suspendFlag.equals("Y")) {
 			throw new CprException(ReturnType.NOT_AUTHORIZED_EXCEPTION, serviceName);
 		}
@@ -228,7 +231,7 @@ public class Database {
 		try {
 			
 			// Build the query.
-			final StringBuilder sb = new StringBuilder(300);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT iam_group_key, grpmbrs_suspend_flag, iamgrps_suspend_flag, grpacc_suspend_flag ");
 		    sb.append("FROM v_ra_group_web_service ");
 		    sb.append("WHERE registration_authority_key = :l_ra_key ");
@@ -237,7 +240,7 @@ public class Database {
 		    
 		    // Create the query, bind the parameters and determine the returns.
 			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("l_ra_key", registrationAuthorityKey);
+			query.setParameter("l_ra_key", localRegistrationAuthorityKey);
 			query.setParameter("web_service_in", serviceName);
 			query.setParameter("requested_by_in", requestor);
 			query.addScalar("iam_group_key", StandardBasicTypes.LONG);
@@ -249,7 +252,7 @@ public class Database {
 			final Iterator<?> it = query.list().iterator();
 			if (it.hasNext()) {
 				Object res[] = (Object []) it.next();
-				iamGroupKey = (Long) res[IAM_GROUP_KEY];
+				localIamGroupKey = (Long) res[IAM_GROUP_KEY];
 				grpmbrsSuspendFlag = (String) res[GRP_MBRS_SUSPEND_FLAG];
 				iamgrpsSuspendFlag = (String) res[IAM_GRPS_SUSPEND_FLAG];
 				grpaccSuspendFlag = (String) res[GRP_ACC_SUSPEND_FLAG];
@@ -261,18 +264,16 @@ public class Database {
 		}
 	
 		// If any of the suspend flags is set to Yes, we need to throw an exception.
-		if (iamGroupKey == NOT_FOUND_VALUE ||
+		if (localIamGroupKey.equals(NOT_FOUND_VALUE) ||
 				grpmbrsSuspendFlag.equals("Y") ||
 				iamgrpsSuspendFlag.equals("Y") ||
 				grpaccSuspendFlag.equals("Y")) {
 			throw new CprException(ReturnType.NOT_AUTHORIZED_EXCEPTION, serviceName);
 		}
 	
-		serviceCoreReturn.setIamGroupKey(iamGroupKey);
-		serviceCoreReturn.setRegistrationAuthorityKey(registrationAuthorityKey);
-		
-		return serviceCoreReturn;
-		
+		setIamGroupKey(localIamGroupKey);
+		setRegistrationAuthorityKey(localRegistrationAuthorityKey);
+				
 	}
 
 
@@ -297,7 +298,7 @@ public class Database {
 		try {
 			
 			// Build the query.
-			final StringBuilder sb = new StringBuilder(128);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 	        sb.append("SELECT data_types.data_type_key ");
 	        sb.append("FROM data_types ");
 	        sb.append("WHERE data_types.data_type_key = :data_type_key_in ");
@@ -325,7 +326,7 @@ public class Database {
 		String writeFlag = "N";
 		String archiveFlag ="N";
 		try {
-			final StringBuilder sb = new StringBuilder(300);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 	        sb.append("SELECT v_group_data_type_access.read_flag, v_group_data_type_access.write_flag, ");
     		sb.append("v_group_data_type_access.archive_flag ");
     		sb.append("FROM v_group_data_type_access ");
@@ -387,7 +388,7 @@ public class Database {
 		try {
 			
 			// Build the query.
-			final StringBuilder sb = new StringBuilder(128);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 	        sb.append("SELECT data_types.data_type_key ");
 	        sb.append("FROM data_types ");
 	        sb.append("WHERE data_types.data_type_key = :data_type_key_in ");
@@ -415,7 +416,7 @@ public class Database {
 		String writeFlag = "N";
 		String archiveFlag ="N";
 		try {
-			final StringBuilder sb = new StringBuilder(300);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 	        sb.append("SELECT v_group_data_type_access.read_flag, v_group_data_type_access.write_flag, ");
     		sb.append("v_group_data_type_access.archive_flag ");
     		sb.append("FROM v_group_data_type_access ");
@@ -475,7 +476,7 @@ public class Database {
 
 		final Long affiliationKey = AffiliationsType.valueOf(affiliationType.toUpperCase().trim()).index();
 		boolean affiliationKeyValid = false;
-		final StringBuilder sb = new StringBuilder(128);
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		try {
 			
 			// Build the query.
@@ -688,7 +689,7 @@ public class Database {
 		
 		Long personId = NOT_FOUND_VALUE;
 		try {
-			final StringBuilder sb = new StringBuilder(1024);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT person_id FROM person_identifier WHERE type_key = :type_key ");
 			sb.append("AND identifier_value = :identifier_value ");
 			sb.append("AND end_date IS NULL");
@@ -859,7 +860,7 @@ public class Database {
 		
 		long personId = NOT_FOUND_VALUE;
 
-		Log4jLogger.info("Start of get Person");
+		LOG4J_LOGGER.info("Start of get Person");
 		if (idType == null) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Identifier type");
 		}
@@ -887,7 +888,7 @@ public class Database {
 			throw new CprException(ReturnType.PERSON_NOT_FOUND_EXCEPTION);
 		}
 			
-		Log4jLogger.info("End of get Person");
+		LOG4J_LOGGER.info("End of get Person");
 		return personId;
 	}
 	
@@ -914,21 +915,25 @@ public class Database {
 		try {
 			session.doWork(new Work() {
 				public void execute(Connection conn) throws SQLException {
-					final ResultSet rs = conn.getMetaData().getColumns(null, 
-											CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_DATABASE_NAME.toString()), 
-											tableName.toLowerCase(), "_%");
-					tableColumns = new HashMap<String, TableColumn>();
-					while (rs.next()) {
+					ResultSet rs = null;
+					try {
+						rs = conn.getMetaData().getColumns(null, 
+								CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_DATABASE_NAME.toString()), 
+								tableName.toLowerCase(), "_%");
+						tableColumns = new HashMap<String, TableColumn>();
+						while (rs.next()) {
+							tableColumns.put(rs.getString("column_name").toUpperCase(), 
+									new TableColumn(rs.getString("column_name").toUpperCase(), 
+											rs.getShort("data_type"), rs.getInt("column_size"), 
+											rs.getInt("decimal_digits"), rs.getInt("nullable")));		
+						}
+					}
+					finally {
 						try {
-							tableColumns.put(rs.getString("column_name").toUpperCase(), new TableColumn(rs.getString("column_name").toUpperCase(), rs.getShort("data_type"), rs.getInt("column_size"), rs.getInt("decimal_digits"), rs.getInt("nullable")));		
+							rs.close();
 						}
 						catch (Exception e) {
 						}
-					}
-					try {
-						rs.close();
-					}
-					catch (Exception e) {
 					}
 				}
 			});
@@ -972,10 +977,10 @@ public class Database {
 	public boolean areStringFieldsEqual(String s1, String s2) {
 		
 		try {
-			final String tmp_s1 = (s1 == null || s1.trim().length() == 0) ? "NULL" : s1.trim();
-			final String tmp_s2 = (s2 == null || s2.trim().length() == 0) ? "NULL" : s2.trim();
+			final String tempString1 = (s1 == null || s1.trim().length() == 0) ? "NULL" : s1.trim();
+			final String tempString2 = (s2 == null || s2.trim().length() == 0) ? "NULL" : s2.trim();
 
-			return tmp_s1.equals(tmp_s2);
+			return tempString1.equals(tempString2);
 		}
 		catch (Exception e) {
 			return false;
@@ -1022,5 +1027,33 @@ public class Database {
 	 */
 	public IdentifierType getIdentifierType() {
 		return identifierType;
+	}
+
+	/**
+	 * @param iamGroupKey the iamGroupKey to set
+	 */
+	public void setIamGroupKey(long iamGroupKey) {
+		this.iamGroupKey = iamGroupKey;
+	}
+
+	/**
+	 * @return the iamGroupKey
+	 */
+	public long getIamGroupKey() {
+		return iamGroupKey;
+	}
+
+	/**
+	 * @param registrationAuthorityKey the registrationAuthorityKey to set
+	 */
+	public void setRegistrationAuthorityKey(long registrationAuthorityKey) {
+		this.registrationAuthorityKey = registrationAuthorityKey;
+	}
+
+	/**
+	 * @return the registrationAuthorityKey
+	 */
+	public long getRegistrationAuthorityKey() {
+		return registrationAuthorityKey;
 	}
 }

@@ -60,18 +60,16 @@ public class MatchingTable {
 	protected static final String GET_MATCH_SET_MIN_SCORE_SQL_LIMIT = "SELECT * FROM (" +  GET_MATCH_SET_MIN_SCORE_SQL + ") WHERE ROWNUM <:rownum_in";
 
 	private static final int NAME_MATCH_CODE = 1;
-
 	private static final int ADDRESS_MATCH_CODE = 2;
-
 	private static final int CITY_MATCH_CODE = 3;
-
 	private static final int STATE = 4;
-
 	private static final int POSTAL_CODE = 5;
-
 	private static final int DATE_OF_BIRTH = 6;
-
 	private static final int MATCH_SET_KEY = 7;
+
+	private static final int RES_MATCH_SET_KEY = 0;
+	private static final int RES_PERSON_ID = 1;
+	private static final int RES_SCORE = 2;
 
 	
 	/** the match set identifier. */
@@ -222,7 +220,7 @@ public class MatchingTable {
 			final Iterator<?> it = query.list().iterator();
 			while (it.hasNext()) {
 				Object res[] = (Object []) it.next();
-				matchResultsTable.add(new MatchResultsTable((Long) res[0], (Long) res[1], (Long) res[2]));
+				matchResultsTable.add(new MatchResultsTable((Long) res[RES_MATCH_SET_KEY], (Long) res[RES_PERSON_ID], (Long) res[RES_SCORE]));
 			}
 		}
 		catch (Exception e) {
@@ -258,7 +256,7 @@ public class MatchingTable {
 			
 			while (it.hasNext()) {
 				Object res[] = (Object []) it.next();
-				matchResultsTable.add(new MatchResultsTable((Long) res[0], (Long) res[1], (Long) res[2]));
+				matchResultsTable.add(new MatchResultsTable((Long) res[RES_MATCH_SET_KEY], (Long) res[RES_PERSON_ID], (Long) res[RES_SCORE]));
 			}	
 		}
 		catch (Exception e) {
@@ -303,7 +301,7 @@ public class MatchingTable {
 			
 			while (it.hasNext()) {
 				Object res[] = (Object []) it.next();
-				matchResultsTable.add(new MatchResultsTable((Long) res[0], (Long) res[1], (Long) res[2]));
+				matchResultsTable.add(new MatchResultsTable((Long) res[RES_MATCH_SET_KEY], (Long) res[RES_PERSON_ID], (Long) res[RES_SCORE]));
 			}				
 		}
 		catch (Exception e) {

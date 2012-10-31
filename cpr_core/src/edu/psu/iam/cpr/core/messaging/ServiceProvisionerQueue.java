@@ -59,6 +59,8 @@ public class ServiceProvisionerQueue {
 	private static final int WEB_SERVICE = 3;
 	private static final int SP_QUEUE = 4;
 	
+	private static final int BUFFER_SIZE = 256;
+	
 	/** Contains a reference to the service providers notification view */
 	private VSpNotification spNotificationView;
 	
@@ -121,7 +123,7 @@ public class ServiceProvisionerQueue {
 			final ArrayList<ServiceProvisionerQueue> results = new ArrayList<ServiceProvisionerQueue>();
 			final Session session = db.getSession();
 			
-			final StringBuilder sb = new StringBuilder(200);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT service_provisioner_key, service_provisioner, web_service_key, web_service, ");
 			sb.append("service_provisioner_queue FROM v_sp_notification WHERE web_service=:web_service ");
 			

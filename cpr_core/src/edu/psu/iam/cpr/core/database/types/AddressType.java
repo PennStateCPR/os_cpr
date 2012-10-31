@@ -61,10 +61,10 @@ public enum AddressType {
     *
     */   
 
-	private static final Map<Long, AddressType> lookup = new HashMap<Long,AddressType>();
+	private static final Map<Long, AddressType> LOOKUP = new HashMap<Long,AddressType>();
 	static {
 		for (AddressType p : EnumSet.allOf(AddressType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -74,7 +74,7 @@ public enum AddressType {
     */
 
 	public static AddressType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

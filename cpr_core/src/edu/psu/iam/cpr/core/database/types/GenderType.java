@@ -58,10 +58,10 @@ public enum GenderType {
     *
     */   
 
-	private static final Map<Long, GenderType> lookup = new HashMap<Long,GenderType>();
+	private static final Map<Long, GenderType> LOOKUP = new HashMap<Long,GenderType>();
 	static {
 		for (GenderType p : EnumSet.allOf(GenderType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -71,7 +71,7 @@ public enum GenderType {
     */
 
 	public static GenderType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

@@ -50,22 +50,16 @@ import edu.psu.iam.cpr.core.util.Utility;
 public class IdCardTable {
 
 	private static final int ID_CARD_TYPE = 0;
-
 	private static final int ID_CARD_NUMBER = 1;
-
 	private static final int ID_SERIAL_NUMBER = 2;
-
 	private static final int START_DATE = 3;
-
 	private static final int END_DATE = 4;
-
 	private static final int LAST_UPDATE_BY = 5;
-
 	private static final int LAST_UPDATE_ON = 6;
-
 	private static final int CREATED_BY = 7;
-
 	private static final int CREATED_ON = 8;
+	
+	private static final int BUFFER_SIZE = 2048;
 
 	/** person Id Card bean. */
 	private PersonIdCard personIdCardBean;
@@ -555,7 +549,7 @@ public class IdCardTable {
 			
 			final ArrayList <PersonIdCardReturn> results = new ArrayList<PersonIdCardReturn> ();
 			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(2048);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT data_type_key, id_card_number, id_serial_number, " );
 			sb.append("start_date, ");
 			sb.append("end_date, ");
@@ -626,7 +620,7 @@ public class IdCardTable {
 			
 			final ArrayList <PersonIdCardNumberReturn> results = new ArrayList<PersonIdCardNumberReturn> ();
 			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(2048);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT data_type_key, id_card_number " );
 			sb.append("from person_id_card ");
 			sb.append("WHERE person_id=:person_id ");

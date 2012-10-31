@@ -58,10 +58,10 @@ public enum IapType {
     *
     */   
 
-	private static final Map<Long, IapType> lookup = new HashMap<Long,IapType>();
+	private static final Map<Long, IapType> LOOKUP = new HashMap<Long,IapType>();
 	static {
 		for (IapType p : EnumSet.allOf(IapType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -71,7 +71,7 @@ public enum IapType {
     */
 
 	public static IapType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

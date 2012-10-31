@@ -47,28 +47,27 @@ import edu.psu.iam.cpr.core.util.Utility;
 public class DateOfBirthTable {
 
 	private static final int DOB_CHAR = 0;
-
 	private static final int START_DATE = 1;
-
 	private static final int END_DATE = 2;
-
 	private static final int LAST_UPDATE_BY = 3;
-
 	private static final int LAST_UPDATE_ON = 4;
-
 	private static final int CREATED_BY = 5;
-
 	private static final int CREATED_ON = 6;
 
 	private static final int MONTH_DAY_ONLY = 2;
-
 	private static final int FULL_DOB = 3;
 
 	private static final int MONTH_DAY_SIZE = 2;
-
 	private static final int YEAR_SIZE = 4;
-
 	private static final int MMDDYYYY_SIZE = 8;
+	
+	private static final int BUFFER_SIZE = 256;
+	
+	private static final int MONTH_START_POSITION = 0;
+	private static final int MONTH_END_POSITION = 2;
+	private static final int DAY_START_POSITION = 2;
+	private static final int DAY_END_POSITION = 4;
+	private static final int YEAR_START_POSITION = 4;
 
 	/** Date of birth Bean **/
 	private DateOfBirth dateOfBirthBean;
@@ -187,7 +186,7 @@ public class DateOfBirthTable {
 				return null;
 			}
 
-			final StringBuilder buffer = new StringBuilder(100);
+			final StringBuilder buffer = new StringBuilder(BUFFER_SIZE);
 
 			// Reformat the strings.
 			int i = 0;
@@ -259,7 +258,7 @@ public class DateOfBirthTable {
 		try {
 			final ArrayList<DateOfBirthReturn> results = new ArrayList<DateOfBirthReturn>();
 			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(2048);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 
 			sb.append("SELECT dob_char, ");
 			sb.append("start_date, ");
@@ -292,9 +291,9 @@ public class DateOfBirthTable {
 				String dobChar = (String) res[DOB_CHAR];
 				
 				if (dobChar != null && dobChar.length() == MMDDYYYY_SIZE) {
-					final String month = dobChar.substring(0, 2);
-					final String day = dobChar.substring(2, 4);
-					final String year = dobChar.substring(4);
+					final String month = dobChar.substring(MONTH_START_POSITION, MONTH_END_POSITION);
+					final String day = dobChar.substring(DAY_START_POSITION, DAY_END_POSITION);
+					final String year = dobChar.substring(YEAR_START_POSITION);
 										
 					// Only month and day of DOB was specified.
 					if (year.equals("0000")) {
@@ -334,11 +333,11 @@ public class DateOfBirthTable {
 	 */
 	public final void setFormattedDateOfBirth(String formattedDateOfBirth) {
 		
-		final String month = formattedDateOfBirth.substring(0, 2);
-		final String day = formattedDateOfBirth.substring(2, 4);
-		final String year = formattedDateOfBirth.substring(4);
+		final String month = formattedDateOfBirth.substring(MONTH_START_POSITION, MONTH_END_POSITION);
+		final String day = formattedDateOfBirth.substring(DAY_START_POSITION, DAY_END_POSITION);
+		final String year = formattedDateOfBirth.substring(YEAR_START_POSITION);
 		
-		final StringBuilder sb = new StringBuilder(30);
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append(month);
 		sb.append("/");
 		sb.append(day);

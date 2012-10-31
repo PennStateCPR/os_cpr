@@ -43,18 +43,14 @@ import edu.psu.iam.cpr.core.util.Utility;
 public class UserCommentTable {
 
 	private static final int USER_COMMENT_TYPE = 0;
-
 	private static final int COMMENT = 1;
-
 	private static final int COMMENT_DATE_STRING = 2;
-
 	private static final int END_DATE = 3;
-
 	private static final int LAST_UPDATE_BY = 4;
-
 	private static final int LAST_UPDATE_ON = 5;
-
 	private static final int COMMENTER = 6;
+	
+	private static final int BUFFER_SIZE = 1024;
 
 	/**
 	 * Contains the user comments bean.
@@ -244,7 +240,7 @@ public class UserCommentTable {
 				UserComments dbBean = (UserComments) it.next();
 				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
 				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-				final StringBuilder sb = new StringBuilder(128);
+				final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 				sb.append(dbBean.getComments());
 				sb.append(System.getProperty("line.separator"));
 				sb.append('(');
@@ -345,7 +341,7 @@ public class UserCommentTable {
 			final Session session = db.getSession();
 
 			// Build the query string.
-			final StringBuilder sb = new StringBuilder(2048);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT data_type_key, comments, ");
 			sb.append("start_date, ");
 			sb.append("end_date, ");

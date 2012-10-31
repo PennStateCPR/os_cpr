@@ -59,10 +59,10 @@ public enum DocumentType {
     *
     */   
 
-	private static final Map<Long, DocumentType> lookup = new HashMap<Long,DocumentType>();
+	private static final Map<Long, DocumentType> LOOKUP = new HashMap<Long,DocumentType>();
 	static {
 		for (DocumentType p : EnumSet.allOf(DocumentType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -72,7 +72,7 @@ public enum DocumentType {
     */
 
 	public static DocumentType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

@@ -47,22 +47,16 @@ import edu.psu.iam.cpr.core.util.Utility;
 public class PersonLinkageTable {
 	
 	private static final int LINKAGE_TYPE = 0;
-
 	private static final int PERSON_ID = 1;
-
 	private static final int LINKED_PERSON_ID = 2;
-
 	private static final int START_DATE = 3;
-
 	private static final int END_DATE = 4;
-
 	private static final int LAST_UPDATE_BY = 5;
-
 	private static final int LAST_UPDATE_ON = 6;
-
 	private static final int CREATED_BY = 7;
-
 	private static final int CREATED_ON = 8;
+	
+	private static final int BUFFER_SIZE = 1024;
 
 	/** Contains the database bean */
 	private PersonLinkage personLinkageBean;
@@ -213,7 +207,7 @@ public class PersonLinkageTable {
 			final Session session = db.getSession();
 			final PersonLinkage bean = getPersonLinkageBean();
 			
-			final StringBuilder sb = new StringBuilder(200);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT person_id FROM person_linkage WHERE person_id = :person_id AND ");
 			sb.append("linked_person_id = :linked_person_id AND ");
 			sb.append("data_type_key = :data_type_key ");
@@ -274,7 +268,7 @@ public class PersonLinkageTable {
 			final Session session = db.getSession();
 			
 			// Build the query string.
-			final StringBuilder sb = new StringBuilder(2048);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT data_type_key, person_id, linked_person_id, ");
 			sb.append("start_date, ");
 			sb.append("end_date,  ");

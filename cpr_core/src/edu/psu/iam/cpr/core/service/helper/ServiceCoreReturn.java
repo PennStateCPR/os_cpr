@@ -43,6 +43,7 @@ public class ServiceCoreReturn {
 	
 	/** grouper data */
 	private GrouperPermissions grouperPerm;
+	
 	/**
 	 * Constructor.
 	 */

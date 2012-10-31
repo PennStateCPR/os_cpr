@@ -41,6 +41,10 @@ import edu.psu.iam.cpr.core.util.CprProperties;
  */
 public final class AuthenticateService {
 	
+	private static final int BUFFER_SIZE = 1024;
+	private static final String EQUALS = "=";
+	private static final String COMMA = ",";
+
 	/**
 	 * Constructor.
 	 */
@@ -76,11 +80,11 @@ public final class AuthenticateService {
 				AuthenticationType.LDAP_AUTHENTICATION.toString())) {
 		
 			// Convert the service principal to a DN.
-			final StringBuilder dn = new StringBuilder(200);
+			final StringBuilder dn = new StringBuilder(BUFFER_SIZE);
 			dn.append(props.getProperty(CprPropertyName.CPR_LDAP_PEOPLE_DN_PREFIX.toString()));
-			dn.append("=");
+			dn.append(EQUALS);
 			dn.append(userid);
-			dn.append(",");
+			dn.append(COMMA);
 			dn.append(props.getProperty(CprPropertyName.CPR_LDAP_PEOPLE_BASE_DN.toString()));
 
 			env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");

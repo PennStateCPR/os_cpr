@@ -42,6 +42,11 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  */
 public class PsuDirectoryTable {
 
+	private static final int BUFFER_SIZE = 256;
+	
+	private static final int USERID = 0;
+	private static final int PSU_DIRECTORY_KEY = 1;
+	
 	/** Directory bean class */
 	private PsuDirectory psuDirectoryBean;
 	
@@ -197,7 +202,7 @@ public class PsuDirectoryTable {
 		try {
 			final Session session = db.getSession();
 			
-			final StringBuilder sb = new StringBuilder(200);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT userid, psu_directory_key ");
 			sb.append("FROM psu_directory ");
 			sb.append("WHERE person_id = :person_id_in ");
@@ -215,8 +220,8 @@ public class PsuDirectoryTable {
 
 				final PsuDirectory bean = new PsuDirectory();
 				bean.setPersonId(personId);
-				bean.setUserid((String) res[0]);
-				bean.setPsuDirectoryKey((Long) res[1]);
+				bean.setUserid((String) res[USERID]);
+				bean.setPsuDirectoryKey((Long) res[PSU_DIRECTORY_KEY]);
 				setPsuDirectoryBean(bean);
 				found = true;
 			}

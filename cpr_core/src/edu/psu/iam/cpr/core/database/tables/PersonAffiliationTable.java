@@ -56,46 +56,33 @@ public class PersonAffiliationTable {
 
 	
 	private static final int ALL_AFFILIATION_TYPE = 0;
-
 	private static final int ALL_AFFILIATION = 1;
-
 	private static final int ALL_PRIMARY = 2;
-
 	private static final int ALL_START_DATE = 3;
-
 	private static final int ALL_END_DATE = 4;
-
 	private static final int ALL_LAST_UPDATE_BY = 5;
-
 	private static final int ALL_LAST_UPDATE_ON = 6;
-
 	private static final int ALL_CREATED_BY = 7;
-
 	private static final int ALL_CREATED_ON = 8;
 
 	private static final int EXT_AFF_PRIMARY_FLAG = 0;
-
 	private static final int EXT_AFF_AFFILIATION_TYPE = 1;
-
-	private static final int EXT_AFF_AFFILATION = 2;
-
+	private static final int EXT_AFF_AFFILIATION = 2;
+	
 	private static final int INT_AFFILIATION_TYPE = 0;
-
 	private static final int INT_AFFILIATION = 1;
-
 	private static final int INT_PRIMARY_FLAG = 2;
-
 	private static final int INT_START_DATE = 3;
-
 	private static final int INT_END_DATE = 4;
-
 	private static final int INT_LAST_UPDATE_BY = 5;
-
 	private static final int INT_LAST_UPDATE_ON = 6;
-
 	private static final int INT_CREATED_BY = 7;
-
 	private static final int INT_CREATED_ON = 8;
+	
+	private static final int EDUPERSON_AFFILIATION = 0;
+	private static final int EDUPERSON_PRIMARY_FLAG = 1;
+
+	private static final int BUFFER_SIZE = 1024;
 
 	/** 
 	 *  personAffiliationBean Contains a reference to the person affiliation database table bean 
@@ -245,7 +232,7 @@ public class PersonAffiliationTable {
 				String newAffiliationString = AffiliationsType.get(newAffiliationKey).toString();
 				// Create an arraylist of all existing affiliations to send to the Rules engine.
 				// Select the affiliation_ke for all active affiliations. Store the enum string in the arraylist
-				final StringBuilder sb = new StringBuilder(2000);
+				final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 				sb.append("SELECT affiliation_key from person_affiliation where person_id = :person_id_in  AND end_date IS NULL");
 				final SQLQuery query1 = session.createSQLQuery(sb.toString());
 				query1.setParameter("person_id_in", bean.getPersonId());
@@ -427,7 +414,7 @@ public class PersonAffiliationTable {
 		try {
 			final ArrayList<AffiliationReturn> results = new ArrayList<AffiliationReturn>();
 			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(750);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT affiliations.enum_string, affiliations.affiliation, person_affiliation.primary_flag, ");
 			sb.append("person_affiliation.start_date, ");
 			sb.append("person_affiliation.end_date, ");
@@ -499,7 +486,7 @@ public class PersonAffiliationTable {
 				AffiliationReturn newAffRet = new AffiliationReturn();
 				newAffRet.setPrimary((String) res[EXT_AFF_PRIMARY_FLAG]);
 				newAffRet.setAffiliationType((String) res[EXT_AFF_AFFILIATION_TYPE]);
-				newAffRet.setAffiliation((String) res[EXT_AFF_AFFILATION]);
+				newAffRet.setAffiliation((String) res[EXT_AFF_AFFILIATION]);
 				results.add(newAffRet);
 				
 			}
@@ -529,7 +516,7 @@ public class PersonAffiliationTable {
 		try {
 			final Session session = db.getSession();
 		
-			final StringBuilder sb = new StringBuilder(650);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT affiliations.enum_string, person_affiliation.primary_flag ");
 			sb.append("FROM person_affiliation LEFT JOIN affiliations ");
 			sb.append("ON person_affiliation.affiliation_key = affiliations.affiliation_key ");
@@ -548,9 +535,9 @@ public class PersonAffiliationTable {
 				// fix the call  
 				// assume eduPerson 
 				// need to addess mulitple federation
-				newAffRet.setPrimary((String) res[1]);
+				newAffRet.setAffiliation(getEduPersonAffiliation((String) res[EDUPERSON_AFFILIATION] ));
+				newAffRet.setPrimary((String) res[EDUPERSON_PRIMARY_FLAG]);
 				newAffRet.setAffiliationType("eduPerson");
-				newAffRet.setAffiliation(getEduPersonAffiliation((String) res[0] ));
 				results.add(newAffRet);		
 				}		
 			}
@@ -575,7 +562,7 @@ public class PersonAffiliationTable {
 			final ArrayList<AffiliationReturn> results = new ArrayList<AffiliationReturn>();
 			final Session session = db.getSession();
 
-			final StringBuilder sb = new StringBuilder(200);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			
 			
 
@@ -650,7 +637,7 @@ public class PersonAffiliationTable {
 			final Session session = db.getSession();
 			final PersonAffiliation bean = getPersonAffiliationBean();
 			
-			final StringBuilder sb = new StringBuilder(200);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT  primary_flag ");
 			sb.append("FROM person_affiliation ");
 			sb.append("WHERE person_id = :person_id_in ");
@@ -665,7 +652,6 @@ public class PersonAffiliationTable {
 				notFound = true;
 			}
 			else {
-//				Object res[] = (Object []) it.next();
 				String primaryFlag = (String) it.next();
 				if (primaryFlag.equals("Y")) {
 					alreadyPrimary = true;
@@ -723,92 +709,7 @@ public class PersonAffiliationTable {
 		
 		addAffiliation(db);
 	}
-	
-//	/**
-//	 * This routine is used to determine if an RA is authorize to assign an affiliation.
-//	 * @param db contains the Database object
-//	 * @param registrationKey - registration authority key
-//	 * 
-//	 * @return true if ra is authorized for affiliation
-//	 * 
-//	 * @throws AffiliationUseException
-//	 * @throws CprException
-//	 */
-//	public boolean isRAAffiliationAuthorized( Database db, long registrationKey)  throws CprException {
-//		return true;
-////		boolean notAuthorized = false;
-//		try {
-//			Session session = db.getSession();
-//			PersonAffiliation bean = getPersonAffiliationBean();
-//			
-//			String suspendFlag = "";
-//			String activeFlag = "";
-//			
-//			StringBuilder sb = new StringBuilder(200);
-//			sb.append("SELECT suspend_flag ");
-//			sb.append("FROM registration_authority ");
-//			sb.append("WHERE registration_authority_key = :ra_key_in ");
-//			sb.append("AND end_date IS NULL ");
-//			SQLQuery query = session.createSQLQuery(sb.toString());
-//			query.setParameter("ra_key_in", registrationKey);
-//			query.addScalar("suspend_flag", StandardBasicTypes.STRING);
-//			Iterator<?> it = query.list().iterator();
-//			if (it.hasNext()) {
-//				suspendFlag = (String) it.next();
-//				if (suspendFlag.equals("Y")) {
-//					notAuthorized = true;
-//				}
-//				else {
-//					sb = new StringBuilder(200);
-//					sb.append("SELECT active_flag ");
-//					sb.append("FROM affiliations ");
-//					sb.append("WHERE affiliation_key = :affiliation_key_in ");
-//					query = session.createSQLQuery(sb.toString());
-//					query.setParameter("affiliation_key_in", bean.getAffiliationKey());
-//					query.addScalar("active_flag", StandardBasicTypes.STRING);
-//					it = query.list().iterator();
-//					if (it.hasNext()) {
-//						activeFlag = (String) it.next();
-//						if (activeFlag.equals("N")) {
-//							notAuthorized = true;
-//						}
-//						else {
-//							sb = new StringBuilder(200);
-//							sb.append("SELECT ra_affiliation_key ");
-//							sb.append("FROM ra_affiliation ");
-//							sb.append("WHERE registration_authority_key = :ra_key_in ");
-//							sb.append("AND affiliation_key = :affiliation_key_in ");
-//							sb.append("AND end_date IS NULL ");
-//							query = session.createSQLQuery(sb.toString());
-//							query.setParameter("ra_key_in", registrationKey);
-//							query.setParameter("affiliation_key_in", bean.getAffiliationKey());
-//							query.addScalar("ra_affiliation_key", StandardBasicTypes.LONG);
-//							if (query.list().size() == 0) {
-//								notAuthorized = true;
-//							}
-//						}
-//					}
-//					else {
-//						notAuthorized = true;
-//					}
-//				}
-//
-//			}
-//			else {
-//				notAuthorized = true;
-//			}			
-//		}
-//		catch (Exception e) {
-//			throw new CprException(ReturnType.AFFILIATION_USE_EXCEPTION, getAffiliationsType().toString());
-//		}
-//		
-//		if (notAuthorized) {
-//			throw new CprException(ReturnType.AFFILIATION_USE_EXCEPTION, getAffiliationsType().toString());
-//		}
-//		
-//		return true;
-//	}
-	
+
 	/**
 	 * This routine is used to returned the eduPerson Affiliation.
 	 * @param personAffiliation
@@ -841,5 +742,3 @@ public class PersonAffiliationTable {
 		}
 	}
 }
-
-

@@ -36,6 +36,8 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
  */
 public class CampusCsTable {
 
+	private static final int BUFFER_SIZE = 128;
+	
 	/**	 Contains a reference to the campus code set bean. */
 	private CampusCs campusCsBean;
 	
@@ -86,7 +88,7 @@ public class CampusCsTable {
 			
 			bean.setCampusCode(bean.getCampusCode().toUpperCase().trim());
 			
-			final StringBuilder sb = new StringBuilder(128);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT campus_code_key, campus ");
 			sb.append("FROM campus_cs ");
 			sb.append("WHERE campus_code = :campus_code_in ");

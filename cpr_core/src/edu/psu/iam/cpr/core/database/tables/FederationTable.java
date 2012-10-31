@@ -37,6 +37,8 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  */
 public class FederationTable {
 
+	private static final int BUFFER_SIZE = 256;
+
 	/**
 	 * 
 	 * @param db  contains Database object
@@ -53,7 +55,7 @@ public class FederationTable {
 
 		String activeFlag = "";
 		final String upperFed = localFederationName.toUpperCase();
-		final StringBuilder sb = new StringBuilder(128);
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT active_flag ");
 		sb.append("FROM federation ");
 		sb.append("WHERE UPPER(federation)  = :fed_name_in ");

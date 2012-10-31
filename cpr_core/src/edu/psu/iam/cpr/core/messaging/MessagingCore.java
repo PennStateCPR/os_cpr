@@ -82,9 +82,9 @@ public class MessagingCore {
 	
 
 	/** Instance of logger */
-	private static final Logger Log4jLogger = Logger.getLogger(MessagingCore.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(MessagingCore.class);
 
-	private static final int LARGE_BUFFER_SIZE = 2048;
+	private static final int BUFFER_SIZE = 2048;
 	
 	/** Array of message queues */
 	private List<ServiceProvisionerQueue> msgQueues = null;
@@ -396,7 +396,7 @@ public class MessagingCore {
 
     	MessageLog bean = messageLogTable.getMessageLogBean();
 
-    	StringBuilder sb = new StringBuilder(LARGE_BUFFER_SIZE);
+    	StringBuilder sb = new StringBuilder(BUFFER_SIZE);
     	sb.append("Message Delivery ");
     	sb.append(status);
     	sb.append(": Web Service Key=");
@@ -406,7 +406,7 @@ public class MessagingCore {
     	sb.append(", JSON Message Text=");
     	sb.append(bean.getMessageSent());
 
-    	Log4jLogger.info(sb.toString());		
+    	LOG4J_LOGGER.info(sb.toString());		
     }
 
 }

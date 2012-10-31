@@ -154,7 +154,7 @@ public final class ValidateIdCard {
 	public static IdCardTable  validateArchiveIdCardParameters ( final Database db,
 			long personId, String updatedBy, String idCardTypeString) throws GeneralDatabaseException,CprException {
 		
-		IdCardTable IdCardTable = null;
+		IdCardTable idCardTable = null;
 		String localUpdatedBy = (updatedBy  != null) ? updatedBy.trim() : null;
 		String localIdCardTypeString = null;
 		if (idCardTypeString != null) {
@@ -172,13 +172,13 @@ public final class ValidateIdCard {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Update by");
 		}
 		try {
-			IdCardTable = new IdCardTable(personId, localIdCardTypeString, localUpdatedBy);
+			idCardTable = new IdCardTable(personId, localIdCardTypeString, localUpdatedBy);
 		}
 		catch (Exception e) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Id Card Type");
 		
 		}
-		return IdCardTable;
+		return idCardTable;
 	}
 	
 	/**

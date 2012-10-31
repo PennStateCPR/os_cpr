@@ -56,10 +56,10 @@ public enum ExternalAffiliation {
     *
     */   
 
-	private static final Map<Long, ExternalAffiliation> lookup = new HashMap<Long,ExternalAffiliation>();
+	private static final Map<Long, ExternalAffiliation> LOOKUP = new HashMap<Long,ExternalAffiliation>();
 	static {
 		for (ExternalAffiliation p : EnumSet.allOf(ExternalAffiliation.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -69,7 +69,7 @@ public enum ExternalAffiliation {
     */
 
 	public static ExternalAffiliation get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

@@ -44,22 +44,16 @@ import edu.psu.iam.cpr.core.util.Utility;
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
 public class PersonUseridIapTable {
-
-	
 	
 	private static final int IAP = 0;
-
 	private static final int START_DATE = 1;
-
 	private static final int END_DATE = 2;
-
 	private static final int LAST_UPDATE_BY = 3;
-
 	private static final int LAST_UPDATE_ON = 4;
-
 	private static final int CREATED_BY = 5;
-
 	private static final int CREATED_ON = 6;
+	
+	private static final int BUFFER_SIZE = 1024;
 
 	/** contains the personUseridIap Bean */
 	private PersonUseridIap personUseridIapBean;
@@ -176,7 +170,7 @@ public class PersonUseridIapTable {
 				useridValid = db.isValidUserid(personId, userid);
 				if (useridValid) {
 					final String upperFed = federation.toUpperCase();
-					final StringBuilder sb = new StringBuilder(2000);
+					final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 				
 					final List<IAPReturn> results = new ArrayList<IAPReturn>();
 					sb.append("SELECT external_iap ");
@@ -231,7 +225,7 @@ public class PersonUseridIapTable {
 			if (useridValid) {
 		
 				final List<IAPReturn> results = new ArrayList<IAPReturn>();
-				final StringBuilder sb = new StringBuilder(200);
+				final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 				sb.append("SELECT iap.iap, ");
 				sb.append("person_userid_iap.start_date, ");
 				sb.append("person_userid_iap.end_date, ");

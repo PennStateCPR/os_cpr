@@ -42,19 +42,50 @@ import edu.psu.iam.cpr.core.error.ReturnType;
 public class UseridHelper {
 	
 	/** Array of strings containing letters to be used if a first name was not specified */
-	private static final String[] firstLetters = {"u","q","x","z","o","i","y"};
+	private static final String[] FIRST_LETTERS = {"u","q","x","z","o","i","y"};
 	
 	/** Array of strings containing letters to be used if the middle name was not specified */
-	private static final String[] middleLetters = {"x","u","z","q","y","o","i"};
+	private static final String[] MIDDLE_LETTERS = {"x","u","z","q","y","o","i"};
 	
 	/** Array of strings containing letters to be used if the last night was not specified */
-	private static final String[] lastLetters = {"x","q","u"};
+	private static final String[] LAST_LETTERS = {"x","q","u"};
 	
 	/** Contains the total number of letters in a userid */
 	private static final int TOTAL_LETTERS = 3;
 	
 	/** Contains an instance of the generated identity implementation */
 	private GeneratedIdentityTable generatedIdentityTable;
+	
+	private static final double FIRST_LETTER_RANGE1 = 0.2418;
+	private static final double FIRST_LETTER_RANGE2 = 0.4217;
+	private static final double FIRST_LETTER_RANGE3 = 0.5456;
+	private static final double FIRST_LETTER_RANGE4 = 0.6669;
+	private static final double FIRST_LETTER_RANGE5 = 0.7842;
+	private static final double FIRST_LETTER_RANGE6 = 0.8922;
+
+	private static final double MIDDLE_LETTER_RANGE1 = 0.1907;
+	private static final double MIDDLE_LETTER_RANGE2 = 0.3787;
+	private static final double MIDDLE_LETTER_RANGE3 = 0.5329;
+	private static final double MIDDLE_LETTER_RANGE4 = 0.6827;
+	private static final double MIDDLE_LETTER_RANGE5 = 0.8291;
+	private static final double MIDDLE_LETTER_RANGE6 = 0.9139;
+
+	private static final double LAST_LETTER_RANGE1 = 0.3766;
+	private static final double LAST_LETTER_RANGE2 = 0.7082;
+
+	private static final int BUFFER_SIZE = 20;
+
+	private static final int INDEX_0 = 0;
+	private static final int INDEX_1 = 1;
+	private static final int INDEX_2 = 2;
+	private static final int INDEX_3 = 3;
+	private static final int INDEX_4 = 4;
+	private static final int INDEX_5 = 5;
+	private static final int INDEX_6 = 6;
+
+	private static final int FIRST_LETTER = 0;
+	private static final int MIDDLE_LETTER = 1;
+	private static final int LAST_LETTER = 2;
 	
 	/**
 	 * This routine is used to obtain the first letter contained with a name.
@@ -119,69 +150,69 @@ public class UseridHelper {
 				
 				// first name was not specified.
 				if (firstNameLetter == null) {
-					if (randomValue < 0.2418) {
-						firstNameLetter = firstLetters[0];
+					if (randomValue < FIRST_LETTER_RANGE1) {
+						firstNameLetter = FIRST_LETTERS[INDEX_0];
 					}
-					else if (randomValue < 0.4217) {
-						firstNameLetter = firstLetters[1];
+					else if (randomValue < FIRST_LETTER_RANGE2) {
+						firstNameLetter = FIRST_LETTERS[INDEX_1];
 					}
-					else if (randomValue < 0.5456) {
-						firstNameLetter = firstLetters[2];
+					else if (randomValue < FIRST_LETTER_RANGE3) {
+						firstNameLetter = FIRST_LETTERS[INDEX_2];
 					}
-					else if (randomValue < 0.6669) {
-						firstNameLetter = firstLetters[3];
+					else if (randomValue < FIRST_LETTER_RANGE4) {
+						firstNameLetter = FIRST_LETTERS[INDEX_3];
 					}
-					else if (randomValue < 0.7842) {
-						firstNameLetter = firstLetters[4];
+					else if (randomValue < FIRST_LETTER_RANGE5) {
+						firstNameLetter = FIRST_LETTERS[INDEX_4];
 					}
-					else if (randomValue < 0.8922) {
-						firstNameLetter = firstLetters[5];
+					else if (randomValue < FIRST_LETTER_RANGE6) {
+						firstNameLetter = FIRST_LETTERS[INDEX_5];
 					}
 					else {
-						firstNameLetter = firstLetters[6];
+						firstNameLetter = FIRST_LETTERS[INDEX_6];
 					}
 				}
 				
 				// Middle names was not specified.
 				if (middleNamesLetter == null) {
-					if (randomValue < 0.1907) {
-						middleNamesLetter = middleLetters[0];
+					if (randomValue < MIDDLE_LETTER_RANGE1) {
+						middleNamesLetter = MIDDLE_LETTERS[INDEX_0];
 					}
-					else if (randomValue < 0.3787) {
-						middleNamesLetter = middleLetters[1];
+					else if (randomValue < MIDDLE_LETTER_RANGE2) {
+						middleNamesLetter = MIDDLE_LETTERS[INDEX_1];
 					}
-					else if (randomValue < 0.5329) {
-						middleNamesLetter = middleLetters[2];
+					else if (randomValue < MIDDLE_LETTER_RANGE3) {
+						middleNamesLetter = MIDDLE_LETTERS[INDEX_2];
 					}
-					else if (randomValue < 0.6827) {
-						middleNamesLetter = middleLetters[3];
+					else if (randomValue < MIDDLE_LETTER_RANGE4) {
+						middleNamesLetter = MIDDLE_LETTERS[INDEX_3];
 					}
-					else if (randomValue < 0.8291) {
-						middleNamesLetter = middleLetters[4];
+					else if (randomValue < MIDDLE_LETTER_RANGE5) {
+						middleNamesLetter = MIDDLE_LETTERS[INDEX_4];
 					}
-					else if (randomValue < 0.9139) {
-						middleNamesLetter = middleLetters[5];
+					else if (randomValue < MIDDLE_LETTER_RANGE6) {
+						middleNamesLetter = MIDDLE_LETTERS[INDEX_5];
 					}
 					else {
-						middleNamesLetter = middleLetters[6];
+						middleNamesLetter = MIDDLE_LETTERS[INDEX_6];
 					}
 				}
 				
 				// Last name was not specified.
 				if (lastNameLetter == null) {
-					if (randomValue < 0.3766) {
-						lastNameLetter = lastLetters[0];
+					if (randomValue < LAST_LETTER_RANGE1) {
+						lastNameLetter = LAST_LETTERS[INDEX_0];
 					}
-					else if (randomValue < 0.7082) {
-						lastNameLetter = lastLetters[1];
+					else if (randomValue < LAST_LETTER_RANGE2) {
+						lastNameLetter = LAST_LETTERS[INDEX_1];
 					}
 					else {
-						lastNameLetter = lastLetters[2];
+						lastNameLetter = LAST_LETTERS[INDEX_2];
 					}
 				}
 				
 				// Construct the character portion of the userid.
-				StringBuilder sb = new StringBuilder(20);
+				StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 				sb.append(firstNameLetter);
 				sb.append(middleNamesLetter);
 				sb.append(lastNameLetter);
@@ -226,13 +257,13 @@ public class UseridHelper {
 					// OK, let's pick a different letter.
 					missCount = (missCount + 1) % TOTAL_LETTERS;
 					switch (missCount) {
-					case 0:
+					case FIRST_LETTER:
 						firstNameLetter = null;
 						break;
-					case 1:
+					case MIDDLE_LETTER:
 						middleNamesLetter = null;
 						break;
-					case 2: 
+					case LAST_LETTER: 
 						lastNameLetter = null;
 						break;
 					}

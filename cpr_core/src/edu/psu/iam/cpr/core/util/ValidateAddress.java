@@ -42,7 +42,7 @@ This class provides an implementation of functions that perform address informat
 */
 public final class ValidateAddress {
 
-	private static final int STRING_BUFFER_SIZE = 200;
+	private static final int BUFFER_SIZE = 200;
 
 	/**
 	 * Constructor
@@ -382,10 +382,10 @@ public final class ValidateAddress {
 		/*	
 		 * 
 		 * IF countryCode USA or assumed USA  set stateName to stateOrProvince
-		 * otherwise set provinceName = stateOrProvince;
+		 * otherwise set provinceName = stateOrProvince
 		 * 
 		 */
-		if (  localCountryCode.toUpperCase().equals("USA"))
+		if (  localCountryCode.equalsIgnoreCase("USA"))
 		{
 			stateName = localStateOrProvince;
 			if (!isAddressValid(db, localAddress1, localAddress2, localAddress3, localCity, stateName, localPostalCode, true)) {
@@ -574,8 +574,8 @@ public final class ValidateAddress {
 		boolean invalidCountry = false;
 		boolean invalidCampus  = false;
 		AddressesTable addressTable = null;
-		StringBuffer countryName = new StringBuffer(STRING_BUFFER_SIZE);
-		StringBuffer campusName = new StringBuffer(STRING_BUFFER_SIZE);
+		StringBuffer countryName = new StringBuffer(BUFFER_SIZE);
+		StringBuffer campusName = new StringBuffer(BUFFER_SIZE);
 		Long countryCodeId = -1L;
 		Long campusCodeId = -1L;
 		String stateName= null;
@@ -654,10 +654,10 @@ public final class ValidateAddress {
 		/*	
 		 * If CountryCodeId is 0, no country entered assumed USA
 		 * IF countryCode USA or assumed USA  set stateName to stateOrProvince
-		 * otherwise set provinceName = stateOrProvince;
+		 * otherwise set provinceName = stateOrProvince
 		 * 
 		 */
-		if (localCountryCode.toUpperCase().equals("USA"))
+		if (localCountryCode.equalsIgnoreCase("USA"))
 		{
 			stateName = localStateOrProvince;
 			if (!isAddressValid(db,localAddress1, localAddress2, localAddress3, localCity, stateName, localPostalCode,true) ){

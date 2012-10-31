@@ -50,28 +50,18 @@ import edu.psu.iam.cpr.core.util.Utility;
 public class NamesTable {
 	
 	private static final int NAME_TYPE = 0;
-
 	private static final int DOCUMENT_TYPE = 1;
-
 	private static final int FIRST_NAME = 2;
-
 	private static final int MIDDLE_NAMES = 3;
-
 	private static final int LAST_NAME = 4;
-
 	private static final int SUFFIX = 5;
-
 	private static final int START_DATE = 6;
-
 	private static final int END_DATE = 7;
-
 	private static final int LAST_UPDATE_BY = 8;
-
 	private static final int LAST_UPDATE_ON = 9;
-
 	private static final int CREATED_BY = 10;
-
 	private static final int CREATED_ON = 11;
+	private static final int BUFFER_SIZE = 2048;
 
 	/** Names database bean */
 	private Names namesBean;
@@ -238,7 +228,7 @@ public class NamesTable {
 			final Session session = db.getSession();
 			
 			// Build the query string.
-			final StringBuilder sb = new StringBuilder(2048);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT data_type_key, document_type_key, first_name, middle_names, last_name, suffix, ");
 			sb.append("start_date, ");
 			sb.append("end_date, ");

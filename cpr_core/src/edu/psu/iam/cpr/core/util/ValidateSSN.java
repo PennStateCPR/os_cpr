@@ -31,6 +31,22 @@ import edu.psu.iam.cpr.core.database.types.CprRunningMode;
  */
 public final class ValidateSSN {
 
+	private static final int AREA_START = 0;
+	private static final int AREA_END = 3;
+	private static final int GROUP_START = 3;
+	private static final int GROUP_END = 5;
+	private static final int SERIAL_START = 5;
+	private static final int SERIAL_END = 9;
+	
+	private static final int TOTAL_NUMBER_OF_SSN_PARTS = 3;
+	
+	private static final int SSN_MATCH_GROUP_1 = 1;
+	private static final int SSN_MATCH_GROUP_2 = 2;
+	private static final int SSN_MATCH_GROUP_3 = 3;
+	
+	private static final int UNASSIGNABLE_AREA_666 = 666;
+	private static final int UNASSIGNABLE_AREA_899 = 899;
+
 	/**
 	 * Constructor
 	 */
@@ -66,9 +82,9 @@ public final class ValidateSSN {
 		
 	    localSSN = localSSN.replace("-", "").replace(" ", "");
 	    
-	    String areaNumber = localSSN.substring(0, 3);
-	    String groupNumber = localSSN.substring(3, 5);
-	    String serialNumber = localSSN.substring(5, 9);
+	    String areaNumber = localSSN.substring(AREA_START, AREA_END);
+	    String groupNumber = localSSN.substring(GROUP_START, GROUP_END);
+	    String serialNumber = localSSN.substring(SERIAL_START, SERIAL_END);
 	    
 	    // validation rules from http://ssa-custhelp.ssa.gov/app/answers/detail/a_id/425
 	    
@@ -89,14 +105,14 @@ public final class ValidateSSN {
 	    int areaNum = Integer.parseInt(areaNumber);
 	    CprRunningMode mode = CprProperties.INSTANCE.getCprMode();
 	    if (mode == CprRunningMode.PRODUCTION) {
-	    	if ((areaNum != 666) && (areaNum <= 899)) {
+	    	if ((areaNum != UNASSIGNABLE_AREA_666) && (areaNum <= UNASSIGNABLE_AREA_899)) {
 	    		return true;
 	    	}
 	    }
 	    
 	    // If we are in test or acceptance mode, numbers in the 900-999 are valid.
 	    else if (mode == CprRunningMode.TEST || mode == CprRunningMode.ACCEPTANCE) {
-	    	if (areaNum != 666) {
+	    	if (areaNum != UNASSIGNABLE_AREA_666) {
 	    		return true;
 	    	}
 	    }
@@ -118,10 +134,10 @@ public final class ValidateSSN {
 		Pattern pattern = Pattern.compile("^([0-9]{3})[ -]?([0-9]{2})[ -]?([0-9]{4})$");
 		Matcher matcher = pattern.matcher(ssn);
 		
-		if (!matcher.matches() || matcher.groupCount() != 3) {
+		if (!matcher.matches() || matcher.groupCount() != TOTAL_NUMBER_OF_SSN_PARTS) {
 			return "";
 		}
 		
-		return matcher.group(1) + matcher.group(2) + matcher.group(3);
+		return matcher.group(SSN_MATCH_GROUP_1) + matcher.group(SSN_MATCH_GROUP_2) + matcher.group(SSN_MATCH_GROUP_3);
 	}
 }

@@ -60,10 +60,10 @@ public enum TransformStatusType {
 	 * 
 	 */
 	
-	private static final Map<Long,TransformStatusType> lookup = new HashMap<Long, TransformStatusType>();
+	private static final Map<Long,TransformStatusType> LOOKUP = new HashMap<Long, TransformStatusType>();
 	static {
 		for (TransformStatusType p : EnumSet.allOf(TransformStatusType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	/**
@@ -72,7 +72,7 @@ public enum TransformStatusType {
 	 * @return  the enum
 	 */
 	public static TransformStatusType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

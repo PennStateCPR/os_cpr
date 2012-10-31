@@ -55,6 +55,8 @@ public class RulesEngine {
 	/** Contains the results of the rules engine */
 	private ArrayList<String> ruleExecutionResults  = new ArrayList<String>();
 	
+	private static final String RULES_ERROR_STRING = "ERROR";
+	
 	/**
 	 * Constructor
 	 */
@@ -195,14 +197,14 @@ public class RulesEngine {
 			Object obj = it.next();
 			if (obj instanceof KnownFact) {
 				KnownFact fact = (KnownFact) obj;
-				if (fact.getFact().equals("ERROR")) {
+				if (fact.getFact().equals(RULES_ERROR_STRING)) {
 					returnValue = ReturnType.GENERAL_EXCEPTION.index();
 				}
 				results.add(fact.getFact());
 			}
 			else if (obj instanceof InputFact) {
 				InputFact fact = (InputFact) obj;
-				if (fact.getFact().equals("ERROR")) {
+				if (fact.getFact().equals(RULES_ERROR_STRING)) {
 					returnValue = ReturnType.GENERAL_EXCEPTION.index();
 				}
 				results.add(fact.getFact());

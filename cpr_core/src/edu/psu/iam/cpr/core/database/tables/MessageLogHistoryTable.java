@@ -49,6 +49,7 @@ public class MessageLogHistoryTable {
 	private static final int ERROR_CODE = 4;
 	private static final int ERROR_MESSAGE = 5;
 	private static final int TRY_NUMBER = 6;
+	private static final int BUFFER_SIZE = 300;
 	
 	/** Contains a reference to the message log history database bean */
 	private MessageLogHistory messageLogHistoryBean;
@@ -155,7 +156,7 @@ public class MessageLogHistoryTable {
 			// Init some variables.
 			final ArrayList<MessageLogHistoryReturn> results = new ArrayList<MessageLogHistoryReturn>();
 			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(300);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			
 			// Build the select statement as a string.
 			sb.append("SELECT ");

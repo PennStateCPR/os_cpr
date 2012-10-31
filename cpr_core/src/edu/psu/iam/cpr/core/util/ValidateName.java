@@ -175,8 +175,19 @@ public final class ValidateName {
 		String localLastName = (lastName != null) ? lastName.trim() : null;
 		String localSuffix = (suffix != null) ? suffix.trim() : null;
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		String localNameType = (nameType != null) ? nameType.trim().toUpperCase() : null;
-		String localDocumentType = (documentType != null) ? documentType.trim().toUpperCase() : null;
+		String localNameType = null;
+		if (nameType != null) {
+			if (nameType.trim().length() != 0) {
+				localNameType = nameType.trim().toUpperCase();
+			}
+		}
+		
+		String localDocumentType = null;
+		if (documentType != null) {
+			if (documentType.trim().length() != 0) {
+				localDocumentType = documentType.trim().toUpperCase();
+			}
+		}
 		final String dbColumnNames[] = { "FIRST_NAME", "MIDDLE_NAMES", "LAST_NAME", "SUFFIX", "LAST_UPDATE_BY" };
 		final String inputFields[]   = { localFirstName, localMiddleNames, localLastName, localSuffix, localUpdatedBy };
 		final String prettyNames[] = { "First name", "Middle name(s)", "Last name", "Suffix", "Updated by" };

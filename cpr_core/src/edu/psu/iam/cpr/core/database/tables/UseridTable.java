@@ -66,6 +66,8 @@ public class UseridTable {
 	private static final int CREATED_BY		= 6;
 	private static final int CREATED_ON 	= 7;
 
+	private static final int BUFFER_SIZE = 1024;
+
 	
 	/**
 	 * Constructor.
@@ -231,7 +233,7 @@ public class UseridTable {
 			final Userid bean = getUseridBean();
 			
 			// For the selected userid, obtain the end date and their primary flag.
-			final StringBuilder sb = new StringBuilder(128);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT end_date, primary_flag ");
 			sb.append("FROM userid ");
 			sb.append("WHERE person_id = :person_id_in ");
@@ -337,7 +339,7 @@ public class UseridTable {
 			else {
 				
 				// For the selected userid, obtain the end date and their primary flag.
-				final StringBuilder sb = new StringBuilder(128);
+				final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 				sb.append("SELECT end_date, primary_flag ");
 				sb.append("FROM userid ");
 				sb.append("WHERE person_id = :person_id_in ");
@@ -435,7 +437,7 @@ public class UseridTable {
 			else {
 				
 				// For the selected userid, obtain the end date and their primary flag.
-				final StringBuilder sb = new StringBuilder(128);
+				final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 				sb.append("SELECT end_date, primary_flag ");
 				sb.append("FROM userid ");
 				sb.append("WHERE person_id = :person_id_in ");
@@ -570,7 +572,7 @@ public class UseridTable {
 			final Session session = db.getSession();
 			final ArrayList<UseridReturn> results = new ArrayList<UseridReturn>();
 			
-			final StringBuilder sb = new StringBuilder(4000);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT userid, primary_flag, ");
 			sb.append("start_date, ");
 			sb.append("end_date, ");
@@ -678,7 +680,7 @@ public class UseridTable {
 				return null;
 			}
 			final char c[] = s.toCharArray();
-			final StringBuilder sb = new StringBuilder(100);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			for (int i = 0; i < c.length; ++i) {
 				if ((c[i] >= 'a' && c[i] <= 'z') ||
 						c[i] == '$' ||
@@ -709,7 +711,7 @@ public class UseridTable {
 				return null;
 			}
 			final char c[] = s.toCharArray();
-			final StringBuilder sb = new StringBuilder(100);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			for (int i = charPart.length(); i < c.length; ++i) {
 				if (c[i] >= '0' && c[i] <= '9') {
 					sb.append(c[i]);

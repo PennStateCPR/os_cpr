@@ -70,7 +70,7 @@ public class GetPsuIdServiceReturn {
 	public GetPsuIdServiceReturn(int statusCode, String statusMessage) {
 		this.setStatusCode(statusCode);
 		this.setStatusMessage(statusMessage);
-		this.setPsuId(new String());
+		this.setPsuId(null);
 	}
 
 	/**

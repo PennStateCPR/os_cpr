@@ -56,12 +56,12 @@ public class PsuIdHelper {
 	private static final int TEST_MAX_VALUE = 974999999;
 	
 	/** Array containing the minimum values for test, acceptance and production */
-	private static final int[] minRangeValues = { TEST_MIN_VALUE, ACCEPTANCE_MIN_VALUE, PRODUCTION_MIN_VALUE };
+	private static final int[] MIN_RANGE_VALUES = { TEST_MIN_VALUE, ACCEPTANCE_MIN_VALUE, PRODUCTION_MIN_VALUE };
 	
 	/** Array containing the maximum values for test, acceptance and production. */
-	private static final int[] maxRangeValues = { TEST_MAX_VALUE, ACCEPTANCE_MAX_VALUE, PRODUCTION_MAX_VALUE };
+	private static final int[] MAX_RANGE_VALUES = { TEST_MAX_VALUE, ACCEPTANCE_MAX_VALUE, PRODUCTION_MAX_VALUE };
 
-	private static final int LARGE_BUFFER_SIZE = 2000;
+	private static final int BUFFER_SIZE = 2000;
 	
 	/** Contains an instance of the generated identity table implementation */
 	private GeneratedIdentityTable generatedIdentityTable;
@@ -74,8 +74,8 @@ public class PsuIdHelper {
 	private int getRandomPSUIdNumber() {
 		
 		final int index = (int) CprProperties.INSTANCE.getCprMode().index();
-		final int minVal = minRangeValues[index];
-		final int maxVal = maxRangeValues[index];
+		final int minVal = MIN_RANGE_VALUES[index];
+		final int maxVal = MAX_RANGE_VALUES[index];
 		
 		final Random random = new Random(new Date().getTime());
 		
@@ -98,7 +98,7 @@ public class PsuIdHelper {
 			String psuId = Integer.toString(getRandomPSUIdNumber());			
 			
 			// Determine if the new PSU ID is not already used, in the exception list or tagged for assignment. 
-			StringBuilder sb = new StringBuilder(LARGE_BUFFER_SIZE);
+			StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT psu_id FROM cpr.psu_id WHERE psu_id = :psu_id_1");
 			sb.append(" UNION ");
 			sb.append("SELECT psu_id FROM cpr.psu_id_exceptions WHERE psu_id = :psu_id_2");

@@ -58,10 +58,10 @@ public enum CredentialType {
     *
     */   
 
-        private static final Map<Long, CredentialType> lookup = new HashMap<Long,CredentialType>();
+        private static final Map<Long, CredentialType> LOOKUP = new HashMap<Long,CredentialType>();
         static {
                 for (CredentialType p : EnumSet.allOf(CredentialType.class)) {
-                        lookup.put(p.index(), p);
+                        LOOKUP.put(p.index(), p);
                 }
         }
         
@@ -71,6 +71,6 @@ public enum CredentialType {
     */
 
         public static CredentialType get(long index) {
-                return lookup.get(index);
+                return LOOKUP.get(index);
         }
 }

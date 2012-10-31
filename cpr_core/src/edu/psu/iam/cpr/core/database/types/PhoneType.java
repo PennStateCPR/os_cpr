@@ -58,10 +58,10 @@ public enum PhoneType {
     *
     */   
 
-	private static final Map<Long, PhoneType> lookup = new HashMap<Long,PhoneType>();
+	private static final Map<Long, PhoneType> LOOKUP = new HashMap<Long,PhoneType>();
 	static {
 		for (PhoneType p : EnumSet.allOf(PhoneType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -71,7 +71,7 @@ public enum PhoneType {
     */
 
 	public static PhoneType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

@@ -155,10 +155,10 @@ public enum AccessType {
     *
     */
 
-	private static final Map<Long, AccessType> lookup = new HashMap<Long,AccessType>();
+	private static final Map<Long, AccessType> LOOKUP = new HashMap<Long,AccessType>();
 	static {
 		for (AccessType p : EnumSet.allOf(AccessType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -168,7 +168,7 @@ public enum AccessType {
     */
 
 	public static AccessType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

@@ -47,20 +47,14 @@ import edu.psu.iam.cpr.core.util.Utility;
 public class CredentialTable {
 	
 	private static final int CREDENTIAL_TYPE = 0;
-
 	private static final int CREDENTIAL_DATA = 1;
-
 	private static final int START_DATE = 2;
-
 	private static final int END_DATE = 3;
-
 	private static final int LAST_UPDATE_BY = 4;
-
 	private static final int LAST_UPDATE_ON = 5;
-
 	private static final int CREATED_BY = 6;
-
 	private static final int CREATED_ON = 7;
+	private static final int BUFFER_SIZE = 2048;
 
 	/** Contains an instance of the credentials database bean. */
 	private Credential credentialBean;
@@ -298,7 +292,7 @@ public class CredentialTable {
 			final Session session = db.getSession();
 			
 			// Build the query string.
-			final StringBuilder sb = new StringBuilder(2048);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT data_type_key, credential_data, ");
 			sb.append("start_date, ");
 			sb.append("end_date, ");

@@ -75,10 +75,10 @@ public enum IdCardType {
     *
     */   
 
-	private static final Map<Long, IdCardType> lookup = new HashMap<Long,IdCardType>();
+	private static final Map<Long, IdCardType> LOOKUP = new HashMap<Long,IdCardType>();
 	static {
 		for (IdCardType p : EnumSet.allOf(IdCardType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -88,7 +88,7 @@ public enum IdCardType {
     */
 
 	public static IdCardType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

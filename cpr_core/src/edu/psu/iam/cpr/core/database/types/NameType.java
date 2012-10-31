@@ -60,10 +60,10 @@ public enum NameType {
     *
     */   
 
-	private static final Map<Long, NameType> lookup = new HashMap<Long,NameType>();
+	private static final Map<Long, NameType> LOOKUP = new HashMap<Long,NameType>();
 	static {
 		for (NameType p : EnumSet.allOf(NameType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -73,7 +73,7 @@ public enum NameType {
     */
 
 	public static NameType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

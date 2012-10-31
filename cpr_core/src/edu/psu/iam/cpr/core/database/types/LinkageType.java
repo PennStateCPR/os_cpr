@@ -58,10 +58,10 @@ public enum LinkageType {
     *
     */   
 
-	private static final Map<Long, LinkageType> lookup = new HashMap<Long,LinkageType>();
+	private static final Map<Long, LinkageType> LOOKUP = new HashMap<Long,LinkageType>();
 	static {
 		for (LinkageType p : EnumSet.allOf(LinkageType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -71,7 +71,7 @@ public enum LinkageType {
     */
 
 	public static LinkageType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

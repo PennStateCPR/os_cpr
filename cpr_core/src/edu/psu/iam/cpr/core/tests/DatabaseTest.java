@@ -68,48 +68,48 @@ public class DatabaseTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _05testIsRequestorAuthorizedWebClientNotFoundException1() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		db.requestorAuthorized(null, null, "AddPerson",null);
+		db.requestorAuthorized(null, null, "AddPerson");
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _06testIsRequestorAuthorizedWebClientNotFoundException2() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		db.requestorAuthorized("abcd1234", "jvuccolo", "AddPerson",new ServiceCoreReturn());
+		db.requestorAuthorized("abcd1234", "jvuccolo", "AddPerson");
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
 	public final void _07testIsRequestorAuthorizedWebServiceNotFoundException1() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		db.requestorAuthorized("portal1", "jvuccolo", null,new ServiceCoreReturn());
+		db.requestorAuthorized("portal1", "jvuccolo", null);
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _08testIsRequestorAuthorizedWebServiceNotFoundException2() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		db.requestorAuthorized("portal1", "jvuccolo", "some_service_goes_here", new ServiceCoreReturn());
+		db.requestorAuthorized("portal1", "jvuccolo", "some_service_goes_here");
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _09testIsRequestorAuthorizedCprException() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		db.requestorAuthorized("portal2", "jvuccolo", "AddPerson", new ServiceCoreReturn());
+		db.requestorAuthorized("portal2", "jvuccolo", "AddPerson");
 		db.closeSession();
 	}
 	
 	@Test
 	public final void _10testIsRequestorAuthorizedSuccess() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson", new ServiceCoreReturn());
+		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
 		db.closeSession();
 	}
 	@Test
 	public final void _11testIsRequestorAuthorizedSuccessCreds() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddCredential", new ServiceCoreReturn());
+		db.requestorAuthorized("cpruser", "jvuccolo", "AddCredential");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
@@ -452,21 +452,30 @@ public class DatabaseTest {
 	@Test
 	public final void _58testisDataActionAuthorized3() throws CprException, GeneralDatabaseException {
 		openDbConnection();
-		ServiceCoreReturn serviceCoreReturn = db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson", new ServiceCoreReturn());
+		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
+		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized(serviceCoreReturn, AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_ARCHIVE.toString(), "jvuccolo");
 		db.closeSession();
 	}
 	@Test
 	public final void _59testisDataActionAuthorized4() throws CprException, GeneralDatabaseException {
 		openDbConnection();
-		ServiceCoreReturn serviceCoreReturn = db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson", new ServiceCoreReturn());
+		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
+		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized(serviceCoreReturn, AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_READ.toString(), "jvuccolo");
 		db.closeSession();
 	}
 	@Test
 	public final void _60testisDataActionAuthorized5() throws CprException, GeneralDatabaseException {
 		openDbConnection();
-		ServiceCoreReturn serviceCoreReturn = db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson", new ServiceCoreReturn());
+		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
+		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized(serviceCoreReturn, AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), "jvuccolo");
 		db.closeSession();
 	}
@@ -480,28 +489,28 @@ public class DatabaseTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _62testIsRequestorAuthorizedGrouperWebServiceNotFoundException1() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		db.requestorAuthorized("portal1", "jvuccolo", null,new ServiceCoreReturn());
+		db.requestorAuthorized("portal1", "jvuccolo",null);
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _63testIsRequestorAuthorizedWebServiceNotFoundExceptionAgain() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		db.requestorAuthorized("portal1", "jvuccolo", "some_service_goes_here", new ServiceCoreReturn());
+		db.requestorAuthorized("portal1", "jvuccolo", "some_service_goes_here");
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _64testIsRequestorAuthorizedGrouperCprException() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		db.requestorAuthorized("portal2", "jvuccolo", "AddPerson", new ServiceCoreReturn());
+		db.requestorAuthorized("portal2", "jvuccolo", "AddPerson");
 		db.closeSession();
 	}
 	
 	@Test
 	public final void _65testIsRequestorAuthorizedSuccessportal1() throws GeneralDatabaseException, CprException {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson", new ServiceCoreReturn());
+		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
@@ -515,42 +524,60 @@ public class DatabaseTest {
 	@Test
 	public final void _68testisDataActionAuthorizedGrouper3() throws CprException, GeneralDatabaseException {
 		openDbConnection();
-		ServiceCoreReturn serviceCoreReturn = db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson", new ServiceCoreReturn());
+		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
+		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized(serviceCoreReturn, "PERMANENT_PHONE", "ACCESS_OPERATION_ARCHIVE".toLowerCase(), "jvuccolo");
 		db.closeSession();
 	}
 	@Test
 	public final void _69testisDataActionAuthorized() throws CprException, GeneralDatabaseException {
 		openDbConnection();
-		ServiceCoreReturn serviceCoreReturn = db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson", new ServiceCoreReturn());
+		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
+		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized( serviceCoreReturn,"PERMANENT_PHONE", "ACCESS_OPERATION_READ", "jvuccolo" );
 		db.closeSession();
 	}
 	@Test
 	public final void _70testisDataActionAuthorizedGrouper5() throws CprException, GeneralDatabaseException {
 		openDbConnection();
-		ServiceCoreReturn serviceCoreReturn = db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson", new ServiceCoreReturn());
+		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
+		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized(serviceCoreReturn ,  "PERMANENT_PHONE", "ACCESS_OPERATION_WRITE", "jvuccolo");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _71testisDataActionAuthorized6() throws CprException, GeneralDatabaseException {
 		openDbConnection();
-		ServiceCoreReturn serviceCoreReturn = db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson", new ServiceCoreReturn());
+		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
+		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized( serviceCoreReturn, "EMPLOYEE_PHONE_", "ACCESS_OPERATION_ARCHIVE", "jvuccolo" );
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _72testisDataActionAuthorized7() throws CprException, GeneralDatabaseException {
 		openDbConnection();
-		ServiceCoreReturn serviceCoreReturn = db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson", new ServiceCoreReturn());
+		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
+		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized(serviceCoreReturn,  "EMPLOYEE_PHONE_", "ARCE", "jvuccolo" );
 		db.closeSession();
 	}
 	@Test
 	public final void _73testisDataActionAuthorized8() throws CprException, GeneralDatabaseException {
 		openDbConnection();
-		ServiceCoreReturn serviceCoreReturn = db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson", new ServiceCoreReturn());
+		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
+		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized(serviceCoreReturn,  "LOCAL_ADDRESS", "ACCESS_OPERATION_WRITE", "llg5" );
 		db.closeSession();
 	}
@@ -605,7 +632,10 @@ public class DatabaseTest {
 	@Test(expectedExceptions=CprException.class)
 	public final void _83testIsAffiliationRANotAuthorized() throws Exception {
 	openDbConnection();
-		ServiceCoreReturn serviceCoreReturn = db.requestorAuthorized("cpruser", "vlt", "AddAffiliation", new ServiceCoreReturn());
+		db.requestorAuthorized("cpruser", "vlt", "AddAffiliation");
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
+		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		boolean bTest =db.isAffiliationAccessAuthorized(serviceCoreReturn, "EMPLOYEE_WAGE_ACTIVE", "vlt");
 		AssertJUnit.assertTrue(bTest);
 		db.closeSession();
@@ -614,7 +644,10 @@ public class DatabaseTest {
 	@Test(expectedExceptions=CprException.class)
 	public final void _84testIsAffiliationNotAuthorized() throws Exception {
 		openDbConnection();
-		ServiceCoreReturn serviceCoreReturn = db.requestorAuthorized("portal5", "vlt", "AddAffiliation", new ServiceCoreReturn());
+		db.requestorAuthorized("portal5", "vlt", "AddAffiliation");
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
+		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		
 		boolean bTest =db.isAffiliationAccessAuthorized(serviceCoreReturn, "EMPLOYEE_STAFF_ACTIVE",  "vlt");
 		AssertJUnit.assertFalse(bTest);
@@ -624,7 +657,10 @@ public class DatabaseTest {
 	@Test
 	public final void _85testIsAffiliationAuthorized() throws Exception {
 		openDbConnection();
-		ServiceCoreReturn serviceCoreReturn = db.requestorAuthorized("cpruser", "llg5", "AddAffiliation", new ServiceCoreReturn());
+		 db.requestorAuthorized("cpruser", "llg5", "AddAffiliation");
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
+		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		
 		boolean bTest =db.isAffiliationAccessAuthorized(serviceCoreReturn, "EMPLOYEE_STAFF_ACTIVE",  "llg5");
 		AssertJUnit.assertTrue(bTest);

@@ -107,10 +107,10 @@ public enum ReturnType {
     *
     */
 
-	private static final Map<Integer, ReturnType> lookup = new HashMap<Integer,ReturnType>();
+	private static final Map<Integer, ReturnType> LOOKUP = new HashMap<Integer,ReturnType>();
 	static {
 		for (ReturnType p : EnumSet.allOf(ReturnType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -120,7 +120,7 @@ public enum ReturnType {
     */
 
 	public static ReturnType get(int index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

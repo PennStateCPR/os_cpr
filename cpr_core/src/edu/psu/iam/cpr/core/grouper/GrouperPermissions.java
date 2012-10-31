@@ -53,10 +53,8 @@ public class GrouperPermissions {
 	
 	/** A string representing the folder containing the grouper permissions */	
 	private static final String GROUPER_CPR_GROUPS_STEM ="apps:cpr:regAuth";
-	
 
-	
-	
+	private static final int BUFFER_SIZE = 512;
      
      /**
  	 * 	Constructor
@@ -159,7 +157,7 @@ public class GrouperPermissions {
 		final WsSubjectLookup wsSubjectLookup = new WsSubjectLookup();
 		final GcGetPermissionAssignments gcPermission = new GcGetPermissionAssignments();
 		wsSubjectLookup.setSubjectId(requestor);
-		StringBuilder grouperAffiliationType = new StringBuilder(100);
+		StringBuilder grouperAffiliationType = new StringBuilder(BUFFER_SIZE);
 		grouperAffiliationType.append(GROUPER_CPR_RESOURCES);
 		grouperAffiliationType.append(affiliationType);
 		gcPermission.addSubjectLookup(wsSubjectLookup);
@@ -212,7 +210,7 @@ public class GrouperPermissions {
 		final WsSubjectLookup wsSubjectLookup = new WsSubjectLookup();
 		final GcGetPermissionAssignments gcPermission = new GcGetPermissionAssignments();
 		wsSubjectLookup.setSubjectId(requestor);
-		final StringBuilder grouperDataResource  = new StringBuilder(100);
+		final StringBuilder grouperDataResource  = new StringBuilder(BUFFER_SIZE);
 		grouperDataResource.append(GROUPER_CPR_RESOURCES);
 		grouperDataResource.append(dataResource);
 		gcPermission.addSubjectLookup(wsSubjectLookup);
@@ -263,7 +261,7 @@ public class GrouperPermissions {
 		final WsSubjectLookup wsSubjectLookup = new WsSubjectLookup();
 		final GcGetPermissionAssignments gcPermission = new GcGetPermissionAssignments();
 		wsSubjectLookup.setSubjectId(requestor);
-		final StringBuilder grouperWebService  = new StringBuilder(100);
+		final StringBuilder grouperWebService  = new StringBuilder(BUFFER_SIZE);
 		grouperWebService.append(GROUPER_CPR_RESOURCES);
 		grouperWebService.append(webService);
 		gcPermission.addSubjectLookup(wsSubjectLookup);
@@ -355,7 +353,7 @@ public class GrouperPermissions {
 	private String returnRaName (String raName ) {
 			
 			final String parts[] = raName.split(":");
-			final StringBuilder result = new StringBuilder(100);
+			final StringBuilder result = new StringBuilder(BUFFER_SIZE);
 			result.append(parts[parts.length -1].substring( 0, parts[parts.length-1].length() - 6));
 			return result.toString();
 		

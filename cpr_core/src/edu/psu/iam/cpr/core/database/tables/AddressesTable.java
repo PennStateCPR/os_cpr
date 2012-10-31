@@ -54,7 +54,32 @@ public class AddressesTable {
 	
 
 	/** Instance of logger */
-	private static final Logger Log4jLogger = Logger.getLogger(ServiceCore.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(ServiceCore.class);
+
+	private static final int BUFFER_SIZE = 2048;
+
+	private static final int ADDRESS_TYPE = 0;
+	private static final int DOCUMENT_TYPE = 1;
+	private static final int GROUP_ID = 2;
+	private static final int PRIMARY_FLAG = 3;
+	private static final int ADDRESS1 = 4;
+	private static final int ADDRESS2 = 5;
+	private static final int ADDRESS3 = 6;
+	private static final int CITY = 7;
+	private static final int STATE = 8;
+	private static final int POSTAL_CODE = 9;
+	private static final int PROVINCE = 10;
+	private static final int VERIFIED_FLAG = 11;
+	private static final int START_DATE = 12;
+	private static final int END_DATE = 13;
+	private static final int LAST_UPDATE_BY = 14;
+	private static final int LAST_UPDATE_ON = 15;
+	private static final int CREATED_BY = 16;
+	private static final int CREATED_ON = 17;
+	private static final int CAMPUS_CODE = 18;
+	private static final int CAMPUS_NAME = 19;
+	private static final int COUNTRY_CODE = 20;
+	private static final int COUNTRY_NAME = 21;
 	
 	/**
 	 *  Contains a reference to the addresses bean.
@@ -562,7 +587,7 @@ public class AddressesTable {
 			final Session session = db.getSession();
 			final List<AddressReturn> results = new ArrayList<AddressReturn>();
 			
-			final StringBuffer sb = new StringBuffer(8000);
+			final StringBuffer sb = new StringBuffer(BUFFER_SIZE);
 			
 			sb.append("SELECT addresses.data_type_key, addresses.document_type_key, addresses.group_id,");
 			sb.append("addresses.primary_flag,addresses.address1, addresses.address2, addresses.address3, ");
@@ -623,33 +648,33 @@ public class AddressesTable {
 				Object res[] = (Object []) it.next();
 				
 				AddressReturn anAddress = new AddressReturn();
-				anAddress.setAddressType(AddressType.get((Long) res[0]).toString());
+				anAddress.setAddressType(AddressType.get((Long) res[ADDRESS_TYPE]).toString());
 				if (res[1] != null) {
-					anAddress.setDocumentType(DocumentType.get((Long) res[1]).toString());
+					anAddress.setDocumentType(DocumentType.get((Long) res[DOCUMENT_TYPE]).toString());
 				}
 				else {
 					anAddress.setDocumentType(null);
 				}
-				anAddress.setGroupId((Long) res[2]);
-				anAddress.setPrimaryFlag((String) res[3]);
-				anAddress.setAddress1((String) res[4]);
-				anAddress.setAddress2((String) res[5]);
-				anAddress.setAddress3((String) res[6]);
-				anAddress.setCity((String) res[7]);
-				String tempState = (String) res[8]; 
-				anAddress.setPostalCode((String) res[9]);
-				String tempProvince = ((String) res[10]);
-				anAddress.setVerifiedFlag((String) res[11]);
-				anAddress.setStartDate(Utility.convertTimestampToString((Date) res[12]));
-				anAddress.setEndDate(Utility.convertTimestampToString((Date) res[13]));
-				anAddress.setLastUpdateBy((String) res[14]);
-				anAddress.setLastUpdateOn(Utility.convertTimestampToString((Date) res[15]));
-				anAddress.setCreatedBy((String) res[16]);
-				anAddress.setCreatedOn(Utility.convertTimestampToString((Date) res[17]));
-				anAddress.setCampusCode((String) res[18]);
-				anAddress.setCampusName((String) res[19]);
-				anAddress.setCountryCode((String) res[20]);
-				anAddress.setCountryName((String) res[21]);
+				anAddress.setGroupId((Long) res[GROUP_ID]);
+				anAddress.setPrimaryFlag((String) res[PRIMARY_FLAG]);
+				anAddress.setAddress1((String) res[ADDRESS1]);
+				anAddress.setAddress2((String) res[ADDRESS2]);
+				anAddress.setAddress3((String) res[ADDRESS3]);
+				anAddress.setCity((String) res[CITY]);
+				String tempState = (String) res[STATE]; 
+				anAddress.setPostalCode((String) res[POSTAL_CODE]);
+				String tempProvince = ((String) res[PROVINCE]);
+				anAddress.setVerifiedFlag((String) res[VERIFIED_FLAG]);
+				anAddress.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
+				anAddress.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
+				anAddress.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
+				anAddress.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+				anAddress.setCreatedBy((String) res[CREATED_BY]);
+				anAddress.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
+				anAddress.setCampusCode((String) res[CAMPUS_CODE]);
+				anAddress.setCampusName((String) res[CAMPUS_NAME]);
+				anAddress.setCountryCode((String) res[COUNTRY_CODE]);
+				anAddress.setCountryName((String) res[COUNTRY_NAME]);
 				
 				if (tempState != null) {
 					anAddress.setStateOrProvince(tempState);
@@ -690,7 +715,7 @@ public class AddressesTable {
 			final Session session = db.getSession();
 			final Addresses bean = getAddressesBean();
 			SQLQuery query = null;
-			final StringBuilder sb = new StringBuilder(512);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			if (bean.getDocumentTypeKey() == null) {
 				sb.append("SELECT  primary_flag ");
 				sb.append("FROM addresses ");
@@ -784,17 +809,17 @@ public class AddressesTable {
 			}		
 		}	
 		catch (Exception e) {
-			Log4jLogger.info("AddressTable:Set primary Exception" );
+			LOG4J_LOGGER.info("AddressTable:Set primary Exception" );
 			throw new CprException(ReturnType.SET_PRIMARY_FAILED_EXCEPTION, "address");
 		}
 	
 		if (notFound) {
-			Log4jLogger.info("AddressTable:Set primary not found" );
+			LOG4J_LOGGER.info("AddressTable:Set primary not found" );
 			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "address");
 		}
 	
 		if (alreadyPrimary) {
-			Log4jLogger.info("AddressTable:Set primary already primary" );
+			LOG4J_LOGGER.info("AddressTable:Set primary already primary" );
 			throw new CprException(ReturnType.SET_PRIMARY_FAILED_EXCEPTION, "address");
 		}
 	}
@@ -885,7 +910,7 @@ public class AddressesTable {
 				}
 				else
 				{
-					Log4jLogger.info("AddressTable:Update query for record to update failed, GroupID:" +bean.getGroupId() + " personid:" + bean.getPersonId() + " data type key: " 
+					LOG4J_LOGGER.info("AddressTable:Update query for record to update failed, GroupID:" +bean.getGroupId() + " personid:" + bean.getPersonId() + " data type key: " 
 							+bean.getDataTypeKey());
 				}
 				// add the new address
@@ -912,7 +937,7 @@ public class AddressesTable {
 			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, "Addresses");
 		}
 		if (updateCount == 0){
-			Log4jLogger.info("AddressTable:Update failed because no records where updated");
+			LOG4J_LOGGER.info("AddressTable:Update failed because no records where updated");
 			throw new CprException(ReturnType.UPDATE_FAILED_EXCEPTION, "address ");
 		}	
 	}

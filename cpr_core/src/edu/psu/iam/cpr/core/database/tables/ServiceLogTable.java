@@ -40,8 +40,13 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  */
 public class ServiceLogTable {
 	
+	private static final int BUFFER_SIZE = 1024;
+	
 	/** service log bean */
 	private ServiceLog serviceLogBean;
+	
+	/** Constant the represents a value that is not found */
+	private static final long NOT_FOUND_VALUE = -1L;
 	
 	/**
 	 * Constructor.
@@ -73,10 +78,10 @@ public class ServiceLogTable {
 	 */
 	public Long getWebServiceKey(Database db, String serviceName) throws GeneralDatabaseException, CprException {
 		
-		Long webServiceKey = db.NOT_FOUND_VALUE;
+		Long webServiceKey = NOT_FOUND_VALUE;
 		final Session session = db.getSession();
 		try {
-			final StringBuilder sb = new StringBuilder(128);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT web_service_key FROM web_service WHERE web_service = :web_service_in");
 
 			final SQLQuery query = session.createSQLQuery(sb.toString());
@@ -91,7 +96,7 @@ public class ServiceLogTable {
 			throw new GeneralDatabaseException(e.getMessage());
 		}
 		
-		if (webServiceKey == db.NOT_FOUND_VALUE) {
+		if (webServiceKey == NOT_FOUND_VALUE) {
 			throw new CprException(ReturnType.WEB_SERVICE_NOT_FOUND_EXCEPTION, serviceName);
 		}
 		

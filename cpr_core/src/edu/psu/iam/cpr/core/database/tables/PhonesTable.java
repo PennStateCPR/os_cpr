@@ -45,40 +45,19 @@ import edu.psu.iam.cpr.core.util.Utility;
 public class PhonesTable {
 	
 	private static final int PHONE_TYPE = 0;
-
-
 	private static final int GROUP_ID = 1;
-
-
 	private static final int PRIMARY_FLAG = 2;
-
-
 	private static final int PHONE_NUMBER = 3;
-
-
 	private static final int EXTENSION = 4;
-
-
 	private static final int INTERNATIONAL_NUMBER = 5;
-
-
 	private static final int START_DATE = 6;
-
-
 	private static final int END_DATE = 7;
-
-
 	private static final int LAST_UPDATE_BY = 8;
-
-
 	private static final int LAST_UPDATE_ON = 9;
-
-
 	private static final int CREATED_BY = 10;
-
-
 	private static final int CREATED_ON = 11;
-
+	
+	private static final int BUFFER_SIZE = 1024;
 
 	/** Contains a phone bean reference */
 	private PhoneType phoneType;
@@ -431,7 +410,7 @@ public class PhonesTable {
 			final ArrayList<PhoneReturn> results = new ArrayList<PhoneReturn>();
 			
 			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(1024);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT data_type_key, group_id, primary_flag, phone_number, extension, international_number_flag,  ");
 			sb.append("start_date, ");
 			sb.append("end_date, ");
@@ -513,7 +492,7 @@ public class PhonesTable {
 			final Session session = db.getSession();
 			final Phones bean = getPhonesBean();
 		
-			final StringBuilder sb = new StringBuilder(200);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT  primary_flag ");
 			sb.append("FROM phones ");
 			sb.append("WHERE person_id = :person_id_in ");

@@ -34,6 +34,8 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
  */
 public class CountryTable {
 
+	private static final int BUFFER_SIZE = 128;
+	
 	/** Country code set bean. */
 	private Country countryBean;
 
@@ -85,7 +87,7 @@ public class CountryTable {
 			
 			bean.setCountryCodeThree(bean.getCountryCodeThree().toUpperCase().trim());
 			
-			final StringBuilder sb = new StringBuilder(128);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT country_key, country ");
 			sb.append("FROM country ");
 			sb.append("WHERE country_code_three = :country_code_in ");

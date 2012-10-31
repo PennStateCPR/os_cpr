@@ -49,6 +49,8 @@ public final class MatchingUtilities {
 	/** Matching data type for matching of general text information */
 	public static final String MATCH_DATATYPE_TEXT = "TEXT";
 
+	private static final int BUFFER_SIZE = 2048;
+
 	/** 
 	 * Constructor
 	 */
@@ -67,7 +69,7 @@ public final class MatchingUtilities {
 	 */
 	public static String formatNameMatchInput(final String firstName, final String middleName, final String lastName) {
 		
-		final StringBuilder builder = new StringBuilder(500);
+		final StringBuilder builder = new StringBuilder(BUFFER_SIZE);
 		
 		if (firstName != null && !firstName.trim().equals("")) {
 			builder.append(firstName.trim());
@@ -103,7 +105,7 @@ public final class MatchingUtilities {
 	 */
 	public static String formatAddressMatchInput(final String address1, final String address2, final String address3) {
 		
-		final StringBuilder builder = new StringBuilder(5000);
+		final StringBuilder builder = new StringBuilder(BUFFER_SIZE);
 		
 		if (address1 != null && !address1.trim().equals("")) {
 			builder.append(address1.trim());
@@ -157,7 +159,7 @@ public final class MatchingUtilities {
 	 */
 	public static String formatLastLineMatchInput(final String city, final String state, final String postalCode) {
 	
-		final StringBuilder builder = new StringBuilder(500);
+		final StringBuilder builder = new StringBuilder(BUFFER_SIZE);
 		
 		if (city != null && !city.trim().equals("")) {
 			builder.append(city.trim());

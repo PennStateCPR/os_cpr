@@ -51,19 +51,16 @@ public class IdCardPrintLogTable {
 	
 
 	/** Instance of logger */
-	private static final Logger Log4jLogger = Logger.getLogger(ServiceCore.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(ServiceCore.class);
 
 	private static final int PERSON_ID = 0;
-
 	private static final int ID_CARD_NUMBER = 1;
-
 	private static final int IP_ADDRESS = 2;
-
 	private static final int WORKSTATION_NAME = 3;
-
 	private static final int PRINTED_BY = 4;
-
 	private static final int PRINT_DATE = 5;
+
+	private static final int BUFFER_SIZE = 1024;
 	
 	/**
 	 * contain reference to idcardprintlog
@@ -196,7 +193,7 @@ public class IdCardPrintLogTable {
 		try {
 			final Session session = db.getSession();
 			
-			final StringBuffer sb = new StringBuffer(8000);
+			final StringBuffer sb = new StringBuffer(BUFFER_SIZE);
 			sb.append("SELECT person_id, id_card_number, work_station_ip_address, ");
 			sb.append("work_station_name, printed_by , printed_on ");
 			sb.append("FROM v_person_id_card_print_log WHERE id_card_number = :id_card_number_in ");
@@ -225,7 +222,7 @@ public class IdCardPrintLogTable {
 			
 		}
 		catch (Exception e) {
-			Log4jLogger.info("getIdCardPrintLog:error geting Id Card print log" );
+			LOG4J_LOGGER.info("getIdCardPrintLog:error geting Id Card print log" );
 			throw new GeneralDatabaseException("Unable to retrieve id card print logs for id card number = " + getEventIdCardNumber());	
 		}
 		return results.toArray(new IdCardPrintLogReturn[results.size()]);

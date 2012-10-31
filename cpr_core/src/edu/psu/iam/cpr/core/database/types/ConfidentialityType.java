@@ -58,10 +58,10 @@ public enum ConfidentialityType {
     *
     */   
 
-	private static final Map<Long, ConfidentialityType> lookup = new HashMap<Long,ConfidentialityType>();
+	private static final Map<Long, ConfidentialityType> LOOKUP = new HashMap<Long,ConfidentialityType>();
 	static {
 		for (ConfidentialityType p : EnumSet.allOf(ConfidentialityType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -71,7 +71,7 @@ public enum ConfidentialityType {
     */
 
 	public static ConfidentialityType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

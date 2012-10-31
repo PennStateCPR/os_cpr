@@ -56,10 +56,10 @@ public enum MatchType {
 	 * 
 	 */
 	
-	private static final Map<Long, MatchType> lookup = new HashMap<Long,MatchType>();
+	private static final Map<Long, MatchType> LOOKUP = new HashMap<Long,MatchType>();
 	static {
 		for (MatchType p : EnumSet.allOf(MatchType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	/**
@@ -68,6 +68,6 @@ public enum MatchType {
 	 * @return  the enum
 	 */
 	public static MatchType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }

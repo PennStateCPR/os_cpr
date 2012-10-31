@@ -57,10 +57,10 @@ public enum EmailAddressType {
     *
     */   
 
-	private static final Map<Long, EmailAddressType> lookup = new HashMap<Long,EmailAddressType>();
+	private static final Map<Long, EmailAddressType> LOOKUP = new HashMap<Long,EmailAddressType>();
 	static {
 		for (EmailAddressType p : EnumSet.allOf(EmailAddressType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -70,7 +70,7 @@ public enum EmailAddressType {
     */
 
 	public static EmailAddressType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }
 

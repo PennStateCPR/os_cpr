@@ -59,10 +59,10 @@ public enum CprRunningMode {
 	 *
 	 */   
 
-	private static final Map<Long, CprRunningMode> lookup = new HashMap<Long,CprRunningMode>();
+	private static final Map<Long, CprRunningMode> LOOKUP = new HashMap<Long,CprRunningMode>();
 	static {
 		for (CprRunningMode p : EnumSet.allOf(CprRunningMode.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 
@@ -72,7 +72,7 @@ public enum CprRunningMode {
 	 */
 
 	public static CprRunningMode get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 
 }

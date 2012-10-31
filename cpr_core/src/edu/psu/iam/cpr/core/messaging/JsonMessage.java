@@ -182,7 +182,7 @@ public class JsonMessage {
 	/**
 	 * @return the serviceName
 	 */
-	public String getServiceName() {
+	public final String getServiceName() {
 		return serviceName;
 	}
 	

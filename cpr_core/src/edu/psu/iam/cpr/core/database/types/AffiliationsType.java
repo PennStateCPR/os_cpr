@@ -206,10 +206,10 @@ public enum AffiliationsType {
    /**
     *
     */
-	private static final Map<Long, AffiliationsType> lookup = new HashMap<Long,AffiliationsType>();
+	private static final Map<Long, AffiliationsType> LOOKUP = new HashMap<Long,AffiliationsType>();
 	static {
 		for (AffiliationsType p : EnumSet.allOf(AffiliationsType.class)) {
-			lookup.put(p.index(), p);
+			LOOKUP.put(p.index(), p);
 		}
 	}
 	
@@ -219,6 +219,6 @@ public enum AffiliationsType {
     */
 
 	public static AffiliationsType get(long index) {
-		return lookup.get(index);
+		return LOOKUP.get(index);
 	}
 }

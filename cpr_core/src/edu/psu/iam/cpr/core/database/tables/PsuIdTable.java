@@ -47,18 +47,14 @@ import edu.psu.iam.cpr.core.util.Utility;
 public class PsuIdTable {
 	
 	private static final int PSU_ID = 0;
-
 	private static final int START_DATE = 1;
-
 	private static final int END_DATE = 2;
-
 	private static final int LAST_UPDATE_BY = 3;
-
 	private static final int LAST_UPDATE_ON = 4;
-
 	private static final int CREATED_BY = 5;
-
 	private static final int CREATED_ON = 6;
+	
+	private static final int BUFFER_SIZE = 1024;
 
 	/** contains a reference to the PSU ID database bean */
 	private PsuId psuIdBean;
@@ -176,7 +172,7 @@ public class PsuIdTable {
 		try {
 			final Session session = db.getSession();
 			final ArrayList<PsuIdReturn> results = new ArrayList<PsuIdReturn>();
-			final StringBuilder sb = new StringBuilder(2048);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			
 			sb.append("SELECT psu_id, ");
 			sb.append("start_date, ");

@@ -46,6 +46,7 @@ public class MessageLogTable {
 	private static final int NUMBER_OF_TRIES = 3;
 	private static final int SUCCESS_FLAG = 4;
 	private static final int REQUEST_USERID = 5;
+	private static final int BUFFER_SIZE = 300;
 	
 	/** Contains a reference to the message log database bean */
 	private MessageLog messageLogBean;
@@ -163,7 +164,7 @@ public class MessageLogTable {
 			// Init some variables.
 			final ArrayList<MessageLogReturn> results = new ArrayList<MessageLogReturn>();
 			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(300);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 
 			// Build the select statement as a string.
 			sb.append("SELECT ");

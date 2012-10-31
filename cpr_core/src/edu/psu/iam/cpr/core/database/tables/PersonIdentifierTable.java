@@ -48,20 +48,14 @@ import edu.psu.iam.cpr.core.util.Utility;
 public class PersonIdentifierTable {
 	
 	private static final int TYPE_KEY = 0;
-
 	private static final int IDENTIFER_VALUE = 1;
-
 	private static final int START_DATE = 2;
-
 	private static final int END_DATE = 3;
-
 	private static final int LAST_UPDATE_BY = 4;
-
 	private static final int LAST_UPDATE_ON = 5;
-
 	private static final int CREATED_BY = 6;
-
 	private static final int CREATED_ON = 7;
+	private static final int BUFFER_SIZE = 1024;
 
 	/** Contains the person identifier bean */
 	private PersonIdentifier personIdentifierBean;
@@ -294,7 +288,7 @@ public class PersonIdentifierTable {
 			final Session session = db.getSession();
 			
 			// Build the query string.
-			final StringBuilder sb = new StringBuilder(2048);
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT type_key, identifier_value, ");
 			sb.append("start_date, ");
 			sb.append("end_date, ");
