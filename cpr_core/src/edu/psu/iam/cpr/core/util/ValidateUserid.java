@@ -4,7 +4,6 @@ package edu.psu.iam.cpr.core.util;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.UseridTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -45,10 +44,9 @@ public final class ValidateUserid {
 	 * @param personId
 	 * @param updatedBy
 	 * @return UseridTable
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException
 	 */
-	public static UseridTable validateUseridParameters(Database db, long personId, String updatedBy) throws CprException, GeneralDatabaseException {
+	public static UseridTable validateUseridParameters(Database db, long personId, String updatedBy) throws CprException {
 		
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 
@@ -74,10 +72,10 @@ public final class ValidateUserid {
 	 * @param requestedBy contains the user that requested the search.
 	 * @param returnHistory contains a Y/N that indicates whether history is to be returned or not.
 	 * @return UseridTable upon success an instance of a UseridTable will be returned.
-	 * @throws GeneralDatabaseException will be thrown if there are any database problems.
 	 * @throws CprException will be thrown for any CPR specific problems.
 	 */
-	public static UseridTable validateGetUseridParameters(Database db, long personId, String requestedBy, String returnHistory) throws CprException, GeneralDatabaseException {
+	public static UseridTable validateGetUseridParameters(Database db, long personId, String requestedBy, 
+			String returnHistory) throws CprException {
 		
 		final UseridTable useridTable = validateUseridParameters(db, personId, requestedBy);
 		String localReturnHistory = returnHistory;
@@ -99,9 +97,9 @@ public final class ValidateUserid {
 	 * @param updatedBy contains the userid and/or service principal that initiated this service call.
 	 * @return will return a UseridTable class upon a successful execution of this routine.
 	 * @throws CprException will be thrown for any CPR related exceptions.
-	 * @throws GeneralDatabaseException will be thrown for any database exceptions.
 	 */
-	public static UseridTable validateUseridParameters(Database db, long personId, String userid, String updatedBy) throws CprException, GeneralDatabaseException {
+	public static UseridTable validateUseridParameters(Database db, long personId, String userid, String updatedBy) 
+		throws CprException {
 		
 		UseridTable useridTable = validateUseridParameters(db, personId, updatedBy);
 		

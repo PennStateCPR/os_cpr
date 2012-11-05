@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.type.StandardBasicTypes;
@@ -14,9 +13,7 @@ import org.hibernate.type.StandardBasicTypes;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.IdCardPrintLog;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.returns.IdCardPrintLogReturn;
 import edu.psu.iam.cpr.core.util.Utility;
 
@@ -47,11 +44,6 @@ import edu.psu.iam.cpr.core.util.Utility;
  */
 
 public class IdCardPrintLogTable {
-
-	
-
-	/** Instance of logger */
-	private static final Logger LOG4J_LOGGER = Logger.getLogger(ServiceCore.class);
 
 	private static final int PERSON_ID = 0;
 	private static final int ID_CARD_NUMBER = 1;
@@ -154,76 +146,61 @@ public class IdCardPrintLogTable {
 	public void addIdCardPrintLog(Database db) throws CprException {
 	
 		boolean noPersonIdCard = false;
-		try {
-			final Session session = db.getSession();
-			final IdCardPrintLog bean = getIdCardPrintLogBean();
-			final String sqlQuery = "SELECT person_id_card_key FROM person_id_card WHERE id_card_number = :idCard AND end_date IS NULL";
-			final SQLQuery query = session.createSQLQuery(sqlQuery);
-			query.setParameter("idCard", eventIdCardNumber);
-			query.addScalar("person_id_card_key",  StandardBasicTypes.LONG);
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
-				bean.setPersonIdCardKey((Long)it.next());
-				session.save(bean);
-				session.flush();
-			}
-			else
-			{
-				noPersonIdCard = true;
-			}
-			
+		final Session session = db.getSession();
+		final IdCardPrintLog bean = getIdCardPrintLogBean();
+		final String sqlQuery = "SELECT person_id_card_key FROM person_id_card WHERE id_card_number = :idCard AND end_date IS NULL";
+		final SQLQuery query = session.createSQLQuery(sqlQuery);
+		query.setParameter("idCard", eventIdCardNumber);
+		query.addScalar("person_id_card_key",  StandardBasicTypes.LONG);
+		final Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+			bean.setPersonIdCardKey((Long)it.next());
+			session.save(bean);
+			session.flush();
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "Id Card Print Log");
+		else
+		{
+			noPersonIdCard = true;
 		}
 		if (noPersonIdCard) {
 			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "Id Card Print Log");
 		}
 	}
+	
 	/**
 	 * Get an IdCard Print Log event
 	 * @param db contains a database connection.
 	 * @return IdCardPrintLogReturn array of results.
-	 * @throws CprException
-	 * @throws GeneralDatabaseException
 	 */
-	public IdCardPrintLogReturn[] getIdCardPrintLog( Database db) throws CprException, GeneralDatabaseException {
+	public IdCardPrintLogReturn[] getIdCardPrintLog( Database db) {
 		
 		final List<IdCardPrintLogReturn> results = new ArrayList<IdCardPrintLogReturn>();
-		try {
-			final Session session = db.getSession();
-			
-			final StringBuffer sb = new StringBuffer(BUFFER_SIZE);
-			sb.append("SELECT person_id, id_card_number, work_station_ip_address, ");
-			sb.append("work_station_name, printed_by , printed_on ");
-			sb.append("FROM v_person_id_card_print_log WHERE id_card_number = :id_card_number_in ");
-			sb.append("order by printed_on ASC");
-			
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("id_card_number_in", getEventIdCardNumber());
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			query.addScalar("id_card_number", StandardBasicTypes.STRING);
-			query.addScalar("work_station_ip_address", StandardBasicTypes.STRING);
-			query.addScalar("work_station_name", StandardBasicTypes.STRING);
-			query.addScalar("printed_by", StandardBasicTypes.STRING);
-			query.addScalar("printed_on", StandardBasicTypes.TIMESTAMP);
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				Object res[] = (Object []) it.next();
-				IdCardPrintLogReturn anIdLog = new IdCardPrintLogReturn();
-				anIdLog.setPersonId((Long) res[PERSON_ID]);
-				anIdLog.setIdCardNumber((String) res[ID_CARD_NUMBER]);
-				anIdLog.setIpAddress((String) res[IP_ADDRESS]);
-				anIdLog.setWorkStationName((String) res[WORKSTATION_NAME]);
-				anIdLog.setPrintedBy((String)res[PRINTED_BY]);
-			    anIdLog.setPrintDate(Utility.convertTimestampToString((Date) res[PRINT_DATE]));
-			    results.add(anIdLog);
-			}
+		final Session session = db.getSession();
 
-			
-		}
-		catch (Exception e) {
-			LOG4J_LOGGER.info("getIdCardPrintLog:error geting Id Card print log" );
-			throw new GeneralDatabaseException("Unable to retrieve id card print logs for id card number = " + getEventIdCardNumber());	
+		final StringBuffer sb = new StringBuffer(BUFFER_SIZE);
+		sb.append("SELECT person_id, id_card_number, work_station_ip_address, ");
+		sb.append("work_station_name, printed_by , printed_on ");
+		sb.append("FROM v_person_id_card_print_log WHERE id_card_number = :id_card_number_in ");
+		sb.append("order by printed_on ASC");
+
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("id_card_number_in", getEventIdCardNumber());
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		query.addScalar("id_card_number", StandardBasicTypes.STRING);
+		query.addScalar("work_station_ip_address", StandardBasicTypes.STRING);
+		query.addScalar("work_station_name", StandardBasicTypes.STRING);
+		query.addScalar("printed_by", StandardBasicTypes.STRING);
+		query.addScalar("printed_on", StandardBasicTypes.TIMESTAMP);
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			Object res[] = (Object []) it.next();
+			IdCardPrintLogReturn anIdLog = new IdCardPrintLogReturn();
+			anIdLog.setPersonId((Long) res[PERSON_ID]);
+			anIdLog.setIdCardNumber((String) res[ID_CARD_NUMBER]);
+			anIdLog.setIpAddress((String) res[IP_ADDRESS]);
+			anIdLog.setWorkStationName((String) res[WORKSTATION_NAME]);
+			anIdLog.setPrintedBy((String)res[PRINTED_BY]);
+			anIdLog.setPrintDate(Utility.convertTimestampToString((Date) res[PRINT_DATE]));
+			results.add(anIdLog);
 		}
 		return results.toArray(new IdCardPrintLogReturn[results.size()]);
 		

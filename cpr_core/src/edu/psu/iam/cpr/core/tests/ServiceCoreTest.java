@@ -19,8 +19,6 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
-import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 
@@ -28,80 +26,45 @@ public class ServiceCoreTest {
 
 
 	@Test(expectedExceptions=Exception.class)
-	public final void testInitalizeService1() throws CprException, GeneralDatabaseException {
+	public final void testInitalizeService1() throws Exception {
 		new ServiceCore().initializeService(null, null, null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testInitalizeService2() throws CprException, GeneralDatabaseException {
+	public final void testInitalizeService2() throws Exception {
 		new ServiceCore().initializeService(new Database(), "cprblah", null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testInitalizeService3() throws CprException, GeneralDatabaseException {
+	public final void testInitalizeService3() throws Exception {
 		new ServiceCore().initializeService(new Database(), "cprblah", "abcd", null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testInitalizeService4() throws CprException, GeneralDatabaseException {
+	public final void testInitalizeService4() throws Exception {
 		new ServiceCore().initializeService(new Database(), "cprblah", "dun4IAM", null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testInitalizeService5() throws CprException, GeneralDatabaseException {
+	public final void testInitalizeService5() throws Exception {
 		new ServiceCore().initializeService(new Database(), "cprblah", "dun4IAM", "AddPerson", null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testInitalizeService6() throws CprException, GeneralDatabaseException {
+	public final void testInitalizeService6() throws Exception {
 		new ServiceCore().initializeService(new Database(), "cprblah", "dun4IAM", "AddPerson", new ServiceCoreReturn());
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testIntializeService7() throws CprException, GeneralDatabaseException {
+	public final void testIntializeService7() throws Exception {
 		new ServiceCore().initializeService(null, null, null, null, null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testIntializeService8() throws CprException, GeneralDatabaseException {
+	public final void testIntializeService8() throws Exception {
 		new ServiceCore().initializeService(new Database(), "cprblah", null, null, null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testIntializeService9() throws CprException,  GeneralDatabaseException {
+	public final void testIntializeService9() throws Exception {
 		new ServiceCore().initializeService(new Database(), "cprblah", "abcd", null, null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testIntializeService10() throws CprException,  GeneralDatabaseException {
+	public final void testIntializeService10() throws Exception {
 		new ServiceCore().initializeService(new Database(), "cprblah", "dun4IAM", null, null, null, null);
 	}
-	
-	
-	
-//	@Test(expected=Exception.class)
-//	public final void testInitializeServiceException1() throws CprException, GeneralDatabaseException, NotAuthorizedException, WebClientNotFoundException, WebServiceNotFoundException, InvalidIdentifierTypeException, PersonNotFoundException, PersonNotActiveException, InvalidParametersException {
-//		ServiceCore.initializeService(null, null, null, null, null, null,null,null,null);
-//	}
-//	
-//	@Test(expected=Exception.class)	
-//	public final void testInitializeServiceException2() throws CprException, GeneralDatabaseException, NotAuthorizedException, WebClientNotFoundException, WebServiceNotFoundException, InvalidIdentifierTypeException, PersonNotFoundException, PersonNotActiveException, InvalidParametersException {
-//		ServiceCore.initializeService("portal1", null, null, null, null, null,null,null,null);
-//	}
-//	@Test(expected=Exception.class)	
-//	public final void testInitializeServiceException3() throws CprException, GeneralDatabaseException, NotAuthorizedException, WebClientNotFoundException, WebServiceNotFoundException, InvalidIdentifierTypeException, PersonNotFoundException, PersonNotActiveException, InvalidParametersException {
-//		ServiceCore.initializeService("portal1", "blah", null, null, null, null,null,null,null);
-//	}
-//	@Test(expected=Exception.class)	
-//	public final void testInitializeServiceException4() throws CprException, GeneralDatabaseException, NotAuthorizedException, WebClientNotFoundException, WebServiceNotFoundException, InvalidIdentifierTypeException, PersonNotFoundException, PersonNotActiveException, InvalidParametersException {
-//		ServiceCore.initializeService("portal1", "dun4IAM", null, null, null, null,null,null,null);
-//	}
-//	
-//	@Test(expected=Exception.class)
-//	public final void testInitalizeServiceException5() throws CprException, GeneralDatabaseException, NotAuthorizedException, WebClientNotFoundException, WebServiceNotFoundException {
-//		ServiceCore.initializeService(null, null, null, null);
-//	}
-//	@Test(expected=Exception.class)
-//	public final void testInitalizeServiceException6() throws CprException, GeneralDatabaseException, NotAuthorizedException, WebClientNotFoundException, WebServiceNotFoundException {
-//		ServiceCore.initializeService("portal1", null, null, null);
-//	}
-//	@Test(expected=Exception.class)
-//	public final void testInitalizeServiceException7() throws CprException, GeneralDatabaseException, NotAuthorizedException, WebClientNotFoundException, WebServiceNotFoundException {
-//		ServiceCore.initializeService("portal1", "dun4IAM", null, null);
-//	}
-//	
-
 	
 	
 	@Test

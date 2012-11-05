@@ -23,8 +23,6 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.util.ValidateIdCard;
 
 
@@ -37,104 +35,104 @@ public class ValidateIdCardTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCard#ValidateAddUpdateIdCard(edu.psu.iam.cpr.core.database.Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws CprException 
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 */
 	
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddUpdateIdCardNullIdCardType() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardNullIdCardType() throws Exception {
 		ValidateIdCard.validateAddUpdateIdCardParameters(null, 0, null, null, null, null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddUpdateIdCardBlankIdCardType() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardBlankIdCardType() throws Exception {
 		ValidateIdCard.validateAddUpdateIdCardParameters(null, 0,  "", null,  null, null, null, null);
 	}		
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddUpdateIdCardNot16CharIdCard() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardNot16CharIdCard() throws Exception {
 		ValidateIdCard.validateAddUpdateIdCardParameters(null, 0,"ID_CARD_STUDENT",  "SYSTEM","1234567890123456", null, null, null);
 	}	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddUpdateIdCardNot16DigitIdCard() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardNot16DigitIdCard() throws Exception {
 		ValidateIdCard.validateAddUpdateIdCardParameters(null, 0, "ID_CARD_STUDENT", "SYSTEM","123456789012345a", null, null, null);
 	}	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAdddUpdateIdCardNullIdCardType() throws GeneralDatabaseException, CprException {
+	public final void testValidateAdddUpdateIdCardNullIdCardType() throws Exception {
 		ValidateIdCard.validateAddUpdateIdCardParameters(null, 0, null, null, null, null, null, null);
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddUpdateIdCardNullUpdateBy() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardNullUpdateBy() throws Exception {
 		ValidateIdCard.validateAddUpdateIdCardParameters(null, 0,"ID_CARD_STUDENT", null, "1234567890123456", null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddUpdateIdCardBlankUpdateBy() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardBlankUpdateBy() throws Exception {
 		ValidateIdCard.validateAddUpdateIdCardParameters(null, 0, "ID_CARD_STUDENT", "",  "1234567890123456", null, null, null);
 	}		
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddUpdateIdCardNullIdCard() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardNullIdCard() throws Exception {
 		ValidateIdCard.validateAddUpdateIdCardParameters(null, 0, "ID_CARD_STUDENT", "SYSTEM", null, null, null, null);
 	}
 		
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddUpdateIdCardPhotoBlankDateTaken() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardPhotoBlankDateTaken() throws Exception {
 		ValidateIdCard.validateAddUpdateIdCardParameters(null, 0, "ID_CARD_STUDENT", "SYSTEM", null, null, null, " ");
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddUpdateIdCardPhotoBadDateTaken() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardPhotoBadDateTaken() throws Exception {
 		ValidateIdCard.validateAddUpdateIdCardParameters(null, 0, "ID_CARD_STUDENT", "SYSTEM", null, null, new byte[1], "1/1");
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddUpdateIdCardNullPhotoDateTaken() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardNullPhotoDateTaken() throws Exception {
 		ValidateIdCard.validateAddUpdateIdCardParameters(null, 0, "ID_CARD_STUDENT", "SYSTEM", null, null, null, "1/1/2011");
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddUpdateIdCardZeroBytePhotoDateTaken() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardZeroBytePhotoDateTaken() throws Exception {
 		ValidateIdCard.validateAddUpdateIdCardParameters(null, 0, "ID_CARD_STUDENT", "SYSTEM", null, null, new byte[0], "1/1/2011");
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetIdCardNullUpdateBy() throws GeneralDatabaseException, CprException {
+	public final void testValidateGetIdCardNullUpdateBy() throws Exception {
 		ValidateIdCard.validateGetIdCardParameters(null, 0, null,null,"N");
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetIdCardBlankUpdateBy() throws GeneralDatabaseException, CprException {
+	public final void testValidateGetIdCardBlankUpdateBy() throws Exception {
 		ValidateIdCard.validateGetIdCardParameters(null, 0,  "",null,"N");
 	}		
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetIdCardByTypeNullUpdateBy() throws GeneralDatabaseException, CprException {
+	public final void testValidateGetIdCardByTypeNullUpdateBy() throws Exception {
 		ValidateIdCard.validateGetIdCardParameters(null, 0, null, "ID_CARD_STUDENT",null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetIdCardByTypeBlankUpdateBy() throws GeneralDatabaseException, CprException {
+	public final void testValidateGetIdCardByTypeBlankUpdateBy() throws Exception {
 		ValidateIdCard.validateGetIdCardParameters(null, 0,  "",  "ID_CARD_STUDENT","N");
 	}	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveIdCardNullUpdateBy() throws GeneralDatabaseException, CprException {
+	public final void testValidateArchiveIdCardNullUpdateBy() throws Exception {
 		ValidateIdCard.validateArchiveIdCardParameters(null, 0, null, "ID_CARD_STUDENT");
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveIdCardBlankUpdateBy() throws GeneralDatabaseException, CprException {
+	public final void testValidateArchiveIdCardBlankUpdateBy() throws Exception {
 		ValidateIdCard.validateArchiveIdCardParameters(null, 0,  "",  "ID_CARD_STUDENT");
 	}		
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddUpdateIdCardBadIdType() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardBadIdType() throws Exception {
 		openDbConnection();
 		ValidateIdCard.validateAddUpdateIdCardParameters(db, 0, "fred", "SYSTEM", "1234567890123456",null, null, null);
 		db.closeSession();
 	}	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddUpdateIdCardTooLongUpdateBy() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardTooLongUpdateBy() throws Exception {
 		openDbConnection();
 		ValidateIdCard.validateAddUpdateIdCardParameters(db, 0, "ID_CARD_STUDENT", "asdfghjklpoiuytrewqzxcvbnmasdfgh", "1234567890123456111111", null, null, null);
 		db.closeSession();
 	}	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddUpdateIdCardTooLongIdCard() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardTooLongIdCard() throws Exception {
 		openDbConnection();
 		ValidateIdCard.validateAddUpdateIdCardParameters(db, 0, "ID_CARD_STUDENT", "SYSTEM","asdfghjklpoiuytrewqzxcvbnmasdfgh", null, null, null);
 		db.closeSession();
@@ -142,68 +140,68 @@ public class ValidateIdCardTest {
 	
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetIdCardByTypeBadIdType() throws GeneralDatabaseException, CprException {
+	public final void testValidateGetIdCardByTypeBadIdType() throws Exception {
 		openDbConnection();
 		ValidateIdCard.validateGetIdCardParameters(db, 0, "SYSTEM", "fred","n");
 		db.closeSession();
 	}	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveIdCardBadIdType() throws GeneralDatabaseException, CprException {
+	public final void testValidateArchiveIdCardBadIdType() throws Exception {
 		openDbConnection();
 		ValidateIdCard.validateArchiveIdCardParameters(db, 0, "SYSTEM", "fred");
 		db.closeSession();
 	}	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveIdCardBadIdTypeUserid() throws GeneralDatabaseException, CprException {
+	public final void testValidateArchiveIdCardBadIdTypeUserid() throws Exception {
 		openDbConnection();
 		ValidateIdCard.validateArchiveIdCardParameters(db, 0,  "fred", "SYSTEM");
 		db.closeSession();
 	}	
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetIdCardByTypeTooLongUpdateBy() throws GeneralDatabaseException, CprException {
+	public final void testValidateGetIdCardByTypeTooLongUpdateBy() throws Exception {
 		openDbConnection();
 		ValidateIdCard.validateGetIdCardParameters(db, 0, "12345678901234567890123456789012345", "ID_CARD_STUDENT","y");
 		db.closeSession();
 	}	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveIdCardTooLongUpdateBy() throws GeneralDatabaseException, CprException {
+	public final void testValidateArchiveIdCardTooLongUpdateBy() throws Exception {
 		openDbConnection();
 		ValidateIdCard.validateArchiveIdCardParameters(db, 0, "asdfghjklpoiuytrewqzxcvbnmasdfgh", "ID_CARD_STUDENT");
 		db.closeSession();
 	}	
 	@Test
-	public final void testValidateUpdateIdCardGoodIdType() throws GeneralDatabaseException, CprException {
+	public final void testValidateUpdateIdCardGoodIdType() throws Exception {
 		openDbConnection();
 		ValidateIdCard.validateAddUpdateIdCardParameters(db, 0, "ID_CARD_ID_PLUS_CARD_STUDENT", "SYSTEM", "1234567890123456",null,null, null);
 		db.closeSession();
 	}	
 	@Test
-	public final void testValidateAddUpdateIdCardGoodIdType() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardGoodIdType() throws Exception {
 		openDbConnection();
 		ValidateIdCard.validateAddUpdateIdCardParameters(db, 0, "ID_CARD_ID_PLUS_CARD_STUDENT", "SYSTEM", "1234567890123456",null, null, null);
 		db.closeSession();
 	}	
 	@Test
-	public final void testValidateAddUpdateIdCardGoodIdTypeWithPhoto() throws GeneralDatabaseException, CprException {
+	public final void testValidateAddUpdateIdCardGoodIdTypeWithPhoto() throws Exception {
 		openDbConnection();
 		ValidateIdCard.validateAddUpdateIdCardParameters(db, 0, "ID_CARD_ID_PLUS_CARD_STUDENT", "SYSTEM", "1234567890123456",null, new byte[1], "1/2/2011");
 		db.closeSession();
 	}	
 	@Test
-	public final void testValidateGetIdCardGoodIdType() throws GeneralDatabaseException, CprException {
+	public final void testValidateGetIdCardGoodIdType() throws Exception {
 		openDbConnection();
 		ValidateIdCard.validateGetIdCardParameters(db, 0, "SYSTEM",null,"n");
 		db.closeSession();
 	}	
 	@Test
-	public final void testValidateGetIdCardByTypeGoodIdType() throws GeneralDatabaseException, CprException {
+	public final void testValidateGetIdCardByTypeGoodIdType() throws Exception {
 		openDbConnection();
 		ValidateIdCard.validateGetIdCardParameters(db, 0, "SYSTEM", "ID_CARD_ID_PLUS_CARD_STUDENT","n");
 		db.closeSession();
 	}	
 	@Test
-	public final void testValidateArchiveIdCardGoodIdType() throws GeneralDatabaseException, CprException {
+	public final void testValidateArchiveIdCardGoodIdType() throws Exception {
 		openDbConnection();
 		ValidateIdCard.validateArchiveIdCardParameters(db, 0, "SYSTEM", "ID_CARD_ID_PLUS_CARD_STUDENT");
 		db.closeSession();

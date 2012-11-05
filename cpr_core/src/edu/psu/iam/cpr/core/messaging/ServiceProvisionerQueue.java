@@ -31,7 +31,6 @@ import org.hibernate.type.StandardBasicTypes;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.VSpNotification;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * Copyright 2012 The Pennsylvania State University
@@ -115,40 +114,34 @@ public class ServiceProvisionerQueue {
 	 * @param db contains a database connection.
 	 * @param webService contains the web server to do the query for.
 	 * @return will return an ArrayList of service provider information.
-	 * @throws GeneralDatabaseException will be thrown for any problems.
 	 */
-	public static ArrayList<ServiceProvisionerQueue> getServiceProvisionerQueues(Database db, String webService) throws GeneralDatabaseException {
+	public static ArrayList<ServiceProvisionerQueue> getServiceProvisionerQueues(Database db, String webService) {
 		
-		try {
-			final ArrayList<ServiceProvisionerQueue> results = new ArrayList<ServiceProvisionerQueue>();
-			final Session session = db.getSession();
-			
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT service_provisioner_key, service_provisioner, web_service_key, web_service, ");
-			sb.append("service_provisioner_queue FROM v_sp_notification WHERE web_service=:web_service ");
-			
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("web_service", webService);
-			query.addScalar("service_provisioner_key", StandardBasicTypes.LONG);
-			query.addScalar("service_provisioner", StandardBasicTypes.STRING);
-			query.addScalar("web_service_key", StandardBasicTypes.LONG);
-			query.addScalar("web_service", StandardBasicTypes.STRING);
-			query.addScalar("service_provisioner_queue", StandardBasicTypes.STRING);
-			final Iterator<?> it = query.list().iterator();
-			
-			while (it.hasNext()) {
-				Object res[] = (Object []) it.next();
-				results.add(new ServiceProvisionerQueue((Long) res[SP_KEY], 
-						 (String) res[SP_NAME],
-						 (Long) res[WEB_SERVICE_KEY],
-						 (String) res[WEB_SERVICE],
-						 (String) res[SP_QUEUE]));
-			}
-			
-			return results;
+		final ArrayList<ServiceProvisionerQueue> results = new ArrayList<ServiceProvisionerQueue>();
+		final Session session = db.getSession();
+
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT service_provisioner_key, service_provisioner, web_service_key, web_service, ");
+		sb.append("service_provisioner_queue FROM v_sp_notification WHERE web_service=:web_service ");
+
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("web_service", webService);
+		query.addScalar("service_provisioner_key", StandardBasicTypes.LONG);
+		query.addScalar("service_provisioner", StandardBasicTypes.STRING);
+		query.addScalar("web_service_key", StandardBasicTypes.LONG);
+		query.addScalar("web_service", StandardBasicTypes.STRING);
+		query.addScalar("service_provisioner_queue", StandardBasicTypes.STRING);
+		final Iterator<?> it = query.list().iterator();
+
+		while (it.hasNext()) {
+			Object res[] = (Object []) it.next();
+			results.add(new ServiceProvisionerQueue((Long) res[SP_KEY], 
+					(String) res[SP_NAME],
+					(Long) res[WEB_SERVICE_KEY],
+					(String) res[WEB_SERVICE],
+					(String) res[SP_QUEUE]));
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve the mapping for web service " + webService);
-		}
+
+		return results;
  	}
 }

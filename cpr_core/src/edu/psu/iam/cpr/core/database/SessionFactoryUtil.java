@@ -41,11 +41,7 @@ public final class SessionFactoryUtil {
 	}
 	
 	static {
-		try {
-			sessionFactory = new Configuration().configure().buildSessionFactory();
-		}
-		catch (Exception e) {
-		}
+		sessionFactory = new Configuration().configure().buildSessionFactory();
 	}
 	
 	public static SessionFactory getSessionFactory() {

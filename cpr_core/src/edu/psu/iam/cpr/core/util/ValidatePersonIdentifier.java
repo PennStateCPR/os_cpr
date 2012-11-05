@@ -5,7 +5,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.database.tables.PersonIdentifierTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -47,12 +46,11 @@ public final class ValidatePersonIdentifier {
 	 * @param requestedBy contains the person who requested the search.
 	 * @return A PersonIdentifierTable object will be returned if this routine was successful.
 	 * @throws CprException will be thrown if there are any CPR specific problems.
-	 * @throws GeneralDatabaseException will be thrown if there are any general database problems.
 	 */
 	private static PersonIdentifierTable validateCommonParameters(Database db, 
 			long personId, 
 			String identifierTypeName,
-			String requestedBy) throws CprException, GeneralDatabaseException
+			String requestedBy) throws CprException
 	{
 		// Trim off all of the string parameters.
 		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
@@ -98,14 +96,13 @@ public final class ValidatePersonIdentifier {
 	 * @param requestedBy contains the person who requested the search.
 	 * @param returnHistory Y/N flag to indicate whether history is to be used or not.
 	 * @return will return a PersonIdentifierTable object if successful.
-	 * @throws GeneralDatabaseException will be thrown if there are any database problems.
 	 * @throws CprException will be thrown if there are any CPR related issues.
 	 */
 	public static PersonIdentifierTable validateGetPersonIdentifierParameters(Database db, 
 			long personId, 
 			String identifierTypeName,
 			String requestedBy, 
-			String returnHistory) throws GeneralDatabaseException, CprException {
+			String returnHistory) throws CprException {
 
 		PersonIdentifierTable personIdentifierTable = validateCommonParameters(db, personId, identifierTypeName, requestedBy);
 		
@@ -126,13 +123,12 @@ public final class ValidatePersonIdentifier {
 	 * @param identifierTypeName contains the identifier type name.
 	 * @param requestedBy contains the entity that has requested the archive.
 	 * @return will return a PersonIdentifierTable object if successful.
-	 * @throws GeneralDatabaseException will be thrown if there is a general database problem.
 	 * @throws CprException will be thrown if there are any CPR specific problems.
 	 */
 	public static PersonIdentifierTable validateArchivePersonIdentifierParameters(Database db, 
 			long personId, 
 			String identifierTypeName,
-			String requestedBy) throws GeneralDatabaseException, CprException {
+			String requestedBy) throws CprException {
 	
 		PersonIdentifierTable personIdentifierTable = validateCommonParameters(db, personId, 
 				identifierTypeName, requestedBy);
@@ -153,14 +149,13 @@ public final class ValidatePersonIdentifier {
 	 * @param identifierValue contains the value of the identifier.
 	 * @param requestedBy contains the entity that has requested the archive.
 	 * @return will return a PersonIdentifierTable object if successful.
-	 * @throws GeneralDatabaseException will be thrown if there is a general database problem.
 	 * @throws CprException will be thrown if there are any CPR specific problems.
 	 */
 	public static PersonIdentifierTable validateAddPersonIdentifierParameters(Database db, 
 			long personId, 
 			String identifierTypeName,
 			String identifierValue,
-			String requestedBy) throws GeneralDatabaseException, CprException {
+			String requestedBy) throws CprException {
 	
 		// Validate the identifier value to ensure its specified and contains a valid length.
 		String localIdentifierValue = (identifierValue != null) ? identifierValue.trim() : null;

@@ -25,8 +25,6 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.CountryTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * @author llg5
@@ -35,17 +33,17 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 public class CountryTableTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.CampusCsTable#getCountryInfo(Database, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testGetCountryInfoCodeBadDB() throws GeneralDatabaseException, CprException {
+	public final void testGetCountryInfoCodeBadDB() throws Exception {
 	
 		CountryTable cTable = new CountryTable();
 		cTable.getCountryInfo(db, "TR2", "llg5");	
@@ -53,11 +51,11 @@ public class CountryTableTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.CampusCsTable#getCountryInfo(Database, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test
-	public final void testGetCountryInfoCodeNull() throws GeneralDatabaseException, CprException {
+	public final void testGetCountryInfoCodeNull() throws Exception {
 		openDbConnection();
 		CountryTable cTable = new CountryTable();
 		cTable.getCountryInfo(db, null, "llg5");
@@ -66,11 +64,11 @@ public class CountryTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.CampusCsTable#getCountryInfo(Database, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test
-	public final void testGetCountryInfoCodeBlank() throws GeneralDatabaseException, CprException {
+	public final void testGetCountryInfoCodeBlank() throws Exception {
 		openDbConnection();
 		CountryTable cTable = new CountryTable();
 		cTable.getCountryInfo(db, "" , "llg5");
@@ -80,11 +78,11 @@ public class CountryTableTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.CampusCsTable#getCountryInfo(Database, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testGetCountryInfoCodeBad() throws GeneralDatabaseException, CprException {
+	public final void testGetCountryInfoCodeBad() throws Exception {
 		openDbConnection();
 		CountryTable cTable = new CountryTable();
 		cTable.getCountryInfo(db, "TR2", "llg5");
@@ -94,11 +92,11 @@ public class CountryTableTest {
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.CampusCsTable#getCountryInfo(Database, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test
-	public final void testGetCountryInfoCodeGood() throws GeneralDatabaseException, CprException {
+	public final void testGetCountryInfoCodeGood() throws Exception {
 		openDbConnection();
 		CountryTable cTable = new CountryTable();
 		cTable.getCountryInfo(db, "USA", "llg5");

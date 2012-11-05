@@ -7,8 +7,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import edu.psu.iam.cpr.core.database.beans.GeneratedIdentity;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
  * GeneratedIdentityTable is an implementation of methods that manipulate data in the generated identity database table.
@@ -91,16 +89,10 @@ public class GeneratedIdentityTable {
 	/**
 	 * This method is used to add data to the generated identity database table.
 	 * @param session contains an open database session.
-	 * @throws CprException will be thrown if there are any CPR related exceptions.
 	 */
-	public void addGeneratedIdentity(Session session) throws CprException {
-		try {
-			session.save(getGeneratedIdentityBean());
-			session.flush();
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "Generated identity");
-		}
+	public void addGeneratedIdentity(Session session) {
+		session.save(getGeneratedIdentityBean());
+		session.flush();
 	}
 	
 	/**
@@ -108,15 +100,10 @@ public class GeneratedIdentityTable {
 	 * @param session contains an open database session.
 	 * @throws CprException will be thrown if there are CPR related problems.
 	 */
-	public void removeGeneratedIdentity(Session session) throws CprException {
-		try {
-			Query query = session.createQuery("delete GeneratedIdentity where generatedIdentityKey = :generated_identity_key");
-			query.setParameter("generated_identity_key", getGeneratedIdentityBean().getGeneratedIdentityKey());
-			query.executeUpdate();
-			session.flush();
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ARCHIVE_FAILED_EXCEPTION, "Generated identity");
-		}
+	public void removeGeneratedIdentity(Session session) {
+		Query query = session.createQuery("delete GeneratedIdentity where generatedIdentityKey = :generated_identity_key");
+		query.setParameter("generated_identity_key", getGeneratedIdentityBean().getGeneratedIdentityKey());
+		query.executeUpdate();
+		session.flush();
 	}
 }

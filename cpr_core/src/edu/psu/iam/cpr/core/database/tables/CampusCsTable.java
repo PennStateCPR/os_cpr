@@ -10,7 +10,7 @@ import org.hibernate.type.StandardBasicTypes;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.CampusCs;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
+import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
  * This class provides the implementation for the campus codeset database table.
@@ -37,6 +37,7 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 public class CampusCsTable {
 
 	private static final int BUFFER_SIZE = 128;
+	private static final String CAMPUS_CODE = "Campus Code";
 	
 	/**	 Contains a reference to the campus code set bean. */
 	private CampusCs campusCsBean;
@@ -67,53 +68,46 @@ public class CampusCsTable {
 	 * @param db contains an open database connection.
 	 * @param campusCode contains the campus code to be used for the search.
 	 * @param  retrievedBy contains the userid requesting the compus code
-	 * @throws GeneralDatabaseException will be thrown if there are any database problems.
 	 * @throws CprException 
 	 */
-	public  void getCampusInfo(Database db, String campusCode, String retrievedBy) throws GeneralDatabaseException, CprException {
+	public void getCampusInfo(Database db, String campusCode, String retrievedBy) throws CprException {
 		
 		boolean found = false;
-		try {
-			final Session session = db.getSession();
-			
-			final CampusCs bean = new CampusCs();
-			bean.setCampusCode(campusCode);
+		final Session session = db.getSession();
+
+		final CampusCs bean = new CampusCs();
+		bean.setCampusCode(campusCode);
+		bean.setCampusCodeKey(null);
+		setCampusCsBean(bean);
+
+		if (bean.getCampusCode() == null || bean.getCampusCode().length() == 0) {
 			bean.setCampusCodeKey(null);
-			setCampusCsBean(bean);
-			
-			if (bean.getCampusCode() == null || bean.getCampusCode().length() == 0) {
-				bean.setCampusCodeKey(null);
-				return;
-			}
-			
-			bean.setCampusCode(bean.getCampusCode().toUpperCase().trim());
-			
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT campus_code_key, campus ");
-			sb.append("FROM campus_cs ");
-			sb.append("WHERE campus_code = :campus_code_in ");
-			sb.append("AND active_flag = 'Y' ");
-			
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("campus_code_in", bean.getCampusCode());
-			query.addScalar("campus_code_key", StandardBasicTypes.LONG);
-			query.addScalar("campus", StandardBasicTypes.STRING);
-			final Iterator<?> it = query.list().iterator();
-			
-			if (it.hasNext()) {
-				Object res[] = (Object []) it.next();
-				bean.setCampusCodeKey((Long) res[0]);
-				bean.setCampus((String) res[1]);
-				found = true;
-			}
-			
+			return;
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());
+
+		bean.setCampusCode(bean.getCampusCode().toUpperCase().trim());
+
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT campus_code_key, campus ");
+		sb.append("FROM campus_cs ");
+		sb.append("WHERE campus_code = :campus_code_in ");
+		sb.append("AND active_flag = 'Y' ");
+
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("campus_code_in", bean.getCampusCode());
+		query.addScalar("campus_code_key", StandardBasicTypes.LONG);
+		query.addScalar("campus", StandardBasicTypes.STRING);
+		final Iterator<?> it = query.list().iterator();
+
+		if (it.hasNext()) {
+			Object res[] = (Object []) it.next();
+			bean.setCampusCodeKey((Long) res[0]);
+			bean.setCampus((String) res[1]);
+			found = true;
 		}
 		
 		if (! found) {
-			throw new GeneralDatabaseException("Unable to retrieve campus name for campus code = " + campusCode);		
+			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, CAMPUS_CODE);
 		}
 	}
 }

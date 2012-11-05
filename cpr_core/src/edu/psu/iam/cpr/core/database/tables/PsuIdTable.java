@@ -14,9 +14,6 @@ import org.hibernate.type.StandardBasicTypes;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.PsuId;
 import edu.psu.iam.cpr.core.database.helpers.PsuIdHelper;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.PsuIdReturn;
 import edu.psu.iam.cpr.core.util.Utility;
 
@@ -165,64 +162,57 @@ public class PsuIdTable {
 	 * @param db contains the open database connection.
 	 * @param personId contains the person identifier used to retrieve the PSU ID for.
 	 * @return will return a PsuIdReturn object if success.
-	 * @throws GeneralDatabaseException
 	 */
-	public PsuIdReturn[] getPsuIdForPersonId(Database db, long personId) throws GeneralDatabaseException {
+	public PsuIdReturn[] getPsuIdForPersonId(Database db, long personId) {
 
-		try {
-			final Session session = db.getSession();
-			final ArrayList<PsuIdReturn> results = new ArrayList<PsuIdReturn>();
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			
-			sb.append("SELECT psu_id, ");
-			sb.append("start_date, ");
-			sb.append("end_date, ");
-			sb.append("last_update_by, ");
-			sb.append("last_update_on, ");
-			sb.append("created_by, ");
-			sb.append("created_on ");
-			sb.append("FROM psu_id WHERE person_id=:person_id ");
-			
-			// If we are not returning all records, we need to just return the active ones.
-			if (! isReturnHistoryFlag()) {
-				sb.append("AND end_date IS NULL ");
-			}
-			sb.append("ORDER BY start_date ASC ");
-			
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("person_id", personId);
-			query.addScalar("psu_id", StandardBasicTypes.STRING);
-			query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("last_update_by", StandardBasicTypes.STRING);
-			query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("created_by", StandardBasicTypes.STRING);
-			query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
-			
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				Object res[] = (Object []) it.next();
-				results.add(new PsuIdReturn((String) res[PSU_ID],									
-										Utility.convertTimestampToString((Date) res[START_DATE]),		
-										Utility.convertTimestampToString((Date) res[END_DATE]),		
-										(String) res[LAST_UPDATE_BY],										
-										Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),		
-										(String) res[CREATED_BY],										
-										Utility.convertTimestampToString((Date) res[CREATED_ON])));		
-			}
-			return results.toArray(new PsuIdReturn[results.size()]);
+		final Session session = db.getSession();
+		final ArrayList<PsuIdReturn> results = new ArrayList<PsuIdReturn>();
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+
+		sb.append("SELECT psu_id, ");
+		sb.append("start_date, ");
+		sb.append("end_date, ");
+		sb.append("last_update_by, ");
+		sb.append("last_update_on, ");
+		sb.append("created_by, ");
+		sb.append("created_on ");
+		sb.append("FROM psu_id WHERE person_id=:person_id ");
+
+		// If we are not returning all records, we need to just return the active ones.
+		if (! isReturnHistoryFlag()) {
+			sb.append("AND end_date IS NULL ");
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve PSU ID for person identifier = " + personId);
+		sb.append("ORDER BY start_date ASC ");
+
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id", personId);
+		query.addScalar("psu_id", StandardBasicTypes.STRING);
+		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("last_update_by", StandardBasicTypes.STRING);
+		query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("created_by", StandardBasicTypes.STRING);
+		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
+
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			Object res[] = (Object []) it.next();
+			results.add(new PsuIdReturn((String) res[PSU_ID],									
+					Utility.convertTimestampToString((Date) res[START_DATE]),		
+					Utility.convertTimestampToString((Date) res[END_DATE]),		
+					(String) res[LAST_UPDATE_BY],										
+					Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),		
+					(String) res[CREATED_BY],										
+					Utility.convertTimestampToString((Date) res[CREATED_ON])));		
 		}
+		return results.toArray(new PsuIdReturn[results.size()]);
 	}
 
 	
 	/**
 	 * This routine is used to add a PSU ID for a specific person.
 	 * @param db contains a open database connection
-	 * @throws CprException 
 	 */
-	public void addPsuIdForPersonId(Database db) throws CprException {
+	public void addPsuIdForPersonId(Database db) {
 		
 		final Session session = db.getSession();
 		try {
@@ -247,9 +237,6 @@ public class PsuIdTable {
 			// Add the new one.
 			session.save(bean);
 			session.flush();
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "PSU ID");
 		}
 		finally {
 			try {

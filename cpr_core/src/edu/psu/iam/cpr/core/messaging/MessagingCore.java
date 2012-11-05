@@ -39,6 +39,7 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.log4j.Logger;
+import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.MessageLog;
@@ -48,7 +49,6 @@ import edu.psu.iam.cpr.core.database.tables.MessageLogTable;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.database.types.MessageKeyName;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.util.CprProperties;
 
@@ -90,13 +90,13 @@ public class MessagingCore {
 	private List<ServiceProvisionerQueue> msgQueues = null;
 
 	/** Connection factory */
-	private ConnectionFactory connectionFactory = null;
+	private ConnectionFactory jmsConnectionFactory = null;
 	
 	/** Connection */
-	private Connection connection = null;
+	private Connection jmsConnection = null;
 	
 	/** JMS Session */
-	private Session session = null;
+	private Session jmsSession = null;
 	
 	/**
 	 * Constructor using the default connection factory
@@ -110,42 +110,27 @@ public class MessagingCore {
 	 * Constructor.
 	 * @param db contains a database object which holds an open connection.
 	 * @param serviceName contains the service name that is sending/receiving messages.
-	 * @throws CprException
 	 */
-	public MessagingCore(Database db, String serviceName) throws CprException {
+	public MessagingCore(Database db, String serviceName) {
 		
-		try {
-	        // Get the list of queues for the service.  If no queues were found, then just return.
-	        msgQueues = ServiceProvisionerQueue.getServiceProvisionerQueues(db, serviceName);
-		}
-		catch (GeneralDatabaseException e) {
-			throw new CprException(ReturnType.GENERAL_DATABASE_EXCEPTION, e.getMessage());
-		}
+	    // Get the list of queues for the service.  If no queues were found, then just return.
+		msgQueues = ServiceProvisionerQueue.getServiceProvisionerQueues(db, serviceName);
 	}
 	
 	
 	/**
 	 * Initializes the jms context, broker and connection
-	 * @throws CprException
+	 * @throws JMSException 
 	 */
-	public void initializeMessaging() throws CprException {
+	public void initializeMessaging() throws JMSException {
 		final Properties props = CprProperties.INSTANCE.getProperties();
 		
 		// Get a connection and start a session.
-		connectionFactory = new ActiveMQConnectionFactory(props.getProperty(CprPropertyName.CPR_JMS_BROKER.toString()));
-		try {
-			connection = connectionFactory.createConnection(props.getProperty(CprPropertyName.CPR_JMS_USERID.toString()), 
-															props.getProperty(CprPropertyName.CPR_JMS_PASSWORD.toString()));
-			connection.start();
-			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-		} 
-		catch (JMSException e1) {
-			closeMessaging();
-			if (e1.getMessage().contains("not authorized")) {
-    			throw new CprException(ReturnType.NOT_AUTHORIZED_EXCEPTION, "messaging");
-			}
-			throw new CprException(ReturnType.MESSAGE_INITIALIZATION_EXCEPTION, "Queue session");
-		}
+		jmsConnectionFactory = new ActiveMQConnectionFactory(props.getProperty(CprPropertyName.CPR_JMS_BROKER.toString()));
+		jmsConnection = jmsConnectionFactory.createConnection(props.getProperty(CprPropertyName.CPR_JMS_USERID.toString()), 
+				props.getProperty(CprPropertyName.CPR_JMS_PASSWORD.toString()));
+		jmsConnection.start();
+		jmsSession = jmsConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 	}
 	
 	/**
@@ -169,100 +154,78 @@ public class MessagingCore {
 		
         // Close the session and connection resources.
 		try {
-			session.close();
+			jmsSession.close();
 		}
 		catch (Exception e) {
 		}
 		
 		try {
-			connection.close();
+			jmsConnection.close();
 		}
 		catch (Exception e) {
 		}
 		
-		session = null;
-		connection = null;
+		jmsSession = null;
+		jmsConnection = null;
 	}
 	
 	/**
 	 * 
 	 * @param testQueue
 	 * @return message received from the given queue, null if no message received
-	 * @throws CprException
+	 * @throws JMSException 
 	 */
-    public String receiveMessageNoWait(Queue testQueue) throws CprException {
+    public String receiveMessageNoWait(Queue testQueue) throws JMSException {
 
-    	String queueName = null;
-    	
-    	try {
-	        //Create a message consumer.
-	        MessageConsumer myMsgConsumer = session.createConsumer(testQueue);
-	        queueName = testQueue.getQueueName();
-	
-	        //Receive a message from the queue.
-	        final Message msg = myMsgConsumer.receiveNoWait();
-	        closeMessaging();
-	        
-	        //Retrieve the contents of the message.
-	        if (msg == null) {
-	        	return null;
-	        }
-	
-	        if (msg instanceof TextMessage) {
-	            String txtMsgString = ((TextMessage) msg).getText();
-	            if (txtMsgString == null) {
-	            	return msg.toString();
-	            }
-	            return txtMsgString;
-	        }
-	
-	        return msg.toString();
+    	//Create a message consumer.
+    	MessageConsumer myMsgConsumer = jmsSession.createConsumer(testQueue);
+
+    	//Receive a message from the queue.
+    	final Message msg = myMsgConsumer.receiveNoWait();
+
+    	//Retrieve the contents of the message.
+    	if (msg == null) {
+    		return null;
     	}
-    	catch (JMSException e) {
-    		closeMessaging();
-    		throw new CprException(ReturnType.MESSAGE_RECEIVE_EXCEPTION, queueName);
+
+    	if (msg instanceof TextMessage) {
+    		String txtMsgString = ((TextMessage) msg).getText();
+    		if (txtMsgString == null) {
+    			return msg.toString();
+    		}
+    		return txtMsgString;
     	}
+
+    	return msg.toString();
     }
     
 	/**
 	 * 
 	 * @param testQueue
 	 * @return message received from the given queue, wait if no message available
-	 * @throws CprException
+	 * @throws JMSException 
 	 */
-    public String receiveMessageWait(Queue testQueue) throws CprException   {
+    public String receiveMessageWait(Queue testQueue) throws JMSException {
 
-    	String queueName = null;
-    	
-    	try {
-	        //Create a message consumer.
-    		queueName = testQueue.getQueueName();
-	        final MessageConsumer myMsgConsumer = session.createConsumer(testQueue);
-	
-	        //Receive a message from the queue. Will block waiting for message
-	        final Message msg = myMsgConsumer.receive();
-	        closeMessaging();
+    	//Create a message consumer.
+    	final MessageConsumer myMsgConsumer = jmsSession.createConsumer(testQueue);
 
-        
-	        //Retrieve the contents of the message.
-	        if (msg == null) {
-	        	return null;
-	        }
-	        if (msg instanceof TextMessage) {
-	            final String txtMsgString = ((TextMessage) msg).getText();
-	            if (txtMsgString == null) {
-	            	return msg.toString();
-	            }
-	            return txtMsgString;
-	        }
-	
-	        return msg.toString();
-        
+    	//Receive a message from the queue. Will block waiting for message
+    	final Message msg = myMsgConsumer.receive();
+
+    	//Retrieve the contents of the message.
+    	if (msg == null) {
+    		return null;
     	}
-    	catch (JMSException e) {
-    		closeMessaging();
-    		throw new CprException(ReturnType.MESSAGE_RECEIVE_EXCEPTION, queueName);
+    	if (msg instanceof TextMessage) {
+    		final String txtMsgString = ((TextMessage) msg).getText();
+    		if (txtMsgString == null) {
+    			return msg.toString();
+    		}
+    		return txtMsgString;
     	}
+
+    	return msg.toString();
     }
     
     /**
@@ -298,34 +261,29 @@ public class MessagingCore {
 	/**
      * @param db contains a database object which holds an open connection.
      * @param msg contains the JSON message to be sent to the service provisioners.
-     * @throws CprException 
+	 * @throws CprException 
+	 * @throws JMSException 
+	 * @throws JSONException 
      */
-    public void sendMessage(Database db, JsonMessage msg) throws CprException {
+    public void sendMessage(Database db, JsonMessage msg) throws CprException, JMSException, JSONException {
     	
     	final String replyToQueue = CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_JMS_REPLYTO.toString());
-    	
+
     	if (msg == null || msg.getJsonObject().toString().length() == 0) {
-    		closeMessaging();
     		throw new CprException(ReturnType.MESSAGE_CREATION_EXCEPTION);
     	}
 
     	//Create the message to send to the queues 	
     	TextMessage myTextMsg = null;
 
-    	try {
-    		myTextMsg = session.createTextMessage();
-    	}
-    	catch (JMSException e) {
-    		closeMessaging();
-    		throw new CprException(ReturnType.MESSAGE_CREATION_EXCEPTION);
-    	}
+    	myTextMsg = jmsSession.createTextMessage();
 
     	// Loop through queue list
     	final Iterator<ServiceProvisionerQueue> queueIter = msgQueues.iterator();
     	while (queueIter.hasNext()) {
-    		
+
     		ServiceProvisionerQueue currentQueue = queueIter.next();
-    		
+
     		MessageLogTable messageLogTable = null;
     		VSpNotification view = currentQueue.getSpNotificationView();
     		if (view == null) {
@@ -334,55 +292,50 @@ public class MessagingCore {
 
     		// Create a queue sender for the current queue
     		MessageProducer msgSender = null;
-    		
+
+    		messageLogTable = new MessageLogTable(view.getWebServiceKey(), view.getServiceProvisionerKey(), 
+    				msg.getJsonObject().toString(), msg.getRequestedBy());
+    		messageLogTable.addMessageLog(db);
+
+    		MessageLogHistoryTable messageLogHistoryTable = new MessageLogHistoryTable(messageLogTable.getMessageLogBean());
+    		messageLogHistoryTable.addMessageLogHistory(db);
+
+    		// once the log is started, the messageLogId is set, add it to the msg to be sent
+    		msg.setValue(MessageKeyName.MESSAGE_LOG_ID, messageLogTable.getMessageLogBean().getMessageLogKey());
+
+    		// Add in the JSON information.
+    		myTextMsg.setText(msg.getJsonObject().toString());
+    		myTextMsg.setJMSReplyTo(jmsSession.createQueue(replyToQueue));
+    		myTextMsg.setJMSCorrelationID(messageLogHistoryTable.getMessageLogHistoryBean().getMessageLogHistoryKey().toString());
+
+    		// Isolate the message sent code, so if there is a failure we can log it accordingly.
+    		boolean messageSent = false;
     		try {
-    			
-    			messageLogTable = new MessageLogTable(view.getWebServiceKey(), view.getServiceProvisionerKey(), msg.getJsonObject().toString(), msg.getRequestedBy());
-    			messageLogTable.addMessageLog(db);
+    			Destination destination = jmsSession.createQueue(currentQueue.getSpNotificationView().getServiceProvisionerQueue());
+    			msgSender = jmsSession.createProducer(destination);
+    			msgSender.setDeliveryMode(DeliveryMode.PERSISTENT);
 
-    			MessageLogHistoryTable messageLogHistoryTable = new MessageLogHistoryTable(messageLogTable.getMessageLogBean());
-    			messageLogHistoryTable.addMessageLogHistory(db);
+    			msgSender.send(myTextMsg);
+    			msgSender.close();
 
-    			// once the log is started, the messageLogId is set, add it to the msg to be sent
-    			msg.setValue(MessageKeyName.MESSAGE_LOG_ID, messageLogTable.getMessageLogBean().getMessageLogKey());
-
-    			// Add in the JSON information.
-    			myTextMsg.setText(msg.getJsonObject().toString());
-    			myTextMsg.setJMSReplyTo(session.createQueue(replyToQueue));
-    			myTextMsg.setJMSCorrelationID(messageLogHistoryTable.getMessageLogHistoryBean().getMessageLogHistoryKey().toString());
-
-    			// Isolate the message sent code, so if there is a failure we can log it accordingly.
-    			boolean messageSent = false;
-    			try {
-    				Destination destination = session.createQueue(currentQueue.getSpNotificationView().getServiceProvisionerQueue());
-    				msgSender = session.createProducer(destination);
-    				msgSender.setDeliveryMode(DeliveryMode.PERSISTENT);
-
-    				msgSender.send(myTextMsg);
-    				msgSender.close();
-    				
-    				messageSent = true;
-    			}
-    			catch (Exception e) {
-    			}
-    			
-    			// If we were successful in sending the message, write it to the log.
-    			if (messageSent) {
-    				// once the message is sent, add an entry in the message log history table for this specific send
-    				messageLogTable.updateMessageLog(db, "Y", 1L);
-    				messageLogHistoryTable.updateMessageLogHistory(db, myTextMsg.getJMSMessageID());
-
-    				// Log the successful message delivery to the log4j component.
-    				logMessageDelivery(messageLogTable, "SUCCESS");
-    			}
-    			else {
-    				logMessageDelivery(messageLogTable, "FAILURE");
-    			}
-    		} 
+    			messageSent = true;
+    		}
     		catch (Exception e) {
     		}
-    	}
-    	closeMessaging();
+
+    		// If we were successful in sending the message, write it to the log.
+    		if (messageSent) {
+    			// once the message is sent, add an entry in the message log history table for this specific send
+    			messageLogTable.updateMessageLog(db, "Y", 1L);
+    			messageLogHistoryTable.updateMessageLogHistory(db, myTextMsg.getJMSMessageID());
+
+    			// Log the successful message delivery to the log4j component.
+    			logMessageDelivery(messageLogTable, "SUCCESS");
+    		}
+    		else {
+    			logMessageDelivery(messageLogTable, "FAILURE");
+    		}
+    	}  	
     }
     
     /**

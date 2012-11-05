@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.Credential;
 import edu.psu.iam.cpr.core.database.types.CredentialType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.CredentialReturn;
 import edu.psu.iam.cpr.core.util.Utility;
@@ -45,6 +44,9 @@ import edu.psu.iam.cpr.core.util.Utility;
  */
 
 public class CredentialTable {
+	
+	/** Contains the name of the database table */
+	private static final String TABLE_NAME = "Credential";
 	
 	private static final int CREDENTIAL_TYPE = 0;
 	private static final int CREDENTIAL_DATA = 1;
@@ -170,48 +172,43 @@ public class CredentialTable {
 	 */
 	public void addCredential(Database db) throws CprException {
 		boolean matchFound = false;
-		try {
-			final Session session = db.getSession();
-			final Credential bean = getCredentialBean();
-			
-			String sqlQuery = null;
-			Query query = null;
+		final Session session = db.getSession();
+		final Credential bean = getCredentialBean();
 
-			sqlQuery = "from Credential where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
-			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
+		String sqlQuery = null;
+		Query query = null;
 
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
-				Credential dbBean = (Credential) it.next();
-				
-				// Check to ensure that the fields are not already there.
-				if (db.areStringFieldsEqual(dbBean.getCredentialData(), bean.getCredentialData())) {
-					matchFound = true;
-				}
-				
-				// Otherwise, we can expire the record.
-				else {
-					dbBean.setEndDate(bean.getLastUpdateOn());
-					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					session.update(dbBean);
-					session.flush();
-				}
+		sqlQuery = "from Credential where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
+		query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
+			Credential dbBean = (Credential) it.next();
+
+			// Check to ensure that the fields are not already there.
+			if (db.areStringFieldsEqual(dbBean.getCredentialData(), bean.getCredentialData())) {
+				matchFound = true;
 			}
-			
-			// If we did not find a match, we can add the record.
-			if (! matchFound) {
-				session.save(bean);
+
+			// Otherwise, we can expire the record.
+			else {
+				dbBean.setEndDate(bean.getLastUpdateOn());
+				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				session.update(dbBean);
 				session.flush();
 			}
 		}
-		catch (Exception e ) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "credential");
+
+		// If we did not find a match, we can add the record.
+		if (! matchFound) {
+			session.save(bean);
+			session.flush();
 		}
 		
 		if (matchFound) {
-			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, "Credential");
+			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, TABLE_NAME);
 		}
 		
 	}
@@ -225,56 +222,51 @@ public class CredentialTable {
 		boolean recordNotFound = false;
 		boolean alreadyArchived = false;
 		
-		try {
-			final Session session = db.getSession();
-			final Credential bean = getCredentialBean();
-			
-			// Check to see if the record exists for a the user and the specified credential type.
-			Query query = null;
-			String sqlQuery = null;
+		final Session session = db.getSession();
+		final Credential bean = getCredentialBean();
 
-			sqlQuery = "from Credential where personId = :person_id and dataTypeKey = :data_type_key";
+		// Check to see if the record exists for a the user and the specified credential type.
+		Query query = null;
+		String sqlQuery = null;
+
+		sqlQuery = "from Credential where personId = :person_id and dataTypeKey = :data_type_key";
+		query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+
+		if (query.list().size() > 0) {
+			// Check to see if an active record exists for the user and specified credential type.
+			sqlQuery += " and endDate is NULL";
+
 			query = session.createQuery(sqlQuery);
 			query.setParameter("person_id", bean.getPersonId());
 			query.setParameter("data_type_key", bean.getDataTypeKey());
 
-			if (query.list().size() > 0) {
-				// Check to see if an active record exists for the user and specified credential type.
-				sqlQuery += " and endDate is NULL";
+			final Iterator <?> it = query.list().iterator();
+			if (it.hasNext()) {
 
-				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
-
-				final Iterator <?> it = query.list().iterator();
-				if (it.hasNext()) {
-					
-					// Expire the active record.
-					final Credential dbBean = (Credential) it.next();
-					dbBean.setEndDate(bean.getLastUpdateOn());
-					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					session.update(dbBean);
-					session.flush();
-				}
-				else {
-					alreadyArchived = true;
-				}
+				// Expire the active record.
+				final Credential dbBean = (Credential) it.next();
+				dbBean.setEndDate(bean.getLastUpdateOn());
+				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				session.update(dbBean);
+				session.flush();
 			}
 			else {
-				recordNotFound = true;
+				alreadyArchived = true;
 			}
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ARCHIVE_FAILED_EXCEPTION, "credential");
+		else {
+			recordNotFound = true;
 		}
 		
 		// Handle the errors.
 		if (recordNotFound) {
-			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "credential");
+			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, TABLE_NAME);
 		}
 		if (alreadyArchived) {
-			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, "credential");
+			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, TABLE_NAME);
 		}
 	
 	}
@@ -284,77 +276,71 @@ public class CredentialTable {
 	 * @param db contains the database connection.
 	 * @param personId contains the person identifier to retrieve information for.
 	 * @return will return a CredentialReturn array.
-	 * @throws GeneralDatabaseException
 	 */
-	public CredentialReturn[] getCredentialForPersonId(Database db, long personId) throws GeneralDatabaseException {
-		try {
-			final ArrayList<CredentialReturn> results = new ArrayList<CredentialReturn>();
-			final Session session = db.getSession();
-			
-			// Build the query string.
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT data_type_key, credential_data, ");
-			sb.append("start_date, ");
-			sb.append("end_date, ");
-			sb.append("last_update_by, ");
-			sb.append("last_update_on, ");
-			sb.append("created_by, ");
-			sb.append("created_on ");
-			sb.append("FROM credential ");
-			sb.append("WHERE person_id = :person_id_in ");
-			
-			// If we are doing a query for a specific credential type, we need to specify this clause.
-			if (getCredentialType() != null) {
-				sb.append("AND data_type_key = :data_type_key_in ");
-			}
-			
-			// If we are not returning all records, we need to just return the active ones.
-			if (! isReturnHistoryFlag()) {
-				sb.append("AND end_date IS NULL ");
-			}
-			
-			sb.append("ORDER BY data_type_key ASC, start_date ASC ");
+	public CredentialReturn[] getCredentialForPersonId(Database db, long personId) {
+		final ArrayList<CredentialReturn> results = new ArrayList<CredentialReturn>();
+		final Session session = db.getSession();
 
-			// Set up hibernate for the query, bind parameters and determine return types.
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("person_id_in", personId);
-			
-			if (getCredentialType() != null) {
-				query.setParameter("data_type_key_in", getCredentialType().index());
-			}
-			
-			query.addScalar("data_type_key", StandardBasicTypes.LONG);
-			query.addScalar("credential_data", StandardBasicTypes.STRING);
-			query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("last_update_by", StandardBasicTypes.STRING);
-			query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("created_by", StandardBasicTypes.STRING);
-			query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
+		// Build the query string.
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT data_type_key, credential_data, ");
+		sb.append("start_date, ");
+		sb.append("end_date, ");
+		sb.append("last_update_by, ");
+		sb.append("last_update_on, ");
+		sb.append("created_by, ");
+		sb.append("created_on ");
+		sb.append("FROM credential ");
+		sb.append("WHERE person_id = :person_id_in ");
 
-			// Perform the query.
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				Object res[] = (Object []) it.next();
-				CredentialReturn credentialReturn = new CredentialReturn();
-				
-				credentialReturn.setCredentialType(CredentialType.get((Long) res[CREDENTIAL_TYPE]).toString());			
-				credentialReturn.setCredentialData((String) res[CREDENTIAL_DATA]);
-				credentialReturn.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
-				credentialReturn.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
-				credentialReturn.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
-				credentialReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
-				credentialReturn.setCreatedBy((String) res[CREATED_BY]);
-				credentialReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
-				
-				results.add(credentialReturn);
-			
-			}
-			
-			// Check on the results.
-			return results.toArray(new CredentialReturn[results.size()]);
+		// If we are doing a query for a specific credential type, we need to specify this clause.
+		if (getCredentialType() != null) {
+			sb.append("AND data_type_key = :data_type_key_in ");
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve credentials for person identifier = " + personId);
+
+		// If we are not returning all records, we need to just return the active ones.
+		if (! isReturnHistoryFlag()) {
+			sb.append("AND end_date IS NULL ");
 		}
+
+		sb.append("ORDER BY data_type_key ASC, start_date ASC ");
+
+		// Set up hibernate for the query, bind parameters and determine return types.
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id_in", personId);
+
+		if (getCredentialType() != null) {
+			query.setParameter("data_type_key_in", getCredentialType().index());
+		}
+
+		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.addScalar("credential_data", StandardBasicTypes.STRING);
+		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("last_update_by", StandardBasicTypes.STRING);
+		query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("created_by", StandardBasicTypes.STRING);
+		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
+
+		// Perform the query.
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			Object res[] = (Object []) it.next();
+			CredentialReturn credentialReturn = new CredentialReturn();
+
+			credentialReturn.setCredentialType(CredentialType.get((Long) res[CREDENTIAL_TYPE]).toString());			
+			credentialReturn.setCredentialData((String) res[CREDENTIAL_DATA]);
+			credentialReturn.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
+			credentialReturn.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
+			credentialReturn.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
+			credentialReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+			credentialReturn.setCreatedBy((String) res[CREATED_BY]);
+			credentialReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
+
+			results.add(credentialReturn);
+
+		}
+
+		// Check on the results.
+		return results.toArray(new CredentialReturn[results.size()]);
 	}
 }

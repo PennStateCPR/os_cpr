@@ -28,9 +28,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.ServiceLog;
 import edu.psu.iam.cpr.core.database.tables.ServiceLogTable;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
-import edu.psu.iam.cpr.core.error.CprException;
-
 /**
  * @author jvuccolo
  *
@@ -38,7 +35,7 @@ import edu.psu.iam.cpr.core.error.CprException;
 public class ServiceLogTableTest {
 	
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
@@ -60,24 +57,23 @@ public class ServiceLogTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.ServiceLogTable#getWebServiceKey()}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testGetWebServiceKey1() throws CprException, GeneralDatabaseException {
+	public final void testGetWebServiceKey1() throws Exception {
 		ServiceLogTable t = new ServiceLogTable();
 		t.getWebServiceKey(db, null);
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testGetWebServiceKey2() throws CprException, GeneralDatabaseException {
+	public final void testGetWebServiceKey2() throws Exception {
 		openDbConnection();
 		ServiceLogTable t = new ServiceLogTable();
 		t.getWebServiceKey(db, null);
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testGetWebServiceKey3() throws CprException, GeneralDatabaseException {
+	public final void testGetWebServiceKey3() throws Exception {
 		openDbConnection();
 		ServiceLogTable t = new ServiceLogTable();
 		t.getWebServiceKey(db, "who cares");
@@ -85,7 +81,7 @@ public class ServiceLogTableTest {
 	}
 	
 	@Test
-	public final void testGetWebServiceKey4() throws CprException, GeneralDatabaseException {
+	public final void testGetWebServiceKey4() throws Exception {
 		openDbConnection();
 		ServiceLogTable t = new ServiceLogTable();
 		AssertJUnit.assertEquals(t.getWebServiceKey(db, "GetUserid"),new Long(100068));
@@ -110,7 +106,7 @@ public class ServiceLogTableTest {
 	}
 	
 	@Test
-	public final void testStartLog3() throws CprException, GeneralDatabaseException {
+	public final void testStartLog3() throws Exception {
 		ServiceLogTable t = new ServiceLogTable();
 		openDbConnection();
 		ServiceLog bean = makeBean();

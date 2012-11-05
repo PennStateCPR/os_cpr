@@ -1,6 +1,7 @@
 /* SVN FILE: $Id: CprProperties.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
 package edu.psu.iam.cpr.core.util;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -46,19 +47,20 @@ public enum CprProperties {
 	
 	/**
 	 * Constructor.
+	 * @throws IOException 
 	 */
 	private CprProperties() {
-		// Get all of the property values.
+		
+		String prop = System.getProperty(CPR_MODE_PROPERTY);
+		if (prop != null) {
+			cprMode = CprRunningMode.valueOf(prop.trim().toUpperCase());
+		}
+		
 		try {
-			final String prop = System.getProperty(CPR_MODE_PROPERTY).toUpperCase().trim();
-			cprMode = CprRunningMode.valueOf(prop);
-		}
-		catch (Exception e) {
-			cprMode = CprRunningMode.PRODUCTION;
-		}
-		
-		loadProperties();
-		
+			loadProperties();
+		} 
+		catch (IOException e) {
+		}		
 	}
 
 	/**
@@ -78,8 +80,9 @@ public enum CprProperties {
 	/**
 	 * This routine is use to load a cpr properties file, which one that is loaded is based on the CPR Mode that is passed
 	 * into the routine.
+	 * @throws IOException 
 	 */
-	private void loadProperties() {
+	private void loadProperties() throws IOException {
 				
 		InputStream is = null;
 		properties = new Properties();
@@ -87,8 +90,6 @@ public enum CprProperties {
 			is = Thread.currentThread().getContextClassLoader().getResourceAsStream(CPR_PROPERTY_FILE);
 			properties.load(is);
 		} 
-		catch (Exception e) {
-		}
 		finally {
 			try {
 				is.close();

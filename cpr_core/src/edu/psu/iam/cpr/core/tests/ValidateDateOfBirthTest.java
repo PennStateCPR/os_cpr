@@ -21,6 +21,9 @@ package edu.psu.iam.cpr.core.tests;
 
 
 import static org.testng.AssertJUnit.assertTrue;
+
+import java.text.ParseException;
+
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.tables.DateOfBirthTable;
 import edu.psu.iam.cpr.core.error.CprException;
@@ -32,45 +35,45 @@ import edu.psu.iam.cpr.core.util.ValidateDateOfBirth;
  */
 public class ValidateDateOfBirthTest {
 
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateAddDateOfBirthParameters1() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateAddDateOfBirthParameters1() throws CprException, ParseException {
 		ValidateDateOfBirth.validateAddDateOfBirthParameters(0,null, null);
 		
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateAddDateOfBirthParameters2() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateAddDateOfBirthParameters2() throws CprException, ParseException {
 		ValidateDateOfBirth.validateAddDateOfBirthParameters(0, "11/11/2001", null);
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateAddDateOfBirthParameters3() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateAddDateOfBirthParameters3() throws CprException, ParseException {
 		ValidateDateOfBirth.validateAddDateOfBirthParameters(0, "11/222/2010", "jvuccolo");
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateAddDateOfBirthParameters6() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateAddDateOfBirthParameters6() throws CprException, ParseException {
 		ValidateDateOfBirth.validateAddDateOfBirthParameters(0, "11-22-", "jvuccolo");
 	}
 	@Test
-	public final void testValidateAddDateOfBirthParameters7() throws CprException {
+	public final void testValidateAddDateOfBirthParameters7() throws CprException, ParseException {
 		ValidateDateOfBirth.validateAddDateOfBirthParameters(0, "1/1", "jvuccolo");
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateAddDateOfBirthParameters8() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateAddDateOfBirthParameters8() throws CprException, ParseException {
 		ValidateDateOfBirth.validateAddDateOfBirthParameters(0, "1/90", "jvuccolo");
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateAddDateOfBirthParameters9() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateAddDateOfBirthParameters9() throws CprException, ParseException {
 		ValidateDateOfBirth.validateAddDateOfBirthParameters(0, "1/1/2011/1", "jvuccolo");
 	}
 	
 	@Test
-	public final void testValidateAddDateOfBirthParameters4() throws CprException {
+	public final void testValidateAddDateOfBirthParameters4() throws CprException, ParseException {
 		ValidateDateOfBirth.validateAddDateOfBirthParameters(0, "11/11/2010", "jvuccolo");
 	}
 	@Test
-	public final void testValidateAddDateOfBirthParameters5() throws CprException {
+	public final void testValidateAddDateOfBirthParameters5() throws CprException, ParseException {
 		ValidateDateOfBirth.validateAddDateOfBirthParameters(0, "11-11-2010", "jvuccolo");
 	}
-	@Test(expectedExceptions=CprException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void testValidateGetDateOfBirthParameters1() throws CprException {
 		ValidateDateOfBirth.validateGetDateOfBirthParameters(0, null,"");
 	}

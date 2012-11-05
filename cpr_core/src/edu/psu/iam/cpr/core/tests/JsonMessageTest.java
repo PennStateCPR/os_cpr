@@ -20,6 +20,8 @@ package edu.psu.iam.cpr.core.tests;
  */
 
 
+import java.text.ParseException;
+
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
@@ -40,8 +42,6 @@ import edu.psu.iam.cpr.core.database.types.EmailAddressType;
 import edu.psu.iam.cpr.core.database.types.GenderType;
 import edu.psu.iam.cpr.core.database.types.NameType;
 import edu.psu.iam.cpr.core.database.types.PhoneType;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
-import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 
 /**
@@ -51,7 +51,7 @@ import edu.psu.iam.cpr.core.messaging.JsonMessage;
 public class JsonMessageTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
@@ -61,24 +61,24 @@ public class JsonMessageTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void testJsonMessageIntStringString1() throws CprException, GeneralDatabaseException {
+	public final void testJsonMessageIntStringString1() throws Exception {
 		new JsonMessage(db, 1, CprServiceName.AddPerson.toString(), "jvuccolo");
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testJsonMessageIntStringString2() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testJsonMessageIntStringString2() throws Exception {
 		openDbConnection();
 		new JsonMessage(db, 1, CprServiceName.AddPerson.toString(), "jvuccolo");
 		db.closeSession();
 	}
 	@Test
-	public final void testJsonMessageIntStringString3() throws CprException, GeneralDatabaseException {
+	public final void testJsonMessageIntStringString3() throws Exception {
 		openDbConnection();
 		new JsonMessage(db, 100000, CprServiceName.AddPerson.toString(), "jvuccolo");
 		db.closeSession();
 	}
 
 	@Test
-	public final void testGetJsonObject() throws CprException, GeneralDatabaseException {
+	public final void testGetJsonObject() throws Exception {
 		openDbConnection();
 		JsonMessage j = new JsonMessage(db, 100000, CprServiceName.AddPerson.toString(), "jvuccolo");
 		AssertJUnit.assertNotNull(j.getJsonObject());
@@ -86,7 +86,7 @@ public class JsonMessageTest {
 	}
 
 	@Test
-	public final void testSetServiceName() throws CprException, GeneralDatabaseException {
+	public final void testSetServiceName() throws Exception {
 		openDbConnection();
 		JsonMessage j = new JsonMessage(db, 100000, CprServiceName.AddPerson.toString(), "jvuccolo");
 		j.setServiceName(CprServiceName.AddPerson.toString());
@@ -95,7 +95,7 @@ public class JsonMessageTest {
 	}
 
 	@Test
-	public final void testGetServiceName() throws CprException, GeneralDatabaseException {
+	public final void testGetServiceName() throws Exception {
 		openDbConnection();
 		JsonMessage j = new JsonMessage(db, 100000, CprServiceName.AddPerson.toString(), "jvuccolo");
 		j.setServiceName(CprServiceName.AddPerson.toString());
@@ -104,7 +104,7 @@ public class JsonMessageTest {
 	}
 
 	@Test
-	public final void testGetRequestBy() throws CprException, GeneralDatabaseException {
+	public final void testGetRequestBy() throws Exception {
 		openDbConnection();
 		String requester = "slk24";
 		JsonMessage j = new JsonMessage(db, 100000, CprServiceName.AddPerson.toString(), "jvuccolo");
@@ -142,7 +142,7 @@ public class JsonMessageTest {
 	}
 
 	@Test
-	public final void testSetDateOfBirth() throws CprException, GeneralDatabaseException {
+	public final void testSetDateOfBirth() throws Exception, ParseException {
 		DateOfBirthTable dateOfBirthTable = new DateOfBirthTable(100000, "11/11/2010", "jvuccolo");
 		openDbConnection();
 		JsonMessage j = new JsonMessage(db, 100000, CprServiceName.AddPerson.toString(), "jvuccolo");

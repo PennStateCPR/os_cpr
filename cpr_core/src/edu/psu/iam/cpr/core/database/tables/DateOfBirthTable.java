@@ -2,6 +2,7 @@
 package edu.psu.iam.cpr.core.database.tables;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,9 +15,6 @@ import org.hibernate.type.StandardBasicTypes;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.DateOfBirth;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.DateOfBirthReturn;
 import edu.psu.iam.cpr.core.util.Utility;
 
@@ -83,9 +81,9 @@ public class DateOfBirthTable {
 	 * @param personId represents the person identifier associated with this record.
 	 * @param dobString represents the date of birth string.
 	 * @param updatedBy represents the updated by identifier.
-	 * @throws CprException 
+	 * @throws ParseException 
 	 */
-	public DateOfBirthTable(long personId, final String dobString, final String updatedBy) throws CprException {
+	public DateOfBirthTable(long personId, final String dobString, final String updatedBy) throws ParseException {
 		
 		super();
 		
@@ -97,9 +95,6 @@ public class DateOfBirthTable {
 		
 		// Extract the numbers 
 		final String dobChar = DateOfBirthTable.toDobChar(dobString);
-		if (dobChar == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Date of Birth");
-		}
 		bean.setDobChar(dobChar);
 		
 		// Attempt to convert the DOB string representation to an actual date.
@@ -107,13 +102,8 @@ public class DateOfBirthTable {
 			bean.setDob(null);
 		}
 		else {
-			try {
-				final DateFormat df = new SimpleDateFormat("MMddyyyy");
-				bean.setDob(df.parse(dobChar));
-			}
-			catch (Exception e) {
-				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Date of Birth");	
-			}
+			final DateFormat df = new SimpleDateFormat("MMddyyyy");
+			bean.setDob(df.parse(dobChar));
 		}
 		
 		bean.setStartDate(d);
@@ -170,80 +160,68 @@ public class DateOfBirthTable {
 	 */
 	public static String toDobChar(final String dobString) {
 		
-		try {
-			final int lengthArray[] = { MONTH_DAY_SIZE, MONTH_DAY_SIZE, YEAR_SIZE };
+		
+		final int lengthArray[] = { MONTH_DAY_SIZE, MONTH_DAY_SIZE, YEAR_SIZE };
 
-			// Empty string just return.
-			if (dobString == null) {
-				return null;
-			}
-
-			// Attempt to split the string into its parts.
-			final String[] dobParts = dobString.split("/");
-
-			// We should have received either an array of size 2 or 3, otherwise we have an array.
-			if (dobParts.length != MONTH_DAY_ONLY && dobParts.length != FULL_DOB) {
-				return null;
-			}
-
-			final StringBuilder buffer = new StringBuilder(BUFFER_SIZE);
-
-			// Reformat the strings.
-			int i = 0;
-			for (i = 0; i < dobParts.length; ++i) {
-				if (lengthArray[i] == MONTH_DAY_SIZE) {
-					buffer.append(String.format("%02d", Integer.valueOf(dobParts[i])));
-				}
-				else if (lengthArray[i] == YEAR_SIZE) {
-					buffer.append(String.format("%04d", Integer.valueOf(dobParts[i])));
-				}
-			}
-
-			// Did we reach the end of the array, if not append on 4 zero's for the year.
-			if (i != lengthArray.length) {
-				buffer.append("0000");
-			}
-			
-			return buffer.toString();
-		}
-		catch (Exception e) {
+		// Empty string just return.
+		if (dobString == null) {
 			return null;
 		}
+
+		// Attempt to split the string into its parts.
+		final String[] dobParts = dobString.split("/");
+
+		// We should have received either an array of size 2 or 3, otherwise we have an array.
+		if (dobParts.length != MONTH_DAY_ONLY && dobParts.length != FULL_DOB) {
+			return null;
+		}
+
+		final StringBuilder buffer = new StringBuilder(BUFFER_SIZE);
+
+		// Reformat the strings.
+		int i = 0;
+		for (i = 0; i < dobParts.length; ++i) {
+			if (lengthArray[i] == MONTH_DAY_SIZE) {
+				buffer.append(String.format("%02d", Integer.valueOf(dobParts[i])));
+			}
+			else if (lengthArray[i] == YEAR_SIZE) {
+				buffer.append(String.format("%04d", Integer.valueOf(dobParts[i])));
+			}
+		}
+
+		// Did we reach the end of the array, if not append on 4 zero's for the year.
+		if (i != lengthArray.length) {
+			buffer.append("0000");
+		}
+
+		return buffer.toString();
 	}
 
 	/**
 	 * This routine is used to add a date of birth to a person.  It will either be successful or throw an exception.
 	 * @param db Contains a connection to the database.
 	 * @throws AddFailedException will throw this exception if the user cannot be added.
-	 * @throws CprException 
 	 */
-	public void addDateOfBirth(final Database db) throws CprException {
+	public void addDateOfBirth(final Database db) {
 		
-		
-		try {
-			final Session session = db.getSession();
-			final DateOfBirth bean = getDateOfBirthBean();
-			
-			final String sqlQuery = "from DateOfBirth where personId = :person_id and endDate IS NULL";
-			Query query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				DateOfBirth dbBean = (DateOfBirth) it.next();
-				dbBean.setEndDate(bean.getLastUpdateOn());
-				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-				session.update(dbBean);
-				session.flush();
-			}
-			
-			// Save off the new record.
-			session.save(bean);
-			session.flush();
+		final Session session = db.getSession();
+		final DateOfBirth bean = getDateOfBirthBean();
 
+		final String sqlQuery = "from DateOfBirth where personId = :person_id and endDate IS NULL";
+		Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			DateOfBirth dbBean = (DateOfBirth) it.next();
+			dbBean.setEndDate(bean.getLastUpdateOn());
+			dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+			dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+			session.update(dbBean);
+			session.flush();
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "date of birth");	
-		}
+
+		// Save off the new record.
+		session.save(bean);
+		session.flush();
 	}
 	
 	/**
@@ -251,80 +229,74 @@ public class DateOfBirthTable {
 	 * @param db contains the database connection.
 	 * @param personId contains the person identifier from the central person registry.
 	 * @return will return an array of DateOfBirthReturn objects if successful.
-	 * @throws GeneralDatabaseException will throw an exception if their are any problems.
 	 */
-	public DateOfBirthReturn[] getDateOfBirthForPersonId(final Database db, long personId) throws GeneralDatabaseException {
+	public DateOfBirthReturn[] getDateOfBirthForPersonId(final Database db, long personId) {
 
-		try {
-			final ArrayList<DateOfBirthReturn> results = new ArrayList<DateOfBirthReturn>();
-			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		final ArrayList<DateOfBirthReturn> results = new ArrayList<DateOfBirthReturn>();
+		final Session session = db.getSession();
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 
-			sb.append("SELECT dob_char, ");
-			sb.append("start_date, ");
-			sb.append("end_date, ");
-			sb.append("last_update_by, ");
-			sb.append("last_update_on, ");
-			sb.append("created_by, ");
-			sb.append("created_on ");
-			sb.append("FROM date_of_birth ");
-			sb.append("WHERE person_id = :person_id_in ");
-			
-			// If we are not returning all records, we need to just return the active ones.
-			if (! isReturnHistoryFlag()) {
-				sb.append("AND end_date IS NULL ");
-			}
-			sb.append("ORDER BY start_date ASC ");
-			
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("person_id_in", personId);
-			query.addScalar("dob_char", StandardBasicTypes.STRING);
-			query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("last_update_by", StandardBasicTypes.STRING);
-			query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("created_by", StandardBasicTypes.STRING);
-			query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
-			
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				Object res[] = (Object []) it.next();
-				String dobChar = (String) res[DOB_CHAR];
-				
-				if (dobChar != null && dobChar.length() == MMDDYYYY_SIZE) {
-					final String month = dobChar.substring(MONTH_START_POSITION, MONTH_END_POSITION);
-					final String day = dobChar.substring(DAY_START_POSITION, DAY_END_POSITION);
-					final String year = dobChar.substring(YEAR_START_POSITION);
-										
-					// Only month and day of DOB was specified.
-					if (year.equals("0000")) {
-						results.add(new DateOfBirthReturn(month + "/" + day,				
-										Utility.convertTimestampToString((Date) res[START_DATE]),	
-										Utility.convertTimestampToString((Date) res[END_DATE]),	
-										(String) res[LAST_UPDATE_BY],									
-										Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),	
-										(String) res[CREATED_BY],									
-										Utility.convertTimestampToString((Date) res[CREATED_ON])));	
-					}
-					
-					// Full date was specified.
-					else {
-						results.add(new DateOfBirthReturn(month + "/" + day + "/" + year,	
-										Utility.convertTimestampToString((Date) res[START_DATE]),	
-										Utility.convertTimestampToString((Date) res[END_DATE]),	
-										(String) res[LAST_UPDATE_BY],									
-										Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),	
-										(String) res[CREATED_BY],									
-										Utility.convertTimestampToString((Date) res[CREATED_ON])));	
-								
-					}
+		sb.append("SELECT dob_char, ");
+		sb.append("start_date, ");
+		sb.append("end_date, ");
+		sb.append("last_update_by, ");
+		sb.append("last_update_on, ");
+		sb.append("created_by, ");
+		sb.append("created_on ");
+		sb.append("FROM date_of_birth ");
+		sb.append("WHERE person_id = :person_id_in ");
+
+		// If we are not returning all records, we need to just return the active ones.
+		if (! isReturnHistoryFlag()) {
+			sb.append("AND end_date IS NULL ");
+		}
+		sb.append("ORDER BY start_date ASC ");
+
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id_in", personId);
+		query.addScalar("dob_char", StandardBasicTypes.STRING);
+		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("last_update_by", StandardBasicTypes.STRING);
+		query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("created_by", StandardBasicTypes.STRING);
+		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
+
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			Object res[] = (Object []) it.next();
+			String dobChar = (String) res[DOB_CHAR];
+
+			if (dobChar != null && dobChar.length() == MMDDYYYY_SIZE) {
+				final String month = dobChar.substring(MONTH_START_POSITION, MONTH_END_POSITION);
+				final String day = dobChar.substring(DAY_START_POSITION, DAY_END_POSITION);
+				final String year = dobChar.substring(YEAR_START_POSITION);
+
+				// Only month and day of DOB was specified.
+				if (year.equals("0000")) {
+					results.add(new DateOfBirthReturn(month + "/" + day,				
+							Utility.convertTimestampToString((Date) res[START_DATE]),	
+							Utility.convertTimestampToString((Date) res[END_DATE]),	
+							(String) res[LAST_UPDATE_BY],									
+							Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),	
+							(String) res[CREATED_BY],									
+							Utility.convertTimestampToString((Date) res[CREATED_ON])));	
+				}
+
+				// Full date was specified.
+				else {
+					results.add(new DateOfBirthReturn(month + "/" + day + "/" + year,	
+							Utility.convertTimestampToString((Date) res[START_DATE]),	
+							Utility.convertTimestampToString((Date) res[END_DATE]),	
+							(String) res[LAST_UPDATE_BY],									
+							Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),	
+							(String) res[CREATED_BY],									
+							Utility.convertTimestampToString((Date) res[CREATED_ON])));	
+
 				}
 			}
-			
-			return results.toArray(new DateOfBirthReturn[results.size()]);
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve date of birth for person identifier = " + personId);
-		}
+
+		return results.toArray(new DateOfBirthReturn[results.size()]);
 	}
 
 	/**

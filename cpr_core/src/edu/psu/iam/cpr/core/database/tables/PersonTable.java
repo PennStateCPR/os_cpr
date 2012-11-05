@@ -37,6 +37,9 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  */
 public class PersonTable {
 	
+	/** Contains the database table name that this implementation is associated with */
+	private static final String TABLE_NAME = "Person";
+	
 	/** Contains the person database table bean */
 	private Person personBean;
 		
@@ -100,19 +103,14 @@ public class PersonTable {
 	 */
 	public void addPerson(final Database db) throws CprException {
 			
-		try {
-			final Session session = db.getSession();
-			final Person bean = getPersonBean();
-			
-			session.save(bean);
-			session.flush();
-			
-			final PsuDirectoryTable psuDirectoryTable = new PsuDirectoryTable(bean.getPersonId(), bean.getLastUpdateBy());
-			psuDirectoryTable.addDirectoryTable(db);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "person");
-		}
+		final Session session = db.getSession();
+		final Person bean = getPersonBean();
+
+		session.save(bean);
+		session.flush();
+
+		final PsuDirectoryTable psuDirectoryTable = new PsuDirectoryTable(bean.getPersonId(), bean.getLastUpdateBy());
+		psuDirectoryTable.addDirectoryTable(db);
 
 	}
 	
@@ -126,42 +124,37 @@ public class PersonTable {
 		boolean recordNotFound = false;
 		boolean alreadyArchived = false;
 		
-		try {
-			final Session session = db.getSession();
-			final Person bean = getPersonBean();
-			
-			// Determine if the person exists?
-			String sqlQuery = "from Person where personId = :person_id";
-			Query query = session.createQuery(sqlQuery);
+		final Session session = db.getSession();
+		final Person bean = getPersonBean();
+
+		// Determine if the person exists?
+		String sqlQuery = "from Person where personId = :person_id";
+		Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+
+			// Determine if the person is active or not.
+			sqlQuery = "from Person where personId = :person_id AND endDate IS NULL";
+			query = session.createQuery(sqlQuery);
 			query.setParameter("person_id", bean.getPersonId());
-			Iterator<?> it = query.list().iterator();
+			it = query.list().iterator();
+
+			// Person is active, expire them.
 			if (it.hasNext()) {
-				
-				// Determine if the person is active or not.
-				sqlQuery = "from Person where personId = :person_id AND endDate IS NULL";
-				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				it = query.list().iterator();
-				
-				// Person is active, expire them.
-				if (it.hasNext()) {
-					Person dbBean = (Person) it.next();
-					dbBean.setEndDate(bean.getLastUpdateOn());
-					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					session.update(dbBean);
-					session.flush();
-				}
-				else {
-					alreadyArchived = true;
-				}
+				Person dbBean = (Person) it.next();
+				dbBean.setEndDate(bean.getLastUpdateOn());
+				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				session.update(dbBean);
+				session.flush();
 			}
 			else {
-				recordNotFound = true;
+				alreadyArchived = true;
 			}
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ARCHIVE_FAILED_EXCEPTION, "person");
+		else {
+			recordNotFound = true;
 		}
 		
 		// Catch the errors.
@@ -170,7 +163,7 @@ public class PersonTable {
 		}
 		
 		if (alreadyArchived) {
-			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, "person");
+			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, TABLE_NAME);
 		}
 	}
 	
@@ -183,42 +176,37 @@ public class PersonTable {
 		boolean recordNotFound = false;
 		boolean alreadyUnarchived = false;
 		
-		try {
-			final Session session = db.getSession();
-			final Person bean = getPersonBean();
-			
-			// Determine if the person exists?
-			String sqlQuery = "from Person where personId = :person_id";
-			Query query = session.createQuery(sqlQuery);
+		final Session session = db.getSession();
+		final Person bean = getPersonBean();
+
+		// Determine if the person exists?
+		String sqlQuery = "from Person where personId = :person_id";
+		Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+
+			// Determine if the person is active or not.
+			sqlQuery = "from Person where personId = :person_id AND endDate IS NOT NULL";
+			query = session.createQuery(sqlQuery);
 			query.setParameter("person_id", bean.getPersonId());
-			Iterator<?> it = query.list().iterator();
+			it = query.list().iterator();
+
+			// Person is active, expire them.
 			if (it.hasNext()) {
-				
-				// Determine if the person is active or not.
-				sqlQuery = "from Person where personId = :person_id AND endDate IS NOT NULL";
-				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				it = query.list().iterator();
-				
-				// Person is active, expire them.
-				if (it.hasNext()) {
-					Person dbBean = (Person) it.next();
-					dbBean.setEndDate(null);
-					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					session.update(dbBean);
-					session.flush();
-				}
-				else {
-					alreadyUnarchived = true;
-				}
+				Person dbBean = (Person) it.next();
+				dbBean.setEndDate(null);
+				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				session.update(dbBean);
+				session.flush();
 			}
 			else {
-				recordNotFound = true;
+				alreadyUnarchived = true;
 			}
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.UNARCHIVE_FAILED_EXCEPTION, "person");
+		else {
+			recordNotFound = true;
 		}
 		
 		// Catch the errors.
@@ -227,7 +215,7 @@ public class PersonTable {
 		}
 		
 		if (alreadyUnarchived) {
-			throw new CprException(ReturnType.UNARCHIVE_FAILED_EXCEPTION, "person");
+			throw new CprException(ReturnType.UNARCHIVE_FAILED_EXCEPTION, TABLE_NAME);
 		}
 	}
 }

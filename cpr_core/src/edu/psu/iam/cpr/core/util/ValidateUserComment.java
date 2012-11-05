@@ -26,7 +26,6 @@ package edu.psu.iam.cpr.core.util;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.UserCommentTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 
@@ -70,13 +69,10 @@ public final class ValidateUserComment {
      * @param comment contains the comment.
      * @param updatedBy contains the system identifier or userid that updated the record.
      * @return will return an UserCommentTable class if successful, otherwise it will throw an exception.
-     * @throws GeneralDatabaseException 
      * @throws CprException 
      */
 	public static UserCommentTable validateUserCommentParameters(Database db, long personId, String userId,
-			String userCommentType, String comment, String updatedBy) throws GeneralDatabaseException, CprException {
-		
-		UserCommentTable userCommentTable = null;
+			String userCommentType, String comment, String updatedBy) throws CprException {
 		
 		// For input strings that are non-null, trim them.
 		String localUserCommentType = (userCommentType != null) ? userCommentType.trim() : null;
@@ -112,15 +108,7 @@ public final class ValidateUserComment {
 		}
 		
 		// Create a new object.
-		try {
-			userCommentTable = new UserCommentTable(personId, localUserId, localUserCommentType, localComment, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "User comment type");
-		}
-
-	
-		return userCommentTable;
+		return new UserCommentTable(personId, localUserId, localUserCommentType, localComment, localUpdatedBy);
 	}
 
 	/**
@@ -130,11 +118,10 @@ public final class ValidateUserComment {
 	 * @param requestedBy contains the system identifier or userid that is requesting information.
 	 * @param userCommentType contains the type of user comment to be retrieved, if specified.
 	 * @param returnHistory Y/N flag that indicates whether history is to be returned or not.
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
 	public static UserCommentTable validateGetUserCommentsParameters(Database db, long personId, 
-						String requestedBy, String userCommentType, String returnHistory) throws GeneralDatabaseException, CprException {
+						String requestedBy, String userCommentType, String returnHistory) throws CprException {
 				
 		// For non-null input fields, trim them off.
 		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
@@ -155,12 +142,7 @@ public final class ValidateUserComment {
 		// If a user comment type was specified, verify that its valid. 
 		final UserCommentTable userCommentTable = new UserCommentTable();
 		if (localUserCommentType != null) {
-			try {
-				userCommentTable.setUserCommentType(localUserCommentType);
-			}
-			catch (Exception e) {
-				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "User comment type");
-			}
+			userCommentTable.setUserCommentType(localUserCommentType);
 		}
 				
 		// Validate the return history flag.
@@ -179,10 +161,10 @@ public final class ValidateUserComment {
      * @param userId contains the userid associated with the comment.
      * @param userCommentType contains the comment type. 
 	 * @param requestedBy contains the system identifier or userid that is requesting information.
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
-	public static void validateGetUserCommentByTypeParameters(Database db, long personId, String userId, String userCommentType, String requestedBy) throws GeneralDatabaseException, CprException {
+	public static void validateGetUserCommentByTypeParameters(Database db, long personId, String userId, 
+			String userCommentType, String requestedBy) throws CprException {
 				
 		// For non-null input fields, trim them off.
 		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
@@ -219,13 +201,11 @@ public final class ValidateUserComment {
      * @param userCommentType contains the comment type.
 	 * @param updatedBy contains the userid or system identifier that is updating the record.
 	 * @return UserCommentTable class.
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
-	public static UserCommentTable validateArchiveUserCommentParameters(Database db, long personId, String userId, String userCommentType, String updatedBy) throws GeneralDatabaseException, CprException {
-		
-		UserCommentTable userCommentTable = null;
-		
+	public static UserCommentTable validateArchiveUserCommentParameters(Database db, long personId, String userId, 
+			String userCommentType, String updatedBy) throws CprException {
+				
 		// For input parameters that are non-null, trim them.
 		String localUserCommentType = (userCommentType != null) ? userCommentType.trim() : null;
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
@@ -252,14 +232,6 @@ public final class ValidateUserComment {
 		}
 
 		// Attempt to instantiate a new user comment table class.
-		try {
-			userCommentTable = new UserCommentTable(personId, localUserId, localUserCommentType, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "User comment type");
-		}
-		
-		// Success return the new object.
-		return userCommentTable;
+		return new UserCommentTable(personId, localUserId, localUserCommentType, localUpdatedBy);
 	}
 }

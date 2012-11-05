@@ -26,8 +26,6 @@ import edu.psu.iam.cpr.core.database.types.AffiliationsType;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * 
@@ -37,15 +35,15 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 public class PersonAffiliationTableTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable#AffiliationsTable()}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 */
 	@Test
-	public final void _01testAffiliationsTable() throws GeneralDatabaseException {
+	public final void _01testAffiliationsTable() throws Exception {
 		new PersonAffiliationTable();
 		openDbConnection();
 		String sqlQuery = null;
@@ -111,13 +109,13 @@ public class PersonAffiliationTableTest {
 	}
 	
 	
-	@Test(expectedExceptions=CprException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void _10testSetPrimaryAffiliationRequestorNull() throws Exception {
 		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_PROSPECT", null)	;
 		pATable.setPrimaryAffiliation(db);
 	}
 	
-	@Test(expectedExceptions=CprException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void _11testAddAffiliationExceptionNoDb() throws Exception {
 		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_PROSPECT", "jvuccolo","N", "")	;
 		pATable.addAffiliation(db);
@@ -243,7 +241,7 @@ public class PersonAffiliationTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable#archiveAffiliation()}.
 	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void _22testDeleteAffiliationNoAffiliation() throws Exception {
 
 		openDbConnection();
@@ -257,7 +255,7 @@ public class PersonAffiliationTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable#archiveAffiliation()}.
 	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void _23testDeleteAffiliationAlreadyArchived() throws Exception {
 
 		openDbConnection();
@@ -295,14 +293,14 @@ public class PersonAffiliationTableTest {
 	
 
 	@Test
-	public final void exceptionCleanUp1() throws GeneralDatabaseException {
+	public final void exceptionCleanUp1() throws Exception {
 		openDbConnection();
 		db.closeSession();
 	}
 
 	
-//	@Test(expectedExceptions=GeneralDatabaseException.class)
-//	public final void _26testGetInternalAffiliationNoDb() throws GeneralDatabaseException, CprException {
+//	@Test(expectedExceptions=Exception.class)
+//	public final void _26testGetInternalAffiliationNoDb() throws Exception {
 //		PersonAffiliationTable a = new PersonAffiliationTable();
 //		a.setReturnHistoryFlag(false);
 //		a.getInternalAffiliationsForPersonId(db, 100000);
@@ -328,7 +326,7 @@ public class PersonAffiliationTableTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _29testGetExternalAffiliationNoDb() throws GeneralDatabaseException, CprException {
+	public final void _29testGetExternalAffiliationNoDb() throws Exception {
 		PersonAffiliationTable a = new PersonAffiliationTable();
 		a.getExternalAffiliationsForPersonId(db, 100010);
 
@@ -352,7 +350,7 @@ public class PersonAffiliationTableTest {
 //	}
 	
 //	@Test(expected=Exception.class)
-//	public final void _32testGetAllAffiliationNoDb() throws GeneralDatabaseException, CprException {
+//	public final void _32testGetAllAffiliationNoDb() throws Exception {
 //		PersonAffiliationTable a = new PersonAffiliationTable();
 //		a.getAllAffiliationsForPersonId(db, 100000, false);
 //
@@ -402,7 +400,7 @@ public class PersonAffiliationTableTest {
 		db.closeSession();
 
 	}
-	@Test(expectedExceptions=CprException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void _38testSetPrimaryAffiliationNoAff() throws Exception {
 		openDbConnection();
 		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "EMPLOYEE_STAFF_ACTIVE",  "llg5")	;
@@ -419,7 +417,7 @@ public class PersonAffiliationTableTest {
 		db.closeSession();
 
 	}
-	@Test(expectedExceptions=CprException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void _40testSetPrimaryAffiliationAlreadyPrimary() throws Exception {
 		openDbConnection();
 		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "EMPLOYEE_STAFF_ACTIVE",  "llg5","N","")	;
@@ -438,7 +436,7 @@ public class PersonAffiliationTableTest {
 
 	}
 	@Test
-	public final void exceptionCleanUp() throws GeneralDatabaseException {
+	public final void exceptionCleanUp() throws Exception {
 		openDbConnection();
 		db.closeSession();
 	}

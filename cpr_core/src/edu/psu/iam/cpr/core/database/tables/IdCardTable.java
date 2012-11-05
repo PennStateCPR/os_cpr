@@ -16,7 +16,6 @@ import edu.psu.iam.cpr.core.database.beans.PersonIdCard;
 import edu.psu.iam.cpr.core.database.beans.PersonPhoto;
 import edu.psu.iam.cpr.core.database.types.IdCardType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.PersonIdCardNumberReturn;
 import edu.psu.iam.cpr.core.service.returns.PersonIdCardReturn;
@@ -49,6 +48,9 @@ import edu.psu.iam.cpr.core.util.Utility;
 */
 public class IdCardTable {
 
+	/** Contains the name of the database table this implementation is operating on. */
+	private static final String TABLE_NAME = "Id Card";
+	
 	private static final int ID_CARD_TYPE = 0;
 	private static final int ID_CARD_NUMBER = 1;
 	private static final int ID_SERIAL_NUMBER = 2;
@@ -242,7 +244,6 @@ public class IdCardTable {
 	 * 
 	 * 
 	 * @param db
-	 * @throws GeneralDatabaseException
 	 * @throws CprException
 	 */
 	public void addIdCard (Database db) throws  CprException{
@@ -253,197 +254,165 @@ public class IdCardTable {
 		boolean idPlusCard = true;
 		boolean matchFound = false;
 		boolean invalidIdCardTypesFound = false;
-		try {
-			
-			PersonPhoto dbExistingPhotoBean = null;
-			final Session session =db.getSession();
-			final PersonIdCard bean = getPersonIdCardBean();
-			final PersonPhoto photoBean = getPersonPhotoBean();
-			String sqlQuery = null;
-			Query query = null;
-			Iterator<?>it = null;
-			if (photoBean != null)	{
-				// Perform a query to determine if a photo already exists for the person.
-				sqlQuery = "from PersonPhoto where personId = :person_id_in";
-				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id_in", photoBean.getPersonId());
-				 it = query.list().iterator();
-			
-				// Photo exists - update the bean
-				if (it.hasNext()) {
-					dbExistingPhotoBean = (PersonPhoto) it.next();	
-					dbExistingPhotoBean.setDateTaken(photoBean.getDateTaken());
-					dbExistingPhotoBean.setPhoto(photoBean.getPhoto());
-					dbExistingPhotoBean.setLastUpdateBy(photoBean.getLastUpdateBy());
-					dbExistingPhotoBean.setLastUpdateOn(photoBean.getLastUpdateOn());
-				}
-			}
-		
-			//check to see if the person has any id card
-			sqlQuery = "from PersonIdCard where personId = :person_id AND endDate IS NULL";
-			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
 
+		PersonPhoto dbExistingPhotoBean = null;
+		final Session session =db.getSession();
+		final PersonIdCard bean = getPersonIdCardBean();
+		final PersonPhoto photoBean = getPersonPhotoBean();
+		String sqlQuery = null;
+		Query query = null;
+		Iterator<?>it = null;
+		if (photoBean != null)	{
+			// Perform a query to determine if a photo already exists for the person.
+			sqlQuery = "from PersonPhoto where personId = :person_id_in";
+			query = session.createQuery(sqlQuery);
+			query.setParameter("person_id_in", photoBean.getPersonId());
 			it = query.list().iterator();
-			// are there any active card records for this person
-			if (! it.hasNext()) {
-				// no active id cards
-				session.save(bean);
-				session.flush();
-				if (photoBean != null) {
-					if (dbExistingPhotoBean != null ) {
-						session.update(dbExistingPhotoBean);
-						session.flush();
+
+			// Photo exists - update the bean
+			if (it.hasNext()) {
+				dbExistingPhotoBean = (PersonPhoto) it.next();	
+				dbExistingPhotoBean.setDateTaken(photoBean.getDateTaken());
+				dbExistingPhotoBean.setPhoto(photoBean.getPhoto());
+				dbExistingPhotoBean.setLastUpdateBy(photoBean.getLastUpdateBy());
+				dbExistingPhotoBean.setLastUpdateOn(photoBean.getLastUpdateOn());
+			}
+		}
+
+		//check to see if the person has any id card
+		sqlQuery = "from PersonIdCard where personId = :person_id AND endDate IS NULL";
+		query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+
+		it = query.list().iterator();
+		// are there any active card records for this person
+		if (! it.hasNext()) {
+			// no active id cards
+			session.save(bean);
+			session.flush();
+			if (photoBean != null) {
+				if (dbExistingPhotoBean != null ) {
+					session.update(dbExistingPhotoBean);
+					session.flush();
+				}
+				else 
+				{
+					// Photo does not exist, so we need to do an add.
+					session.save(photoBean);
+					session.flush();
+				}
+			}
+		}
+		else 
+		{	
+			// find the existing id card records
+			for ( it=query.list().iterator(); it.hasNext();) {
+				PersonIdCard tempPersonIdCardBean = (PersonIdCard) it.next();
+
+				if (tempPersonIdCardBean.getDataTypeKey().equals(bean.getDataTypeKey())) {
+					if (saveDuplicatePersonIdCardBean != null ) {
+						invalidIdCardTypesFound = true;
 					}
 					else 
 					{
-						// Photo does not exist, so we need to do an add.
-						session.save(photoBean);
-						session.flush();
+						saveDuplicatePersonIdCardBean= tempPersonIdCardBean;
+					}
+				}
+				if (tempPersonIdCardBean.getDataTypeKey().longValue() >= IdCardType.ID_CARD_ID_CARD_HEALTH_SERVICES_PHOTO_ID.index() && tempPersonIdCardBean.getDataTypeKey().longValue() <= IdCardType.ID_CARD_ID_CARD_ARL_PHOTO_ID.index()) {
+					if (existingPersonIdCardBean != null) {
+						//this is an error
+						invalidIdCardTypesFound = true;
+					}
+					else 
+					{
+						existingPersonIdCardBean = tempPersonIdCardBean ;
+					}
+				}
+				else 
+				{
+					if (existingPersonIdPlusCardBean != null) {
+						// this is a error
+						invalidIdCardTypesFound = true;
+					}
+					else 
+					{
+						existingPersonIdPlusCardBean = tempPersonIdCardBean;
 					}
 				}
 			}
-			else 
-			{	
-				// find the existing id card records
-				for ( it=query.list().iterator(); it.hasNext();) {
-					PersonIdCard tempPersonIdCardBean = (PersonIdCard) it.next();
-					
-					if (tempPersonIdCardBean.getDataTypeKey().equals(bean.getDataTypeKey())) {
-						if (saveDuplicatePersonIdCardBean != null ) {
-							invalidIdCardTypesFound = true;
-						}
-						else 
-						{
-							saveDuplicatePersonIdCardBean= tempPersonIdCardBean;
-						}
-					}
-					if (tempPersonIdCardBean.getDataTypeKey().longValue() >= IdCardType.ID_CARD_ID_CARD_HEALTH_SERVICES_PHOTO_ID.index() && tempPersonIdCardBean.getDataTypeKey().longValue() <= IdCardType.ID_CARD_ID_CARD_ARL_PHOTO_ID.index()) {
-						if (existingPersonIdCardBean != null) {
-							//this is an error
-							invalidIdCardTypesFound = true;
-						}
-						else 
-						{
-							existingPersonIdCardBean = tempPersonIdCardBean ;
-						}
-					}
-					else 
-					{
-						if (existingPersonIdPlusCardBean != null) {
-							// this is a error
-							invalidIdCardTypesFound = true;
-						}
-						else 
-						{
-							existingPersonIdPlusCardBean = tempPersonIdCardBean;
-						}
-					}
+
+			// not id card of type in the cpr
+			if (!invalidIdCardTypesFound) {
+				if (bean.getDataTypeKey().longValue() >= IdCardType.ID_CARD_ID_CARD_HEALTH_SERVICES_PHOTO_ID.index() && 
+						bean.getDataTypeKey().longValue() <= IdCardType.ID_CARD_ID_CARD_ARL_PHOTO_ID.index()) {
+					idPlusCard = false;
 				}
-				
-				// not id card of type in the cpr
-				if (!invalidIdCardTypesFound) {
-					if (bean.getDataTypeKey().longValue() >= IdCardType.ID_CARD_ID_CARD_HEALTH_SERVICES_PHOTO_ID.index() && 
-							bean.getDataTypeKey().longValue() <= IdCardType.ID_CARD_ID_CARD_ARL_PHOTO_ID.index()) {
-						idPlusCard = false;
-					}
-					if (saveDuplicatePersonIdCardBean == null) {
-						if ((idPlusCard && existingPersonIdPlusCardBean == null) || (!idPlusCard && existingPersonIdCardBean == null)) {
-							// this is an instances of a new id card just add it
-					
-							session.save(bean);
-							session.flush();
-							if ( photoBean != null) {
-								if (dbExistingPhotoBean != null) {
-									session.update(dbExistingPhotoBean);
-									session.flush();
-								}
-								else 
-								{
-								// Photo does not exist, so we need to do an add.
-									session.save(photoBean);
-									session.flush();
-								}	 
-							}
-						}
-						else 
-						{
-							//archive the existing id card type and add a new one
-							final PersonIdCard dbPersonIdCardBean = idPlusCard ? existingPersonIdPlusCardBean : existingPersonIdCardBean ;
-							dbPersonIdCardBean.setEndDate(bean.getLastUpdateOn());
-							dbPersonIdCardBean.setLastUpdateBy(bean.getLastUpdateBy());
-							dbPersonIdCardBean.setLastUpdateOn(bean.getLastUpdateOn());
-							session.update(dbPersonIdCardBean);
-							session.save(bean);
-							session.flush();
-							if ( bean != null) {
-								if (dbExistingPhotoBean != null)  {
-									session.update(dbExistingPhotoBean);
-									session.flush();
-								}
-								else 
-								{
-									// Photo does not exist, so we need to do an add.
-									session.save(photoBean);
-									session.flush();
-								}	 
-							}
-						}
-					}
-					else	
-					{
-					// id card of type exist
-						// check to see if this is duplicate Person id card data
-						if (db.areStringFieldsEqual(saveDuplicatePersonIdCardBean.getIdCardNumber(), bean.getIdCardNumber()) &&
-							db.areStringFieldsEqual(saveDuplicatePersonIdCardBean.getIdSerialNumber(), bean.getIdSerialNumber()) ){
-						// a photo is included on the add check for duplicate data
-							if ( photoBean != null) {
-								if (  dbExistingPhotoBean !=null && 
-									(db.areStringFieldsEqual(Utility.convertDateToString(dbExistingPhotoBean.getDateTaken()), Utility.convertDateToString(personPhotoBean.getDateTaken())))) {
-									// the record is a duplicate throw an error
-									matchFound = true;		
-								}
-								else 
-								{
-									// this is a new photo update id card and add/update photo
-									saveDuplicatePersonIdCardBean.setLastUpdateBy(bean.getLastUpdateBy());
-									saveDuplicatePersonIdCardBean.setLastUpdateOn(bean.getLastUpdateOn());
-									session.update( saveDuplicatePersonIdCardBean);
-									session.flush();
-									session.save(bean);
-									session.flush();
-									// Perform a query to determine if a photo already exists for the person.
-									if (dbExistingPhotoBean != null) {
-										session.update(dbExistingPhotoBean);
-										session.flush();
-									}
-									else 
-									{
-										// Photo does not exist, so we need to do an add.
-										session.save(photoBean);
-										session.flush();
-									}	
-								}					
+				if (saveDuplicatePersonIdCardBean == null) {
+					if ((idPlusCard && existingPersonIdPlusCardBean == null) || (!idPlusCard && existingPersonIdCardBean == null)) {
+						// this is an instances of a new id card just add it
+
+						session.save(bean);
+						session.flush();
+						if ( photoBean != null) {
+							if (dbExistingPhotoBean != null) {
+								session.update(dbExistingPhotoBean);
+								session.flush();
 							}
 							else 
 							{
-								// there is no Id photo passed
-								matchFound = true;
-							}
+								// Photo does not exist, so we need to do an add.
+								session.save(photoBean);
+								session.flush();
+							}	 
 						}
-						
-						else 
-						{
-						// the person id card is not a duplicate  archive and add the new one.
-						// if a photo is passed in update the photo also
-						// this is a new photo update id card and add/update photo
-							saveDuplicatePersonIdCardBean.setLastUpdateBy(bean.getLastUpdateBy());
-							saveDuplicatePersonIdCardBean.setLastUpdateOn(bean.getLastUpdateOn());
-							session.update( saveDuplicatePersonIdCardBean);
-							session.flush();
-							session.save(bean);
-							session.flush();
-							if ( photoBean != null) {
+					}
+					else 
+					{
+						//archive the existing id card type and add a new one
+						final PersonIdCard dbPersonIdCardBean = idPlusCard ? existingPersonIdPlusCardBean : existingPersonIdCardBean ;
+						dbPersonIdCardBean.setEndDate(bean.getLastUpdateOn());
+						dbPersonIdCardBean.setLastUpdateBy(bean.getLastUpdateBy());
+						dbPersonIdCardBean.setLastUpdateOn(bean.getLastUpdateOn());
+						session.update(dbPersonIdCardBean);
+						session.save(bean);
+						session.flush();
+						if ( bean != null) {
+							if (dbExistingPhotoBean != null)  {
+								session.update(dbExistingPhotoBean);
+								session.flush();
+							}
+							else 
+							{
+								// Photo does not exist, so we need to do an add.
+								session.save(photoBean);
+								session.flush();
+							}	 
+						}
+					}
+				}
+				else	
+				{
+					// id card of type exist
+					// check to see if this is duplicate Person id card data
+					if (db.areStringFieldsEqual(saveDuplicatePersonIdCardBean.getIdCardNumber(), bean.getIdCardNumber()) &&
+							db.areStringFieldsEqual(saveDuplicatePersonIdCardBean.getIdSerialNumber(), bean.getIdSerialNumber()) ){
+						// a photo is included on the add check for duplicate data
+						if ( photoBean != null) {
+							if (  dbExistingPhotoBean !=null && 
+									(db.areStringFieldsEqual(Utility.convertDateToString(dbExistingPhotoBean.getDateTaken()), Utility.convertDateToString(personPhotoBean.getDateTaken())))) {
+								// the record is a duplicate throw an error
+								matchFound = true;		
+							}
+							else 
+							{
+								// this is a new photo update id card and add/update photo
+								saveDuplicatePersonIdCardBean.setLastUpdateBy(bean.getLastUpdateBy());
+								saveDuplicatePersonIdCardBean.setLastUpdateOn(bean.getLastUpdateOn());
+								session.update( saveDuplicatePersonIdCardBean);
+								session.flush();
+								session.save(bean);
+								session.flush();
+								// Perform a query to determine if a photo already exists for the person.
 								if (dbExistingPhotoBean != null) {
 									session.update(dbExistingPhotoBean);
 									session.flush();
@@ -453,84 +422,105 @@ public class IdCardTable {
 									// Photo does not exist, so we need to do an add.
 									session.save(photoBean);
 									session.flush();
-								}	 
+								}	
+							}					
+						}
+						else 
+						{
+							// there is no Id photo passed
+							matchFound = true;
+						}
+					}
+
+					else 
+					{
+						// the person id card is not a duplicate  archive and add the new one.
+						// if a photo is passed in update the photo also
+						// this is a new photo update id card and add/update photo
+						saveDuplicatePersonIdCardBean.setLastUpdateBy(bean.getLastUpdateBy());
+						saveDuplicatePersonIdCardBean.setLastUpdateOn(bean.getLastUpdateOn());
+						session.update( saveDuplicatePersonIdCardBean);
+						session.flush();
+						session.save(bean);
+						session.flush();
+						if ( photoBean != null) {
+							if (dbExistingPhotoBean != null) {
+								session.update(dbExistingPhotoBean);
+								session.flush();
 							}
-						}	
-					}		
-				}
+							else 
+							{
+								// Photo does not exist, so we need to do an add.
+								session.save(photoBean);
+								session.flush();
+							}	 
+						}
+					}	
+				}		
 			}
-		}	
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "Id Card");
 		}
+
 		if (matchFound) {
-			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, "Id Card");
+			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, TABLE_NAME);
 		}
 		if (invalidIdCardTypesFound) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "Id Card");
+			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, TABLE_NAME);
 		}
 	}
 	/**
 	 * The purpose of this routine is to archive id Card data associated with a person id.
 	 * 
 	 * @param db
-	 * @throws GeneralDatabaseException
 	 * @throws CprException
 	 */
 	public void archiveIdCard (Database db) throws  CprException {
 		boolean recordNotFound = false;
 		boolean alreadyArchived = false;
-		try {
-			final Session session = db.getSession();
-			final PersonIdCard bean = getPersonIdCardBean();
-			String sqlQuery = null;
-			Query query = null;
-			
-		
-			sqlQuery = "from PersonIdCard where personId = :person_id AND dataTypeKey = :data_type_key ";
+		final Session session = db.getSession();
+		final PersonIdCard bean = getPersonIdCardBean();
+		String sqlQuery = null;
+		Query query = null;
+
+
+		sqlQuery = "from PersonIdCard where personId = :person_id AND dataTypeKey = :data_type_key ";
+		query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+		Iterator<?> it = query.list().iterator();
+
+		if (it.hasNext()) {
+			// Check to see if an active record exists for the user and specified address type.
+			sqlQuery += " and endDate is NULL";
 			query = session.createQuery(sqlQuery);
 			query.setParameter("person_id", bean.getPersonId());
 			query.setParameter("data_type_key", bean.getDataTypeKey());
-			Iterator<?> it = query.list().iterator();
-			
+
+			it = query.list().iterator();
 			if (it.hasNext()) {
-				// Check to see if an active record exists for the user and specified address type.
-				sqlQuery += " and endDate is NULL";
-				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
-
-				it = query.list().iterator();
-				if (it.hasNext()) {
-					PersonIdCard personIdCardDbBean = (PersonIdCard) it.next();
-					personIdCardDbBean.setEndDate(bean.getLastUpdateOn());
-					personIdCardDbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					personIdCardDbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					session.update(personIdCardDbBean);
-					session.flush();
-					}
-				else
-				{
-					alreadyArchived = true;
-				}
+				PersonIdCard personIdCardDbBean = (PersonIdCard) it.next();
+				personIdCardDbBean.setEndDate(bean.getLastUpdateOn());
+				personIdCardDbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				personIdCardDbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				session.update(personIdCardDbBean);
+				session.flush();
 			}
-			else 
+			else
 			{
-				recordNotFound=true;
+				alreadyArchived = true;
 			}
-
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ARCHIVE_FAILED_EXCEPTION, "Id Card");
+		else 
+		{
+			recordNotFound=true;
 		}
 
 		// Handle the error cases.
 		if (recordNotFound) {
-			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "ID Card");
+			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, TABLE_NAME);
 		}
 		
 		if (alreadyArchived) {
-			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, "Id Card");
+			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, TABLE_NAME);
 		}					
 		
 
@@ -540,112 +530,94 @@ public class IdCardTable {
 	 * @param db contains the database connection object.
 	 * @param personId contains the person identifier to do the query for.
 	 * @return PersonIdCardReturn array.
-	 * @throws GeneralDatabaseException will be thrown if there are any problems.
 	 */
-	public PersonIdCardReturn[] getIdCardForPersonId(Database db, long personId) 
-		throws GeneralDatabaseException {
+	public PersonIdCardReturn[] getIdCardForPersonId(Database db, long personId) {
 		
-		try {
-			
-			final ArrayList <PersonIdCardReturn> results = new ArrayList<PersonIdCardReturn> ();
-			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT data_type_key, id_card_number, id_serial_number, " );
-			sb.append("start_date, ");
-			sb.append("end_date, ");
-			sb.append("last_update_by, ");
-			sb.append("last_update_on, ");
-			sb.append("created_by, ");
-			sb.append("created_on ");
-			sb.append("from person_id_card ");
-			sb.append("WHERE person_id=:person_id ");
+		final ArrayList <PersonIdCardReturn> results = new ArrayList<PersonIdCardReturn> ();
+		final Session session = db.getSession();
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT data_type_key, id_card_number, id_serial_number, " );
+		sb.append("start_date, ");
+		sb.append("end_date, ");
+		sb.append("last_update_by, ");
+		sb.append("last_update_on, ");
+		sb.append("created_by, ");
+		sb.append("created_on ");
+		sb.append("from person_id_card ");
+		sb.append("WHERE person_id=:person_id ");
 
-			if (getIdCardType() != null) {
-				sb.append("AND data_type_key = :data_type_key_in ");
-			}
-			
-			if (! isReturnHistoryFlag()) {
-				sb.append("AND end_date IS NULL ");
-			}
-			
-			sb.append("ORDER BY data_type_key ASC, start_date ASC ");
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("person_id", personId);
-			
-			if (getIdCardType() != null) {
-				query.setParameter("data_type_key_in", getIdCardType().index());
-			}
-			
-			query.addScalar("data_type_key", StandardBasicTypes.LONG);
-			query.addScalar("id_card_number", StandardBasicTypes.STRING);
-			query.addScalar("id_serial_number", StandardBasicTypes.STRING);
-			query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("last_update_by", StandardBasicTypes.STRING);
-			query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("created_by", StandardBasicTypes.STRING);
-			query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
-			for (final Iterator<?> it=query.list().iterator(); it.hasNext();) {
-				Object res[] = (Object []) it.next();
-				PersonIdCardReturn personIdCardReturn = new PersonIdCardReturn();
-				personIdCardReturn.setIdCardType(IdCardType.get((Long) res[ID_CARD_TYPE]).toString());
-				personIdCardReturn.setIdCardNumber((String) res[ID_CARD_NUMBER]);
-				personIdCardReturn.setIdSerialNumber((String) res[ID_SERIAL_NUMBER]);
-				personIdCardReturn.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
-				personIdCardReturn.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
-				personIdCardReturn.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
-				personIdCardReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
-				personIdCardReturn.setCreatedBy((String) res[CREATED_BY]);
-				personIdCardReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
-				results.add(personIdCardReturn);
-			}
-			return results.toArray(new PersonIdCardReturn[results.size()]);
+		if (getIdCardType() != null) {
+			sb.append("AND data_type_key = :data_type_key_in ");
+		}
 
+		if (! isReturnHistoryFlag()) {
+			sb.append("AND end_date IS NULL ");
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve id card  for person identifier = " + personId);
+
+		sb.append("ORDER BY data_type_key ASC, start_date ASC ");
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id", personId);
+
+		if (getIdCardType() != null) {
+			query.setParameter("data_type_key_in", getIdCardType().index());
 		}
+
+		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.addScalar("id_card_number", StandardBasicTypes.STRING);
+		query.addScalar("id_serial_number", StandardBasicTypes.STRING);
+		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("last_update_by", StandardBasicTypes.STRING);
+		query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("created_by", StandardBasicTypes.STRING);
+		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
+		for (final Iterator<?> it=query.list().iterator(); it.hasNext();) {
+			Object res[] = (Object []) it.next();
+			PersonIdCardReturn personIdCardReturn = new PersonIdCardReturn();
+			personIdCardReturn.setIdCardType(IdCardType.get((Long) res[ID_CARD_TYPE]).toString());
+			personIdCardReturn.setIdCardNumber((String) res[ID_CARD_NUMBER]);
+			personIdCardReturn.setIdSerialNumber((String) res[ID_SERIAL_NUMBER]);
+			personIdCardReturn.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
+			personIdCardReturn.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
+			personIdCardReturn.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
+			personIdCardReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+			personIdCardReturn.setCreatedBy((String) res[CREATED_BY]);
+			personIdCardReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
+			results.add(personIdCardReturn);
+		}
+		return results.toArray(new PersonIdCardReturn[results.size()]);
 	}
 	/**
 	 * This routine is used to obtain id card number for a person.
 	 * @param db contains the database connection object.
 	 * @param personId contains the person identifier to do the query for.
 	 * @return PersonIdCardNumberReturn array.
-	 * @throws GeneralDatabaseException will be thrown if there are any problems.
 	 */
-	public PersonIdCardNumberReturn[] getIdCardNumberForPersonId(Database db, long personId) 
-		throws GeneralDatabaseException {
+	public PersonIdCardNumberReturn[] getIdCardNumberForPersonId(Database db, long personId) {
 		
-		try {
-			
-			final ArrayList <PersonIdCardNumberReturn> results = new ArrayList<PersonIdCardNumberReturn> ();
-			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT data_type_key, id_card_number " );
-			sb.append("from person_id_card ");
-			sb.append("WHERE person_id=:person_id ");
-			sb.append("AND end_date IS NULL ");
-			
-			sb.append("ORDER BY data_type_key ASC, start_date ASC ");
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("person_id", personId);
-			
-			query.addScalar("data_type_key", StandardBasicTypes.LONG);
-			query.addScalar("id_card_number", StandardBasicTypes.STRING);
-			
-			for (final Iterator<?> it=query.list().iterator(); it.hasNext();) {
-				Object res[] = (Object []) it.next();
-				PersonIdCardNumberReturn personIdCardNumberReturn = new PersonIdCardNumberReturn();
-				personIdCardNumberReturn.setIdCardType(IdCardType.get((Long) res[0]).toString());
-				personIdCardNumberReturn.setIdCardNumber((String) res[1]);
-				
-				results.add(personIdCardNumberReturn);
-			}
-			return results.toArray(new PersonIdCardNumberReturn[results.size()]);
+		final ArrayList <PersonIdCardNumberReturn> results = new ArrayList<PersonIdCardNumberReturn> ();
+		final Session session = db.getSession();
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT data_type_key, id_card_number " );
+		sb.append("from person_id_card ");
+		sb.append("WHERE person_id=:person_id ");
+		sb.append("AND end_date IS NULL ");
 
+		sb.append("ORDER BY data_type_key ASC, start_date ASC ");
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id", personId);
+
+		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.addScalar("id_card_number", StandardBasicTypes.STRING);
+
+		for (final Iterator<?> it=query.list().iterator(); it.hasNext();) {
+			Object res[] = (Object []) it.next();
+			PersonIdCardNumberReturn personIdCardNumberReturn = new PersonIdCardNumberReturn();
+			personIdCardNumberReturn.setIdCardType(IdCardType.get((Long) res[0]).toString());
+			personIdCardNumberReturn.setIdCardNumber((String) res[1]);
+
+			results.add(personIdCardNumberReturn);
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve id card  for person identifier = " + personId);
-		}
+		return results.toArray(new PersonIdCardNumberReturn[results.size()]);
 	}
 }

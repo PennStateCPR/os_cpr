@@ -28,8 +28,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.IdCardPrintLogTable;
 import edu.psu.iam.cpr.core.database.tables.IdCardTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.util.Utility;
 
 /**
@@ -46,7 +44,7 @@ public class IdCardPrintLogTableTest {
 	IdCardPrintLogTable icpt = new IdCardPrintLogTable();
 	
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	/**
@@ -98,11 +96,11 @@ public class IdCardPrintLogTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardPrintLogTable#addIdCardPrintLog(edu.psu.iam.cpr.core.database.Database)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test
-	public final void testAddIdCardPrintLog() throws GeneralDatabaseException, CprException {
+	public final void testAddIdCardPrintLog() throws Exception {
 		openDbConnection();
 		IdCardTable aPICTable = new IdCardTable();
 		aPICTable = new IdCardTable(100003, "ID_CARD_ID_PLUS_CARD_STUDENT", "llg5", "6543210987654321","12345", new byte [1], new Date());
@@ -120,11 +118,11 @@ public class IdCardPrintLogTableTest {
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardPrintLogTable#getIdCardPrintLog(edu.psu.iam.cpr.core.database.Database)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test
-	public final void testGetIdCardPrintLog() throws GeneralDatabaseException, CprException {
+	public final void testGetIdCardPrintLog() throws Exception {
 		openDbConnection();
 		IdCardPrintLogTable aLog = new IdCardPrintLogTable("6543210987654321");
 		aLog.getIdCardPrintLog( db );
@@ -133,11 +131,11 @@ public class IdCardPrintLogTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardPrintLogTable#getIdCardPrintLog(edu.psu.iam.cpr.core.database.Database)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test
-	public final void testGetIdCardPrintLog1() throws GeneralDatabaseException, CprException {
+	public final void testGetIdCardPrintLog1() throws Exception {
 		openDbConnection();
 		IdCardPrintLogTable aLog = new IdCardPrintLogTable("1234567890123456");
 		aLog.getIdCardPrintLog( db );

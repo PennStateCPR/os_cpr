@@ -19,7 +19,6 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.database.types.AffiliationsType;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.CprProperties;
@@ -107,17 +106,11 @@ public class Database {
 	 * openSession routine attempts to obtain a database connection from the ESB connection
 	 * pool.
 	 * @param sessionFactory hibernate session factory.
-	 * @throws GeneralDatabaseException 
 	 */
-	public void openSession(SessionFactory sessionFactory) throws GeneralDatabaseException {
+	public void openSession(SessionFactory sessionFactory) {
 		
-		try {
-			session = sessionFactory.getCurrentSession();
-			session.beginTransaction();
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to obtain a database connection from the connection pool.");
-		}
+		session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 	}
 	
 	/**
@@ -128,8 +121,6 @@ public class Database {
 	public void closeSession() {
 		try {
 			getSession().getTransaction().commit();
-		}
-		catch (Exception e) {
 		}
 		finally {
 			resetSession();
@@ -143,9 +134,7 @@ public class Database {
 		try {
 			getSession().getTransaction().rollback();
 		}
-		catch (Exception e) {
-		}
-		finally { 
+		finally {
 			resetSession();
 		}
 	}
@@ -179,10 +168,9 @@ public class Database {
 	 * @param principalId contains the requestor's principal identifier.
 	 * @param serviceName contains the name of the service.
 	 * @param requestor contains the userid of the person requesting access.
-	 * @throws CprException exception indicates a cpr specific java exception.
-	 * @throws GeneralDatabaseException exception indicates a general database exception.
+	 * @throws CprException 
 	 */
-	public void requestorAuthorized(String principalId, String requestor, String serviceName) throws CprException, GeneralDatabaseException {
+	public void requestorAuthorized(String principalId, String requestor, String serviceName) throws CprException  {
 
 		Long localRegistrationAuthorityKey = NOT_FOUND_VALUE;
 		Long localIamGroupKey = NOT_FOUND_VALUE;
@@ -193,33 +181,30 @@ public class Database {
 		String grpaccSuspendFlag = "Y";
 
 		// Determine what RA a person is associated with.
-		try {
-			// Build the query.
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT ra.registration_authority_key, ra.suspend_flag ");
-			sb.append("FROM registration_authority ra JOIN ra_server_principals rasrvrprinc ");
-			sb.append("ON ra.registration_authority_key = rasrvrprinc.registration_authority_key ");
-			sb.append("WHERE rasrvrprinc.ra_server_principal = :ra_server_principal_in ");
-			sb.append("AND ra.end_date IS NULL ");
-			sb.append("AND rasrvrprinc.end_date IS NULL");
-			
-			// Create the query, bind the input parameters and determine the output parameters.
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("ra_server_principal_in", principalId);
-			query.addScalar("registration_authority_key", StandardBasicTypes.LONG);
-			query.addScalar("suspend_flag", StandardBasicTypes.STRING);
 
-			// See if a record is found, if so get its data.
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
-				Object res[] = (Object []) it.next();
-				localRegistrationAuthorityKey = (Long) res[0];
-				suspendFlag = (String) res[1];
-			}
+		// Build the query.
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT ra.registration_authority_key, ra.suspend_flag ");
+		sb.append("FROM registration_authority ra JOIN ra_server_principals rasrvrprinc ");
+		sb.append("ON ra.registration_authority_key = rasrvrprinc.registration_authority_key ");
+		sb.append("WHERE rasrvrprinc.ra_server_principal = :ra_server_principal_in ");
+		sb.append("AND ra.end_date IS NULL ");
+		sb.append("AND rasrvrprinc.end_date IS NULL");
+
+		// Create the query, bind the input parameters and determine the output parameters.
+		SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("ra_server_principal_in", principalId);
+		query.addScalar("registration_authority_key", StandardBasicTypes.LONG);
+		query.addScalar("suspend_flag", StandardBasicTypes.STRING);
+
+		// See if a record is found, if so get its data.
+		Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+			Object res[] = (Object []) it.next();
+			localRegistrationAuthorityKey = (Long) res[0];
+			suspendFlag = (String) res[1];
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());
-		}
+		
 	
 		// Is the RA suspended?
 		if (localRegistrationAuthorityKey.equals(NOT_FOUND_VALUE) ||
@@ -228,41 +213,36 @@ public class Database {
 		}
 
 		// Determine the user's status and group for the particular RA.
-		try {
 			
-			// Build the query.
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT iam_group_key, grpmbrs_suspend_flag, iamgrps_suspend_flag, grpacc_suspend_flag ");
-		    sb.append("FROM v_ra_group_web_service ");
-		    sb.append("WHERE registration_authority_key = :l_ra_key ");
-		    sb.append("AND web_service = :web_service_in ");
-		    sb.append("AND userid = :requested_by_in");
-		    
-		    // Create the query, bind the parameters and determine the returns.
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("l_ra_key", localRegistrationAuthorityKey);
-			query.setParameter("web_service_in", serviceName);
-			query.setParameter("requested_by_in", requestor);
-			query.addScalar("iam_group_key", StandardBasicTypes.LONG);
-			query.addScalar("grpmbrs_suspend_flag", StandardBasicTypes.STRING);
-			query.addScalar("iamgrps_suspend_flag", StandardBasicTypes.STRING);
-			query.addScalar("grpacc_suspend_flag", StandardBasicTypes.STRING);
+		// Build the query.
+		sb.setLength(0);
+		sb.append("SELECT iam_group_key, grpmbrs_suspend_flag, iamgrps_suspend_flag, grpacc_suspend_flag ");
+		sb.append("FROM v_ra_group_web_service ");
+		sb.append("WHERE registration_authority_key = :l_ra_key ");
+		sb.append("AND web_service = :web_service_in ");
+		sb.append("AND userid = :requested_by_in");
 
-			// Perform the query.
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
-				Object res[] = (Object []) it.next();
-				localIamGroupKey = (Long) res[IAM_GROUP_KEY];
-				grpmbrsSuspendFlag = (String) res[GRP_MBRS_SUSPEND_FLAG];
-				iamgrpsSuspendFlag = (String) res[IAM_GRPS_SUSPEND_FLAG];
-				grpaccSuspendFlag = (String) res[GRP_ACC_SUSPEND_FLAG];
-			}
-	
+		// Create the query, bind the parameters and determine the returns.
+		query = session.createSQLQuery(sb.toString());
+		query.setParameter("l_ra_key", localRegistrationAuthorityKey);
+		query.setParameter("web_service_in", serviceName);
+		query.setParameter("requested_by_in", requestor);
+		query.addScalar("iam_group_key", StandardBasicTypes.LONG);
+		query.addScalar("grpmbrs_suspend_flag", StandardBasicTypes.STRING);
+		query.addScalar("iamgrps_suspend_flag", StandardBasicTypes.STRING);
+		query.addScalar("grpacc_suspend_flag", StandardBasicTypes.STRING);
+
+		// Perform the query.
+		it = query.list().iterator();
+		if (it.hasNext()) {
+			Object res[] = (Object []) it.next();
+			localIamGroupKey = (Long) res[IAM_GROUP_KEY];
+			grpmbrsSuspendFlag = (String) res[GRP_MBRS_SUSPEND_FLAG];
+			iamgrpsSuspendFlag = (String) res[IAM_GRPS_SUSPEND_FLAG];
+			grpaccSuspendFlag = (String) res[GRP_ACC_SUSPEND_FLAG];
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());			
-		}
-	
+
+
 		// If any of the suspend flags is set to Yes, we need to throw an exception.
 		if (localIamGroupKey.equals(NOT_FOUND_VALUE) ||
 				grpmbrsSuspendFlag.equals("Y") ||
@@ -270,7 +250,7 @@ public class Database {
 				grpaccSuspendFlag.equals("Y")) {
 			throw new CprException(ReturnType.NOT_AUTHORIZED_EXCEPTION, serviceName);
 		}
-	
+
 		setIamGroupKey(localIamGroupKey);
 		setRegistrationAuthorityKey(localRegistrationAuthorityKey);
 				
@@ -287,9 +267,9 @@ public class Database {
 	 * @param requestedBy contains the access id of the perform who requested this operation.
 	 * @return will return true if successful.
 	 * @throws CprException will be thrown if the access is denied.
-	 * @throws GeneralDatabaseException  will be thrown if there are any database exceptions.
 	 */
-	public boolean isDataActionAuthorized(ServiceCoreReturn serviceCoreReturn, String dataResource, String action, String requestedBy) throws CprException, GeneralDatabaseException {
+	public boolean isDataActionAuthorized(ServiceCoreReturn serviceCoreReturn, String dataResource, String action, String requestedBy) 
+		throws CprException {
 
 		// Verify that the operation being checked is against a valid data key.
 		final Long dataTypeKey = AccessType.valueOf(dataResource.toUpperCase().trim()).index();
@@ -314,43 +294,37 @@ public class Database {
 				dataKeyValid = true;
 			}
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());				
-		}
-		if (! dataKeyValid) {
-			throw new CprException(ReturnType.DATA_CHANGE_EXCEPTION,dataResource);
+		finally {
+			if (! dataKeyValid) {
+				throw new CprException(ReturnType.DATA_CHANGE_EXCEPTION,dataResource);
+			}
 		}
 		
 		// Do the query to determine if they have access.
 		String readFlag = "N";
 		String writeFlag = "N";
 		String archiveFlag ="N";
-		try {
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-	        sb.append("SELECT v_group_data_type_access.read_flag, v_group_data_type_access.write_flag, ");
-    		sb.append("v_group_data_type_access.archive_flag ");
-    		sb.append("FROM v_group_data_type_access ");
-    		sb.append("WHERE v_group_data_type_access.iam_group_key = :iam_group_key_in ");
-    		sb.append("AND v_group_data_type_access.data_type_key = :data_type_key_in");
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT v_group_data_type_access.read_flag, v_group_data_type_access.write_flag, ");
+		sb.append("v_group_data_type_access.archive_flag ");
+		sb.append("FROM v_group_data_type_access ");
+		sb.append("WHERE v_group_data_type_access.iam_group_key = :iam_group_key_in ");
+		sb.append("AND v_group_data_type_access.data_type_key = :data_type_key_in");
 
-	        // Create the query, bind the parameters and set the return type.
-	        final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("iam_group_key_in", serviceCoreReturn.getIamGroupKey());
-			query.setParameter("data_type_key_in", dataTypeKey);
-			query.addScalar("read_flag", StandardBasicTypes.STRING);
-			query.addScalar("write_flag", StandardBasicTypes.STRING);
-			query.addScalar("archive_flag", StandardBasicTypes.STRING);
-			
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
-				Object res[] = (Object []) it.next();
-				readFlag = (String) res[0];
-				writeFlag = (String) res[1];
-				archiveFlag = (String) res[2];
-			}
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());							
+		// Create the query, bind the parameters and set the return type.
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("iam_group_key_in", serviceCoreReturn.getIamGroupKey());
+		query.setParameter("data_type_key_in", dataTypeKey);
+		query.addScalar("read_flag", StandardBasicTypes.STRING);
+		query.addScalar("write_flag", StandardBasicTypes.STRING);
+		query.addScalar("archive_flag", StandardBasicTypes.STRING);
+
+		final Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+			Object res[] = (Object []) it.next();
+			readFlag = (String) res[0];
+			writeFlag = (String) res[1];
+			archiveFlag = (String) res[2];
 		}
 		
 		boolean hasAccess = false;
@@ -379,9 +353,9 @@ public class Database {
 	 * @param requestedBy contains the access id of the perform who requested this operation.
 	 * @return will return true if successful.
 	 * @throws CprException will be thrown if the access is denied.
-	 * @throws GeneralDatabaseException  will be thrown if there are any database exceptions.
 	 */
-	public boolean isDataActionAuthorizedOldCode(long iamGroupKey, long dataTypeKey, long accessOperationKey, String requestedBy) throws CprException, GeneralDatabaseException {
+	public boolean isDataActionAuthorizedOldCode(long iamGroupKey, long dataTypeKey, long accessOperationKey, String requestedBy) 
+		throws CprException {
 
 		// Verify that the operation being checked is against a valid data key.
 		boolean dataKeyValid = false;
@@ -404,43 +378,37 @@ public class Database {
 				dataKeyValid = true;
 			}
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());				
-		}
-		if (! dataKeyValid) {
-			throw new CprException(ReturnType.DATA_CHANGE_EXCEPTION, AccessType.get(dataTypeKey).toString());
+		finally {
+			if (! dataKeyValid) {
+				throw new CprException(ReturnType.DATA_CHANGE_EXCEPTION, AccessType.get(dataTypeKey).toString());
+			}
 		}
 		
 		// Do the query to determine if they have access.
 		String readFlag = "N";
 		String writeFlag = "N";
 		String archiveFlag ="N";
-		try {
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-	        sb.append("SELECT v_group_data_type_access.read_flag, v_group_data_type_access.write_flag, ");
-    		sb.append("v_group_data_type_access.archive_flag ");
-    		sb.append("FROM v_group_data_type_access ");
-    		sb.append("WHERE v_group_data_type_access.iam_group_key = :iam_group_key_in ");
-    		sb.append("AND v_group_data_type_access.data_type_key = :data_type_key_in");
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT v_group_data_type_access.read_flag, v_group_data_type_access.write_flag, ");
+		sb.append("v_group_data_type_access.archive_flag ");
+		sb.append("FROM v_group_data_type_access ");
+		sb.append("WHERE v_group_data_type_access.iam_group_key = :iam_group_key_in ");
+		sb.append("AND v_group_data_type_access.data_type_key = :data_type_key_in");
 
-	        // Create the query, bind the parameters and set the return type.
-	        final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("iam_group_key_in", iamGroupKey);
-			query.setParameter("data_type_key_in", dataTypeKey);
-			query.addScalar("read_flag", StandardBasicTypes.STRING);
-			query.addScalar("write_flag", StandardBasicTypes.STRING);
-			query.addScalar("archive_flag", StandardBasicTypes.STRING);
-			
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
-				Object res[] = (Object []) it.next();
-				readFlag = (String) res[0];
-				writeFlag = (String) res[1];
-				archiveFlag = (String) res[2];
-			}
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());							
+		// Create the query, bind the parameters and set the return type.
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("iam_group_key_in", iamGroupKey);
+		query.setParameter("data_type_key_in", dataTypeKey);
+		query.addScalar("read_flag", StandardBasicTypes.STRING);
+		query.addScalar("write_flag", StandardBasicTypes.STRING);
+		query.addScalar("archive_flag", StandardBasicTypes.STRING);
+
+		final Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+			Object res[] = (Object []) it.next();
+			readFlag = (String) res[0];
+			writeFlag = (String) res[1];
+			archiveFlag = (String) res[2];
 		}
 		
 		boolean hasAccess = false;
@@ -468,61 +436,47 @@ public class Database {
 	 * 
 	 * @return true if ra is authorized for affiliation
 	 * 
-	 * @throws AffiliationUseException
 	 * @throws CprException
-	 * @throws GeneralDatabaseException 
 	 */
-	public boolean isAffiliationAccessAuthorized(ServiceCoreReturn serviceCoreReturn, String affiliationType, String requestedBy)  throws CprException, GeneralDatabaseException {
+	public boolean isAffiliationAccessAuthorized(ServiceCoreReturn serviceCoreReturn, String affiliationType, String requestedBy)  
+		throws CprException {
 
 		final Long affiliationKey = AffiliationsType.valueOf(affiliationType.toUpperCase().trim()).index();
 		boolean affiliationKeyValid = false;
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-		try {
 			
-			// Build the query.
-			
-	        sb.append("SELECT affiliations.affiliation_key ");
-	        sb.append("FROM affiliations ");
-	        sb.append("WHERE affiliations.affiliation_key = :affiliation_key_in ");
-	        sb.append("AND affiliations.active_flag = 'Y' ");
+		// Build the query.
 
-	        // Create the query, bind the parameters and set the return type.
-	        final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("affiliation_key_in", affiliationKey);
-			query.addScalar("affiliation_key", StandardBasicTypes.LONG);
-			
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
-				affiliationKeyValid = true;
-			}
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());				
+		sb.append("SELECT affiliations.affiliation_key ");
+		sb.append("FROM affiliations ");
+		sb.append("WHERE affiliations.affiliation_key = :affiliation_key_in ");
+		sb.append("AND affiliations.active_flag = 'Y' ");
+
+		SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("affiliation_key_in", affiliationKey);
+		query.addScalar("affiliation_key", StandardBasicTypes.LONG);
+
+		Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+			affiliationKeyValid = true;
 		}
 		if (! affiliationKeyValid) {
 			throw new CprException(ReturnType.DATA_CHANGE_EXCEPTION, AffiliationsType.get(affiliationKey).toString());
 		}
-		try {
-			sb.setLength(0);
-	  		sb.append("select * FROM ra_affiliation ");
-    		sb.append("WHERE affiliation_key = :affiliation_key_in ");
-    		sb.append("AND registration_authority_key= :ra_type_key_in ");
-    		sb.append("AND end_date is null ");
-    		 // Create the query, bind the parameters and set the return type.
-	        final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("affiliation_key_in", affiliationKey);
-			query.setParameter("ra_type_key_in", serviceCoreReturn.getRegistrationAuthorityKey());
-						
-			final Iterator<?> it = query.list().iterator();
-			if ( !it.hasNext()) {
-				affiliationKeyValid = false;
-			}		
+		sb.setLength(0);
+		sb.append("select * FROM ra_affiliation ");
+		sb.append("WHERE affiliation_key = :affiliation_key_in ");
+		sb.append("AND registration_authority_key= :ra_type_key_in ");
+		sb.append("AND end_date is null ");
+		// Create the query, bind the parameters and set the return type.
+		query = session.createSQLQuery(sb.toString());
+		query.setParameter("affiliation_key_in", affiliationKey);
+		query.setParameter("ra_type_key_in", serviceCoreReturn.getRegistrationAuthorityKey());
 
-
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());				
-		}
+		it = query.list().iterator();
+		if ( !it.hasNext()) {
+			affiliationKeyValid = false;
+		}		
 		if (! affiliationKeyValid) {
 			throw new CprException(ReturnType.DATA_CHANGE_EXCEPTION, AffiliationsType.get(affiliationKey).toString());
 		}
@@ -533,26 +487,21 @@ public class Database {
 	 * This routine is used to obtain a person identifier using a psu id number.
 	 * @param psuId contains the psu id number.
 	 * @return person id if the psu id can be found, otherwise it will return a -1 to indicate an error.
-	 * @throws GeneralDatabaseException exception indicates that a general database exception was encountered.
-	 * @throws CprException exception indicates a cpr specific java exception.
+	 * @throws CprException 
 	 */
-	public long getPersonIdUsingPsuId(String psuId) throws GeneralDatabaseException, CprException  {
+	public long getPersonIdUsingPsuId(String psuId) throws CprException {
 		
 		Long personId = NOT_FOUND_VALUE;
-		try {
-			final String sqlQuery = "SELECT person_id FROM psu_id WHERE psu_id = :psuid AND end_date IS NULL";
-			final SQLQuery query = session.createSQLQuery(sqlQuery);
-			query.setParameter("psuid", psuId);
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
-				personId = (Long) it.next();
-			}
+
+		final String sqlQuery = "SELECT person_id FROM psu_id WHERE psu_id = :psuid AND end_date IS NULL";
+		final SQLQuery query = session.createSQLQuery(sqlQuery);
+		query.setParameter("psuid", psuId);
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		final Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+			personId = (Long) it.next();
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());
-		}
-		
+
 		if (personId.equals(NOT_FOUND_VALUE)) {
 			throw new CprException(ReturnType.PERSON_NOT_FOUND_EXCEPTION);		
 		}
@@ -565,24 +514,19 @@ public class Database {
 	 * This routine is used to obtain a person identifier using a userid.
 	 * @param userid contains the userid to be used in the search.
 	 * @return person id if the userid can be found, otherwise it will return a -1 to indicate an error.
-	 * @throws GeneralDatabaseException exception indicates that a general database exception was encountered.
 	 * @throws CprException exception indicates a cpr specific java exception.
 	 */
-	public long getPersonIdUsingUserid(String userid) throws GeneralDatabaseException, CprException  {
+	public long getPersonIdUsingUserid(String userid) throws CprException  {
 		
 		Long personId = NOT_FOUND_VALUE;
-		try {
-			final String sqlQuery = "SELECT person_id FROM userid WHERE userid = :userid";
-			final SQLQuery query = session.createSQLQuery(sqlQuery);
-			query.setParameter("userid", userid);
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
-				personId = (Long) it.next();
-			}
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());
+
+		final String sqlQuery = "SELECT person_id FROM userid WHERE userid = :userid";
+		final SQLQuery query = session.createSQLQuery(sqlQuery);
+		query.setParameter("userid", userid);
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		final Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+			personId = (Long) it.next();
 		}
 		
 		if (personId.equals(NOT_FOUND_VALUE)) {
@@ -596,24 +540,19 @@ public class Database {
 	 * This routine is used to find a person using their id card number.
 	 * @param idCard contains the id card that is used to be search for.
 	 * @return will return the person identifier if a user was found with the correct id.
-	 * @throws GeneralDatabaseException will be thrown if there are any general database errors.
 	 * @throws CprException will be thrown if there are any CPR specific problems.
 	 */
-	public long getPersonIdUsingIdCard(String idCard) throws GeneralDatabaseException, CprException  {
+	public long getPersonIdUsingIdCard(String idCard) throws CprException  {
 		
 		Long personId = NOT_FOUND_VALUE;
-		try {
-			final String sqlQuery = "SELECT person_id FROM person_id_card WHERE id_card_number = :idcard AND end_date IS NULL";
-			final SQLQuery query = session.createSQLQuery(sqlQuery);
-			query.setParameter("idcard", idCard);
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
-				personId = (Long) it.next();
-		}
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());
+
+		final String sqlQuery = "SELECT person_id FROM person_id_card WHERE id_card_number = :idcard AND end_date IS NULL";
+		final SQLQuery query = session.createSQLQuery(sqlQuery);
+		query.setParameter("idcard", idCard);
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		final Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+			personId = (Long) it.next();
 		}
 		
 		if (personId.equals(NOT_FOUND_VALUE)) {
@@ -632,17 +571,14 @@ public class Database {
 	public boolean isValidUserid(Long personId, String userid) {
 
 		boolean found = false;
-		try {
-			final String sqlQuery = "SELECT person_id FROM userid WHERE userid = :userid AND person_id = :person_id AND end_date IS NULL";
-			final SQLQuery query = session.createSQLQuery(sqlQuery);
-			query.setParameter("person_id", personId);
-			query.setParameter("userid", userid);
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			found =  (query.list().size() == 0) ? false : true;
-		}
-		catch (Exception e) {
-			found = false;
-		}
+
+		final String sqlQuery = "SELECT person_id FROM userid WHERE userid = :userid AND person_id = :person_id AND end_date IS NULL";
+		final SQLQuery query = session.createSQLQuery(sqlQuery);
+		query.setParameter("person_id", personId);
+		query.setParameter("userid", userid);
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		found =  (query.list().size() == 0) ? false : true;
+
 		return found;
 	}
 	
@@ -651,29 +587,24 @@ public class Database {
 	 * @param personId contains the person identifier to do a search for.
 	 * @return returns the person identifier found.
 	 * @throws CprException exception indicates a cpr specific java exception.
-	 * @throws GeneralDatabaseException exception indicates that a general database error was encountered.
 	 */
-	public long getPersonIdUsingPersonId(long personId) throws CprException, GeneralDatabaseException {
+	public long getPersonIdUsingPersonId(long personId) throws CprException {
 		
 		Long personIdOut = NOT_FOUND_VALUE;
-		try {
-			final String sqlQuery = "SELECT person_id FROM person WHERE person_id = :personid";
-			final SQLQuery query = session.createSQLQuery(sqlQuery);
-			query.setParameter("personid", personId);
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
-				personIdOut = (Long) it.next();
-			}
+
+		final String sqlQuery = "SELECT person_id FROM person WHERE person_id = :personid";
+		final SQLQuery query = session.createSQLQuery(sqlQuery);
+		query.setParameter("personid", personId);
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		final Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+			personIdOut = (Long) it.next();
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());
-		}
-		
+
 		if (personIdOut.equals(NOT_FOUND_VALUE)) {
 			throw new CprException(ReturnType.PERSON_NOT_FOUND_EXCEPTION);		
 		}
-		
+
 		return personId;
 	}
 	
@@ -682,30 +613,25 @@ public class Database {
 	 * @param identifierType contains the identifier type.
 	 * @param identifier contains the identifier value.
 	 * @return will return the person identifier or throw an exception.
-	 * @throws GeneralDatabaseException will be thrown if there is a database problem exception.
 	 * @throws CprException will be thrown if there is a CPR specific problem.
 	 */
-	public long getPersonIdUsingPersonIdentifier(IdentifierType identifierType, String identifier) throws GeneralDatabaseException, CprException {
+	public long getPersonIdUsingPersonIdentifier(IdentifierType identifierType, String identifier) throws CprException {
 		
 		Long personId = NOT_FOUND_VALUE;
-		try {
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT person_id FROM person_identifier WHERE type_key = :type_key ");
-			sb.append("AND identifier_value = :identifier_value ");
-			sb.append("AND end_date IS NULL");
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("type_key", identifierType.getTypeKey());
-			query.setParameter("identifier_value", identifier);
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
-				personId = (Long) it.next();
+
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT person_id FROM person_identifier WHERE type_key = :type_key ");
+		sb.append("AND identifier_value = :identifier_value ");
+		sb.append("AND end_date IS NULL");
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("type_key", identifierType.getTypeKey());
+		query.setParameter("identifier_value", identifier);
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		final Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+			personId = (Long) it.next();
 		}
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());
-		}
-		
+			
 		if (personId.equals(NOT_FOUND_VALUE)) {
 			throw new CprException(ReturnType.PERSON_NOT_FOUND_EXCEPTION);		
 		}
@@ -720,9 +646,8 @@ public class Database {
 	 * @param identifier contains the identifier.
 	 * @return will either return the Central Person Registry's person identifier corresponding to the identifier or a -1 to indicate an error.
 	 * @throws CprException exception indicates a cpr specific java exception.
-	 * @throws GeneralDatabaseException exception indicates that a general database error was encountered.
 	 */
-	public long getPersonIdUsingIdentifier(IdentifierType identifierType, String identifier) throws GeneralDatabaseException, CprException {
+	public long getPersonIdUsingIdentifier(IdentifierType identifierType, String identifier) throws CprException {
 		
 		long personId = NOT_FOUND_VALUE;
 		
@@ -732,12 +657,7 @@ public class Database {
 		
 		String typeName = identifierType.getTypeName();
 		if (typeName.equals(PERSON_ID_IDENTIFIER)) {
-			try {
-				personId = Long.parseLong(identifier.trim());
-			}
-			catch (NumberFormatException e) {
-				throw new CprException(ReturnType.GENERAL_EXCEPTION, "Invalid person identifier was specified");
-			}
+			personId = Long.parseLong(identifier.trim());
 			personId = getPersonIdUsingPersonId(personId);
 		}
 		
@@ -765,24 +685,19 @@ public class Database {
 	 * This routine will called a stored function to determine if a person is active in the CPR or not.
 	 * @param personId person identifier from the Central Person Registry.
 	 * @return true if the person is active.
-	 * @throws GeneralDatabaseException exception indicates that a general database error was encountered.
 	 * @throws CprException exception indicates a cpr specific java exception.
 	 */
-	public boolean isPersonActive(long personId) throws GeneralDatabaseException, CprException {
+	public boolean isPersonActive(long personId) throws CprException {
 		
 		long personIdOut = NOT_FOUND_VALUE;
-		try {
-			final String sqlQuery = "SELECT person_id FROM person WHERE person_id = :personid AND end_date IS NULL";
-			final SQLQuery query = session.createSQLQuery(sqlQuery);
-			query.setParameter("personid", personId);
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
-				personIdOut = (Long) it.next();
-			}
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());
+
+		final String sqlQuery = "SELECT person_id FROM person WHERE person_id = :personid AND end_date IS NULL";
+		final SQLQuery query = session.createSQLQuery(sqlQuery);
+		query.setParameter("personid", personId);
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		final Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+			personIdOut = (Long) it.next();
 		}
 		
 		if (personId != personIdOut) {
@@ -796,25 +711,20 @@ public class Database {
 	 * doesPsuIdExist accepts a single parameter the psuId and checks to see if it exists in the CPR.
 	 * @param psuId contains the psu id to check for existence.
 	 * @throws CprException exception indicates a cpr specific java exception.
-	 * @throws GeneralDatabaseException exception indicates that a general database error happened.
 	 */
-	public void doesPsuIdExist(String psuId) throws CprException, GeneralDatabaseException {
+	public void doesPsuIdExist(String psuId) throws CprException {
 
 		Long personId = NOT_FOUND_VALUE;
-		try {
-			final String sqlQuery = "SELECT person_id FROM psu_id WHERE psu_id = :psuid AND end_date IS NULL";
-			final SQLQuery query = session.createSQLQuery(sqlQuery);
-			query.setParameter("psuid", psuId);
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
-				personId = (Long) it.next();
-			}
+
+		final String sqlQuery = "SELECT person_id FROM psu_id WHERE psu_id = :psuid AND end_date IS NULL";
+		final SQLQuery query = session.createSQLQuery(sqlQuery);
+		query.setParameter("psuid", psuId);
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		final Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+			personId = (Long) it.next();
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());
-		}
-		
+
 		if (personId.equals(NOT_FOUND_VALUE)) {
 			throw new CprException(ReturnType.PSUID_NOT_FOUND_EXCEPTION);			
 		}
@@ -824,25 +734,20 @@ public class Database {
 	 * This routine will verify whether a userid exists in the CPR or not.
 	 * @param userid input userid to be checked for existence.
 	 * @throws CprException exception indicates a cpr specific java exception.
-	 * @throws GeneralDatabaseException exception thrown indicates that a general database failure was encountered.
 	 */
-	public void doesUseridExist(String userid) throws CprException, GeneralDatabaseException {
+	public void doesUseridExist(String userid) throws CprException {
 		
 		Long personId = NOT_FOUND_VALUE;
-		try {
-			final String sqlQuery = "SELECT person_id FROM userid WHERE userid = :userid";
-			final SQLQuery query = session.createSQLQuery(sqlQuery);
-			query.setParameter("userid", userid);
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
-				personId = (Long) it.next();
-			}
+
+		final String sqlQuery = "SELECT person_id FROM userid WHERE userid = :userid";
+		final SQLQuery query = session.createSQLQuery(sqlQuery);
+		query.setParameter("userid", userid);
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		final Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
+			personId = (Long) it.next();
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());
-		}
-		
+
 		if (personId.equals(NOT_FOUND_VALUE)) {
 			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "userid");
 		}
@@ -853,10 +758,9 @@ public class Database {
 	 * @param idType contains the string representation of the identifier type.
 	 * @param identifier contains the identifier to be searched for.
 	 * @return contains the person identifier if found.
-	 * @throws CprException exception indicates a cpr specific java exception.
-	 * @throws GeneralDatabaseException  exception will be thrown if a general database failure was encountered.
+	 * @throws CprException 
 	 */
-	public long getPersonId(String idType, String identifier) throws CprException, GeneralDatabaseException {
+	public long getPersonId(String idType, String identifier) throws CprException {
 		
 		long personId = NOT_FOUND_VALUE;
 
@@ -881,12 +785,7 @@ public class Database {
 		// Validate the length of the identifier type.
 		Validate.isIdentifierLengthValid(this, localIdentifierType.getTypeName(), identifier);
 		
-		try {
-			personId = getPersonIdUsingIdentifier(localIdentifierType, identifier);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.PERSON_NOT_FOUND_EXCEPTION);
-		}
+		personId = getPersonIdUsingIdentifier(localIdentifierType, identifier);
 			
 		LOG4J_LOGGER.info("End of get Person");
 		return personId;
@@ -903,69 +802,52 @@ public class Database {
 	/**
 	 * This routine is used to obtain all of the database columns metadata information for a particular table within the CPR.
 	 * @param tableName contains the table name that is useds to obtain data for.
-	 * @throws GeneralDatabaseException exception that is thrown for any problems.
-	 * @throws CprException exception indicates a cpr specific java exception.
 	 */
-	public  void getAllTableColumns(final String tableName) throws GeneralDatabaseException, CprException {
+	public void getAllTableColumns(final String tableName) {
 		
-		if (tableName == null || tableName.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Table name");
-		}
-		
-		try {
-			session.doWork(new Work() {
-				public void execute(Connection conn) throws SQLException {
-					ResultSet rs = null;
-					try {
-						rs = conn.getMetaData().getColumns(null, 
-								CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_DATABASE_NAME.toString()), 
-								tableName.toLowerCase(), "_%");
-						tableColumns = new HashMap<String, TableColumn>();
-						while (rs.next()) {
-							tableColumns.put(rs.getString("column_name").toUpperCase(), 
-									new TableColumn(rs.getString("column_name").toUpperCase(), 
-											rs.getShort("data_type"), rs.getInt("column_size"), 
-											rs.getInt("decimal_digits"), rs.getInt("nullable")));		
-						}
-					}
-					finally {
-						try {
-							rs.close();
-						}
-						catch (Exception e) {
-						}
+		session.doWork(new Work() {
+			public void execute(Connection conn) throws SQLException {
+				ResultSet rs = null;
+				try {
+					rs = conn.getMetaData().getColumns(null, 
+							CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_DATABASE_NAME.toString()), 
+							tableName.toLowerCase(), "_%");
+					tableColumns = new HashMap<String, TableColumn>();
+					while (rs.next()) {
+						tableColumns.put(rs.getString("column_name").toUpperCase(), 
+								new TableColumn(rs.getString("column_name").toUpperCase(), 
+										rs.getShort("data_type"), rs.getInt("column_size"), 
+										rs.getInt("decimal_digits"), rs.getInt("nullable")));		
 					}
 				}
-			});
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to obtain metadata for database table = " + tableName);
-		}
+				finally {
+					try {
+						rs.close();
+					}
+					catch (Exception e) {
+					}
+				}
+			}
+		});
 	}
 	
 	/**
 	 * This routine is used to obtain column data for a particular column.
 	 * @param columnName contains the column name to obtain data for.
 	 * @return will return a TableColumn object if successful.
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException exception indicates a cpr specific java exception.
 	 */
-	public  TableColumn getColumn(String columnName) throws CprException, GeneralDatabaseException {
+	public  TableColumn getColumn(String columnName) throws CprException {
 		
 		if (columnName == null || columnName.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Column name");
 		}
 
-		try {
-			final TableColumn tableColumn = getTableColumns().get(columnName.toUpperCase());
-			if (tableColumn == null) {
-				throw new GeneralDatabaseException("Unable to find database column in metadata.");
-			}
-			return tableColumn;
+		final TableColumn tableColumn = getTableColumns().get(columnName.toUpperCase());
+		if (tableColumn == null) {
+			throw new CprException(ReturnType.GENERAL_DATABASE_EXCEPTION, "Unable to find database column in metadata.");
 		}
-		catch (NullPointerException e) {
-			throw new GeneralDatabaseException("Unable to find database column in metadata.");
-		}
+		return tableColumn;
 	}
 	
 	/**

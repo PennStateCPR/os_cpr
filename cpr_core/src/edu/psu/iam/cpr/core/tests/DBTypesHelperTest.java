@@ -20,12 +20,11 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.helpers.DBTypesHelper;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 public class DBTypesHelperTest {
 
 	@Test
-	public final void testGetTypeMaps() throws GeneralDatabaseException {
+	public final void testGetTypeMaps() throws Exception {
 		AssertJUnit.assertNotNull(DBTypesHelper.INSTANCE.getTypeMaps(0));
 	}
 

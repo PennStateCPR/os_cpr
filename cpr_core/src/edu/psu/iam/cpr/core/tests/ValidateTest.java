@@ -20,13 +20,12 @@ package edu.psu.iam.cpr.core.tests;
  */
 
 
+
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.util.Validate;
 
 /**
@@ -37,7 +36,7 @@ public class ValidateTest {
 
 	private static Database db = new Database();
 	
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
@@ -125,10 +124,10 @@ public class ValidateTest {
 //	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidIdentifierType(java.lang.String)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 */
 	@Test
-	public final void testIsValidIdentifierType2() throws GeneralDatabaseException {
+	public final void testIsValidIdentifierType2() throws Exception {
 		openDbConnection();
 		IdentifierType t = Validate.isValidIdentifierType(db, "person_id");
 		db.closeSession();
@@ -136,10 +135,10 @@ public class ValidateTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidIdentifierType(java.lang.String)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 */
 	@Test
-	public final void testIsValidIdentifierType3() throws GeneralDatabaseException {
+	public final void testIsValidIdentifierType3() throws Exception {
 		openDbConnection();
 		IdentifierType t = Validate.isValidIdentifierType(db, "psu_id");
 		db.closeSession();
@@ -147,10 +146,10 @@ public class ValidateTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidIdentifierType(java.lang.String)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 */
 	@Test
-	public final void testIsValidIdentifierType4() throws GeneralDatabaseException {
+	public final void testIsValidIdentifierType4() throws Exception {
 		openDbConnection();
 		IdentifierType t = Validate.isValidIdentifierType(db, "userid");
 		db.closeSession();
@@ -209,56 +208,56 @@ public class ValidateTest {
 	}
 	
 	@Test
-	public final void testIsValidIdentifier1() throws GeneralDatabaseException, CprException {
+	public final void testIsValidIdentifier1() throws Exception {
 		openDbConnection();
 		AssertJUnit.assertTrue(Validate.isIdentifierLengthValid(db, "PERSON_ID", "1"));
 		db.closeSession();
 	}
 	
 	@Test
-	public final void testIsValidIdentifier2() throws GeneralDatabaseException, CprException {
+	public final void testIsValidIdentifier2() throws Exception {
 		openDbConnection();
 		AssertJUnit.assertTrue(Validate.isIdentifierLengthValid(db, "USERID", "adbcd"));
 		db.closeSession();
 	}
 	
 	@Test
-	public final void testIsValidIdentifier3() throws GeneralDatabaseException, CprException {
+	public final void testIsValidIdentifier3() throws Exception {
 		openDbConnection();
 		AssertJUnit.assertTrue(Validate.isIdentifierLengthValid(db, "SSN", "abcd"));
 		db.closeSession();
 	}
 	
 	@Test
-	public final void testIsValidIdentifier4() throws GeneralDatabaseException, CprException {
+	public final void testIsValidIdentifier4() throws Exception {
 		openDbConnection();
 		AssertJUnit.assertTrue(Validate.isIdentifierLengthValid(db, "PSU_ID", "abcd"));
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void testIsValidIdentifier7() throws GeneralDatabaseException, CprException {
+	public final void testIsValidIdentifier7() throws Exception {
 		openDbConnection();
 		AssertJUnit.assertTrue(Validate.isIdentifierLengthValid(db, "PSU_ID", "11111111111111111111111111111111111111111111111111111111111111111111111"));
 		db.closeSession();
 	}
 
 	@Test
-	public final void testIsValidIdentifier5() throws GeneralDatabaseException, CprException {
+	public final void testIsValidIdentifier5() throws Exception {
 		openDbConnection();
 		AssertJUnit.assertTrue(Validate.isIdentifierLengthValid(db, "ID_CARD", "abcd"));
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testDoIdentifierCheck2() throws CprException, GeneralDatabaseException {
+	public final void testDoIdentifierCheck2() throws Exception {
 		openDbConnection();
 		Validate.doIdentifierLengthCheck(db, "abcd1111111111111111111111111111111111111111111111111111111111", "Psu Id", "PSU_ID", "PSU_ID");
 		db.closeSession();
 	}
 
 	@Test
-	public final void testDoIdentifierCheck1() throws CprException, GeneralDatabaseException {
+	public final void testDoIdentifierCheck1() throws Exception {
 		openDbConnection();
 		Validate.doIdentifierLengthCheck(db, "abcd", "Psu Id", "PSU_ID", "PSU_ID");
 		db.closeSession();

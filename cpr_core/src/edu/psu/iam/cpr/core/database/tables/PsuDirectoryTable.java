@@ -12,7 +12,6 @@ import org.hibernate.type.StandardBasicTypes;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.PsuDirectory;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -46,6 +45,8 @@ public class PsuDirectoryTable {
 	
 	private static final int USERID = 0;
 	private static final int PSU_DIRECTORY_KEY = 1;
+
+	private static final String TABLE_NAME = "PSU Directory";
 	
 	/** Directory bean class */
 	private PsuDirectory psuDirectoryBean;
@@ -111,80 +112,74 @@ public class PsuDirectoryTable {
 	/**
 	 * Add a record to the psu directory table.
 	 * @param db contains a database connection.
-	 * @throws GeneralDatabaseException will be thrown if there are any problems.
+	 * @throws CprException 
 	 */
-	public void addDirectoryTable(Database db) throws GeneralDatabaseException {
+	public void addDirectoryTable(Database db) throws CprException  {
 		
 		boolean recordExists = false;
-		try {
-			final Session session = db.getSession();
-			final PsuDirectory bean = getPsuDirectoryBean();		
-			
-			// If the userid is NULL, we only need to check and see if the person exists.
-			if (bean.getUserid() == null) {
-				// Check to see if the record already exists.
-				final String sqlQuery = "from PsuDirectory where personId = :person_id";
-				final Query query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				final Iterator<?> it = query.list().iterator();
-				if (it.hasNext()) {
-					recordExists = true;
-				}
-			}
-			
-			// If the userid is not null, we need to check and see if the person and the userid exist.
-			else {
-				// Check to see if the record already exists.
-				final String sqlQuery = "from PsuDirectory where personId = :person_id and userid = :userid";
-				final Query query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("userid", bean.getUserid());
-				final Iterator<?> it = query.list().iterator();
-				if (it.hasNext()) {
-					recordExists = true;
-				}
-			}
-			
-			boolean recordUpdated = false;
-			
-			// If the record does not exist, we can continue.
-			if (! recordExists) {
-				
-				// Check to see if a userid was specified.
-				if (bean.getUserid() != null) {
-					
-					// If we have a userid, attempt to update a psu directory record that contains a NULL userid.  There 
-					// will only be one of these.
-					final String sqlQuery = "from PsuDirectory where personId = :person_id_in and userid is NULL";
-					final Query query = session.createQuery(sqlQuery);
-					query.setParameter("person_id_in", bean.getPersonId());
-					final Iterator<?> it = query.list().iterator();
-					if (it.hasNext()) {
-						PsuDirectory dbBean = (PsuDirectory) it.next();
-						dbBean.setUserid(bean.getUserid());
-						dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-						dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-						session.update(dbBean);
-						session.flush();
-						recordUpdated = true;
-					}
-				}
-				
-				// If we did not update the record, we need to add a new one.
-				if (! recordUpdated) {
+		final Session session = db.getSession();
+		final PsuDirectory bean = getPsuDirectoryBean();		
 
-					// Save off the new record.
-					session.save(bean);
-					session.flush();
-				}
+		// If the userid is NULL, we only need to check and see if the person exists.
+		if (bean.getUserid() == null) {
+			// Check to see if the record already exists.
+			final String sqlQuery = "from PsuDirectory where personId = :person_id";
+			final Query query = session.createQuery(sqlQuery);
+			query.setParameter("person_id", bean.getPersonId());
+			final Iterator<?> it = query.list().iterator();
+			if (it.hasNext()) {
+				recordExists = true;
 			}
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to store a record in the psu directory table.");
+
+		// If the userid is not null, we need to check and see if the person and the userid exist.
+		else {
+			// Check to see if the record already exists.
+			final String sqlQuery = "from PsuDirectory where personId = :person_id and userid = :userid";
+			final Query query = session.createQuery(sqlQuery);
+			query.setParameter("person_id", bean.getPersonId());
+			query.setParameter("userid", bean.getUserid());
+			final Iterator<?> it = query.list().iterator();
+			if (it.hasNext()) {
+				recordExists = true;
+			}
 		}
-		
+
+		boolean recordUpdated = false;
+
+		// If the record does not exist, we can continue.
+		if (! recordExists) {
+
+			// Check to see if a userid was specified.
+			if (bean.getUserid() != null) {
+
+				// If we have a userid, attempt to update a psu directory record that contains a NULL userid.  There 
+				// will only be one of these.
+				final String sqlQuery = "from PsuDirectory where personId = :person_id_in and userid is NULL";
+				final Query query = session.createQuery(sqlQuery);
+				query.setParameter("person_id_in", bean.getPersonId());
+				final Iterator<?> it = query.list().iterator();
+				if (it.hasNext()) {
+					PsuDirectory dbBean = (PsuDirectory) it.next();
+					dbBean.setUserid(bean.getUserid());
+					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+					session.update(dbBean);
+					session.flush();
+					recordUpdated = true;
+				}
+			}
+
+			// If we did not update the record, we need to add a new one.
+			if (! recordUpdated) {
+
+				// Save off the new record.
+				session.save(bean);
+				session.flush();
+			}
+		}
 		if (recordExists) {
-			throw new GeneralDatabaseException("A record already exists in the PSU Directory table for this user.");
+			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, TABLE_NAME);
 		}
 	}
 
@@ -192,42 +187,35 @@ public class PsuDirectoryTable {
 	 * This routine is used to populate the directory table class with information from the PSU_DIRECTORY table for a specific person identifier.
 	 * @param db contains the database connection
 	 * @param personId contains the person identifier.
-	 * @throws PersonNotFoundException
-	 * @throws GeneralDatabaseException
 	 * @throws CprException 
 	 */
-	public void getPsuDirectoryTable(Database db, Long personId) throws GeneralDatabaseException, CprException {
+	public void getPsuDirectoryTable(Database db, Long personId) throws CprException {
 
 		boolean found = false;
-		try {
-			final Session session = db.getSession();
-			
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT userid, psu_directory_key ");
-			sb.append("FROM psu_directory ");
-			sb.append("WHERE person_id = :person_id_in ");
-			sb.append("AND end_date IS NULL ");
-			
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("person_id_in", personId);
-			query.addScalar("userid", StandardBasicTypes.STRING);
-			query.addScalar("psu_directory_key", StandardBasicTypes.LONG);
-			
-			final Iterator<?> it = query.list().iterator();
-			
-			if (it.hasNext()) {
-				Object res[] = (Object []) it.next();
+		final Session session = db.getSession();
 
-				final PsuDirectory bean = new PsuDirectory();
-				bean.setPersonId(personId);
-				bean.setUserid((String) res[USERID]);
-				bean.setPsuDirectoryKey((Long) res[PSU_DIRECTORY_KEY]);
-				setPsuDirectoryBean(bean);
-				found = true;
-			}
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve information for person identifier = " + personId);
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT userid, psu_directory_key ");
+		sb.append("FROM psu_directory ");
+		sb.append("WHERE person_id = :person_id_in ");
+		sb.append("AND end_date IS NULL ");
+
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id_in", personId);
+		query.addScalar("userid", StandardBasicTypes.STRING);
+		query.addScalar("psu_directory_key", StandardBasicTypes.LONG);
+
+		final Iterator<?> it = query.list().iterator();
+
+		if (it.hasNext()) {
+			Object res[] = (Object []) it.next();
+
+			final PsuDirectory bean = new PsuDirectory();
+			bean.setPersonId(personId);
+			bean.setUserid((String) res[USERID]);
+			bean.setPsuDirectoryKey((Long) res[PSU_DIRECTORY_KEY]);
+			setPsuDirectoryBean(bean);
+			found = true;
 		}
 		
 		if (! found) {

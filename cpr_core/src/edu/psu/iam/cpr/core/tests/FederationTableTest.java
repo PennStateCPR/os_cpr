@@ -22,48 +22,46 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.FederationTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 
 public class FederationTableTest {
 
 	
 	private static Database db = new Database();
-	public static void openDbConnection() throws CprException, GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
-	@Test(expectedExceptions=CprException.class)
-	public final void  testIsFederationInValid() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void  testIsFederationInValid() throws Exception {
 		openDbConnection();	
 		FederationTable aFed = new FederationTable();
 		AssertJUnit.assertTrue( aFed.isFederationValid(db, "InCommonIncommonOutCommonOutCommon"));
 		db.closeSession();
 	}
 	@Test
-	public final void  testIsFederationValid() throws CprException, GeneralDatabaseException {
+	public final void  testIsFederationValid() throws Exception {
 		openDbConnection();	
 		FederationTable aFed = new FederationTable();
 		AssertJUnit.assertTrue( aFed.isFederationValid(db, "InCommon"));
 		db.closeSession();
 	}
 	@Test
-	public final void  testIsFederationValidUpper() throws CprException, GeneralDatabaseException {
+	public final void  testIsFederationValidUpper() throws Exception {
 		openDbConnection();	
 		FederationTable aFed = new FederationTable();
 		AssertJUnit.assertTrue( aFed.isFederationValid(db, "INCOMMON"));
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void  testIsFederationValidNot() throws  CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void  testIsFederationValidNot() throws  Exception {
 		openDbConnection();	
 		FederationTable aFed = new FederationTable();
 		AssertJUnit.assertFalse( aFed.isFederationValid(db, "InComm"));
 		db.closeSession();
 	}
 	@Test
-	public final void  testIsFederationValidLowerCase() throws  CprException, GeneralDatabaseException {
+	public final void  testIsFederationValidLowerCase() throws  Exception {
 		openDbConnection();	
 		FederationTable aFed = new FederationTable();
 		AssertJUnit.assertTrue( aFed.isFederationValid(db, "incommon"));

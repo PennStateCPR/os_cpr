@@ -28,7 +28,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.EmailAddressTable;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -73,7 +72,8 @@ public final class ValidateEmail {
     	if (emailAddress == null) {
     		return false;
     	}
-    	if (Pattern.matches(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_REGEX_EMAIL_ADDRESS.toString()), emailAddress)) {
+    	if (Pattern.matches(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_REGEX_EMAIL_ADDRESS.toString()), 
+    			emailAddress)) {
 	    	return true;
 	    }
 	    return false;
@@ -87,11 +87,10 @@ public final class ValidateEmail {
      * @param emailAddress contains the email address.
      * @param updatedBy contains the system identifier or userid that updated the record.
      * @return will return an EmailAddressTable class if successful, otherwise it will throw an exception.
-     * @throws GeneralDatabaseException 
      * @throws CprException 
      */
 	public static EmailAddressTable validateEmailAddressParameters(Database db, long personId,
-			String emailType, String emailAddress, String updatedBy) throws GeneralDatabaseException, CprException {
+			String emailType, String emailAddress, String updatedBy) throws CprException {
 		
 		EmailAddressTable emailAddressTable = null;
 		
@@ -126,12 +125,7 @@ public final class ValidateEmail {
 		}
 		
 		// Create a new object.
-		try {
-			emailAddressTable = new EmailAddressTable(personId, localEmailType, localEmailAddress, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Email address type");
-		}
+		emailAddressTable = new EmailAddressTable(personId, localEmailType, localEmailAddress, localUpdatedBy);
 
 		// Verify that the email address is good.
 		if (! isValidEmail(emailAddressTable.getEmailAddressBean().getEmailAddress())) {
@@ -148,13 +142,11 @@ public final class ValidateEmail {
      * @param emailType contains the email address type.
      * @param updatedBy contains the system identifier or userid that updated the record.
      * @return will return an EmailAddressTable class if successful, otherwise it will throw an exception.
-     * @throws GeneralDatabaseException 
      * @throws CprException 
      */
 	public static EmailAddressTable validatePrimaryEmailParameters(Database db, long personId,
-			String emailType, String updatedBy) throws GeneralDatabaseException, CprException {
+			String emailType, String updatedBy) throws CprException {
 		
-		EmailAddressTable emailAddressTable = null;
 		String emailAddress = null;
 
 		// For non-null input fields, trim the strings.
@@ -181,14 +173,7 @@ public final class ValidateEmail {
 		}
 
 		// Create the new object.
-		try {
-			emailAddressTable = new EmailAddressTable(personId, localEmailType, emailAddress, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Email address type");
-		}
-		
-		return emailAddressTable;
+		return new EmailAddressTable(personId, localEmailType, emailAddress, localUpdatedBy);
 	}	
 	
 	/**
@@ -198,10 +183,10 @@ public final class ValidateEmail {
 	 * @param requestedBy contains the system identifier or userid that is requesting information.
 	 * @param returnHistory Y/N that indicates whether to return history or not.
 	 * @return EmailAddressTable upon success, it will return an instance of an EmailAddressTable.
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
-	public static EmailAddressTable validateGetEmailAddressParameters(Database db, long personId, String requestedBy, String returnHistory) throws GeneralDatabaseException, CprException {
+	public static EmailAddressTable validateGetEmailAddressParameters(Database db, long personId, String requestedBy, 
+			String returnHistory) throws CprException {
 				
 		// For non-null input fields, trim them off.
 		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
@@ -236,12 +221,10 @@ public final class ValidateEmail {
 	 * @param emailAddressType contains the email address type to be deleted.
 	 * @param updatedBy contains the userid or system identifier that is updating the record.
 	 * @return EmailAddressTable class.
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
-	public static EmailAddressTable validateArchiveEmailAddressParameters(Database db, long personId, String emailAddressType, String updatedBy) throws GeneralDatabaseException, CprException {
-		
-		EmailAddressTable emailAddressTable = null;
+	public static EmailAddressTable validateArchiveEmailAddressParameters(Database db, long personId, String emailAddressType, 
+			String updatedBy) throws CprException {
 		
 		// For input parameters that are non-null, trim them.
 		String localEmailAddressType = null;
@@ -267,14 +250,6 @@ public final class ValidateEmail {
 		}
 
 		// Attempt to instantiate a new email address table class.
-		try {
-			emailAddressTable = new EmailAddressTable(personId, localEmailAddressType, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Email address type");
-		}
-		
-		// Success return the new object.
-		return emailAddressTable;
+		return new EmailAddressTable(personId, localEmailAddressType, localUpdatedBy);
 	}
 }

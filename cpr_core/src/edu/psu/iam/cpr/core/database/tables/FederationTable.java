@@ -9,7 +9,6 @@ import org.hibernate.type.StandardBasicTypes;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -36,7 +35,7 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
 public class FederationTable {
-
+	
 	private static final int BUFFER_SIZE = 256;
 
 	/**
@@ -44,10 +43,9 @@ public class FederationTable {
 	 * @param db  contains Database object
 	 * @param federationName  contains the federationName to validate		
 	 * @return true if valid federation, false otherwse
-	 * @throws CprException
-	 * @throws GeneralDatabaseException
+	 * @throws CprException 
 	 */
-	public boolean isFederationValid (Database db, String federationName) throws CprException {
+	public boolean isFederationValid (Database db, String federationName) throws CprException  {
 		
 		boolean fedValid = false;
 		final Session session = db.getSession();

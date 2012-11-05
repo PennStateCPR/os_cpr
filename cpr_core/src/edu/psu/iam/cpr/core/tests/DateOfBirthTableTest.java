@@ -20,14 +20,14 @@ package edu.psu.iam.cpr.core.tests;
  */
 
 
+import java.text.ParseException;
+
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.DateOfBirth;
 import edu.psu.iam.cpr.core.database.tables.DateOfBirthTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.service.returns.DateOfBirthReturn;
 
 /**
@@ -37,21 +37,22 @@ import edu.psu.iam.cpr.core.service.returns.DateOfBirthReturn;
 public class DateOfBirthTableTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.DateOfBirthTable#DateOfBirthTable(int, java.lang.String, java.lang.String)}.
 	 * @throws CprException 
+	 * @throws ParseException 
 	 */
 	@Test
-	public final void testDateOfBirthTableIntStringString() throws CprException {
+	public final void testDateOfBirthTableIntStringString() throws Exception {
 		new DateOfBirthTable(1, "11/11/2010", "jvuccolo");
 	}
 	
 	@Test
-	public final void testDateOfBirthTableIntStringString1() throws CprException {
+	public final void testDateOfBirthTableIntStringString1() throws Exception {
 		new DateOfBirthTable(1, "11/11", "jvuccolo");
 	}
 	
@@ -110,14 +111,14 @@ public class DateOfBirthTableTest {
 
 
 	@Test(expectedExceptions=Exception.class)
-	public final void testAddDateOfBirth1() throws CprException, GeneralDatabaseException {
+	public final void testAddDateOfBirth1() throws Exception {
 		DateOfBirthTable d = new DateOfBirthTable(100000, "1/1/2010", "jvuccolo");
 		d.addDateOfBirth(db);
 	}
 	
 	
 	@Test
-	public final void testAddDateOfBirth4() throws CprException, GeneralDatabaseException {
+	public final void testAddDateOfBirth4() throws Exception {
 		openDbConnection();
 		DateOfBirthTable d = new DateOfBirthTable(100000, "1/1", "jvuccolo");
 		d.addDateOfBirth(db);
@@ -125,7 +126,7 @@ public class DateOfBirthTableTest {
 	}
 	
 	@Test
-	public final void testAddDateOfBirth3() throws CprException, GeneralDatabaseException {
+	public final void testAddDateOfBirth3() throws Exception {
 		openDbConnection();
 		DateOfBirthTable d = new DateOfBirthTable(100000,"12/1/2010", "jvuccolo");
 		d.addDateOfBirth(db);
@@ -133,14 +134,14 @@ public class DateOfBirthTableTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testGetDateOfBirth1() throws GeneralDatabaseException, CprException {
+	public final void testGetDateOfBirth1() throws Exception {
 		DateOfBirthTable d = new DateOfBirthTable();
 		d.setReturnHistoryFlag(false);
 		d.getDateOfBirthForPersonId(db,100000);
 	}
 	
 	@Test
-	public final void testGetDateOfBirth2() throws GeneralDatabaseException, CprException {
+	public final void testGetDateOfBirth2() throws Exception {
 		openDbConnection();
 		DateOfBirthTable d = new DateOfBirthTable(100000, "1/1", "jvuccolo");
 		d.addDateOfBirth(db);
@@ -151,7 +152,7 @@ public class DateOfBirthTableTest {
 	}
 	
 	@Test
-	public final void testGetDateOfBirth3() throws GeneralDatabaseException, CprException {
+	public final void testGetDateOfBirth3() throws Exception {
 		openDbConnection();
 		DateOfBirthTable d = new DateOfBirthTable(100000,"12/1/2010", "jvuccolo");
 		d.addDateOfBirth(db);

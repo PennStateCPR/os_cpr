@@ -25,8 +25,6 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.PsuIdTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * @author jvuccolo
@@ -35,7 +33,7 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 public class PsuIdTableTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
@@ -63,14 +61,14 @@ public class PsuIdTableTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testGetPsuIdForPersonId1() throws GeneralDatabaseException, CprException {
+	public final void testGetPsuIdForPersonId1() throws Exception {
 		PsuIdTable p = new PsuIdTable();
 		p.setReturnHistoryFlag(false);
 		p.getPsuIdForPersonId(db,100000);
 	}
 	
 	@Test
-	public final void testGetPsuIdForPersonId3() throws GeneralDatabaseException, CprException {
+	public final void testGetPsuIdForPersonId3() throws Exception {
 		openDbConnection();
 		PsuIdTable p = new PsuIdTable();
 		p.setReturnHistoryFlag(false);
@@ -79,7 +77,7 @@ public class PsuIdTableTest {
 	}
 
 	@Test
-	public final void testGetPsuIdForPersonId2() throws GeneralDatabaseException, CprException {
+	public final void testGetPsuIdForPersonId2() throws Exception {
 		openDbConnection();
 		PsuIdTable p = new PsuIdTable();
 		p.setReturnHistoryFlag(false);
@@ -88,19 +86,19 @@ public class PsuIdTableTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testAddPsuId1() throws CprException, GeneralDatabaseException {
+	public final void testAddPsuId1() throws Exception {
 		PsuIdTable p = new PsuIdTable(100000,null,"jvuccolo");
 		p.addPsuIdForPersonId(null);
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testAddPsuId2() throws CprException, GeneralDatabaseException {
+	public final void testAddPsuId2() throws Exception {
 		PsuIdTable p = new PsuIdTable(100000,null,"jvuccolo");
 		p.addPsuIdForPersonId(db);
 	}
 	
 	@Test
-	public final void testAddPsuId3() throws CprException, GeneralDatabaseException {
+	public final void testAddPsuId3() throws Exception {
 		openDbConnection();
 		PsuIdTable p = new PsuIdTable(100000,null,"jvuccolo");
 		p.addPsuIdForPersonId(db);

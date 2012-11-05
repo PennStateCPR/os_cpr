@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.Confidentiality;
 import edu.psu.iam.cpr.core.database.types.ConfidentialityType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.ConfidentialityReturn;
 import edu.psu.iam.cpr.core.util.Utility;
@@ -55,6 +54,9 @@ public class ConfidentialityTable {
 	private static final int CREATED_ON = 6;
 	private static final int BUFFER_SIZE = 3000;
 
+	/** Contains the name of the database table this implementation is for */
+	private static final String TABLE_NAME = "Confidentiality";
+	
 	/** Confidentiality database table bean. */
 	private Confidentiality confidentialityBean;
 	
@@ -76,9 +78,8 @@ public class ConfidentialityTable {
 	 * @param personId contains the person identifier who confidentiality is being added for.
 	 * @param confidentialityTypeString contains the type of confidentiality being added.
 	 * @param updatedBy contains the person who either updated the record or retrieved it.
-	 * @throws Exception will be thrown if there are any problems.
 	 */
-	public ConfidentialityTable(long personId, String confidentialityTypeString, String updatedBy) throws Exception {
+	public ConfidentialityTable(long personId, String confidentialityTypeString, String updatedBy) {
 		super();
 		
 		final Confidentiality bean = new Confidentiality();
@@ -143,43 +144,37 @@ public class ConfidentialityTable {
 	 * @param confidentialityTypeString contains the confidentiality type string value.
 	 * @throws Exception will be thrown if there are any problems.
 	 */
-	public final void setConfidentialityType(String confidentialityTypeString) throws Exception {
+	public final void setConfidentialityType(String confidentialityTypeString) {
 		setConfidentialityType(ConfidentialityType.valueOf(confidentialityTypeString.toUpperCase().trim()));
 	}
 
 	/**
 	 * This routine is used to add/update confidentiality holds.
 	 * @param db contains a reference to a database class that contains a open database connection.
-	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */
-	public void addConfidentiality(Database db) throws CprException {
+	public void addConfidentiality(Database db) {
 		
-		try {
-			final Session session = db.getSession();
-			final Confidentiality bean = getConfidentialityBean();
-			
-			// Expire existing confidentiality.
-			final String sqlQuery = "from Confidentiality where personId = :person_id and dataTypeKey = :data_type_key and endDate IS NULL";
-			final Query query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				Confidentiality dbBean = (Confidentiality) it.next();
-				dbBean.setEndDate(bean.getLastUpdateOn());
-				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-				session.update(dbBean);
-				session.flush();
-			}
-			
-			// Add a new hold.
-			session.save(bean);
+		final Session session = db.getSession();
+		final Confidentiality bean = getConfidentialityBean();
+
+		// Expire existing confidentiality.
+		final String sqlQuery = "from Confidentiality where personId = :person_id and dataTypeKey = :data_type_key and endDate IS NULL";
+		final Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			Confidentiality dbBean = (Confidentiality) it.next();
+			dbBean.setEndDate(bean.getLastUpdateOn());
+			dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+			dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+			session.update(dbBean);
 			session.flush();
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "confidentiality hold");
-		}
+
+		// Add a new hold.
+		session.save(bean);
+		session.flush();
 	}
 	
 	/**
@@ -191,56 +186,51 @@ public class ConfidentialityTable {
 		
 		boolean recordNotFound = false;
 		boolean holdNotActive = false;
-		try {
-			final Session session = db.getSession();
-			final Confidentiality bean = getConfidentialityBean();
-			
-			// Do a query to see if a conf hold exists for the person.
-			String sqlQuery = "from Confidentiality where personId = :person_id and dataTypeKey = :data_type_key";
-			Query query = session.createQuery(sqlQuery);
+		final Session session = db.getSession();
+		final Confidentiality bean = getConfidentialityBean();
+
+		// Do a query to see if a conf hold exists for the person.
+		String sqlQuery = "from Confidentiality where personId = :person_id and dataTypeKey = :data_type_key";
+		Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+
+		Iterator<?> it = query.list().iterator();
+
+		if (it.hasNext()) {
+
+			// Do a query to see if an active conf hold exists for the person.
+			sqlQuery = "from Confidentiality where personId = :person_id and dataTypeKey = :data_type_key and endDate is NULL";
+			query = session.createQuery(sqlQuery);
 			query.setParameter("person_id", bean.getPersonId());
 			query.setParameter("data_type_key", bean.getDataTypeKey());
-			
-			Iterator<?> it = query.list().iterator();
-			
+
+			it = query.list().iterator();
+
+			// Active hold exists, so we expire it.
 			if (it.hasNext()) {
-				
-				// Do a query to see if an active conf hold exists for the person.
-				sqlQuery = "from Confidentiality where personId = :person_id and dataTypeKey = :data_type_key and endDate is NULL";
-				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
-				
-				it = query.list().iterator();
-				
-				// Active hold exists, so we expire it.
-				if (it.hasNext()) {
-					final Confidentiality dbBean = (Confidentiality) it.next();
-					dbBean.setEndDate(bean.getLastUpdateOn());
-					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					session.update(dbBean);
-					session.flush();
-				}
-				else {
-					holdNotActive = true;
-				}
+				final Confidentiality dbBean = (Confidentiality) it.next();
+				dbBean.setEndDate(bean.getLastUpdateOn());
+				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				session.update(dbBean);
+				session.flush();
 			}
 			else {
-				recordNotFound = true;
+				holdNotActive = true;
 			}
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ARCHIVE_FAILED_EXCEPTION, "confidentiality hold");
+		else {
+			recordNotFound = true;
 		}
 		
 		// Handle the error cases.
 		if (recordNotFound) {
-			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "confidentiality hold");
+			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, TABLE_NAME);
 		}
 		
 		if (holdNotActive) {
-			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, "confidentiality hold");
+			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, TABLE_NAME);
 		}
 	}
 	
@@ -249,69 +239,61 @@ public class ConfidentialityTable {
 	 * @param db contains a reference to a database class that contains a open database connection.
 	 * @param personId contains the person identifier whose confidentiality is to be obtained
 	 * @return will return an array of confidentiality hold statuses.
-	 * @throws GeneralDatabaseException 
 	 */
-	public ConfidentialityReturn[] getConfidentiality(Database db, long personId) throws GeneralDatabaseException {
+	public ConfidentialityReturn[] getConfidentiality(Database db, long personId) {
 		
-		try {
-			
-			// Init some variables.
-			final ArrayList<ConfidentialityReturn> results = new ArrayList<ConfidentialityReturn>();
-			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			
-			// Build the select statement as a string.
-			sb.append("SELECT ");
-		    sb.append("data_type_key, ");
-			sb.append("start_date, ");
-			sb.append("end_date, ");
-			sb.append("last_update_by, ");
-			sb.append("last_update_on, ");
-			sb.append("created_by, ");
-			sb.append("created_on ");
-		    sb.append("FROM confidentiality ");
-		    sb.append("WHERE person_id = :person_id_in ");
-		    
-			// If we are not returning all records, we need to just return the active ones.
-			if (! isReturnHistoryFlag()) {
-				sb.append("AND end_date IS NULL ");
-			}
-			
-			sb.append("ORDER BY data_type_key ASC, start_date ASC ");
+		// Init some variables.
+		final ArrayList<ConfidentialityReturn> results = new ArrayList<ConfidentialityReturn>();
+		final Session session = db.getSession();
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 
-		    
-		    // Create the hibernate select statement.
-		    final SQLQuery query = session.createSQLQuery(sb.toString());
-		    query.setParameter("person_id_in", personId);
-		    query.addScalar("data_type_key", StandardBasicTypes.LONG);
-			query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("last_update_by", StandardBasicTypes.STRING);
-			query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("created_by", StandardBasicTypes.STRING);
-			query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
-		    
-		    for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-		    	
-		    	// For each result, store its value in the return class.
-		    	Object res[] = (Object []) it.next();
-				
-				ConfidentialityReturn c = new ConfidentialityReturn(ConfidentialityType.get((Long) res[CONFIDENTIALITY_TYPE]).toString(),
-													Utility.convertTimestampToString((Date) res[START_DATE]), 	
-													Utility.convertTimestampToString((Date) res[END_DATE]), 	
-													(String) res[LAST_UPDATE_BY], 									
-													Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]), 	
-													(String) res[CREATED_BY], 									
-													Utility.convertTimestampToString((Date) res[CREATED_ON])); 	
-				results.add(c);
-		    }
-		    
-		    return results.toArray(new ConfidentialityReturn[results.size()]);
+		// Build the select statement as a string.
+		sb.append("SELECT ");
+		sb.append("data_type_key, ");
+		sb.append("start_date, ");
+		sb.append("end_date, ");
+		sb.append("last_update_by, ");
+		sb.append("last_update_on, ");
+		sb.append("created_by, ");
+		sb.append("created_on ");
+		sb.append("FROM confidentiality ");
+		sb.append("WHERE person_id = :person_id_in ");
 
-	    }
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve confidentiality holds for person identifier = " + personId);
+		// If we are not returning all records, we need to just return the active ones.
+		if (! isReturnHistoryFlag()) {
+			sb.append("AND end_date IS NULL ");
 		}
+
+		sb.append("ORDER BY data_type_key ASC, start_date ASC ");
+
+
+		// Create the hibernate select statement.
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id_in", personId);
+		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("last_update_by", StandardBasicTypes.STRING);
+		query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("created_by", StandardBasicTypes.STRING);
+		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
+
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+
+			// For each result, store its value in the return class.
+			Object res[] = (Object []) it.next();
+
+			ConfidentialityReturn c = new ConfidentialityReturn(ConfidentialityType.get((Long) res[CONFIDENTIALITY_TYPE]).toString(),
+					Utility.convertTimestampToString((Date) res[START_DATE]), 	
+					Utility.convertTimestampToString((Date) res[END_DATE]), 	
+					(String) res[LAST_UPDATE_BY], 									
+					Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]), 	
+					(String) res[CREATED_BY], 									
+					Utility.convertTimestampToString((Date) res[CREATED_ON])); 	
+			results.add(c);
+		}
+
+		return results.toArray(new ConfidentialityReturn[results.size()]);
 	}
 	
 }

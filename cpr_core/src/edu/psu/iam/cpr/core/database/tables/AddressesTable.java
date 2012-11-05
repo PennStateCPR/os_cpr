@@ -19,7 +19,6 @@ import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.database.types.DocumentType;
 import edu.psu.iam.cpr.core.database.types.MatchingAlgorithmType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.returns.AddressReturn;
@@ -52,7 +51,9 @@ import edu.psu.iam.cpr.core.util.Utility;
  */
 public class AddressesTable {
 	
-
+	/** Name of the database table that is being used by this implementation */
+	private static final String TABLE_NAME = "Addresses";
+	
 	/** Instance of logger */
 	private static final Logger LOG4J_LOGGER = Logger.getLogger(ServiceCore.class);
 
@@ -133,7 +134,8 @@ public class AddressesTable {
 			String documentType,
 			Long groupId, 
 			String updatedBy)  {
-		this(personId, addressTypeString, documentType, groupId,  updatedBy,  null, null, null, null, null, null, null, null, null, null, null, null);
+		this(personId, addressTypeString, documentType, groupId,  updatedBy,  null, null, null, null, null, null, null, null, 
+				null, null, null, null);
 	}
 	/**
 	 * Constructor for add Address
@@ -170,7 +172,8 @@ public class AddressesTable {
 			String countryName,
 			String campusName,
 			String countryThreeCharCode) {
-		this(personId, addressTypeString, documentType, null, updatedBy,  address1, address2, address3, city,state, postalCode, province, countryCodeId, campusCodeId,countryName,campusName, countryThreeCharCode);
+		this(personId, addressTypeString, documentType, null, updatedBy,  address1, address2, address3, city,state, postalCode, 
+				province, countryCodeId, campusCodeId,countryName,campusName, countryThreeCharCode);
 	}
 	/**
 	 * Constructor for updateAddress
@@ -387,93 +390,88 @@ public class AddressesTable {
 	public void addAddress(Database db) throws CprException {
 		 
 		boolean matchFound = false;
-		try {
-			final Session session = db.getSession();
-			final Addresses bean = getAddressesBean();
-			Long maxGroupId = null;
-			String sqlQuery = null;
-			Query query = null;
-			if (bean.getDocumentTypeKey() == null) {
-				sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
-				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
+		final Session session = db.getSession();
+		final Addresses bean = getAddressesBean();
+		Long maxGroupId = null;
+		String sqlQuery = null;
+		Query query = null;
+		if (bean.getDocumentTypeKey() == null) {
+			sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
+			query = session.createQuery(sqlQuery);
+			query.setParameter("person_id", bean.getPersonId());
+			query.setParameter("data_type_key", bean.getDataTypeKey());
+		}
+		else
+		{
+			sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND  documentTypeKey = :document_type_key AND endDate IS NULL";
+			query = session.createQuery(sqlQuery);
+			query.setParameter("person_id", bean.getPersonId());
+			query.setParameter("data_type_key", bean.getDataTypeKey());
+			query.setParameter("document_type_key", bean.getDocumentTypeKey());
+		}
+
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext() &&  (! matchFound); ) {
+			Addresses dbBean = (Addresses) it.next();
+
+			// Check to ensure that the fields are not already there
+			// ignore campus code and country code
+
+			if (db.areStringFieldsEqual(dbBean.getAddress1(), bean.getAddress1()) &&
+					db.areStringFieldsEqual(dbBean.getAddress2(), bean.getAddress2())	 &&
+					db.areStringFieldsEqual(dbBean.getAddress3(), bean.getAddress3()) &&
+					db.areStringFieldsEqual(dbBean.getCity(), bean.getCity()) &&
+					db.areStringFieldsEqual(dbBean.getState(), bean.getState()) && 
+					db.areStringFieldsEqual(dbBean.getProvince(), bean.getProvince()) &&
+					db.areStringFieldsEqual(dbBean.getPostalCode(), bean.getPostalCode()) &&
+					db.areLongFieldsEqual(dbBean.getCampusCodeKey(), bean.getCampusCodeKey()) && 
+					db.areLongFieldsEqual(dbBean.getCountryKey(), bean.getCountryKey())) {
+				matchFound = true;
 			}
-			else
-			{
-				sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND  documentTypeKey = :document_type_key AND endDate IS NULL";
-				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
-				query.setParameter("document_type_key", bean.getDocumentTypeKey());
-			}
-			
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext() &&  (! matchFound); ) {
-				Addresses dbBean = (Addresses) it.next();
-				
-				// Check to ensure that the fields are not already there
-				// ignore campus code and country code
-				
-				if (db.areStringFieldsEqual(dbBean.getAddress1(), bean.getAddress1()) &&
-						db.areStringFieldsEqual(dbBean.getAddress2(), bean.getAddress2())	 &&
-						db.areStringFieldsEqual(dbBean.getAddress3(), bean.getAddress3()) &&
-						db.areStringFieldsEqual(dbBean.getCity(), bean.getCity()) &&
-						db.areStringFieldsEqual(dbBean.getState(), bean.getState()) && 
-						db.areStringFieldsEqual(dbBean.getProvince(), bean.getProvince()) &&
-						db.areStringFieldsEqual(dbBean.getPostalCode(), bean.getPostalCode()) &&
-						db.areLongFieldsEqual(dbBean.getCampusCodeKey(), bean.getCampusCodeKey()) && 
-						db.areLongFieldsEqual(dbBean.getCountryKey(), bean.getCountryKey())) {
-						matchFound = true;
-				}
-				else {
-					// is there already a address with the same Document type 
-					if (bean.getDocumentTypeKey() != null &&
+			else {
+				// is there already a address with the same Document type 
+				if (bean.getDocumentTypeKey() != null &&
 						dbBean.getDocumentTypeKey() != null &&
 						bean.getDocumentTypeKey().equals(dbBean.getDocumentTypeKey())) {
-						matchFound = true;
-					}
+					matchFound = true;
 				}
 			}
-			
-			// If no match is found, find the maximum group id for the person and their address type combination
-			// the group id is associated with addresstype.  the document type for addresses of type DOCUMENTED_ADDRESS is ignored when
-			// setting group id
-			
-			if (! matchFound) {
-				sqlQuery =" SELECT MAX(group_id) as max_group_id FROM addresses WHERE person_id=:person_id and data_type_key=:data_type_key";
-				final SQLQuery query1 = session.createSQLQuery(sqlQuery);
-				query1.setParameter("person_id", bean.getPersonId());
-				query1.setParameter("data_type_key", bean.getDataTypeKey());
-				query1.addScalar("max_group_id", StandardBasicTypes.LONG);
-				final Iterator<? >it = query1.list().iterator();
-				// Oracle results in a return value of null if no max_group_id -    that is this address type has no records assigned to it for person
-				//  else s included if another database behaves differently
-				if (it.hasNext()) {
-					maxGroupId = (Long) it.next();
-					maxGroupId = (maxGroupId == null) ? 1L : maxGroupId+1L;
-				}
-				else {
-					maxGroupId= 1L;
-		
-				}
-			
+		}
+
+		// If no match is found, find the maximum group id for the person and their address type combination
+		// the group id is associated with addresstype.  the document type for addresses of type DOCUMENTED_ADDRESS is ignored when
+		// setting group id
+
+		if (! matchFound) {
+			sqlQuery =" SELECT MAX(group_id) as max_group_id FROM addresses WHERE person_id=:person_id and data_type_key=:data_type_key";
+			final SQLQuery query1 = session.createSQLQuery(sqlQuery);
+			query1.setParameter("person_id", bean.getPersonId());
+			query1.setParameter("data_type_key", bean.getDataTypeKey());
+			query1.addScalar("max_group_id", StandardBasicTypes.LONG);
+			final Iterator<? >it = query1.list().iterator();
+			// Oracle results in a return value of null if no max_group_id -    that is this address type has no records assigned to it for person
+			//  else s included if another database behaves differently
+			if (it.hasNext()) {
+				maxGroupId = (Long) it.next();
+				maxGroupId = (maxGroupId == null) ? 1L : maxGroupId+1L;
+			}
+			else {
+				maxGroupId= 1L;
+
+			}
+
 			// save off the new record
 			bean.setGroupId(maxGroupId);
-			
+
 			if (MatchingAlgorithmType.valueOf(CprProperties.INSTANCE.getProperties().getProperty(
 					CprPropertyName.CPR_MATCHING_ALGORITHM.toString())) == MatchingAlgorithmType.PENN_STATE) {
 				getAddressCityMatchCode(bean);
 			}
-			
+
 			session.save(bean);
 			session.flush();
-			}
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "address");
 		}
 		if (matchFound) {
-			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, "Addresses");
+			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, TABLE_NAME);
 		}
 
 	}
@@ -492,77 +490,72 @@ public class AddressesTable {
 		boolean recordNotFound =false;
 		boolean alreadyArchived = false;
 		
-		try {
-			final Session session = db.getSession();
-			final Addresses bean = getAddressesBean();
-			String sqlQuery = null;
-			Query query = null;
-			
+		final Session session = db.getSession();
+		final Addresses bean = getAddressesBean();
+		String sqlQuery = null;
+		Query query = null;
+
+		if (bean.getDocumentTypeKey() == null) {
+			sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND groupId = :group_id";
+			query = session.createQuery(sqlQuery);
+			query.setParameter("person_id", bean.getPersonId());
+			query.setParameter("data_type_key", bean.getDataTypeKey());
+			query.setParameter("group_id", bean.getGroupId());
+		}
+		else
+		{
+			sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND  documentTypeKey = :document_type_key AND groupId = :group_id";
+			query = session.createQuery(sqlQuery);
+			query.setParameter("person_id", bean.getPersonId());
+			query.setParameter("data_type_key", bean.getDataTypeKey());
+			query.setParameter("document_type_key", bean.getDocumentTypeKey());
+			query.setParameter("group_id", bean.getGroupId());
+		}
+		if (query.list().size() > 0) {
+			// Check to see if an active record exists for the user and specified address type.
+			sqlQuery += " and endDate is NULL";
 			if (bean.getDocumentTypeKey() == null) {
-				sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND groupId = :group_id";
 				query = session.createQuery(sqlQuery);
 				query.setParameter("person_id", bean.getPersonId());
 				query.setParameter("data_type_key", bean.getDataTypeKey());
 				query.setParameter("group_id", bean.getGroupId());
 			}
-			else
-			{
-				sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND  documentTypeKey = :document_type_key AND groupId = :group_id";
+			else {
 				query = session.createQuery(sqlQuery);
 				query.setParameter("person_id", bean.getPersonId());
 				query.setParameter("data_type_key", bean.getDataTypeKey());
 				query.setParameter("document_type_key", bean.getDocumentTypeKey());
 				query.setParameter("group_id", bean.getGroupId());
 			}
-			if (query.list().size() > 0) {
-				// Check to see if an active record exists for the user and specified address type.
-				sqlQuery += " and endDate is NULL";
-				if (bean.getDocumentTypeKey() == null) {
-					query = session.createQuery(sqlQuery);
-					query.setParameter("person_id", bean.getPersonId());
-					query.setParameter("data_type_key", bean.getDataTypeKey());
-					query.setParameter("group_id", bean.getGroupId());
-				}
-				else {
-					query = session.createQuery(sqlQuery);
-					query.setParameter("person_id", bean.getPersonId());
-					query.setParameter("data_type_key", bean.getDataTypeKey());
-					query.setParameter("document_type_key", bean.getDocumentTypeKey());
-					query.setParameter("group_id", bean.getGroupId());
-				}
-				final Iterator<?> it= query.list().iterator();
-				// Expire existing one
-				if (it.hasNext()) {
-					// check to see if an active record exists for the user and specified address type
-				
-						
-					Addresses dbBean = (Addresses) it.next();
-					dbBean.setEndDate(bean.getLastUpdateOn());
-					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					dbBean.setPrimaryFlag("N");
-					session.update(dbBean);
-					session.flush();
-				
-				}
-				else {
-					alreadyArchived= true;		
-				}
+			final Iterator<?> it= query.list().iterator();
+			// Expire existing one
+			if (it.hasNext()) {
+				// check to see if an active record exists for the user and specified address type
+
+
+				Addresses dbBean = (Addresses) it.next();
+				dbBean.setEndDate(bean.getLastUpdateOn());
+				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				dbBean.setPrimaryFlag("N");
+				session.update(dbBean);
+				session.flush();
+
 			}
 			else {
-				recordNotFound = true;
-			}	
+				alreadyArchived= true;		
+			}
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ARCHIVE_FAILED_EXCEPTION, "address");
-		}
+		else {
+			recordNotFound = true;
+		}	
 		
 		// Handle the errors.   No record found to archive
 		if (recordNotFound) {
-			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "address");
+			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, TABLE_NAME);
 		}
 		if (alreadyArchived) {
-			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, "address");
+			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, TABLE_NAME);
 		}
 		
 	}
@@ -573,129 +566,117 @@ public class AddressesTable {
 	 * @param personId   contains the personID
 	 * 
 	 * @return list of addresses
-	 * 
-	 * 
-	 * @throws CprException 
-	 * @throws GeneralDatabaseException
-	 * 
 	 */
-	public AddressReturn[] getAddress(Database db, long personId)
-			throws GeneralDatabaseException {
+	public AddressReturn[] getAddress(Database db, long personId) {
 		
-		try {
-			
-			final Session session = db.getSession();
-			final List<AddressReturn> results = new ArrayList<AddressReturn>();
-			
-			final StringBuffer sb = new StringBuffer(BUFFER_SIZE);
-			
-			sb.append("SELECT addresses.data_type_key, addresses.document_type_key, addresses.group_id,");
-			sb.append("addresses.primary_flag,addresses.address1, addresses.address2, addresses.address3, ");
-			sb.append("addresses.city, addresses.state, addresses.postal_code, addresses.province, verified_flag, ");
-			sb.append("addresses.start_date, ");
-			sb.append("addresses.end_date, ");
-			sb.append("addresses.last_update_by, " );
-			sb.append("addresses.last_update_on, ");
-			sb.append("addresses.created_by, " );
-			sb.append("addresses.created_on, ");
-			sb.append("campus_cs.campus_code, campus_cs.campus, ");
-			sb.append("country.country_code_three, country.country ");
-			sb.append("FROM addresses ");
-			sb.append("LEFT JOIN campus_cs ON addresses.campus_code_key = campus_cs.campus_code_key ");
-			sb.append("LEFT JOIN country ON addresses.country_key = country.country_key ");
-			sb.append("WHERE addresses.person_id = :person_id_in ");
 
-			if (getAddressType() != null) {
-				sb.append("AND addresses.data_type_key = :data_type_key_in ");
-			}
+		final Session session = db.getSession();
+		final List<AddressReturn> results = new ArrayList<AddressReturn>();
 
-			// If we are not returning all records, we need to just return the active ones.
-			if (! isReturnHistoryFlag()) {
-				sb.append("AND addresses.end_date IS NULL ");
-			}		
-			sb.append("ORDER BY addresses.data_type_key ASC, addresses.start_date ASC ");
+		final StringBuffer sb = new StringBuffer(BUFFER_SIZE);
 
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("person_id_in", personId);
-			
-			if (getAddressType() != null) {
-				query.setParameter("data_type_key_in", getAddressType().index());
-			}
-			query.addScalar("data_type_key", StandardBasicTypes.LONG);
-			query.addScalar("document_type_key", StandardBasicTypes.LONG);
-			query.addScalar("group_id", StandardBasicTypes.LONG);
-			query.addScalar("primary_flag", StandardBasicTypes.STRING);
-			query.addScalar("address1", StandardBasicTypes.STRING);
-			query.addScalar("address2", StandardBasicTypes.STRING);
-			query.addScalar("address3", StandardBasicTypes.STRING);
-			query.addScalar("city", StandardBasicTypes.STRING);
-			query.addScalar("state", StandardBasicTypes.STRING);
-			query.addScalar("postal_code", StandardBasicTypes.STRING);
-			query.addScalar("province", StandardBasicTypes.STRING);
-			query.addScalar("verified_flag", StandardBasicTypes.STRING);
-			query.addScalar("start_date",StandardBasicTypes.TIMESTAMP );
-			query.addScalar("end_date",StandardBasicTypes.TIMESTAMP );
-			query.addScalar("last_update_by",StandardBasicTypes.STRING );
-			query.addScalar("last_update_on",StandardBasicTypes.TIMESTAMP );
-			query.addScalar("created_by",StandardBasicTypes.STRING );
-			query.addScalar("created_on",StandardBasicTypes.TIMESTAMP );
-			query.addScalar("campus_code", StandardBasicTypes.STRING);
-			query.addScalar("campus", StandardBasicTypes.STRING);
-			query.addScalar("country_code_three", StandardBasicTypes.STRING);
-			query.addScalar("country", StandardBasicTypes.STRING);
-			
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				Object res[] = (Object []) it.next();
-				
-				AddressReturn anAddress = new AddressReturn();
-				anAddress.setAddressType(AddressType.get((Long) res[ADDRESS_TYPE]).toString());
-				if (res[1] != null) {
-					anAddress.setDocumentType(DocumentType.get((Long) res[DOCUMENT_TYPE]).toString());
-				}
-				else {
-					anAddress.setDocumentType(null);
-				}
-				anAddress.setGroupId((Long) res[GROUP_ID]);
-				anAddress.setPrimaryFlag((String) res[PRIMARY_FLAG]);
-				anAddress.setAddress1((String) res[ADDRESS1]);
-				anAddress.setAddress2((String) res[ADDRESS2]);
-				anAddress.setAddress3((String) res[ADDRESS3]);
-				anAddress.setCity((String) res[CITY]);
-				String tempState = (String) res[STATE]; 
-				anAddress.setPostalCode((String) res[POSTAL_CODE]);
-				String tempProvince = ((String) res[PROVINCE]);
-				anAddress.setVerifiedFlag((String) res[VERIFIED_FLAG]);
-				anAddress.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
-				anAddress.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
-				anAddress.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
-				anAddress.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
-				anAddress.setCreatedBy((String) res[CREATED_BY]);
-				anAddress.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
-				anAddress.setCampusCode((String) res[CAMPUS_CODE]);
-				anAddress.setCampusName((String) res[CAMPUS_NAME]);
-				anAddress.setCountryCode((String) res[COUNTRY_CODE]);
-				anAddress.setCountryName((String) res[COUNTRY_NAME]);
-				
-				if (tempState != null) {
-					anAddress.setStateOrProvince(tempState);
-				}
-				else if (tempProvince != null) {
-					anAddress.setStateOrProvince(tempProvince);
-				}
-				else {
-					anAddress.setStateOrProvince(null);
-				}
-				
-				results.add(anAddress);
-			}
-			
-			
-			return results.toArray(new AddressReturn[results.size()]);
-			
+		sb.append("SELECT addresses.data_type_key, addresses.document_type_key, addresses.group_id,");
+		sb.append("addresses.primary_flag,addresses.address1, addresses.address2, addresses.address3, ");
+		sb.append("addresses.city, addresses.state, addresses.postal_code, addresses.province, verified_flag, ");
+		sb.append("addresses.start_date, ");
+		sb.append("addresses.end_date, ");
+		sb.append("addresses.last_update_by, " );
+		sb.append("addresses.last_update_on, ");
+		sb.append("addresses.created_by, " );
+		sb.append("addresses.created_on, ");
+		sb.append("campus_cs.campus_code, campus_cs.campus, ");
+		sb.append("country.country_code_three, country.country ");
+		sb.append("FROM addresses ");
+		sb.append("LEFT JOIN campus_cs ON addresses.campus_code_key = campus_cs.campus_code_key ");
+		sb.append("LEFT JOIN country ON addresses.country_key = country.country_key ");
+		sb.append("WHERE addresses.person_id = :person_id_in ");
+
+		if (getAddressType() != null) {
+			sb.append("AND addresses.data_type_key = :data_type_key_in ");
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve address for person identifier = " + personId);			
+
+		// If we are not returning all records, we need to just return the active ones.
+		if (! isReturnHistoryFlag()) {
+			sb.append("AND addresses.end_date IS NULL ");
+		}		
+		sb.append("ORDER BY addresses.data_type_key ASC, addresses.start_date ASC ");
+
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id_in", personId);
+
+		if (getAddressType() != null) {
+			query.setParameter("data_type_key_in", getAddressType().index());
 		}
+		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.addScalar("document_type_key", StandardBasicTypes.LONG);
+		query.addScalar("group_id", StandardBasicTypes.LONG);
+		query.addScalar("primary_flag", StandardBasicTypes.STRING);
+		query.addScalar("address1", StandardBasicTypes.STRING);
+		query.addScalar("address2", StandardBasicTypes.STRING);
+		query.addScalar("address3", StandardBasicTypes.STRING);
+		query.addScalar("city", StandardBasicTypes.STRING);
+		query.addScalar("state", StandardBasicTypes.STRING);
+		query.addScalar("postal_code", StandardBasicTypes.STRING);
+		query.addScalar("province", StandardBasicTypes.STRING);
+		query.addScalar("verified_flag", StandardBasicTypes.STRING);
+		query.addScalar("start_date",StandardBasicTypes.TIMESTAMP );
+		query.addScalar("end_date",StandardBasicTypes.TIMESTAMP );
+		query.addScalar("last_update_by",StandardBasicTypes.STRING );
+		query.addScalar("last_update_on",StandardBasicTypes.TIMESTAMP );
+		query.addScalar("created_by",StandardBasicTypes.STRING );
+		query.addScalar("created_on",StandardBasicTypes.TIMESTAMP );
+		query.addScalar("campus_code", StandardBasicTypes.STRING);
+		query.addScalar("campus", StandardBasicTypes.STRING);
+		query.addScalar("country_code_three", StandardBasicTypes.STRING);
+		query.addScalar("country", StandardBasicTypes.STRING);
+
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			Object res[] = (Object []) it.next();
+
+			AddressReturn anAddress = new AddressReturn();
+			anAddress.setAddressType(AddressType.get((Long) res[ADDRESS_TYPE]).toString());
+			if (res[1] != null) {
+				anAddress.setDocumentType(DocumentType.get((Long) res[DOCUMENT_TYPE]).toString());
+			}
+			else {
+				anAddress.setDocumentType(null);
+			}
+			anAddress.setGroupId((Long) res[GROUP_ID]);
+			anAddress.setPrimaryFlag((String) res[PRIMARY_FLAG]);
+			anAddress.setAddress1((String) res[ADDRESS1]);
+			anAddress.setAddress2((String) res[ADDRESS2]);
+			anAddress.setAddress3((String) res[ADDRESS3]);
+			anAddress.setCity((String) res[CITY]);
+			String tempState = (String) res[STATE]; 
+			anAddress.setPostalCode((String) res[POSTAL_CODE]);
+			String tempProvince = ((String) res[PROVINCE]);
+			anAddress.setVerifiedFlag((String) res[VERIFIED_FLAG]);
+			anAddress.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
+			anAddress.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
+			anAddress.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
+			anAddress.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+			anAddress.setCreatedBy((String) res[CREATED_BY]);
+			anAddress.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
+			anAddress.setCampusCode((String) res[CAMPUS_CODE]);
+			anAddress.setCampusName((String) res[CAMPUS_NAME]);
+			anAddress.setCountryCode((String) res[COUNTRY_CODE]);
+			anAddress.setCountryName((String) res[COUNTRY_NAME]);
+
+			if (tempState != null) {
+				anAddress.setStateOrProvince(tempState);
+			}
+			else if (tempProvince != null) {
+				anAddress.setStateOrProvince(tempProvince);
+			}
+			else {
+				anAddress.setStateOrProvince(null);
+			}
+
+			results.add(anAddress);
+		}
+
+
+		return results.toArray(new AddressReturn[results.size()]);
 	}
 
 	/**
@@ -711,107 +692,101 @@ public class AddressesTable {
 		boolean notFound = false;
 		boolean alreadyPrimary = false;
 	
-		try {
-			final Session session = db.getSession();
-			final Addresses bean = getAddressesBean();
-			SQLQuery query = null;
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			if (bean.getDocumentTypeKey() == null) {
-				sb.append("SELECT  primary_flag ");
-				sb.append("FROM addresses ");
-				sb.append("WHERE person_id = :person_id_in ");
-				sb.append("AND data_type_key = :data_type_key ");
-				sb.append("AND group_id = :group_id ");
-				sb.append("AND end_date IS NULL ");
-				query = session.createSQLQuery(sb.toString());
-				query.setParameter("person_id_in", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
-				query.setParameter("group_id",bean.getGroupId());
-				query.addScalar("primary_flag", StandardBasicTypes.STRING);
+		final Session session = db.getSession();
+		final Addresses bean = getAddressesBean();
+		SQLQuery query = null;
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		if (bean.getDocumentTypeKey() == null) {
+			sb.append("SELECT  primary_flag ");
+			sb.append("FROM addresses ");
+			sb.append("WHERE person_id = :person_id_in ");
+			sb.append("AND data_type_key = :data_type_key ");
+			sb.append("AND group_id = :group_id ");
+			sb.append("AND end_date IS NULL ");
+			query = session.createSQLQuery(sb.toString());
+			query.setParameter("person_id_in", bean.getPersonId());
+			query.setParameter("data_type_key", bean.getDataTypeKey());
+			query.setParameter("group_id",bean.getGroupId());
+			query.addScalar("primary_flag", StandardBasicTypes.STRING);
+		}
+		else {
+
+			sb.append("SELECT  primary_flag ");
+			sb.append("FROM addresses ");
+			sb.append("WHERE person_id = :person_id_in ");
+			sb.append("AND data_type_key = :data_type_key ");
+			sb.append("AND document_type_key = :document_type_key ");
+			sb.append("AND group_id = :group_id ");
+			sb.append("AND end_date IS NULL ");
+			query = session.createSQLQuery(sb.toString());
+			query.setParameter("person_id_in", bean.getPersonId());
+			query.setParameter("data_type_key", bean.getDataTypeKey());
+			query.setParameter("document_type_key", bean.getDocumentTypeKey());
+			query.setParameter("group_id",bean.getGroupId());
+			query.addScalar("primary_flag", StandardBasicTypes.STRING);
+		}
+		Iterator<?> it = query.list().iterator();
+		if (! it.hasNext()) {
+			notFound = true;
+		}
+		else {
+
+			final String primaryFlag = (String) it.next();
+			if (primaryFlag.equals("Y")) {
+				alreadyPrimary = true;
 			}
 			else {
-			
-				sb.append("SELECT  primary_flag ");
-				sb.append("FROM addresses ");
-				sb.append("WHERE person_id = :person_id_in ");
-				sb.append("AND data_type_key = :data_type_key ");
-				sb.append("AND document_type_key = :document_type_key ");
-				sb.append("AND group_id = :group_id ");
-				sb.append("AND end_date IS NULL ");
-				query = session.createSQLQuery(sb.toString());
-				query.setParameter("person_id_in", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
-				query.setParameter("document_type_key", bean.getDocumentTypeKey());
-				query.setParameter("group_id",bean.getGroupId());
-				query.addScalar("primary_flag", StandardBasicTypes.STRING);
-			}
-			Iterator<?> it = query.list().iterator();
-			if (! it.hasNext()) {
-				notFound = true;
-			}
-			else {
-				
-				final String primaryFlag = (String) it.next();
-				if (primaryFlag.equals("Y")) {
-					alreadyPrimary = true;
+				String sqlQuery  = null;
+				Query query1 = null;
+				if (bean.getDocumentTypeKey() == null) {
+					sqlQuery = "from Addresses where personId = :person_id and dataTypeKey = :data_type_key and primaryFlag = 'Y' and endDate is null";
+					query1 = session.createQuery(sqlQuery);
+					query1.setParameter("person_id", bean.getPersonId());
+					query1.setParameter("data_type_key", bean.getDataTypeKey());	
+				}
+				else{
+					sqlQuery = "from Addresses where personId = :person_id and dataTypeKey = :data_type_key and documentTypeKey = :document_type_key and primaryFlag = 'Y' and endDate is null";
+					query1 = session.createQuery(sqlQuery);
+					query1.setParameter("person_id", bean.getPersonId());
+					query1.setParameter("data_type_key", bean.getDataTypeKey());	
+					query1.setParameter("document_type_key", bean.getDocumentTypeKey());	
+				}			
+				it = query1.list().iterator();
+				while (it.hasNext()) {
+					Addresses dbBean = (Addresses) it.next();
+					dbBean.setPrimaryFlag("N");
+					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+					session.update(dbBean);
+					session.flush();
+				}
+				if (bean.getDocumentTypeKey() == null) {
+					sqlQuery = "from Addresses where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id and endDate IS NULL";
+					query1 = session.createQuery(sqlQuery);
+					query1.setParameter("person_id", bean.getPersonId());
+					query1.setParameter("data_type_key", bean.getDataTypeKey());
+					query1.setParameter("group_id", bean.getGroupId());
 				}
 				else {
-					String sqlQuery  = null;
-					Query query1 = null;
-					if (bean.getDocumentTypeKey() == null) {
-						sqlQuery = "from Addresses where personId = :person_id and dataTypeKey = :data_type_key and primaryFlag = 'Y' and endDate is null";
-						query1 = session.createQuery(sqlQuery);
-						query1.setParameter("person_id", bean.getPersonId());
-						query1.setParameter("data_type_key", bean.getDataTypeKey());	
-					}
-					else{
-						sqlQuery = "from Addresses where personId = :person_id and dataTypeKey = :data_type_key and documentTypeKey = :document_type_key and primaryFlag = 'Y' and endDate is null";
-						query1 = session.createQuery(sqlQuery);
-						query1.setParameter("person_id", bean.getPersonId());
-						query1.setParameter("data_type_key", bean.getDataTypeKey());	
-						query1.setParameter("document_type_key", bean.getDocumentTypeKey());	
-					}			
-					it = query1.list().iterator();
-					while (it.hasNext()) {
-						Addresses dbBean = (Addresses) it.next();
-						dbBean.setPrimaryFlag("N");
-						dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-						dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-						session.update(dbBean);
-						session.flush();
-					}
-					if (bean.getDocumentTypeKey() == null) {
-						sqlQuery = "from Addresses where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id and endDate IS NULL";
-						query1 = session.createQuery(sqlQuery);
-						query1.setParameter("person_id", bean.getPersonId());
-						query1.setParameter("data_type_key", bean.getDataTypeKey());
-						query1.setParameter("group_id", bean.getGroupId());
-					}
-					else {
-						
-						sqlQuery = "from Addresses where personId = :person_id and dataTypeKey = :data_type_key and documentTypeKey = :document_type_key and groupId = :group_id and endDate IS NULL";
-						query1 = session.createQuery(sqlQuery);
-						query1.setParameter("person_id", bean.getPersonId());
-						query1.setParameter("data_type_key", bean.getDataTypeKey());
-						query1.setParameter("document_type_key", bean.getDocumentTypeKey());
-						query1.setParameter("group_id", bean.getGroupId());
-					}
-					it = query1.list().iterator();
-					if (it.hasNext()) {
-						Addresses dbBean = (Addresses) it.next();
-						dbBean.setPrimaryFlag("Y");
-						dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-						dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-						session.update(dbBean);
-						session.flush();
-					}
+
+					sqlQuery = "from Addresses where personId = :person_id and dataTypeKey = :data_type_key and documentTypeKey = :document_type_key and groupId = :group_id and endDate IS NULL";
+					query1 = session.createQuery(sqlQuery);
+					query1.setParameter("person_id", bean.getPersonId());
+					query1.setParameter("data_type_key", bean.getDataTypeKey());
+					query1.setParameter("document_type_key", bean.getDocumentTypeKey());
+					query1.setParameter("group_id", bean.getGroupId());
 				}
-			}		
-		}	
-		catch (Exception e) {
-			LOG4J_LOGGER.info("AddressTable:Set primary Exception" );
-			throw new CprException(ReturnType.SET_PRIMARY_FAILED_EXCEPTION, "address");
-		}
+				it = query1.list().iterator();
+				if (it.hasNext()) {
+					Addresses dbBean = (Addresses) it.next();
+					dbBean.setPrimaryFlag("Y");
+					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+					session.update(dbBean);
+					session.flush();
+				}
+			}
+		}		
 	
 		if (notFound) {
 			LOG4J_LOGGER.info("AddressTable:Set primary not found" );
@@ -835,103 +810,97 @@ public class AddressesTable {
 		
 		int updateCount =0;
 		boolean matchFound = false;
-		try {
-			final Session session = db.getSession();
-			final Addresses bean = getAddressesBean();
-			String sqlQuery = null;
-			Query query = null;
+		final Session session = db.getSession();
+		final Addresses bean = getAddressesBean();
+		String sqlQuery = null;
+		Query query = null;
+		if (bean.getDocumentTypeKey() == null) {
+			sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
+			query = session.createQuery(sqlQuery);
+			query.setParameter("person_id", bean.getPersonId());
+			query.setParameter("data_type_key", bean.getDataTypeKey());
+		}
+		else
+		{
+			sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND documentTypeKey = :document_type_key AND endDate IS NULL";
+			query = session.createQuery(sqlQuery);
+			query.setParameter("person_id", bean.getPersonId());
+			query.setParameter("data_type_key", bean.getDataTypeKey());
+			query.setParameter("document_type_key", bean.getDocumentTypeKey());
+		}
+
+
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext() &&  (! matchFound); ) {
+			Addresses dbBean = (Addresses) it.next();
+
+			// Check to ensure that the fields are not already there
+			// do we need to check campus code and country code
+
+			if (db.areStringFieldsEqual(dbBean.getAddress1(), bean.getAddress1()) &&
+					db.areStringFieldsEqual(dbBean.getAddress2(), bean.getAddress2())	 &&
+					db.areStringFieldsEqual(dbBean.getAddress3(), bean.getAddress3()) &&
+					db.areStringFieldsEqual(dbBean.getCity(), bean.getCity()) &&
+					db.areStringFieldsEqual(dbBean.getState(), bean.getState()) && 
+					db.areStringFieldsEqual(dbBean.getProvince(), bean.getProvince()) &&
+					db.areStringFieldsEqual(dbBean.getPostalCode(), bean.getPostalCode()) &&
+					db.areLongFieldsEqual(dbBean.getCampusCodeKey(), bean.getCampusCodeKey()) && 
+					db.areLongFieldsEqual(dbBean.getCountryKey(), bean.getCountryKey()))
+			{
+
+				matchFound = true;	
+			}
+
+		}
+		// If no match is found, find the maximum group id for the person and their address type combination
+
+		if (! matchFound) {
 			if (bean.getDocumentTypeKey() == null) {
-				sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
+				sqlQuery ="from Addresses where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id and endDate IS NULL";
 				query = session.createQuery(sqlQuery);
 				query.setParameter("person_id", bean.getPersonId());
 				query.setParameter("data_type_key", bean.getDataTypeKey());
+				query.setParameter("group_id", bean.getGroupId());
 			}
-			else
-			{
-				sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND documentTypeKey = :document_type_key AND endDate IS NULL";
+			else {
+				sqlQuery ="from Addresses where personId = :person_id and dataTypeKey = :data_type_key AND groupId = :group_id  AND documentTypeKey = :document_type_key AND endDate IS NULL";
 				query = session.createQuery(sqlQuery);
 				query.setParameter("person_id", bean.getPersonId());
 				query.setParameter("data_type_key", bean.getDataTypeKey());
 				query.setParameter("document_type_key", bean.getDocumentTypeKey());
+				query.setParameter("group_id", bean.getGroupId());
 			}
-			
-			
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext() &&  (! matchFound); ) {
+			final Iterator<?> it = query.list().iterator();
+			// Expire the existing address
+			if (it.hasNext()) {
 				Addresses dbBean = (Addresses) it.next();
-				
-				// Check to ensure that the fields are not already there
-				// do we need to check campus code and country code
-				
-				if (db.areStringFieldsEqual(dbBean.getAddress1(), bean.getAddress1()) &&
-						db.areStringFieldsEqual(dbBean.getAddress2(), bean.getAddress2())	 &&
-						db.areStringFieldsEqual(dbBean.getAddress3(), bean.getAddress3()) &&
-						db.areStringFieldsEqual(dbBean.getCity(), bean.getCity()) &&
-						db.areStringFieldsEqual(dbBean.getState(), bean.getState()) && 
-						db.areStringFieldsEqual(dbBean.getProvince(), bean.getProvince()) &&
-						db.areStringFieldsEqual(dbBean.getPostalCode(), bean.getPostalCode()) &&
-						db.areLongFieldsEqual(dbBean.getCampusCodeKey(), bean.getCampusCodeKey()) && 
-						db.areLongFieldsEqual(dbBean.getCountryKey(), bean.getCountryKey()))
-						 {
-						
-								matchFound = true;	
-						}
-						
-			}
-			// If no match is found, find the maximum group id for the person and their address type combination
-			
-			if (! matchFound) {
-				if (bean.getDocumentTypeKey() == null) {
-					sqlQuery ="from Addresses where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id and endDate IS NULL";
-					query = session.createQuery(sqlQuery);
-					query.setParameter("person_id", bean.getPersonId());
-					query.setParameter("data_type_key", bean.getDataTypeKey());
-					query.setParameter("group_id", bean.getGroupId());
-				}
-				else {
-					sqlQuery ="from Addresses where personId = :person_id and dataTypeKey = :data_type_key AND groupId = :group_id  AND documentTypeKey = :document_type_key AND endDate IS NULL";
-					query = session.createQuery(sqlQuery);
-					query.setParameter("person_id", bean.getPersonId());
-					query.setParameter("data_type_key", bean.getDataTypeKey());
-					query.setParameter("document_type_key", bean.getDocumentTypeKey());
-					query.setParameter("group_id", bean.getGroupId());
-				}
-				final Iterator<?> it = query.list().iterator();
-				// Expire the existing address
-				if (it.hasNext()) {
-					Addresses dbBean = (Addresses) it.next();
-					dbBean.setEndDate(bean.getLastUpdateOn());
-					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					dbBean.setPrimaryFlag("N");
-					session.update(dbBean);
-					session.flush();
-					updateCount++;
-					
-				}
-				else
-				{
-					LOG4J_LOGGER.info("AddressTable:Update query for record to update failed, GroupID:" +bean.getGroupId() + " personid:" + bean.getPersonId() + " data type key: " 
-							+bean.getDataTypeKey());
-				}
-				// add the new address
-		
-				
-			}
-			// save off the new record
-			if (updateCount > 0) {
-				
-				if (MatchingAlgorithmType.valueOf(CprProperties.INSTANCE.getProperties().getProperty(
-						CprPropertyName.CPR_MATCHING_ALGORITHM.toString())) == MatchingAlgorithmType.PENN_STATE) {
-					getAddressCityMatchCode(bean);
-				}
-				
-				session.save(bean);
+				dbBean.setEndDate(bean.getLastUpdateOn());
+				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				dbBean.setPrimaryFlag("N");
+				session.update(dbBean);
 				session.flush();
+				updateCount++;
+
 			}
-			
+			else
+			{
+				LOG4J_LOGGER.info("AddressTable:Update query for record to update failed, GroupID:" +bean.getGroupId() + " personid:" + bean.getPersonId() + " data type key: " 
+						+bean.getDataTypeKey());
+			}
+			// add the new address
+
+
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.UPDATE_FAILED_EXCEPTION, "address");
+		// save off the new record
+		if (updateCount > 0) {
+
+			if (MatchingAlgorithmType.valueOf(CprProperties.INSTANCE.getProperties().getProperty(
+					CprPropertyName.CPR_MATCHING_ALGORITHM.toString())) == MatchingAlgorithmType.PENN_STATE) {
+				getAddressCityMatchCode(bean);
+			}
+
+			session.save(bean);
+			session.flush();
 		}
 		if (matchFound) {
 			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, "Addresses");

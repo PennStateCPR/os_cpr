@@ -22,7 +22,6 @@ package edu.psu.iam.cpr.core.tests;
 
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.util.ValidatePerGenderRel;
-import edu.psu.iam.cpr.core.error.*;
 
 /**
  * @author jvuccolo
@@ -30,28 +29,28 @@ import edu.psu.iam.cpr.core.error.*;
  */
 public class ValidatePerGenderRelTest {
 
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateAddGenderParameters1() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateAddGenderParameters1() throws Exception {
 		ValidatePerGenderRel.validateAddGenderParameters(0, null, null);
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateAddGenderParameters2() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateAddGenderParameters2() throws Exception {
 		ValidatePerGenderRel.validateAddGenderParameters(0, "M", null);
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateAddGenderParameters3() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateAddGenderParameters3() throws Exception {
 		ValidatePerGenderRel.validateAddGenderParameters(0, "", "");
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateAddGenderParameters4() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateAddGenderParameters4() throws Exception {
 		ValidatePerGenderRel.validateAddGenderParameters(0, "M", "");
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateAddGenderParameters5() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateAddGenderParameters5() throws Exception {
 		ValidatePerGenderRel.validateAddGenderParameters(0, "a", "jvuccolo");
 	}
 	@Test
-	public final void testValidateAddGenderParameters6() throws CprException {
+	public final void testValidateAddGenderParameters6() throws Exception {
 		ValidatePerGenderRel.validateAddGenderParameters(0, "GENDER_MALE", "jvuccolo");
 	}
 

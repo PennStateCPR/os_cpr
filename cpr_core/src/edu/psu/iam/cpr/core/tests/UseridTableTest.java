@@ -28,8 +28,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.Userid;
 import edu.psu.iam.cpr.core.database.tables.UseridTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * @author jvuccolo
@@ -123,40 +121,40 @@ public class UseridTableTest {
 		AssertJUnit.assertEquals(u.getNumberPart("xyz112$","xyz"),new Long(112));
 	}
 
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
 	@Test
-	public final void testUserid1() throws GeneralDatabaseException {
+	public final void testUserid1() throws Exception {
 		openDbConnection();
 		UseridTable u = new UseridTable();
 		AssertJUnit.assertFalse(u.isUseridValid(db, " "));
 		db.closeSession();
 	}
 	@Test
-	public final void testUserid2() throws GeneralDatabaseException {
+	public final void testUserid2() throws Exception {
 		openDbConnection();
 		UseridTable u = new UseridTable();
 		AssertJUnit.assertFalse(u.isUseridValid(db, "123#"));
 		db.closeSession();
 	}
 	@Test
-	public final void testUserid3() throws GeneralDatabaseException {
+	public final void testUserid3() throws Exception {
 		openDbConnection();
 		UseridTable u = new UseridTable();
 		AssertJUnit.assertFalse(u.isUseridValid(db, "cum"));
 		db.closeSession();
 	}
 	@Test
-	public final void testUserid4() throws GeneralDatabaseException {
+	public final void testUserid4() throws Exception {
 		openDbConnection();
 		UseridTable u = new UseridTable();
 		AssertJUnit.assertFalse(u.isUseridValid(db, "dummy"));
 		db.closeSession();
 	}
 	@Test
-	public final void testUserid5() throws GeneralDatabaseException {
+	public final void testUserid5() throws Exception {
 		openDbConnection();
 		UseridTable u = new UseridTable();
 		AssertJUnit.assertTrue(u.isUseridValid(db, "xyz7777"));
@@ -171,7 +169,7 @@ public class UseridTableTest {
 	}
 	
 //	@Test(expected=Exception.class)
-//	public final void testAddUseridException1() throws GeneralDatabaseException, CprException {
+//	public final void testAddUseridException1() throws Exception {
 //		openDbConnection();
 //		UseridTable u = new UseridTable(2, "jvuccolo");
 //		u.addUserid(db);
@@ -179,7 +177,7 @@ public class UseridTableTest {
 //	}
 //	
 //	@Test(expected=Exception.class)
-//	public final void testAddUseridException2() throws GeneralDatabaseException, CprException {
+//	public final void testAddUseridException2() throws Exception {
 //		openDbConnection();
 //		UseridTable u = new UseridTable(100003, "jvuccolo");
 //		u.addUserid(db);
@@ -187,7 +185,7 @@ public class UseridTableTest {
 //	}
 	
 		@Test
-		public final void testAddUserid() throws GeneralDatabaseException, CprException {
+		public final void testAddUserid() throws Exception {
 			openDbConnection();
 			UseridTable u = new UseridTable(100002, "jvuccolo");
 			u.addUserid(db);
@@ -196,7 +194,7 @@ public class UseridTableTest {
 		
 		
 	@Test
-	public final void testgetUseridsForPersonId1() throws GeneralDatabaseException, CprException {
+	public final void testgetUseridsForPersonId1() throws Exception {
 		openDbConnection();
 		UseridTable u  = new UseridTable();
 		u.setReturnHistoryFlag(true);
@@ -205,7 +203,7 @@ public class UseridTableTest {
 	}
 	
 	@Test
-	public final void testgetUseridsForPersonId2() throws GeneralDatabaseException, CprException {
+	public final void testgetUseridsForPersonId2() throws Exception {
 		openDbConnection();
 		UseridTable u  = new UseridTable();
 		u.setReturnHistoryFlag(false);
@@ -214,14 +212,14 @@ public class UseridTableTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testSetPrimaryUserid1() throws GeneralDatabaseException, CprException {
+	public final void testSetPrimaryUserid1() throws Exception {
 		UseridTable u = new UseridTable(100000,"jvuccolo");
 		u.getUseridBean().setUserid("txj1");
 		u.setPrimaryUserid(db);
 	}
 	
 	@Test
-	public final void testSetPrimaryUserid2() throws GeneralDatabaseException, CprException {
+	public final void testSetPrimaryUserid2() throws Exception {
 		
 		openDbConnection();
 		UseridTable u = new UseridTable(100002,"jvuccolo");
@@ -233,14 +231,14 @@ public class UseridTableTest {
 	}
 	
 //	@Test(expected=Exception.class)
-//	public final void testArchiveUserid1() throws GeneralDatabaseException, CprException {
+//	public final void testArchiveUserid1() throws Exception {
 //		UseridTable u = new UseridTable(100000,"jvuccolo");
 //		u.getUseridBean().setUserid("tzj2");
 //		u.archiveUserid(db);		
 //	}
 //	
 	@Test
-	public final void testArchiveUserid2() throws GeneralDatabaseException, CprException {
+	public final void testArchiveUserid2() throws Exception {
 		openDbConnection();
 		UseridTable u = new UseridTable(100000,"jvuccolo");
 		u.getUseridBean().setUserid("dummy1");
@@ -250,14 +248,14 @@ public class UseridTableTest {
 	
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testUnarchiveUserid1() throws GeneralDatabaseException, CprException {
+	public final void testUnarchiveUserid1() throws Exception {
 		UseridTable u = new UseridTable(100000,"jvuccolo");
 		u.getUseridBean().setUserid("tzj2");
 		u.unarchiveUserid(db);		
 	}
 	
 	@Test
-	public final void testUnarchiveUserid2() throws GeneralDatabaseException, CprException {
+	public final void testUnarchiveUserid2() throws Exception {
 		openDbConnection();
 		UseridTable u = new UseridTable(100000,"jvuccolo");
 		u.getUseridBean().setUserid("dummy1");
@@ -266,13 +264,13 @@ public class UseridTableTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testAddSpecialUserid1() throws GeneralDatabaseException, CprException {
+	public final void testAddSpecialUserid1() throws Exception {
 		UseridTable u = new UseridTable(100000,"jvuccolo");
 		u.addSpecialUserid(db);		
 	}
 	
 //	@Test(expected=Exception.class)
-//	public final void testAddSpecialUserid3() throws GeneralDatabaseException, CprException {
+//	public final void testAddSpecialUserid3() throws Exception {
 //		openDbConnection();
 //		UseridTable u = new UseridTable(100000,"jvuccolo");
 //		u.getUseridBean().setUserid("smj5018");
@@ -281,7 +279,7 @@ public class UseridTableTest {
 //	}
 	
 	@Test
-	public final void testAddSpecialUserid2() throws GeneralDatabaseException, CprException {
+	public final void testAddSpecialUserid2() throws Exception {
 		Random r = new Random();
 		openDbConnection();
 		UseridTable u = new UseridTable(100000,"jvuccolo");

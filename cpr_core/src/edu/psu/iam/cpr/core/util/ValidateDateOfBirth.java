@@ -23,6 +23,8 @@
  */
 package edu.psu.iam.cpr.core.util;
 
+import java.text.ParseException;
+
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.Years;
@@ -73,8 +75,9 @@ public final class ValidateDateOfBirth {
 	 * @param updatedBy contains the userid that requested the DOB to be added.
 	 * @return will return upon success a DateOfBirthTable object containing the validated information.
 	 * @throws CprException 
+	 * @throws ParseException 
 	 */
-	public static DateOfBirthTable validateAddDateOfBirthParameters(long personId, String dateOfBirth, String updatedBy) throws CprException  {
+	public static DateOfBirthTable validateAddDateOfBirthParameters(long personId, String dateOfBirth, String updatedBy) throws CprException, ParseException  {
 		
 		String localDateOfBirth = (dateOfBirth != null) ? dateOfBirth.trim() : dateOfBirth;
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : updatedBy;
@@ -106,8 +109,9 @@ public final class ValidateDateOfBirth {
 	 * @param dateOfBirth
 	 * @return will return true if the DOB is valid, otherwise it will return false.
 	 * @throws CprException
+	 * @throws ParseException 
 	 */
-	public static boolean isDateOfBirthValid(String dateOfBirth) throws CprException {
+	public static boolean isDateOfBirthValid(String dateOfBirth) throws CprException, ParseException {
 		
 		// If the DOB ends with a slash we have an issue.
 		if (dateOfBirth.endsWith("/")) {

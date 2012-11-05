@@ -29,8 +29,6 @@ import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.util.ValidateEmail;
 
 /**
@@ -40,7 +38,7 @@ import edu.psu.iam.cpr.core.util.ValidateEmail;
 public class ValidateEmailTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
@@ -80,26 +78,26 @@ public class ValidateEmailTest {
 		boolean retVal = ValidateEmail.isValidEmail("a.jvuccolo@psu.edu");
 		AssertJUnit.assertEquals(retVal, true);
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateEmailAddressParameters1() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateEmailAddressParameters1() throws Exception {
 		openDbConnection();
 		ValidateEmail.validateEmailAddressParameters(db, 0, null, null, null);
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateEmailAddressParameters2() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateEmailAddressParameters2() throws Exception {
 		openDbConnection();
 		ValidateEmail.validateEmailAddressParameters(db, 0, "home", null, null);
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateEmailAddressParameters3() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateEmailAddressParameters3() throws Exception {
 		openDbConnection();
 		ValidateEmail.validateEmailAddressParameters(db, 0, "home", "xyz123@psu.edu", null);
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateEmailAddressParameters4() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateEmailAddressParameters4() throws Exception {
 		openDbConnection();
 		ValidateEmail.validateEmailAddressParameters(db, 0, "home", "xyz123@psu.edu", "jvuccolo");
 		db.closeSession();
@@ -123,43 +121,43 @@ public class ValidateEmailTest {
 		}
 	}
 	@Test
-	public final void testValidateEmailAddressParameters6() throws CprException, GeneralDatabaseException {
+	public final void testValidateEmailAddressParameters6() throws Exception {
 		openDbConnection();
 		ValidateEmail.validateEmailAddressParameters(db, 0, "UNIVERSITY_EMAIL", "xyz123@psu.edu", "jvuccolo");
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateEmailAddressParameters7() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateEmailAddressParameters7() throws Exception {
 		openDbConnection();
 		ValidateEmail.validateEmailAddressParameters(db, 0, "home_email", "xyz123@psu.edu", "1234567890123456789012345678901234");
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateEmailAddressParameters8() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateEmailAddressParameters8() throws Exception {
 		openDbConnection();
 		ValidateEmail.validateEmailAddressParameters(db, 0, "student_email_home", "xyz123@psu.", "jvuccolo");
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidatePrimaryEmailParameters1() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidatePrimaryEmailParameters1() throws Exception {
 		openDbConnection();
 		ValidateEmail.validatePrimaryEmailParameters(db, 0, null, null);
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidatePrimaryEmailParameters2() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidatePrimaryEmailParameters2() throws Exception {
 		openDbConnection();
 		ValidateEmail.validatePrimaryEmailParameters(db, 0, "home", null);
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidatePrimaryEmailParameters3() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidatePrimaryEmailParameters3() throws Exception {
 		openDbConnection();
 		ValidateEmail.validatePrimaryEmailParameters(db, 0, "home", null);
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidatePrimaryEmailParameters4() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidatePrimaryEmailParameters4() throws Exception {
 		openDbConnection();
 		ValidateEmail.validatePrimaryEmailParameters(db, 0, "home", "1234567890123456789012345678901234");
 		db.closeSession();
@@ -181,49 +179,49 @@ public class ValidateEmailTest {
 		}
 	}
 	@Test
-	public final void testValidatePrimaryEmailParameters6() throws CprException, GeneralDatabaseException {
+	public final void testValidatePrimaryEmailParameters6() throws Exception {
 		openDbConnection();
 		ValidateEmail.validatePrimaryEmailParameters(db, 0, "UNIVERSITY_EMAIL", "jvuccolo");
 		db.closeSession();
 	}
 
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetEmailAddress1() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetEmailAddress1() throws Exception {
 		openDbConnection();
 		ValidateEmail.validateGetEmailAddressParameters(db, 0, null,"N");
 		db.closeSession();
 	}
 	
 	@Test
-	public final void testValidateGetEmailAddress2() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetEmailAddress2() throws Exception {
 		openDbConnection();
 		ValidateEmail.validateGetEmailAddressParameters(db, 0, "jvuccolo","N");
 		db.closeSession();
 	}
 	
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetEmailAddress3() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetEmailAddress3() throws Exception {
 		openDbConnection();
 		ValidateEmail.validateGetEmailAddressParameters(db, 0, "1234567890123456789012345678901234","N");
 		db.closeSession();
 	}
 	
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateDeleteEmailAddress1() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateDeleteEmailAddress1() throws Exception {
 		openDbConnection();
 		ValidateEmail.validateArchiveEmailAddressParameters(db, 0, null, null);
 		db.closeSession();
 	}
 
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateDeleteEmailAddress2() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateDeleteEmailAddress2() throws Exception {
 		openDbConnection();
 		ValidateEmail.validateArchiveEmailAddressParameters(db, 0, "home", null);
 		db.closeSession();
 	}
 
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateDeleteEmailAddress3() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateDeleteEmailAddress3() throws Exception {
 		openDbConnection();
 		ValidateEmail.validateArchiveEmailAddressParameters(db, 0, "home", "vuccolo");
 		db.closeSession();
@@ -247,7 +245,7 @@ public class ValidateEmailTest {
 	}
 	
 	@Test
-	public final void testValidateDeleteEmailAddress4() throws CprException, GeneralDatabaseException {
+	public final void testValidateDeleteEmailAddress4() throws Exception {
 		openDbConnection();
 		ValidateEmail.validateArchiveEmailAddressParameters(db, 0, "UNIVERSITY_EMAIL", "vuccolo");
 		db.closeSession();

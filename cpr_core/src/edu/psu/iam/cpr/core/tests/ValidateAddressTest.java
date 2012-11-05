@@ -26,8 +26,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.AddressesTable;
 import edu.psu.iam.cpr.core.database.types.AddressType;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
-import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.util.ValidateAddress;
 
 /**
@@ -38,7 +36,7 @@ public class ValidateAddressTest {
 
 	private static Database db = new Database();
 	
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
@@ -430,11 +428,11 @@ public class ValidateAddressTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String, java.lang.String, java.lang.String)}.
 	 * AddressType not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersNullRequestedBy() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersNullRequestedBy() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, null,null,null,  null,  null, null, null, null,  null,  null, null);
 		db.closeSession();
@@ -442,11 +440,11 @@ public class ValidateAddressTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * addresstype must be of valid type
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersNullType() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersNullType() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0,null, null,  "llg5","address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -454,11 +452,11 @@ public class ValidateAddressTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * addresstype must be of valid type
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersInvalidType() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersInvalidType() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "STUDENT",null,  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -466,11 +464,11 @@ public class ValidateAddressTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersDocumentTypeNull() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersDocumentTypeNull() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS",null,  "llg5","address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -478,11 +476,11 @@ public class ValidateAddressTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersDocumentTypeBlank() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersDocumentTypeBlank() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS"," ", "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -490,11 +488,11 @@ public class ValidateAddressTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersDocumentBadCombo() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersDocumentBadCombo() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","LEGAL_NAME",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
@@ -503,11 +501,11 @@ public class ValidateAddressTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersRequestedByNull() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersRequestedByNull() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "LOCAL_ADDRESS","Fred",  null, "address1", null, null, "nowhere", null, null,   "usa", null);
 		
@@ -516,11 +514,11 @@ public class ValidateAddressTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersDocumentBadDocumentType() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersDocumentBadDocumentType() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","Fred",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
@@ -529,11 +527,11 @@ public class ValidateAddressTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersBadAddressTypeWithDocument() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersBadAddressTypeWithDocument() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS","PASSPORT",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null );
 		
@@ -542,11 +540,11 @@ public class ValidateAddressTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersBadDocumentTypeNameWithDocument() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersBadDocumentTypeNameWithDocument() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_NAME","PASSPORT",  "llg5", "address1", null, null, "nowhere", null,  null,  "usa", null);
 		
@@ -555,11 +553,11 @@ public class ValidateAddressTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersTypeBlank() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersTypeBlank() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, " ",null, "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
@@ -568,11 +566,11 @@ public class ValidateAddressTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test
-	public final void testValidateAddAddressParametersTypeRightTrim() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersTypeRightTrim() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS   ",null,  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
@@ -581,11 +579,11 @@ public class ValidateAddressTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test
-	public final void testValidateAddAddressParametersTypeLeftTrim() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersTypeLeftTrim() throws Exception {
 		openDbConnection(); 
 		ValidateAddress.validateAddAddressParameters(db, 0, "   PERMANENT_ADDRESS",null,  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
@@ -594,11 +592,11 @@ public class ValidateAddressTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test
-	public final void testValidateAddAddressParametersTypeBothTrim() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersTypeBothTrim() throws Exception {
 		openDbConnection(); 
 		ValidateAddress.validateAddAddressParameters(db, 0, "   PERMANENT_ADDRESS    ",null,  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
@@ -610,7 +608,7 @@ public class ValidateAddressTest {
 	 *
 	 */
 	@Test
-	public final void testValidateAddAddressParametersDocumentAddressTrimRight() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersDocumentAddressTrimRight() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS  ","PASSPORT",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
@@ -622,7 +620,7 @@ public class ValidateAddressTest {
 	 * 
 	 */
 	@Test
-	public final void testValidateAddAddressParametersDocumentAddressTrimLeft() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersDocumentAddressTrimLeft() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "   DOCUMENTED_ADDRESS","PASSPORT",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
@@ -634,7 +632,7 @@ public class ValidateAddressTest {
 	 * 
 	 */
 	@Test
-	public final void testValidateAddAddressParametersDocumentAddressTrimBoth() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersDocumentAddressTrimBoth() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "   DOCUMENTED_ADDRESS   ","PASSPORT",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
@@ -646,7 +644,7 @@ public class ValidateAddressTest {
 	 * 
 	 */
 	@Test
-	public final void testValidateAddAddressParametersDocumentAddressTypeTrimRight() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersDocumentAddressTypeTrimRight() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","PASSPORT  ",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
@@ -658,7 +656,7 @@ public class ValidateAddressTest {
 	 * 
 	 */
 	@Test
-	public final void testValidateAddAddressParametersDocumentAddressTypeTrimLeft() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersDocumentAddressTypeTrimLeft() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","    PASSPORT",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
@@ -670,7 +668,7 @@ public class ValidateAddressTest {
 	 * 
 	 */
 	@Test
-	public final void testValidateAddAddressParametersDocumentAddressTypeTrimBoth() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersDocumentAddressTypeTrimBoth() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","    PASSPORT    ",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
@@ -682,7 +680,7 @@ public class ValidateAddressTest {
 	 * 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersInvalidCampusCode() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersInvalidCampusCode() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "Local_address", null,"llg5", "address1", null, null,"nowhere", "PA", null,  null, "ub");
 		
@@ -694,7 +692,7 @@ public class ValidateAddressTest {
 	 * 
 	 */
 	@Test
-	public final void testValidateAddAddressParametersInvalidCampusCodeBlank() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersInvalidCampusCodeBlank() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "Local_address",null,  "llg5", "address1", null, null, "nowhere", "PA", null,  "usa", " ");
 		
@@ -703,11 +701,11 @@ public class ValidateAddressTest {
 /**
  * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
  * last updated by may not be null
- * @throws GeneralDatabaseException 
+ * @throws Exception 
  * @throws CprException 
  */
 @Test(expectedExceptions=Exception.class)
-public final void testValidateAddAddressParametersNullUpdateBy() throws CprException, GeneralDatabaseException {
+public final void testValidateAddAddressParametersNullUpdateBy() throws Exception {
 	openDbConnection();
 	ValidateAddress.validateAddAddressParameters(db, 0, "Permanent_Address",null,  null, "address1", null, null, "nowhere", "PA", null,  "usa", " ");
 	db.closeSession();
@@ -715,11 +713,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * last updated by may not be null and must be less than 31 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersUpdateByTooLong() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersUpdateByTooLong() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "Permanent_address", null, "asdfghjklzxcvbnmqwertyuiopasdfgh", "address1", null, null, "nowhere", "PA", null,  "usa", " ");
 		db.closeSession();
@@ -727,11 +725,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * last updated by may not be null and must be less than 31 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersUpdateByBlank() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersUpdateByBlank() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "Permanent_address", null,  " ", "address1", null, null, "nowhere", "PA", null,  "usa", " ");
 		db.closeSession();
@@ -739,11 +737,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * address1 must be less than 61 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersAddress1TooLong() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersAddress1TooLong() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS", null, "llg5", "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl",  null, null, "nowhere", "PA", null,  "usa", " ");
 		db.closeSession();
@@ -751,11 +749,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * address2 must be less than 61 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersAddress2TooLong() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersAddress2TooLong() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "LOCAL_ADDRESS", null,  "llg5","address1",  "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl",   null, "nowhere", "PA", null,  "usa", " ");
 		db.closeSession();
@@ -763,11 +761,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * address3 must be less than 61 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersAddress3TooLong() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersAddress3TooLong() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "local_address", null,  "llg5",null,  null, "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl", "nowhere", "PA", null,  "usa", " ");
 		db.closeSession();
@@ -775,11 +773,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * address3 must be less than 61 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersAddresss123Null() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersAddresss123Null() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "local_address", null,  "llg5",null,  null, null, "nowhere", "PA", null,  "usa", " ");
 		db.closeSession();
@@ -787,11 +785,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * address3 must be less than 61 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersAddresss123Blank() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersAddresss123Blank() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "local_address", null,  "llg5"," ", " ", " ", "nowhere", "PA", null,  "usa", " ");
 		db.closeSession();
@@ -799,11 +797,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * city must be less than 41 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersCityNull() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersCityNull() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,   "llg5","address1",  null, null, null, "PA", null,  "usa", " ");
 		db.closeSession();
@@ -811,11 +809,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * city must be less than 41 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParametersCityTooLong() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParametersCityTooLong() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,   "llg5","address1",  null, null, "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm", "PA", null,  "usa", " ");
 		db.closeSession();
@@ -823,11 +821,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * state must be 2 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParameterBadState() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParameterBadState() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "local_address", null,  "llg5","address1",  null, null, "nowhere", "PEN", null, "usa",null);
 		db.closeSession();
@@ -835,11 +833,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * postal code must be all numeric
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParameterBadPostalCode() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParameterBadPostalCode() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,  "llg5","address1",  null, null,"nowhere", null, "Absr1", "usa",null);
 		db.closeSession();
@@ -847,11 +845,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * postal code must be all numeric
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParameterBadPostalCodeNoDigits() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParameterBadPostalCodeNoDigits() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,   "llg5","address1",  null, null, "nowhere", null,  "ABCE",  "usa", null);
 		db.closeSession();
@@ -859,11 +857,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String, java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String )}.
 	 * Country code must be 3 alpha
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParameterBadCountryCode() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParameterBadCountryCode() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,  "llg5","address1",  null, null, "nowhere", null, null,   "BADone", null);
 		db.closeSession();
@@ -871,11 +869,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * Campus code must be 2 alpha
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParameterAddress123NullNotUSA() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParameterAddress123NullNotUSA() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,   "llg5",null,  null, null, null, null, null,"CAN",  null);
 		db.closeSession();
@@ -883,11 +881,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * Campus code must be 2 alpha
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddAddressParameterBadCampusCode() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddAddressParameterBadCampusCode() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,  "llg5","address1",  null, null, "nowhere", null, null, "usa",  "Uj");
 		db.closeSession();
@@ -895,11 +893,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String  )}.
 	 * invalid request or service principal
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveAndSetPrimaryAddressParameterBadGroupId() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveAndSetPrimaryAddressParameterBadGroupId() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Local_address", null, null, "llg5");
 		db.closeSession();
@@ -907,11 +905,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String  )}.
 	 * invalid request or service principal
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveAndSetPrimaryAddressParameterBadRequestor() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveAndSetPrimaryAddressParameterBadRequestor() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Local_address", null, 1L, "asdfghjklzxcvbnmqwertyuiopasdfgh");
 		db.closeSession();
@@ -919,22 +917,22 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String  )}.
 	 * invalid request or service principal
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveAndSetPrimaryAddressParameterBlankRequestor() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveAndSetPrimaryAddressParameterBlankRequestor() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Local_address", null, 1L, " ");
 		db.closeSession();
 	}/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String  )}.
 	 * invalid request or service principal
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveAndSetPrimaryAddressParameterNullRequestor() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveAndSetPrimaryAddressParameterNullRequestor() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Local_address", null,1l, null);
 		db.closeSession();
@@ -942,11 +940,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test()
-	public final void testValidateArchiveAndSetPrimaryAddressParametersGoodData() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveAndSetPrimaryAddressParametersGoodData() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"PERMANENT_ADDRESS", null, 1L, "llg5");
 		db.closeSession();
@@ -954,11 +952,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveAndSetPrimaryAddressParametersAddressDocTypeNull() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveAndSetPrimaryAddressParametersAddressDocTypeNull() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Documented_ADDRESS", null, 1L, "llg5");
 		db.closeSession();
@@ -966,11 +964,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveAndSetPrimaryAddressParametersAddressDocTypeBlank() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveAndSetPrimaryAddressParametersAddressDocTypeBlank() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Documented_ADDRESS", " ", 1L, "llg5");
 		db.closeSession();
@@ -978,11 +976,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveAndSetPrimaryAddressParametersAddressDocBadType() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveAndSetPrimaryAddressParametersAddressDocBadType() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Documented_ADDRESS", "Legal_Name ", 1L, "llg5");
 		db.closeSession();
@@ -990,11 +988,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test()
-	public final void testValidateArchiveAndSetPrimaryAddressParametersAddressDocGoodTypeTrim() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveAndSetPrimaryAddressParametersAddressDocGoodTypeTrim() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Documented_ADDRESS", " PASSPORT ", 1L, "llg5");
 		db.closeSession();
@@ -1002,11 +1000,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String,  java.lang.String)}.
 	 * type is invalid
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveAndSetPrimaryAddressParametersBadType() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveAndSetPrimaryAddressParametersBadType() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"STUDENT", null,1L,  "llg5");
 		db.closeSession();
@@ -1014,11 +1012,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String,  java.lang.String)}.
 	 * type is invalid
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveAndSetPrimaryAddressParametersBadTypeTrim() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveAndSetPrimaryAddressParametersBadTypeTrim() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"STUDENT   ", null,1L,  "llg5");
 		db.closeSession();
@@ -1026,11 +1024,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String)}.
 	 * type is invalid - must be specified
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveAndSetPrimaryAddressParametersNoType() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveAndSetPrimaryAddressParametersNoType() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"", null, 1L,"llg5");
 		db.closeSession();
@@ -1038,11 +1036,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int,  java.lang.String, java.lang.String)}.
 	 * type is invalid - must be specified
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveAndSetPrimaryAddressParametersNullType() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveAndSetPrimaryAddressParametersNullType() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0, null, null, 1L, "llg5");
 		db.closeSession();
@@ -1050,11 +1048,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int,  java.lang.String, java.lang.String)}.
 	 * type is invalid - must be specified
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test
-	public final void testValidateArchiveAndSetPrimaryAddressParametersTrimType() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveAndSetPrimaryAddressParametersTrimType() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0, "LOCAL_ADDRESS ", null, 1L, "llg5");
 		db.closeSession();
@@ -1063,11 +1061,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateGetAddressParameters(int, java.lang.String )}.
 	 * invalid request or service principal
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetAddressParameterBadRequestor() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetAddressParameterBadRequestor() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateGetAddressParameters(db, 0,  "asdfghjklzxcvbnmqwertyuiopasdfgh",null,"Y");
 		db.closeSession();
@@ -1075,11 +1073,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateGetAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetAddressParametersNullRequestBy() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetAddressParametersNullRequestBy() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateGetAddressParameters(db, 0, null,null,"Y");
 		db.closeSession();
@@ -1087,11 +1085,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateGetAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test()
-	public final void testValidateGetAddressParametersGoodData() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetAddressParametersGoodData() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateGetAddressParameters(db, 100010, "llg5",null,"Y");
 		db.closeSession();
@@ -1099,11 +1097,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateGetAddressParameters(int, java.lang.String )}.
 	 * invalid request or service principal
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetAddressByTypeParameterBadRequestor() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetAddressByTypeParameterBadRequestor() throws Exception {
 		openDbConnection();
 		AddressesTable addressesTable = ValidateAddress.validateGetAddressParameters(db, 0,   "asdfghjklzxcvbnmqwertyuiopasdfgh","DOCUMENTED_ADDRESS","n");
 		AssertJUnit.assertEquals(addressesTable.getAddressType(),AddressType.DOCUMENTED_ADDRESS);
@@ -1113,11 +1111,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateGetAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetAddressByTypeParametersNullRequestBy() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetAddressByTypeParametersNullRequestBy() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateGetAddressParameters(db, 0,"jvuccolo", "abc","n");
 		db.closeSession();
@@ -1125,11 +1123,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * AddressType not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersNullGroupId() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersNullGroupId() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null, null, "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -1137,11 +1135,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * addresstype must be of valid type
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersTypeNull() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersTypeNull() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, null, null, 1L, "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -1149,11 +1147,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * addresstype must be of valid type
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersTypeBlank() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersTypeBlank() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, " ", null, 1L,"llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -1161,11 +1159,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * addresstype must be of valid type
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersInvalidType() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersInvalidType() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "STUDENT", null,1L,"llg5", "address1", null, null, "nowhere", null, null,   "usa", null );
 		db.closeSession();
@@ -1173,11 +1171,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersNullUpdateBy() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersNullUpdateBy() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address",null, 1L,  null, "address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -1185,11 +1183,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersBlankUpdateBy() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersBlankUpdateBy() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address",null, 1L, " ", "address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -1197,11 +1195,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * last updated by may not be null and must be less than 31 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersBadUpdateBy() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersBadUpdateBy() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address",null,  1L,"asdfghjklzxcvbnmqwertyuiopasdfgh", "address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -1209,11 +1207,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * address1 must be less than 61 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersAddress1TooLong() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersAddress1TooLong() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "llg5", "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -1221,11 +1219,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * address2 must be less than 61 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersAddress2TooLong() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersAddress2TooLong() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "llg5",null,  "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl",  null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -1233,11 +1231,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * address3 must be less than 61 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersAddress3TooLong() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersAddress3TooLong() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "llg5",null,  null, "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl", "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -1245,11 +1243,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * address3 must be less than 61 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersAddress123Null() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersAddress123Null() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "llg5",null,  null, null,  "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -1257,11 +1255,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * address3 must be less than 61 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersAddress123Blank() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersAddress123Blank() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "llg5"," ",  "", " ", "nowhere", null, null,   "usa", null);
 		db.closeSession();
@@ -1269,11 +1267,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * city must be less than 41 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersCityTooLong() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersCityTooLong() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS", null,1L, "llg5","address1",  null, null, "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm",null, null,   "usa", null);
 			
@@ -1282,11 +1280,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * address3 must be less than 61 characters
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParameterBadState() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParameterBadState() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS", null,1L, "llg5","address1",  null, null, "nowhere", "PEN",  null,"USA",null);
 		db.closeSession();
@@ -1294,11 +1292,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * stateOrProvince > 2 character when a province
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test
-	public final void testValidateUpdateAddressParameterGoodProvince() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParameterGoodProvince() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "PERMANENT_ADDRESS", null,1L, "llg5","address1",  null, null, "Toronto", "Ontario",null,"CAN",null);
 		db.closeSession();
@@ -1306,11 +1304,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * stateOrProvince > 2 character when a province
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParameterBadStateTest() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParameterBadStateTest() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null, 1L, "llg5","address1",  null, null, "Toronto", "Ontario",  null,"USA",null);
 		db.closeSession();
@@ -1318,11 +1316,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * stateOrProvince > 2 character when a province
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParameterAddress123NullNonUsa() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParameterAddress123NullNonUsa() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address",null, 1L, "llg5",null,  null, null, "Toronto", "Ontario",  null,"CAN",null);
 		db.closeSession();
@@ -1330,11 +1328,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * postal code must be all numeric
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParameterBadPostalCode() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParameterBadPostalCode() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null,1L, "llg5","address1",  null, null, "nowhere", null, "Absr1",  null,null);
 		db.closeSession();
@@ -1342,11 +1340,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * postal code must be all numeric
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParameterBadPlus4() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParameterBadPlus4() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null,1L, "llg5","address1",  null, null, "nowhere", null, "ABDG","usa", null);
 		db.closeSession();
@@ -1354,11 +1352,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * Country code must be 3 alpha
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParameterBadCountryCode() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParameterBadCountryCode() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address",null, 1L,"llg5","address1",  null, null, "nowhere", null, null,  "BADone", null);
 		db.closeSession();
@@ -1366,11 +1364,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * Country code must be 3 alpha
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParameterBadCountryCodeNodb() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParameterBadCountryCodeNodb() throws Exception {
 		
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address",null, 1L, "llg5","address1",  null, null, "nowhere", null, null,  "BADone", null);
 	
@@ -1378,11 +1376,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * Campus code must be 2 alpha
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParameterBadCampusCode() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParameterBadCampusCode() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null,1L, "llg5","address1",  null, null, "nowhere", null,  null, "USA", "Uj");
 		db.closeSession();
@@ -1391,11 +1389,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersDocumentBadDocument() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersDocumentBadDocument() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","FRED",  "llg5", "address1",  null, null, "nowhere", null,  null, "USA", null);
 		
@@ -1404,11 +1402,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersBadDocumentTypeBadAddressType() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersBadDocumentTypeBadAddressType() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS","PASSPORT", "llg5", "address1",  null, null, "nowhere", null,  null, "USA", null);
 		
@@ -1419,11 +1417,11 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws CprExcep
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateUpdateAddressParametersNoCityState() throws CprException, GeneralDatabaseException {
+	public final void testValidateUpdateAddressParametersNoCityState() throws Exception {
 		openDbConnection();
 		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS", null, "llg5", "address1",  null, null, null, null, "16801", "USA", null);
 		

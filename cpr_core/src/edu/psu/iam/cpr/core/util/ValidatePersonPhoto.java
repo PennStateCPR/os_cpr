@@ -8,7 +8,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.PersonPhotoTable;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -51,9 +50,10 @@ public final class ValidatePersonPhoto {
 	 * @param updatedBy contains the userid that is performing the add.
 	 * @return will return an instance of the PersonPhotoTable class if successful.
 	 * @throws CprException 
-	 * @throws GeneralDatabaseException 
+	 * @throws ParseException 
 	 */
-	public static PersonPhotoTable validateAddPhotoParameters(Database db, Long personId, byte[] image, String dateTaken, String updatedBy) throws CprException, GeneralDatabaseException {
+	public static PersonPhotoTable validateAddPhotoParameters(Database db, Long personId, byte[] image, String dateTaken, String updatedBy) 
+			throws CprException, ParseException {
 		
 		String localDateTaken = (dateTaken != null) ? dateTaken.trim() : null;
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
@@ -81,16 +81,9 @@ public final class ValidatePersonPhoto {
 		}
 		
 		// Instantiate a person photo table object and return it to the caller.
-		PersonPhotoTable personPhotoTable = null;
-		try {
-			personPhotoTable = new PersonPhotoTable(personId, image, 
-					new SimpleDateFormat(CprProperties.INSTANCE.getProperties().getProperty(
-							CprPropertyName.CPR_FORMAT_DATE.toString())).parse(localDateTaken), localUpdatedBy);
-		} 
-		catch (ParseException e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Date taken");
-		}
-		return personPhotoTable;
+		return new PersonPhotoTable(personId, image, 
+				new SimpleDateFormat(CprProperties.INSTANCE.getProperties().getProperty(
+						CprPropertyName.CPR_FORMAT_DATE.toString())).parse(localDateTaken), localUpdatedBy);
 	}
 	
 	/**
@@ -99,9 +92,8 @@ public final class ValidatePersonPhoto {
 	 * @param personId contains the person identifier in the CPR whose photo information was requested.
 	 * @param requestedBy contains the entity that requested the photo information.
 	 * @throws CprException will be thrown if there are any CPR related problems.
-	 * @throws GeneralDatabaseException will be thrown if there are any database problems.
 	 */
-	public static void validateGetPhotoParameters(Database db, Long personId, String requestedBy) throws CprException, GeneralDatabaseException {
+	public static void validateGetPhotoParameters(Database db, Long personId, String requestedBy) throws CprException {
 
 		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
 		

@@ -25,8 +25,6 @@ import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.UseridTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.util.ValidateUserid;
 
 /**
@@ -36,35 +34,35 @@ import edu.psu.iam.cpr.core.util.ValidateUserid;
 public class ValidateUseridTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserid#validateUseridParameters(int, java.lang.String)}.
-	 * @throws CprException 
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _01testValidateUseridParameters1() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _01testValidateUseridParameters1() throws Exception {
 		ValidateUserid.validateUseridParameters(db, 100000, null);
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserid#validateUseridParameters(int, java.lang.String)}.
-	 * @throws CprException 
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _02testValidateUseridParameters2() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _02testValidateUseridParameters2() throws Exception {
 		ValidateUserid.validateUseridParameters(db, 100000, "");
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserid#validateUseridParameters(int, java.lang.String)}.
-	 * @throws CprException 
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _03testValidateUseridParameters4() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _03testValidateUseridParameters4() throws Exception {
 		openDbConnection();
 		ValidateUserid.validateUseridParameters(db, 100000, "1234567890123456789012345678901");
 		db.closeSession();
@@ -72,18 +70,18 @@ public class ValidateUseridTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserid#validateUseridParameters(int, java.lang.String)}.
-	 * @throws CprException 
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
 	@Test
-	public final void _04testValidateUseridParameters3() throws CprException, GeneralDatabaseException {
+	public final void _04testValidateUseridParameters3() throws Exception {
 		openDbConnection();
 		ValidateUserid.validateUseridParameters(db, 100000, "jvuccolo");
 		db.closeSession();
 	}
 	
 	@Test
-	public final void _05testValidateUseridParameters20() throws CprException, GeneralDatabaseException {
+	public final void _05testValidateUseridParameters20() throws Exception {
 		openDbConnection();
 		UseridTable useridTable = ValidateUserid.validateGetUseridParameters(db, 100000, "jvuccolo","Y");
 		assertTrue(useridTable.isReturnHistoryFlag());
@@ -91,35 +89,35 @@ public class ValidateUseridTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _06testValidateUseridParameters5() throws CprException, GeneralDatabaseException {
+	public final void _06testValidateUseridParameters5() throws Exception {
 		ValidateUserid.validateUseridParameters(null, 0, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void _07testValidateUseridParameters6() throws CprException, GeneralDatabaseException {
+	public final void _07testValidateUseridParameters6() throws Exception {
 		ValidateUserid.validateUseridParameters(db, 0, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void _08testValidateUseridParameters7() throws CprException, GeneralDatabaseException {
+	public final void _08testValidateUseridParameters7() throws Exception {
 		ValidateUserid.validateUseridParameters(db, 0, "xyz", null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void _09testValidateUseridParameters8() throws CprException, GeneralDatabaseException {
+	public final void _09testValidateUseridParameters8() throws Exception {
 		ValidateUserid.validateUseridParameters(db, 0, "xyz", "jvuccolo");
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void _10testValidateUseridParameters9() throws CprException, GeneralDatabaseException {
+	public final void _10testValidateUseridParameters9() throws Exception {
 		openDbConnection();
 		ValidateUserid.validateUseridParameters(db, 0, null, "jvuccolo");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void _11testValidateUseridParameters10() throws CprException, GeneralDatabaseException {
+	public final void _11testValidateUseridParameters10() throws Exception {
 		openDbConnection();
 		ValidateUserid.validateUseridParameters(db, 0, "1234567890123456789012345678901234567890", "jvuccolo");
 		db.closeSession();
 	}
 	@Test
-	public final void _12testValidateUseridParameters11() throws CprException, GeneralDatabaseException {
+	public final void _12testValidateUseridParameters11() throws Exception {
 		openDbConnection();
 		ValidateUserid.validateUseridParameters(db, 0, "jvuccolo", "jvuccolo");
 		db.closeSession();

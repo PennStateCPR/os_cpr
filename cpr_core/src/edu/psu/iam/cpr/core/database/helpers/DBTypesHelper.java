@@ -11,7 +11,6 @@ import org.hibernate.Session;
 
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * DBTypesHelper is a singleton class that is used to load database types
@@ -54,9 +53,8 @@ public enum DBTypesHelper {
 	 * @param db contains the database connection.
 	 * @param index contains the index of the map to be returned.
 	 * @return will contain the returned hash map.
-	 * @throws GeneralDatabaseException 
 	 */
-	public HashMap<String,Object> getTypeMaps(int index) throws GeneralDatabaseException {
+	public HashMap<String,Object> getTypeMaps(int index) {
 		return typeMaps.get(index);
 	}
 	

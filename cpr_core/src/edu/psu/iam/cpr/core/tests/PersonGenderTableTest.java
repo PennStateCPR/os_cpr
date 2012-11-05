@@ -26,8 +26,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.PersonGenderTable;
 import edu.psu.iam.cpr.core.database.types.GenderType;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * @author jvuccolo
@@ -36,7 +34,7 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 public class PersonGenderTableTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	@Test
@@ -91,14 +89,14 @@ public class PersonGenderTableTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testGetGender1() throws GeneralDatabaseException, CprException {
+	public final void testGetGender1() throws Exception {
 		PersonGenderTable p = new PersonGenderTable();
 		p.setReturnHistoryFlag(false);
 		p.getGenderForPersonId(db, 100000);
 	}
 	
 	@Test
-	public final void testGetGender3() throws GeneralDatabaseException, CprException {
+	public final void testGetGender3() throws Exception {
 		openDbConnection();
 		PersonGenderTable p = new PersonGenderTable();
 		p.setReturnHistoryFlag(false);
@@ -107,7 +105,7 @@ public class PersonGenderTableTest {
 	}
 
 	@Test
-	public final void testGetGender2() throws GeneralDatabaseException, CprException {
+	public final void testGetGender2() throws Exception {
 		openDbConnection();
 		PersonGenderTable p = new PersonGenderTable();
 		p.setReturnHistoryFlag(false);

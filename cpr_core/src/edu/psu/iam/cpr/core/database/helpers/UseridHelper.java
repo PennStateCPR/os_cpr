@@ -14,8 +14,6 @@ import edu.psu.iam.cpr.core.database.beans.Names;
 import edu.psu.iam.cpr.core.database.beans.Userid;
 import edu.psu.iam.cpr.core.database.tables.GeneratedIdentityTable;
 import edu.psu.iam.cpr.core.database.types.NameType;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
  * UseridHelper is a helper class that is used to aid the generation of userids.
@@ -111,168 +109,162 @@ public class UseridHelper {
 	 * This routine is used to generate a userid an assign it.
 	 * @param session contains a database session.
 	 * @param bean contains a userid database bean that will contain the assigned userid.
-	 * @throws CprException will be thrown if there are any CPR exceptions.
 	 */
-	public void generateUserid(Session session, Userid bean) throws CprException {
+	public void generateUserid(Session session, Userid bean)  {
 		
-		try {
 			
-			// Obtain the list of active names for the person.
-			String sqlQuery = "from Names where personId = :person_id AND endDate IS NULL";
-			Query query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			Names names = null;
-			for (Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				names = (Names) it.next();
-				
-				// If we find a legal name, let's use it.
-				if (names.getDataTypeKey() == NameType.LEGAL_NAME.index()) {
+		// Obtain the list of active names for the person.
+		String sqlQuery = "from Names where personId = :person_id AND endDate IS NULL";
+		Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		Names names = null;
+		for (Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			names = (Names) it.next();
+
+			// If we find a legal name, let's use it.
+			if (names.getDataTypeKey() == NameType.LEGAL_NAME.index()) {
+				break;
+			}
+		}
+
+		// Extract the first letter from the selected name.
+		String firstNameLetter 		= null;
+		String middleNamesLetter 	= null;
+		String lastNameLetter 		= null;
+		if (names != null) {
+			firstNameLetter 		= getFirstLetter(names.getFirstName());
+			middleNamesLetter 		= getFirstLetter(names.getMiddleNames());
+			lastNameLetter 			= getFirstLetter(names.getLastName());
+		}
+
+		boolean done = false;
+		int missCount = 0;
+		final Random random = new Random(new Date().getTime());
+
+		while (! done) {
+			double randomValue = random.nextDouble();
+
+			// first name was not specified.
+			if (firstNameLetter == null) {
+				if (randomValue < FIRST_LETTER_RANGE1) {
+					firstNameLetter = FIRST_LETTERS[INDEX_0];
+				}
+				else if (randomValue < FIRST_LETTER_RANGE2) {
+					firstNameLetter = FIRST_LETTERS[INDEX_1];
+				}
+				else if (randomValue < FIRST_LETTER_RANGE3) {
+					firstNameLetter = FIRST_LETTERS[INDEX_2];
+				}
+				else if (randomValue < FIRST_LETTER_RANGE4) {
+					firstNameLetter = FIRST_LETTERS[INDEX_3];
+				}
+				else if (randomValue < FIRST_LETTER_RANGE5) {
+					firstNameLetter = FIRST_LETTERS[INDEX_4];
+				}
+				else if (randomValue < FIRST_LETTER_RANGE6) {
+					firstNameLetter = FIRST_LETTERS[INDEX_5];
+				}
+				else {
+					firstNameLetter = FIRST_LETTERS[INDEX_6];
+				}
+			}
+
+			// Middle names was not specified.
+			if (middleNamesLetter == null) {
+				if (randomValue < MIDDLE_LETTER_RANGE1) {
+					middleNamesLetter = MIDDLE_LETTERS[INDEX_0];
+				}
+				else if (randomValue < MIDDLE_LETTER_RANGE2) {
+					middleNamesLetter = MIDDLE_LETTERS[INDEX_1];
+				}
+				else if (randomValue < MIDDLE_LETTER_RANGE3) {
+					middleNamesLetter = MIDDLE_LETTERS[INDEX_2];
+				}
+				else if (randomValue < MIDDLE_LETTER_RANGE4) {
+					middleNamesLetter = MIDDLE_LETTERS[INDEX_3];
+				}
+				else if (randomValue < MIDDLE_LETTER_RANGE5) {
+					middleNamesLetter = MIDDLE_LETTERS[INDEX_4];
+				}
+				else if (randomValue < MIDDLE_LETTER_RANGE6) {
+					middleNamesLetter = MIDDLE_LETTERS[INDEX_5];
+				}
+				else {
+					middleNamesLetter = MIDDLE_LETTERS[INDEX_6];
+				}
+			}
+
+			// Last name was not specified.
+			if (lastNameLetter == null) {
+				if (randomValue < LAST_LETTER_RANGE1) {
+					lastNameLetter = LAST_LETTERS[INDEX_0];
+				}
+				else if (randomValue < LAST_LETTER_RANGE2) {
+					lastNameLetter = LAST_LETTERS[INDEX_1];
+				}
+				else {
+					lastNameLetter = LAST_LETTERS[INDEX_2];
+				}
+			}
+
+			// Construct the character portion of the userid.
+			StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+			sb.append(firstNameLetter);
+			sb.append(middleNamesLetter);
+			sb.append(lastNameLetter);
+
+			String charPart = sb.toString();
+
+			// Verify that the character porition of the userid does not exist in the bad prefixes database table.
+			sqlQuery = "from BadPrefixes where charPart = :char_part";
+			query = session.createQuery(sqlQuery);
+			query.setParameter("char_part", charPart);
+
+			if (query.list().size() == 0) {
+
+				// Find a userid in the pool to be used.
+				sqlQuery = "SELECT MIN(num_part) AS min_num_part FROM cpr.userid_pool WHERE char_part = :char_part";
+				SQLQuery query1 = session.createSQLQuery(sqlQuery);
+				query1.setParameter("char_part", charPart);
+				query1.addScalar("min_num_part", StandardBasicTypes.LONG);
+				Long numPart = null;
+				for (Iterator<?> it = query1.list().iterator(); it.hasNext(); ) {
+					numPart = (Long) it.next();
+				}
+
+				String userid = charPart + numPart.toString();
+
+				// Delete the userid from the pool.
+				query = session.createQuery("delete UseridPool where charPart = :char_part AND numPart = :num_part");
+				query.setParameter("char_part", charPart);
+				query.setParameter("num_part", numPart);
+				query.executeUpdate();
+				session.flush();
+
+				// Save it off.
+				setGeneratedIdentityTable(new GeneratedIdentityTable(bean.getPersonId(), userid, charPart, numPart, bean.getLastUpdateBy()));
+				getGeneratedIdentityTable().addGeneratedIdentity(session);
+
+				bean.setUserid(userid);
+				done = true;					
+			}
+			else {
+
+				// OK, let's pick a different letter.
+				missCount = (missCount + 1) % TOTAL_LETTERS;
+				switch (missCount) {
+				case FIRST_LETTER:
+					firstNameLetter = null;
+					break;
+				case MIDDLE_LETTER:
+					middleNamesLetter = null;
+					break;
+				case LAST_LETTER: 
+					lastNameLetter = null;
 					break;
 				}
 			}
-			
-			// Extract the first letter from the selected name.
-			String firstNameLetter 		= null;
-			String middleNamesLetter 	= null;
-			String lastNameLetter 		= null;
-			if (names != null) {
-				firstNameLetter 		= getFirstLetter(names.getFirstName());
-				middleNamesLetter 		= getFirstLetter(names.getMiddleNames());
-				lastNameLetter 			= getFirstLetter(names.getLastName());
 			}
-			
-			boolean done = false;
-			int missCount = 0;
-			final Random random = new Random(new Date().getTime());
-			
-			while (! done) {
-				double randomValue = random.nextDouble();
-				
-				// first name was not specified.
-				if (firstNameLetter == null) {
-					if (randomValue < FIRST_LETTER_RANGE1) {
-						firstNameLetter = FIRST_LETTERS[INDEX_0];
-					}
-					else if (randomValue < FIRST_LETTER_RANGE2) {
-						firstNameLetter = FIRST_LETTERS[INDEX_1];
-					}
-					else if (randomValue < FIRST_LETTER_RANGE3) {
-						firstNameLetter = FIRST_LETTERS[INDEX_2];
-					}
-					else if (randomValue < FIRST_LETTER_RANGE4) {
-						firstNameLetter = FIRST_LETTERS[INDEX_3];
-					}
-					else if (randomValue < FIRST_LETTER_RANGE5) {
-						firstNameLetter = FIRST_LETTERS[INDEX_4];
-					}
-					else if (randomValue < FIRST_LETTER_RANGE6) {
-						firstNameLetter = FIRST_LETTERS[INDEX_5];
-					}
-					else {
-						firstNameLetter = FIRST_LETTERS[INDEX_6];
-					}
-				}
-				
-				// Middle names was not specified.
-				if (middleNamesLetter == null) {
-					if (randomValue < MIDDLE_LETTER_RANGE1) {
-						middleNamesLetter = MIDDLE_LETTERS[INDEX_0];
-					}
-					else if (randomValue < MIDDLE_LETTER_RANGE2) {
-						middleNamesLetter = MIDDLE_LETTERS[INDEX_1];
-					}
-					else if (randomValue < MIDDLE_LETTER_RANGE3) {
-						middleNamesLetter = MIDDLE_LETTERS[INDEX_2];
-					}
-					else if (randomValue < MIDDLE_LETTER_RANGE4) {
-						middleNamesLetter = MIDDLE_LETTERS[INDEX_3];
-					}
-					else if (randomValue < MIDDLE_LETTER_RANGE5) {
-						middleNamesLetter = MIDDLE_LETTERS[INDEX_4];
-					}
-					else if (randomValue < MIDDLE_LETTER_RANGE6) {
-						middleNamesLetter = MIDDLE_LETTERS[INDEX_5];
-					}
-					else {
-						middleNamesLetter = MIDDLE_LETTERS[INDEX_6];
-					}
-				}
-				
-				// Last name was not specified.
-				if (lastNameLetter == null) {
-					if (randomValue < LAST_LETTER_RANGE1) {
-						lastNameLetter = LAST_LETTERS[INDEX_0];
-					}
-					else if (randomValue < LAST_LETTER_RANGE2) {
-						lastNameLetter = LAST_LETTERS[INDEX_1];
-					}
-					else {
-						lastNameLetter = LAST_LETTERS[INDEX_2];
-					}
-				}
-				
-				// Construct the character portion of the userid.
-				StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-				sb.append(firstNameLetter);
-				sb.append(middleNamesLetter);
-				sb.append(lastNameLetter);
-				
-				String charPart = sb.toString();
-				
-				// Verify that the character porition of the userid does not exist in the bad prefixes database table.
-				sqlQuery = "from BadPrefixes where charPart = :char_part";
-				query = session.createQuery(sqlQuery);
-				query.setParameter("char_part", charPart);
-				
-				if (query.list().size() == 0) {
-					
-					// Find a userid in the pool to be used.
-					sqlQuery = "SELECT MIN(num_part) AS min_num_part FROM cpr.userid_pool WHERE char_part = :char_part";
-					SQLQuery query1 = session.createSQLQuery(sqlQuery);
-					query1.setParameter("char_part", charPart);
-					query1.addScalar("min_num_part", StandardBasicTypes.LONG);
-					Long numPart = null;
-					for (Iterator<?> it = query1.list().iterator(); it.hasNext(); ) {
-						numPart = (Long) it.next();
-					}
-					
-					String userid = charPart + numPart.toString();
-					
-					// Delete the userid from the pool.
-					query = session.createQuery("delete UseridPool where charPart = :char_part AND numPart = :num_part");
-					query.setParameter("char_part", charPart);
-					query.setParameter("num_part", numPart);
-					query.executeUpdate();
-					session.flush();
-
-					// Save it off.
-					setGeneratedIdentityTable(new GeneratedIdentityTable(bean.getPersonId(), userid, charPart, numPart, bean.getLastUpdateBy()));
-					getGeneratedIdentityTable().addGeneratedIdentity(session);
-					
-					bean.setUserid(userid);
-					done = true;					
-				}
-				else {
-					
-					// OK, let's pick a different letter.
-					missCount = (missCount + 1) % TOTAL_LETTERS;
-					switch (missCount) {
-					case FIRST_LETTER:
-						firstNameLetter = null;
-						break;
-					case MIDDLE_LETTER:
-						middleNamesLetter = null;
-						break;
-					case LAST_LETTER: 
-						lastNameLetter = null;
-						break;
-					}
-				}
-			}
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "Userid");
-		}
 	}
 
 	/**

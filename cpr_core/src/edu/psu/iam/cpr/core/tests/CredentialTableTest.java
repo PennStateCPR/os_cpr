@@ -24,15 +24,13 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.Credential;
 import edu.psu.iam.cpr.core.database.tables.CredentialTable;
 import edu.psu.iam.cpr.core.database.types.CredentialType;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.service.returns.CredentialReturn;
 
 public class CredentialTableTest {
 
 	private static Database db = new Database();
 	
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
@@ -82,7 +80,7 @@ public class CredentialTableTest {
 	}
 
 	@Test
-	public final void _10testAddCredential1() throws GeneralDatabaseException, CprException {
+	public final void _10testAddCredential1() throws Exception {
 		CredentialTable t = new CredentialTable(100000,"credential_type_secureid", "111211", "jvuccolo");
 		openDbConnection();
 		t.addCredential(db);
@@ -91,7 +89,7 @@ public class CredentialTableTest {
 	}
 	
 	@Test
-	public final void _11testAddCredential2() throws GeneralDatabaseException, CprException {
+	public final void _11testAddCredential2() throws Exception {
 		CredentialTable t = new CredentialTable(100000,"credential_type_openid", "abcd", "jvuccolo");
 		openDbConnection();
 		t.addCredential(db);
@@ -100,7 +98,7 @@ public class CredentialTableTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _12testAddCredential3() throws CprException, GeneralDatabaseException {
+	public final void _12testAddCredential3() throws Exception {
 		CredentialTable t = new CredentialTable(100000,"credential_type_openid", "abcd", "jvuccolo");
 		openDbConnection();
 		t.addCredential(db);
@@ -108,7 +106,7 @@ public class CredentialTableTest {
 	}
 
 	@Test
-	public final void _13testGetCredentialForPersonId() throws GeneralDatabaseException {
+	public final void _13testGetCredentialForPersonId() throws Exception {
 		CredentialTable t = new CredentialTable();
 		openDbConnection();
 		t.setReturnHistoryFlag(false);
@@ -118,7 +116,7 @@ public class CredentialTableTest {
 	}
 
 	@Test
-	public final void _14testGetCredentialForPersonId1() throws GeneralDatabaseException {
+	public final void _14testGetCredentialForPersonId1() throws Exception {
 		CredentialTable t = new CredentialTable();
 		openDbConnection();
 		t.setReturnHistoryFlag(true);
@@ -127,7 +125,7 @@ public class CredentialTableTest {
 	}
 
 	@Test
-	public final void _15testGetCredentialForPersonIdByType1() throws GeneralDatabaseException {
+	public final void _15testGetCredentialForPersonIdByType1() throws Exception {
 		CredentialTable t = new CredentialTable();
 		openDbConnection();
 		t.setReturnHistoryFlag(false);
@@ -137,7 +135,7 @@ public class CredentialTableTest {
 	}
 	
 	@Test
-	public final void _16testGetCredentialForPersonIdByType2() throws GeneralDatabaseException {
+	public final void _16testGetCredentialForPersonIdByType2() throws Exception {
 		CredentialTable t = new CredentialTable();
 		openDbConnection();
 		t.setReturnHistoryFlag(true);
@@ -147,21 +145,21 @@ public class CredentialTableTest {
 	}
 	
 	@Test
-	public final void _17testArchiveCredential1() throws CprException, GeneralDatabaseException {
+	public final void _17testArchiveCredential1() throws Exception {
 		CredentialTable t = new CredentialTable(100000,"credential_type_secureid", "jvuccolo");
 		openDbConnection();
 		t.archiveCredential(db);
 		db.closeSession();
 	}
 	@Test
-	public final void _18testArchiveCredential2() throws CprException, GeneralDatabaseException {
+	public final void _18testArchiveCredential2() throws Exception {
 		CredentialTable t = new CredentialTable(100000,"credential_type_openid", "jvuccolo");
 		openDbConnection();
 		t.archiveCredential(db);
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void _19testArchiveCredential3() throws CprException, GeneralDatabaseException {
+	public final void _19testArchiveCredential3() throws Exception {
 		CredentialTable t = new CredentialTable(100000,"credential_type_secureid", "jvuccolo");
 		openDbConnection();
 		t.archiveCredential(db);

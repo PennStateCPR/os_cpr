@@ -20,67 +20,65 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.util.ValidatePersonPhoto;
 
 public class ValidatePersonPhotoTest {
 
 	private static Database db = new Database();
 
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddPhotoParameters1() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddPhotoParameters1() throws Exception {
 		ValidatePersonPhoto.validateAddPhotoParameters(null, null, null, null, null);
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddPhotoParameters2() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddPhotoParameters2() throws Exception {
 		ValidatePersonPhoto.validateAddPhotoParameters(db, 1L, null, null, null);
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddPhotoParameters3() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddPhotoParameters3() throws Exception {
 		ValidatePersonPhoto.validateAddPhotoParameters(db, 1L, new byte[1], null, null);
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddPhotoParameters4() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddPhotoParameters4() throws Exception {
 		ValidatePersonPhoto.validateAddPhotoParameters(db, 1L, new byte[1], "1/1/2011", null);
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddPhotoParameters5() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddPhotoParameters5() throws Exception {
 		ValidatePersonPhoto.validateAddPhotoParameters(db, 1L, new byte[1], "1/1/", "jvuccolo");
 	}
 	
 	@Test
-	public final void testValidateAddPhotoParameters6() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddPhotoParameters6() throws Exception {
 		openDbConnection();
 		ValidatePersonPhoto.validateAddPhotoParameters(db, 1L, new byte[1], "1/1/2011", "jvuccolo");
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetPhotoParameters1() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetPhotoParameters1() throws Exception {
 		ValidatePersonPhoto.validateGetPhotoParameters(null, null, null);
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetPhotoParameters2() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetPhotoParameters2() throws Exception {
 		ValidatePersonPhoto.validateGetPhotoParameters(db, 1L, null);
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetPhotoParameters3() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetPhotoParameters3() throws Exception {
 		ValidatePersonPhoto.validateGetPhotoParameters(db, 1L, "");
 	}
 	
 	@Test
-	public final void testValidateGetPhotoParameters4() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetPhotoParameters4() throws Exception {
 		openDbConnection();
 		ValidatePersonPhoto.validateGetPhotoParameters(db, 1L, "jvuccolo");
 		db.closeSession();

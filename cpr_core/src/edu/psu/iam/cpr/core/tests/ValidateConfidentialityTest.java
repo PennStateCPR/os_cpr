@@ -27,8 +27,6 @@ import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.ConfidentialityTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.util.ValidateConfidentiality;
 
 /**
@@ -38,47 +36,47 @@ import edu.psu.iam.cpr.core.util.ValidateConfidentiality;
 public class ValidateConfidentialityTest {
 
 	private static Database db= new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateConfidentiality#validateAddConfidentialityParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddConfidentialityParameters1() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddConfidentialityParameters1() throws Exception {
 		ValidateConfidentiality.validateAddConfidentialityParameters(null, 0, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddConfidentialityParameters2() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddConfidentialityParameters2() throws Exception {
 		ValidateConfidentiality.validateAddConfidentialityParameters(db, 0, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddConfidentialityParameters3() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddConfidentialityParameters3() throws Exception {
 		ValidateConfidentiality.validateAddConfidentialityParameters(db, 0, "abcd", null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddConfidentialityParameters3a() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddConfidentialityParameters3a() throws Exception {
 		ValidateConfidentiality.validateAddConfidentialityParameters(db, 0, null, "abcd");
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddConfidentialityParameters4() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddConfidentialityParameters4() throws Exception {
 		ValidateConfidentiality.validateAddConfidentialityParameters(db, 0, "ALL_CONFIDENTIALITY", null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddConfidentialityParameters5() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddConfidentialityParameters5() throws Exception {
 		ValidateConfidentiality.validateAddConfidentialityParameters(db, 0, "ALL_CONFIDENTIALITY", null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateAddConfidentialityParameters6() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddConfidentialityParameters6() throws Exception {
 		openDbConnection();
 		ValidateConfidentiality.validateAddConfidentialityParameters(db, 0, "ALL_CONFIDENTIALITY", "123456789012345678901234567890123456789012345678901234567890");
 		db.closeSession();
 	}
 	@Test
-	public final void testValidateAddConfidentialityParameters7() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddConfidentialityParameters7() throws Exception {
 		openDbConnection();
 		ValidateConfidentiality.validateAddConfidentialityParameters(db, 0, "ALL_CONFIDENTIALITY", "jvuccolo");
 		db.closeSession();
@@ -86,37 +84,37 @@ public class ValidateConfidentialityTest {
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateConfidentiality#validateArchiveConfidentialityParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveConfidentialityParameters1() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveConfidentialityParameters1() throws Exception {
 		ValidateConfidentiality.validateArchiveConfidentialityParameters(null, 0, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveConfidentialityParameters2() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveConfidentialityParameters2() throws Exception {
 		ValidateConfidentiality.validateArchiveConfidentialityParameters(db, 0, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveConfidentialityParameters3() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveConfidentialityParameters3() throws Exception {
 		ValidateConfidentiality.validateArchiveConfidentialityParameters(db, 0, "abcd", null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveConfidentialityParameters3a() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveConfidentialityParameters3a() throws Exception {
 		ValidateConfidentiality.validateArchiveConfidentialityParameters(db, 0, null, "abcd");
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveConfidentialityParameters4() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveConfidentialityParameters4() throws Exception {
 		ValidateConfidentiality.validateArchiveConfidentialityParameters(db, 0, "ALL_CONFIDENTIALITY", null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateArchiveConfidentialityParameters5() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveConfidentialityParameters5() throws Exception {
 		openDbConnection();
 		ValidateConfidentiality.validateArchiveConfidentialityParameters(db, 0, "ALL_CONFIDENTIALITY", "123456789012345678901234567890123456789012345678901234567890");
 		db.closeSession();
 	}
 	@Test
-	public final void testValidateArchiveConfidentialityParameters6() throws CprException, GeneralDatabaseException {
+	public final void testValidateArchiveConfidentialityParameters6() throws Exception {
 		openDbConnection();
 		ValidateConfidentiality.validateArchiveConfidentialityParameters(db, 0, "ALL_CONFIDENTIALITY", "jvuccolo");
 		db.closeSession();
@@ -124,38 +122,38 @@ public class ValidateConfidentialityTest {
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateConfidentiality#validateGetConfidentialityParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetConfidentialityParameters1() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetConfidentialityParameters1() throws Exception {
 		ValidateConfidentiality.validateGetConfidentialityParameters(null, 0, null,null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetConfidentialityParameters2() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetConfidentialityParameters2() throws Exception {
 		ValidateConfidentiality.validateGetConfidentialityParameters(db, 0, null,null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetConfidentialityParameters3() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetConfidentialityParameters3() throws Exception {
 		openDbConnection();
 		ValidateConfidentiality.validateGetConfidentialityParameters(db, 0, "123456789012345678901234567890123456789012345678901234567890",null);
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testValidateGetConfidentialityParameters4() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetConfidentialityParameters4() throws Exception {
 		openDbConnection();
 		ValidateConfidentiality.validateGetConfidentialityParameters(db, 0, "jvuccolo","x");
 		db.closeSession();
 	}
 	@Test
-	public final void testValidateGetConfidentialityParameters5() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetConfidentialityParameters5() throws Exception {
 		openDbConnection();
 		ConfidentialityTable confidentialityTable = ValidateConfidentiality.validateGetConfidentialityParameters(db, 0, "jvuccolo","Y");
 		assertTrue(confidentialityTable.isReturnHistoryFlag());
 		db.closeSession();
 	}
 	@Test
-	public final void testValidateGetConfidentialityParameters6() throws CprException, GeneralDatabaseException {
+	public final void testValidateGetConfidentialityParameters6() throws Exception {
 		openDbConnection();
 		ConfidentialityTable confidentialityTable = ValidateConfidentiality.validateGetConfidentialityParameters(db, 0, "jvuccolo","n");
 		assertFalse(confidentialityTable.isReturnHistoryFlag());

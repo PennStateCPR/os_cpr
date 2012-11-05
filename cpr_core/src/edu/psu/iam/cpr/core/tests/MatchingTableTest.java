@@ -25,8 +25,6 @@ import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.MatchingTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * @author jvuccolo
@@ -43,16 +41,16 @@ public class MatchingTableTest {
 
 	private static Database db = new Database();
 	
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.AddressesTable#AddressesTable()}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 
 	@Test
-	public final void testMatchingTableQuery() throws GeneralDatabaseException {
+	public final void testMatchingTableQuery() throws Exception {
 		ArrayList<MatchResultsTable> matchResultsTable = new ArrayList<MatchResultsTable>(10);
 		openDbConnection();
 		Session session = db.getSession();
@@ -103,11 +101,11 @@ public class MatchingTableTest {
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.MatchingTable#findMatches(edu.psu.iam.cpr.core.database.Database, edu.psu.iam.cpr.core.database.tables.NamesTable, edu.psu.iam.cpr.core.database.tables.AddressesTable, edu.psu.iam.cpr.core.database.tables.DateOfBirthTable)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void testFindMatches() throws GeneralDatabaseException, CprException {
+	public final void testFindMatches() throws Exception {
 		MatchingTable t = new MatchingTable();
 		t.findMatches(null, null, null, null);
 	}

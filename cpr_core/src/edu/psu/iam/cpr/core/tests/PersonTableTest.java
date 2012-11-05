@@ -26,8 +26,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.Person;
 import edu.psu.iam.cpr.core.database.tables.PersonTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * @author jvuccolo
@@ -36,7 +34,7 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 public class PersonTableTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
@@ -61,28 +59,28 @@ public class PersonTableTest {
 		new PersonTable(12345, "jvuccolo");
 	}
 
-	@Test(expectedExceptions=CprException.class)
-	public final void testAddPerson1() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testAddPerson1() throws Exception {
 		PersonTable p = new PersonTable("jvuccolo");
 		p.addPerson(db);
 	}
 	
 	@Test
-	public final void testAddPerson2() throws CprException, GeneralDatabaseException {
+	public final void testAddPerson2() throws Exception {
 		openDbConnection();
 		PersonTable p = new PersonTable("jvuccolo");
 		p.addPerson(db);
 		db.closeSession();
 	}
 	
-	@Test(expectedExceptions=CprException.class)
-	public final void testDeletePerson1() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testDeletePerson1() throws Exception {
 		PersonTable p = new PersonTable(1000,"jvuccolo");
 		p.archivePerson(db);
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testDeletePerson2() throws CprException, GeneralDatabaseException {
+	public final void testDeletePerson2() throws Exception {
 		openDbConnection();
 		PersonTable p = new PersonTable(1000,"jvuccolo");
 		p.archivePerson(db);
@@ -90,7 +88,7 @@ public class PersonTableTest {
 	}
 	
 	@Test
-	public final void testDeletePerson3() throws CprException, GeneralDatabaseException {
+	public final void testDeletePerson3() throws Exception {
 		openDbConnection();
 		PersonTable p = new PersonTable(100000,"jvuccolo");
 		p.archivePerson(db);
@@ -98,7 +96,7 @@ public class PersonTableTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testDeletePerson4() throws CprException, GeneralDatabaseException {
+	public final void testDeletePerson4() throws Exception {
 		openDbConnection();
 		PersonTable p = new PersonTable(100000,"jvuccolo");
 		p.archivePerson(db);
@@ -107,13 +105,13 @@ public class PersonTableTest {
 	
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testUnarchivePerson1() throws GeneralDatabaseException, CprException {
+	public final void testUnarchivePerson1() throws Exception {
 		PersonTable p = new PersonTable();
 		p.unarchivePerson(db);
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testUnarchivePerson4() throws GeneralDatabaseException, CprException {
+	public final void testUnarchivePerson4() throws Exception {
 		openDbConnection();
 		PersonTable p = new PersonTable(1000,"jvuccolo");
 		p.unarchivePerson(db);
@@ -121,7 +119,7 @@ public class PersonTableTest {
 	}
 	
 	@Test
-	public final void testUnarchivePerson2() throws GeneralDatabaseException, CprException {
+	public final void testUnarchivePerson2() throws Exception {
 		openDbConnection();
 		PersonTable p = new PersonTable(100000,"jvuccolo");
 		p.unarchivePerson(db);
@@ -129,7 +127,7 @@ public class PersonTableTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testUnarchivePerson3() throws GeneralDatabaseException, CprException {
+	public final void testUnarchivePerson3() throws Exception {
 		openDbConnection();
 		PersonTable p = new PersonTable(100000,"jvuccolo");
 		p.unarchivePerson(db);
@@ -137,7 +135,7 @@ public class PersonTableTest {
 	}
 	
 	@Test
-	public final void testAddPerson3() throws CprException, GeneralDatabaseException {
+	public final void testAddPerson3() throws Exception {
 		openDbConnection();
 		PersonTable p = new PersonTable("jvuccolo");
 		p.addPerson(db);

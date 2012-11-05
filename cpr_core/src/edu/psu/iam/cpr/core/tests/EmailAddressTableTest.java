@@ -32,8 +32,6 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.EmailAddress;
 import edu.psu.iam.cpr.core.database.tables.EmailAddressTable;
 import edu.psu.iam.cpr.core.database.types.EmailAddressType;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * @author jvuccolo
@@ -42,7 +40,7 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 public class EmailAddressTableTest {
 	
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
@@ -193,18 +191,18 @@ public class EmailAddressTableTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void testGetEmailAddressForPersonId0() throws GeneralDatabaseException, CprException  {
+	public final void testGetEmailAddressForPersonId0() throws Exception  {
 		EmailAddressTable e = new EmailAddressTable();
 		e.setReturnHistoryFlag(true);
 		e.getEmailAddressForPersonId(null,0);
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.EmailAddressTable#getEmailAddressForPersonId(int)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test
-	public final void testGetEmailAddressForPersonId1() throws GeneralDatabaseException, CprException {
+	public final void testGetEmailAddressForPersonId1() throws Exception {
 		openDbConnection();
 		EmailAddressTable e = new EmailAddressTable();
 		e.setReturnHistoryFlag(true);
@@ -213,11 +211,11 @@ public class EmailAddressTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.EmailAddressTable#getEmailAddressForPersonId(int)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test
-	public final void testGetEmailAddressForPersonId2() throws GeneralDatabaseException, CprException {
+	public final void testGetEmailAddressForPersonId2() throws Exception {
 		openDbConnection();
 		EmailAddressTable e = new EmailAddressTable();
 		e.setReturnHistoryFlag(false);
@@ -227,11 +225,11 @@ public class EmailAddressTableTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.EmailAddressTable#getEmailAddressForPersonId(int)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 */
 	@Test
-	public final void testGetEmailAddressForPersonId3() throws GeneralDatabaseException, CprException {
+	public final void testGetEmailAddressForPersonId3() throws Exception {
 		openDbConnection();
 		EmailAddressTable e = new EmailAddressTable();
 		e.setReturnHistoryFlag(false);
@@ -239,8 +237,8 @@ public class EmailAddressTableTest {
 		db.closeSession();
 	}
 	
-	@Test(expectedExceptions=CprException.class)
-	public final void testDeleteEmailAddress1() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testDeleteEmailAddress1() throws Exception {
 		EmailAddressTable t = new EmailAddressTable();
 		t.archiveEmailAddress(db);
 	}

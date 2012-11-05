@@ -25,7 +25,6 @@ import org.testng.AssertJUnit;
 import java.util.Date;
 
 import edu.psu.iam.cpr.core.service.returns.MessageLogReturn;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.database.beans.MessageLog;
 import edu.psu.iam.cpr.core.database.tables.MessageLogTable;
 import edu.psu.iam.cpr.core.database.Database;
@@ -42,7 +41,7 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 public class MessageLogTableTest {
 	
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
@@ -96,7 +95,7 @@ public class MessageLogTableTest {
 	 *
 	 * @generatedBy CodePro at 1/5/12 3:46 PM
 	 */
-	@Test(expectedExceptions = edu.psu.iam.cpr.core.error.CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testAddMessageLog_1()
 		throws Exception {
 		MessageLogTable fixture = new MessageLogTable();
@@ -161,7 +160,7 @@ public class MessageLogTableTest {
 	 *
 	 * @generatedBy CodePro at 1/5/12 3:46 PM
 	 */
-	@Test(expectedExceptions = edu.psu.iam.cpr.core.error.GeneralDatabaseException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testGetMessageLog_1()
 		throws Exception {
 		MessageLogTable fixture = new MessageLogTable();
@@ -249,7 +248,7 @@ public class MessageLogTableTest {
 	 *
 	 * @generatedBy CodePro at 1/5/12 3:46 PM
 	 */
-	@Test(expectedExceptions = edu.psu.iam.cpr.core.error.CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testUpdateMessageLog_1()
 		throws Exception {
 		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, "Test update", "slk24");

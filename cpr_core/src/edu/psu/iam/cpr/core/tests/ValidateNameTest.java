@@ -26,7 +26,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.NamesTable;
 import edu.psu.iam.cpr.core.database.types.NameType;
-import edu.psu.iam.cpr.core.error.*;
 import edu.psu.iam.cpr.core.util.ValidateName;
 
 /**
@@ -37,48 +36,48 @@ public class ValidateNameTest {
 
 	private static Database db = new Database();
 	
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
-	@Test(expectedExceptions=CprException.class)
-	public final void _01testValidateGetNameParameters1() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _01testValidateGetNameParameters1() throws Exception {
 		openDbConnection();
 		ValidateName.validateGetNameParameters(db, 1000000, null,null,null);
 		db.closeSession();
 	}
 	@Test
-	public final void _02testValidateGetNameParameters2() throws CprException, GeneralDatabaseException {
+	public final void _02testValidateGetNameParameters2() throws Exception {
 		openDbConnection();
 		ValidateName.validateGetNameParameters(db, 100000, "jimmy",null,"Y");
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void _03testValidateGetNameParameters3() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _03testValidateGetNameParameters3() throws Exception {
 		openDbConnection();
 		ValidateName.validateGetNameParameters(db, 100000, "1234567890123456789012345678901",null,"Y");
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void _04testValidateGetNameParameters4() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _04testValidateGetNameParameters4() throws Exception {
 		openDbConnection();
 		ValidateName.validateGetNameParameters(db, 100000, "                                       ",null,"Y");
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void _05testValidateGetNameParameters5() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _05testValidateGetNameParameters5() throws Exception {
 		openDbConnection();
 		ValidateName.validateGetNameParameters(db, 100000, "jimmy","legal","Y");
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void _06testValidateGetNameParameters6() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _06testValidateGetNameParameters6() throws Exception {
 		openDbConnection();
 		ValidateName.validateGetNameParameters(db, 100000, "jimmy",null,"dabc");
 		db.closeSession();
 	}
 	@Test
-	public final void _07testValidateGetNameParameters7() throws CprException, GeneralDatabaseException {
+	public final void _07testValidateGetNameParameters7() throws Exception {
 		openDbConnection();
 		NamesTable namesTable = ValidateName.validateGetNameParameters(db, 100000, "jimmy","legal_name","y");
 		AssertJUnit.assertEquals(namesTable.getNameType(),NameType.LEGAL_NAME);
@@ -86,27 +85,27 @@ public class ValidateNameTest {
 		db.closeSession();
 	}
 	@Test
-	public final void _08testValidateGetNameParameters8() throws CprException, GeneralDatabaseException {
+	public final void _08testValidateGetNameParameters8() throws Exception {
 		openDbConnection();
 		NamesTable namesTable = ValidateName.validateGetNameParameters(db, 100000, "jimmy",null,"y");
 		AssertJUnit.assertNull(namesTable.getNameType());
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void _09testValidateDeleteNameParameters1() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _09testValidateDeleteNameParameters1() throws Exception {
 		openDbConnection();
 		ValidateName.validateArchiveNameParameters(db, 100000, null, null, null);
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void _10testValidateDeleteNameParameters2() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _10testValidateDeleteNameParameters2() throws Exception {
 		openDbConnection();
 		ValidateName.validateArchiveNameParameters(db, 100000, "home", null, null);
 		db.closeSession();
 
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void _11testValidateDeleteNameParameters3() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _11testValidateDeleteNameParameters3() throws Exception {
 		openDbConnection();
 		ValidateName.validateArchiveNameParameters(db, 100000, "home", "", "jvuccolo");
 		db.closeSession();
@@ -114,65 +113,65 @@ public class ValidateNameTest {
 	}
 
 	@Test
-	public final void _12testValidateDeleteNameParameters4() throws CprException, GeneralDatabaseException {
+	public final void _12testValidateDeleteNameParameters4() throws Exception {
 		openDbConnection();
 		ValidateName.validateArchiveNameParameters(db, 100000, "legal_name", "", "jvuccolo");
 		db.closeSession();
 	}
 
-	@Test(expectedExceptions=CprException.class)
-	public final void _13testValidateDeleteNameParameters5() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _13testValidateDeleteNameParameters5() throws Exception {
 		openDbConnection();
 		ValidateName.validateArchiveNameParameters(db, 100000, "common_name", "", "1234567890123456789012345678902121");
 		db.closeSession();
 	}
 
-	@Test(expectedExceptions=CprException.class)
-	public final void _14testValidateDeleteNameParameters6() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _14testValidateDeleteNameParameters6() throws Exception {
 		openDbConnection();
 		ValidateName.validateArchiveNameParameters(db, 100000, "common_name", "", "                                           ");
 		db.closeSession();
 	}
 	
-	@Test(expectedExceptions=CprException.class)
-	public final void _15testValidateAddNameParameters1() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _15testValidateAddNameParameters1() throws Exception {
 		openDbConnection();
 		ValidateName.validateAddNameParameters(db, 0, null, null, null, null, null, null, null);
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void _16testValidateAddNameParameters2() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _16testValidateAddNameParameters2() throws Exception {
 		openDbConnection();
 		ValidateName.validateAddNameParameters(db, 0, "name_type", null, null, null, null, null, null);
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void _17testValidateAddNameParameters3() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _17testValidateAddNameParameters3() throws Exception {
 		openDbConnection();
 		ValidateName.validateAddNameParameters(db, 0, "name_type", null, null, null, "last", null, null);
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void _18testValidateAddNameParameters4() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _18testValidateAddNameParameters4() throws Exception {
 		openDbConnection();
 		ValidateName.validateAddNameParameters(db, 0, "name_type", null, null, null, "last", null, "jvuccolo");
 		db.closeSession();
 	}
 	@Test
-	public final void _19testValidateAddNameParameters5() throws CprException, GeneralDatabaseException {
+	public final void _19testValidateAddNameParameters5() throws Exception {
 		openDbConnection();
 		ValidateName.validateAddNameParameters(db, 0, "legal_name", null, null, null, "last", null, "jvuccolo");
 		db.closeSession();
 	}
 
-	@Test(expectedExceptions=CprException.class)
-	public final void _20testValidateAddNameParameters6() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _20testValidateAddNameParameters6() throws Exception {
 		openDbConnection();
 		ValidateName.validateAddNameParameters(db, 0, "common_name", null, "1234567890123456789012345678901", null, null, null, "jvuccolo");
 		db.closeSession();
 	}
-	@Test(expectedExceptions=CprException.class)
-	public final void _21testValidateAddNameParameters7() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _21testValidateAddNameParameters7() throws Exception {
 		openDbConnection();
 		ValidateName.validateAddNameParameters(db, 0, "common_name", null, "Jimmy", null, "Vuccolo", null, "                                                 ");
 		db.closeSession();

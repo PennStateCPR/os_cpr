@@ -28,8 +28,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.AddressesTable;
 import edu.psu.iam.cpr.core.database.types.AddressType;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * @author llg5
@@ -39,15 +37,15 @@ public class AddressesTableTest {
 
 	private static Database db = new Database();
 	
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.AddressesTable#AddressesTable()}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 */
 	@Test
-	public final void _01testAddressesTable() throws GeneralDatabaseException {
+	public final void _01testAddressesTable() throws Exception {
 		new AddressesTable();
 		openDbConnection();
 		String sqlQuery = null;
@@ -475,7 +473,7 @@ public class AddressesTableTest {
 		db.closeSession();
 	}
 	@Test
-	public final void _38testGetAddressGoodAfterAdd()  throws Exception, GeneralDatabaseException  {
+	public final void _38testGetAddressGoodAfterAdd()  throws Exception  {
 		openDbConnection();
 		AddressesTable a = new AddressesTable();
 		a.setReturnHistoryFlag(false);
@@ -561,7 +559,7 @@ public class AddressesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.AddressesTables#updateAddress()}.
 	 */
 	@Test
-	public final void _46testUpdateAddressGood()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _46testUpdateAddressGood()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "PASSPORT", 1L, "llg5", "New address1", " New address21", "address31", "city", "PA", "12345",null, 100069L, 100048L,"usa", "university park", "USA");
 		aTable.updateAddress(db  );
@@ -571,7 +569,7 @@ public class AddressesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.AddressesTables#updateAddress()}.
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void _47testUpdateAddressGoodAgain()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _47testUpdateAddressGoodAgain()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "PASSPORT", 1L,  "llg5", "New address1", " New address21", "address31", "city", "PA", "12345",null, 100069L, 100048L,"usa", "university park","USA");
 		aTable.updateAddress(db  );
@@ -582,7 +580,7 @@ public class AddressesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.AddressesTables#updateAddress()}.
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void _48testUpdateAddressDupAddrDiffDocTyep()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _48testUpdateAddressDupAddrDiffDocTyep()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "STATE_DRIVERS_LICENSE", 1L,  "llg5", "New address1", " New address21", "address31", "city", "PA", "12345",null, 100069L, 100048L,"usa", "university park", "USA");
 		aTable.updateAddress(db  );
@@ -593,7 +591,7 @@ public class AddressesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.AddressesTables#updateAddress()}.
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void _49testUpdateAddressDiffAddrDiffDocType()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _49testUpdateAddressDiffAddrDiffDocType()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "STATE_DRIVERS_LICENSE", 1L,  "llg5", "New address1 again", " New address21", "address31", "city", "PA", "12345",null, 100069L, 100048L,"usa", "university park", "USA");
 		aTable.updateAddress(db  );
@@ -613,7 +611,7 @@ public class AddressesTableTest {
 	 * Valid type and invalid group id for person id
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void _51testArchiveAddressGoodTypeInvalidGroupId()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _51testArchiveAddressGoodTypeInvalidGroupId()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS", null, 10L,  "llg5");
 		aTable.archiveAddress(db  );
@@ -624,7 +622,7 @@ public class AddressesTableTest {
 	 * Valid type and invalid group id for person id
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void _52testArchiveAddressNoType()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _52testArchiveAddressNoType()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ADMINISTRATIVE_ADDRESS", null, 10L,  "llg5");
 		aTable.archiveAddress(db  );
@@ -635,7 +633,7 @@ public class AddressesTableTest {
 	 * Valid type and invalid group id for person id
 	 */
 	@Test
-	public final void _53testArchiveAddressNotDocumented()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _53testArchiveAddressNotDocumented()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ACADEMIC_ADDRESS", null, 1L,  "llg5");
 		aTable.archiveAddress(db  );
@@ -646,7 +644,7 @@ public class AddressesTableTest {
 	 * Valid type and invalid group id for person id
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void _54testArchiveAddressAlreadyNotDocumented()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _54testArchiveAddressAlreadyNotDocumented()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ACADEMIC__ADDRESS", null, 1L,  "llg5");
 		aTable.archiveAddress(db  );
@@ -657,7 +655,7 @@ public class AddressesTableTest {
 	 * Valid type and group id for person id
 	 */
 	@Test
-	public final void _55testArchiveAddressGoodTypeGroupId()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _55testArchiveAddressGoodTypeGroupId()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS", "PASSPORT", 1L,  "llg5");
 		aTable.archiveAddress(db  );
@@ -668,7 +666,7 @@ public class AddressesTableTest {
 	 * fails already archived
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void _56testArchiveAddressAlreadyArchived()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _56testArchiveAddressAlreadyArchived()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS","PASSPORT", 1L,   "llg5");
 		aTable.archiveAddress(db  );
@@ -681,7 +679,7 @@ public class AddressesTableTest {
 	 * fails already archived
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void _57testSetPrimaryAddressByTypeNoType()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _57testSetPrimaryAddressByTypeNoType()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "LOCAL_ADDRESS",null, 1L,   "llg5");
 		aTable.setPrimaryByType(db  );
@@ -692,7 +690,7 @@ public class AddressesTableTest {
 	 * fails already archived
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void _58testSetPrimaryAddressByTypeNoGroupID()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _58testSetPrimaryAddressByTypeNoGroupID()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",null, 5L,   "llg5");
 		aTable.setPrimaryByType(db  );
@@ -703,7 +701,7 @@ public class AddressesTableTest {
 	 * fails already archived
 	 */
 	@Test
-	public final void _59testSetPrimaryAddressByTypeValid()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _59testSetPrimaryAddressByTypeValid()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",null, 1L,   "llg5");
 		aTable.setPrimaryByType(db  );
@@ -713,8 +711,8 @@ public class AddressesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.AddressesTables#setPrimaryAddressByTypeAddress()}.
 	 * fails already archived
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _60testSetPrimaryAddressByTypeAlreadyPrimary()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void _60testSetPrimaryAddressByTypeAlreadyPrimary()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",null, 1L,   "llg5");
 		aTable.setPrimaryByType(db  );
@@ -725,7 +723,7 @@ public class AddressesTableTest {
 	 * fails already archived
 	 */
 	@Test
-	public final void _61testSetPrimaryAddressByTypeNewPrimary()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _61testSetPrimaryAddressByTypeNewPrimary()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",null, 2L,   "llg5");
 		aTable.setPrimaryByType(db  );
@@ -756,7 +754,7 @@ public class AddressesTableTest {
 	 * fails already archived
 	 */
 	@Test
-	public final void _64testSetPrimaryAddressByTypeNewPrimaryDocumented()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _64testSetPrimaryAddressByTypeNewPrimaryDocumented()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS", "PASSPORT" , 2L, "llg5");
 		aTable.setPrimaryByType(db  );
@@ -766,8 +764,8 @@ public class AddressesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.AddressesTables#setPrimaryAddressByTypeAddress()}.
 	 * fails already archived
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _65testSetPrimaryAddressByTypeNewPrimaryDocumentedAlreadyPrimary()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void _65testSetPrimaryAddressByTypeNewPrimaryDocumentedAlreadyPrimary()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS","PASSPORT",  2L,   "llg5");
 		aTable.setPrimaryByType(db  );
@@ -778,14 +776,14 @@ public class AddressesTableTest {
 	 * fails already archived
 	 */
 	@Test
-	public final void _66testSetPrimaryAddressByTypeNewPrimaryDocumentedNew()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _66testSetPrimaryAddressByTypeNewPrimaryDocumentedNew()  throws Exception  {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS", "MILITARY_ID", 3L,   "llg5");
 		aTable.setPrimaryByType(db  );
 		db.closeSession();
 	}
 	@Test
-	public final void _67testGetAddressNoPersonID()  throws Exception, GeneralDatabaseException  {
+	public final void _67testGetAddressNoPersonID()  throws Exception  {
 		openDbConnection();
 		AddressesTable a = new AddressesTable();
 		a.setReturnHistoryFlag(false);
@@ -793,7 +791,7 @@ public class AddressesTableTest {
 		db.closeSession();
 	}
 	@Test
-	public final void _68testGetAddressNo()  throws Exception, GeneralDatabaseException  {
+	public final void _68testGetAddressNo()  throws Exception  {
 		openDbConnection();
 		AddressesTable a = new AddressesTable();
 		a.setReturnHistoryFlag(false);
@@ -801,7 +799,7 @@ public class AddressesTableTest {
 		db.closeSession();
 	}
 	@Test
-	public final void _69testGetAddressGood()  throws Exception, GeneralDatabaseException  {
+	public final void _69testGetAddressGood()  throws Exception  {
 		openDbConnection();
 		AddressesTable a = new AddressesTable();
 		a.setReturnHistoryFlag(false);

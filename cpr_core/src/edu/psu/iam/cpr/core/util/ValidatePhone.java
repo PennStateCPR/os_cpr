@@ -10,7 +10,6 @@ import edu.psu.iam.cpr.core.database.TableColumn;
 import edu.psu.iam.cpr.core.database.tables.PhonesTable;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 
@@ -135,14 +134,12 @@ public final class ValidatePhone {
      * 
      * @return will return an PhonesTable class if successful, otherwise it will throw an exception.
      * 
-     * @throws GeneralDatabaseException
      * @throws CprException
      */
     public static PhonesTable validateAddPhonesParameters (Database db, long personId, String phoneType,
     		 String phoneNumber, String extension, String internationalNumber,
-    		String updatedBy) throws GeneralDatabaseException, CprException {
+    		String updatedBy) throws CprException {
     	String intlNumber = null;
-    	PhonesTable phonesTable = null;
     	
  		
 		// Trim all of the strings if they are not null.
@@ -195,13 +192,7 @@ public final class ValidatePhone {
     		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Extension");
     	}
     	
-    	try {
-			phonesTable = new PhonesTable(personId, localPhoneType,  localPhoneNumber, localExtension, intlNumber, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Phone type");
-		}
-    	return phonesTable;
+ 		return new PhonesTable(personId, localPhoneType,  localPhoneNumber, localExtension, intlNumber, localUpdatedBy);
     }
     
   /** This routine is used to validate the ArchivePhones information.  If successful it returns PhonesTable class.
@@ -213,11 +204,10 @@ public final class ValidatePhone {
     * @param updatedBy contains the system identifier or userid that updated the record.
     * 
     * @return will return an PhonesTable class if successful, otherwise it will throw an exception.
-    * @throws GeneralDatabaseException
     * @throws CprException
     */
     public static PhonesTable validateArchiveAndSetPrimaryPhonesParameters (Database db, long personId, String phoneType,
-    		Long groupId, String updatedBy) throws GeneralDatabaseException, CprException {
+    		Long groupId, String updatedBy) throws CprException {
 
 		String localPhoneType = null;
 		if (phoneType != null) {
@@ -225,7 +215,6 @@ public final class ValidatePhone {
 				localPhoneType = phoneType.trim().toUpperCase();
 			}
 		}
-		PhonesTable phonesTable = null;
     	if (groupId == null) {
     		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Group Id");
     	}
@@ -241,13 +230,7 @@ public final class ValidatePhone {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Phone type");
 		}
     	
-    	try {
-			phonesTable = new PhonesTable(personId, localPhoneType, groupId, updatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Phone type");
-		}
-    	return phonesTable;
+		return new PhonesTable(personId, localPhoneType, groupId, updatedBy);
     }
     
    /** This routine is used to validate the getPhone information.  If successful it returns PhonesTable class.
@@ -258,10 +241,9 @@ public final class ValidatePhone {
      * @param returnHistory Y/N flag that will be determine if the historical GET results will be returned.
      * @return PhonesTable will be returned if the validation was successful.
      * @throws CprException will be thrown for any CPR specific problems.
-     * @throws GeneralDatabaseException will be be thrown for any database problems.
      */
     public static PhonesTable  validateGetPhonesParameters (Database db, long personId, 
-    		String updatedBy, String phoneType, String returnHistory) throws GeneralDatabaseException, CprException {
+    		String updatedBy, String phoneType, String returnHistory) throws CprException {
    
     	// Trim all of the String values.
     	String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
@@ -287,12 +269,7 @@ public final class ValidatePhone {
 		
 		// Phone type specified?
 		if (localPhoneType != null) {
-			try {
-				phonesTable.setPhoneType(localPhoneType);
-			}
-			catch (Exception e) {
-				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Phone type");
-			}
+			phonesTable.setPhoneType(localPhoneType);
 		}
 		
 		// Validate the return history flag.
@@ -318,13 +295,11 @@ public final class ValidatePhone {
      * @return will return an PhonesTable class if successful, otherwise it will throw an exception.
      * 
      * @throws CprException
-     * @throws GeneralDatabaseException
      */
     public static PhonesTable validateUpdatePhonesParameters (Database db, long personId, String phoneType,
     		Long groupId, String phoneNumber, String extension, String internationalNumber,
-    		String updatedBy) throws GeneralDatabaseException, CprException {
+    		String updatedBy) throws CprException {
     	String intlNumber = null;
-    	PhonesTable phonesTable = null;
     	
     	if (groupId == null) {
     		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Group Id");
@@ -378,13 +353,7 @@ public final class ValidatePhone {
     	if (!isValidExtension (localExtension)) {
     		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Extension");
     	}
-    	try {
-			phonesTable = new PhonesTable(personId, localPhoneType, groupId, localPhoneNumber, localExtension, intlNumber, localUpdatedBy);
-		}
-		catch (Exception e) {
-    		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Phone type");
-		}
-    	return phonesTable;
+		return new PhonesTable(personId, localPhoneType, groupId, localPhoneNumber, localExtension, intlNumber, localUpdatedBy);
     }
     /**
 	 * @return a string value.

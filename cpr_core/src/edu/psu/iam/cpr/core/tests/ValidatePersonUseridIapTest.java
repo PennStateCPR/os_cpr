@@ -23,8 +23,6 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.util.ValidatePersonUseridIap;
 
 /**
@@ -35,18 +33,18 @@ public class ValidatePersonUseridIapTest {
 	
 	private static Database db = new Database();
 
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIapP#validateGetPsuIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetPsuIapParametersRequestedByNull() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetPsuIapParametersRequestedByNull() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetPsuIapParameters(db, 1000000,"tuj139", null,"N");
 		db.closeSession();
@@ -54,22 +52,22 @@ public class ValidatePersonUseridIapTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetPsuIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetPsuIapParametersRequestedByBlank() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetPsuIapParametersRequestedByBlank() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetPsuIapParameters(db, 1000000,"tuj139", "","N");
 		db.closeSession();
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetPsuIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetPsuIapParametersRequestedByTooLong() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetPsuIapParametersRequestedByTooLong() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetPsuIapParameters(db, 1000000, "tuj139","1234567890123456789012345678901","N");
 		db.closeSession();
@@ -77,11 +75,11 @@ public class ValidatePersonUseridIapTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIapP#validateGetPsuIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetPsuIapParametersUseridNull() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetPsuIapParametersUseridNull() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetPsuIapParameters(db, 1000000,null, "SYSTEM","Y");
 		db.closeSession();
@@ -89,22 +87,22 @@ public class ValidatePersonUseridIapTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetPsuIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetPsuIapParametersUseridBlank() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetPsuIapParametersUseridBlank() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetPsuIapParameters(db, 1000000,"", "SYSTEM","Y");
 		db.closeSession();
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetPsuIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetPsuIapParametersUseridTooLong() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetPsuIapParametersUseridTooLong() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetPsuIapParameters(db, 1000000, "1234567890123456789012345678901", "SYSTEM","N");
 		db.closeSession();
@@ -115,11 +113,11 @@ public class ValidatePersonUseridIapTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetExternalIapParametersRequestedByBlank() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetExternalIapParametersRequestedByBlank() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetExternalIapParameters(db, 1000000,"tuj139", "", "federation");
 		db.closeSession();
@@ -129,11 +127,11 @@ public class ValidatePersonUseridIapTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetExternalIapParametersRequestedByTooLong() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetExternalIapParametersRequestedByTooLong() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetExternalIapParameters(db, 1000000, "tuj139","1234567890123456789012345678901", "Federation");
 		db.closeSession();
@@ -141,11 +139,11 @@ public class ValidatePersonUseridIapTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIapP#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetExternalIapParametersRequestedByNull() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetExternalIapParametersRequestedByNull() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetExternalIapParameters(db, 1000000,"tuj139", null, "federation");
 		db.closeSession();
@@ -155,11 +153,11 @@ public class ValidatePersonUseridIapTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetExternalIapParametersUseridBlank() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetExternalIapParametersUseridBlank() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetExternalIapParameters(db, 1000000,"", "SYSTEM", "federation");
 		db.closeSession();
@@ -169,11 +167,11 @@ public class ValidatePersonUseridIapTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetExternalIapParametersUseridTooLong() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetExternalIapParametersUseridTooLong() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetExternalIapParameters(db, 1000000, "1234567890123456789012345678901","SYSTEM",  "Federation");
 		db.closeSession();
@@ -181,22 +179,22 @@ public class ValidatePersonUseridIapTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIapP#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetExternalIapParametersUseridNull() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetExternalIapParametersUseridNull() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetExternalIapParameters(db, 1000000, null,"SYSTEM", "federation");
 		db.closeSession();
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetExternalIapParametersFederationBlank() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetExternalIapParametersFederationBlank() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetExternalIapParameters(db, 1000000,"tuj139", "SYSTEM", "" +
 				"");
@@ -207,11 +205,11 @@ public class ValidatePersonUseridIapTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetExternalIapParametersFederationTooLong() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetExternalIapParametersFederationTooLong() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetExternalIapParameters(db, 1000000, "tuj139","SYSTEM",  "1234567890123456789012345678901");
 		db.closeSession();
@@ -219,11 +217,11 @@ public class ValidatePersonUseridIapTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIapP#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
+	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateGetExternalIapParametersFederationNull() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateGetExternalIapParametersFederationNull() throws Exception {
 		openDbConnection();
 		ValidatePersonUseridIap.validateGetExternalIapParameters(db, 1000000,"tuj139" ,"SYSTEM", null);
 		db.closeSession();

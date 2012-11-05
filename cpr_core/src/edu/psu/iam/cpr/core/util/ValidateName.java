@@ -6,7 +6,6 @@ import edu.psu.iam.cpr.core.database.tables.NamesTable;
 import edu.psu.iam.cpr.core.database.types.DocumentType;
 import edu.psu.iam.cpr.core.database.types.NameType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -48,10 +47,9 @@ public final class ValidateName {
 	 * @param returnHistory flag that indicates whether history must be returned or not.
 	 * @return will return a names table object if successful.
 	 * @throws CprException will be thrown if there are any CPR exceptions.
-	 * @throws GeneralDatabaseException will be thrown if there are any database exceptions.
 	 */
 	public static NamesTable validateGetNameParameters(Database db, long personId, String requestedBy, String nameType, String returnHistory) 
-						throws CprException, GeneralDatabaseException {
+						throws CprException {
 		
 		// Trim all of the strings.
 		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
@@ -78,12 +76,7 @@ public final class ValidateName {
 		// If a name type was specified, verify that its valid.
 		final NamesTable namesTable = new NamesTable();
 		if (localNameType != null) {
-			try {
-				namesTable.setNameType(localNameType);
-			}
-			catch (Exception e) {
-				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Name type");
-			}
+			namesTable.setNameType(localNameType);
 		}
 
 		// Verify the return history flag, and set its value to the boolean.
@@ -103,10 +96,10 @@ public final class ValidateName {
 	 * @param documentType contains the document type.
 	 * @param updatedBy contains the userid or server identifier of the user who is requesting the delete.
 	 * @return NamesTable class.
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
-	public static NamesTable validateArchiveNameParameters(Database db, long personId, String nameType, String documentType, String updatedBy) throws GeneralDatabaseException, CprException {
+	public static NamesTable validateArchiveNameParameters(Database db, long personId, String nameType, String documentType, 
+			String updatedBy) throws CprException {
 	
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 		
@@ -143,12 +136,7 @@ public final class ValidateName {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Name type and/or document type");
 		}
 		
-		try {
-			return new NamesTable(personId, localNameType, localDocumentType, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Name type and/or document type");
-		}
+		return new NamesTable(personId, localNameType, localDocumentType, localUpdatedBy);
 	}
 	
 	/**
@@ -163,10 +151,10 @@ public final class ValidateName {
 	 * @param suffix contains the user's suffix. 
 	 * @param updatedBy contains the system identifier and/or userid that updated the name.
 	 * @return NameTable class
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
-	public static NamesTable validateAddNameParameters(Database db, long personId, String nameType, String documentType, String firstName, String middleNames, String lastName, String suffix, String updatedBy) throws GeneralDatabaseException, CprException {
+	public static NamesTable validateAddNameParameters(Database db, long personId, String nameType, String documentType, String firstName, 
+				String middleNames, String lastName, String suffix, String updatedBy) throws CprException {
 		
 		
 		// Trim all of the strings if they are not null.
@@ -219,14 +207,8 @@ public final class ValidateName {
 		//+TODO verify that no one can specify a name type of PROFESSIONAL_NAME 
 		
 		// At this point we are ready to save off the information to a class.
-		try {
-			final NamesTable namesTable = new NamesTable(personId, localNameType, localDocumentType, localFirstName, localMiddleNames, 
+		return new NamesTable(personId, localNameType, localDocumentType, localFirstName, localMiddleNames, 
 					localLastName, localSuffix, localUpdatedBy);
-			return namesTable;
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Name type and/or document type");
-		}
 	}
 	
 	/**

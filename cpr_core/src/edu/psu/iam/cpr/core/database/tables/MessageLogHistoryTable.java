@@ -13,9 +13,6 @@ import org.hibernate.type.StandardBasicTypes;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.MessageLog;
 import edu.psu.iam.cpr.core.database.beans.MessageLogHistory;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.MessageLogHistoryReturn;
 
 /**
@@ -64,9 +61,8 @@ public class MessageLogHistoryTable {
 	/**
 	 * Constructor
 	 * @param messageLogBean contains the message log to associate this history
-	 * @throws Exception
 	 */
-	public MessageLogHistoryTable(MessageLog messageLogBean) throws Exception {
+	public MessageLogHistoryTable(MessageLog messageLogBean)  {
 		
 		super();
 		final MessageLogHistory bean = new MessageLogHistory();
@@ -100,22 +96,14 @@ public class MessageLogHistoryTable {
 	/**
 	 * This routine is used to add history to a message log used for communication between a Web Service and a Service Provider.
 	 * @param db contains an open database connection.
-	 * @throws CprException will be thrown if there are any problems.
 	 */
-	public void addMessageLogHistory(Database db) throws CprException {
+	public void addMessageLogHistory(Database db) {
 		
-		try {
+		final Session session = db.getSession();
+		final MessageLogHistory bean = getMessageLogHistoryBean();
 
-			final Session session = db.getSession();
-			final MessageLogHistory bean = getMessageLogHistoryBean();
-
-			session.save(bean);
-			session.flush();
-		}
-		catch (Exception e ) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "messageLogHistory");
-		}
-		
+		session.save(bean);
+		session.flush();
 	}
 	
 	
@@ -123,90 +111,74 @@ public class MessageLogHistoryTable {
 	 * This routine is used to update a log message with the message sent.
 	 * @param db contains an open database connection.
 	 * @param messageId contains the message identifier string.
-	 * @throws CprException will be thrown if there are any problems.
 	 */
-	public void updateMessageLogHistory(Database db, String messageId) throws CprException {
+	public void updateMessageLogHistory(Database db, String messageId) {
 		
-		try {
+		final Session session = db.getSession();
+		final MessageLogHistory bean = getMessageLogHistoryBean();
+		bean.setMessageId(messageId);
 
-			final Session session = db.getSession();
-			final MessageLogHistory bean = getMessageLogHistoryBean();
-			bean.setMessageId(messageId);
-
-			session.save(bean);
-			session.flush();
-		}
-		catch (Exception e ) {
-			throw new CprException(ReturnType.UPDATE_FAILED_EXCEPTION, "messageLogHistory");
-		}
-		
+		session.save(bean);
+		session.flush();		
 	}
 	
 	/**
 	 * This routine is used to get a message history log.
 	 * @param db contains an open database connection.
 	 * @param messageId contains the message identifier.
-	 * @throws GeneralDatabaseException will be thrown if there are any database problems.
 	 * @return will return an array of message log history information.
 	 */
-	public MessageLogHistoryReturn[] getMessageLogHistory(Database db, String messageId) throws GeneralDatabaseException {
+	public MessageLogHistoryReturn[] getMessageLogHistory(Database db, String messageId) {
 		
-		try {
-			
-			// Init some variables.
-			final ArrayList<MessageLogHistoryReturn> results = new ArrayList<MessageLogHistoryReturn>();
-			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			
-			// Build the select statement as a string.
-			sb.append("SELECT ");
-		    sb.append("message_log_key, ");
-		    sb.append("message_sent_timestamp, ");
-		    sb.append("message_received_timestamp, ");
-		    sb.append("message_received, ");
-		    sb.append("error_code, ");
-		    sb.append("error_message, ");
-		    sb.append("try_number ");
-		    sb.append("FROM message_log_history ");
-		    sb.append("WHERE message_id = :message_id_in ");
-		    
-		    // Create the hibernate select statement.
-		    final SQLQuery query = session.createSQLQuery(sb.toString());
-		    query.setParameter("message_id_in", messageId);
-		    query.addScalar("message_log_key", StandardBasicTypes.LONG);
-		    query.addScalar("message_sent_timestamp", StandardBasicTypes.TIMESTAMP);
-		    query.addScalar("message_received_timestamp", StandardBasicTypes.TIMESTAMP);
-		    query.addScalar("message_received", StandardBasicTypes.STRING);
-		    query.addScalar("error_code", StandardBasicTypes.STRING);
-		    query.addScalar("error_message", StandardBasicTypes.STRING);
-		    query.addScalar("try_number", StandardBasicTypes.LONG);
-		    
-		    final Iterator<?> it = query.list().iterator();
-		    
-		    // Loop for the results.
-		    while (it.hasNext()) {
-		    	
-		    	// For each result, store its value in the return class.
-		    	Object res[] = (Object []) it.next();
-				
-		    	MessageLogHistoryReturn msgLogHistory = new MessageLogHistoryReturn();
-		    	msgLogHistory.setMessageId(messageId);
-		    	msgLogHistory.setMessageLogKey((Long) res[MESSAGE_LOG_KEY]);
-		    	msgLogHistory.setMessageSentTimestamp((Timestamp) res[MESSAGE_SENT_TIMESTAMP]);
-		    	msgLogHistory.setMessageReceivedTimestamp((Timestamp) res[MESSAGE_RECEIVED_TIMESTAMP]);
-		    	msgLogHistory.setMessageReceived((String) res[MESSAGE_RECEIVED]);
-		    	msgLogHistory.setErrorCode((String) res[ERROR_CODE]);
-		    	msgLogHistory.setErrorMessage((String) res[ERROR_MESSAGE]);
-		    	msgLogHistory.setTryNumber((Long) res[TRY_NUMBER]);
-				results.add(msgLogHistory);
-		    }
-		    
-			return results.toArray(new MessageLogHistoryReturn[results.size()]);
-			
+		// Init some variables.
+		final ArrayList<MessageLogHistoryReturn> results = new ArrayList<MessageLogHistoryReturn>();
+		final Session session = db.getSession();
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+
+		// Build the select statement as a string.
+		sb.append("SELECT ");
+		sb.append("message_log_key, ");
+		sb.append("message_sent_timestamp, ");
+		sb.append("message_received_timestamp, ");
+		sb.append("message_received, ");
+		sb.append("error_code, ");
+		sb.append("error_message, ");
+		sb.append("try_number ");
+		sb.append("FROM message_log_history ");
+		sb.append("WHERE message_id = :message_id_in ");
+
+		// Create the hibernate select statement.
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("message_id_in", messageId);
+		query.addScalar("message_log_key", StandardBasicTypes.LONG);
+		query.addScalar("message_sent_timestamp", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("message_received_timestamp", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("message_received", StandardBasicTypes.STRING);
+		query.addScalar("error_code", StandardBasicTypes.STRING);
+		query.addScalar("error_message", StandardBasicTypes.STRING);
+		query.addScalar("try_number", StandardBasicTypes.LONG);
+
+		final Iterator<?> it = query.list().iterator();
+
+		// Loop for the results.
+		while (it.hasNext()) {
+
+			// For each result, store its value in the return class.
+			Object res[] = (Object []) it.next();
+
+			MessageLogHistoryReturn msgLogHistory = new MessageLogHistoryReturn();
+			msgLogHistory.setMessageId(messageId);
+			msgLogHistory.setMessageLogKey((Long) res[MESSAGE_LOG_KEY]);
+			msgLogHistory.setMessageSentTimestamp((Timestamp) res[MESSAGE_SENT_TIMESTAMP]);
+			msgLogHistory.setMessageReceivedTimestamp((Timestamp) res[MESSAGE_RECEIVED_TIMESTAMP]);
+			msgLogHistory.setMessageReceived((String) res[MESSAGE_RECEIVED]);
+			msgLogHistory.setErrorCode((String) res[ERROR_CODE]);
+			msgLogHistory.setErrorMessage((String) res[ERROR_MESSAGE]);
+			msgLogHistory.setTryNumber((Long) res[TRY_NUMBER]);
+			results.add(msgLogHistory);
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve message history log for message identifier = " + messageId);	
-		}
+
+		return results.toArray(new MessageLogHistoryReturn[results.size()]);
 	}
 	
 }

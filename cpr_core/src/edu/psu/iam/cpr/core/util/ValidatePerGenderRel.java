@@ -29,6 +29,9 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  */
 public final class ValidatePerGenderRel {
 	
+	private static final String GENDER = "Gender";
+	private static final String UPDATED_BY = "Updated By";
+	
 	/**
 	 * Constructor.
 	 */
@@ -56,20 +59,13 @@ public final class ValidatePerGenderRel {
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : updatedBy;
 		
 		if (localGenderString == null || localGenderString.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Gender");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, GENDER);
 		}
 		
 		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY);
 		}
 		
-		PersonGenderTable gender = null;
-		try {
-			gender = new PersonGenderTable(personId, localGenderString, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Gender");
-		}
-		return gender;
+		return new PersonGenderTable(personId, localGenderString, localUpdatedBy);
 	}
 }

@@ -30,7 +30,6 @@ import edu.psu.iam.cpr.core.database.beans.MessageLogHistory;
 import edu.psu.iam.cpr.core.database.beans.MessageLog;
 import edu.psu.iam.cpr.core.database.tables.MessageLogHistoryTable;
 import edu.psu.iam.cpr.core.database.tables.MessageLogTable;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.service.returns.MessageLogHistoryReturn;
 
 /**
@@ -43,7 +42,7 @@ import edu.psu.iam.cpr.core.service.returns.MessageLogHistoryReturn;
 public class MessageLogHistoryTableTest {
 	
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
@@ -113,7 +112,7 @@ public class MessageLogHistoryTableTest {
 	 *
 	 * @generatedBy CodePro at 1/16/12 9:51 AM
 	 */
-	@Test(expectedExceptions = edu.psu.iam.cpr.core.error.CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public void testAddMessageLogHistory_1()
 		throws Exception {
 		MessageLogHistoryTable fixture = new MessageLogHistoryTable();
@@ -150,7 +149,7 @@ public class MessageLogHistoryTableTest {
 	 *
 	 * @generatedBy CodePro at 1/16/12 9:51 AM
 	 */
-	@Test(expectedExceptions = edu.psu.iam.cpr.core.error.GeneralDatabaseException.class)
+	@Test(expectedExceptions = Exception.class)
 	public void testGetMessageLogHistory_1()
 		throws Exception {
 		MessageLogHistoryTable fixture = new MessageLogHistoryTable();
@@ -249,7 +248,7 @@ public class MessageLogHistoryTableTest {
 	 *
 	 * @generatedBy CodePro at 1/16/12 9:51 AM
 	 */
-	@Test(expectedExceptions = edu.psu.iam.cpr.core.error.CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testUpdateMessageLogHistory_1()
 		throws Exception {
 		MessageLogTable msgLog = new MessageLogTable(100126L, 100002L, "Log History Update Test", "slk24");

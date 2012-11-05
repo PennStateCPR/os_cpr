@@ -20,35 +20,33 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
-import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.util.ValidatePerson;
 
 public class ValidatePersonTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateAddPersonParameters1() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateAddPersonParameters1() throws Exception {
 		ValidatePerson.validatePersonParameters(db, 1, null);
 	}
 	
-	@Test(expectedExceptions=GeneralDatabaseException.class)
-	public final void testValidateAddPersonParameters2() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateAddPersonParameters2() throws Exception {
 		ValidatePerson.validatePersonParameters(db, 1, "jvuccolo");
 	}
 	
-	@Test(expectedExceptions=CprException.class)
-	public final void testValidateAddPersonParameters3() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testValidateAddPersonParameters3() throws Exception {
 		openDbConnection();
 		ValidatePerson.validatePersonParameters(db, 1, "12345678901234567890123456789012234567890");
 		db.closeSession();
 	}
 	@Test
-	public final void testValidateAddPersonParameters4() throws CprException, GeneralDatabaseException {
+	public final void testValidateAddPersonParameters4() throws Exception {
 		openDbConnection();
 		ValidatePerson.validatePersonParameters(db, 1, "jvuccolo");
 		db.closeSession();

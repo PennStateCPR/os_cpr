@@ -59,9 +59,10 @@ public final class AuthenticateService {
 	 * @param userid  the service principal identifier.
 	 * @param password  the password for the service principal.
 	 * @throws CprException 
+	 * @throws NamingException will be thrown for LDAP authentication issues.
 	 */
-	public static void authenticate(String userid, String password) throws CprException   {
-		
+	public static void authenticate(String userid, String password) throws CprException, NamingException {
+
 		final Properties props = CprProperties.INSTANCE.getProperties();
 		DirContext ctx = null;
 		final Hashtable<String,String> env = new Hashtable<String,String>();
@@ -70,15 +71,15 @@ public final class AuthenticateService {
 		if (userid == null || userid.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Service principal");
 		}
-		
+
 		if (password == null || password.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Service principal's password");
 		}
-		
+
 		// LDAP Authentication.
 		if (props.getProperty(CprPropertyName.CPR_SERVICE_AUTHENTICATION.toString()).equalsIgnoreCase(
 				AuthenticationType.LDAP_AUTHENTICATION.toString())) {
-		
+
 			// Convert the service principal to a DN.
 			final StringBuilder dn = new StringBuilder(BUFFER_SIZE);
 			dn.append(props.getProperty(CprPropertyName.CPR_LDAP_PEOPLE_DN_PREFIX.toString()));
@@ -97,9 +98,6 @@ public final class AuthenticateService {
 			try {
 				ctx = new InitialDirContext(env);
 			}
-			catch (NamingException e) {
-				throw new CprException(ReturnType.SERVICE_AUTHENTICATION_EXCEPTION);
-			}	
 			finally {
 				try {
 					ctx.close();
@@ -109,25 +107,16 @@ public final class AuthenticateService {
 
 			}
 		}
-		
+
 		// Properties Authentication.
 		else if (props.getProperty(CprPropertyName.CPR_SERVICE_AUTHENTICATION.toString()).equalsIgnoreCase(
 				AuthenticationType.PROPERTIES_AUTHENTICATION.toString())) {
-			try {
-				String serviceUser = props.getProperty(CprPropertyName.CPR_SERVICE_USERID.toString());
-				String servicePassword = props.getProperty(CprPropertyName.CPR_SERVICE_PASSWORD.toString());
-				if ((! serviceUser.equals(userid)) || (! servicePassword.equals(password))) {
-					throw new CprException(ReturnType.SERVICE_AUTHENTICATION_EXCEPTION);
-				}
-			}
-			catch (Exception e) {
+			String serviceUser = props.getProperty(CprPropertyName.CPR_SERVICE_USERID.toString());
+			String servicePassword = props.getProperty(CprPropertyName.CPR_SERVICE_PASSWORD.toString());
+			if ((! serviceUser.equals(userid)) || (! servicePassword.equals(password))) {
 				throw new CprException(ReturnType.SERVICE_AUTHENTICATION_EXCEPTION);
 			}
 		}
-		
-		// Otherwise something else went wrong.
-		else {
-			throw new CprException(ReturnType.SERVICE_AUTHENTICATION_EXCEPTION);
-		}
 	}
 }
+

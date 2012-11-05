@@ -8,7 +8,8 @@ import org.hibernate.type.StandardBasicTypes;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.Country;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
+import edu.psu.iam.cpr.core.error.CprException;
+import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
  * This class provides the implementation for the country codeset database table.
@@ -35,6 +36,8 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 public class CountryTable {
 
 	private static final int BUFFER_SIZE = 128;
+
+	private static final String COUNTRY_CODE = "Country Code";
 	
 	/** Country code set bean. */
 	private Country countryBean;
@@ -67,53 +70,47 @@ public class CountryTable {
 	 * @param db contains an open database connection.
 	 * @param countryCode contains the country code to be retrieved from the database.
 	 * @param retrieveBy contains the userid of the person doing the retrieve.
-	 * @throws GeneralDatabaseException will be thrown if there are any database problems.
+	 * @throws CprException 
 	 */
-	public void getCountryInfo (Database db, String countryCode, String retrieveBy) throws GeneralDatabaseException {
+	public void getCountryInfo (Database db, String countryCode, String retrieveBy) throws CprException {
 		
 		boolean found = false;
-		try {
-			final Session session = db.getSession();
-			
-			final Country bean = new Country();
+		final Session session = db.getSession();
+
+		final Country bean = new Country();
+		bean.setCountryKey(null);
+		bean.setCountryCodeThree(countryCode);
+		setCountryBean(bean);
+
+		if (bean.getCountryCodeThree() == null || bean.getCountryCodeThree().length() == 0) {
 			bean.setCountryKey(null);
-			bean.setCountryCodeThree(countryCode);
-			setCountryBean(bean);
-			
-			if (bean.getCountryCodeThree() == null || bean.getCountryCodeThree().length() == 0) {
-				bean.setCountryKey(null);
-				return;
-			}
-			
-			bean.setCountryCodeThree(bean.getCountryCodeThree().toUpperCase().trim());
-			
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT country_key, country ");
-			sb.append("FROM country ");
-			sb.append("WHERE country_code_three = :country_code_in ");
-			sb.append(" AND us_territory_flag='N' ");
-			sb.append("AND end_date IS NULL ");
-			
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("country_code_in", bean.getCountryCodeThree());
-			query.addScalar("country_key", StandardBasicTypes.LONG);
-			query.addScalar("country", StandardBasicTypes.STRING);
-			final Iterator<?> it = query.list().iterator();
-			
-			if (it.hasNext()) {
-				Object res[] = (Object []) it.next();
-				bean.setCountryKey((Long) res[0]);
-				bean.setCountry((String) res[1]);
-				found = true;
-			}
-			
+			return;
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());
+
+		bean.setCountryCodeThree(bean.getCountryCodeThree().toUpperCase().trim());
+
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT country_key, country ");
+		sb.append("FROM country ");
+		sb.append("WHERE country_code_three = :country_code_in ");
+		sb.append(" AND us_territory_flag='N' ");
+		sb.append("AND end_date IS NULL ");
+
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("country_code_in", bean.getCountryCodeThree());
+		query.addScalar("country_key", StandardBasicTypes.LONG);
+		query.addScalar("country", StandardBasicTypes.STRING);
+		final Iterator<?> it = query.list().iterator();
+
+		if (it.hasNext()) {
+			Object res[] = (Object []) it.next();
+			bean.setCountryKey((Long) res[0]);
+			bean.setCountry((String) res[1]);
+			found = true;
 		}
-		
+			
 		if (! found) {
-			throw new GeneralDatabaseException("Unable to retrieve country name for country code = " + countryCode);		
+			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, COUNTRY_CODE);
 		}
 	}
 }

@@ -25,7 +25,6 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.VSpNotification;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.messaging.ServiceProvisionerQueue;
 
 /**
@@ -35,7 +34,7 @@ import edu.psu.iam.cpr.core.messaging.ServiceProvisionerQueue;
 public class ServiceProvisionerQueueTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
@@ -63,25 +62,25 @@ public class ServiceProvisionerQueueTest {
 		AssertJUnit.assertEquals(q.getSpNotificationView(), view);
 	}
 
-	@Test(expectedExceptions=GeneralDatabaseException.class)
-	public final void testGetServiceProvisionerServiceMapping1() throws GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testGetServiceProvisionerServiceMapping1() throws Exception {
 		ServiceProvisionerQueue.getServiceProvisionerQueues(db,"AddPerson");
 	}
 	
 	@Test
-	public final void testGetServiceProvisionerServiceMapping2() throws GeneralDatabaseException {
+	public final void testGetServiceProvisionerServiceMapping2() throws Exception {
 		openDbConnection();
 		ServiceProvisionerQueue.getServiceProvisionerQueues(db,null);
 		db.closeSession();
 	}
 	@Test
-	public final void testGetServiceProvisionerServiceMapping3() throws GeneralDatabaseException {
+	public final void testGetServiceProvisionerServiceMapping3() throws Exception {
 		openDbConnection();
 		ServiceProvisionerQueue.getServiceProvisionerQueues(db,"who cares");
 		db.closeSession();
 	}
 	@Test
-	public final void testGetServiceProvisionerServiceMapping4() throws GeneralDatabaseException {
+	public final void testGetServiceProvisionerServiceMapping4() throws Exception {
 		openDbConnection();
 		ServiceProvisionerQueue.getServiceProvisionerQueues(db,"AddPerson");
 		db.closeSession();

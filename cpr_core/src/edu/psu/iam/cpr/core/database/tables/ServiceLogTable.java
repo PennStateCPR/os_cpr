@@ -12,7 +12,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.ServiceLog;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -73,27 +72,21 @@ public class ServiceLogTable {
 	 * @param db a database object that contains an open database connection.
 	 * @param serviceName the service name to obtain a web service identifier for.
 	 * @return will contain the web service key
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
-	public Long getWebServiceKey(Database db, String serviceName) throws GeneralDatabaseException, CprException {
+	public Long getWebServiceKey(Database db, String serviceName) throws CprException {
 		
 		Long webServiceKey = NOT_FOUND_VALUE;
 		final Session session = db.getSession();
-		try {
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT web_service_key FROM web_service WHERE web_service = :web_service_in");
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT web_service_key FROM web_service WHERE web_service = :web_service_in");
 
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("web_service_in", serviceName);
-			query.addScalar("web_service_key", StandardBasicTypes.LONG);
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("web_service_in", serviceName);
+		query.addScalar("web_service_key", StandardBasicTypes.LONG);
+		final Iterator<?> it = query.list().iterator();
+		if (it.hasNext()) {
 			webServiceKey = (Long) it.next();
-			}
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException(e.getMessage());
 		}
 		
 		if (webServiceKey == NOT_FOUND_VALUE) {
@@ -107,7 +100,6 @@ public class ServiceLogTable {
 	 * This routine is used to write the end of a log record.
 	 * @param db contains an object for a database class.
 	 * @param results contains the results of executing this service.
-	 * @throws GeneralDatabaseException 
 	 */
 	public void endLog(Database db, String results)  {
 		

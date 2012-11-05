@@ -13,9 +13,6 @@ import org.hibernate.type.StandardBasicTypes;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.PersonGender;
 import edu.psu.iam.cpr.core.database.types.GenderType;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.GenderReturn;
 import edu.psu.iam.cpr.core.util.Utility;
 
@@ -76,9 +73,8 @@ public class PersonGenderTable {
 	 * @param personId contains the person identifier
 	 * @param genderString contains the gender string.
 	 * @param updatedBy contains the last updated by.
-	 * @throws Exception will be thrown if the gender is invalid.
 	 */
-	public PersonGenderTable(long personId, String genderString, String updatedBy) throws Exception {
+	public PersonGenderTable(long personId, String genderString, String updatedBy) {
 		
 		setGenderType(genderString);
 		
@@ -144,9 +140,8 @@ public class PersonGenderTable {
 	/**
 	 * This routine will accept a gender type string, trim it and attempt to generate an enum.
 	 * @param genderType contains the gender type.
-	 * @throws Exception will be throw if the gender cannot be converted.
 	 */
-	public final void setGenderType(final String genderType) throws Exception {
+	public final void setGenderType(final String genderType) {
 		setGenderType(GenderType.valueOf(genderType.toUpperCase().trim()));
 	}
 	
@@ -154,35 +149,28 @@ public class PersonGenderTable {
 	/**
 	 * This routine is used to add/update a gender in the CPR database.
 	 * @param db contains the database connection.
-	 * @throws CprException 
 	 */
-	public void addGender(final Database db) throws CprException {
+	public void addGender(final Database db) {
 		
-		try {
-			final Session session = db.getSession();
-			final PersonGender bean = getPersonGenderBean();
-			
-			// Expire the existing gender that is still active.
-			final String sqlQuery = "from PersonGender where personId = :person_id AND endDate IS NULL";
-			final Query query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				PersonGender dbBean = (PersonGender) it.next();
-				dbBean.setEndDate(bean.getLastUpdateOn());
-				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-				session.update(dbBean);
-				session.flush();
-			}
-				
-			// Save off the new record.
-			session.save(bean);
+		final Session session = db.getSession();
+		final PersonGender bean = getPersonGenderBean();
+
+		// Expire the existing gender that is still active.
+		final String sqlQuery = "from PersonGender where personId = :person_id AND endDate IS NULL";
+		final Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			PersonGender dbBean = (PersonGender) it.next();
+			dbBean.setEndDate(bean.getLastUpdateOn());
+			dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+			dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+			session.update(dbBean);
 			session.flush();
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "gender");
-		}
-		
+
+		// Save off the new record.
+		session.save(bean);
+		session.flush();		
 	}
 	
 	/**
@@ -190,56 +178,50 @@ public class PersonGenderTable {
 	 * @param db contain the database connection.
 	 * @param personId contains the person identifier from the central person registry.
 	 * @return will return an array of GenderReturn objects.
-	 * @throws GeneralDatabaseException will throw this exception for any problem.
 	 */
-	public GenderReturn[] getGenderForPersonId(final Database db, long personId) throws GeneralDatabaseException {
+	public GenderReturn[] getGenderForPersonId(final Database db, long personId) {
 
-		try {
-			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			final ArrayList<GenderReturn> results = new ArrayList<GenderReturn>();
-			
-			sb.append("SELECT data_type_key, ");
-			sb.append("start_date, ");
-			sb.append("end_date, ");
-			sb.append("last_update_by, ");
-			sb.append("last_update_on, ");
-			sb.append("created_by, ");
-			sb.append("created_on ");
-			sb.append("FROM person_gender ");
-			sb.append("WHERE person_id = :person_id_in ");
-			
-			// If we are not returning all records, we need to just return the active ones.
-			if (! isReturnHistoryFlag()) {
-				sb.append("AND end_date IS NULL ");
-			}
-			sb.append("ORDER BY start_date ASC ");
-			
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("person_id_in", personId);
-			query.addScalar("data_type_key", StandardBasicTypes.LONG);
-			query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("last_update_by", StandardBasicTypes.STRING);
-			query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("created_by", StandardBasicTypes.STRING);
-			query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
-			
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				Object res[] = (Object []) it.next();
-				results.add(new GenderReturn(GenderType.get((Long) res[GENDER_TYPE]).toString(),			
-											Utility.convertTimestampToString((Date) res[START_DATE]),	
-											Utility.convertTimestampToString((Date) res[END_DATE]),	
-											(String) res[LAST_UPDATE_BY],									
-											Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),	
-											(String) res[CREATED_BY],									
-											Utility.convertTimestampToString((Date) res[CREATED_ON])));	
-			}
-			
-			return results.toArray(new GenderReturn[results.size()]);
+		final Session session = db.getSession();
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		final ArrayList<GenderReturn> results = new ArrayList<GenderReturn>();
+
+		sb.append("SELECT data_type_key, ");
+		sb.append("start_date, ");
+		sb.append("end_date, ");
+		sb.append("last_update_by, ");
+		sb.append("last_update_on, ");
+		sb.append("created_by, ");
+		sb.append("created_on ");
+		sb.append("FROM person_gender ");
+		sb.append("WHERE person_id = :person_id_in ");
+
+		// If we are not returning all records, we need to just return the active ones.
+		if (! isReturnHistoryFlag()) {
+			sb.append("AND end_date IS NULL ");
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve gender for person identifier = " + personId);
+		sb.append("ORDER BY start_date ASC ");
+
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id_in", personId);
+		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("last_update_by", StandardBasicTypes.STRING);
+		query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("created_by", StandardBasicTypes.STRING);
+		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
+
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			Object res[] = (Object []) it.next();
+			results.add(new GenderReturn(GenderType.get((Long) res[GENDER_TYPE]).toString(),			
+					Utility.convertTimestampToString((Date) res[START_DATE]),	
+					Utility.convertTimestampToString((Date) res[END_DATE]),	
+					(String) res[LAST_UPDATE_BY],									
+					Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),	
+					(String) res[CREATED_BY],									
+					Utility.convertTimestampToString((Date) res[CREATED_ON])));	
 		}
+
+		return results.toArray(new GenderReturn[results.size()]);
 	}
 }

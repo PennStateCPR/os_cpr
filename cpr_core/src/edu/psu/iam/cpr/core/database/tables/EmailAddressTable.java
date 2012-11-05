@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.EmailAddress;
 import edu.psu.iam.cpr.core.database.types.EmailAddressType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.EmailAddressReturn;
 import edu.psu.iam.cpr.core.util.Utility;
@@ -41,6 +40,9 @@ import edu.psu.iam.cpr.core.util.Utility;
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
 public class EmailAddressTable {
+	
+	/** Contains the name of the database table this implementation is acting on */
+	private static final String TABLE_NAME = "Email Address";
 	
 	private static final int EMAIL_ADDRESS_TYPE = 0;
 	private static final int EMAIL_ADDRESS = 1;
@@ -74,9 +76,8 @@ public class EmailAddressTable {
 	 * @param emailAddressType Contains the email address type represented as a string.
 	 * @param emailAddress Contains the email address.
 	 * @param updatedBy Contains the system identifier or userid that updated the record.
-	 * 
-	 * @throws Exception will be thrown if there are any problems. */
-	public EmailAddressTable(long personId, String emailAddressType, String emailAddress, String updatedBy) throws Exception {
+	 */ 
+	public EmailAddressTable(long personId, String emailAddressType, String emailAddress, String updatedBy) {
 		
 		setEmailAddressType(emailAddressType);
 		
@@ -103,8 +104,8 @@ public class EmailAddressTable {
 	 * @param personId
 	 * @param emailAddressType
 	 * @param updatedBy
-	 * @throws Exception */
-	public EmailAddressTable(long personId, String emailAddressType, String updatedBy) throws Exception {
+	 */
+	public EmailAddressTable(long personId, String emailAddressType, String updatedBy) {
 		this(personId, emailAddressType, null, updatedBy);
 	}
 	
@@ -163,46 +164,40 @@ public class EmailAddressTable {
 	 * 
 	 * @param db Database
 	 * 
-	 * @throws GeneralDatabaseException exception indicates that a general database failure was encountered. 
-	 * @throws CprException  */
-	public void addAddress(Database db) throws GeneralDatabaseException, CprException {
+	 * @throws CprException  
+	 */
+	public void addAddress(Database db) throws CprException {
 		
 		boolean matchFound = false;
-		try {
-			final Session session = db.getSession();
-			final EmailAddress bean = getEmailAddressBean();
-			
-			// Expire the existing one.
-			final String sqlQuery = "from EmailAddress where personId = :person_id and dataTypeKey = :data_type_key AND endDate is NULL";
-			final Query query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
-				EmailAddress dbBean = (EmailAddress) it.next();
-				if ( db.areStringFieldsEqual(dbBean.getEmailAddress(), bean.getEmailAddress())) {
-					matchFound = true;
-				}
-				else {
-					dbBean.setEndDate(bean.getLastUpdateOn());
-					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					session.update(dbBean);
-					session.flush();
-				}
-			}
-			// If we did not find a match, we can add the record.
-			if (! matchFound) {
-				session.save(bean);
-				session.flush();
-			}			
+		final Session session = db.getSession();
+		final EmailAddress bean = getEmailAddressBean();
 
+		// Expire the existing one.
+		final String sqlQuery = "from EmailAddress where personId = :person_id and dataTypeKey = :data_type_key AND endDate is NULL";
+		final Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
+			EmailAddress dbBean = (EmailAddress) it.next();
+			if ( db.areStringFieldsEqual(dbBean.getEmailAddress(), bean.getEmailAddress())) {
+				matchFound = true;
+			}
+			else {
+				dbBean.setEndDate(bean.getLastUpdateOn());
+				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				session.update(dbBean);
+				session.flush();
+			}
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "email address");
-		}
+		// If we did not find a match, we can add the record.
+		if (! matchFound) {
+			session.save(bean);
+			session.flush();
+		}			
 		
 		if (matchFound) {
-			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, "email address");
+			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, TABLE_NAME);
 		}		
 	}
 	
@@ -212,46 +207,40 @@ public class EmailAddressTable {
 	 * information necessary to update the record is passed in the EmailAddress class.
 	 * @param db Database
 	 * 
-	 * @throws GeneralDatabaseException exception indicates that a general database error was encountered. 
-	 * @throws CprException  */
-	public void updateAddress(Database db) throws GeneralDatabaseException, CprException {
+	 * @throws CprException  
+	 */
+	public void updateAddress(Database db) throws CprException {
 		
 		boolean matchFound = false;
-		try {
-			final Session session = db.getSession();
-			final EmailAddress bean = getEmailAddressBean();
-			
-			// Expire the existing one.
-			final String sqlQuery = "from EmailAddress where personId = :person_id and dataTypeKey = :data_type_key AND endDate is NULL";
-			final Query query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
-				EmailAddress dbBean = (EmailAddress) it.next();
-				if ( db.areStringFieldsEqual(dbBean.getEmailAddress(), bean.getEmailAddress())) {
-					matchFound = true;
-				}
-				else {
-					dbBean.setEndDate(bean.getLastUpdateOn());
-					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					session.update(dbBean);
-					session.flush();
-				}
-			}
-			// If we did not find a match, we can add the record.
-			if (! matchFound) {
-				session.save(bean);
-				session.flush();
-			}			
+		final Session session = db.getSession();
+		final EmailAddress bean = getEmailAddressBean();
 
+		// Expire the existing one.
+		final String sqlQuery = "from EmailAddress where personId = :person_id and dataTypeKey = :data_type_key AND endDate is NULL";
+		final Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
+			EmailAddress dbBean = (EmailAddress) it.next();
+			if ( db.areStringFieldsEqual(dbBean.getEmailAddress(), bean.getEmailAddress())) {
+				matchFound = true;
+			}
+			else {
+				dbBean.setEndDate(bean.getLastUpdateOn());
+				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				session.update(dbBean);
+				session.flush();
+			}
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.UPDATE_FAILED_EXCEPTION, "email address");
-		}
-		
+		// If we did not find a match, we can add the record.
+		if (! matchFound) {
+			session.save(bean);
+			session.flush();
+		}			
+
 		if (matchFound) {
-			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, "email address");
+			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, TABLE_NAME);
 		}
 		
 	}	
@@ -259,62 +248,57 @@ public class EmailAddressTable {
 	/**
 	 * The purpose of this routine is to delete (archive) an email address for a user.
 	 * @param db Database
+	 * @throws CprException 
 	 * 
-	 * @throws GeneralDatabaseException exception will be thrown if their is a general database failure. 
- 	 * @throws CprException  */
-	public void archiveEmailAddress(Database db) throws GeneralDatabaseException, CprException {
+	 */
+	public void archiveEmailAddress(Database db) throws CprException {
 
 		boolean recordNotFound = false;
 		boolean holdNotActive = false;
-		try {
-			final Session session = db.getSession();
-			final EmailAddress bean = getEmailAddressBean();
-			
-			String sqlQuery = "from EmailAddress where personId = :person_id and dataTypeKey = :data_type_key";
-			Query query = session.createQuery(sqlQuery);
+		final Session session = db.getSession();
+		final EmailAddress bean = getEmailAddressBean();
+
+		String sqlQuery = "from EmailAddress where personId = :person_id and dataTypeKey = :data_type_key";
+		Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+		Iterator<?> it = query.list().iterator();
+
+		if (it.hasNext()) {
+
+			sqlQuery = "from EmailAddress where personId = :person_id and dataTypeKey = :data_type_key and endDate is NULL";
+			query = session.createQuery(sqlQuery);
 			query.setParameter("person_id", bean.getPersonId());
 			query.setParameter("data_type_key", bean.getDataTypeKey());
-			Iterator<?> it = query.list().iterator();
-			
-			if (it.hasNext()) {
-				
-				sqlQuery = "from EmailAddress where personId = :person_id and dataTypeKey = :data_type_key and endDate is NULL";
-				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
 
-				it = query.list().iterator();
-				
-				// Active email address exists, so we expire it.
-				if (it.hasNext()) {
-					EmailAddress dbBean = (EmailAddress) it.next();
-					dbBean.setEndDate(bean.getLastUpdateOn());
-					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					session.update(dbBean);
-					session.flush();
-				}
-				else {
-					holdNotActive = true;
-				}
+			it = query.list().iterator();
+
+			// Active email address exists, so we expire it.
+			if (it.hasNext()) {
+				EmailAddress dbBean = (EmailAddress) it.next();
+				dbBean.setEndDate(bean.getLastUpdateOn());
+				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				session.update(dbBean);
+				session.flush();
 			}
 			else {
-				recordNotFound = true;
+				holdNotActive = true;
 			}
-			
-			session.flush();
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ARCHIVE_FAILED_EXCEPTION, "email address");
+		else {
+			recordNotFound = true;
 		}
-		
+
+		session.flush();
+
 		// Handle the error cases.
 		if (recordNotFound) {
-			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "email address");
+			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, TABLE_NAME);
 		}
 		
 		if (holdNotActive) {
-			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, "email address");
+			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, TABLE_NAME);
 		}		
 
 	}
@@ -324,63 +308,57 @@ public class EmailAddressTable {
 	 * @param db contains the database connection.
 	 * @param personId contains the person id.
 	 * @return will return a list of email addresses.
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException  
 	 */
-	public EmailAddressReturn[] getEmailAddressForPersonId(Database db, long personId) throws GeneralDatabaseException, CprException {
+	public EmailAddressReturn[] getEmailAddressForPersonId(Database db, long personId) throws CprException {
 		
-		try {
-			final ArrayList<EmailAddressReturn> results = new ArrayList<EmailAddressReturn>();
-			final Session session = db.getSession();
-			
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT data_type_key, email_address, " );
-			sb.append("start_date, ");
-			sb.append("end_date, ");
-			sb.append("last_update_by, ");
-			sb.append("last_update_on, ");
-			sb.append("created_by, ");
-			sb.append("created_on ");
-			sb.append("FROM email_address ");
-			sb.append("WHERE person_id=:person_id ");
-			
-			// If we are not returning all records, we need to just return the active ones.
-			if (! isReturnHistoryFlag()) {
-				sb.append("AND end_date IS NULL ");
-			}
-			
-			sb.append("ORDER BY data_type_key ASC, start_date ASC ");
-			
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("person_id", personId);
-			query.addScalar("data_type_key", StandardBasicTypes.LONG);
-			query.addScalar("email_address", StandardBasicTypes.STRING);
-			query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("last_update_by", StandardBasicTypes.STRING);
-			query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("created_by", StandardBasicTypes.STRING);
-			query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
-		
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				Object res[] = (Object []) it.next();
-				EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
-				emailAddressReturn.setEmailAddressType(EmailAddressType.get((Long) res[EMAIL_ADDRESS_TYPE]).toString());
-				emailAddressReturn.setEmailAddress((String) res[EMAIL_ADDRESS]);
-				emailAddressReturn.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
-				emailAddressReturn.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
-				emailAddressReturn.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
-				emailAddressReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
-				emailAddressReturn.setCreatedBy((String) res[CREATED_BY]);
-				emailAddressReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
-				results.add(emailAddressReturn);
-			}
-			
-			return results.toArray(new EmailAddressReturn[results.size()]);
+		final ArrayList<EmailAddressReturn> results = new ArrayList<EmailAddressReturn>();
+		final Session session = db.getSession();
+
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT data_type_key, email_address, " );
+		sb.append("start_date, ");
+		sb.append("end_date, ");
+		sb.append("last_update_by, ");
+		sb.append("last_update_on, ");
+		sb.append("created_by, ");
+		sb.append("created_on ");
+		sb.append("FROM email_address ");
+		sb.append("WHERE person_id=:person_id ");
+
+		// If we are not returning all records, we need to just return the active ones.
+		if (! isReturnHistoryFlag()) {
+			sb.append("AND end_date IS NULL ");
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve email addresses for person identifier = " + personId);
+
+		sb.append("ORDER BY data_type_key ASC, start_date ASC ");
+
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id", personId);
+		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.addScalar("email_address", StandardBasicTypes.STRING);
+		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("last_update_by", StandardBasicTypes.STRING);
+		query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("created_by", StandardBasicTypes.STRING);
+		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
+
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			Object res[] = (Object []) it.next();
+			EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
+			emailAddressReturn.setEmailAddressType(EmailAddressType.get((Long) res[EMAIL_ADDRESS_TYPE]).toString());
+			emailAddressReturn.setEmailAddress((String) res[EMAIL_ADDRESS]);
+			emailAddressReturn.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
+			emailAddressReturn.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
+			emailAddressReturn.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
+			emailAddressReturn.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+			emailAddressReturn.setCreatedBy((String) res[CREATED_BY]);
+			emailAddressReturn.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
+			results.add(emailAddressReturn);
 		}
+
+		return results.toArray(new EmailAddressReturn[results.size()]);
 	}
 	
 	/**

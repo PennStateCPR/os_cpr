@@ -5,7 +5,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.database.tables.IdCardPrintLogTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -49,10 +48,9 @@ public final class ValidateIdCardPrintLog {
 	 * @param eventWorkstation
 	 * @return IdCardPrintLogTable object
 	 * @throws CprException
-	 * @throws GeneralDatabaseException
 	 */
 	public static IdCardPrintLogTable validateAddIdCardPrintLogParameters (final Database db,String idType, String identifier,  
-			 String eventUserId, String eventIpAddress, String eventWorkstation) throws CprException, GeneralDatabaseException {
+			 String eventUserId, String eventIpAddress, String eventWorkstation) throws CprException {
 		String eventIdCard = null;
 		
 		String localEventUserId = (eventUserId != null) ? eventUserId.trim() : null;
@@ -106,7 +104,8 @@ public final class ValidateIdCardPrintLog {
 	 * @return IdCardPrintLogTable object
 	 * @throws CprException
 	 */
-	public static IdCardPrintLogTable validateGetIdCardPrintLogParameters (final Database db,String idType, String identifier) throws CprException {
+	public static IdCardPrintLogTable validateGetIdCardPrintLogParameters (final Database db,String idType, String identifier) 
+		throws CprException {
 		String eventIdCard = null;
 		
 		final IdentifierType identifierType = Validate.isValidIdentifierType(db, idType);

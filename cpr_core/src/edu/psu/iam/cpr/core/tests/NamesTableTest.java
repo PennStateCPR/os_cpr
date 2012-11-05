@@ -30,8 +30,6 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.Names;
 import edu.psu.iam.cpr.core.database.tables.NamesTable;
 import edu.psu.iam.cpr.core.database.types.NameType;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.service.returns.NameReturn;
 
 /**
@@ -41,7 +39,7 @@ import edu.psu.iam.cpr.core.service.returns.NameReturn;
 public class NamesTableTest {
 
 	private static Database db= new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
@@ -127,13 +125,13 @@ public class NamesTableTest {
 
 	
 	@Test(expectedExceptions=Exception.class) 
-	public final void _10testGetNamesForPersonId1() throws GeneralDatabaseException, CprException {
+	public final void _10testGetNamesForPersonId1() throws Exception {
 		NamesTable n = new NamesTable();
 		n.getNamesForPersonId(db, 0);
 	}
 		
 	@Test
-	public final void _11testGetNamesForPersonId2() throws GeneralDatabaseException, CprException {
+	public final void _11testGetNamesForPersonId2() throws Exception {
 		openDbConnection();
 		NamesTable n = new NamesTable();
 		n.setReturnHistoryFlag(false);
@@ -143,7 +141,7 @@ public class NamesTableTest {
 	}
 	
 	@Test
-	public final void _12testGetUseridsForPersonId3() throws GeneralDatabaseException, CprException {
+	public final void _12testGetUseridsForPersonId3() throws Exception {
 		openDbConnection();
 		NamesTable n = new NamesTable();
 		n.setReturnHistoryFlag(true);
@@ -152,7 +150,7 @@ public class NamesTableTest {
 	}
 	
 	@Test
-	public final void _13testGetUseridsForPersonId4() throws GeneralDatabaseException, CprException {
+	public final void _13testGetUseridsForPersonId4() throws Exception {
 		openDbConnection();
 		NamesTable n = new NamesTable();
 		n.setReturnHistoryFlag(true);
@@ -161,8 +159,8 @@ public class NamesTableTest {
 		db.closeSession();
 	}
 	
-	@Test(expectedExceptions=CprException.class)
-	public final void _14testDeleteName1() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _14testDeleteName1() throws Exception {
 		NamesTable n = new NamesTable();
 		n.archiveName(null);
 	}

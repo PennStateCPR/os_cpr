@@ -25,13 +25,12 @@ import edu.psu.iam.cpr.core.database.beans.CprComponentStatus;
 import edu.psu.iam.cpr.core.database.tables.CprComponentStatusTable;
 import edu.psu.iam.cpr.core.database.types.ComponentStatus;
 import edu.psu.iam.cpr.core.database.types.CprComponent;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 public class CprComponentStatusTableTest {
 
 	private static Database db = new Database();
 	
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
@@ -41,7 +40,7 @@ public class CprComponentStatusTableTest {
 	}
 
 	@Test
-	public final void testIsCprComponentActive() throws GeneralDatabaseException {
+	public final void testIsCprComponentActive() throws Exception {
 		openDbConnection();
 		CprComponentStatusTable t = new CprComponentStatusTable();
 		t.changeComponentStatus(db, CprComponent.MESSAGING, ComponentStatus.DISABLED);
@@ -50,7 +49,7 @@ public class CprComponentStatusTableTest {
 	}
 
 	@Test
-	public final void testChangeComponentStatus() throws GeneralDatabaseException {
+	public final void testChangeComponentStatus() throws Exception {
 		openDbConnection();
 		CprComponentStatusTable t = new CprComponentStatusTable();
 		t.changeComponentStatus(db, CprComponent.MESSAGING, ComponentStatus.ACTIVE);

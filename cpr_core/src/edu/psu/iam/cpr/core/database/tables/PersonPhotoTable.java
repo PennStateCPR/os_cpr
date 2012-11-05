@@ -9,9 +9,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.PersonPhoto;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.PhotoReturn;
 import edu.psu.iam.cpr.core.util.Utility;
 
@@ -94,39 +91,33 @@ public class PersonPhotoTable {
 	 * This routine will be used to add a photo to the database.  If the photo already exists, it will be updated
 	 * with the photo information contained in the database bean.
 	 * @param db Contains a reference to a database connection.
-	 * @throws CprException 
 	 */
-	public void addPhoto(Database db) throws CprException {
+	public void addPhoto(Database db) {
 		
-		try {
-			final Session session = db.getSession();
-			final PersonPhoto bean = getPersonPhotoBean();
-			
-			// Perform a query to determine if a photo already exists for the person.
-			final String sqlQuery = "from PersonPhoto where personId = :person_id_in";
-			final Query query = session.createQuery(sqlQuery);
-			query.setParameter("person_id_in", bean.getPersonId());
-			final Iterator<?> it = query.list().iterator();
-			
-			// Photo Exist?  Yes, do an update.
-			if (it.hasNext()) {
-				PersonPhoto dbBean = (PersonPhoto) it.next();
-				dbBean.setDateTaken(bean.getDateTaken());
-				dbBean.setPhoto(bean.getPhoto());
-				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-				session.update(dbBean);
-				session.flush();
-			}
-			
-			// Photo does not exist, so we need to do an add.
-			else {
-				session.save(bean);
-				session.flush();
-			}
+		final Session session = db.getSession();
+		final PersonPhoto bean = getPersonPhotoBean();
+
+		// Perform a query to determine if a photo already exists for the person.
+		final String sqlQuery = "from PersonPhoto where personId = :person_id_in";
+		final Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id_in", bean.getPersonId());
+		final Iterator<?> it = query.list().iterator();
+
+		// Photo Exist?  Yes, do an update.
+		if (it.hasNext()) {
+			PersonPhoto dbBean = (PersonPhoto) it.next();
+			dbBean.setDateTaken(bean.getDateTaken());
+			dbBean.setPhoto(bean.getPhoto());
+			dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+			dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+			session.update(dbBean);
+			session.flush();
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "photo");
+
+		// Photo does not exist, so we need to do an add.
+		else {
+			session.save(bean);
+			session.flush();
 		}
 	}
 	
@@ -136,41 +127,35 @@ public class PersonPhotoTable {
 	 * @param db contains a database reference.
 	 * @param personId contains the person identifier whose photo is to be retrieved.
 	 * @return will return an array of PhotoReturn objects if successful.
-	 * @throws GeneralDatabaseException 
 	 */
-	public PhotoReturn[] getPhoto(Database db, long personId) throws GeneralDatabaseException {
+	public PhotoReturn[] getPhoto(Database db, long personId) {
 	
-		try {
-			final ArrayList<PhotoReturn> results = new ArrayList<PhotoReturn>();
-			final Session session = db.getSession();
-			
-			// Build the query string.
-			final String sqlQuery = "from PersonPhoto where personId = :person_id_in";
+		final ArrayList<PhotoReturn> results = new ArrayList<PhotoReturn>();
+		final Session session = db.getSession();
 
-			// Set up hibernate for the query, bind parameters.
-			final Query query = session.createQuery(sqlQuery);
-			query.setParameter("person_id_in", personId);
+		// Build the query string.
+		final String sqlQuery = "from PersonPhoto where personId = :person_id_in";
 
-			// Perform the query.
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				PersonPhoto personPhoto = (PersonPhoto) it.next();
-				PhotoReturn photoReturn = new PhotoReturn();
-				
-				photoReturn.setPhoto(personPhoto.getPhoto());
-				photoReturn.setDateTaken(Utility.convertTimestampToString(personPhoto.getDateTaken()));
-				photoReturn.setLastUpdateBy(personPhoto.getLastUpdateBy());
-				photoReturn.setLastUpdateOn(Utility.convertTimestampToString(personPhoto.getLastUpdateOn()));
-				photoReturn.setCreatedBy(personPhoto.getCreatedBy());
-				photoReturn.setCreatedOn(Utility.convertTimestampToString(personPhoto.getCreatedOn()));
-				
-				results.add(photoReturn);
-			}
-			
-			// Check on the results.
-			return results.toArray(new PhotoReturn[results.size()]);
+		// Set up hibernate for the query, bind parameters.
+		final Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id_in", personId);
+
+		// Perform the query.
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			PersonPhoto personPhoto = (PersonPhoto) it.next();
+			PhotoReturn photoReturn = new PhotoReturn();
+
+			photoReturn.setPhoto(personPhoto.getPhoto());
+			photoReturn.setDateTaken(Utility.convertTimestampToString(personPhoto.getDateTaken()));
+			photoReturn.setLastUpdateBy(personPhoto.getLastUpdateBy());
+			photoReturn.setLastUpdateOn(Utility.convertTimestampToString(personPhoto.getLastUpdateOn()));
+			photoReturn.setCreatedBy(personPhoto.getCreatedBy());
+			photoReturn.setCreatedOn(Utility.convertTimestampToString(personPhoto.getCreatedOn()));
+
+			results.add(photoReturn);
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve photos for person identifier = " + personId);
-		}
+
+		// Check on the results.
+		return results.toArray(new PhotoReturn[results.size()]);
 	}
 }

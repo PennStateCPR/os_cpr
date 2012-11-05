@@ -22,23 +22,20 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.CampusCsTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 public class CampusCsTableTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.CampusCsTable#getCampusInfo(java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
 	 */
 //	@Test (expectedExceptions=Exception.class)
-//	public final void _1testGetCampusInfoNoDB() throws GeneralDatabaseException, CprException {
+//	public final void _1testGetCampusInfoNoDB() throws Exception {
 //		
 //		CampusCsTable cTable = new CampusCsTable();
 //		cTable.getCampusInfo(db, "UP", "llg5");
@@ -46,11 +43,10 @@ public class CampusCsTableTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.CampusCsTable#getCampusInfo(java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
 	 */
 	@Test
-	public final void _2testGetCampusInfoName() throws GeneralDatabaseException, CprException {
+	public final void _2testGetCampusInfoName() throws Exception {
 		openDbConnection();
 		CampusCsTable cTable = new CampusCsTable();
 		cTable.getCampusInfo(db, "UP", "llg5");
@@ -59,11 +55,10 @@ public class CampusCsTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.CampusCsTable#getCampusName(java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
 	 */
 	@Test
-	public final void _3testGetCampusInfoCode() throws GeneralDatabaseException, CprException {
+	public final void _3testGetCampusInfoCode() throws Exception {
 		openDbConnection();
 		CampusCsTable cTable = new CampusCsTable();
 		cTable.getCampusInfo(db, "UP", "llg5");
@@ -72,11 +67,10 @@ public class CampusCsTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.CampusCsTable#getCampusName(java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
 	 */
 	@Test
-	public final void _4testGetCampusInfoCodeKey() throws GeneralDatabaseException, CprException {
+	public final void _4testGetCampusInfoCodeKey() throws Exception {
 		openDbConnection();
 		CampusCsTable cTable = new CampusCsTable();
 		cTable.getCampusInfo(db, "UP", "llg5");
@@ -87,11 +81,10 @@ public class CampusCsTableTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.CampusCsTable#getCampusInfo(java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void _5testGetCampusInfoBad() throws GeneralDatabaseException, CprException {
+	public final void _5testGetCampusInfoBad() throws Exception {
 		openDbConnection();
 		CampusCsTable cTable = new CampusCsTable();
 		cTable.getCampusInfo(db, "U1", "llg5");
@@ -100,11 +93,10 @@ public class CampusCsTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.CampusCsTable#getCampusInfo(java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
 	 */
 	@Test
-	public final void _6testGetCampusInfoBadTestCodeKey() throws GeneralDatabaseException, CprException {
+	public final void _6testGetCampusInfoBadTestCodeKey() throws Exception {
 		openDbConnection();
 		CampusCsTable cTable = new CampusCsTable();
 		cTable.getCampusInfo(db, null, "llg5");
@@ -114,11 +106,10 @@ public class CampusCsTableTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.CampusCsTable#getCampusInfo(java.lang.String)}.
-	 * @throws GeneralDatabaseException 
-	 * @throws CprException 
+	 * @throws Exception 
 	 */
 	@Test
-	public final void _7testGetCampusInfoBadTestCodeKeyBlank() throws GeneralDatabaseException, CprException {
+	public final void _7testGetCampusInfoBadTestCodeKeyBlank() throws Exception {
 		openDbConnection();
 		CampusCsTable cTable = new CampusCsTable();
 		cTable.getCampusInfo(db, "", "llg5");

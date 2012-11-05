@@ -4,7 +4,6 @@ package edu.psu.iam.cpr.core.util;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.CredentialTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -47,11 +46,10 @@ public final class ValidateCredential {
 	 * @param returnHistory Y/N flag that indicates whether to return history records or not.
 	 * @return CredentialTable will be reutrn if this function is successful.
 	 * @throws InvalidParametersException
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
 	public static CredentialTable validateGetCredentialParameters(Database db, long personId, String requestedBy, String credentialType, String returnHistory) 
-				throws GeneralDatabaseException, CprException {
+				throws CprException {
 		
 		// If the strings are not null, trim them.
 		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
@@ -70,12 +68,7 @@ public final class ValidateCredential {
 		// Validate the credential type if one was specified.
 		final CredentialTable credentialTable = new CredentialTable();
 		if (credentialType != null) {
-			try {
-				credentialTable.setCredentialType(credentialType);
-			}
-			catch (Exception e) {
-				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Credential type");
-			}
+			credentialTable.setCredentialType(credentialType);
 		}
 
 		// Verify the return history flag, and set its value to the boolean.
@@ -94,10 +87,10 @@ public final class ValidateCredential {
 	 * @param credentialType contains the credential type to be archived.
 	 * @param updatedBy contains the userid or server identifier of the user who is requesting the archive.
 	 * @return CredentialType class.
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
-	public static CredentialTable validateArchiveCredentialParameters(Database db, long personId, String credentialType, String updatedBy) throws GeneralDatabaseException, CprException {
+	public static CredentialTable validateArchiveCredentialParameters(Database db, long personId, String credentialType, String updatedBy) 
+		throws CprException {
 	
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 		String localCredentialType = null;
@@ -121,12 +114,7 @@ public final class ValidateCredential {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
 		}
 			
-		try {
-			return new CredentialTable(personId, localCredentialType, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Credential type");
-		}
+		return new CredentialTable(personId, localCredentialType, localUpdatedBy);
 	}
 	
 	/**
@@ -137,10 +125,10 @@ public final class ValidateCredential {
 	 * @param credentialData contains the additional data associated with the credential.
 	 * @param updatedBy contains the system identifier and/or userid that updated the name.
 	 * @return CredentialTable class
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
-	public static CredentialTable validateAddCredentialParameters(Database db, long personId, String credentialType, String credentialData, String updatedBy) throws GeneralDatabaseException, CprException {
+	public static CredentialTable validateAddCredentialParameters(Database db, long personId, String credentialType, String credentialData, 
+			String updatedBy) throws CprException {
 		
 		
 		// Trim all of the strings if they are not null.
@@ -176,12 +164,7 @@ public final class ValidateCredential {
 		}		
 		
 		// At this point we are ready to save off the information to a class.
-		try {
-			return new CredentialTable(personId, localCredentialType, localCredentialData, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Credential type");
-		}
+		return new CredentialTable(personId, localCredentialType, localCredentialData, localUpdatedBy);
 	}
 	
 }

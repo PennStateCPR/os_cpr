@@ -24,18 +24,16 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.PsuId;
 import edu.psu.iam.cpr.core.database.helpers.PsuIdHelper;
 import edu.psu.iam.cpr.core.database.tables.GeneratedIdentityTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 public class PsuIdHelperTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
 	@Test
-	public final void testGeneratePSUIdNumber() throws CprException, GeneralDatabaseException {
+	public final void testGeneratePSUIdNumber() throws Exception {
 		PsuIdHelper p = new PsuIdHelper();
 		PsuId bean = new PsuId();
 		bean.setPersonId(100000L);

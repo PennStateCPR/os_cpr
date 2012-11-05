@@ -22,12 +22,11 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.PersonLinkageTable;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 public class PersonLinkageTableTest {
 
 	private static Database db= new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 

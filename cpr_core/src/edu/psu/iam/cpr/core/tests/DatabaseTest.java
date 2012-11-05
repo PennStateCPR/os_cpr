@@ -24,20 +24,19 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.database.helpers.DBTypesHelper;
 import edu.psu.iam.cpr.core.database.types.AccessType;
-import edu.psu.iam.cpr.core.error.*;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 
 public class DatabaseTest {
 
 	private static Database db = new Database();
 	
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection()  {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
 	// kludge open a direct connection to the db.using the hard way.
 	@Test
-	public final void _01testOpenDbConnection() throws GeneralDatabaseException {
+	public final void _01testOpenDbConnection()  {
 		openDbConnection();
 	}
 	
@@ -49,7 +48,7 @@ public class DatabaseTest {
 	}
 
 	@Test
-	public final void _03testIsDbConnectionOpen() throws GeneralDatabaseException {
+	public final void _03testIsDbConnectionOpen() throws Exception {
 		AssertJUnit.assertFalse(db.isSessionOpen());
 		openDbConnection();
 		AssertJUnit.assertTrue(db.isSessionOpen());
@@ -57,7 +56,7 @@ public class DatabaseTest {
 	}
 
 	@Test
-	public final void _04testgetSession() throws GeneralDatabaseException {
+	public final void _04testgetSession() throws Exception {
 		AssertJUnit.assertNull(db.getSession());
 		openDbConnection();
 		AssertJUnit.assertNotNull(db.getSession());
@@ -66,68 +65,68 @@ public class DatabaseTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _05testIsRequestorAuthorizedWebClientNotFoundException1() throws GeneralDatabaseException, CprException {
+	public final void _05testIsRequestorAuthorizedWebClientNotFoundException1() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized(null, null, "AddPerson");
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _06testIsRequestorAuthorizedWebClientNotFoundException2() throws GeneralDatabaseException, CprException {
+	public final void _06testIsRequestorAuthorizedWebClientNotFoundException2() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("abcd1234", "jvuccolo", "AddPerson");
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _07testIsRequestorAuthorizedWebServiceNotFoundException1() throws GeneralDatabaseException, CprException {
+	public final void _07testIsRequestorAuthorizedWebServiceNotFoundException1() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("portal1", "jvuccolo", null);
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _08testIsRequestorAuthorizedWebServiceNotFoundException2() throws GeneralDatabaseException, CprException {
+	public final void _08testIsRequestorAuthorizedWebServiceNotFoundException2() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("portal1", "jvuccolo", "some_service_goes_here");
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _09testIsRequestorAuthorizedCprException() throws GeneralDatabaseException, CprException {
+	public final void _09testIsRequestorAuthorizedCprException() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("portal2", "jvuccolo", "AddPerson");
 		db.closeSession();
 	}
 	
 	@Test
-	public final void _10testIsRequestorAuthorizedSuccess() throws GeneralDatabaseException, CprException {
+	public final void _10testIsRequestorAuthorizedSuccess() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
 		db.closeSession();
 	}
 	@Test
-	public final void _11testIsRequestorAuthorizedSuccessCreds() throws GeneralDatabaseException, CprException {
+	public final void _11testIsRequestorAuthorizedSuccessCreds() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddCredential");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void _12testGetPersonIdUsingPsuIdException1() throws GeneralDatabaseException, CprException {
+	public final void _12testGetPersonIdUsingPsuIdException1() throws Exception {
 		openDbConnection();
 		db.getPersonIdUsingPsuId(null);
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _13testGetPersonIdUsingPsuIdException2() throws GeneralDatabaseException, CprException {
+	public final void _13testGetPersonIdUsingPsuIdException2() throws Exception {
 		openDbConnection();
 		db.getPersonIdUsingPsuId("abcd1234");
 		db.closeSession();
 	}
 	
 	@Test
-	public final void _14testGetPersonIdUsingPsuId() throws GeneralDatabaseException, CprException {
+	public final void _14testGetPersonIdUsingPsuId() throws Exception {
 		openDbConnection();
 		long personId = db.getPersonIdUsingPsuId("812345678");
 		db.closeSession();
@@ -135,7 +134,7 @@ public class DatabaseTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _15testGetPersonIdUsingIdCard() throws GeneralDatabaseException, CprException {
+	public final void _15testGetPersonIdUsingIdCard() throws Exception {
 		openDbConnection();
 		long personId = db.getPersonIdUsingIdCard("812345678");
 		db.closeSession();
@@ -143,21 +142,21 @@ public class DatabaseTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _16testGetPersonIdUsingUseridException1() throws GeneralDatabaseException, CprException {
+	public final void _16testGetPersonIdUsingUseridException1() throws Exception {
 		openDbConnection();
 		db.getPersonIdUsingUserid(null);
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _17testGetPersonIdUsingUseridException2() throws GeneralDatabaseException, CprException {
+	public final void _17testGetPersonIdUsingUseridException2() throws Exception {
 		openDbConnection();
 		db.getPersonIdUsingUserid("abcd");
 		db.closeSession();
 	}
 
 	@Test
-	public final void _18testGetPersonIdUsingUserid() throws GeneralDatabaseException, CprException {
+	public final void _18testGetPersonIdUsingUserid() throws Exception {
 		openDbConnection();
 		long personId = db.getPersonIdUsingUserid("dummy");
 		db.closeSession();
@@ -165,14 +164,14 @@ public class DatabaseTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _19testGetPersonIdUsingPersonIdException1() throws GeneralDatabaseException, CprException {
+	public final void _19testGetPersonIdUsingPersonIdException1() throws Exception {
 		openDbConnection();
 		db.getPersonIdUsingPersonId(0);
 		db.closeSession();
 	}
 	
 	@Test
-	public final void _20testGetPersonIdUsingPersonId() throws GeneralDatabaseException, CprException {
+	public final void _20testGetPersonIdUsingPersonId() throws Exception {
 		openDbConnection();
 		long personId = db.getPersonIdUsingPersonId(100000);
 		db.closeSession();
@@ -180,7 +179,7 @@ public class DatabaseTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _21testGetPersonIdUsingIdentifierException1() throws GeneralDatabaseException, CprException {
+	public final void _21testGetPersonIdUsingIdentifierException1() throws Exception {
 		openDbConnection();
 		IdentifierType i = new IdentifierType();
 		i.setTypeName(Database.PERSON_ID_IDENTIFIER);
@@ -189,7 +188,7 @@ public class DatabaseTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _22testGetPersonIdUsingIdentifierException2() throws GeneralDatabaseException, CprException {
+	public final void _22testGetPersonIdUsingIdentifierException2() throws Exception {
 		openDbConnection();
 		IdentifierType i = new IdentifierType();
 		i.setTypeName(Database.USERID_IDENTIFIER);
@@ -198,7 +197,7 @@ public class DatabaseTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _23testGetPersonIdUsingIdentifierException3() throws GeneralDatabaseException, CprException {
+	public final void _23testGetPersonIdUsingIdentifierException3() throws Exception {
 		openDbConnection();
 		IdentifierType i = new IdentifierType();
 		i.setTypeName(Database.PSU_ID_IDENTIFIER);
@@ -207,7 +206,7 @@ public class DatabaseTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _24testGetPersonIdUsingIdentifierException4() throws GeneralDatabaseException, CprException{
+	public final void _24testGetPersonIdUsingIdentifierException4() throws Exception{
 		openDbConnection();
 		IdentifierType i = new IdentifierType();
 		i.setTypeName(Database.PERSON_ID_IDENTIFIER);
@@ -216,7 +215,7 @@ public class DatabaseTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _25testGetPersonIdUsingIdentifierException5() throws GeneralDatabaseException, CprException {
+	public final void _25testGetPersonIdUsingIdentifierException5() throws Exception {
 		openDbConnection();
 		IdentifierType i = new IdentifierType();
 		i.setTypeName(Database.USERID_IDENTIFIER);
@@ -225,7 +224,7 @@ public class DatabaseTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _26testGetPersonIdUsingIdentifierException6() throws GeneralDatabaseException, CprException {
+	public final void _26testGetPersonIdUsingIdentifierException6() throws Exception {
 		openDbConnection();
 		IdentifierType i = new IdentifierType();
 		i.setTypeName(Database.PSU_ID_IDENTIFIER);
@@ -234,7 +233,7 @@ public class DatabaseTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _27testGetPersonIdUsingIdentifierException7() throws GeneralDatabaseException, CprException {
+	public final void _27testGetPersonIdUsingIdentifierException7() throws Exception {
 		openDbConnection();
 		IdentifierType i = new IdentifierType();
 		i.setTypeName(Database.PERSON_ID_IDENTIFIER);
@@ -243,7 +242,7 @@ public class DatabaseTest {
 	}
 	
 	@Test
-	public final void _28testGetPersonIdUsingIdentifier1() throws GeneralDatabaseException, CprException {
+	public final void _28testGetPersonIdUsingIdentifier1() throws Exception {
 		openDbConnection();
 		IdentifierType i = new IdentifierType();
 		i.setTypeName(Database.PERSON_ID_IDENTIFIER);
@@ -252,7 +251,7 @@ public class DatabaseTest {
 	}
 	
 	@Test
-	public final void _29testGetPersonIdUsingIdentifier2() throws GeneralDatabaseException, CprException {
+	public final void _29testGetPersonIdUsingIdentifier2() throws Exception {
 		openDbConnection();
 		IdentifierType i = new IdentifierType();
 		i.setTypeName(Database.USERID_IDENTIFIER);
@@ -262,7 +261,7 @@ public class DatabaseTest {
 	}
 	
 	@Test
-	public final void _30testGetPersonIdUsingIdentifier3() throws GeneralDatabaseException, CprException {
+	public final void _30testGetPersonIdUsingIdentifier3() throws Exception {
 		openDbConnection();
 		IdentifierType i = new IdentifierType();
 		i.setTypeName(Database.PSU_ID_IDENTIFIER);
@@ -272,7 +271,7 @@ public class DatabaseTest {
 	}
 	
 	@Test
-	public final void _31testGetPersonIdUsingIdentifier4() throws GeneralDatabaseException, CprException {
+	public final void _31testGetPersonIdUsingIdentifier4() throws Exception {
 		openDbConnection();
 		IdentifierType i = (IdentifierType) DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE).get("UNIT_TEST_IDENTIFIER");
 		long personId = db.getPersonIdUsingIdentifier(i, "TEST_VALUE");
@@ -281,176 +280,176 @@ public class DatabaseTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _32testIsPersonActiveException1() throws GeneralDatabaseException, CprException {
+	public final void _32testIsPersonActiveException1() throws Exception {
 		openDbConnection();
 		db.isPersonActive(1);
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _33testIsPersonActiveException2() throws GeneralDatabaseException, CprException {
+	public final void _33testIsPersonActiveException2() throws Exception {
 		openDbConnection();
 		db.isPersonActive(100001);
 		db.closeSession();
 	}
 
 	@Test
-	public final void _34testIsPersonActive() throws GeneralDatabaseException, CprException {
+	public final void _34testIsPersonActive() throws Exception {
 		openDbConnection();
 		db.isPersonActive(100000);
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _35testDoesPsuIdExistException1() throws CprException, GeneralDatabaseException {
+	public final void _35testDoesPsuIdExistException1() throws Exception {
 		openDbConnection();
 		db.doesPsuIdExist(null);
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _36testDoesPsuIdExistException2() throws CprException, GeneralDatabaseException {
+	public final void _36testDoesPsuIdExistException2() throws Exception {
 		openDbConnection();
 		db.doesPsuIdExist("abcd1234");
 		db.closeSession();
 	}
 	
 	@Test
-	public final void _37testDoesPsuIdExist() throws CprException, GeneralDatabaseException {
+	public final void _37testDoesPsuIdExist() throws Exception {
 		openDbConnection();
 		db.doesPsuIdExist("812345678");
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _38testDoesUseridExistException1() throws CprException, GeneralDatabaseException {
+	public final void _38testDoesUseridExistException1() throws Exception {
 		openDbConnection();
 		db.doesUseridExist(null);
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _39testDoesUseridExistException2() throws CprException, GeneralDatabaseException {
+	public final void _39testDoesUseridExistException2() throws Exception {
 		openDbConnection();
 		db.doesUseridExist("abcd1234");
 		db.closeSession();
 	}
 	
 	@Test
-	public final void _40testDoesUseridExist() throws CprException, GeneralDatabaseException {
+	public final void _40testDoesUseridExist() throws Exception {
 		openDbConnection();
 		db.doesUseridExist("dummy");
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _41testGetPersonIdException1() throws CprException, GeneralDatabaseException {
+	public final void _41testGetPersonIdException1() throws Exception {
 		openDbConnection();
 		db.getPersonId(null, null);
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _42testGetPersonIdException2() throws CprException, GeneralDatabaseException {
+	public final void _42testGetPersonIdException2() throws Exception {
 		openDbConnection();
 		db.getPersonId("person", null);
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _43testGetPersonIdException3() throws GeneralDatabaseException, CprException {
+	public final void _43testGetPersonIdException3() throws Exception {
 		openDbConnection();
 		db.getPersonId("person_id", null);
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _44testGetPersonIdException4() throws GeneralDatabaseException, CprException {
+	public final void _44testGetPersonIdException4() throws Exception {
 		openDbConnection();
 		db.getPersonId("person", "1234");
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _45testGetPersonIdException5() throws GeneralDatabaseException, CprException {
+	public final void _45testGetPersonIdException5() throws Exception {
 		openDbConnection();
 		db.getPersonId("person_id", "1234");
 		db.closeSession();
 	}
 
 //	@Test(expected=Exception.class)
-//	public final void _46testGetPersonIdException6() throws GeneralDatabaseException, CprException {
+//	public final void _46testGetPersonIdException6() throws Exception {
 //		openDbConnection();
 //		db.getPersonId("person_id", "100001");
 //		db.closeSession();
 //	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _47testGetPersonIdNoExceptions1() throws GeneralDatabaseException, CprException {
+	public final void _47testGetPersonIdNoExceptions1() throws Exception {
 		openDbConnection();
 		db.getPersonId("userid", "1111111111111111111111111111111111111111111111111111111111111111111111111");
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _48testGetAllTableColumns1() throws GeneralDatabaseException, CprException {
+	public final void _48testGetAllTableColumns1() throws Exception {
 		db.getAllTableColumns(null);
 	}
 
 	@Test
-	public final void _49testGetPersonIdNoExceptions() throws GeneralDatabaseException, CprException {
+	public final void _49testGetPersonIdNoExceptions() throws Exception {
 		openDbConnection();
 		db.getPersonId("person_id", "100000");
 		db.closeSession();
 	}
 	
-	@Test(expectedExceptions=GeneralDatabaseException.class)
-	public final void _50testGetAllTableColumns2() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _50testGetAllTableColumns2() throws Exception {
 		db.getAllTableColumns("address");
 	}
 
 	@Test
-	public final void _51testGetAllTableColumns3() throws GeneralDatabaseException, CprException {
+	public final void _51testGetAllTableColumns3() throws Exception {
 		openDbConnection();
 		db.getAllTableColumns("address");
-		AssertJUnit.assertEquals(db.getTableColumns().size(), 0);
+        AssertJUnit.assertEquals(db.getTableColumns().size(), 0);
 		db.closeSession();
 	}
 	
 	@Test
-	public final void _52testGetAllTableColumns4() throws GeneralDatabaseException, CprException {
+	public final void _52testGetAllTableColumns4() throws Exception {
 		openDbConnection();
 		db.getAllTableColumns("addresses");
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _53testGetColumn1() throws CprException, GeneralDatabaseException {
+	public final void _53testGetColumn1() throws Exception {
 		db.getColumn(null);
 	}
 	
-	@Test(expectedExceptions=GeneralDatabaseException.class)
-	public final void _54testGetColumn2() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _54testGetColumn2() throws Exception {
 		db.getColumn("blah");
 	}
 	
 	@Test
-	public final void _55testGetColumn3() throws CprException, GeneralDatabaseException {
+	public final void _55testGetColumn3() throws Exception {
 		db.getColumn("address1");
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _56testisDataActionAuthorizedOneMore() throws CprException, GeneralDatabaseException {
+	public final void _56testisDataActionAuthorizedOneMore() throws Exception {
 		db.isDataActionAuthorized(null, null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void _57testisDataActionAuthorized2() throws CprException, GeneralDatabaseException {
+	public final void _57testisDataActionAuthorized2() throws Exception {
 		openDbConnection();
 		db.isDataActionAuthorized(null, null, null, null);
 		db.closeSession();
 	}
 	@Test
-	public final void _58testisDataActionAuthorized3() throws CprException, GeneralDatabaseException {
+	public final void _58testisDataActionAuthorized3() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
@@ -460,7 +459,7 @@ public class DatabaseTest {
 		db.closeSession();
 	}
 	@Test
-	public final void _59testisDataActionAuthorized4() throws CprException, GeneralDatabaseException {
+	public final void _59testisDataActionAuthorized4() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
@@ -470,7 +469,7 @@ public class DatabaseTest {
 		db.closeSession();
 	}
 	@Test
-	public final void _60testisDataActionAuthorized5() throws CprException, GeneralDatabaseException {
+	public final void _60testisDataActionAuthorized5() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
@@ -481,48 +480,48 @@ public class DatabaseTest {
 	}
 	
 	@Test
-	public final void _61testRollbackSession() throws GeneralDatabaseException {
+	public final void _61testRollbackSession() throws Exception {
 		openDbConnection();
 		db.rollbackSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _62testIsRequestorAuthorizedGrouperWebServiceNotFoundException1() throws GeneralDatabaseException, CprException {
+	public final void _62testIsRequestorAuthorizedGrouperWebServiceNotFoundException1() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("portal1", "jvuccolo",null);
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _63testIsRequestorAuthorizedWebServiceNotFoundExceptionAgain() throws GeneralDatabaseException, CprException {
+	public final void _63testIsRequestorAuthorizedWebServiceNotFoundExceptionAgain() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("portal1", "jvuccolo", "some_service_goes_here");
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _64testIsRequestorAuthorizedGrouperCprException() throws GeneralDatabaseException, CprException {
+	public final void _64testIsRequestorAuthorizedGrouperCprException() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("portal2", "jvuccolo", "AddPerson");
 		db.closeSession();
 	}
 	
 	@Test
-	public final void _65testIsRequestorAuthorizedSuccessportal1() throws GeneralDatabaseException, CprException {
+	public final void _65testIsRequestorAuthorizedSuccessportal1() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void _66testisDataActionAuthorized1() throws CprException, GeneralDatabaseException{
+	public final void _66testisDataActionAuthorized1() throws Exception{
 		db.isDataActionAuthorized(null, null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void _67testisDataActionAuthorizedGrouper2() throws CprException, GeneralDatabaseException {
+	public final void _67testisDataActionAuthorizedGrouper2() throws Exception {
 		db.isDataActionAuthorized(null, null, null,  null);
 	}
 	@Test
-	public final void _68testisDataActionAuthorizedGrouper3() throws CprException, GeneralDatabaseException {
+	public final void _68testisDataActionAuthorizedGrouper3() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
@@ -532,7 +531,7 @@ public class DatabaseTest {
 		db.closeSession();
 	}
 	@Test
-	public final void _69testisDataActionAuthorized() throws CprException, GeneralDatabaseException {
+	public final void _69testisDataActionAuthorized() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
@@ -542,7 +541,7 @@ public class DatabaseTest {
 		db.closeSession();
 	}
 	@Test
-	public final void _70testisDataActionAuthorizedGrouper5() throws CprException, GeneralDatabaseException {
+	public final void _70testisDataActionAuthorizedGrouper5() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
@@ -552,7 +551,7 @@ public class DatabaseTest {
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void _71testisDataActionAuthorized6() throws CprException, GeneralDatabaseException {
+	public final void _71testisDataActionAuthorized6() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
@@ -562,7 +561,7 @@ public class DatabaseTest {
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void _72testisDataActionAuthorized7() throws CprException, GeneralDatabaseException {
+	public final void _72testisDataActionAuthorized7() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
@@ -572,7 +571,7 @@ public class DatabaseTest {
 		db.closeSession();
 	}
 	@Test
-	public final void _73testisDataActionAuthorized8() throws CprException, GeneralDatabaseException {
+	public final void _73testisDataActionAuthorized8() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
@@ -623,13 +622,13 @@ public class DatabaseTest {
 	}
 	
 	@Test
-	public final void _82testIsValidUserid1() throws GeneralDatabaseException {
+	public final void _82testIsValidUserid1() throws Exception {
 		openDbConnection();
 		AssertJUnit.assertFalse(db.isValidUserid(2L, "jvuccolo"));
 		db.closeSession();
 	}
 		
-	@Test(expectedExceptions=CprException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void _83testIsAffiliationRANotAuthorized() throws Exception {
 	openDbConnection();
 		db.requestorAuthorized("cpruser", "vlt", "AddAffiliation");
@@ -641,7 +640,7 @@ public class DatabaseTest {
 		db.closeSession();
 	}
 
-	@Test(expectedExceptions=CprException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void _84testIsAffiliationNotAuthorized() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("portal5", "vlt", "AddAffiliation");

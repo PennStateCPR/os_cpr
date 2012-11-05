@@ -21,8 +21,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.messaging.MessagingCore;
 
@@ -35,24 +33,24 @@ public class MessagingCoreTest {
 	
 	private static Database db = new Database();
 	
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
 	private static String webService = "TestService";
 	
 	@Test
-	public final void testMessagingCore() throws CprException {
+	public final void testMessagingCore() throws Exception {
 		new MessagingCore();
 	}
 	
-	@Test(expectedExceptions=CprException.class)
-	public final void testMessagingCoreNoDb() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testMessagingCoreNoDb() throws Exception {
 		new MessagingCore(db, webService);
 	}
 	
 	@Test
-	public final void testMessagingCoreDbBadServiceName() throws CprException, GeneralDatabaseException {
+	public final void testMessagingCoreDbBadServiceName() throws Exception {
 		openDbConnection();
 		MessagingCore msging = new MessagingCore(db, "Testing");
 		assertEquals(msging.getMsgQueues().size(), 0);
@@ -60,7 +58,7 @@ public class MessagingCoreTest {
 	}
 	
 	@Test
-	public final void testMessagingCoreDbJndi() throws CprException, GeneralDatabaseException {
+	public final void testMessagingCoreDbJndi() throws Exception {
 		openDbConnection();
 		MessagingCore msging = new MessagingCore(db, webService);
 		assertEquals(msging.getMsgQueues().size(), 1);
@@ -68,7 +66,7 @@ public class MessagingCoreTest {
 	}
 	
 	@Test
-	public final void testMessagingCoreBadServiceName() throws CprException, GeneralDatabaseException {
+	public final void testMessagingCoreBadServiceName() throws Exception {
 		openDbConnection();
 		MessagingCore msging = new MessagingCore(db, "Address");
 		assertEquals(msging.getMsgQueues().size(), 0);
@@ -76,56 +74,24 @@ public class MessagingCoreTest {
 	}
 	
 	@Test
-	public final void testMessagingCoreSendMsg() throws CprException, GeneralDatabaseException {
+	public final void testMessagingCoreSendMsg() throws Exception {
 		openDbConnection();
 		MessagingCore msging = new MessagingCore(db, webService);
 		msging.initializeMessaging();
 		JsonMessage testMsg = new JsonMessage(db, 100000, webService, "slk24");
 		msging.sendMessage(db, testMsg);
+		msging.closeMessaging();
 		db.closeSession();
 	}
 	
-	@Test(expectedExceptions=CprException.class)
-	public final void testMessagingCoreSendMsgNull() throws CprException, GeneralDatabaseException {
+	@Test(expectedExceptions=Exception.class)
+	public final void testMessagingCoreSendMsgNull() throws Exception {
 		openDbConnection();
 		MessagingCore msging = new MessagingCore(db, webService);
 		msging.initializeMessaging();
 		msging.sendMessage(db, null);
+		msging.closeMessaging();
 		db.closeSession();
 	}
 	
-//	@Test
-//	public final void testMessagingCoreRcvNoMsg() throws CprException, GeneralDatabaseException {
-//		openDbConnection();
-//		MessagingCore msging = new MessagingCore(db, webService, connection);
-//		ServiceProvisionerQueue testSPQueue = msging.getMsgQueues().get(0);
-//		Queue testQueue = testSPQueue.getServiceProvisionerQueue();
-//		String rcvMsg = "Initial read";
-//		while (rcvMsg != null) {
-//			rcvMsg = msging.receiveMessageNoWait(testQueue);
-//		}
-//		assertNull(rcvMsg);
-//		db.closeSession();
-//	}
-//	
-//	@Test
-//	public final void testMessagingCoreRcvMsg() throws GeneralDatabaseException, CprException {
-//		openDbConnection();
-//		MessagingCore msging = new MessagingCore(db, webService, connection);
-//		ServiceProvisionerQueue testQueue = msging.getMsgQueues().get(0);
-//		String rcvMsg = msging.receiveMessageWait(testQueue.getServiceProvisionerQueue());
-//		assertNotNull(rcvMsg);
-//		db.closeSession();
-//	}
-//	
-//	@Test(expected=CprException.class)
-//	public final void testMessagingCoreSendMsgNotAuthorized() throws GeneralDatabaseException, CprException {
-//		openDbConnection();
-//		MessagingCore msging = new MessagingCore(db, webService, connection, true);
-//		JsonMessage testMsg = new JsonMessage(db, 100000, webService, "slk24");
-//		System.out.println("testing");
-//		msging.sendMessage(db, testMsg);
-//		db.closeSession();
-//	}
-
 }

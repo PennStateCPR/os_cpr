@@ -42,7 +42,6 @@ package edu.psu.iam.cpr.core.util;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.PersonUseridIapTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 public final class ValidatePersonUseridIap {
@@ -62,11 +61,10 @@ public final class ValidatePersonUseridIap {
 	 * @param requestedBy contains the userid or server identifier of the user who is requesting the add.
 	 * @param returnHistory Y/N flag that indicates whether history is to be returned or not.
 	 * @return PersonUseridIapTable
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
 	public static PersonUseridIapTable validateGetPsuIapParameters(Database db, long personId, String userid, String requestedBy, String returnHistory) 
-					throws GeneralDatabaseException, CprException {
+					throws CprException {
 	
 		
 		String localUserid = (userid != null) ? userid.trim() : null;
@@ -110,10 +108,10 @@ public final class ValidatePersonUseridIap {
 	 * @param requestedBy contains the userid or server identifier of the user who is requesting the add.
 	 * @param federation - the federation
 	 * 
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
-	public static void validateGetExternalIapParameters(Database db, long personId, String userid, String requestedBy, String federation) throws GeneralDatabaseException, CprException {
+	public static void validateGetExternalIapParameters(Database db, long personId, String userid, 
+			String requestedBy, String federation) throws CprException {
 	
 
 		String localUserid = (userid != null) ? userid.trim() : null;

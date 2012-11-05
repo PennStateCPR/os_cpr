@@ -32,8 +32,6 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.UserComments;
 import edu.psu.iam.cpr.core.database.tables.UserCommentTable;
 import edu.psu.iam.cpr.core.database.types.UserCommentType;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.service.returns.UserCommentReturn;
 
 /**
@@ -43,7 +41,7 @@ import edu.psu.iam.cpr.core.service.returns.UserCommentReturn;
 public class UserCommentTableTest {
 
 	private static Database db= new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
@@ -140,7 +138,7 @@ public class UserCommentTableTest {
 
 	
 	@Test(expectedExceptions=Exception.class) 
-	public final void _11testGetUserCommentByType1() throws GeneralDatabaseException, CprException {
+	public final void _11testGetUserCommentByType1() throws Exception {
 		UserCommentTable n = new UserCommentTable();
 		n.getUserComments(db, null);
 	}
@@ -167,13 +165,13 @@ public class UserCommentTableTest {
 	}
 
 	@Test(expectedExceptions=Exception.class) 
-	public final void _14testGetUserComments1() throws GeneralDatabaseException, CprException {
+	public final void _14testGetUserComments1() throws Exception {
 		UserCommentTable n = new UserCommentTable();
 		n.getUserComments(db, null);
 	}
 	
 	@Test
-	public final void _15testGetUserComments2() throws GeneralDatabaseException, CprException {
+	public final void _15testGetUserComments2() throws Exception {
 		openDbConnection();
 		UserCommentTable n = new UserCommentTable();
 		n.setReturnHistoryFlag(true);
@@ -183,7 +181,7 @@ public class UserCommentTableTest {
 	}
 	
 	@Test
-	public final void _16testGetUserComments3() throws GeneralDatabaseException, CprException {
+	public final void _16testGetUserComments3() throws Exception {
 		openDbConnection();
 		UserCommentTable n = new UserCommentTable();
 		n.setReturnHistoryFlag(true);
@@ -191,8 +189,8 @@ public class UserCommentTableTest {
 		db.closeSession();
 	}
 	
-	@Test(expectedExceptions=CprException.class)
-	public final void _17testArchiveUserComment1() throws GeneralDatabaseException, CprException {
+	@Test(expectedExceptions=Exception.class)
+	public final void _17testArchiveUserComment1() throws Exception {
 		UserCommentTable n = new UserCommentTable();
 		n.archiveUserComment(null);
 	}
@@ -206,7 +204,7 @@ public class UserCommentTableTest {
 		db.closeSession();
 	}
 	
-	@Test(expectedExceptions=CprException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void _19testArchiveUserComment4() throws Exception {
 		openDbConnection();
 		UserCommentTable n = new UserCommentTable(100000,"dummy2","USER_COMMENT_MISUSE",  "raw121" );
@@ -220,7 +218,7 @@ public class UserCommentTableTest {
 		n.updateUserComment(null);
 	}
 	
-//	@Test(expected=CprException.class)
+//	@Test(expected=Exception.class)
 //	public final void _21testUpdateUserComment1() throws Exception {
 //		openDbConnection();
 //		UserCommentTable n = new UserCommentTable(100000,"dummy1","USER_COMMENT_MISUSE", "bad", "jvuccolo" );

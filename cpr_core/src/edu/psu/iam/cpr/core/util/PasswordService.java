@@ -54,26 +54,15 @@ public enum PasswordService
 	 * This routine is used to encrypt a plaintext password.
 	 * @param plaintext contains the plaintext password.
 	 * @return contains the encrypted password.
-	 * @throws Exception will be thrown if there are any problems.
+	 * @throws NoSuchAlgorithmException 
+	 * @throws UnsupportedEncodingException 
 	 */
-	public String encrypt(String plaintext) throws Exception
+	public String encrypt(String plaintext) throws NoSuchAlgorithmException, UnsupportedEncodingException
 	{
 		MessageDigest md = null;
-		try
-		{
-			md = MessageDigest.getInstance("SHA");
-		}
-		catch(NoSuchAlgorithmException e) {
-			throw new Exception(e.getMessage());
-		}
-		try
-		{
-			md.update(plaintext.getBytes("UTF-8"));
-		}
-		catch(UnsupportedEncodingException e) {
-			throw new Exception(e.getMessage());
-		}
-
+		
+		md = MessageDigest.getInstance("SHA");
+		md.update(plaintext.getBytes("UTF-8"));
 		byte raw[] = md.digest();
 		return Base64.encodeBase64String(raw);
 	}

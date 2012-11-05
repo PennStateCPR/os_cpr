@@ -1,12 +1,12 @@
 /* SVN FILE: $Id: ValidateIdCard.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
 package edu.psu.iam.cpr.core.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.IdCardTable;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -61,13 +61,12 @@ public final class ValidateIdCard {
 	 * @param dateTaken - contains the date the photo was taken.
 	 * @return IdCardTable object
 	 * 
-	 * @throws GeneralDatabaseException
 	 * @throws CprException
+	 * @throws ParseException 
 	 */
 	public static IdCardTable validateAddUpdateIdCardParameters ( final Database db,
 			long personId, String idCardTypeString, String updatedBy,
-			String idCardNumber, String idSerialNumber, byte[] photo, String dateTaken)  throws GeneralDatabaseException,
-			CprException {
+			String idCardNumber, String idSerialNumber, byte[] photo, String dateTaken)  throws CprException, ParseException {
 		IdCardTable idCardTable = null;
 		
 		String localDateTaken = (dateTaken != null) ? dateTaken.trim() : null;
@@ -120,22 +119,16 @@ public final class ValidateIdCard {
 				}
 			}
 		}
-		try {
-			if (localDateTaken == null) {
-				idCardTable = new IdCardTable(personId, localIdCardTypeString, updatedBy, localIdCardNumber,  
-						localIdSerialNumber);
-			}
-			else
-			{
+		if (localDateTaken == null) {
+			idCardTable = new IdCardTable(personId, localIdCardTypeString, updatedBy, localIdCardNumber,  
+					localIdSerialNumber);
+		}
+		else
+		{
 			idCardTable = new IdCardTable(personId, localIdCardTypeString, updatedBy, localIdCardNumber,  
 					localIdSerialNumber, photo, new SimpleDateFormat(
 							CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_FORMAT_DATE.toString())).parse(
 									localDateTaken));
-			}
-		}
-		catch (Exception e)
-		{
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Id CardType");
 		}
 		return idCardTable;
 	}
@@ -148,13 +141,11 @@ public final class ValidateIdCard {
 	 * @param updatedBy userid of the  issuing the getIdCardByType
 	 * @param idCardTypeString  - the type of id card records to return
 	 * @return IdCardTable
-	 * @throws GeneralDatabaseException
 	 * @throws CprException
 	 */
 	public static IdCardTable  validateArchiveIdCardParameters ( final Database db,
-			long personId, String updatedBy, String idCardTypeString) throws GeneralDatabaseException,CprException {
+			long personId, String updatedBy, String idCardTypeString) throws CprException {
 		
-		IdCardTable idCardTable = null;
 		String localUpdatedBy = (updatedBy  != null) ? updatedBy.trim() : null;
 		String localIdCardTypeString = null;
 		if (idCardTypeString != null) {
@@ -171,14 +162,7 @@ public final class ValidateIdCard {
 		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Update by");
 		}
-		try {
-			idCardTable = new IdCardTable(personId, localIdCardTypeString, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Id Card Type");
-		
-		}
-		return idCardTable;
+		return new IdCardTable(personId, localIdCardTypeString, localUpdatedBy);
 	}
 	
 	/**
@@ -189,11 +173,10 @@ public final class ValidateIdCard {
 	 * @param idCardType contains the type of id card to be used in a search, if specified.
 	 * @param returnHistory Y/N that indicates whether history is to be returned or not.
 	 * @return IdCardTable
-	 * @throws GeneralDatabaseException
 	 * @throws CprException
 	 */
 	public static IdCardTable validateGetIdCardParameters ( final Database db,
-			long personId, String requestedBy, String idCardType, String returnHistory) throws GeneralDatabaseException,CprException {
+			long personId, String requestedBy, String idCardType, String returnHistory) throws CprException {
 
 		// Trim all of the String parameters.
 		String localRequestedBy = (requestedBy  != null) ? requestedBy.trim() : null;
@@ -217,12 +200,7 @@ public final class ValidateIdCard {
 		// Validate the id card type.
 		final IdCardTable idCardTable = new IdCardTable();
 		if (localIdCardType != null) {
-			try {
-				idCardTable.setIdCardType(localIdCardType);
-			}
-			catch (Exception e) {
-				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Id Card Type");
-			}
+			idCardTable.setIdCardType(localIdCardType);
 		}
 		
 		// Validate the return history flag.

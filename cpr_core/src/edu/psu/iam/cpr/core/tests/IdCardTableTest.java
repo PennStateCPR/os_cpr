@@ -33,8 +33,6 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.PersonIdCard;
 import edu.psu.iam.cpr.core.database.tables.IdCardTable;
 import edu.psu.iam.cpr.core.database.types.IdCardType;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * @author llg5
@@ -43,15 +41,15 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 public class IdCardTableTest {
 	private static Database db = new Database();
 	
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.AddressesTable#AddressesTable()}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 */
 	@Test
-	public final void _01testPersonIdCardTable() throws GeneralDatabaseException {
+	public final void _01testPersonIdCardTable() throws Exception {
 		new IdCardTable();
 		openDbConnection();
 		String sqlQuery = null;
@@ -181,12 +179,12 @@ public class IdCardTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#addIdCard)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 * */
 	
 	@Test
-	public final void _10testIdCardTableAddIdNoPhoto() throws GeneralDatabaseException, CprException {
+	public final void _10testIdCardTableAddIdNoPhoto() throws Exception {
 		openDbConnection();
 		IdCardTable aPICTable = new IdCardTable(100004, "ID_CARD_ID_PLUS_CARD_STUDENT", "llg5", "1234567890123456","12345");
 		aPICTable.addIdCard(db);
@@ -194,12 +192,12 @@ public class IdCardTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#addIdCard)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 * */
 	
 //	@Test
-//	public final void _11testIdCardTableAddIdNoPhotoAgain() throws GeneralDatabaseException, CprException {
+//	public final void _11testIdCardTableAddIdNoPhotoAgain() throws Exception {
 //		openDbConnection();
 //		IdCardTable aPICTable = new IdCardTable(100004, "ID_CARD_STUDENT", "llg5", "1234567890123456","12345");
 //		aPICTable.addIdCard(db);
@@ -207,12 +205,12 @@ public class IdCardTableTest {
 //	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#addIdCard)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
 	 * */
 	
 	@Test
-	public final void _12testIdCardTableAddIdWithPhoto() throws GeneralDatabaseException, CprException {
+	public final void _12testIdCardTableAddIdWithPhoto() throws Exception {
 		openDbConnection();
 		IdCardTable aPICTable = new IdCardTable(100004, "ID_CARD_ID_PLUS_CARD_STUDENT", "llg5", "0123456789012345","12345", new byte [1], new Date());
 		aPICTable.addIdCard(db);
@@ -220,11 +218,11 @@ public class IdCardTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#GetIdCardForPersonId)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * */
 	
 	@Test
-	public final void _13testIdCardTableAGetIdCardBeforeArchive() throws GeneralDatabaseException {
+	public final void _13testIdCardTableAGetIdCardBeforeArchive() throws Exception {
 		openDbConnection();
 		IdCardTable aPICTable = new IdCardTable();
 		aPICTable.setReturnHistoryFlag(false);
@@ -233,11 +231,11 @@ public class IdCardTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#AGetIdCardForPersonId)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * */
 	
 	@Test
-	public final void _14testIdCardTableAGetIdCardHistoryBeforeArchive() throws GeneralDatabaseException {
+	public final void _14testIdCardTableAGetIdCardHistoryBeforeArchive() throws Exception {
 		openDbConnection();
 		IdCardTable aPICTable = new IdCardTable();
 		aPICTable.setReturnHistoryFlag(true);
@@ -245,7 +243,7 @@ public class IdCardTableTest {
 		db.closeSession();
 	}
 	@Test
-	public final void _15testIdCardTableAGetIdCardByType() throws GeneralDatabaseException {
+	public final void _15testIdCardTableAGetIdCardByType() throws Exception {
 		openDbConnection();
 		IdCardTable aPICTable = new IdCardTable();
 		aPICTable.setIdCardType("ID_CARD_ID_PLUS_CARD_student");
@@ -255,11 +253,11 @@ public class IdCardTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#AGetIdCardByTypeForPersonId)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * */
 	
 	@Test
-	public final void _16testIdCardTableAGetIdCardByTypeHistory() throws GeneralDatabaseException {
+	public final void _16testIdCardTableAGetIdCardByTypeHistory() throws Exception {
 		openDbConnection();
 		IdCardTable aPICTable = new IdCardTable();
 		aPICTable.setIdCardType("ID_CARD_ID_PLUS_CARD_student");
@@ -269,12 +267,13 @@ public class IdCardTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#ArchiveIdCard)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * @throws CprException 
+	 * @throws AlreadyArchivedException 
 	 * */
 	
 	@Test
-	public final void _17testIdCardTableArchiveIdCard() throws GeneralDatabaseException, CprException {
+	public final void _17testIdCardTableArchiveIdCard() throws Exception {
 		openDbConnection();
 		IdCardTable aPICTable = new IdCardTable(100004, "ID_CARD_ID_PLUS_CARD_STUDENT", "llg5", "0123456789012345","12345");
 		aPICTable.archiveIdCard(db);
@@ -283,11 +282,11 @@ public class IdCardTableTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#GetIdCardForPersonId)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * */
 	
 	@Test
-	public final void _18testIdCardTableAGetIdCard() throws GeneralDatabaseException {
+	public final void _18testIdCardTableAGetIdCard() throws Exception {
 		openDbConnection();
 		IdCardTable aPICTable = new IdCardTable();
 		aPICTable.setReturnHistoryFlag(false);
@@ -297,11 +296,11 @@ public class IdCardTableTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#AGetIdCardForPersonId)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * */
 	
 	@Test
-	public final void _19testIdCardTableAGetIdCardHistory() throws GeneralDatabaseException {
+	public final void _19testIdCardTableAGetIdCardHistory() throws Exception {
 		openDbConnection();
 		IdCardTable aPICTable = new IdCardTable();
 		aPICTable.setReturnHistoryFlag(true);
@@ -310,16 +309,16 @@ public class IdCardTableTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#AGetIdCardByTypeForPersonId)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * */
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#GetIdCardForPersonId)}.
-	 * @throws GeneralDatabaseException 
+	 * @throws Exception 
 	 * */
 	
 	@Test
-	public final void _20testIdCardTableAGetIdCardNumber() throws GeneralDatabaseException {
+	public final void _20testIdCardTableAGetIdCardNumber() throws Exception {
 		openDbConnection();
 		IdCardTable aPICTable = new IdCardTable();
 		aPICTable.setReturnHistoryFlag(false);

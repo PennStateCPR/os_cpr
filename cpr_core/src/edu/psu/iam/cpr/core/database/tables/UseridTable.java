@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.Userid;
 import edu.psu.iam.cpr.core.database.helpers.UseridHelper;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.UseridReturn;
 import edu.psu.iam.cpr.core.util.Utility;
@@ -44,6 +43,9 @@ import edu.psu.iam.cpr.core.util.Utility;
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
 public class UseridTable {
+	
+	/** Contains the name of the database table for this implementation */
+	private static final String TABLE_NAME = "Userid";
 	
 	/** Contains a reference to the userid bean */
 	private Userid useridBean;
@@ -204,9 +206,6 @@ public class UseridTable {
 			psuDirectoryTable.addDirectoryTable(db);
 
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "userid");
-		}
 		finally {
 			try {
 				getUseridHelper().getGeneratedIdentityTable().removeGeneratedIdentity(session);
@@ -228,182 +227,171 @@ public class UseridTable {
 		boolean alreadyPrimary = false;
 		boolean recordNotFound = false;
 		
-		try {
-			final Session session = db.getSession();
-			final Userid bean = getUseridBean();
-			
-			// For the selected userid, obtain the end date and their primary flag.
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT end_date, primary_flag ");
-			sb.append("FROM userid ");
-			sb.append("WHERE person_id = :person_id_in ");
-			sb.append("AND userid = :userid_in ");
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("person_id_in", bean.getPersonId());
-			query.setParameter("userid_in", bean.getUserid());
-			query.addScalar("end_date", StandardBasicTypes.DATE);
-			query.addScalar("primary_flag", StandardBasicTypes.STRING);
-			Iterator<?> it = query.list().iterator();
-			
-			if (it.hasNext()) {
-				Object res[] = (Object []) it.next();
-				bean.setEndDate((Date) res[0]);
-				bean.setPrimaryFlag((String) res[1]);
-				
-				// Expired, we have an error.
-				if (bean.getEndDate() != null) {
-					recordExpired = true;
-				}
-				
-				// Already primary, we have an error.
-				else if (bean.getPrimaryFlag().equals("Y")) {
-					alreadyPrimary = true;
-				}
-				else {
-					
-					// Switch the current primary record.
-					String sqlQuery = "from Userid where personId = :person_id_in AND primaryFlag = 'Y' AND endDate IS NULL";
-					Query query1 = session.createQuery(sqlQuery);
-					query1.setParameter("person_id_in", bean.getPersonId());
-					for (it = query1.list().iterator(); it.hasNext();) {
-						Userid dbBean = (Userid) it.next();
-						
-						dbBean.setPrimaryFlag("N");
-						dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-						dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-						session.update(dbBean);
-						session.flush();
-					}
-					
-					// Make the new record primary.
-					sqlQuery = "from Userid where personId = :person_id_in AND userid = :userid_in AND endDate IS NULL";
-					query1 = session.createQuery(sqlQuery);
-					query1.setParameter("person_id_in", bean.getPersonId());
-					query1.setParameter("userid_in", bean.getUserid());
-					for (it = query1.list().iterator(); it.hasNext(); ) {
-						Userid dbBean = (Userid) it.next();
-						dbBean.setPrimaryFlag("Y");
-						dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-						dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-						session.update(dbBean);
-						session.flush();
-					}
-				}
+		final Session session = db.getSession();
+		final Userid bean = getUseridBean();
+
+		// For the selected userid, obtain the end date and their primary flag.
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT end_date, primary_flag ");
+		sb.append("FROM userid ");
+		sb.append("WHERE person_id = :person_id_in ");
+		sb.append("AND userid = :userid_in ");
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id_in", bean.getPersonId());
+		query.setParameter("userid_in", bean.getUserid());
+		query.addScalar("end_date", StandardBasicTypes.DATE);
+		query.addScalar("primary_flag", StandardBasicTypes.STRING);
+		Iterator<?> it = query.list().iterator();
+
+		if (it.hasNext()) {
+			Object res[] = (Object []) it.next();
+			bean.setEndDate((Date) res[0]);
+			bean.setPrimaryFlag((String) res[1]);
+
+			// Expired, we have an error.
+			if (bean.getEndDate() != null) {
+				recordExpired = true;
+			}
+
+			// Already primary, we have an error.
+			else if (bean.getPrimaryFlag().equals("Y")) {
+				alreadyPrimary = true;
 			}
 			else {
-				recordNotFound = true;
-			}	
+
+				// Switch the current primary record.
+				String sqlQuery = "from Userid where personId = :person_id_in AND primaryFlag = 'Y' AND endDate IS NULL";
+				Query query1 = session.createQuery(sqlQuery);
+				query1.setParameter("person_id_in", bean.getPersonId());
+				for (it = query1.list().iterator(); it.hasNext();) {
+					Userid dbBean = (Userid) it.next();
+
+					dbBean.setPrimaryFlag("N");
+					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+					session.update(dbBean);
+					session.flush();
+				}
+
+				// Make the new record primary.
+				sqlQuery = "from Userid where personId = :person_id_in AND userid = :userid_in AND endDate IS NULL";
+				query1 = session.createQuery(sqlQuery);
+				query1.setParameter("person_id_in", bean.getPersonId());
+				query1.setParameter("userid_in", bean.getUserid());
+				for (it = query1.list().iterator(); it.hasNext(); ) {
+					Userid dbBean = (Userid) it.next();
+					dbBean.setPrimaryFlag("Y");
+					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+					session.update(dbBean);
+					session.flush();
+				}
+			}
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.SET_PRIMARY_FAILED_EXCEPTION, "userid");
-		}
+		else {
+			recordNotFound = true;
+		}	
 		
 		// Handle other errors.
 		if (recordExpired) {
-			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, "userid");
+			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, TABLE_NAME);
 		}
 		if (alreadyPrimary) {
-			throw new CprException(ReturnType.SET_PRIMARY_FAILED_EXCEPTION, "userid");
+			throw new CprException(ReturnType.SET_PRIMARY_FAILED_EXCEPTION, TABLE_NAME);
 		}
 		if (recordNotFound) {
-			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "userid");
+			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, TABLE_NAME);
 		}
 	}
 	
 	/**
 	 * This routine is used to archive a userid.  It is called by the ArchiveUserid service.
 	 * @param db contains a reference to an open database connection.
-	 * @throws GeneralDatabaseException will be thrown if there are any database problems.
 	 * @throws CprException will be thrown for any CPR specific problems.
 	 */
-	public void archiveUserid(Database db) throws GeneralDatabaseException, CprException {
+	public void archiveUserid(Database db) throws CprException {
 		
 		boolean noneActive = false;
 		boolean notFound = false;
 		boolean alreadyArchived = false;
 		boolean cannotArchive = false;
 		
-		try {
-			final Session session = db.getSession();
-			final Userid bean = getUseridBean();
-			
-			// Determine how many userids are active for the current user.
-			String sqlQuery = "SELECT person_id FROM userid WHERE person_id = :person_id_in AND end_date IS NULL";
-			SQLQuery query = session.createSQLQuery(sqlQuery);
+		final Session session = db.getSession();
+		final Userid bean = getUseridBean();
+
+		// Determine how many userids are active for the current user.
+		String sqlQuery = "SELECT person_id FROM userid WHERE person_id = :person_id_in AND end_date IS NULL";
+		SQLQuery query = session.createSQLQuery(sqlQuery);
+		query.setParameter("person_id_in", bean.getPersonId());
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		final int activeCount = query.list().size();
+		if (activeCount == 0) {
+			noneActive = true;
+		}
+		else {
+
+			// For the selected userid, obtain the end date and their primary flag.
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+			sb.append("SELECT end_date, primary_flag ");
+			sb.append("FROM userid ");
+			sb.append("WHERE person_id = :person_id_in ");
+			sb.append("AND userid = :userid_in ");
+			query = session.createSQLQuery(sb.toString());
 			query.setParameter("person_id_in", bean.getPersonId());
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			final int activeCount = query.list().size();
-			if (activeCount == 0) {
-				noneActive = true;
+			query.setParameter("userid_in", bean.getUserid());
+			query.addScalar("end_date", StandardBasicTypes.DATE);
+			query.addScalar("primary_flag", StandardBasicTypes.STRING);
+			Iterator<?> it = query.list().iterator();
+
+			if (it.hasNext()) {
+				Object res[] = (Object []) it.next();
+				bean.setEndDate((Date) res[0]);
+				bean.setPrimaryFlag((String) res[1]);
+
+				// Error if the record already has an end date.
+				if (bean.getEndDate() != null) {
+					alreadyArchived = true;
+				}
+
+				// If there are more than one record and this one is primary, do not all the archival.
+				else if (activeCount > 1 && bean.getPrimaryFlag().equals("Y")) {
+					cannotArchive = true;
+				}
+
+				// Otherwise we can do the archive.
+				else {
+					sqlQuery = "from Userid where personId = :person_id_in AND userid = :userid_in AND endDate IS NULL";
+					final Query query1 = session.createQuery(sqlQuery);
+					query1.setParameter("person_id_in", bean.getPersonId());
+					query1.setParameter("userid_in", bean.getUserid());
+					for (it = query1.list().iterator(); it.hasNext(); ) {
+						Userid dbBean = (Userid) it.next();
+						dbBean.setPrimaryFlag("N");
+						dbBean.setEndDate(bean.getLastUpdateOn());
+						dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+						dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+						session.update(dbBean);
+						session.flush();
+					}
+				}
 			}
 			else {
-				
-				// For the selected userid, obtain the end date and their primary flag.
-				final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-				sb.append("SELECT end_date, primary_flag ");
-				sb.append("FROM userid ");
-				sb.append("WHERE person_id = :person_id_in ");
-				sb.append("AND userid = :userid_in ");
-				query = session.createSQLQuery(sb.toString());
-				query.setParameter("person_id_in", bean.getPersonId());
-				query.setParameter("userid_in", bean.getUserid());
-				query.addScalar("end_date", StandardBasicTypes.DATE);
-				query.addScalar("primary_flag", StandardBasicTypes.STRING);
-				Iterator<?> it = query.list().iterator();
-				
-				if (it.hasNext()) {
-					Object res[] = (Object []) it.next();
-					bean.setEndDate((Date) res[0]);
-					bean.setPrimaryFlag((String) res[1]);
-					
-					// Error if the record already has an end date.
-					if (bean.getEndDate() != null) {
-						alreadyArchived = true;
-					}
-					
-					// If there are more than one record and this one is primary, do not all the archival.
-					else if (activeCount > 1 && bean.getPrimaryFlag().equals("Y")) {
-						cannotArchive = true;
-					}
-					
-					// Otherwise we can do the archive.
-					else {
-						sqlQuery = "from Userid where personId = :person_id_in AND userid = :userid_in AND endDate IS NULL";
-						final Query query1 = session.createQuery(sqlQuery);
-						query1.setParameter("person_id_in", bean.getPersonId());
-						query1.setParameter("userid_in", bean.getUserid());
-						for (it = query1.list().iterator(); it.hasNext(); ) {
-							Userid dbBean = (Userid) it.next();
-							dbBean.setPrimaryFlag("N");
-							dbBean.setEndDate(bean.getLastUpdateOn());
-							dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-							dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-							session.update(dbBean);
-							session.flush();
-						}
-					}
-				}
-				else {
-					notFound = true;
-				}
-				
+				notFound = true;
 			}
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ARCHIVE_FAILED_EXCEPTION, "userid");
+
 		}
 		
 		if (notFound) {
-			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "userid");
+			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, TABLE_NAME);
 		}
 		if (noneActive) {
-			throw new GeneralDatabaseException("Cannot archive userid, because there are no active userids.");
+			throw new CprException(ReturnType.GENERAL_EXCEPTION, "Cannot archive userid, because there are no active userids.");
 		}
 		if (alreadyArchived)  {
-			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, "userid");
+			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, TABLE_NAME);
 		}
 		if (cannotArchive) {
-			throw new GeneralDatabaseException("Cannot archive userid, because its the primary userid.");
+			throw new CprException(ReturnType.GENERAL_EXCEPTION, "Cannot archive userid, because its the primary userid.");
 		}
 		
 	}
@@ -411,91 +399,85 @@ public class UseridTable {
 	/**
 	 * This routine is used to unarchive a userid.  It is called by the UnarchiveUserid service.
 	 * @param db contains a reference to an open database connection.
-	 * @throws GeneralDatabaseException will be thrown if there are any database problems.
 	 * @throws CprException will be thrown for any CPR specific problems.
 	 */
-	public void unarchiveUserid(Database db) throws GeneralDatabaseException, CprException {
+	public void unarchiveUserid(Database db) throws CprException {
 		
 		boolean alreadyUnarchived = false;
 		boolean noArchivedRecords = false;
 		boolean recordNotFound = false;
 		
-		try {
-			final Session session = db.getSession();
-			final Userid bean = getUseridBean();
-			
-			// See how any userids are archived for the user, if there are none that are archived, we have an error.
-			String sqlQuery = "SELECT person_id FROM userid WHERE person_id = :person_id_in AND end_date IS NOT NULL";
-			SQLQuery query = session.createSQLQuery(sqlQuery);
+		final Session session = db.getSession();
+		final Userid bean = getUseridBean();
+
+		// See how any userids are archived for the user, if there are none that are archived, we have an error.
+		String sqlQuery = "SELECT person_id FROM userid WHERE person_id = :person_id_in AND end_date IS NOT NULL";
+		SQLQuery query = session.createSQLQuery(sqlQuery);
+		query.setParameter("person_id_in", bean.getPersonId());
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		final int archivedCount = query.list().size();
+
+		if (archivedCount == 0) {
+			noArchivedRecords = true;
+		}
+		else {
+
+			// For the selected userid, obtain the end date and their primary flag.
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+			sb.append("SELECT end_date, primary_flag ");
+			sb.append("FROM userid ");
+			sb.append("WHERE person_id = :person_id_in ");
+			sb.append("AND userid = :userid_in ");
+			query = session.createSQLQuery(sb.toString());
 			query.setParameter("person_id_in", bean.getPersonId());
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			final int archivedCount = query.list().size();
-			
-			if (archivedCount == 0) {
-				noArchivedRecords = true;
-			}
-			else {
-				
-				// For the selected userid, obtain the end date and their primary flag.
-				final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-				sb.append("SELECT end_date, primary_flag ");
-				sb.append("FROM userid ");
-				sb.append("WHERE person_id = :person_id_in ");
-				sb.append("AND userid = :userid_in ");
-				query = session.createSQLQuery(sb.toString());
-				query.setParameter("person_id_in", bean.getPersonId());
-				query.setParameter("userid_in", bean.getUserid());
-				query.addScalar("end_date", StandardBasicTypes.DATE);
-				query.addScalar("primary_flag", StandardBasicTypes.STRING);
-				Iterator<?> it = query.list().iterator();
-				
-				if (it.hasNext()) {
-					Object res[] = (Object []) it.next();
-					bean.setEndDate((Date) res[0]);
-					bean.setPrimaryFlag((String) res[1]);
-					
-					if (bean.getEndDate() == null) {
-						alreadyUnarchived = true;
-					}
-					else {
-						// Determine how many userids are active for the current user.
-						sqlQuery = "SELECT person_id FROM userid WHERE person_id = :person_id_in AND end_date IS NULL";
-						query = session.createSQLQuery(sqlQuery);
-						query.setParameter("person_id_in", bean.getPersonId());
-						query.addScalar("person_id", StandardBasicTypes.LONG);
-						final int activeCount = query.list().size();
-						
-						if (activeCount == 0) {
-							bean.setPrimaryFlag("Y");
-						}
-						else {
-							bean.setPrimaryFlag("N");
-						}
-						
-						// Do the unarchive.
-						sqlQuery = "from Userid where personId = :person_id AND userid = :userid_in AND endDate IS NOT NULL";
-						final Query query1 = session.createQuery(sqlQuery);
-						query1.setParameter("person_id", bean.getPersonId());
-						query1.setParameter("userid_in", bean.getUserid());
-						for (it = query1.list().iterator(); it.hasNext(); ) {
-							Userid dbBean = (Userid) it.next();
-							dbBean.setPrimaryFlag(bean.getPrimaryFlag());
-							dbBean.setEndDate(null);
-							dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-							dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-							session.update(dbBean);
-							session.flush();
-						}
-					}
-	
+			query.setParameter("userid_in", bean.getUserid());
+			query.addScalar("end_date", StandardBasicTypes.DATE);
+			query.addScalar("primary_flag", StandardBasicTypes.STRING);
+			Iterator<?> it = query.list().iterator();
+
+			if (it.hasNext()) {
+				Object res[] = (Object []) it.next();
+				bean.setEndDate((Date) res[0]);
+				bean.setPrimaryFlag((String) res[1]);
+
+				if (bean.getEndDate() == null) {
+					alreadyUnarchived = true;
 				}
 				else {
-					recordNotFound = true;
+					// Determine how many userids are active for the current user.
+					sqlQuery = "SELECT person_id FROM userid WHERE person_id = :person_id_in AND end_date IS NULL";
+					query = session.createSQLQuery(sqlQuery);
+					query.setParameter("person_id_in", bean.getPersonId());
+					query.addScalar("person_id", StandardBasicTypes.LONG);
+					final int activeCount = query.list().size();
+
+					if (activeCount == 0) {
+						bean.setPrimaryFlag("Y");
+					}
+					else {
+						bean.setPrimaryFlag("N");
+					}
+
+					// Do the unarchive.
+					sqlQuery = "from Userid where personId = :person_id AND userid = :userid_in AND endDate IS NOT NULL";
+					final Query query1 = session.createQuery(sqlQuery);
+					query1.setParameter("person_id", bean.getPersonId());
+					query1.setParameter("userid_in", bean.getUserid());
+					for (it = query1.list().iterator(); it.hasNext(); ) {
+						Userid dbBean = (Userid) it.next();
+						dbBean.setPrimaryFlag(bean.getPrimaryFlag());
+						dbBean.setEndDate(null);
+						dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+						dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+						session.update(dbBean);
+						session.flush();
+					}
 				}
+
 			}
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.UNARCHIVE_FAILED_EXCEPTION, "userid");
+			else {
+				recordNotFound = true;
+			}
 		}
 		
 		if (alreadyUnarchived) {
@@ -503,7 +485,7 @@ public class UseridTable {
 		}
 		
 		if (noArchivedRecords) {
-			throw new GeneralDatabaseException("There are no records that can be unarchived.");
+			throw new CprException(ReturnType.GENERAL_EXCEPTION, "There are no records that can be unarchived.");
 		}
 		
 		if (recordNotFound) {
@@ -520,43 +502,37 @@ public class UseridTable {
 		
 		// Verify that the new userid contains valid characters.
 		if (! isUseridValid(db, getUseridBean().getUserid())) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "userid");
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, TABLE_NAME);
 		}
 		
-		try {
-			final Session session = db.getSession();
-			final Userid bean = getUseridBean();
+		final Session session = db.getSession();
+		final Userid bean = getUseridBean();
 
-			// Fill in the char and number parts of the userid.
-			final String charPart = getCharacterPart(bean.getUserid());
-			bean.setCharPart(charPart);
-			bean.setNumPart(getNumberPart(bean.getUserid(), charPart));
-			
-			// Do a select to determine what primary needs to be set to.
-			final String sqlQuery = "SELECT person_id FROM userid WHERE person_id = :person_id_in AND end_date IS NULL";
-			final SQLQuery query = session.createSQLQuery(sqlQuery);
-			query.setParameter("person_id_in", bean.getPersonId());
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			if (query.list().size() == 0) {
-				bean.setPrimaryFlag("Y");
-			}
-			else {
-				bean.setDisplayNameFlag("N");
-				bean.setPrimaryFlag("N");
-			}
-			
-			// Save off the new userid record.
-			session.save(bean);
-			session.flush();
-			
-			// Add a record to the psu directory table.
-			final PsuDirectoryTable psuDirectoryTable = new PsuDirectoryTable(bean.getPersonId(), bean.getUserid(), bean.getLastUpdateBy());
-			psuDirectoryTable.addDirectoryTable(db);
-			
- 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "userid");
+		// Fill in the char and number parts of the userid.
+		final String charPart = getCharacterPart(bean.getUserid());
+		bean.setCharPart(charPart);
+		bean.setNumPart(getNumberPart(bean.getUserid(), charPart));
+
+		// Do a select to determine what primary needs to be set to.
+		final String sqlQuery = "SELECT person_id FROM userid WHERE person_id = :person_id_in AND end_date IS NULL";
+		final SQLQuery query = session.createSQLQuery(sqlQuery);
+		query.setParameter("person_id_in", bean.getPersonId());
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		if (query.list().size() == 0) {
+			bean.setPrimaryFlag("Y");
 		}
+		else {
+			bean.setDisplayNameFlag("N");
+			bean.setPrimaryFlag("N");
+		}
+
+		// Save off the new userid record.
+		session.save(bean);
+		session.flush();
+
+		// Add a record to the psu directory table.
+		final PsuDirectoryTable psuDirectoryTable = new PsuDirectoryTable(bean.getPersonId(), bean.getUserid(), bean.getLastUpdateBy());
+		psuDirectoryTable.addDirectoryTable(db);
 	}
 	
 	/**
@@ -564,60 +540,54 @@ public class UseridTable {
 	 * @param db contains an open database connection.
 	 * @param personId contains the person id.
 	 * @return list of userids.
-	 * @throws GeneralDatabaseException 
 	 */
-	public UseridReturn[] getUseridsForPersonId(Database db, long personId) throws GeneralDatabaseException {
+	public UseridReturn[] getUseridsForPersonId(Database db, long personId) {
 		
-		try {
-			final Session session = db.getSession();
-			final ArrayList<UseridReturn> results = new ArrayList<UseridReturn>();
-			
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT userid, primary_flag, ");
-			sb.append("start_date, ");
-			sb.append("end_date, ");
-			sb.append("last_update_by, ");
-			sb.append("last_update_on, ");
-			sb.append("created_by, ");
-			sb.append("created_on ");
-			sb.append("FROM userid ");
-			sb.append("WHERE person_id = :person_id_in ");
-			if (! isReturnHistoryFlag()) {
-				sb.append("AND end_date IS NULL ");
-			}
-			sb.append("ORDER BY start_date");
+		final Session session = db.getSession();
+		final ArrayList<UseridReturn> results = new ArrayList<UseridReturn>();
 
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-
-			query.setParameter("person_id_in", personId);
-
-			query.addScalar("userid", StandardBasicTypes.STRING);
-			query.addScalar("primary_flag", StandardBasicTypes.STRING);
-			query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("last_update_by", StandardBasicTypes.STRING);
-			query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("created_by", StandardBasicTypes.STRING);
-			query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
-
-			
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				Object res[] = (Object []) it.next();
-				results.add(new UseridReturn((String) res[USERID], 							
-								(String) res[PRIMARY_FLAG],										
-								Utility.convertTimestampToString((Date) res[START_DATE]),		
-								Utility.convertTimestampToString((Date) res[END_DATE]),		
-								(String) res[LAST_UPDATE_BY],										
-								Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),		
-								(String) res[CREATED_BY],										
-								Utility.convertTimestampToString((Date) res[CREATED_ON])));		
-			}
-			
-			return results.toArray(new UseridReturn[results.size()]);
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT userid, primary_flag, ");
+		sb.append("start_date, ");
+		sb.append("end_date, ");
+		sb.append("last_update_by, ");
+		sb.append("last_update_on, ");
+		sb.append("created_by, ");
+		sb.append("created_on ");
+		sb.append("FROM userid ");
+		sb.append("WHERE person_id = :person_id_in ");
+		if (! isReturnHistoryFlag()) {
+			sb.append("AND end_date IS NULL ");
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve userids for person identifier = " + personId);
+		sb.append("ORDER BY start_date");
+
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+
+		query.setParameter("person_id_in", personId);
+
+		query.addScalar("userid", StandardBasicTypes.STRING);
+		query.addScalar("primary_flag", StandardBasicTypes.STRING);
+		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("last_update_by", StandardBasicTypes.STRING);
+		query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("created_by", StandardBasicTypes.STRING);
+		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
+
+
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			Object res[] = (Object []) it.next();
+			results.add(new UseridReturn((String) res[USERID], 							
+					(String) res[PRIMARY_FLAG],										
+					Utility.convertTimestampToString((Date) res[START_DATE]),		
+					Utility.convertTimestampToString((Date) res[END_DATE]),		
+					(String) res[LAST_UPDATE_BY],										
+					Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),		
+					(String) res[CREATED_BY],										
+					Utility.convertTimestampToString((Date) res[CREATED_ON])));		
 		}
+
+		return results.toArray(new UseridReturn[results.size()]);
 	}
 	
 	/**
@@ -628,44 +598,38 @@ public class UseridTable {
 	 */
 	public boolean isUseridValid(Database db, String userid) {
 		
-		try {
-			
-			final Session session = db.getSession();
-			// Verify that the userid does not contain spaces.
-			if (userid.contains(" ")) {
-				return false;
-			}
-			// Verify that the userid only contains letters, numbers, $ and underscore.
-			if (! userid.matches("^[a-zA-Z0-9$_]+$")) {
-				return false;
-			}
-
-			// Obtain the character portion of the userid.
-			final String charPart = getCharacterPart(userid);
-
-			// Verify that the userid does not exist in the bad prefixes table.
-			String sqlQuery = "SELECT char_part FROM bad_prefixes WHERE char_part = :char_part_in";
-			SQLQuery query = session.createSQLQuery(sqlQuery);
-			query.setParameter("char_part_in", charPart);
-			query.addScalar("char_part", StandardBasicTypes.STRING);
-			if (query.list().size() > 0) {
-				return false;
-			}
-
-			// Verify that the userid does not already exist.
-			sqlQuery = "SELECT person_id FROM userid WHERE userid = :userid_in";
-			query = session.createSQLQuery(sqlQuery);
-			query.setParameter("userid_in", userid);
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			if (query.list().size() > 0) {
-				return false;
-			}
-
-			return true;
-		}
-		catch (Exception e) {
+		final Session session = db.getSession();
+		// Verify that the userid does not contain spaces.
+		if (userid.contains(" ")) {
 			return false;
 		}
+		// Verify that the userid only contains letters, numbers, $ and underscore.
+		if (! userid.matches("^[a-zA-Z0-9$_]+$")) {
+			return false;
+		}
+
+		// Obtain the character portion of the userid.
+		final String charPart = getCharacterPart(userid);
+
+		// Verify that the userid does not exist in the bad prefixes table.
+		String sqlQuery = "SELECT char_part FROM bad_prefixes WHERE char_part = :char_part_in";
+		SQLQuery query = session.createSQLQuery(sqlQuery);
+		query.setParameter("char_part_in", charPart);
+		query.addScalar("char_part", StandardBasicTypes.STRING);
+		if (query.list().size() > 0) {
+			return false;
+		}
+
+		// Verify that the userid does not already exist.
+		sqlQuery = "SELECT person_id FROM userid WHERE userid = :userid_in";
+		query = session.createSQLQuery(sqlQuery);
+		query.setParameter("userid_in", userid);
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		if (query.list().size() > 0) {
+			return false;
+		}
+
+		return true;
 	}
 	
 	/**

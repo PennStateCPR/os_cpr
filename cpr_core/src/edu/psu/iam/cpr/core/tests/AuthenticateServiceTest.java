@@ -21,32 +21,31 @@ package edu.psu.iam.cpr.core.tests;
 
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.authentication.AuthenticateService;
-import edu.psu.iam.cpr.core.error.CprException;
 
 public class AuthenticateServiceTest {
 
 
-	@Test(expectedExceptions=CprException.class)
-	public void test1() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public void test1() throws Exception {
 		AuthenticateService.authenticate(null, null);
 	}
 	
-	@Test(expectedExceptions=CprException.class)
-	public void test2() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public void test2() throws Exception {
 		AuthenticateService.authenticate("portal1", null);
 	}
 	
-	@Test(expectedExceptions=CprException.class)
-	public void test3() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public void test3() throws Exception {
 		AuthenticateService.authenticate(null, "password");
 	}
 	
-	@Test(expectedExceptions=CprException.class)
-	public void test4() throws CprException {
+	@Test(expectedExceptions=Exception.class)
+	public void test4() throws Exception {
 		AuthenticateService.authenticate("cpruser", "defghi");
 	}
 	@Test
-	public void test5() throws CprException {
+	public void test5() throws Exception {
 		AuthenticateService.authenticate("cpruser", "abcd1234");
 	}
 }

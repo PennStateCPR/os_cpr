@@ -11,9 +11,6 @@ import org.hibernate.type.StandardBasicTypes;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.MessageLog;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.MessageLogReturn;
 
 /**
@@ -64,11 +61,10 @@ public class MessageLogTable {
 	 * @param serviceProviderId contains the service provider identifier.
 	 * @param messageSent contains the json message that was sent.
 	 * @param requestUserid contains the user requesting this message be sent.
-	 * @throws Exception will be thrown if there are any problems.
 	 */
 	
 	public MessageLogTable(long webServiceId, long serviceProviderId,
-			String messageSent, String requestUserid) throws Exception {
+			String messageSent, String requestUserid) {
 		super();
 		final MessageLog bean = new MessageLog();
 		final Date d = new Date();
@@ -105,20 +101,13 @@ public class MessageLogTable {
 	 * This routine is used to add a message log for communication between 
 	 * a Web Service and a Service Provider about a specific message.
 	 * @param db contains an open database connection.
-	 * @throws CprException will be thrown if there are any problems.
 	 */
-	public void addMessageLog(Database db) throws CprException {
+	public void addMessageLog(Database db) {
 		
-		try {
-
-			final Session session = db.getSession();
-			final MessageLog bean = getMessageLogBean();
-			session.save(bean);
-			session.flush();
-		}
-		catch (Exception e ) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "messageLog");
-		}
+		final Session session = db.getSession();
+		final MessageLog bean = getMessageLogBean();
+		session.save(bean);
+		session.flush();
 		
 	}
 	
@@ -128,90 +117,74 @@ public class MessageLogTable {
 	 * @param db contains an open database connection.
 	 * @param successFlag contains the value of the success flag.
 	 * @param numberOfTries contains the number of tries that were performed to send this message.
-	 * @throws CprException will be thrown if there are any problems.
 	 */
-	public void updateMessageLog(Database db, String successFlag, Long numberOfTries) throws CprException {
+	public void updateMessageLog(Database db, String successFlag, Long numberOfTries) {
 		
-		try {
 
-			final Session session = db.getSession();
-			final MessageLog bean = getMessageLogBean();
-			
-			bean.setSuccessFlag(successFlag);
-			bean.setNumberOfTries(numberOfTries);
-			bean.setLastUpdateOn(new Date());
+		final Session session = db.getSession();
+		final MessageLog bean = getMessageLogBean();
 
-			session.update(bean);
-			session.flush();
-		}
-		catch (Exception e ) {
-			throw new CprException(ReturnType.UPDATE_FAILED_EXCEPTION, "messageLog");
-		}
-		
+		bean.setSuccessFlag(successFlag);
+		bean.setNumberOfTries(numberOfTries);
+		bean.setLastUpdateOn(new Date());
+
+		session.update(bean);
+		session.flush();
 	}
 	
 	/**
 	 * This routine is used to get a message log.
 	 * @param db contains an open database connection.
 	 * @param messageLogKey contains the message log key to be retrieved.
-	 * @throws GeneralDatabaseException will be thrown if there are any database problems.
 	 * @return MessageLogReturn array containing all of the message information.
 	 */
-	public MessageLogReturn[] getMessageLog(Database db, long messageLogKey) throws GeneralDatabaseException {
+	public MessageLogReturn[] getMessageLog(Database db, long messageLogKey) {
 		
-		try {
-			
-			// Init some variables.
-			final ArrayList<MessageLogReturn> results = new ArrayList<MessageLogReturn>();
-			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		// Init some variables.
+		final ArrayList<MessageLogReturn> results = new ArrayList<MessageLogReturn>();
+		final Session session = db.getSession();
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 
-			// Build the select statement as a string.
-			sb.append("SELECT ");
-		    sb.append("web_service_key, ");
-		    sb.append("service_provisioner_key, ");
-		    sb.append("message_sent, ");
-		    sb.append("number_of_tries, ");
-		    sb.append("success_flag, ");
-		    sb.append("request_userid ");
-		    sb.append("FROM message_log ");
-		    sb.append("WHERE message_log_key = :message_log_key_in ");
+		// Build the select statement as a string.
+		sb.append("SELECT ");
+		sb.append("web_service_key, ");
+		sb.append("service_provisioner_key, ");
+		sb.append("message_sent, ");
+		sb.append("number_of_tries, ");
+		sb.append("success_flag, ");
+		sb.append("request_userid ");
+		sb.append("FROM message_log ");
+		sb.append("WHERE message_log_key = :message_log_key_in ");
 
-		    // Create the hibernate select statement.
-		    final SQLQuery query = session.createSQLQuery(sb.toString());
-		    query.setParameter("message_log_key_in", messageLogKey);
-		    query.addScalar("web_service_key", StandardBasicTypes.LONG);
-		    query.addScalar("service_provisioner_key", StandardBasicTypes.LONG);
-		    query.addScalar("message_sent", StandardBasicTypes.STRING);
-		    query.addScalar("number_of_tries", StandardBasicTypes.LONG);
-		    query.addScalar("success_flag", StandardBasicTypes.STRING);
-		    query.addScalar("request_userid", StandardBasicTypes.STRING);
+		// Create the hibernate select statement.
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("message_log_key_in", messageLogKey);
+		query.addScalar("web_service_key", StandardBasicTypes.LONG);
+		query.addScalar("service_provisioner_key", StandardBasicTypes.LONG);
+		query.addScalar("message_sent", StandardBasicTypes.STRING);
+		query.addScalar("number_of_tries", StandardBasicTypes.LONG);
+		query.addScalar("success_flag", StandardBasicTypes.STRING);
+		query.addScalar("request_userid", StandardBasicTypes.STRING);
 
-		    final Iterator<?> it = query.list().iterator();
+		final Iterator<?> it = query.list().iterator();
 
-		    // Loop for the results.
-		    while (it.hasNext()) {
+		// Loop for the results.
+		while (it.hasNext()) {
 
-		    	// For each result, store its value in the return class.
-		    	Object res[] = (Object []) it.next();
-				
-		    	MessageLogReturn msgLog = new MessageLogReturn();
-		    	msgLog.setMessageLogKey(messageLogKey);
-		    	msgLog.setWebServiceKey((Long) res[WEB_SERVICE_KEY]);
-		    	msgLog.setServiceProvisionerKey((Long) res[SERVICE_PROVISIONER_KEY]);
-		    	msgLog.setMessageSent((String) res[MESSAGE_SENT]);
-		    	msgLog.setNumberOfTries((Long) res[NUMBER_OF_TRIES]);
-		    	msgLog.setSuccessFlag((String) res[SUCCESS_FLAG]);
-		    	msgLog.setRequestUserid((String) res[REQUEST_USERID]);
-				results.add(msgLog);
-		    }
+			// For each result, store its value in the return class.
+			Object res[] = (Object []) it.next();
 
-		    return results.toArray(new MessageLogReturn[results.size()]);
-			
+			MessageLogReturn msgLog = new MessageLogReturn();
+			msgLog.setMessageLogKey(messageLogKey);
+			msgLog.setWebServiceKey((Long) res[WEB_SERVICE_KEY]);
+			msgLog.setServiceProvisionerKey((Long) res[SERVICE_PROVISIONER_KEY]);
+			msgLog.setMessageSent((String) res[MESSAGE_SENT]);
+			msgLog.setNumberOfTries((Long) res[NUMBER_OF_TRIES]);
+			msgLog.setSuccessFlag((String) res[SUCCESS_FLAG]);
+			msgLog.setRequestUserid((String) res[REQUEST_USERID]);
+			results.add(msgLog);
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve message log for message log key = " + messageLogKey);	
-		}
-	}
-	
+
+		return results.toArray(new MessageLogReturn[results.size()]);
+	}	
 }

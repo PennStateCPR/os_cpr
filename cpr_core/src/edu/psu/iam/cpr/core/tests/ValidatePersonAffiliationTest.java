@@ -20,15 +20,13 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.util.ValidatePersonAffiliation;
 
 public class ValidatePersonAffiliationTest {
 	
 	private static Database db = new Database();
 	
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
@@ -37,12 +35,12 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String,java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
-	@Test(expectedExceptions = GeneralDatabaseException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateAddAffiliationParameters()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
 				"STUDENT_UNDERGRAD_PROSPECT", "llg5");
 	}
@@ -52,12 +50,12 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateAddAffiliationParametersBadParm2()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
 				"STU_UNDERGRAD_PROSPECT",  "llg5");
@@ -69,12 +67,12 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateAddAffiliationParametersNullParm2()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
 				null,  "llg5");
 	}
@@ -85,12 +83,12 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateAddAffiliationParametersBadParm2a()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
 				"STUDENT_UNDERGRAD PROSPECT",  "llg5");
@@ -101,12 +99,12 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateAddAffiliationParametersBadParm2b()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
 				"STUDENT",  "llg5");
@@ -118,12 +116,12 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String, java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateAddAffiliationParametersBadParm3Null()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
 				"STUDENT_UNDERGRAD_PROSPECT", null);
@@ -135,12 +133,12 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String,  java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateAddAffiliationParametersBadParm3Blank()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
 				"STUDENT_UNDERGRADUATE_PROSPECT", "");
@@ -151,12 +149,12 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String,  java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateAddAffiliationParametersBadParm32Long()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
 				"STUDENT_UNDERGRADUATE_PROSPECT",  "asdfghjklqwertyuiopzxcvbnmasdfg");
@@ -167,26 +165,26 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String, java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
 	@Test
 	public final void testValidateAddAffiliationParametersGood()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
 				"STUDENT_UNDERGRADUATE_PROSPECT", "llg5");
 		db.closeSession();
 	}
-	@Test(expectedExceptions = GeneralDatabaseException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateGetAffiliationForPersonIdParameters()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		ValidatePersonAffiliation.validateGetAffiliationsForPersonIdParameters(db, 100001,
 		"llg5","N");
 	}
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidatevalidateGetAffiliationForPersonIdParameterseParm2Null()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateGetAffiliationsForPersonIdParameters(db, 100001, null,"Y");
 		db.closeSession();
@@ -194,15 +192,15 @@ public class ValidatePersonAffiliationTest {
 	
 	@Test
 	public final void testValidateGetAffiliationForPersonIdParametersGood()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateGetAffiliationsForPersonIdParameters(db, 100001,
 		"llg5","N");
 		db.closeSession();
 	}
-	@Test(expectedExceptions = GeneralDatabaseException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateDeleteAffiliationParameters()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
 				100001, "STUDENT_UNDERGRADUATE_PROSPECT", "llg5");
 	}
@@ -212,12 +210,12 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateDeleteAffiliationParametersBadParm2()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
 				100001, "STU", "llg5");
@@ -229,12 +227,12 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateDeleteAffiliationParametersNullParm2()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
 				100001, null, "llg5");
 	}
@@ -244,12 +242,12 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int,java.lang.String,  java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateDeleteAffiliationParametersBadParm2Blank()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
 				100001, "", "llg5");
 	}
@@ -258,12 +256,12 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateDeleteAffiliationParametersBadParm2a()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
 				100001, "STUDENT_UNDERGRAD PROSPECT", "llg5");
@@ -276,29 +274,29 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateDeleteAffiliationParametersBadParm3()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
 				100001, "STUDENT_UNDERGRADUATE_PROSPECT", null);
 		db.closeSession();
 	}
 
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateDeleteAffiliationParametersBadParm3Blank()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
 				100001, "STUDENT_UNDERGRADUATE_PROSPECT","");
 		db.closeSession();
 	}
-	@Test(expectedExceptions = CprException.class)
+	@Test(expectedExceptions = Exception.class)
 	public final void testValidateDeleteAffiliationParametersBadParm32Long()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
 				100001, "STUDENT_UNDERGRAD_PROSPECT", "asdfghjklqwertyuiopzxcvbnmasdfg");
@@ -309,12 +307,12 @@ public class ValidatePersonAffiliationTest {
 	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int,java.lang.String,  java.lang.String)}
 	 * .
 	 * 
-	 * @throws GeneralDatabaseException
-	 * @throws CprException
+	 * @throws Exception
+	 * @throws Exception
 	 */
 	@Test
 	public final void testValidateDeleteAffiliationParametersGood()
-	throws CprException, GeneralDatabaseException {
+	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
 				100001, "STUDENT_UNDERGRADUATE_PROSPECT","llg5");

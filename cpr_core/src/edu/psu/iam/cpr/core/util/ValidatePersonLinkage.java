@@ -4,7 +4,6 @@ package edu.psu.iam.cpr.core.util;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.PersonLinkageTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -46,11 +45,10 @@ public final class ValidatePersonLinkage {
 	 * @param requestedBy contains the userid of the person making the request.
 	 * @param returnHistory Y/N flag indicating whether history is to be returned for the GET.
 	 * @return PersonLinkageTable
-	 * @throws GeneralDatabaseException will be thrown for any generic database errors.
 	 * @throws CprException will be thrown for CPR specific errors.
 	 */
 	public static PersonLinkageTable validateGetPersonLinkageParameters(Database db, long personId, String requestedBy, String returnHistory) 
-					throws GeneralDatabaseException, CprException {
+					throws CprException {
 		
 		// Trim off all of the string parameters.
 		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
@@ -87,11 +85,12 @@ public final class ValidatePersonLinkage {
 	 * @param linkageType contains the linkage type.
 	 * @param updatedBy contains the user who requested this service.
 	 * @return will return a person linkage table if successful.
-	 * @throws GeneralDatabaseException will be thrown for any generic database errors.
 	 * @throws CprException will be thrown for CPR specific errors.
+	 * @throws InvalidParametersException 
+	 * @throws NotSpecifiedException 
 	 */
 	public static PersonLinkageTable validatePersonLinkageParameters(Database db, long personId, String linkedIdentifierType, 
-			String linkedIdentifier, String linkageType, String updatedBy) throws GeneralDatabaseException, CprException {
+			String linkedIdentifier, String linkageType, String updatedBy) throws CprException {
 		
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 		String localLinkageType = null;
@@ -116,11 +115,6 @@ public final class ValidatePersonLinkage {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Linked Person Identifier.");
 		}
 		
-		try {
-			return new PersonLinkageTable(personId, linkedPersonId, localLinkageType, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Linkage type");
-		}
+		return new PersonLinkageTable(personId, linkedPersonId, localLinkageType, localUpdatedBy);
 	}
 }

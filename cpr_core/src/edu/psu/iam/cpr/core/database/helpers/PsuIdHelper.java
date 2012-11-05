@@ -10,7 +10,6 @@ import org.hibernate.type.StandardBasicTypes;
 
 import edu.psu.iam.cpr.core.database.beans.PsuId;
 import edu.psu.iam.cpr.core.database.tables.GeneratedIdentityTable;
-import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.util.CprProperties;
 
 /**
@@ -86,9 +85,8 @@ public class PsuIdHelper {
 	 * This routine will generate a new PSU ID for a person and assign it.
 	 * @param session contains a database session.
 	 * @param bean contains the PSU ID database bean where the resultant PSU ID will be placed.
-	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */
-	public void generatePSUIdNumber(Session session, final PsuId bean) throws CprException {
+	public void generatePSUIdNumber(Session session, final PsuId bean) {
 		
 		boolean done = false;
 		

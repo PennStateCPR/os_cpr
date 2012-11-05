@@ -25,8 +25,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.PersonPhoto;
 import edu.psu.iam.cpr.core.database.tables.PersonPhotoTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.service.returns.PhotoReturn;
 
 public class PersonPhotoTableTest {
@@ -240,7 +238,7 @@ public class PersonPhotoTableTest {
 			0, 0, 73, 69, 78, 68, -82, 66, 96, -126 };
 	
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
@@ -263,7 +261,7 @@ public class PersonPhotoTableTest {
 	}
 
 	@Test
-	public final void testAddPhoto() throws GeneralDatabaseException, CprException {
+	public final void testAddPhoto() throws Exception {
 		PersonPhotoTable p = new PersonPhotoTable(100000L, testImage, new Date(), "jvuccolo");
 		openDbConnection();
 		p.addPhoto(db);
@@ -271,7 +269,7 @@ public class PersonPhotoTableTest {
 	}
 
 	@Test
-	public final void testGetPhoto() throws GeneralDatabaseException {
+	public final void testGetPhoto() throws Exception {
 		PersonPhotoTable p = new PersonPhotoTable();
 		openDbConnection();
 		PhotoReturn[] results = p.getPhoto(db, 100000L);

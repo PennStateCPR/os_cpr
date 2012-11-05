@@ -26,8 +26,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.PsuDirectory;
 import edu.psu.iam.cpr.core.database.tables.PsuDirectoryTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * @author jvuccolo
@@ -36,7 +34,7 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 public class PsuDirectoryTableTest {
 	
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
@@ -63,13 +61,13 @@ public class PsuDirectoryTableTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void testGetDirectoryTable1() throws CprException, GeneralDatabaseException {
+	public final void testGetDirectoryTable1() throws Exception {
 		PsuDirectoryTable t = new PsuDirectoryTable();
 		t.getPsuDirectoryTable(db,10L);
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void testGetDirectoryTable2() throws CprException, GeneralDatabaseException {
+	public final void testGetDirectoryTable2() throws Exception {
 		openDbConnection();
 		PsuDirectoryTable t = new PsuDirectoryTable();
 		t.getPsuDirectoryTable(db,10L);
@@ -77,13 +75,13 @@ public class PsuDirectoryTableTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void testAddDirectoryTable1() throws GeneralDatabaseException {
+	public final void testAddDirectoryTable1() throws Exception {
 		PsuDirectoryTable t = new PsuDirectoryTable(100000,"dummy","jvuccolo");
 		t.addDirectoryTable(db);
 		
 	}
 	@Test(expectedExceptions=Exception.class)
-	public final void testAddDirectoryTable2() throws GeneralDatabaseException {
+	public final void testAddDirectoryTable2() throws Exception {
 		openDbConnection();
 		PsuDirectoryTable t = new PsuDirectoryTable(100000,"dummy","jvuccolo");
 		t.addDirectoryTable(db);
@@ -91,7 +89,7 @@ public class PsuDirectoryTableTest {
 	}
 	
 	@Test
-	public final void testGetDirectoryTable3() throws CprException, GeneralDatabaseException {
+	public final void testGetDirectoryTable3() throws Exception {
 		openDbConnection();
 		PsuDirectoryTable t = new PsuDirectoryTable();
 		t.getPsuDirectoryTable(db,100000L);
@@ -100,7 +98,7 @@ public class PsuDirectoryTableTest {
 	
 	
 	@Test
-	public final void testAddDirectoryTable3() throws GeneralDatabaseException {
+	public final void testAddDirectoryTable3() throws Exception {
 		openDbConnection();
 		PsuDirectoryTable t = new PsuDirectoryTable(100000,"dummy","jvuccolo");
 		t.junitCleanUp(db);
@@ -112,7 +110,7 @@ public class PsuDirectoryTableTest {
 	}
 	
 	@Test
-	public final void testAddDirectoryTable4() throws GeneralDatabaseException {
+	public final void testAddDirectoryTable4() throws Exception {
 		openDbConnection();
 		PsuDirectoryTable t = new PsuDirectoryTable(100002,"jvuccolo");
 		t.junitCleanUp(db);
@@ -124,7 +122,7 @@ public class PsuDirectoryTableTest {
 	}
 	
 	@Test
-	public final void testAddDirectoryTable5() throws GeneralDatabaseException {
+	public final void testAddDirectoryTable5() throws Exception {
 		openDbConnection();
 		PsuDirectoryTable t = new PsuDirectoryTable(100002,"tuj20", "jvuccolo");
 		t.addDirectoryTable(db);

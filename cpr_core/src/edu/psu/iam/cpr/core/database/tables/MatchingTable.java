@@ -3,6 +3,7 @@ package edu.psu.iam.cpr.core.database.tables;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -14,8 +15,6 @@ import org.hibernate.jdbc.Work;
 import org.hibernate.type.StandardBasicTypes;
 
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * This class provides an implementation for interfacing with the matching database table.
@@ -110,16 +109,15 @@ public class MatchingTable {
 	 * @param namesTable contains a names table object
 	 * @param addressesTable contains an addresses table object.
 	 * @param dateOfBirthTable contains a date of birth object.
-	 * @throws GeneralDatabaseException will be thrown if there are any problems with calling the stored procedure.
-	 * @throws CprException 
 	 */
-	public void findMatches(final Database db, final NamesTable namesTable, final AddressesTable addressesTable, final DateOfBirthTable dateOfBirthTable) throws GeneralDatabaseException {
+	public void findMatches(final Database db, final NamesTable namesTable, 
+			final AddressesTable addressesTable, final DateOfBirthTable dateOfBirthTable) {
 		
 
 		final Session session = db.getSession();
 
 		session.doWork(new Work() {
-			public void execute(Connection conn) {
+			public void execute(Connection conn) throws SQLException {
 				
 				CallableStatement stmt = null;
 				try {
@@ -164,9 +162,6 @@ public class MatchingTable {
 					// Get the status from the database.
 					setMatchSetKey(stmt.getLong(MATCH_SET_KEY));
 				}
-				catch (Exception e) {
-					setMatchSetKey(-1L);
-				}
 				finally {
 					try {
 						stmt.close();
@@ -177,54 +172,38 @@ public class MatchingTable {
 			}
 		});
 		
-		if (getMatchSetKey() == -1) {
-			throw new GeneralDatabaseException("Unable to obtain a match from the database!");
-		}
 	}
 	
 	/**
 	 * This routine is used to remove a match set from the database.
 	 * @param db contains a database object which points to an open database connection.
-	 * @throws GeneralDatabaseException will be thrown if there are any problems.
 	 */
-	public void removeMatchSet(final Database db) throws GeneralDatabaseException {
+	public void removeMatchSet(final Database db) {
 		
-		try {
-			final Session session = db.getSession();
-			final SQLQuery query = session.createSQLQuery(REMOVE_MATCH_SET_SQL);
-			query.setParameter("match_set_key_in", getMatchSetKey());
-			query.executeUpdate();		
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to remove a match set from the database.");
-
-		}
+		final Session session = db.getSession();
+		final SQLQuery query = session.createSQLQuery(REMOVE_MATCH_SET_SQL);
+		query.setParameter("match_set_key_in", getMatchSetKey());
+		query.executeUpdate();		
 	}
 	
 	/**
 	 * This routine is used to obtain a match set from the database.
 	 * @param db contains the database object which hold an open database connection.
 	 * @return will return an ArrayList of match results items.
-	 * @throws GeneralDatabaseException will be thrown if there are any database problems.
 	 */
-	public List<MatchResultsTable> getMatchSet(final Database db) throws GeneralDatabaseException {
+	public List<MatchResultsTable> getMatchSet(final Database db) {
 		
 		final ArrayList<MatchResultsTable> matchResultsTable = new ArrayList<MatchResultsTable>();
-		try {
-			final Session session = db.getSession();
-			final SQLQuery query = session.createSQLQuery(GET_MATCH_SET_SQL);
-			query.setParameter("match_set_key_in", getMatchSetKey());
-			query.addScalar("match_set_key", StandardBasicTypes.LONG);
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			query.addScalar("score", StandardBasicTypes.LONG);
-			final Iterator<?> it = query.list().iterator();
-			while (it.hasNext()) {
-				Object res[] = (Object []) it.next();
-				matchResultsTable.add(new MatchResultsTable((Long) res[RES_MATCH_SET_KEY], (Long) res[RES_PERSON_ID], (Long) res[RES_SCORE]));
-			}
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve a match set from the database.");
+		final Session session = db.getSession();
+		final SQLQuery query = session.createSQLQuery(GET_MATCH_SET_SQL);
+		query.setParameter("match_set_key_in", getMatchSetKey());
+		query.addScalar("match_set_key", StandardBasicTypes.LONG);
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		query.addScalar("score", StandardBasicTypes.LONG);
+		final Iterator<?> it = query.list().iterator();
+		while (it.hasNext()) {
+			Object res[] = (Object []) it.next();
+			matchResultsTable.add(new MatchResultsTable((Long) res[RES_MATCH_SET_KEY], (Long) res[RES_PERSON_ID], (Long) res[RES_SCORE]));
 		}
 		return matchResultsTable;
 	}
@@ -238,32 +217,26 @@ public class MatchingTable {
 	 * 
 	 * @return will return an ArrayList of match results items containing up to maxResults items.
 	 * 
-	 * @throws GeneralDatabaseException will be thrown if there are any database problems.
 	 */
-	public List<MatchResultsTable> getMatchSetWithLimit(final Database db, int maxResults) throws GeneralDatabaseException {
+	public List<MatchResultsTable> getMatchSetWithLimit(final Database db, int maxResults)  {
 		
 		ArrayList<MatchResultsTable> matchResultsTable = new ArrayList<MatchResultsTable>(maxResults);
-		try {
-			final Session session = db.getSession();
-			
-			final SQLQuery query = session.createSQLQuery(GET_MATCH_SET_SQL_LIMIT);
-			query.setParameter("match_set_key_in", getMatchSetKey());
-			query.setParameter("rownum_in", maxResults);
-			query.addScalar("match_set_key", StandardBasicTypes.LONG);
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			query.addScalar("score", StandardBasicTypes.LONG);
-			final Iterator<?> it = query.list().iterator();
-			
-			while (it.hasNext()) {
-				Object res[] = (Object []) it.next();
-				matchResultsTable.add(new MatchResultsTable((Long) res[RES_MATCH_SET_KEY], (Long) res[RES_PERSON_ID], (Long) res[RES_SCORE]));
-			}	
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve a match set from the database.");
-		}
+		final Session session = db.getSession();
+
+		final SQLQuery query = session.createSQLQuery(GET_MATCH_SET_SQL_LIMIT);
+		query.setParameter("match_set_key_in", getMatchSetKey());
+		query.setParameter("rownum_in", maxResults);
+		query.addScalar("match_set_key", StandardBasicTypes.LONG);
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		query.addScalar("score", StandardBasicTypes.LONG);
+		final Iterator<?> it = query.list().iterator();
+
+		while (it.hasNext()) {
+			Object res[] = (Object []) it.next();
+			matchResultsTable.add(new MatchResultsTable((Long) res[RES_MATCH_SET_KEY], (Long) res[RES_PERSON_ID], (Long) res[RES_SCORE]));
+		}	
 		// XXX: error checking on maxResults (>0)
-		
+
 		matchResultsTable.trimToSize();
 		return matchResultsTable;
 	}
@@ -279,34 +252,28 @@ public class MatchingTable {
 	 * 
 	 * @return will return an ArrayList of match results items containing up to maxResults items.
 	 * 
-	 * @throws GeneralDatabaseException will be thrown if there are any database problems.
 	 */
-	public List<MatchResultsTable> getMatchSetWithLimitAndCutoff(final Database db, int maxResults, Long minMatchScore) throws GeneralDatabaseException {
+	public List<MatchResultsTable> getMatchSetWithLimitAndCutoff(final Database db, int maxResults, Long minMatchScore) {
 		
 		// XXX: error checking on maxResults (non-negative)
 		// XXX: error checking on minMatchScore (non-negative)
 				
 		final ArrayList<MatchResultsTable> matchResultsTable = new ArrayList<MatchResultsTable>(maxResults);
 		
-		try {
-			final Session session = db.getSession();
-			final SQLQuery query = session.createSQLQuery(GET_MATCH_SET_MIN_SCORE_SQL_LIMIT);
-			query.setParameter("match_set_key_in", getMatchSetKey());
-			query.setParameter("score_in", minMatchScore);
-			query.setParameter("rownum_in", maxResults);
-			query.addScalar("match_set_key", StandardBasicTypes.LONG);
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			query.addScalar("score", StandardBasicTypes.LONG);
-			final Iterator<?> it = query.list().iterator();
-			
-			while (it.hasNext()) {
-				Object res[] = (Object []) it.next();
-				matchResultsTable.add(new MatchResultsTable((Long) res[RES_MATCH_SET_KEY], (Long) res[RES_PERSON_ID], (Long) res[RES_SCORE]));
-			}				
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve a match set from the database.");
-		}
+		final Session session = db.getSession();
+		final SQLQuery query = session.createSQLQuery(GET_MATCH_SET_MIN_SCORE_SQL_LIMIT);
+		query.setParameter("match_set_key_in", getMatchSetKey());
+		query.setParameter("score_in", minMatchScore);
+		query.setParameter("rownum_in", maxResults);
+		query.addScalar("match_set_key", StandardBasicTypes.LONG);
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		query.addScalar("score", StandardBasicTypes.LONG);
+		final Iterator<?> it = query.list().iterator();
+
+		while (it.hasNext()) {
+			Object res[] = (Object []) it.next();
+			matchResultsTable.add(new MatchResultsTable((Long) res[RES_MATCH_SET_KEY], (Long) res[RES_PERSON_ID], (Long) res[RES_SCORE]));
+		}				
 		matchResultsTable.trimToSize();
 		return matchResultsTable;
 	}

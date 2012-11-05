@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.PersonUseridIap;
 import edu.psu.iam.cpr.core.database.types.IapType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.IAPReturn;
 import edu.psu.iam.cpr.core.util.Utility;
@@ -44,6 +43,8 @@ import edu.psu.iam.cpr.core.util.Utility;
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
 public class PersonUseridIapTable {
+	
+	private static final String USERID_ARG = "Userid";
 	
 	private static final int IAP = 0;
 	private static final int START_DATE = 1;
@@ -158,49 +159,42 @@ public class PersonUseridIapTable {
 		 * @param userid The userid to query
 		 * @param federation contains the name of the federation
 		 * @return A list of IAPs
-		 * @throws CprException
-		 * @throws GeneralDatabaseException on database errors
+		 * @throws CprException 
 		 */
-		public  IAPReturn[] getExternalIAP( Database db,  long personId, String userid, String federation ) throws GeneralDatabaseException, CprException {
+		public  IAPReturn[] getExternalIAP( Database db,  long personId, String userid, String federation ) throws CprException {
 		
 			boolean useridValid = false;
-			try {
-				
-				final Session session = db.getSession();
-				useridValid = db.isValidUserid(personId, userid);
-				if (useridValid) {
-					final String upperFed = federation.toUpperCase();
-					final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-				
-					final List<IAPReturn> results = new ArrayList<IAPReturn>();
-					sb.append("SELECT external_iap ");
-					sb.append("FROM v_external_iap_federation ");
-					sb.append("WHERE userid = :userid_in ");
-					sb.append("AND person_id = :person_id ");
-					sb.append("AND UPPER(federation)=:federation_in");
-					final SQLQuery query  = session.createSQLQuery(sb.toString());
-					query.setParameter("userid_in", userid);
-					query.setParameter("person_id", personId);
-					query.setParameter("federation_in",upperFed);
-					final Iterator<?> it = query.list().iterator();
 
-					while (it.hasNext()) {
-						String iapFed= (String) it.next();
-						IAPReturn anIAP = new IAPReturn();
-						anIAP.setIap( iapFed);
-						results.add(anIAP);
+			final Session session = db.getSession();
+			useridValid = db.isValidUserid(personId, userid);
+			if (useridValid) {
+				final String upperFed = federation.toUpperCase();
+				final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 
-					}
-					return results.toArray(new IAPReturn[results.size()]);
-					
+				final List<IAPReturn> results = new ArrayList<IAPReturn>();
+				sb.append("SELECT external_iap ");
+				sb.append("FROM v_external_iap_federation ");
+				sb.append("WHERE userid = :userid_in ");
+				sb.append("AND person_id = :person_id ");
+				sb.append("AND UPPER(federation)=:federation_in");
+				final SQLQuery query  = session.createSQLQuery(sb.toString());
+				query.setParameter("userid_in", userid);
+				query.setParameter("person_id", personId);
+				query.setParameter("federation_in",upperFed);
+				final Iterator<?> it = query.list().iterator();
+
+				while (it.hasNext()) {
+					String iapFed= (String) it.next();
+					IAPReturn anIAP = new IAPReturn();
+					anIAP.setIap( iapFed);
+					results.add(anIAP);
 
 				}
+				return results.toArray(new IAPReturn[results.size()]);
 			}
-			catch (Exception e) {
-				throw new GeneralDatabaseException("Unable to retrieve Federation " + federation + " IAPs for user id " + userid);			
-			}
+
 			if (!useridValid) {
-				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "userid");
+				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, USERID_ARG);
 			}
 			else {
 				return null;
@@ -213,13 +207,11 @@ public class PersonUseridIapTable {
 	 * @param userid The userid to query
 	 * 
 	 * @return A list of IAPs
-	 * @throws CprException
-	 * @throws GeneralDatabaseException on database errors
+	 * @throws CprException 
 	 */
-	public  IAPReturn[] getPSUIAP( Database db, long personId, String userid) throws GeneralDatabaseException, CprException {
+	public  IAPReturn[] getPSUIAP( Database db, long personId, String userid) throws CprException  {
 		
 		boolean useridValid = false;
-		try {
 			final Session session = db.getSession();
 			useridValid = db.isValidUserid(personId, userid);
 			if (useridValid) {
@@ -273,14 +265,8 @@ public class PersonUseridIapTable {
 				return results.toArray(new IAPReturn[results.size()]);
 			}
 		
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve IAP for person identifier = " + personId);			
-		}
 		if (!useridValid) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "userid");
-			
-
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, USERID_ARG);
 		}
 		else
 		{

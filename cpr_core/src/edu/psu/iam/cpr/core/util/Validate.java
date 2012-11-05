@@ -30,7 +30,6 @@ import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.database.helpers.DBTypesHelper;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 
@@ -114,12 +113,7 @@ public final class Validate {
      */
     public static IdentifierType isValidIdentifierType(Database db, String identifierType) {
     	
-    	try {
-			return (IdentifierType) DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE).get(identifierType.toUpperCase().trim());
-		} 
-    	catch (GeneralDatabaseException e) {
-		}
-    	return null;
+		return (IdentifierType) DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE).get(identifierType.toUpperCase().trim());
     }
     
     /**
@@ -128,11 +122,10 @@ public final class Validate {
      * @param typeName contains the type's name.
      * @param identifier contains the value of the identifier.
      * @return will return true if the identifier is less than the maximum length.
-     * @throws GeneralDatabaseException will be thrown if there are any database exceptions.
      * @throws CprExecption will be thrown if there are any CPR specific problems.
      */
     public static boolean isIdentifierLengthValid(Database db, String typeName, String identifier) 
-    throws GeneralDatabaseException, CprException {
+    throws CprException {
 
     	if (typeName.equals(Database.ID_CARD_IDENTIFIER)) {
     		doIdentifierLengthCheck(db, identifier, "Id card number", "PERSON_ID_CARD", "ID_CARD_NUMBER");
@@ -165,10 +158,11 @@ public final class Validate {
 	 * @param tableName contains the name of the database table.
 	 * @param columnName contains the name of the database column to validate against.
 	 * @throws CprException will be thrown if there are any CPR specific problems.
-	 * @throws GeneralDatabaseException will be thrown if there are any database problems.
+	 * @throws InvalidParametersException 
+	 * @throws NotSpecifiedException 
 	 */
     public static void doIdentifierLengthCheck(Database db, String identifier, 
-    		String identifierName, String tableName, String columnName) throws CprException, GeneralDatabaseException {
+    		String identifierName, String tableName, String columnName) throws CprException {
 
     	if (identifier.length() == 0) {
     		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, identifierName);
@@ -187,6 +181,7 @@ public final class Validate {
      * @return true if a valid date, otherwise it will return false.
      */
     public static boolean isValidDate(String dateString) {
+ 
     	try {
     		final SimpleDateFormat sdf = new SimpleDateFormat(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_FORMAT_DATE.toString()));
     		sdf.setLenient(false);
@@ -204,12 +199,13 @@ public final class Validate {
      * @return will return true if the partial date is valid, otherwise it will return false.
      */
     public static boolean isValidPartialDate(String dateString) {
+    	
     	try {
     		final SimpleDateFormat sdf = new SimpleDateFormat(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_FORMAT_PARTIAL_DATE.toString()));
     		sdf.setLenient(false);
     		sdf.parse(dateString);
     		return true;
-    	}
+    	} 
     	catch (Exception e) {
     		return false;
     	}

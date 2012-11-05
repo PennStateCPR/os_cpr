@@ -26,8 +26,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.PersonUseridIapTable;
 import edu.psu.iam.cpr.core.database.types.IapType;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.service.returns.IAPReturn;
 
 /**
@@ -37,7 +35,7 @@ import edu.psu.iam.cpr.core.service.returns.IAPReturn;
 public class PersonUseridIapTableTest {
 	
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	/**
@@ -204,7 +202,7 @@ public class PersonUseridIapTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonUseridIapTables#getExternalIap()}.
 	 */
 	@Test
-	public final void testGetExternalIAPInValidUserid()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void testGetExternalIAPInValidUserid()  throws Exception  {
 		openDbConnection();
 		PersonUseridIapTable pATable = new PersonUseridIapTable();
 		IAPReturn[] iapReturn = pATable.getExternalIAP(db, 100000, "dummy", "InCommon");
@@ -214,8 +212,8 @@ public class PersonUseridIapTableTest {
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonUseridIapTables#getExternalIap()}.
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testGetExternalIAPInValidPesonIdUserid()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void testGetExternalIAPInValidPesonIdUserid()  throws Exception  {
 		openDbConnection();
 		PersonUseridIapTable pATable = new PersonUseridIapTable();
 		IAPReturn[] iapReturn = pATable.getExternalIAP(db, 100000, "xxxx", "InCommon");
@@ -227,7 +225,7 @@ public class PersonUseridIapTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonUseridIapTables#getPSUIAPs()}.
 	 */
 	@Test
-	public final void testGetExternalInvalidFed()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void testGetExternalInvalidFed()  throws Exception  {
 		openDbConnection();
 		PersonUseridIapTable pATable = new PersonUseridIapTable();
 		IAPReturn[] iapReturn = pATable.getExternalIAP(db,  100000, "dummy", "common");
@@ -240,7 +238,7 @@ public class PersonUseridIapTableTest {
 	 */
 	@Test
 	@SuppressWarnings("unused")
-	public final void testGetExternalValidFed()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void testGetExternalValidFed()  throws Exception  {
 		openDbConnection();
 		PersonUseridIapTable pATable = new PersonUseridIapTable();
 		IAPReturn[] iapReturn = pATable.getExternalIAP(db,  100000, "dummy", "InCommon");
@@ -249,9 +247,9 @@ public class PersonUseridIapTableTest {
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonUseridIapTables#getPSUIAPs()}.
 	 */
-	@Test(expectedExceptions=GeneralDatabaseException.class)
+	@Test(expectedExceptions=Exception.class)
 	@SuppressWarnings("unused")
-	public final void testGetExternalValidFedNoDb()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void testGetExternalValidFedNoDb()  throws Exception  {
 		openDbConnection();
 		PersonUseridIapTable pATable = new PersonUseridIapTable();
 		IAPReturn[] iapReturn = pATable.getExternalIAP(null, 751116,  "llg5", "InCommon");
@@ -260,8 +258,8 @@ public class PersonUseridIapTableTest {
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonUseridIapTables#getPSUIAPs()}.
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void testGetPSUIAPs()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void testGetPSUIAPs()  throws Exception  {
 		openDbConnection();
 		PersonUseridIapTable pATable = new PersonUseridIapTable();
 		pATable.setReturnHistoryFlag(false);
@@ -274,7 +272,7 @@ public class PersonUseridIapTableTest {
 	 */
 	@Test
 	@SuppressWarnings("unused")
-	public final void testGetPSUIAPValid()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void testGetPSUIAPValid()  throws Exception  {
 		openDbConnection();
 		PersonUseridIapTable pATable = new PersonUseridIapTable();
 		pATable.setReturnHistoryFlag(false);		
@@ -286,7 +284,7 @@ public class PersonUseridIapTableTest {
 	 */
 	@Test
 	@SuppressWarnings("unused")
-	public final void testGetPSUIAPValidAll()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void testGetPSUIAPValidAll()  throws Exception  {
 		openDbConnection();
 		PersonUseridIapTable pATable = new PersonUseridIapTable();
 		pATable.setReturnHistoryFlag(true);		
@@ -298,7 +296,7 @@ public class PersonUseridIapTableTest {
 	 */
 	@Test
 	@SuppressWarnings("unused")
-	public final void testGetPSUIAPValidNoIAP()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void testGetPSUIAPValidNoIAP()  throws Exception  {
 		openDbConnection();
 		PersonUseridIapTable pATable = new PersonUseridIapTable();
 		pATable.setReturnHistoryFlag(false);		
@@ -308,9 +306,9 @@ public class PersonUseridIapTableTest {
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonUseridIapTables#getPSUIAPs()}.
 	 */
-	@Test(expectedExceptions=GeneralDatabaseException.class)
+	@Test(expectedExceptions=Exception.class)
 	@SuppressWarnings("unused")
-	public final void testGetPSUIAPValidNoDB()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void testGetPSUIAPValidNoDB()  throws Exception  {
 		openDbConnection();
 		PersonUseridIapTable pATable = new PersonUseridIapTable();
 		pATable.setReturnHistoryFlag(false);				

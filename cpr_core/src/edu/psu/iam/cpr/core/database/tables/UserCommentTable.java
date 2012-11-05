@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.UserComments;
 import edu.psu.iam.cpr.core.database.types.UserCommentType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.UserCommentReturn;
 import edu.psu.iam.cpr.core.util.Utility;
@@ -42,6 +41,9 @@ import edu.psu.iam.cpr.core.util.Utility;
  */
 public class UserCommentTable {
 
+	/** Contains the table name for this implementation */
+	private static final String TABLE_NAME = "User Comment";
+	
 	private static final int USER_COMMENT_TYPE = 0;
 	private static final int COMMENT = 1;
 	private static final int COMMENT_DATE_STRING = 2;
@@ -73,11 +75,10 @@ public class UserCommentTable {
 	 * @param comment contains the comment.
 	 * @param userCommentType contains the string representation of the user comment type.
 	 * @param updatedBy contains the updatedBy system identifier.
-	 * @throws Exception exception will be thrown if there are any problems.
 	 */
 	public UserCommentTable(long personId, String userId, 
 			String userCommentType, String comment,
-			String updatedBy) throws Exception {
+			String updatedBy) {
 		super();
 		
 		setUserCommentType(userCommentType);
@@ -106,11 +107,10 @@ public class UserCommentTable {
 	 * @param userId String
 	 * @param userCommentType String
 	 * @param updatedBy String
-	 * @throws Exception
 	 */
 	public UserCommentTable(long personId, String userId, 
 			String userCommentType,
-			String updatedBy) throws Exception {
+			String updatedBy) {
 		this(personId, userId, userCommentType, null, updatedBy);
 	}
 
@@ -169,9 +169,8 @@ public class UserCommentTable {
 
 	/**
 	 * @param userCommentType the string representation of userCommentType.
-	 * @throws Exception
 	 */
-	public final void setUserCommentType(String userCommentType) throws Exception {
+	public final void setUserCommentType(String userCommentType) {
 		setUserCommentType(UserCommentType.valueOf(userCommentType.toUpperCase().trim()));
 	}
 
@@ -179,149 +178,129 @@ public class UserCommentTable {
 	/**
 	 * This method is used to add a comment on a userid in the CPR.
 	 * @param db 
-	 * @throws GeneralDatabaseException exception will be thrown for any general database failures.
 	 * @throws CprException exception will be thrown for any CPR specific failures.
 	 */
-	public void addUserComment(Database db) throws GeneralDatabaseException, CprException {
+	public void addUserComment(Database db) throws CprException {
 		
 		boolean commentFound = false;
-		try {
-			final Session session = db.getSession();
-			final UserComments bean = getUserCommentsBean();
-			
-			// Determine if a comment already exists for the user
-			final String sqlQuery = "from UserComments where personId = :person_id AND userid = :userid AND dataTypeKey = :data_type_key AND endDate is NULL";
-			Query query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("userid", bean.getUserid());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			final Iterator<?> it = query.list().iterator();
-			
-			// If the comment exists, we have an error otherwise we can add the new comment.
-			if (it.hasNext()) {
-				commentFound = true;
-			}
-			else {
-				session.save(bean);
-				session.flush();
-			}
+		final Session session = db.getSession();
+		final UserComments bean = getUserCommentsBean();
+
+		// Determine if a comment already exists for the user
+		final String sqlQuery = "from UserComments where personId = :person_id AND userid = :userid AND dataTypeKey = :data_type_key AND endDate is NULL";
+		Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("userid", bean.getUserid());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+		final Iterator<?> it = query.list().iterator();
+
+		// If the comment exists, we have an error otherwise we can add the new comment.
+		if (it.hasNext()) {
+			commentFound = true;
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "user comment");
+		else {
+			session.save(bean);
+			session.flush();
 		}
 		
 		if (commentFound) {
-			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, "user comment");
+			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, TABLE_NAME);
 		}
 	}
 
 	/**
 	 * This method is used to update a comment on a userid in the CPR.
 	 * @param db 
-	 * @throws GeneralDatabaseException exception will be thrown for any general database failures.
-	 * @throws CprException exception will be thrown for any CPR specific failures.
 	 */
-	public void updateUserComment(Database db) throws GeneralDatabaseException, CprException {
+	public void updateUserComment(Database db) {
 		
-		try {
-			final Session session = db.getSession();
-			final UserComments bean = getUserCommentsBean();
-			
-			// Determine if there is an active comment for the user and the specified type.
-			final String sqlQuery = "from UserComments where personId = :person_id AND userid = :userid AND dataTypeKey = :data_type_key AND endDate IS NULL";
-			Query query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("userid", bean.getUserid());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			final Iterator<?> it = query.list().iterator();
-			
-			// If a record has been found, we need to append the new comment on to the end of the record.
-			if (it.hasNext()) {
-				UserComments dbBean = (UserComments) it.next();
-				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-				final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-				sb.append(dbBean.getComments());
-				sb.append(System.getProperty("line.separator"));
-				sb.append('(');
-				sb.append(bean.getLastUpdateBy());
-				sb.append(") ");
-				sb.append(bean.getComments());
-				dbBean.setComments(sb.toString());
-				
-				session.update(dbBean);
-				session.flush();
-			}
-			
-			// If no record was found, we need to add a new comment.
-			else {
-				session.save(bean);
-				session.flush();
-			}
+		final Session session = db.getSession();
+		final UserComments bean = getUserCommentsBean();
+
+		// Determine if there is an active comment for the user and the specified type.
+		final String sqlQuery = "from UserComments where personId = :person_id AND userid = :userid AND dataTypeKey = :data_type_key AND endDate IS NULL";
+		Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("userid", bean.getUserid());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+		final Iterator<?> it = query.list().iterator();
+
+		// If a record has been found, we need to append the new comment on to the end of the record.
+		if (it.hasNext()) {
+			UserComments dbBean = (UserComments) it.next();
+			dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+			dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+			sb.append(dbBean.getComments());
+			sb.append(System.getProperty("line.separator"));
+			sb.append('(');
+			sb.append(bean.getLastUpdateBy());
+			sb.append(") ");
+			sb.append(bean.getComments());
+			dbBean.setComments(sb.toString());
+
+			session.update(dbBean);
+			session.flush();
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.UPDATE_FAILED_EXCEPTION, "user comment");
+
+		// If no record was found, we need to add a new comment.
+		else {
+			session.save(bean);
+			session.flush();
 		}
 	}
 	
 	/**
 	 * This method will attempt to archive( delete ) a particular comment.
 	 * @param db
-	 * @throws GeneralDatabaseException exception will be thrown for any general database failures.
 	 * @throws CprException exception will be thrown for any CPR specific failures.
 	 */
-	public void archiveUserComment(Database db) throws GeneralDatabaseException, CprException {
+	public void archiveUserComment(Database db) throws CprException {
 		
 		boolean recordNotFound = false;
 		boolean alreadyArchived = false;
-		try {
-			
-			final Session session = db.getSession();
-			final UserComments bean = getUserCommentsBean();
-			
-			// Check to see if there is a record of the specific type.
-			String sqlQuery = "from UserComments where personId = :person_id and userid = :userid and dataTypeKey = :data_type_key";
-			Query query = session.createQuery(sqlQuery);
+		final Session session = db.getSession();
+		final UserComments bean = getUserCommentsBean();
+
+		// Check to see if there is a record of the specific type.
+		String sqlQuery = "from UserComments where personId = :person_id and userid = :userid and dataTypeKey = :data_type_key";
+		Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("userid", bean.getUserid());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+		Iterator<?> it = query.list().iterator();
+		if (! it.hasNext()) {
+			recordNotFound = true;
+		}
+		else {
+			// Check to see if there is an active record of the specific type.
+			sqlQuery = "from UserComments where personId = :person_id and userid = :userid and dataTypeKey = :data_type_key and endDate IS NULL";
+			query = session.createQuery(sqlQuery);
 			query.setParameter("person_id", bean.getPersonId());
 			query.setParameter("userid", bean.getUserid());
 			query.setParameter("data_type_key", bean.getDataTypeKey());
-			Iterator<?> it = query.list().iterator();
+			it = query.list().iterator();
 			if (! it.hasNext()) {
-				recordNotFound = true;
+				alreadyArchived = true;
 			}
 			else {
-				// Check to see if there is an active record of the specific type.
-				sqlQuery = "from UserComments where personId = :person_id and userid = :userid and dataTypeKey = :data_type_key and endDate IS NULL";
-				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("userid", bean.getUserid());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
-				it = query.list().iterator();
-				if (! it.hasNext()) {
-					alreadyArchived = true;
-				}
-				else {
 
-					// Record (active) found, so we can do the archive!
-					UserComments dbBean = (UserComments) it.next();
-					dbBean.setEndDate(bean.getLastUpdateOn());
-					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					session.update(dbBean);
-					session.flush();
-				}
+				// Record (active) found, so we can do the archive!
+				UserComments dbBean = (UserComments) it.next();
+				dbBean.setEndDate(bean.getLastUpdateOn());
+				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				session.update(dbBean);
+				session.flush();
 			}
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ARCHIVE_FAILED_EXCEPTION, "user comment");
 		}
 		
 		// Handle errors.
 		if (recordNotFound) {
-			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "user comment");
+			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, TABLE_NAME);
 		}
 		if (alreadyArchived) {
-			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, "user comment");
+			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, TABLE_NAME);
 		}
 	}
 	
@@ -330,77 +309,69 @@ public class UserCommentTable {
 	 * @param db
 	 * @param userId contains the user id of person.
 	 * @return a list of user comments.
-	 * @throws GeneralDatabaseException exception will be thrown for any general database failures.
-	 * @throws CprException exception will be thrown for any CPR specific failures.
 	 */
-	public UserCommentReturn[] getUserComments( Database db, String userId ) throws GeneralDatabaseException, CprException {
+	public UserCommentReturn[] getUserComments( Database db, String userId ) {
 
-		try {
-			final ArrayList<UserCommentReturn> results = new ArrayList<UserCommentReturn>();
-			
-			final Session session = db.getSession();
+		final ArrayList<UserCommentReturn> results = new ArrayList<UserCommentReturn>();
 
-			// Build the query string.
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT data_type_key, comments, ");
-			sb.append("start_date, ");
-			sb.append("end_date, ");
-			sb.append("last_update_by, ");
-			sb.append("last_update_on, ");
-			sb.append("created_by ");
-			sb.append("FROM user_comments ");
-			sb.append("WHERE userid = :userid_in ");
-			
-			if (getUserCommentType() != null) { 
-				sb.append("AND data_type_key = :data_type_key_in ");
-			}
-			
-			// If we are not returning all records, we need to just return the active ones.
-			if (! isReturnHistoryFlag()) {
-				sb.append("AND end_date IS NULL ");
-			}
-			
-			sb.append("ORDER BY data_type_key ASC, start_date ASC ");
+		final Session session = db.getSession();
 
-			// Init the hibernate query.
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("userid_in", userId);
-			
-			if (getUserCommentType() != null) {
-				query.setParameter("data_type_key_in", getUserCommentType().index());
-			}
-			
-			query.addScalar("data_type_key", StandardBasicTypes.LONG);
-			query.addScalar("comments", StandardBasicTypes.STRING);
-			query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("last_update_by", StandardBasicTypes.STRING);
-			query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("created_by", StandardBasicTypes.STRING);
+		// Build the query string.
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT data_type_key, comments, ");
+		sb.append("start_date, ");
+		sb.append("end_date, ");
+		sb.append("last_update_by, ");
+		sb.append("last_update_on, ");
+		sb.append("created_by ");
+		sb.append("FROM user_comments ");
+		sb.append("WHERE userid = :userid_in ");
 
-			// Perform the query.
-			final Iterator<?> it = query.list().iterator();
-			
-			// Process the results.
-			while (it.hasNext()) {
-				Object res[] = (Object []) it.next();
-				UserCommentReturn ucr = new UserCommentReturn();
-				ucr.setUserCommentType(UserCommentType.get((Long) res[USER_COMMENT_TYPE]).toString());
-				ucr.setComment((String) res[COMMENT]);
-				ucr.setCommentDateString(Utility.convertTimestampToString((Date) res[COMMENT_DATE_STRING]));
-				ucr.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
-				ucr.setLastUpdatedBy((String) res[LAST_UPDATE_BY]);
-				ucr.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
-				ucr.setCommenter((String) res[COMMENTER]);				
-				results.add(ucr);
-			}
-			
-			return results.toArray(new UserCommentReturn[results.size()]);
-			
+		if (getUserCommentType() != null) { 
+			sb.append("AND data_type_key = :data_type_key_in ");
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve comments for user id = " + userId);
-		}			
+
+		// If we are not returning all records, we need to just return the active ones.
+		if (! isReturnHistoryFlag()) {
+			sb.append("AND end_date IS NULL ");
+		}
+
+		sb.append("ORDER BY data_type_key ASC, start_date ASC ");
+
+		// Init the hibernate query.
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("userid_in", userId);
+
+		if (getUserCommentType() != null) {
+			query.setParameter("data_type_key_in", getUserCommentType().index());
+		}
+
+		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.addScalar("comments", StandardBasicTypes.STRING);
+		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("last_update_by", StandardBasicTypes.STRING);
+		query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("created_by", StandardBasicTypes.STRING);
+
+		// Perform the query.
+		final Iterator<?> it = query.list().iterator();
+
+		// Process the results.
+		while (it.hasNext()) {
+			Object res[] = (Object []) it.next();
+			UserCommentReturn ucr = new UserCommentReturn();
+			ucr.setUserCommentType(UserCommentType.get((Long) res[USER_COMMENT_TYPE]).toString());
+			ucr.setComment((String) res[COMMENT]);
+			ucr.setCommentDateString(Utility.convertTimestampToString((Date) res[COMMENT_DATE_STRING]));
+			ucr.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
+			ucr.setLastUpdatedBy((String) res[LAST_UPDATE_BY]);
+			ucr.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+			ucr.setCommenter((String) res[COMMENTER]);				
+			results.add(ucr);
+		}
+
+		return results.toArray(new UserCommentReturn[results.size()]);
 	}
 
 	/**

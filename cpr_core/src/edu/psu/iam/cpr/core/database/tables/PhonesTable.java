@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.Phones;
 import edu.psu.iam.cpr.core.database.types.PhoneType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.PhoneReturn;
 import edu.psu.iam.cpr.core.util.Utility;
@@ -43,6 +42,9 @@ import edu.psu.iam.cpr.core.util.Utility;
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
 public class PhonesTable {
+	
+	/** Contains the table name for this database implementation */
+	private static final String TABLE_NAME = "Phones";
 	
 	private static final int PHONE_TYPE = 0;
 	private static final int GROUP_ID = 1;
@@ -212,58 +214,52 @@ public class PhonesTable {
 	 *  @param db
 	 * @throws CprException 
 	 */
-	public void addPhone (Database db) throws   CprException {
+	public void addPhone (Database db) throws CprException {
 		
 		boolean matchFound = false;
-		try {
-			final Session session = db.getSession();
-			final Phones bean = getPhonesBean();
-			Long maxGroupId = null;
-			// verify that this is not a duplicate record within type
-			String sqlQuery = "from Phones where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
-			final Query query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
-				Phones dbBean = (Phones) it.next();
-				if (db.areStringFieldsEqual(bean.getPhoneNumber(), dbBean.getPhoneNumber()) &&
+		final Session session = db.getSession();
+		final Phones bean = getPhonesBean();
+		Long maxGroupId = null;
+		// verify that this is not a duplicate record within type
+		String sqlQuery = "from Phones where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
+		final Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
+			Phones dbBean = (Phones) it.next();
+			if (db.areStringFieldsEqual(bean.getPhoneNumber(), dbBean.getPhoneNumber()) &&
 					db.areStringFieldsEqual(bean.getExtension(), dbBean.getExtension()) &&
 					db.areStringFieldsEqual(bean.getInternationalNumberFlag(), dbBean.getInternationalNumberFlag())) {
-					matchFound = true;
-				}
+				matchFound = true;
 			}
-			
-			if (! matchFound) {
-				// Find the maximum group id for the person and their phone type combination.
-				sqlQuery = "SELECT MAX(group_id) as max_group_id FROM phones WHERE person_id = :person_id AND data_type_key = :data_type_key";
-				final SQLQuery query1 = session.createSQLQuery(sqlQuery);
-				query1.setParameter("person_id", bean.getPersonId());
-				query1.setParameter("data_type_key", bean.getDataTypeKey());
-				query1.addScalar("max_group_id", StandardBasicTypes.LONG);
-				final Iterator<?> it = query1.list().iterator();
-				if (it.hasNext()) {
-					maxGroupId = (Long) it.next();
-					maxGroupId = (maxGroupId == null) ? 1L : maxGroupId+1L;
+		}
 
-				}
-				else {
-					maxGroupId = 1L;
-				}
-				
-			
-				// Save off the new record.
-				bean.setGroupId(maxGroupId);
-				session.save(bean);
-				session.flush();
+		if (! matchFound) {
+			// Find the maximum group id for the person and their phone type combination.
+			sqlQuery = "SELECT MAX(group_id) as max_group_id FROM phones WHERE person_id = :person_id AND data_type_key = :data_type_key";
+			final SQLQuery query1 = session.createSQLQuery(sqlQuery);
+			query1.setParameter("person_id", bean.getPersonId());
+			query1.setParameter("data_type_key", bean.getDataTypeKey());
+			query1.addScalar("max_group_id", StandardBasicTypes.LONG);
+			final Iterator<?> it = query1.list().iterator();
+			if (it.hasNext()) {
+				maxGroupId = (Long) it.next();
+				maxGroupId = (maxGroupId == null) ? 1L : maxGroupId+1L;
+
+			}
+			else {
+				maxGroupId = 1L;
 			}
 
+
+			// Save off the new record.
+			bean.setGroupId(maxGroupId);
+			session.save(bean);
+			session.flush();
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "phones");
-		}
-		
+
 		if (matchFound) {
-			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, "phones");
+			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, TABLE_NAME);
 		}
 	}
 	
@@ -282,57 +278,51 @@ public class PhonesTable {
 		boolean matchFound = false;
 		int updateCount = 0;
 	
-		try {
-			final Session session = db.getSession();
-			final Phones bean = getPhonesBean();
-			
-			String sqlQuery = "from Phones where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
-			Query query = session.createQuery(sqlQuery);
+		final Session session = db.getSession();
+		final Phones bean = getPhonesBean();
+
+		String sqlQuery = "from Phones where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
+		Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
+			Phones dbBean = (Phones) it.next();
+			if (db.areStringFieldsEqual(bean.getPhoneNumber(), dbBean.getPhoneNumber()) &&
+					db.areStringFieldsEqual(bean.getExtension(), dbBean.getExtension()) &&
+					db.areStringFieldsEqual(bean.getInternationalNumberFlag(), dbBean.getInternationalNumberFlag())) {
+				matchFound = true;
+			}
+		}
+
+		if (! matchFound) {
+			sqlQuery = "from Phones where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id and endDate IS NULL";
+			query = session.createQuery(sqlQuery);
 			query.setParameter("person_id", bean.getPersonId());
 			query.setParameter("data_type_key", bean.getDataTypeKey());
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
+			query.setParameter("group_id", bean.getGroupId());
+			for (final Iterator<? >it = query.list().iterator(); it.hasNext(); ) {
 				Phones dbBean = (Phones) it.next();
-				if (db.areStringFieldsEqual(bean.getPhoneNumber(), dbBean.getPhoneNumber()) &&
-						db.areStringFieldsEqual(bean.getExtension(), dbBean.getExtension()) &&
-						db.areStringFieldsEqual(bean.getInternationalNumberFlag(), dbBean.getInternationalNumberFlag())) {
-					matchFound = true;
-				}
+				dbBean.setEndDate(bean.getLastUpdateOn());
+				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				dbBean.setPrimaryFlag("N");
+				session.update(dbBean);
+				session.flush();
+				updateCount++;
 			}
 
-			if (! matchFound) {
-				sqlQuery = "from Phones where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id and endDate IS NULL";
-				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
-				query.setParameter("group_id", bean.getGroupId());
-				for (final Iterator<? >it = query.list().iterator(); it.hasNext(); ) {
-					Phones dbBean = (Phones) it.next();
-					dbBean.setEndDate(bean.getLastUpdateOn());
-					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					dbBean.setPrimaryFlag("N");
-					session.update(dbBean);
-					session.flush();
-					updateCount++;
-				}
-				
-				// Save off the new record.
-				if (updateCount > 0) {
-					session.save(bean);
-					session.flush();
-				}
+			// Save off the new record.
+			if (updateCount > 0) {
+				session.save(bean);
+				session.flush();
 			}
+		}
 
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.UPDATE_FAILED_EXCEPTION, "phones");
-		}
-		
 		if (matchFound) {
-			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, "phones");
+			throw new CprException(ReturnType.RECORD_ALREADY_EXISTS, TABLE_NAME);
 		}
-		if (updateCount ==0 ) {
-			throw new CprException(ReturnType.UPDATE_FAILED_EXCEPTION, "phones");
+		if (updateCount==0) {
+			throw new CprException(ReturnType.UPDATE_FAILED_EXCEPTION, TABLE_NAME);
 		}
 	}
 	
@@ -350,50 +340,46 @@ public class PhonesTable {
 		
 		boolean recordNotFound = false;
 		boolean alreadyArchived = false;
-		try {
-			final Session session = db.getSession();
-			final Phones bean = getPhonesBean();
-			
-			String sqlQuery = "from Phones where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id ";
-			Query query = session.createQuery(sqlQuery);
+		final Session session = db.getSession();
+		final Phones bean = getPhonesBean();
+
+		String sqlQuery = "from Phones where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id ";
+		Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+		query.setParameter("group_id", bean.getGroupId());
+
+		if (query.list().size() > 0)  {
+			sqlQuery += " and endDate is null";
+			query = session.createQuery(sqlQuery);
 			query.setParameter("person_id", bean.getPersonId());
 			query.setParameter("data_type_key", bean.getDataTypeKey());
 			query.setParameter("group_id", bean.getGroupId());
-			
-			if (query.list().size() > 0)  {
-				sqlQuery += " and endDate is null";
-				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
-				query.setParameter("group_id", bean.getGroupId());
-				final Iterator<?> it = query.list().iterator();
-				if (it.hasNext()) {
-					Phones dbBean = (Phones) it.next();
-					dbBean.setEndDate(bean.getLastUpdateOn());
-					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					dbBean.setPrimaryFlag("N");
-					session.update(dbBean);
-					session.flush();
-			
-				}
-				else {
-					alreadyArchived = true;
-				}
+			final Iterator<?> it = query.list().iterator();
+			if (it.hasNext()) {
+				Phones dbBean = (Phones) it.next();
+				dbBean.setEndDate(bean.getLastUpdateOn());
+				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				dbBean.setPrimaryFlag("N");
+				session.update(dbBean);
+				session.flush();
+
 			}
 			else {
-				recordNotFound = true;
+				alreadyArchived = true;
 			}
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ARCHIVE_FAILED_EXCEPTION, "phones");
+		else {
+			recordNotFound = true;
 		}
+		
 		// Handle the errors.
 		if (recordNotFound) {
-			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "phones");
+			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, TABLE_NAME);
 		}
 		if (alreadyArchived) {
-			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, "phones");
+			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, TABLE_NAME);
 		}
 	}
 	
@@ -402,79 +388,72 @@ public class PhonesTable {
 	 * @param db 
 	 * @param personId contains the personID
 	 * @return list of phone numbers
-	 * @throws GeneralDatabaseException 
 	 */
-	public PhoneReturn[] getPhones (Database db, long personId) throws GeneralDatabaseException {
+	public PhoneReturn[] getPhones (Database db, long personId) {
 
-		try {
-			final ArrayList<PhoneReturn> results = new ArrayList<PhoneReturn>();
-			
-			final Session session = db.getSession();
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT data_type_key, group_id, primary_flag, phone_number, extension, international_number_flag,  ");
-			sb.append("start_date, ");
-			sb.append("end_date, ");
-			sb.append("last_update_by, " );
-			sb.append("last_update_on, ");
-			sb.append("created_by, " );
-			sb.append("created_on ");
-			sb.append("FROM phones ");
-			sb.append("WHERE person_id = :person_id_in ");
+		final ArrayList<PhoneReturn> results = new ArrayList<PhoneReturn>();
 
-			if (getPhoneType() != null) {
-				sb.append("AND  data_type_key = :data_type_key_in ");
-			}
-		
-			if (! isReturnHistoryFlag()) {
-				sb.append("AND end_date IS NULL");
-			}
+		final Session session = db.getSession();
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT data_type_key, group_id, primary_flag, phone_number, extension, international_number_flag,  ");
+		sb.append("start_date, ");
+		sb.append("end_date, ");
+		sb.append("last_update_by, " );
+		sb.append("last_update_on, ");
+		sb.append("created_by, " );
+		sb.append("created_on ");
+		sb.append("FROM phones ");
+		sb.append("WHERE person_id = :person_id_in ");
 
-			sb.append(" ORDER BY data_type_key ASC, start_date ASC ");
-
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("person_id_in", personId);
-			
-			if (getPhoneType() != null) {
-				query.setParameter("data_type_key_in", getPhoneType().index());
-			}
-			
-			query.addScalar("data_type_key", StandardBasicTypes.LONG);
-			query.addScalar("group_id", StandardBasicTypes.LONG);
-			query.addScalar("primary_flag", StandardBasicTypes.STRING);
-			query.addScalar("phone_number", StandardBasicTypes.STRING);
-			query.addScalar("extension", StandardBasicTypes.STRING);
-			query.addScalar("international_number_flag", StandardBasicTypes.STRING);
-			query.addScalar("start_date",StandardBasicTypes.TIMESTAMP );
-			query.addScalar("end_date",StandardBasicTypes.TIMESTAMP );
-			query.addScalar("last_update_by",StandardBasicTypes.STRING );
-			query.addScalar("last_update_on",StandardBasicTypes.TIMESTAMP );
-			query.addScalar("created_by",StandardBasicTypes.STRING );
-			query.addScalar("created_on",StandardBasicTypes.TIMESTAMP );
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				Object res[] = (Object []) it.next();
-				PhoneReturn aPhone = new PhoneReturn();
-				aPhone.setPhoneType(PhoneType.get((Long) res[PHONE_TYPE]).toString());
-				aPhone.setGroupId((Long) res[GROUP_ID]);
-				aPhone.setPrimaryFlag((String) res[PRIMARY_FLAG]);
-				aPhone.setPhoneNumber((String) res[PHONE_NUMBER]);
-				aPhone.setExtension((String) res[EXTENSION]);
-				aPhone.setInternationalNumber((String) res[INTERNATIONAL_NUMBER]);
-				aPhone.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
-				aPhone.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
-				aPhone.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
-				aPhone.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
-				aPhone.setCreatedBy((String) res[CREATED_BY]);
-				aPhone.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
-				results.add(aPhone); 
-			}
-			
-			
-			return results.toArray(new PhoneReturn[results.size()]);
-			
+		if (getPhoneType() != null) {
+			sb.append("AND  data_type_key = :data_type_key_in ");
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve phones for person identifier = " + personId);			
+
+		if (! isReturnHistoryFlag()) {
+			sb.append("AND end_date IS NULL");
 		}
+
+		sb.append(" ORDER BY data_type_key ASC, start_date ASC ");
+
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id_in", personId);
+
+		if (getPhoneType() != null) {
+			query.setParameter("data_type_key_in", getPhoneType().index());
+		}
+
+		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.addScalar("group_id", StandardBasicTypes.LONG);
+		query.addScalar("primary_flag", StandardBasicTypes.STRING);
+		query.addScalar("phone_number", StandardBasicTypes.STRING);
+		query.addScalar("extension", StandardBasicTypes.STRING);
+		query.addScalar("international_number_flag", StandardBasicTypes.STRING);
+		query.addScalar("start_date",StandardBasicTypes.TIMESTAMP );
+		query.addScalar("end_date",StandardBasicTypes.TIMESTAMP );
+		query.addScalar("last_update_by",StandardBasicTypes.STRING );
+		query.addScalar("last_update_on",StandardBasicTypes.TIMESTAMP );
+		query.addScalar("created_by",StandardBasicTypes.STRING );
+		query.addScalar("created_on",StandardBasicTypes.TIMESTAMP );
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			Object res[] = (Object []) it.next();
+			PhoneReturn aPhone = new PhoneReturn();
+			aPhone.setPhoneType(PhoneType.get((Long) res[PHONE_TYPE]).toString());
+			aPhone.setGroupId((Long) res[GROUP_ID]);
+			aPhone.setPrimaryFlag((String) res[PRIMARY_FLAG]);
+			aPhone.setPhoneNumber((String) res[PHONE_NUMBER]);
+			aPhone.setExtension((String) res[EXTENSION]);
+			aPhone.setInternationalNumber((String) res[INTERNATIONAL_NUMBER]);
+			aPhone.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
+			aPhone.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
+			aPhone.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
+			aPhone.setLastUpdateOn(Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]));
+			aPhone.setCreatedBy((String) res[CREATED_BY]);
+			aPhone.setCreatedOn(Utility.convertTimestampToString((Date) res[CREATED_ON]));
+			results.add(aPhone); 
+		}
+
+
+		return results.toArray(new PhoneReturn[results.size()]);
 	}
 
 	/**
@@ -488,74 +467,69 @@ public class PhonesTable {
 		boolean notFound = false;
 		boolean alreadyPrimary = false;
 	
-		try {
-			final Session session = db.getSession();
-			final Phones bean = getPhonesBean();
-		
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT  primary_flag ");
-			sb.append("FROM phones ");
-			sb.append("WHERE person_id = :person_id_in ");
-			sb.append("AND data_type_key = :data_type_key ");
-			sb.append("AND group_id = :group_id ");
-			sb.append("AND end_date IS NULL ");
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("person_id_in", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			query.setParameter("group_id",bean.getGroupId());
-			query.addScalar("primary_flag", StandardBasicTypes.STRING);
-			Iterator<?> it = query.list().iterator();
-			if (! it.hasNext()) {
-				notFound = true;
+		final Session session = db.getSession();
+		final Phones bean = getPhonesBean();
+
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT  primary_flag ");
+		sb.append("FROM phones ");
+		sb.append("WHERE person_id = :person_id_in ");
+		sb.append("AND data_type_key = :data_type_key ");
+		sb.append("AND group_id = :group_id ");
+		sb.append("AND end_date IS NULL ");
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id_in", bean.getPersonId());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+		query.setParameter("group_id",bean.getGroupId());
+		query.addScalar("primary_flag", StandardBasicTypes.STRING);
+		Iterator<?> it = query.list().iterator();
+		if (! it.hasNext()) {
+			notFound = true;
+		}
+		else {
+
+			final String primaryFlag = (String) it.next();
+			if (primaryFlag.equals("Y")) {
+				alreadyPrimary = true;
 			}
 			else {
 
-				final String primaryFlag = (String) it.next();
-				if (primaryFlag.equals("Y")) {
-					alreadyPrimary = true;
+				String sqlQuery = "from Phones where personId = :person_id and dataTypeKey = :data_type_key and primaryFlag = 'Y' and endDate is null";
+				Query query1 = session.createQuery(sqlQuery);
+				query1.setParameter("person_id", bean.getPersonId());
+				query1.setParameter("data_type_key", bean.getDataTypeKey());
+				for (it = query1.list().iterator(); it.hasNext(); ) {
+					Phones dbBean = (Phones) it.next();
+					dbBean.setPrimaryFlag("N");
+					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+					session.update(dbBean);
+					session.flush();
 				}
-				else {
-				
-					String sqlQuery = "from Phones where personId = :person_id and dataTypeKey = :data_type_key and primaryFlag = 'Y' and endDate is null";
-					Query query1 = session.createQuery(sqlQuery);
-					query1.setParameter("person_id", bean.getPersonId());
-					query1.setParameter("data_type_key", bean.getDataTypeKey());
-					for (it = query1.list().iterator(); it.hasNext(); ) {
-						Phones dbBean = (Phones) it.next();
-						dbBean.setPrimaryFlag("N");
-						dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-						dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-						session.update(dbBean);
-						session.flush();
-					}
-				
-					sqlQuery = "from Phones where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id and endDate IS NULL";
-					query1 = session.createQuery(sqlQuery);
-					query1.setParameter("person_id", bean.getPersonId());
-					query1.setParameter("data_type_key", bean.getDataTypeKey());
-					query1.setParameter("group_id", bean.getGroupId());
-					it = query1.list().iterator();
-					if (it.hasNext()) {
-						Phones dbBean = (Phones) it.next();
-						dbBean.setPrimaryFlag("Y");
-						dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-						dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-						session.update(dbBean);
-						session.flush();
-					}
+
+				sqlQuery = "from Phones where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id and endDate IS NULL";
+				query1 = session.createQuery(sqlQuery);
+				query1.setParameter("person_id", bean.getPersonId());
+				query1.setParameter("data_type_key", bean.getDataTypeKey());
+				query1.setParameter("group_id", bean.getGroupId());
+				it = query1.list().iterator();
+				if (it.hasNext()) {
+					Phones dbBean = (Phones) it.next();
+					dbBean.setPrimaryFlag("Y");
+					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+					session.update(dbBean);
+					session.flush();
 				}
-			}		
-		}	
-		catch (Exception e) {
-			throw new CprException(ReturnType.SET_PRIMARY_FAILED_EXCEPTION, "phone");
-		}
+			}
+		}		
 	
 		if (notFound) {
-			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "phone");
+			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, TABLE_NAME);
 		}
 	
 		if (alreadyPrimary) {
-			throw new CprException(ReturnType.SET_PRIMARY_FAILED_EXCEPTION, "phone");
+			throw new CprException(ReturnType.SET_PRIMARY_FAILED_EXCEPTION, TABLE_NAME);
 		}
 	}
 }

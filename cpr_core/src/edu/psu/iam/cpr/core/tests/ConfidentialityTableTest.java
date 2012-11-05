@@ -27,8 +27,6 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.Confidentiality;
 import edu.psu.iam.cpr.core.database.tables.ConfidentialityTable;
 import edu.psu.iam.cpr.core.database.types.ConfidentialityType;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 
 /**
  * @author jvuccolo
@@ -37,7 +35,7 @@ import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 public class ConfidentialityTableTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
@@ -117,7 +115,7 @@ public class ConfidentialityTableTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _12testGetConfidentiality1() throws CprException, GeneralDatabaseException {
+	public final void _12testGetConfidentiality1() throws Exception {
 		db.closeSession();
 		ConfidentialityTable t = new ConfidentialityTable();
 		t.getConfidentiality(db,100000);
@@ -135,7 +133,7 @@ public class ConfidentialityTableTest {
 	}
 	
 	@Test
-	public final void _14testGetConfidentiality2() throws CprException, GeneralDatabaseException {
+	public final void _14testGetConfidentiality2() throws Exception {
 		openDbConnection();
 		ConfidentialityTable t = new ConfidentialityTable();
 		t.setReturnHistoryFlag(true);

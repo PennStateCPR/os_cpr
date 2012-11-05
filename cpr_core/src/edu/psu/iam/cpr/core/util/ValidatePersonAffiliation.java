@@ -25,7 +25,6 @@ package edu.psu.iam.cpr.core.util;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -49,11 +48,11 @@ public final class ValidatePersonAffiliation {
 	 * @param affiliation contains the name type to be deleted.
 	 * @param updatedBy contains the userid or server identifier of the user who is requesting the delete.
 	 * @return PersonAffiliationTable class.
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 * 
 	 */
-	public static PersonAffiliationTable validateAddAffiliationParameters(Database db, long personId, String affiliation,  String updatedBy) throws GeneralDatabaseException, CprException {
+	public static PersonAffiliationTable validateAddAffiliationParameters(Database db, long personId, String affiliation,  String updatedBy) 
+		throws CprException {
 		
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 		
@@ -70,14 +69,7 @@ public final class ValidatePersonAffiliation {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
 		}
 
-		PersonAffiliationTable pARTable = null;
-		try {
-			pARTable = new PersonAffiliationTable(personId, affiliation, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Affiliation");
-		}
-		return pARTable;
+		return new PersonAffiliationTable(personId, affiliation, localUpdatedBy);
 	}
 
 	/**
@@ -87,11 +79,11 @@ public final class ValidatePersonAffiliation {
 	 * @param affiliation contains the name type to be deleted
 	 * @param updatedBy contains the userid or server identifier of the user who is requesting the delete.
 	 * @return PersonAffilationTable class.
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 * 
 	 */
-	public static PersonAffiliationTable validateArchiveAffiliationParameters(Database db, long personId, String affiliation,  String updatedBy) throws GeneralDatabaseException, CprException {
+	public static PersonAffiliationTable validateArchiveAffiliationParameters(Database db, long personId, String affiliation,  
+			String updatedBy) throws CprException {
 		
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
 		
@@ -109,14 +101,7 @@ public final class ValidatePersonAffiliation {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
 		}
 
-		PersonAffiliationTable pARTable = null;
-		try {
-			pARTable = new PersonAffiliationTable(personId, affiliation, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Affiliation");
-		}
-		return pARTable;
+		return new PersonAffiliationTable(personId, affiliation, localUpdatedBy);
 	}
 	
 	/**
@@ -126,11 +111,11 @@ public final class ValidatePersonAffiliation {
 	 * @param requestedBy contains the userid or server identifier of the user who is requesting the delete.'
 	 * @param returnHistory Y/N flag that indicates whether to return history or not.
 	 * @return PersonAffiliationTable
-	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 * 
 	 */
-	public static PersonAffiliationTable validateGetAffiliationsForPersonIdParameters(Database db, long personId,  String requestedBy, String returnHistory) throws  GeneralDatabaseException, CprException {
+	public static PersonAffiliationTable validateGetAffiliationsForPersonIdParameters(Database db, long personId,  String requestedBy, 
+			String returnHistory) throws CprException {
 		
 		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
 		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;

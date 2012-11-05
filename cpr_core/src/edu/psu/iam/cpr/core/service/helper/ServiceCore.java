@@ -1,7 +1,11 @@
 /* SVN FILE: $Id: ServiceCore.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
 package edu.psu.iam.cpr.core.service.helper;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+
+import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 
@@ -13,8 +17,6 @@ import edu.psu.iam.cpr.core.database.beans.ServiceLog;
 import edu.psu.iam.cpr.core.database.tables.ServiceLogTable;
 import edu.psu.iam.cpr.core.database.types.CprServiceName;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.util.PasswordService;
 
 /**
@@ -64,10 +66,13 @@ public class ServiceCore {
 	 * @param serviceCoreReturn contains the service core return class, a number of its values will be set as the result of 
 	 *        initializing the service.
 	 * @throws CprException 
-	 * @throws GeneralDatabaseException 
-		 */
+	 * @throws NamingException 
+	 * @throws UnsupportedEncodingException 
+	 * @throws NoSuchAlgorithmException 
+	 */
 	public void initializeService(Database db, String principalId, String password, String identifierType, String identifier, String serviceName, 
-			ServiceCoreReturn serviceCoreReturn) throws CprException, GeneralDatabaseException  {
+			ServiceCoreReturn serviceCoreReturn) throws CprException, 
+				NamingException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		
 		LOG4J_LOGGER.info("initalizeService: start of function.");
 		
@@ -100,31 +105,25 @@ public class ServiceCore {
 	 * @param db
 	 * @param principalId
 	 * @param password
+	 * @throws UnsupportedEncodingException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws NamingException 
 	 * @throws CprException 
 	 */
-	public void authenticateService(Database db, String principalId, String password) throws CprException  {
+	public void authenticateService(Database db, String principalId, String password) throws NoSuchAlgorithmException, 
+		UnsupportedEncodingException, CprException, NamingException {
 		
 		String hash = null;
 		
 		LOG4J_LOGGER.info("authenticateService: start of function.");
 
-		try {
-			hash = PasswordService.INSTANCE.encrypt(password);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.SERVICE_AUTHENTICATION_EXCEPTION);
-		}
+		hash = PasswordService.INSTANCE.encrypt(password);
 		
 		final SessionCookie cookie = new SessionCookie(principalId, hash, new Date().getTime());
 				
 		if (! SessionCache.INSTANCE.isSessionValid(cookie)) {
 			AuthenticateService.authenticate(principalId, password);
-
-			try {
-				SessionCache.INSTANCE.storeSession(cookie);
-			}
-			catch (Exception e) {
-			}
+			SessionCache.INSTANCE.storeSession(cookie);
 		}
 				
 		LOG4J_LOGGER.info("authenticateService: end of function.");
@@ -139,10 +138,9 @@ public class ServiceCore {
 	 * @param serviceInputParameters contains the input parameters for the service.
 	 * @param requestor contains the requester who is calling the service.
 	 * @return will return a ServiceCoreReturn object upon successful initialization.
-	 * @throws GeneralDatabaseException will return this exception for any database related problems.
 	 */
 	public ServiceCoreReturn initializeLogging(Database db, String serviceName, String clientIpAddress, String serviceInputParameters, 
-			String requestor) throws GeneralDatabaseException  {
+			String requestor) {
 		
 		LOG4J_LOGGER.info("initalizeLogging: start of function.");
 		final ServiceCoreReturn s = new ServiceCoreReturn();
@@ -180,10 +178,13 @@ public class ServiceCore {
 	 * @param serviceName contains the name of the service.
 	 * @param serviceCoreReturn contains the service core return object.
 	 * @throws CprException 
-	 * @throws GeneralDatabaseException 
+	 * @throws NamingException 
+	 * @throws UnsupportedEncodingException 
+	 * @throws NoSuchAlgorithmException 
 	 */
 	public void initializeService(Database db, String principalId, String password, String serviceName, ServiceCoreReturn serviceCoreReturn) 
-		throws CprException, GeneralDatabaseException  {
+		throws CprException, NamingException, 
+		NoSuchAlgorithmException, UnsupportedEncodingException {
 		
 		LOG4J_LOGGER.info("initializeService: start of function.");
 		// Do an service principal authentication.

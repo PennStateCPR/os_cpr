@@ -4,7 +4,6 @@ package edu.psu.iam.cpr.core.util;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.PersonTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -45,10 +44,9 @@ public final class ValidatePerson {
 	 * @param personId contains the user's person identifier.
 	 * @param updatedBy contains the userid of the person performing the update.
 	 * @return will return a PersonTable instance upon successful validation.
-	 * @throws GeneralDatabaseException
 	 * @throws CprException
 	 */
-	public static PersonTable validatePersonParameters(Database db, long personId, String updatedBy) throws  GeneralDatabaseException, CprException {
+	public static PersonTable validatePersonParameters(Database db, long personId, String updatedBy) throws  CprException {
 		
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : updatedBy;		
 		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {

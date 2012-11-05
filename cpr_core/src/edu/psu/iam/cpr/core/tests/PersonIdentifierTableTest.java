@@ -32,14 +32,12 @@ import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.database.beans.PersonIdentifier;
 import edu.psu.iam.cpr.core.database.helpers.DBTypesHelper;
 import edu.psu.iam.cpr.core.database.tables.PersonIdentifierTable;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.service.returns.PersonIdentifierReturn;
 
 public class PersonIdentifierTableTest {
 
 	private static Database db= new Database();
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 
@@ -77,25 +75,23 @@ public class PersonIdentifierTableTest {
 	}
 
 	@Test
-	public final void _06testGetPersonIdentifiersForPersonId0() throws GeneralDatabaseException {
+	public final void _06testGetPersonIdentifiersForPersonId0() throws Exception {
 		openDbConnection();
 		PersonIdentifierReturn[] p = new PersonIdentifierTable().getPersonIdentifiersForPersonId(db, 1L);
 		db.closeSession();
 		AssertJUnit.assertEquals(p.length,0);
-		db.closeSession();
 	}
 	
 	@Test
-	public final void _07testGetPersonIdentifiersForPersonId3() throws GeneralDatabaseException {
+	public final void _07testGetPersonIdentifiersForPersonId3() throws Exception {
 		openDbConnection();
 		PersonIdentifierReturn[] p = new PersonIdentifierTable().getPersonIdentifiersForPersonId(db, 100000L);
 		db.closeSession();
 		AssertJUnit.assertEquals(p.length,1);
-		db.closeSession();
 	}
 	
 	@Test
-	public final void _08testGetPersonIdentifiersForPersonId1() throws GeneralDatabaseException {
+	public final void _08testGetPersonIdentifiersForPersonId1() throws Exception {
 		openDbConnection();
 		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
@@ -114,7 +110,7 @@ public class PersonIdentifierTableTest {
 	}
 	
 	@Test
-	public final void _09testGetPersonIdentifiersForPersonId2() throws GeneralDatabaseException {
+	public final void _09testGetPersonIdentifiersForPersonId2() throws Exception {
 		openDbConnection();
 		PersonIdentifierTable p = new PersonIdentifierTable();
 		p.setReturnHistoryFlag(true);
@@ -124,7 +120,7 @@ public class PersonIdentifierTableTest {
 	}
 
 	@Test
-	public final void _10testAddPersonIdentifier1() throws GeneralDatabaseException, CprException {
+	public final void _10testAddPersonIdentifier1() throws Exception {
 		openDbConnection();
 		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
@@ -141,7 +137,7 @@ public class PersonIdentifierTableTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _11testAddPersonIdentifier2() throws GeneralDatabaseException, CprException {
+	public final void _11testAddPersonIdentifier2() throws Exception {
 		openDbConnection();
 		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
@@ -158,7 +154,7 @@ public class PersonIdentifierTableTest {
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _12testArchivePersonIdentifier1() throws GeneralDatabaseException, CprException {
+	public final void _12testArchivePersonIdentifier1() throws Exception {
 		openDbConnection();
 		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
@@ -175,7 +171,7 @@ public class PersonIdentifierTableTest {
 	}
 	
 	@Test
-	public final void _13testArchivePersonIdentifier2() throws GeneralDatabaseException, CprException {
+	public final void _13testArchivePersonIdentifier2() throws Exception {
 		openDbConnection();
 		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
@@ -192,7 +188,7 @@ public class PersonIdentifierTableTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _14testArchivePersonIdentifier3() throws GeneralDatabaseException, CprException {
+	public final void _14testArchivePersonIdentifier3() throws Exception {
 		openDbConnection();
 		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
@@ -209,7 +205,7 @@ public class PersonIdentifierTableTest {
 	}
 	
 	@Test 
-	public final void _15testSSNStorage() throws GeneralDatabaseException, CprException {
+	public final void _15testSSNStorage() throws Exception {
 		openDbConnection();
 		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
@@ -238,7 +234,7 @@ public class PersonIdentifierTableTest {
 	}
 	
 	@Test
-	public final void restoreThings() throws GeneralDatabaseException, CprException {
+	public final void restoreThings() throws Exception {
 		openDbConnection();
 		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;

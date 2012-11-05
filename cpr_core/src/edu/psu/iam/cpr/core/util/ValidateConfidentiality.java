@@ -4,7 +4,6 @@ package edu.psu.iam.cpr.core.util;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.ConfidentialityTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
@@ -31,6 +30,8 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  */
 public final class ValidateConfidentiality {
 	
+	private static final String RETURN_HISTORY = "Return history";
+	
 	/**
 	 * Constructor.
 	 */
@@ -47,9 +48,9 @@ public final class ValidateConfidentiality {
 	 * @param updatedBy contains the person assigning the hold.
 	 * @return will return a ConfidentialityTable if successful validation.
 	 * @throws CprException will be thrown for any validation problems.
-	 * @throws GeneralDatabaseException will be thrown for any database problems.
 	 */
-	public static ConfidentialityTable validateAddConfidentialityParameters(Database db, long personId, String confidentialityType, String updatedBy) throws CprException, GeneralDatabaseException {
+	public static ConfidentialityTable validateAddConfidentialityParameters(Database db, long personId, String confidentialityType, 
+			String updatedBy) throws CprException {
 
 		// Trim all of the input parameters that are string.
 		String localConfidentialityType = null;
@@ -75,12 +76,7 @@ public final class ValidateConfidentiality {
 		}
 				
 		// Build the return database table class.
-		try {
-			return new ConfidentialityTable(personId, localConfidentialityType, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Confidentiality type");
-		}
+		return new ConfidentialityTable(personId, localConfidentialityType, localUpdatedBy);
 	}
 
 	/**
@@ -92,9 +88,9 @@ public final class ValidateConfidentiality {
 	 * @param updatedBy contains the person assigning the hold.
 	 * @return will return a ConfidentialityTable if successful validation.
 	 * @throws CprException will be thrown for any validation problems.
-	 * @throws GeneralDatabaseException will be thrown for any database problems.
 	 */
-	public static ConfidentialityTable validateArchiveConfidentialityParameters(Database db, long personId, String confidentialityType, String updatedBy) throws CprException, GeneralDatabaseException {
+	public static ConfidentialityTable validateArchiveConfidentialityParameters(Database db, long personId, String confidentialityType, 
+			String updatedBy) throws CprException {
 		
 		// Trim all of the input parameters that are string.
 		String localConfidentialityType = null;
@@ -120,12 +116,7 @@ public final class ValidateConfidentiality {
 		}
 				
 		// Build the return database table class.		
-		try {
-			return new ConfidentialityTable(personId, localConfidentialityType, localUpdatedBy);
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Confidentiality type");
-		}
+		return new ConfidentialityTable(personId, localConfidentialityType, localUpdatedBy);
 	}
 	
 	/**
@@ -137,10 +128,10 @@ public final class ValidateConfidentiality {
 	 * @param returnHistory Y/N flag to indicate whether to return history or not.
 	 * @return ConfidentialityTable will contain a database implementation and bean.
 	 * @throws CprException will be thrown for any validation problems.
-	 * @throws GeneralDatabaseException will be thrown for any database problems.
+	 * @throws InvalidParametersException 
 	 */
 	public static ConfidentialityTable validateGetConfidentialityParameters(Database db, long personId, String updatedBy, String returnHistory) 
-		throws CprException, GeneralDatabaseException {
+		throws CprException {
 
 		// Trim all of the input parameters that are string.
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
@@ -161,7 +152,7 @@ public final class ValidateConfidentiality {
 
 		// Verify the return history flag, and set its value to the boolean.
 		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, RETURN_HISTORY);
 		}
 		confidentialityTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
 

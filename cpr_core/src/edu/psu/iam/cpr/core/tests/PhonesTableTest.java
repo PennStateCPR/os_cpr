@@ -25,15 +25,13 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.PhonesTable;
 import edu.psu.iam.cpr.core.database.types.PhoneType;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.service.returns.PhoneReturn;
 
 public class PhonesTableTest {
 
 	private static Database db = new Database();
 
-	public static void openDbConnection() throws GeneralDatabaseException {
+	public static void openDbConnection() throws Exception {
 		if (db.isSessionOpen()) {
 			db.closeSession();
 		}
@@ -45,7 +43,7 @@ public class PhonesTableTest {
 	 *
 	 */
 	@Test
-	public final void _01testPhoneTableSetup() throws GeneralDatabaseException {
+	public final void _01testPhoneTableSetup() throws Exception {
 		new PhonesTable();
 		openDbConnection();
 		String sqlQuery = null;
@@ -253,8 +251,8 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#addPhone()}.
 	 */
 
-	@Test(expectedExceptions=CprException.class)
-	public final void _25testAddPhoneDbNullNoDbOpen()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void _25testAddPhoneDbNullNoDbOpen()  throws Exception  {
 		
 		PhonesTable phonesTable = new PhonesTable(1 , "LOCAL_PHONE",null, "8148651818", (String)null, "N", "llg5");
 		phonesTable.addPhone(null);
@@ -263,8 +261,8 @@ public class PhonesTableTest {
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#addPhone()}.
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _26testAddPhoneNoPersonNoDbOpen()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void _26testAddPhoneNoPersonNoDbOpen()  throws Exception  {
 		
 		PhonesTable phonesTable = new PhonesTable(1 , "LOCAL_PHONE", "8148651818", (String)null, "N", "llg5");
 		phonesTable.addPhone(db  );
@@ -274,8 +272,8 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#addPhone()}.
 	 */
 
-//	@Test(expected=CprException.class)
-//	public final void _27testAddPhoneDbNullDbOpen()  throws Exception, CprException, GeneralDatabaseException  {
+//	@Test(expected=Exception.class)
+//	public final void _27testAddPhoneDbNullDbOpen()  throws Exception  {
 //		openDbConnection();
 //		PhonesTable phonesTable = new PhonesTable(1 , "LOCAL_PHONE", "8148651818", (String)null, "N", "llg5");
 //		phonesTable.addPhone(null);
@@ -284,8 +282,8 @@ public class PhonesTableTest {
 //	/*
 //	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#addPhone()}.
 //	 */
-//	@Test(expected=CprException.class)
-//	public final void _28testAddPhoneNoPersonDbOpen()  throws Exception, CprException, GeneralDatabaseException  {
+//	@Test(expected=Exception.class)
+//	public final void _28testAddPhoneNoPersonDbOpen()  throws Exception  {
 //		openDbConnection();
 //		PhonesTable phonesTable = new PhonesTable(1 , "LOCAL_PHONE", "8148651818", (String)null, "N", "llg5");
 //		phonesTable.addPhone(db  );
@@ -294,24 +292,24 @@ public class PhonesTableTest {
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#archivePhone()}.
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _29testArchivePhoneNullDbNoDbOpen()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void _29testArchivePhoneNullDbNoDbOpen()  throws Exception  {
 		PhonesTable phonesTable = new PhonesTable(1, "LOCAL_PHONE", 1L, "llg5");
 		phonesTable.archivePhone(null  );
 	}
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#archivePhone()}.
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _30testArchivePhoneNoPersonNoDbOPen()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void _30testArchivePhoneNoPersonNoDbOPen()  throws Exception  {
 		PhonesTable phonesTable = new PhonesTable(1, "LOCAL_PHONE", 1L, "llg5");
 		phonesTable.archivePhone(db  );
 	}
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#updatePhone()}.
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _31testUpdatePhoneNullDbNoDbOPen()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void _31testUpdatePhoneNullDbNoDbOPen()  throws Exception  {
 		PhonesTable phonesTable = new PhonesTable(1, "LOCAL_PHONE", 1L, "8148651818", (String)null, "N", "llg5");
 		phonesTable.updatePhone(null  );
 	}
@@ -319,7 +317,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#addPhone()}.
 	 */
 	@Test
-	public final void _32testAddPhoneAddGoodPhone()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _32testAddPhoneAddGoodPhone()  throws Exception  {
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100004 , "LOCAL_PHONE",null,  "8148651818", (String)null, "N", "llg5");
 		phonesTable.addPhone( db );
@@ -328,8 +326,8 @@ public class PhonesTableTest {
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#addPhone()}.
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _33testAddPhoneAddDupPhone()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void _33testAddPhoneAddDupPhone()  throws Exception  {
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100004 , "LOCAL_PHONE",null,  "8148651818", (String)null, "N", "llg5");
 		phonesTable.addPhone( db );
@@ -340,7 +338,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#addPhone()}.
 	 */
 	@Test
-	public final void _34testAddPhoneAddDupTypeNewPhone()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _34testAddPhoneAddDupTypeNewPhone()  throws Exception  {
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100004 , "LOCAL_PHONE",null,  "8148654864", (String)null, "N", "llg5");
 		phonesTable.addPhone( db );
@@ -351,7 +349,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#addPhone()}.
 	 */
 	@Test
-	public final void _35testAddPhoneAddDupPhoneDiffType()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _35testAddPhoneAddDupPhoneDiffType()  throws Exception  {
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100004 , "WORK_PHONE",null,  "8148654864", (String)null, "N", "llg5");
 		phonesTable.addPhone( db );
@@ -360,8 +358,8 @@ public class PhonesTableTest {
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#addPhone()}.
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _36testUpdatePhoneAddDupPhoneSameType()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void _36testUpdatePhoneAddDupPhoneSameType()  throws Exception  {
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100004 , "WORK_PHONE",1L,  "8148654864", (String)null, "N", "llg5");
 		phonesTable.addPhone( db );
@@ -371,7 +369,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#UpdatePhone()}.
 	 */
 	@Test
-	public final void _37testUpdatePhoneNonDupPhone()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _37testUpdatePhoneNonDupPhone()  throws Exception  {
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100004 , "WORK_PHONE",1L,   "8148651234", (String)null, "N", "llg5");
 		phonesTable.updatePhone( db );
@@ -381,7 +379,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#ArchivePhone()}.
 	 */
 	@Test
-	public final void _38testArchivePhoneGoodGroupId()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _38testArchivePhoneGoodGroupId()  throws Exception  {
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100004, "LOCAL_PHONE", 2L, "llg5");
 		phonesTable.archivePhone(db  );
@@ -390,8 +388,8 @@ public class PhonesTableTest {
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#ArchivePhone()}.
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _39testArchivePhoneAlreadyArchived()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void _39testArchivePhoneAlreadyArchived()  throws Exception  {
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100004, "LOCAL_PHONE", 2L,  "llg5");
 		phonesTable.archivePhone(db  );
@@ -403,7 +401,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#updatePhone()}.
 	 */
 	@Test(expectedExceptions=Exception.class)
-	public final void _40testGetPhonesNullDbNoDbOpen()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _40testGetPhonesNullDbNoDbOpen()  throws Exception  {
 		
 		PhonesTable p  = new PhonesTable();
 		p.setReturnHistoryFlag(false);
@@ -414,7 +412,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#updatePhone()}.
 	 */
 	@Test
-	public final void _41testGetPhoneNoPersonNoDbOpen()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _41testGetPhoneNoPersonNoDbOpen()  throws Exception  {
 		
 		PhonesTable p  = new PhonesTable();
 		p.setReturnHistoryFlag(false);
@@ -424,8 +422,8 @@ public class PhonesTableTest {
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#updatePhone()}.
 	 */
-	@Test(expectedExceptions=GeneralDatabaseException.class)
-	public final void _42testGetPhonesNullDbDbOpen()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void _42testGetPhonesNullDbDbOpen()  throws Exception  {
 		openDbConnection();
 		PhonesTable p  = new PhonesTable();
 		p.setReturnHistoryFlag(false);
@@ -437,7 +435,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#updatePhone()}.
 	 */
 	@Test
-	public final void _43testGetPhoneNoPersonDbOpen()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _43testGetPhoneNoPersonDbOpen()  throws Exception  {
 		openDbConnection();
 		PhonesTable p  = new PhonesTable();
 		p.setReturnHistoryFlag(false);
@@ -448,7 +446,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#addPhone()}.
 	 */
 	@Test
-	public final void _44testAddSomePhoneData()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _44testAddSomePhoneData()  throws Exception  {
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", "8148651817", (String)null, "N", "llg5");
 		phonesTable.addPhone(db  );
@@ -458,7 +456,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#updatePhone()}.
 	 */
 	@Test
-	public final void _45testUpdatePhoneData()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _45testUpdatePhoneData()  throws Exception  {
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE",1L, "8148651818", (String)null, "N", "llg5");
 		phonesTable.updatePhone(db  );
@@ -468,7 +466,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#addPhone()}.
 	 */
 	@Test
-	public final void _46testAddSomeMorePhoneData()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _46testAddSomeMorePhoneData()  throws Exception  {
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", "8148651234", (String)null, "N", "llg5");
 		phonesTable.addPhone(db  );
@@ -478,7 +476,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#updatePhone()}.
 	 */
 	@Test
-	public final void _47testGetPhonesValid()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _47testGetPhonesValid()  throws Exception  {
 		openDbConnection();
 		PhonesTable p  = new PhonesTable();
 		p.setReturnHistoryFlag(false);
@@ -489,7 +487,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#updatePhone()}.
 	 */
 	@Test
-	public final void _48testGetPhonesByTypeValid()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _48testGetPhonesByTypeValid()  throws Exception  {
 		openDbConnection();
 		PhonesTable p  = new PhonesTable();
 		p.setPhoneType("local_phone");
@@ -501,7 +499,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#updatePhone()}.
 	 */
 	@Test
-	public final void _49testGetPhonesHistoryValid()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _49testGetPhonesHistoryValid()  throws Exception  {
 		openDbConnection();
 		PhonesTable p  = new PhonesTable();
 		p.setReturnHistoryFlag(true);
@@ -512,7 +510,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#updatePhone()}.
 	 */
 	@Test
-	public final void _50testGetPhonesValidNoPhones()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _50testGetPhonesValidNoPhones()  throws Exception  {
 		openDbConnection();
 		PhonesTable p  = new PhonesTable();
 		p.setReturnHistoryFlag(false);
@@ -524,7 +522,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#setPrimaryByType()}.
 	 */
 	@Test
-	public final void _51testPhoneSetPrimary()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _51testPhoneSetPrimary()  throws Exception  {
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", 1L, "llg5");
 		phonesTable.setPrimaryByType(db  );
@@ -533,8 +531,8 @@ public class PhonesTableTest {
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#setPrimaryByType()}.
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _52testSetPrimaryAlreadyPrimary()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void _52testSetPrimaryAlreadyPrimary()  throws Exception  {
 		_51testPhoneSetPrimary();
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", 1L, "llg5");
@@ -545,7 +543,7 @@ public class PhonesTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#setPrimaryByType()}.
 	 */
 	@Test
-	public final void _53testSetPrimaryNewPrimary()  throws Exception, CprException, GeneralDatabaseException  {
+	public final void _53testSetPrimaryNewPrimary()  throws Exception  {
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", 2L, "llg5");
 		phonesTable.setPrimaryByType(db  );
@@ -554,8 +552,8 @@ public class PhonesTableTest {
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#setPrimaryByTypePhone()}.
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _54testSetPrimaryNoRecord()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void _54testSetPrimaryNoRecord()  throws Exception  {
 		openDbConnection();
 		PhonesTable phonesTable = new PhonesTable(100003 , "PERMANENT_PHONE", 1L, "llg5");
 		phonesTable.setPrimaryByType(db  );
@@ -565,8 +563,8 @@ public class PhonesTableTest {
 	/*
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PhonesTables#setPrimaryByTypePhone()}.
 	 */
-	@Test(expectedExceptions=CprException.class)
-	public final void _55testSetPrimaryNoDB()  throws Exception, CprException, GeneralDatabaseException  {
+	@Test(expectedExceptions=Exception.class)
+	public final void _55testSetPrimaryNoDB()  throws Exception  {
 		
 		PhonesTable phonesTable = new PhonesTable(100003 , "PERMANENT_PHONE", 1L, "llg5");
 		phonesTable.setPrimaryByType(db  );

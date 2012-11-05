@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.PersonLinkage;
 import edu.psu.iam.cpr.core.database.types.LinkageType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.PersonLinkageReturn;
 import edu.psu.iam.cpr.core.util.Utility;
@@ -45,6 +44,9 @@ import edu.psu.iam.cpr.core.util.Utility;
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
 public class PersonLinkageTable {
+	
+	/** Contains the name of the database table that this implementation is being associated with */
+	private static final String TABLE_NAME = "Person Linkage";
 	
 	private static final int LINKAGE_TYPE = 0;
 	private static final int PERSON_ID = 1;
@@ -80,9 +82,8 @@ public class PersonLinkageTable {
 	 * @param linkedPersonId contains the person identifier for the person being linked.
 	 * @param linkageType contains the type of linkage.
 	 * @param updatedBy contains the userid of the person who updated the record.
-	 * @throws Exception will be thrown if there are any problems.
 	 */
-	public PersonLinkageTable(long personId, long linkedPersonId, String linkageType, String updatedBy) throws Exception {
+	public PersonLinkageTable(long personId, long linkedPersonId, String linkageType, String updatedBy) {
 		
 		final PersonLinkage bean = new PersonLinkage();
 		final Date d = new Date();
@@ -143,9 +144,8 @@ public class PersonLinkageTable {
 	
 	/**
 	 * @param linkageType the linkageType to set
-	 * @throws Exception
 	 */
-	public final void setLinkageType(String linkageType) throws Exception {
+	public final void setLinkageType(String linkageType) {
 		setLinkageType(LinkageType.valueOf(linkageType.trim().toUpperCase()));
 	}
 
@@ -160,37 +160,29 @@ public class PersonLinkageTable {
 	 * This routine is used to add a person linkage to the database, if one exists for the particular type,
 	 * it will expire it and add the new one.
 	 * @param db contains an open database connection.
-	 * @throws CprException will be thrown if there are any problems.
 	 */
-	public void addPersonLinkage(Database db) throws CprException {
+	public void addPersonLinkage(Database db) {
 		
-		try {
-			
-			final Session session = db.getSession();
-			final PersonLinkage bean = getPersonLinkageBean();
-			
-			// Expire the existing relationship.
-			final String sqlQuery = "from PersonLinkage where personId = :person_id AND dataTypeKey = :data_type_key";
-			final Query query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				PersonLinkage dbBean = (PersonLinkage) it.next();
-				dbBean.setEndDate(bean.getLastUpdateOn());
-				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-				session.update(dbBean);
-				session.flush();
-			}
-			
-			// Add the new relationship.
-			session.save(bean);
+		final Session session = db.getSession();
+		final PersonLinkage bean = getPersonLinkageBean();
+
+		// Expire the existing relationship.
+		final String sqlQuery = "from PersonLinkage where personId = :person_id AND dataTypeKey = :data_type_key";
+		final Query query = session.createQuery(sqlQuery);
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			PersonLinkage dbBean = (PersonLinkage) it.next();
+			dbBean.setEndDate(bean.getLastUpdateOn());
+			dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+			dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+			session.update(dbBean);
 			session.flush();
 		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "Person Linkage");
-		}
-		
+
+		// Add the new relationship.
+		session.save(bean);
+		session.flush();
 	}
 	
 	/**
@@ -203,55 +195,48 @@ public class PersonLinkageTable {
 		boolean recordNotFound = false;
 		boolean alreadyArchived = false;
 		
-		try {
-			final Session session = db.getSession();
-			final PersonLinkage bean = getPersonLinkageBean();
-			
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT person_id FROM person_linkage WHERE person_id = :person_id AND ");
-			sb.append("linked_person_id = :linked_person_id AND ");
-			sb.append("data_type_key = :data_type_key ");
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("linked_person_id", bean.getLinkedPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			if (query.list().size() == 0) {
-				recordNotFound = true;
+		final Session session = db.getSession();
+		final PersonLinkage bean = getPersonLinkageBean();
+
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT person_id FROM person_linkage WHERE person_id = :person_id AND ");
+		sb.append("linked_person_id = :linked_person_id AND ");
+		sb.append("data_type_key = :data_type_key ");
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter("linked_person_id", bean.getLinkedPersonId());
+		query.setParameter("data_type_key", bean.getDataTypeKey());
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		if (query.list().size() == 0) {
+			recordNotFound = true;
+		}
+		else {
+			sb.delete(0, sb.length());
+			sb.append("from PersonLinkage WHERE personId = :person_id AND linkedPersonId = :linked_person_id AND ");
+			sb.append("dataTypeKey = :data_type_key AND endDate IS NULL");
+			final Query query1 = session.createQuery(sb.toString());
+			query1.setParameter("person_id", bean.getPersonId());
+			query1.setParameter("linked_person_id", bean.getLinkedPersonId());
+			query1.setParameter("data_type_key", bean.getDataTypeKey());
+			final Iterator<?> it = query1.list().iterator();
+			if (it.hasNext()) {
+				PersonLinkage dbBean = (PersonLinkage) it.next();
+				dbBean.setEndDate(bean.getLastUpdateOn());
+				dbBean.setLastUpdateBy(bean.getLastUpdateBy());
+				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
+				session.update(dbBean);
+				session.flush();					
 			}
 			else {
-				sb.delete(0, sb.length());
-				sb.append("from PersonLinkage WHERE personId = :person_id AND linkedPersonId = :linked_person_id AND ");
-				sb.append("dataTypeKey = :data_type_key AND endDate IS NULL");
-				final Query query1 = session.createQuery(sb.toString());
-				query1.setParameter("person_id", bean.getPersonId());
-				query1.setParameter("linked_person_id", bean.getLinkedPersonId());
-				query1.setParameter("data_type_key", bean.getDataTypeKey());
-				final Iterator<?> it = query1.list().iterator();
-				if (it.hasNext()) {
-					PersonLinkage dbBean = (PersonLinkage) it.next();
-					dbBean.setEndDate(bean.getLastUpdateOn());
-					dbBean.setLastUpdateBy(bean.getLastUpdateBy());
-					dbBean.setLastUpdateOn(bean.getLastUpdateOn());
-					session.update(dbBean);
-					session.flush();					
-				}
-				else {
-					alreadyArchived = true;
-				}
+				alreadyArchived = true;
 			}
-			
-		}
-		catch (Exception e) {
-			throw new CprException(ReturnType.ARCHIVE_FAILED_EXCEPTION, "person linkage");
 		}
 		
 		if (recordNotFound) {
-			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "person linkage");
+			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, TABLE_NAME);
 		}
 		if (alreadyArchived) {
-			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, "person linkage");
-		}	
+            throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, TABLE_NAME);		}	
 	}
 	
 	/**
@@ -259,68 +244,61 @@ public class PersonLinkageTable {
 	 * @param db contains an open database connection.
 	 * @param personId contains the person identifier to perform the query for.
 	 * @return will return a PersonLinkageReturn array if successful, otherwise it will return null.
-	 * @throws GeneralDatabaseException 
 	 */
-	public PersonLinkageReturn[] getPersonLinkage(Database db, long personId) throws GeneralDatabaseException {
+	public PersonLinkageReturn[] getPersonLinkage(Database db, long personId) {
 		
-		try {
-			final ArrayList<PersonLinkageReturn> results = new ArrayList<PersonLinkageReturn>();
-			final Session session = db.getSession();
-			
-			// Build the query string.
-			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT data_type_key, person_id, linked_person_id, ");
-			sb.append("start_date, ");
-			sb.append("end_date,  ");
-			sb.append("last_update_by, ");
-			sb.append("last_update_on, ");
-			sb.append("created_by, ");
-			sb.append("created_on ");
-			sb.append("FROM person_linkage ");
-			sb.append("WHERE person_id = :person_id_in ");
-			
-			// If we are not returning all records, we need to just return the active ones.
-			if (! isReturnHistoryFlag()) {
-				sb.append("AND end_date IS NULL ");
-			}
-			
-			sb.append("ORDER BY data_type_key ASC, start_date ASC ");
+		final ArrayList<PersonLinkageReturn> results = new ArrayList<PersonLinkageReturn>();
+		final Session session = db.getSession();
 
-			// Set up hibernate for the query, bind parameters and determine return types.
-			final SQLQuery query = session.createSQLQuery(sb.toString());
-			query.setParameter("person_id_in", personId);
-			query.addScalar("data_type_key", StandardBasicTypes.LONG);
-			query.addScalar("person_id", StandardBasicTypes.LONG);
-			query.addScalar("linked_person_id", StandardBasicTypes.LONG);
-			query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("last_update_by", StandardBasicTypes.STRING);
-			query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
-			query.addScalar("created_by", StandardBasicTypes.STRING);
-			query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
+		// Build the query string.
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		sb.append("SELECT data_type_key, person_id, linked_person_id, ");
+		sb.append("start_date, ");
+		sb.append("end_date,  ");
+		sb.append("last_update_by, ");
+		sb.append("last_update_on, ");
+		sb.append("created_by, ");
+		sb.append("created_on ");
+		sb.append("FROM person_linkage ");
+		sb.append("WHERE person_id = :person_id_in ");
 
-			// Perform the query.
-			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-				Object res[] = (Object []) it.next();
-				PersonLinkageReturn personLinkageReturn = new PersonLinkageReturn(
-						LinkageType.get((Long) res[LINKAGE_TYPE]).toString(),			
-						(Long) res[PERSON_ID],										
-						(Long) res[LINKED_PERSON_ID],										
-						Utility.convertTimestampToString((Date) res[START_DATE]),	
-						Utility.convertTimestampToString((Date) res[END_DATE]),	
-						(String) res[LAST_UPDATE_BY],									
-						Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),
-						(String) res[CREATED_BY],									
-						Utility.convertTimestampToString((Date) res[CREATED_ON]));	
-				results.add(personLinkageReturn);
-			
-			}
-			
-			return results.toArray(new PersonLinkageReturn[results.size()]);
+		// If we are not returning all records, we need to just return the active ones.
+		if (! isReturnHistoryFlag()) {
+			sb.append("AND end_date IS NULL ");
+		}
+
+		sb.append("ORDER BY data_type_key ASC, start_date ASC ");
+
+		// Set up hibernate for the query, bind parameters and determine return types.
+		final SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("person_id_in", personId);
+		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.addScalar("person_id", StandardBasicTypes.LONG);
+		query.addScalar("linked_person_id", StandardBasicTypes.LONG);
+		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("last_update_by", StandardBasicTypes.STRING);
+		query.addScalar("last_update_on", StandardBasicTypes.TIMESTAMP);
+		query.addScalar("created_by", StandardBasicTypes.STRING);
+		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
+
+		// Perform the query.
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			Object res[] = (Object []) it.next();
+			PersonLinkageReturn personLinkageReturn = new PersonLinkageReturn(
+					LinkageType.get((Long) res[LINKAGE_TYPE]).toString(),			
+					(Long) res[PERSON_ID],										
+					(Long) res[LINKED_PERSON_ID],										
+					Utility.convertTimestampToString((Date) res[START_DATE]),	
+					Utility.convertTimestampToString((Date) res[END_DATE]),	
+					(String) res[LAST_UPDATE_BY],									
+					Utility.convertTimestampToString((Date) res[LAST_UPDATE_ON]),
+					(String) res[CREATED_BY],									
+					Utility.convertTimestampToString((Date) res[CREATED_ON]));	
+			results.add(personLinkageReturn);
 
 		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve linkage information for person_id=" + personId);
-		}
+
+		return results.toArray(new PersonLinkageReturn[results.size()]);
 	}
 }
