@@ -56,7 +56,7 @@ public class PhotoReturn {
 	
 	/**
 	 * Constructor.
-	 * @param photo contains the photo (byte representation).
+	 * @param photoArray contains the photo (byte representation).
 	 * @param dateTaken contains the date the photo was taken.
 	 * @param lastUpdateBy contains the entity that last updated the record.
 	 * @param lastUpdateOn contains the date the record was last updated.
@@ -88,7 +88,7 @@ public class PhotoReturn {
 	}
 
 	/**
-	 * @param photo the photo to set
+	 * @param photoArray the photoArray to set
 	 */
 	public void setPhoto(byte[] photoArray) {
 		if (photoArray != null) {

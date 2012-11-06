@@ -65,7 +65,7 @@ public final class ValidateAddress {
 	 * @param localAddress3 contains address line 3 data
 	 * @param localCity contains city data
 	 * @param stateName contains state data
-	 * @param postalCode contains the postal code data
+	 * @param localPostalCode contains the postal code data
 	 * @param usaAddress true if address is us address, false otherwise
 	 * @return true if address is valid; false otherwise
 	 * @throws CprException 

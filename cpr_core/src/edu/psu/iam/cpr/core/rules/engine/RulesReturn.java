@@ -63,7 +63,7 @@ public class RulesReturn {
 	 * @param statusCode contains the status code.
 	 * @param statusMessage contains the status message.
 	 * @param numberOfFacts contains the number of facts that have been processed.
-	 * @param facts contains the facts array.
+	 * @param factsArray contains the facts array.
 	 */
 	public RulesReturn(int statusCode, String statusMessage, int numberOfFacts,
 			String[] factsArray) {
@@ -122,7 +122,7 @@ public class RulesReturn {
 	}
 
 	/**
-	 * @param facts the facts to set
+	 * @param factsArray the factsArray to set
 	 */
 	public void setFacts(String factsArray[]) {
 		if (factsArray != null) {

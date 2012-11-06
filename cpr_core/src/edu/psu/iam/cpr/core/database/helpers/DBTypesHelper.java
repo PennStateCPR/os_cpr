@@ -50,7 +50,6 @@ public enum DBTypesHelper {
 	
 	/**
 	 * This method will return a particular hashmap.
-	 * @param db contains the database connection.
 	 * @param index contains the index of the map to be returned.
 	 * @return will contain the returned hash map.
 	 */
