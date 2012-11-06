@@ -77,7 +77,8 @@ public final class ValidateDateOfBirth {
 	 * @throws CprException 
 	 * @throws ParseException 
 	 */
-	public static DateOfBirthTable validateAddDateOfBirthParameters(long personId, String dateOfBirth, String updatedBy) throws CprException, ParseException  {
+	public static DateOfBirthTable validateAddDateOfBirthParameters(long personId, String dateOfBirth, String updatedBy) throws CprException, 
+		ParseException  {
 		
 		String localDateOfBirth = (dateOfBirth != null) ? dateOfBirth.trim() : dateOfBirth;
 		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : updatedBy;

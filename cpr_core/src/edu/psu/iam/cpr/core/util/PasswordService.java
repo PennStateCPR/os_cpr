@@ -50,6 +50,8 @@ public enum PasswordService
 {
 	INSTANCE;
 
+	private static final String ENCRYPTION_FAILURE = "Encryption Failure";
+	
 	/**
 	 * This routine is used to encrypt a plaintext password.
 	 * @param plaintext contains the plaintext password.
@@ -57,13 +59,20 @@ public enum PasswordService
 	 * @throws NoSuchAlgorithmException 
 	 * @throws UnsupportedEncodingException 
 	 */
-	public String encrypt(String plaintext) throws NoSuchAlgorithmException, UnsupportedEncodingException
+	public String encrypt(String plaintext) 
 	{
 		MessageDigest md = null;
 		
-		md = MessageDigest.getInstance("SHA");
-		md.update(plaintext.getBytes("UTF-8"));
-		byte raw[] = md.digest();
-		return Base64.encodeBase64String(raw);
+		try {
+			md = MessageDigest.getInstance("SHA");
+			md.update(plaintext.getBytes("UTF-8"));
+			byte raw[] = md.digest();
+			return Base64.encodeBase64String(raw);
+		} 
+		catch (NoSuchAlgorithmException e) {
+		} 
+		catch (UnsupportedEncodingException e) {
+		}
+		return ENCRYPTION_FAILURE;
 	}
 }

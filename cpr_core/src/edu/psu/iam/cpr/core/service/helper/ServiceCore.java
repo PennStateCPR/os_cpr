@@ -1,8 +1,6 @@
 /* SVN FILE: $Id: ServiceCore.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
 package edu.psu.iam.cpr.core.service.helper;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import javax.naming.NamingException;
@@ -67,12 +65,9 @@ public class ServiceCore {
 	 *        initializing the service.
 	 * @throws CprException 
 	 * @throws NamingException 
-	 * @throws UnsupportedEncodingException 
-	 * @throws NoSuchAlgorithmException 
 	 */
 	public void initializeService(Database db, String principalId, String password, String identifierType, String identifier, String serviceName, 
-			ServiceCoreReturn serviceCoreReturn) throws CprException, 
-				NamingException, NoSuchAlgorithmException, UnsupportedEncodingException {
+			ServiceCoreReturn serviceCoreReturn) throws CprException, NamingException {
 		
 		LOG4J_LOGGER.info("initalizeService: start of function.");
 		
@@ -105,13 +100,10 @@ public class ServiceCore {
 	 * @param db
 	 * @param principalId
 	 * @param password
-	 * @throws UnsupportedEncodingException 
-	 * @throws NoSuchAlgorithmException 
 	 * @throws NamingException 
 	 * @throws CprException 
 	 */
-	public void authenticateService(Database db, String principalId, String password) throws NoSuchAlgorithmException, 
-		UnsupportedEncodingException, CprException, NamingException {
+	public void authenticateService(Database db, String principalId, String password) throws CprException, NamingException {
 		
 		String hash = null;
 		
@@ -179,12 +171,10 @@ public class ServiceCore {
 	 * @param serviceCoreReturn contains the service core return object.
 	 * @throws CprException 
 	 * @throws NamingException 
-	 * @throws UnsupportedEncodingException 
-	 * @throws NoSuchAlgorithmException 
+
 	 */
 	public void initializeService(Database db, String principalId, String password, String serviceName, ServiceCoreReturn serviceCoreReturn) 
-		throws CprException, NamingException, 
-		NoSuchAlgorithmException, UnsupportedEncodingException {
+		throws CprException, NamingException {
 		
 		LOG4J_LOGGER.info("initializeService: start of function.");
 		// Do an service principal authentication.

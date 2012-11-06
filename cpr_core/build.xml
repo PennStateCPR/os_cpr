@@ -11,7 +11,7 @@
 	<property name="jar.file" value="${ant.project.name}.jar"/>
 	<property name="test.reports" value="${build.dir}/reports" />
 	<property name="javadoc.dir" value="javadoc" />
-    <property name="cpr.mode" value="OS" />
+    <property name="cpr.mode" value="PRODUCTION" />
     <property name="ivy.install.version" value="2.3.0-rc1"/>
     <property name="ivy.jar.dir" value="${basedir}/ivy"/>
     <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
