@@ -33,6 +33,7 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.PersonIdCard;
 import edu.psu.iam.cpr.core.database.tables.IdCardTable;
 import edu.psu.iam.cpr.core.database.types.IdCardType;
+import edu.psu.iam.cpr.core.error.CprException;
 
 /**
  * @author llg5
@@ -122,11 +123,12 @@ public class IdCardTableTest {
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#getIdCardType()}.
+	 * @throws Exception 
 	 */
 	@Test
-	public final void _04testGetIdCardType() {
+	public final void _04testGetIdCardType() throws Exception {
 		IdCardTable aPICTable = new IdCardTable();
-		aPICTable.setIdCardType("ID_CARD_ID_PLUS_CARD_STUDENT");
+		aPICTable.setIdCardType(aPICTable.findIdCardTypeEnum("ID_CARD_ID_PLUS_CARD_STUDENT"));
 		AssertJUnit.assertEquals(aPICTable.getIdCardType(), IdCardType.ID_CARD_ID_PLUS_CARD_STUDENT);
 	}
 
@@ -151,30 +153,34 @@ public class IdCardTableTest {
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#PersonIdCardTable(long, java.lang.String, java.lang.String)}.
+	 * @throws Exception 
 	 */
 	@Test
-	public final void _07testIdCardTableLongStringString() {
+	public final void _07testIdCardTableLongStringString() throws Exception {
 		IdCardTable aPICTable = new IdCardTable(1L, "ID_CARD_ID_PLUS_CARD_STUDENT", "llg5");
 		AssertJUnit.assertNotNull(aPICTable);
 	}
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#PersonIdCardTable(long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * @throws Exception 
 	 */
 	@Test
-	public final void _08testIdCardTableLongStringStringStringString() {
+	public final void _08testIdCardTableLongStringStringStringString() throws Exception {
 		IdCardTable aPICTable = new IdCardTable(1L, "ID_CARD_ID_PLUS_CARD_STUDENT", "llg5", "1234567890123456","12345");
 		AssertJUnit.assertNotNull(aPICTable);
 	}
+	
 
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.IdCardTable#setIdCardType(java.lang.String)}.
+	 * @throws Exception 
 	 */
 	@Test
-	public final void _09testSetIdCardTypeString() {
+	public final void _09testSetIdCardTypeString() throws Exception {
 		IdCardTable aPICTable = new IdCardTable();
-		aPICTable.setIdCardType("ID_CARD_ID_PLUS_CARD_STUDENT");
+		aPICTable.setIdCardType(aPICTable.findIdCardTypeEnum("ID_CARD_ID_PLUS_CARD_STUDENT"));
 		AssertJUnit.assertEquals(aPICTable.getIdCardType(), IdCardType.ID_CARD_ID_PLUS_CARD_STUDENT);
 	}
 	/**
@@ -246,7 +252,7 @@ public class IdCardTableTest {
 	public final void _15testIdCardTableAGetIdCardByType() throws Exception {
 		openDbConnection();
 		IdCardTable aPICTable = new IdCardTable();
-		aPICTable.setIdCardType("ID_CARD_ID_PLUS_CARD_student");
+		aPICTable.setIdCardType(aPICTable.findIdCardTypeEnum("ID_CARD_ID_PLUS_CARD_student"));
 		aPICTable.setReturnHistoryFlag(false);
 		aPICTable.getIdCardForPersonId(db, 100004);
 		db.closeSession();
@@ -260,7 +266,7 @@ public class IdCardTableTest {
 	public final void _16testIdCardTableAGetIdCardByTypeHistory() throws Exception {
 		openDbConnection();
 		IdCardTable aPICTable = new IdCardTable();
-		aPICTable.setIdCardType("ID_CARD_ID_PLUS_CARD_student");
+		aPICTable.setIdCardType(aPICTable.findIdCardTypeEnum("ID_CARD_ID_PLUS_CARD_student"));
 		aPICTable.setReturnHistoryFlag(true);
 		aPICTable.getIdCardForPersonId(db, 100004);
 		db.closeSession();

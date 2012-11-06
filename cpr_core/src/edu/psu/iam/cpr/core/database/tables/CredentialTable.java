@@ -79,8 +79,9 @@ public class CredentialTable {
 	 * @param personId contains the person identifier to store in the bean.
 	 * @param credentialTypeString contains the credential type as a string.
 	 * @param requestedBy contains the user who requested the action.
+	 * @throws CprException will be thrown if there is a problem determining the credential enum.
 	 */
-	public CredentialTable(long personId, String credentialTypeString, String requestedBy) {
+	public CredentialTable(long personId, String credentialTypeString, String requestedBy) throws CprException {
 		this(personId, credentialTypeString, null, requestedBy);
 	}
 	
@@ -90,14 +91,15 @@ public class CredentialTable {
 	 * @param credentialTypeString contains the credential type.
 	 * @param credentialData contains the credential data.
 	 * @param requestedBy contains the user who requested the action.
+	 * @throws CprException will be thrown if there is a problem determining the credential enum.
 	 */
-	public CredentialTable(long personId, String credentialTypeString, String credentialData, String requestedBy) {
+	public CredentialTable(long personId, String credentialTypeString, String credentialData, String requestedBy) throws CprException {
 		super();
 		
 		final Credential bean = new Credential();
 		final Date d = new Date();
 		
-		setCredentialType(credentialTypeString);
+		setCredentialType(findCredentialEnum(credentialTypeString));
 		
 		bean.setPersonId(personId);
 		bean.setDataTypeKey(getCredentialType().index());
@@ -159,10 +161,18 @@ public class CredentialTable {
 	
 	/**
 	 * @param credentialTypeString the credentialTypeString to set
+	 * @throws CprException will be thrown if there is a problem finding the enum.
 	 */
-	public final void setCredentialType(String credentialTypeString){
+	public final CredentialType findCredentialEnum(String credentialTypeString) throws CprException{
 		
-		setCredentialType(CredentialType.valueOf(credentialTypeString.toUpperCase().trim()));
+		if (credentialTypeString != null) {
+			for (CredentialType enumValue: CredentialType.values()) {
+				if (enumValue.toString().equalsIgnoreCase(credentialTypeString)) {
+					return enumValue;
+				}
+			}
+		}
+		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Credential Type");
 	}
 	
 	/**

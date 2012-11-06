@@ -142,7 +142,7 @@ public final class ValidateUserComment {
 		// If a user comment type was specified, verify that its valid. 
 		final UserCommentTable userCommentTable = new UserCommentTable();
 		if (localUserCommentType != null) {
-			userCommentTable.setUserCommentType(localUserCommentType);
+			userCommentTable.setUserCommentType(userCommentTable.findUserCommentTypeEnum(localUserCommentType));
 		}
 				
 		// Validate the return history flag.

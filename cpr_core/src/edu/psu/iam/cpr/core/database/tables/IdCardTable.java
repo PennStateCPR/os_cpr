@@ -133,10 +133,11 @@ public class IdCardTable {
 	 * @param personId contains the person identifier from the CPR.
 	 * @param idCardTypeString contains the string representation of the Id Card Type
 	 * @param updatedBy contains the updatedBy system identifier.
+	 * @throws CprException will be thrown if there are any problems.
 	 */
 	public IdCardTable( long personId, 
 			String idCardTypeString,
-			String updatedBy) {
+			String updatedBy) throws CprException {
 		this(personId, idCardTypeString, updatedBy, null, null, null, null);
 		
 	}
@@ -147,13 +148,14 @@ public class IdCardTable {
 	 * @param idCardNumber contains the id card number
 	 * @param idSerialNumber contains the id serial number
 	 * @param updatedBy contains the updatedBy system identifier.
+	 * @throws CprException will be thrown if there are any problems.
 	 * 
 	 */
 	public IdCardTable( long personId, 
 			String idCardTypeString,
 			String updatedBy,
 			String idCardNumber,
-			String idSerialNumber) {
+			String idSerialNumber) throws CprException {
 		this(personId, idCardTypeString, updatedBy, idCardNumber, idSerialNumber, null, null);
 		
 	}
@@ -166,6 +168,7 @@ public class IdCardTable {
 	 * @param idSerialNumber contains the id serial number
 	 * @param photo contains the JPEG photo.
 	 * @param datePhotoTaken contains the string representation of the date the photo was taken.
+	 * @throws CprException will be thrown if there are any problems.
 	 * 
 	 */
 	public IdCardTable( long personId, 
@@ -174,12 +177,12 @@ public class IdCardTable {
 			String idCardNumber,
 			String idSerialNumber,
 			byte[] photo,
-			Date datePhotoTaken) {
+			Date datePhotoTaken) throws CprException {
 		super();
 		/*  setup the Person Id Card Bean 
 		 * 
 		 */
-		setIdCardType(idCardTypeString);
+		setIdCardType(findIdCardTypeEnum(idCardTypeString));
 		final PersonIdCard bean = new PersonIdCard();
 		
 		final Date d = new Date();
@@ -232,10 +235,19 @@ public class IdCardTable {
 
 	/**
 	 * @param idCardTypeString the idCardTypeString to set
+	 * @return will return an enum if the string is found.
+	 * @throws CprException will be thrown if there is a problem finding the enum.
 	 */
-	public final void setIdCardType(String idCardTypeString){
+	public final IdCardType findIdCardTypeEnum(String idCardTypeString) throws CprException{
 		
-		setIdCardType(IdCardType.valueOf(idCardTypeString.toUpperCase().trim()));
+		if (idCardTypeString != null) {
+			for (IdCardType idCardTypeEnum: IdCardType.values()) {
+				if (idCardTypeEnum.toString().equalsIgnoreCase(idCardTypeString)) {
+					return idCardTypeEnum;
+				}
+			}
+		}
+		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Id Card Type");
 	}
 	/**
 	 * This purpose of this routins is to interface with the database with hibernate to 

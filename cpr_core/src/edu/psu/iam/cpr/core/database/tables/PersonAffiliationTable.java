@@ -112,15 +112,16 @@ public class PersonAffiliationTable {
 	 * @param updatedBy contains the userid of the entity that is updating record.
 	 * @param exceptionFlag contains the exception flag.
 	 * @param exceptionComment contains the exception flag.
+	 * @throws CprException will be thrown if there is a CPR related problem.
 	 */
 	public PersonAffiliationTable(long personId, String affiliationTypeString, 
-			String updatedBy, String exceptionFlag, String exceptionComment) {
+			String updatedBy, String exceptionFlag, String exceptionComment) throws CprException {
 		super();
 		
 		final PersonAffiliation bean = new PersonAffiliation();
 		setPersonAffiliationBean(bean);
 		final Date d = new Date();
-		setAffiliationsType(affiliationTypeString);
+		setAffiliationsType(findAffiliationsTypeEnum(affiliationTypeString));
 		
 		bean.setPersonId(personId);
 		bean.setAffiliationKey(getAffiliationsType().index());
@@ -144,8 +145,9 @@ public class PersonAffiliationTable {
 	 * @param personId contains the person identifier.
 	 * @param affiliationTypeString contains the  affiliation string.
 	 * @param updatedBy contains the userid of the entity that is updating record.
+	 * @throws CprException will be thrown if there is a CPR related problem.
 	 */
-	public PersonAffiliationTable(long personId, String affiliationTypeString, String updatedBy)  {
+	public PersonAffiliationTable(long personId, String affiliationTypeString, String updatedBy) throws CprException  {
 		this(personId, affiliationTypeString, updatedBy, "N", null);
 	}
 
@@ -192,11 +194,21 @@ public class PersonAffiliationTable {
 	}
 
 	/**
+	 * This routine will be used to convert a string to an affiliations enum.
 	 * @param affiliationTypeString the affilationsType to set.
-	 * @throws Exception will be thrown if the string cannot be converted to an enum.
+	 * @return will return the enum if successful.
+	 * @throws CprException will be thrown if the string cannot be converted to an enum.
 	 */
-	public final void setAffiliationsType(String affiliationTypeString) {
-		setAffiliationsType(AffiliationsType.valueOf(affiliationTypeString.toUpperCase().trim()));
+	public final AffiliationsType findAffiliationsTypeEnum(String affiliationTypeString) throws CprException {
+		
+		if (affiliationTypeString != null) {
+			for (AffiliationsType affiliationTypeEnum: AffiliationsType.values()) {
+				if (affiliationTypeEnum.toString().equalsIgnoreCase(affiliationTypeString)) {
+					return affiliationTypeEnum;
+				}
+			}
+		}
+		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, TABLE_NAME);
 	}
 
 	/**

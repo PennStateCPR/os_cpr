@@ -13,6 +13,8 @@ import org.hibernate.type.StandardBasicTypes;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.PersonGender;
 import edu.psu.iam.cpr.core.database.types.GenderType;
+import edu.psu.iam.cpr.core.error.CprException;
+import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.GenderReturn;
 import edu.psu.iam.cpr.core.util.Utility;
 
@@ -73,10 +75,11 @@ public class PersonGenderTable {
 	 * @param personId contains the person identifier
 	 * @param genderString contains the gender string.
 	 * @param updatedBy contains the last updated by.
+	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */
-	public PersonGenderTable(long personId, String genderString, String updatedBy) {
+	public PersonGenderTable(long personId, String genderString, String updatedBy) throws CprException {
 		
-		setGenderType(genderString);
+		setGenderType(findGenderTypeEnum(genderString));
 		
 		final PersonGender bean = new PersonGender();
 		setPersonGenderBean(bean);
@@ -140,9 +143,18 @@ public class PersonGenderTable {
 	/**
 	 * This routine will accept a gender type string, trim it and attempt to generate an enum.
 	 * @param genderType contains the gender type.
+	 * @return will return the gender type enum if successful.
+	 * @throws CprException will be thrown if there are any CPR problems
 	 */
-	public final void setGenderType(final String genderType) {
-		setGenderType(GenderType.valueOf(genderType.toUpperCase().trim()));
+	public final GenderType findGenderTypeEnum(final String genderType) throws CprException {
+		if (genderType != null) {
+			for (GenderType genderTypeEnum: GenderType.values()) {
+				if (genderTypeEnum.toString().equalsIgnoreCase(genderType)) {
+					return genderTypeEnum;
+				}
+			}
+		}
+		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Gender Type");
 	}
 	
 	

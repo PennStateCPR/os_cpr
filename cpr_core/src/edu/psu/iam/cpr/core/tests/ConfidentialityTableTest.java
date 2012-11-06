@@ -74,14 +74,14 @@ public class ConfidentialityTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _06testGetConfidentialityType2() throws Exception {
 		ConfidentialityTable t = new ConfidentialityTable();
-		t.setConfidentialityType("abcd");
+		t.setConfidentialityType(t.findConfidentialityEnum("abcd"));
 		AssertJUnit.assertEquals(t.getConfidentialityType(),ConfidentialityType.ALL_CONFIDENTIALITY);
 	}
 	
 	@Test
 	public final void _07testGetConfidentialityType3() throws Exception {
 		ConfidentialityTable t = new ConfidentialityTable();
-		t.setConfidentialityType("ALL_CONFIDENTIALITY");
+		t.setConfidentialityType(t.findConfidentialityEnum("ALL_CONFIDENTIALITY"));
 		AssertJUnit.assertEquals(t.getConfidentialityType(),ConfidentialityType.ALL_CONFIDENTIALITY);
 	}
 

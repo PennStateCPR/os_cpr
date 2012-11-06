@@ -59,7 +59,7 @@ public class PersonUseridIapTableTest {
 	 *  * @throws Exception 
 	 */
 	
-	@Test(expectedExceptions=IllegalArgumentException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void testPersonUseridIapTableArgsBadIap() throws Exception {
 		new PersonUseridIapTable(1000000, "dummy", "PURPLE", "llg5");
 	}
@@ -68,7 +68,7 @@ public class PersonUseridIapTableTest {
 	 *  * @throws Exception 
 	 */
 	
-	@Test(expectedExceptions=NullPointerException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void testPersonUseridIapTableArgsNullIap() throws Exception {
 		new PersonUseridIapTable(1000000,  "dummy",null, "llg5");
 	}
@@ -77,7 +77,7 @@ public class PersonUseridIapTableTest {
 	 *  * @throws Exception 
 	 */
 	
-	@Test(expectedExceptions=IllegalArgumentException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void testPersonUseridIapTableArgsBlankIap() throws Exception {
 		new PersonUseridIapTable(1000000, "dummy", "", "llg5");
 	}
@@ -87,7 +87,7 @@ public class PersonUseridIapTableTest {
 	 *  * @throws Exception 
 	 */
 	
-	@Test(expectedExceptions=IllegalArgumentException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void testPersonUseridIapTableArgsBadUserId() throws Exception {
 		new PersonUseridIapTable(1000000, "abcdesfyths", "PURPLE", "llg5");
 	}
@@ -96,7 +96,7 @@ public class PersonUseridIapTableTest {
 	 *  * @throws Exception 
 	 */
 	
-	@Test(expectedExceptions=NullPointerException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void testPersonUseridIapTableArgsNullUserId() throws Exception {
 		new PersonUseridIapTable(1000000,  null,null, "llg5");
 	}
@@ -105,7 +105,7 @@ public class PersonUseridIapTableTest {
 	 *  * @throws Exception 
 	 */
 	
-	@Test(expectedExceptions=IllegalArgumentException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void testPersonUseridIapTableArgsBlankUserId() throws Exception {
 		new PersonUseridIapTable(1000000, "", "", "llg5");
 	}
@@ -171,7 +171,7 @@ public class PersonUseridIapTableTest {
 	@Test
 	public final void testSetIapTypeString() throws Exception {
 		PersonUseridIapTable PersonUseridIapTable = new PersonUseridIapTable();
-		PersonUseridIapTable.setIapType("Bronze");
+		PersonUseridIapTable.setIapType(PersonUseridIapTable.findIapTypeEnum("Bronze"));
 		AssertJUnit.assertEquals(PersonUseridIapTable.getIapType(), IapType.BRONZE);
 	}
 
@@ -193,7 +193,7 @@ public class PersonUseridIapTableTest {
 	@Test
 	public final void testSetIapTypeId() throws Exception {
 		PersonUseridIapTable PersonUseridIapTable = new PersonUseridIapTable();
-		PersonUseridIapTable.setIapType("Bronze");
+		PersonUseridIapTable.setIapType(PersonUseridIapTable.findIapTypeEnum("Bronze"));
 		AssertJUnit.assertEquals(PersonUseridIapTable.getIapType().toString(), "BRONZE");
 	}
 

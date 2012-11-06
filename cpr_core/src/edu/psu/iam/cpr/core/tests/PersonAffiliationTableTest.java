@@ -100,7 +100,7 @@ public class PersonAffiliationTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _08testGetAffiliationType() throws Exception {
 		PersonAffiliationTable t =new PersonAffiliationTable();
-		t.setAffiliationsType("");
+		t.findAffiliationsTypeEnum("");
 	}
 	@Test
 	public final void _09testGetAffiliationType1() throws Exception {
@@ -268,7 +268,7 @@ public class PersonAffiliationTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable#updateAffiliation()}.
 	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=IllegalArgumentException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void _24testDeleteAffiliationGoodSetup() throws Exception {
 		openDbConnection();
 		PersonAffiliationTable pATable = new PersonAffiliationTable(100000 , "STUDENT_UNDERGRADUATE_STUDENT",  "llg5","N","")	;
@@ -282,7 +282,7 @@ public class PersonAffiliationTableTest {
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable#addAffiliation()}.
 	 * @throws Exception 
 	 */
-	@Test(expectedExceptions=IllegalArgumentException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void _25testAddAffiliationTreatAsAddBadModifier() throws Exception {
 		openDbConnection();
 		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_UNDERGRADUATE_STUDENT",   "llg5")	;
@@ -392,7 +392,7 @@ public class PersonAffiliationTableTest {
 
 	}
 	
-	@Test(expectedExceptions=IllegalArgumentException.class)
+	@Test(expectedExceptions=Exception.class)
 	public final void _37testSetPrimaryAffiliationBadAffiliation() throws Exception {
 		openDbConnection();
 		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_STUDENT",  "llg5")	;

@@ -99,7 +99,7 @@ public class NamesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _07testSetNameTypeString1() throws Exception {
 		NamesTable n = new NamesTable();
-		n.setNameType("");
+		n.setNameType(n.findNameTypeEnum(""));
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class NamesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _08testSetNameTypeString2() throws Exception {
 		NamesTable n = new NamesTable();
-		n.setNameType("my name");
+		n.setNameType(n.findNameTypeEnum("my name"));
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class NamesTableTest {
 	@Test
 	public final void _09testSetNameTypeString3() throws Exception {
 		NamesTable n = new NamesTable();
-		n.setNameType("LEGAL_NAME");
+		n.setNameType(n.findNameTypeEnum("LEGAL_NAME"));
 		AssertJUnit.assertEquals(n.getNameType(), NameType.LEGAL_NAME);
 	}
 

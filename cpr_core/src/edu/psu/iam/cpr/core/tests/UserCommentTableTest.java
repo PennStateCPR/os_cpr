@@ -97,7 +97,7 @@ public class UserCommentTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _06testSetUserCommentTypeString1() throws Exception {
 		UserCommentTable n = new UserCommentTable();
-		n.setUserCommentType("");
+		n.setUserCommentType(n.findUserCommentTypeEnum(""));
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class UserCommentTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _07testSetUserCommentTypeString2() throws Exception {
 		UserCommentTable n = new UserCommentTable();
-		n.setUserCommentType("misuse");
+		n.setUserCommentType(n.findUserCommentTypeEnum("misuse"));
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class UserCommentTableTest {
 	@Test
 	public final void _08testSetUserCommentTypeString3() throws Exception {
 		UserCommentTable n = new UserCommentTable();
-		n.setUserCommentType("user_comment_misuse");
+		n.setUserCommentType(n.findUserCommentTypeEnum("user_comment_misuse"));
 		AssertJUnit.assertEquals(n.getUserCommentType(), UserCommentType.USER_COMMENT_MISUSE);
 	}
 
@@ -147,7 +147,7 @@ public class UserCommentTableTest {
 	public final void _12testGetUserCommentByType2() throws Exception {
 		openDbConnection();
 		UserCommentTable n = new UserCommentTable();
-		n.setUserCommentType("user_comment_misuse");
+		n.setUserCommentType(n.findUserCommentTypeEnum("user_comment_misuse"));
 		n.setReturnHistoryFlag(false);
 		UserCommentReturn[] results = n.getUserComments(db, "dummy");
 		db.closeSession();
@@ -158,7 +158,7 @@ public class UserCommentTableTest {
 	public final void _13testGetUserCommentByType3() throws Exception {
 		openDbConnection();
 		UserCommentTable n = new UserCommentTable();
-		n.setUserCommentType("user_comment_misuse");
+		n.setUserCommentType(n.findUserCommentTypeEnum("user_comment_misuse"));
 		n.setReturnHistoryFlag(false);
 		n.getUserComments(db, "dummy1");
 		db.closeSession();

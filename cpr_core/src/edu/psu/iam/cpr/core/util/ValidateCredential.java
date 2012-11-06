@@ -48,8 +48,8 @@ public final class ValidateCredential {
 	 * @throws InvalidParametersException
 	 * @throws CprException 
 	 */
-	public static CredentialTable validateGetCredentialParameters(Database db, long personId, String requestedBy, String credentialType, String returnHistory) 
-				throws CprException {
+	public static CredentialTable validateGetCredentialParameters(Database db, long personId, String requestedBy, String credentialType, 
+			String returnHistory) throws CprException {
 		
 		// If the strings are not null, trim them.
 		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
@@ -68,7 +68,7 @@ public final class ValidateCredential {
 		// Validate the credential type if one was specified.
 		final CredentialTable credentialTable = new CredentialTable();
 		if (credentialType != null) {
-			credentialTable.setCredentialType(credentialType);
+			credentialTable.setCredentialType(credentialTable.findCredentialEnum(credentialType));
 		}
 
 		// Verify the return history flag, and set its value to the boolean.

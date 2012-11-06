@@ -78,13 +78,14 @@ public class ConfidentialityTable {
 	 * @param personId contains the person identifier who confidentiality is being added for.
 	 * @param confidentialityTypeString contains the type of confidentiality being added.
 	 * @param updatedBy contains the person who either updated the record or retrieved it.
+	 * @throws CprException will be thrown for any CPR related problems.
 	 */
-	public ConfidentialityTable(long personId, String confidentialityTypeString, String updatedBy) {
+	public ConfidentialityTable(long personId, String confidentialityTypeString, String updatedBy) throws CprException {
 		super();
 		
 		final Confidentiality bean = new Confidentiality();
 		final Date d = new Date();
-		setConfidentialityType(confidentialityTypeString);
+		setConfidentialityType(findConfidentialityEnum(confidentialityTypeString));
 		setConfidentialityBean(bean);
 		
 		bean.setPersonId(personId);
@@ -138,14 +139,22 @@ public class ConfidentialityTable {
 	public final void setConfidentialityType(ConfidentialityType confidentialityType) {
 		this.confidentialityType = confidentialityType;
 	}
+	
 	/**
 	 * This routine is used to take a confidentiality type string an attempt to convert it to an enumerated type.
 	 * If there is a problem with the conversion, an exception is thrown.
 	 * @param confidentialityTypeString contains the confidentiality type string value.
-	 * @throws Exception will be thrown if there are any problems.
+	 * @throws CprException will be thrown if there are any problems.
 	 */
-	public final void setConfidentialityType(String confidentialityTypeString) {
-		setConfidentialityType(ConfidentialityType.valueOf(confidentialityTypeString.toUpperCase().trim()));
+	public final ConfidentialityType findConfidentialityEnum(String confidentialityTypeString) throws CprException {
+		if (confidentialityTypeString != null) {
+			for (ConfidentialityType confidentialityTypeEnum: ConfidentialityType.values()) {
+				if (confidentialityTypeEnum.toString().equalsIgnoreCase(confidentialityTypeString)) {
+					return confidentialityTypeEnum;
+				}
+			}
+		}
+		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Confidentiality Type");
 	}
 
 	/**

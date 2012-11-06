@@ -160,7 +160,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _12testGetAddressType() throws Exception {
 		AddressesTable aTable  = new AddressesTable();
-		aTable.setAddressType("WORK_ADDRESS");
+		aTable.setAddressType(aTable.findAddressTypeEnum("WORK_ADDRESS"));
 		AssertJUnit.assertEquals( aTable.getAddressType(), AddressType.WORK_ADDRESS);
 	}
 
@@ -171,7 +171,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _13testSetAddressType() throws Exception {
 		AddressesTable aTable  = new AddressesTable();
-		aTable.setAddressType("LOCAL_ADDRESS");
+		aTable.setAddressType(aTable.findAddressTypeEnum("LOCAL_ADDRESS"));
 		AssertJUnit.assertEquals( aTable.getAddressType(), AddressType.LOCAL_ADDRESS);
 	}
 	/**
@@ -181,7 +181,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _14testSetAddressType1() throws Exception {
 		AddressesTable aTable  = new AddressesTable();
-		aTable.setAddressType("EMPLOYEE");
+		aTable.setAddressType(aTable.findAddressTypeEnum("EMPLOYEE"));
 
 	}
 	
@@ -489,7 +489,7 @@ public class AddressesTableTest {
 		AddressesTable aTable = new AddressesTable(100004 , "WORK_ADDRESS",  null, null,"llg5", "canaddress1", "fra address2", "fra address3", "Nice", null, "1234522",null,100075L, null,"fra", null, "FRA");
 		aTable.addAddress(db);
 		aTable.setReturnHistoryFlag(false);
-		aTable.setAddressType("work_address");
+		aTable.setAddressType(aTable.findAddressTypeEnum("work_address"));
 		aTable.getAddress(db, 100004);
 		db.closeSession();
 	}
@@ -501,7 +501,7 @@ public class AddressesTableTest {
 		openDbConnection();
 		AddressesTable aTable = new AddressesTable();
 		aTable.setReturnHistoryFlag(false);
-		aTable.setAddressType("documented_address");
+		aTable.setAddressType(aTable.findAddressTypeEnum("documented_address"));
 		aTable.getAddress(db, 100004);
 		db.closeSession();
 	}

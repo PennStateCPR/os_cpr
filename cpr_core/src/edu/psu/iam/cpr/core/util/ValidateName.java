@@ -76,7 +76,7 @@ public final class ValidateName {
 		// If a name type was specified, verify that its valid.
 		final NamesTable namesTable = new NamesTable();
 		if (localNameType != null) {
-			namesTable.setNameType(localNameType);
+			namesTable.setNameType(namesTable.findNameTypeEnum(localNameType));
 		}
 
 		// Verify the return history flag, and set its value to the boolean.

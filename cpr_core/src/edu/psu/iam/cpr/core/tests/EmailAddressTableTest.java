@@ -95,7 +95,7 @@ public class EmailAddressTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testSetEmailAddressTypeString1() throws Exception {
 		EmailAddressTable t = new EmailAddressTable();
-		t.setEmailAddressType("blah");
+		t.setEmailAddressType(t.findEmailAddressEnum("blah"));
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.EmailAddressTable#setEmailAddressType(java.lang.String)}.
@@ -104,7 +104,7 @@ public class EmailAddressTableTest {
 	@Test
 	public final void testSetEmailAddressTypeString2() throws Exception {
 		EmailAddressTable t = new EmailAddressTable();
-		t.setEmailAddressType("OTHER_EMAIL");
+		t.setEmailAddressType(t.findEmailAddressEnum("OTHER_EMAIL"));
 		AssertJUnit.assertEquals(t.getEmailAddressType(), EmailAddressType.OTHER_EMAIL);
 	}
 

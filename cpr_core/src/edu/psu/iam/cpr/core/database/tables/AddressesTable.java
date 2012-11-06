@@ -128,12 +128,13 @@ public class AddressesTable {
 	 * @param documentType contains the string representation of the document type.
 	 * @param groupId contains the ranking within the particular address type.
 	 * @param updatedBy contains the updatedBy system identifier.
+	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */
 	public AddressesTable (long personId, 
 			String addressTypeString, 
 			String documentType,
 			Long groupId, 
-			String updatedBy)  {
+			String updatedBy) throws CprException  {
 		this(personId, addressTypeString, documentType, groupId,  updatedBy,  null, null, null, null, null, null, null, null, 
 				null, null, null, null);
 	}
@@ -155,6 +156,7 @@ public class AddressesTable {
 	 * @param countryName contains the country name of the address.
 	 * @param campusName contains the campus name of the address
 	 * @param countryThreeCharCode contains the three digit countyCode
+	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */
 	public AddressesTable(long personId,  
 			String addressTypeString,
@@ -171,7 +173,7 @@ public class AddressesTable {
 			Long campusCodeId,
 			String countryName,
 			String campusName,
-			String countryThreeCharCode) {
+			String countryThreeCharCode) throws CprException {
 		this(personId, addressTypeString, documentType, null, updatedBy,  address1, address2, address3, city,state, postalCode, 
 				province, countryCodeId, campusCodeId,countryName,campusName, countryThreeCharCode);
 	}
@@ -194,6 +196,7 @@ public class AddressesTable {
 	 * @param countryName contains the country name of the address.
 	 * @param campusName contains the campus name of the address
 	 * @param countryThreeCharCode contains the three digit countyCode
+	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */
 	public AddressesTable(long personId,  
 			String addressTypeString,
@@ -211,12 +214,12 @@ public class AddressesTable {
 			Long campusCodeId,
 			String countryName,
 			String campusName,
-			String countryThreeCharCode)  {
+			String countryThreeCharCode) throws CprException  {
 		super();
 		
-		setAddressType(addressTypeString);
+		setAddressType(findAddressTypeEnum(addressTypeString));
 		if (documentType != null && documentType.trim().length() > 0) {
-			setDocumentType(documentType);
+			setDocumentType(findDocumentTypeEnum(documentType));
 		}
 		setCountryName(countryName);
 		setCampusName(campusName);
@@ -335,11 +338,21 @@ public class AddressesTable {
 	}
 	
 	/**
+	 * This routine will find the address type for a specific string.
 	 * @param addressTypeString the addressTypeString to set
+	 * @return will return an enum if successful.
+	 * @throws CprException will be thrown if there are any cpr related problems.
 	 */
-	public final void setAddressType(String addressTypeString){
+	public final AddressType findAddressTypeEnum(String addressTypeString) throws CprException{
 		
-		setAddressType(AddressType.valueOf(addressTypeString.toUpperCase().trim()));
+		if (addressTypeString != null) {
+			for (AddressType addressTypeEnum: AddressType.values()) {
+				if (addressTypeEnum.toString().equalsIgnoreCase(addressTypeString)) {
+					return addressTypeEnum;
+				}
+			}
+		}
+		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Address Type");
 	}
 	
 	/**
@@ -352,10 +365,18 @@ public class AddressesTable {
 	/**
 	 * This routine is used to convert a string representation of a document type of an enum.
 	 * @param documentType contains the string value of the document type.
-	 * @throws Exception will be thrown if there are any problems.
+	 * @return will return a document type enum if successful.
+	 * @throws CprException will be thrown if there are any problems.
 	 */
-	public final void setDocumentType(String documentType) {
-		setDocumentType(DocumentType.valueOf(documentType.toUpperCase().trim()));
+	public final DocumentType findDocumentTypeEnum(String documentType) throws CprException {
+		if (documentType != null) {
+			for (DocumentType documentTypeEnum: DocumentType.values()) {
+				if (documentTypeEnum.toString().equalsIgnoreCase(documentType)) {
+					return documentTypeEnum;
+				}
+			}
+		}
+		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Document Type");
 	}
 	
 	/**

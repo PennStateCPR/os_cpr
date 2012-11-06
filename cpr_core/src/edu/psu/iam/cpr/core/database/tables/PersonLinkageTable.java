@@ -82,15 +82,16 @@ public class PersonLinkageTable {
 	 * @param linkedPersonId contains the person identifier for the person being linked.
 	 * @param linkageType contains the type of linkage.
 	 * @param updatedBy contains the userid of the person who updated the record.
+	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */
-	public PersonLinkageTable(long personId, long linkedPersonId, String linkageType, String updatedBy) {
+	public PersonLinkageTable(long personId, long linkedPersonId, String linkageType, String updatedBy) throws CprException {
 		
 		final PersonLinkage bean = new PersonLinkage();
 		final Date d = new Date();
 		
 		setPersonLinkageBean(bean);
 		
-		setLinkageType(linkageType);
+		setLinkageType(findLinkageTypeEnum(linkageType));
 		
 		bean.setPersonId(personId);
 		bean.setLinkedPersonId(linkedPersonId);
@@ -143,10 +144,20 @@ public class PersonLinkageTable {
 	}
 	
 	/**
+	 * This routine will be used to convert a string to an enumerated type.
 	 * @param linkageType the linkageType to set
+	 * @return will return an enum if successful.
+	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */
-	public final void setLinkageType(String linkageType) {
-		setLinkageType(LinkageType.valueOf(linkageType.trim().toUpperCase()));
+	public final LinkageType findLinkageTypeEnum(String linkageType) throws CprException {
+		if (linkageType != null) {
+			for (LinkageType linkageTypeEnum: LinkageType.values()) {
+				if (linkageTypeEnum.toString().equalsIgnoreCase(linkageType)) {
+					return linkageTypeEnum;
+				}
+			}
+		}
+		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Linkage Type");
 	}
 
 	/**

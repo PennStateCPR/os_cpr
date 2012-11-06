@@ -46,6 +46,9 @@ public final class ValidateSSN {
 	
 	private static final int UNASSIGNABLE_AREA_666 = 666;
 	private static final int UNASSIGNABLE_AREA_899 = 899;
+	
+	private static final int DEMO_SSN_MIN = 4320;
+	private static final int DEMO_SSN_MAX = 4329;
 
 	/**
 	 * Constructor
@@ -95,7 +98,7 @@ public final class ValidateSSN {
 	    // SSNs in the range 987-65-4320 to 987-65-4329 are reserved for advertising
 	    if (areaNumber.equals("987") && groupNumber.equals("65")) {
 	    	int areaNum = Integer.parseInt(serialNumber);
-	    	if (areaNum >= 4320 && areaNum <= 4329) {
+	    	if (areaNum >= DEMO_SSN_MIN && areaNum <= DEMO_SSN_MAX) {
 	    		return false;
 	    	}
 	    }

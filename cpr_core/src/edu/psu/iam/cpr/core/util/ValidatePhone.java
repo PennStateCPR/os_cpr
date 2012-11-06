@@ -269,7 +269,7 @@ public final class ValidatePhone {
 		
 		// Phone type specified?
 		if (localPhoneType != null) {
-			phonesTable.setPhoneType(localPhoneType);
+			phonesTable.setPhoneType(phonesTable.findPhoneTypeEnum(localPhoneType));
 		}
 		
 		// Validate the return history flag.

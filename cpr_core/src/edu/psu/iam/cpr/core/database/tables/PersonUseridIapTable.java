@@ -83,12 +83,21 @@ public class PersonUseridIapTable {
 	}
 	
 	/**
+	 * this routine will be used to convert an enumerated type string to a enum.
 	 * @param iapTypeString the iapTypeString to set
-	 * 
+	 * @return will contain the enum if successful.
+	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */
 	
-	public final void setIapType(String iapTypeString) {
-		setIapType(IapType.valueOf(iapTypeString.toUpperCase().trim()));
+	public final IapType findIapTypeEnum(String iapTypeString) throws CprException {
+		if (iapTypeString != null) {
+			for (IapType iapTypeEnum: IapType.values()) {
+				if (iapTypeEnum.toString().equalsIgnoreCase(iapTypeString)) {
+					return iapTypeEnum;
+				}
+			}
+		}
+		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Iap Type");
 	};
 
 	
@@ -121,8 +130,9 @@ public class PersonUseridIapTable {
 	 * @param userId contains the userid
 	 * @param iapTypeString contains the IAP type string
 	 * @param updatedBy contains the userid of updater
+	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */
-	public PersonUseridIapTable(long personId, String userId, String iapTypeString, String updatedBy) {
+	public PersonUseridIapTable(long personId, String userId, String iapTypeString, String updatedBy) throws CprException {
 		
 		super();
 		final PersonUseridIap bean = new PersonUseridIap();
@@ -130,7 +140,7 @@ public class PersonUseridIapTable {
 		final Date d = new Date();
 		bean.setPersonId(personId);
 		bean.setUserid(userId);
-		setIapType(iapTypeString);
+		setIapType(findIapTypeEnum(iapTypeString));
 		bean.setCreatedOn(d);
 		bean.setCreatedBy(updatedBy);
 		bean.setLastUpdateBy(updatedBy);

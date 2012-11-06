@@ -76,10 +76,11 @@ public class EmailAddressTable {
 	 * @param emailAddressType Contains the email address type represented as a string.
 	 * @param emailAddress Contains the email address.
 	 * @param updatedBy Contains the system identifier or userid that updated the record.
+	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */ 
-	public EmailAddressTable(long personId, String emailAddressType, String emailAddress, String updatedBy) {
+	public EmailAddressTable(long personId, String emailAddressType, String emailAddress, String updatedBy) throws CprException {
 		
-		setEmailAddressType(emailAddressType);
+		setEmailAddressType(findEmailAddressEnum(emailAddressType));
 		
 		final EmailAddress bean = new EmailAddress();
 		setEmailAddressBean(bean);
@@ -104,8 +105,9 @@ public class EmailAddressTable {
 	 * @param personId
 	 * @param emailAddressType
 	 * @param updatedBy
+	 * @throws CprException 
 	 */
-	public EmailAddressTable(long personId, String emailAddressType, String updatedBy) {
+	public EmailAddressTable(long personId, String emailAddressType, String updatedBy) throws CprException {
 		this(personId, emailAddressType, null, updatedBy);
 	}
 	
@@ -132,9 +134,17 @@ public class EmailAddressTable {
 	
 	/**
 	 * @param emailAddressType to be set.
+	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */
-	public final void setEmailAddressType(String emailAddressType) {
-		setEmailAddressType(EmailAddressType.valueOf(emailAddressType.toUpperCase().trim())); 
+	public final EmailAddressType findEmailAddressEnum(String emailAddressType) throws CprException {
+		if (emailAddressType != null) {
+			for (EmailAddressType emailAddressEnum: EmailAddressType.values()) {
+				if (emailAddressEnum.toString().equalsIgnoreCase(emailAddressType)) {
+					return emailAddressEnum;
+				}
+			}
+		}
+		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Email Address Type");
 	}
 
 	/**

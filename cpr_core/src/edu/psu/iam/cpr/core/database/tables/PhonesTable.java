@@ -87,10 +87,10 @@ public class PhonesTable {
 	 * @param phoneType  contains the phone type represented as a string
 	 * @param groupId contains the ranking within the particular phone type.
 	 * @param lastUpdateBy contains the system identifier and/or userid that updated the record
-	 
+	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */
 
-	public PhonesTable(long personId, String phoneType, Long groupId, String lastUpdateBy)
+	public PhonesTable(long personId, String phoneType, Long groupId, String lastUpdateBy) throws CprException
 	{
 
 		this(personId, phoneType, groupId,  null, null, null, lastUpdateBy);
@@ -105,11 +105,12 @@ public class PhonesTable {
 	 * @param extension contains the phone extension number	
 	 * @param internationalNumber contains a flag to indicate whether the phone number is international.
 	 * @param lastUpdateBy contains the system identifier and/or userid that updated the record
+	 * @throws CprException will be thrown if there are any CPR related problems.
 	 
 	 */
 	public PhonesTable(long personId, String phoneType,  
 			String phoneNumber, String extension, String internationalNumber,
-			String lastUpdateBy) {
+			String lastUpdateBy) throws CprException {
 		this(personId, phoneType, null, phoneNumber, extension, internationalNumber, lastUpdateBy);
 	}
 
@@ -121,13 +122,14 @@ public class PhonesTable {
 	 * @param extension contains the phone extension number	
 	 * @param internationalNumber contains a flag to indicate whether the phone number is international.
 	 * @param lastUpdateBy contains the system identifier and/or userid that updated the record
+	 * @throws CprException will be thrown if there are any CPR related problems.
 	 *
 	 */
 	public PhonesTable(long personId, String phoneType, Long groupId,  
 			String phoneNumber, String extension, String internationalNumber,
-			String lastUpdateBy) {
+			String lastUpdateBy) throws CprException {
 
-		setPhoneType(phoneType);
+		setPhoneType(findPhoneTypeEnum(phoneType));
 		final Phones bean  = new Phones();
 		setPhonesBean(bean);
 		final Date d = new Date();
@@ -201,10 +203,18 @@ public class PhonesTable {
 	 * This routine accepts a String argument to assign that to an enumerated type.
 	 * If the assignment fails, an exception is thrown.
 	 * @param phoneTypeString Contains the String to convert to an enumerated type.
-	 * @throws Exception
+	 * @return will an enum if successful.
+	 * @throws CprException 
 	 */
-	public final void setPhoneType(String  phoneTypeString)  {
-		setPhoneType(PhoneType.valueOf(phoneTypeString.toUpperCase().trim()));
+	public final PhoneType findPhoneTypeEnum(String  phoneTypeString) throws CprException  {
+		if (phoneTypeString != null) {
+			for (PhoneType phoneTypeEnum: PhoneType.values()) {
+				if (phoneTypeEnum.toString().equalsIgnoreCase(phoneTypeString)) {
+					return phoneTypeEnum;
+				}
+			}
+		}
+		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Phone Type");
 	}
 
 	/**

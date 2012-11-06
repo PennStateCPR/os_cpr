@@ -200,7 +200,7 @@ public final class ValidateIdCard {
 		// Validate the id card type.
 		final IdCardTable idCardTable = new IdCardTable();
 		if (localIdCardType != null) {
-			idCardTable.setIdCardType(localIdCardType);
+			idCardTable.setIdCardType(idCardTable.findIdCardTypeEnum(localIdCardType));
 		}
 		
 		// Validate the return history flag.

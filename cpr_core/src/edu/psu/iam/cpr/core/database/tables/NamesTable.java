@@ -94,16 +94,17 @@ public class NamesTable {
 	 * @param lastName contains the last name.
 	 * @param suffix contains the suffix (optional).
 	 * @param updatedBy contains the updatedBy system identifier.
+	 * @throws CprException will be thrown if there are any problems.
 	 */
 	public NamesTable(long personId, String nameType, String documentType, String firstName, String middleNames, 
-			String lastName, String suffix, String updatedBy) {
+			String lastName, String suffix, String updatedBy) throws CprException {
 		
 		final Names bean = new Names();
 		final Date d = new Date();
 		
-		setNameType(nameType);
+		setNameType(findNameTypeEnum(nameType));
 		if (documentType != null && documentType.trim().length() > 0) {
-			setDocumentType(documentType);
+			setDocumentType(findDocumentTypeEnum(documentType));
 		}
 		
 		setNamesBean(bean);
@@ -136,8 +137,9 @@ public class NamesTable {
 	 * @param nameType contains the name type
 	 * @param documentType contains the document type.
 	 * @param updatedBy contains the person who is updating the record.
+	 * @throws CprException will be thrown if there are any problems.
 	 */
-	public NamesTable(long personId, String nameType, String documentType, String updatedBy) {
+	public NamesTable(long personId, String nameType, String documentType, String updatedBy) throws CprException {
 		this(personId, nameType, documentType, null, null, null, null, updatedBy);
 	}
 	
@@ -184,11 +186,20 @@ public class NamesTable {
 	}
 	
 	/**
-	 * 
-	 * @param nameType
+	 * Will find the enumerated name type based on the input string.
+	 * @param nameType contains the name type to be searched for.
+	 * @return will contain the returned name type.
+	 * @throws CprException  will be thrown if there are any problems.
 	 */
-	public final void setNameType(String nameType) {
-		setNameType(NameType.valueOf(nameType.toUpperCase().trim()));
+	public final NameType findNameTypeEnum(String nameType) throws CprException {
+		if (nameType != null) {
+			for (NameType nameTypeEnum: NameType.values()) {
+				if (nameTypeEnum.toString().equalsIgnoreCase(nameType)) {
+					return nameTypeEnum;
+				}
+			}
+		}
+		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Name Type");
 	}
 	
 	/**
@@ -201,9 +212,18 @@ public class NamesTable {
 	/**
 	 * This routine is used to convert a string representation of a document type of an enum.
 	 * @param documentType contains the string value of the document type.
+	 * @return will return an enum if successful.
+	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */
-	public final void setDocumentType(String documentType) {
-		setDocumentType(DocumentType.valueOf(documentType.toUpperCase().trim()));
+	public final DocumentType findDocumentTypeEnum(String documentType) throws CprException {
+		if (documentType != null) {
+			for (DocumentType documentTypeEnum: DocumentType.values()) {
+				if (documentTypeEnum.toString().equalsIgnoreCase(documentType)) {
+					return documentTypeEnum;
+				}
+			}
+		}
+		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Document Type");
 	}
 	
 	/**

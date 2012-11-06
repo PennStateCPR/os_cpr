@@ -498,7 +498,7 @@ public final class ValidateAddress {
 		final AddressesTable addressesTable = new AddressesTable();
 		
 		if (addressType != null) {
-				addressesTable.setAddressType(localAddressType);
+				addressesTable.setAddressType(addressesTable.findAddressTypeEnum(localAddressType));
 		}
 		
 		// Validate the return history parameter.

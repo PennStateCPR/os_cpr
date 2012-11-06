@@ -72,7 +72,7 @@ public class PersonGenderTableTest {
 	@Test
 	public final void testSetGenderTypeString() throws Exception {
 		PersonGenderTable t = new PersonGenderTable();
-		t.setGenderType("GENDER_MALE");
+		t.setGenderType(t.findGenderTypeEnum("GENDER_MALE"));
 		AssertJUnit.assertEquals(t.getGenderType(), GenderType.GENDER_MALE);
 	}
 	@Test(expectedExceptions=Exception.class)

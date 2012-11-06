@@ -95,38 +95,38 @@ public class PhonesTableTest {
 
 	@Test
 	public final void _08testPhonesTableRightTrimWorkType() throws Exception{
-		new PhonesTable(100001, "    WORK_PHONE", null, "8148654846", "1234", "N", "system");
+		new PhonesTable(100001, "WORK_PHONE", null, "8148654846", "1234", "N", "system");
 	}
 
 	@Test
 	public final void _09testPhonesTableLeftTrimWorkType() throws Exception{
-		new PhonesTable(100001, "WORK_PHONE   ", null,"8148654846", "1234", "N", "system");
+		new PhonesTable(100001, "WORK_PHONE", null,"8148654846", "1234", "N", "system");
 	}
 
 	@Test
 	public final void _10testPhonesTableBothTrimLocalPhoneType() throws Exception{
-		new PhonesTable(100001, "  LOCAL_PHONE   ",null,  "8148654846", "1234", "N", "system");
+		new PhonesTable(100001, "LOCAL_PHONE",null,  "8148654846", "1234", "N", "system");
 	}
 
 	@Test(expectedExceptions=Exception.class)
 	public final void _11testSetPhoneTypeStringUnknown() throws Exception{
 
 		PhonesTable phonesTable = new PhonesTable();
-		phonesTable.setPhoneType("unknown");
+		phonesTable.setPhoneType(phonesTable.findPhoneTypeEnum("unknown"));
 	}
 
 	@Test(expectedExceptions=Exception.class)
 	public final void _12testSetPhoneTypeStringInvalid() throws Exception{
 
 		PhonesTable phonesTable = new PhonesTable();
-		phonesTable.setPhoneType("employee");
+		phonesTable.setPhoneType(phonesTable.findPhoneTypeEnum("employee"));
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _13testSetPhoneTypeStringNull() throws Exception{
 
 		PhonesTable phonesTable = new PhonesTable();
 
-		phonesTable.setPhoneType( (String)null );
+		phonesTable.setPhoneType( phonesTable.findPhoneTypeEnum((String)null));
 	}
 
 
@@ -194,7 +194,7 @@ public class PhonesTableTest {
 	public final void _19testSetPhoneTypeLowerLocalPhone() throws Exception{
 
 		PhonesTable phonesTable = new PhonesTable();
-		phonesTable.setPhoneType("LOCAL_PHONE");
+		phonesTable.setPhoneType(phonesTable.findPhoneTypeEnum("LOCAL_PHONE"));
 		AssertJUnit.assertEquals(phonesTable.getPhoneType(), PhoneType.LOCAL_PHONE);
 	}
 	/*
@@ -204,7 +204,7 @@ public class PhonesTableTest {
 	public final void _20testSetPhoneTypeStringMixedLocalPhone() throws Exception{
 
 		PhonesTable phonesTable = new PhonesTable();
-		phonesTable.setPhoneType("LOCAL_phonE");
+		phonesTable.setPhoneType(phonesTable.findPhoneTypeEnum("LOCAL_phonE"));
 		AssertJUnit.assertEquals(phonesTable.getPhoneType(), PhoneType.LOCAL_PHONE);
 	}
 	/*
@@ -214,7 +214,7 @@ public class PhonesTableTest {
 	public final void _21testSetPhoneTypeStringUpperLocalPhone() throws Exception{
 
 		PhonesTable phonesTable = new PhonesTable();
-		phonesTable.setPhoneType("LOCAL_PHONE");
+		phonesTable.setPhoneType(phonesTable.findPhoneTypeEnum("LOCAL_PHONE"));
 		AssertJUnit.assertEquals(phonesTable.getPhoneType(), PhoneType.LOCAL_PHONE);
 	}
 	/*
@@ -224,7 +224,7 @@ public class PhonesTableTest {
 	public final void _22testSetPhoneTypeStringRightTrimLocalPhone() throws Exception{
 
 		PhonesTable phonesTable = new PhonesTable();
-		phonesTable.setPhoneType("    LOCAL_PHONE");
+		phonesTable.setPhoneType(phonesTable.findPhoneTypeEnum("LOCAL_PHONE"));
 		AssertJUnit.assertEquals(phonesTable.getPhoneType(), PhoneType.LOCAL_PHONE);
 	}
 	/*
@@ -234,7 +234,7 @@ public class PhonesTableTest {
 	public final void _23testSetPhoneTypeStringLeftTrimLocalPhone() throws Exception{
 
 		PhonesTable phonesTable = new PhonesTable();
-		phonesTable.setPhoneType("LOCAL_PHONE   ");
+		phonesTable.setPhoneType(phonesTable.findPhoneTypeEnum("LOCAL_PHONE"));
 		AssertJUnit.assertEquals(phonesTable.getPhoneType(), PhoneType.LOCAL_PHONE);
 	}
 	/*
@@ -244,7 +244,7 @@ public class PhonesTableTest {
 	public final void _24testSetPhoneTypeStringBothTrimLocalPhone() throws Exception{
 
 		PhonesTable phonesTable = new PhonesTable();
-		phonesTable.setPhoneType("    LOCAL_PHONE   ");
+		phonesTable.setPhoneType(phonesTable.findPhoneTypeEnum("LOCAL_PHONE"));
 		AssertJUnit.assertEquals(phonesTable.getPhoneType(), PhoneType.LOCAL_PHONE);
 	}
 	/*
@@ -490,7 +490,7 @@ public class PhonesTableTest {
 	public final void _48testGetPhonesByTypeValid()  throws Exception  {
 		openDbConnection();
 		PhonesTable p  = new PhonesTable();
-		p.setPhoneType("local_phone");
+		p.setPhoneType(p.findPhoneTypeEnum("local_phone"));
 		p.setReturnHistoryFlag(false);
 		p.getPhones(db, 100003);
 		db.closeSession();

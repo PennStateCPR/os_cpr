@@ -40,27 +40,27 @@ public class CredentialTableTest {
 	}
 
 	@Test(expectedExceptions=Exception.class)
-	public final void _02testCredentialTableLongStringString1() {
+	public final void _02testCredentialTableLongStringString1() throws Exception {
 		new CredentialTable(1L, null, null);
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _03testCredentialTableLongStringString2() {
+	public final void _03testCredentialTableLongStringString2() throws Exception {
 		new CredentialTable(1L, null, "jvuccolo");
 	}
 	
 	@Test(expectedExceptions=Exception.class)
-	public final void _04testCredentialTableLongStringString3() {
+	public final void _04testCredentialTableLongStringString3() throws Exception {
 		new CredentialTable(1L, "secure_id", "jvuccolo");
 	}
 
 	@Test
-	public final void _05testCredentialTableLongStringString4() {
+	public final void _05testCredentialTableLongStringString4() throws Exception {
 		new CredentialTable(1L, "credential_type_secureid", "jvuccolo");
 	}
 
 	@Test
-	public final void _06testCredentialTableLongStringStringString1() {
+	public final void _06testCredentialTableLongStringStringString1() throws Exception {
 		new CredentialTable(1L, "credential_type_secureid", "abcd", "jvuccolo");
 	}
 

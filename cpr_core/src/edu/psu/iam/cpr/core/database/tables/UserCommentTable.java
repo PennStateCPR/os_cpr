@@ -75,13 +75,14 @@ public class UserCommentTable {
 	 * @param comment contains the comment.
 	 * @param userCommentType contains the string representation of the user comment type.
 	 * @param updatedBy contains the updatedBy system identifier.
+	 * @throws CprException will be thrown if there are any CPR related exceptions.
 	 */
 	public UserCommentTable(long personId, String userId, 
 			String userCommentType, String comment,
-			String updatedBy) {
+			String updatedBy) throws CprException {
 		super();
 		
-		setUserCommentType(userCommentType);
+		setUserCommentType(findUserCommentTypeEnum(userCommentType));
 		final UserComments bean = new UserComments();
 		final Date d = new Date();
 		setUserCommentsBean(bean);
@@ -107,10 +108,11 @@ public class UserCommentTable {
 	 * @param userId String
 	 * @param userCommentType String
 	 * @param updatedBy String
+	 * @throws CprException will be thrown if there are any CPR related exceptions.
 	 */
 	public UserCommentTable(long personId, String userId, 
 			String userCommentType,
-			String updatedBy) {
+			String updatedBy) throws CprException {
 		this(personId, userId, userCommentType, null, updatedBy);
 	}
 
@@ -168,10 +170,20 @@ public class UserCommentTable {
 	}
 
 	/**
+	 * This routine is used to find an enum for a string.
 	 * @param userCommentType the string representation of userCommentType.
+	 * @return will return the enum if successful.
+	 * @throws CprException will be thrown if there are any CPR exceptions.
 	 */
-	public final void setUserCommentType(String userCommentType) {
-		setUserCommentType(UserCommentType.valueOf(userCommentType.toUpperCase().trim()));
+	public final UserCommentType findUserCommentTypeEnum(String userCommentType) throws CprException {
+		if (userCommentType != null) {
+			for (UserCommentType userCommentTypeEnum: UserCommentType.values()) {
+				if (userCommentTypeEnum.toString().equalsIgnoreCase(userCommentType)) {
+					return userCommentTypeEnum;
+				}
+			}
+		}
+		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Comment Type");
 	}
 
 	
