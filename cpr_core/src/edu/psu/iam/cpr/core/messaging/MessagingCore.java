@@ -259,83 +259,77 @@ public class MessagingCore {
     }
     
 	/**
+	 * Send a message.
      * @param db contains a database object which holds an open connection.
      * @param msg contains the JSON message to be sent to the service provisioners.
-	 * @throws CprException 
-	 * @throws JMSException 
-	 * @throws JSONException 
+	 * @throws CprException will be thrown for any CPR related problems.
+	 * @throws JMSException  will be thrown if there are any messaging issues.
+	 * @throws JSONException  will be thrown if there are any JSON problems.
      */
     public void sendMessage(Database db, JsonMessage msg) throws CprException, JMSException, JSONException {
     	
     	final String replyToQueue = CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_JMS_REPLYTO.toString());
+		MessageProducer msgSender = null;
 
     	if (msg == null || msg.getJsonObject().toString().length() == 0) {
     		throw new CprException(ReturnType.MESSAGE_CREATION_EXCEPTION);
     	}
 
-    	//Create the message to send to the queues 	
-    	TextMessage myTextMsg = null;
+    	try {
+    		//Create the message to send to the queues 	
+    		TextMessage myTextMsg = null;
 
-    	myTextMsg = jmsSession.createTextMessage();
+    		myTextMsg = jmsSession.createTextMessage();
 
-    	// Loop through queue list
-    	final Iterator<ServiceProvisionerQueue> queueIter = msgQueues.iterator();
-    	while (queueIter.hasNext()) {
+    		// Loop through queue list
+    		final Iterator<ServiceProvisionerQueue> queueIter = msgQueues.iterator();
+    		while (queueIter.hasNext()) {
 
-    		ServiceProvisionerQueue currentQueue = queueIter.next();
+    			ServiceProvisionerQueue currentQueue = queueIter.next();
 
-    		MessageLogTable messageLogTable = null;
-    		VSpNotification view = currentQueue.getSpNotificationView();
-    		if (view == null) {
-    			throw new CprException(ReturnType.NOT_AUTHORIZED_EXCEPTION, currentQueue.toString());
-    		}
+    			MessageLogTable messageLogTable = null;
+    			VSpNotification view = currentQueue.getSpNotificationView();
+    			if (view == null) {
+    				throw new CprException(ReturnType.NOT_AUTHORIZED_EXCEPTION, currentQueue.toString());
+    			}
 
-    		// Create a queue sender for the current queue
-    		MessageProducer msgSender = null;
+    			messageLogTable = new MessageLogTable(view.getWebServiceKey(), view.getServiceProvisionerKey(), 
+    					msg.getJsonObject().toString(), msg.getRequestedBy());
+    			messageLogTable.addMessageLog(db);
 
-    		messageLogTable = new MessageLogTable(view.getWebServiceKey(), view.getServiceProvisionerKey(), 
-    				msg.getJsonObject().toString(), msg.getRequestedBy());
-    		messageLogTable.addMessageLog(db);
+    			MessageLogHistoryTable messageLogHistoryTable = new MessageLogHistoryTable(messageLogTable.getMessageLogBean());
+    			messageLogHistoryTable.addMessageLogHistory(db);
 
-    		MessageLogHistoryTable messageLogHistoryTable = new MessageLogHistoryTable(messageLogTable.getMessageLogBean());
-    		messageLogHistoryTable.addMessageLogHistory(db);
+    			// once the log is started, the messageLogId is set, add it to the msg to be sent
+    			msg.setValue(MessageKeyName.MESSAGE_LOG_ID, messageLogTable.getMessageLogBean().getMessageLogKey());
 
-    		// once the log is started, the messageLogId is set, add it to the msg to be sent
-    		msg.setValue(MessageKeyName.MESSAGE_LOG_ID, messageLogTable.getMessageLogBean().getMessageLogKey());
+    			// Add in the JSON information.
+    			myTextMsg.setText(msg.getJsonObject().toString());
+    			myTextMsg.setJMSReplyTo(jmsSession.createQueue(replyToQueue));
+    			myTextMsg.setJMSCorrelationID(messageLogHistoryTable.getMessageLogHistoryBean().getMessageLogHistoryKey().toString());
 
-    		// Add in the JSON information.
-    		myTextMsg.setText(msg.getJsonObject().toString());
-    		myTextMsg.setJMSReplyTo(jmsSession.createQueue(replyToQueue));
-    		myTextMsg.setJMSCorrelationID(messageLogHistoryTable.getMessageLogHistoryBean().getMessageLogHistoryKey().toString());
-
-    		// Isolate the message sent code, so if there is a failure we can log it accordingly.
-    		boolean messageSent = false;
-    		try {
+    			// Send the message.
     			Destination destination = jmsSession.createQueue(currentQueue.getSpNotificationView().getServiceProvisionerQueue());
     			msgSender = jmsSession.createProducer(destination);
     			msgSender.setDeliveryMode(DeliveryMode.PERSISTENT);
-
     			msgSender.send(myTextMsg);
     			msgSender.close();
 
-    			messageSent = true;
-    		}
-    		catch (Exception e) {
-    		}
-
-    		// If we were successful in sending the message, write it to the log.
-    		if (messageSent) {
     			// once the message is sent, add an entry in the message log history table for this specific send
     			messageLogTable.updateMessageLog(db, "Y", 1L);
     			messageLogHistoryTable.updateMessageLogHistory(db, myTextMsg.getJMSMessageID());
 
     			// Log the successful message delivery to the log4j component.
     			logMessageDelivery(messageLogTable, "SUCCESS");
+    		}  	
+    	}
+    	finally {
+    		try {
+    			msgSender.close();
+    		} 
+    		catch (JMSException e) {
     		}
-    		else {
-    			logMessageDelivery(messageLogTable, "FAILURE");
-    		}
-    	}  	
+    	}
     }
     
     /**
