@@ -66,9 +66,9 @@ public enum ReturnType {
         EXACT_MATCH_EXCEPTION(228,"The person cannot be added, because an exact match using \"%s\" was found."),
         NEAR_MATCH_EXCEPTION(229,"The person cannot be added, because a near match(s) was found"),
         MESSAGE_RECEIVE_EXCEPTION(251,"Unable to receive message from queue \"%s\"."),
-        DIRECTORY_EXCEPTION(255, "\"%s\"."),
-        JSON_EXCEPTION(256, "\"%s\"."),
-        JMS_EXCEPTION(257, "\"%s\".");
+        DIRECTORY_EXCEPTION(500, "\"%s\"."),
+        JSON_EXCEPTION(501, "\"%s\"."),
+        JMS_EXCEPTION(502, "\"%s\".");
 
    /**
     * Contains the index
