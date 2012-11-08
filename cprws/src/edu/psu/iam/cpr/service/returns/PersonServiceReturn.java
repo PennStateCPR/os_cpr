@@ -1,6 +1,8 @@
 /* SVN FILE: $Id: PersonServiceReturn.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.AddressReturn;
 import edu.psu.iam.cpr.core.service.returns.AffiliationReturn;
 import edu.psu.iam.cpr.core.service.returns.DateOfBirthReturn;
@@ -177,10 +179,10 @@ public class PersonServiceReturn {
 	}
 
 	/**
-	 * @param addressReturnRecord the addressReturnRecord to set
+	 * @param addressReturnArray the addressReturnRecord to set
 	 */
-	public void setAddressReturnRecord(AddressReturn[] addressReturnRecord) {
-		this.addressReturnRecord = addressReturnRecord;
+	public void setAddressReturnRecord(AddressReturn[] addressReturnArray) {
+		this.addressReturnRecord = Arrays.copyOf(addressReturnArray, addressReturnArray.length);
 	}
 
 	/**
@@ -205,11 +207,11 @@ public class PersonServiceReturn {
 	}
 
 	/**
-	 * @param affiliationReturnRecord the affiliationReturnRecord to set
+	 * @param affiliationReturnArray the affiliationReturnRecord to set
 	 */
 	public void setAffiliationReturnRecord(
-			AffiliationReturn[] affiliationReturnRecord) {
-		this.affiliationReturnRecord = affiliationReturnRecord;
+			AffiliationReturn[] affiliationReturnArray) {
+		this.affiliationReturnRecord = Arrays.copyOf(affiliationReturnArray, affiliationReturnArray.length);
 	}
 
 	/**
@@ -234,11 +236,11 @@ public class PersonServiceReturn {
 	}
 
 	/**
-	 * @param emailAddressReturnRecord the emailAddressReturnRecord to set
+	 * @param emailAddressArray the emailAddressReturnRecord to set
 	 */
 	public void setEmailAddressReturnRecord(
-			EmailAddressReturn[] emailAddressReturnRecord) {
-		this.emailAddressReturnRecord = emailAddressReturnRecord;
+			EmailAddressReturn[] emailAddressArray) {
+		this.emailAddressReturnRecord = Arrays.copyOf(emailAddressArray, emailAddressArray.length);
 	}
 
 	/**
@@ -263,10 +265,10 @@ public class PersonServiceReturn {
 	}
 
 	/**
-	 * @param nameReturnRecord the nameReturnRecord to set
+	 * @param nameArray the nameReturnRecord to set
 	 */
-	public void setNameReturnRecord(NameReturn[] nameReturnRecord) {
-		this.nameReturnRecord = nameReturnRecord;
+	public void setNameReturnRecord(NameReturn[] nameArray) {
+		this.nameReturnRecord = Arrays.copyOf(nameArray, nameArray.length);
 	}
 
 	/**
@@ -305,10 +307,10 @@ public class PersonServiceReturn {
 	}
 
 	/**
-	 * @param phoneReturnRecord the phoneReturnRecord to set
+	 * @param phoneArray the phoneReturnRecord to set
 	 */
-	public void setPhoneReturnRecord(PhoneReturn[] phoneReturnRecord) {
-		this.phoneReturnRecord = phoneReturnRecord;
+	public void setPhoneReturnRecord(PhoneReturn[] phoneArray) {
+		this.phoneReturnRecord = Arrays.copyOf(phoneArray, phoneArray.length);
 	}
 
 	/**
@@ -333,10 +335,10 @@ public class PersonServiceReturn {
 	}
 
 	/**
-	 * @param useridReturnRecord the useridReturnRecord to set
+	 * @param useridArray the useridReturnRecord to set
 	 */
-	public void setUseridReturnRecord(UseridReturn[] useridReturnRecord) {
-		this.useridReturnRecord = useridReturnRecord;
+	public void setUseridReturnRecord(UseridReturn[] useridArray) {
+		this.useridReturnRecord = Arrays.copyOf(useridArray, useridArray.length);
 	}
 
 	/**
@@ -354,10 +356,10 @@ public class PersonServiceReturn {
 	}
 
 	/**
-	 * @param nearMatchReturnRecord the nearMatchReturnRecord to set
+	 * @param nearMatchArray the nearMatchReturnRecord to set
 	 */
-	public void setNearMatchReturnRecord(MatchReturn nearMatchReturnRecord[]) {
-		this.nearMatchReturnRecord = nearMatchReturnRecord;
+	public void setNearMatchReturnRecord(MatchReturn nearMatchArray[]) {
+		this.nearMatchReturnRecord = Arrays.copyOf(nearMatchArray, nearMatchArray.length);
 	}
 
 	/**
@@ -389,10 +391,10 @@ public class PersonServiceReturn {
 	}
 
 	/**
-	 * @param dateOfBirthRecord the dateOfBirthRecord to set
+	 * @param dateOfBirthArray the dateOfBirthRecord to set
 	 */
-	public void setDateOfBirthRecord(DateOfBirthReturn[] dateOfBirthRecord) {
-		this.dateOfBirthRecord = dateOfBirthRecord;
+	public void setDateOfBirthRecord(DateOfBirthReturn[] dateOfBirthArray) {
+		this.dateOfBirthRecord = Arrays.copyOf(dateOfBirthArray, dateOfBirthArray.length);
 	}
 
 	/**
@@ -417,10 +419,10 @@ public class PersonServiceReturn {
 	}
 
 	/**
-	 * @param genderReturnRecord the genderReturnRecord to set
+	 * @param genderArray the genderReturnRecord to set
 	 */
-	public void setGenderReturnRecord(GenderReturn[] genderReturnRecord) {
-		this.genderReturnRecord = genderReturnRecord;
+	public void setGenderReturnRecord(GenderReturn[] genderArray) {
+		this.genderReturnRecord = Arrays.copyOf(genderArray, genderArray.length);
 	}
 
 	/**
@@ -445,10 +447,10 @@ public class PersonServiceReturn {
 	}
 
 	/**
-	 * @param psuIdReturnRecord the psuIdReturnRecord to set
+	 * @param psuIdArray the psuIdReturnRecord to set
 	 */
-	public void setPsuIdReturnRecord(PsuIdReturn[] psuIdReturnRecord) {
-		this.psuIdReturnRecord = psuIdReturnRecord;
+	public void setPsuIdReturnRecord(PsuIdReturn[] psuIdArray) {
+		this.psuIdReturnRecord = Arrays.copyOf(psuIdArray, psuIdArray.length);
 	}
 
 	/**

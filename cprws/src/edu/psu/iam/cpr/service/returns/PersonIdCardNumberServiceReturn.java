@@ -2,6 +2,8 @@
 package edu.psu.iam.cpr.service.returns;
 
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.PersonIdCardNumberReturn;
 
 /**
@@ -79,11 +81,11 @@ public class PersonIdCardNumberServiceReturn {
 	}
 
 	/**
-	 * @param idCardNumberReturnRecord the idCardNumberReturnRecord to set
+	 * @param idCardNumberReturnArray the idCardNumberReturnRecord to set
 	 */
 	public void setIdCardNumberReturnRecord(
-			PersonIdCardNumberReturn[] idCardNumberReturnRecord) {
-		this.idCardNumberReturnRecord = idCardNumberReturnRecord;
+			PersonIdCardNumberReturn[] idCardNumberReturnArray) {
+		this.idCardNumberReturnRecord = Arrays.copyOf(idCardNumberReturnArray, idCardNumberReturnArray.length);
 	}
 
 	/**
@@ -121,16 +123,16 @@ public class PersonIdCardNumberServiceReturn {
 	/**
 	 * @param statusCode
 	 * @param statusMessage
-	 * @param idCardNumberReturnRecord
+	 * @param idCardNumberReturnArray
 	 * @param numberIdCardNumberElements
 	 */
 	public PersonIdCardNumberServiceReturn(int statusCode, String statusMessage,
-			PersonIdCardNumberReturn[] idCardNumberReturnRecord,
+			PersonIdCardNumberReturn[] idCardNumberReturnArray,
 			int numberIdCardNumberElements) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.idCardNumberReturnRecord = idCardNumberReturnRecord;
+		this.idCardNumberReturnRecord = Arrays.copyOf(idCardNumberReturnArray, idCardNumberReturnArray.length);
 		this.numberIdCardNumberElements = numberIdCardNumberElements;
 	}
  

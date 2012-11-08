@@ -1,6 +1,8 @@
 /* SVN FILE: $Id: PersonLinkageServiceReturn.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.PersonLinkageReturn;
 
 /**
@@ -51,15 +53,15 @@ public class PersonLinkageServiceReturn {
 	 * @param statusCode
 	 * @param statusMessage
 	 * @param numberElements
-	 * @param personLinkageReturn
+	 * @param personLinkageArray
 	 */
 	public PersonLinkageServiceReturn(int statusCode, String statusMessage,
-			int numberElements, PersonLinkageReturn[] personLinkageReturn) {
+			int numberElements, PersonLinkageReturn[] personLinkageArray) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
 		this.numberElements = numberElements;
-		this.personLinkageReturn = personLinkageReturn;
+		this.personLinkageReturn = Arrays.copyOf(personLinkageArray, personLinkageArray.length);
 	}
 
 	/**
@@ -121,10 +123,10 @@ public class PersonLinkageServiceReturn {
 	}
 
 	/**
-	 * @param personLinkageReturn the personLinkageReturn to set
+	 * @param personLinkageArray the personLinkageReturn to set
 	 */
-	public void setPersonLinkageReturn(PersonLinkageReturn[] personLinkageReturn) {
-		this.personLinkageReturn = personLinkageReturn;
+	public void setPersonLinkageReturn(PersonLinkageReturn[] personLinkageArray) {
+		this.personLinkageReturn = Arrays.copyOf(personLinkageArray, personLinkageArray.length);
 	}
 	
 	/**

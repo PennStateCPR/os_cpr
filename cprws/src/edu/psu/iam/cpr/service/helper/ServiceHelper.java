@@ -1,15 +1,18 @@
 /* SVN FILE: $Id: ServiceHelper.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.helper;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
+import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.CprComponentStatusTable;
-import edu.psu.iam.cpr.core.database.types.ComponentStatus;
 import edu.psu.iam.cpr.core.database.types.CprComponent;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
@@ -40,6 +43,7 @@ public class ServiceHelper {
 		
 	/** Success message! */
 	final public static String SUCCESS_MESSAGE = "Success!";
+	private static final int BUFFER_SIZE = 1024;
 
 	/**
 	 * Empty Constructor.
@@ -62,7 +66,7 @@ public class ServiceHelper {
 	 * @param db contains a reference to the database.
 	 * @param parameters contains the parameters associated with the services.
 	 * @return will return a ServiceCoreReturn object if successful.
-	 * @throws GeneralDatabaseException will be thrown if there are any database problems.
+	 * @throws NamingException will be thrown if there is an LDAP authentication problem.
 	 * @throws CprException will be thrown if there are any CPR specific problems.
 	 */
 	public ServiceCoreReturn initializeService(
@@ -75,7 +79,7 @@ public class ServiceHelper {
 			String identifier, 
 			ServiceCore serviceCore, 
 			Database db,
-			StringBuilder parameters) throws GeneralDatabaseException, CprException {
+			StringBuilder parameters) throws CprException, NamingException {
 		
 		ServiceCoreReturn serviceCoreReturn;
 		db.openSession(SessionFactoryUtil.getSessionFactory());
@@ -106,24 +110,43 @@ public class ServiceHelper {
 	}
 
 	/**
-	 * This routine is used to handle exceptions of the GeneralDatabase type.
+	 * This routine is used to handle exceptions of the JDBC type.
 	 * @param log4jLogger contains a log4j Logger instance.
 	 * @param serviceCoreReturn contains the service core return instance.
 	 * @param db contains a database connection.
-	 * @param e contains the GeneralDatabase exception information.
+	 * @param e contains the JDBCEXception exception information.
+	 * @return contains the formatted String.
 	 */
-	public void handleGeneralDatabaseException(Logger log4jLogger,
+	public String handleJDBCException(Logger log4jLogger,
 			ServiceCoreReturn serviceCoreReturn,
 			Database db, 
-			GeneralDatabaseException e) {
+			JDBCException e) {
+		
+		String sqlState = e.getSQLState();
+		sqlState = (sqlState == null) ? "N/A" : sqlState;
+		int errorCode = e.getErrorCode();
+		String exceptionMessage = e.getMessage();
+		exceptionMessage = (exceptionMessage == null) ? "EMPTY" : exceptionMessage;
+		
+		StringBuffer sb = new StringBuffer(BUFFER_SIZE);
+		sb.append("Database Exception: ");
+		sb.append("Message = ");
+		sb.append(exceptionMessage);
+		sb.append(", Error Code = ");
+		sb.append(errorCode);
+		sb.append(", SQL State = ");
+		sb.append(sqlState);
+		
+		String formattedException = sb.toString();
 		try {
-			serviceCoreReturn.getServiceLogTable().endLog(db, "General Database Exception: " + e.getMessage());
+			serviceCoreReturn.getServiceLogTable().endLog(db, formattedException);
 		}
 		catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		log4jLogger.info("General Database Exception: " + e.getMessage());
+		log4jLogger.info(formattedException);
 		db.rollbackSession();
+		return formattedException;
 	}
 
 	/**
@@ -161,49 +184,29 @@ public class ServiceHelper {
 	 * @param db contains the Database Object
 	 * @param jsonMessage contains the json message
 	 * @return MessagingCore
+	 * @throws JMSException will be thrown if there are any JMS problems.
+	 * @throws JSONException  will be thrown if there are any JSON problems.
+	 * @throws CprException will be thrown for any CPR related problems.
 	 * 
 	 */
 	public MessagingCore sendMessagesToServiceProviders(String serviceName, MessagingCore mCore,
-			Database db, JsonMessage jsonMessage) {
+			Database db, JsonMessage jsonMessage) throws JMSException, CprException, JSONException {
 
-		boolean sendMessages = true;	
 		final CprComponentStatusTable cprComponentStatusTable = new CprComponentStatusTable();
-		
+
 		// Is messaging active?
 		if (cprComponentStatusTable.isCprComponentActive(db, CprComponent.MESSAGING)) {
-				
-			// Initialize messaging.
-			try {
-				mCore = new MessagingCore(db, serviceName);
-				mCore.initializeMessaging();
-			}
-			catch (CprException e) {
-				
-				// A failure has occurred with messaging, so record its status as being down, and write all messages to the database.
-				cprComponentStatusTable.changeComponentStatus(db, CprComponent.MESSAGING, ComponentStatus.DISABLED);
-				mCore.recordFailures(db, jsonMessage);
-				sendMessages = false;
-			}
 
-			// Send the messages if everything went OK with the initialization.
-			if (sendMessages) {
-				try {
-					mCore.sendMessage(db, jsonMessage);
-				} 
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+			mCore = new MessagingCore(db, serviceName);
+			mCore.initializeMessaging();
+			mCore.sendMessage(db, jsonMessage);
+			
 		}
-		
+
 		// Messaging is down, so we need to queue up all of the messages.
 		else {
-			try {
-				mCore = new MessagingCore(db, serviceName);
-				mCore.recordFailures(db, jsonMessage);
-			}
-			catch (CprException e) {
-			}
+			mCore = new MessagingCore(db, serviceName);
+			mCore.recordFailures(db, jsonMessage);
 		}
 		return mCore;
 	}

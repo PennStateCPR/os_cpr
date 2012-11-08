@@ -2,6 +2,8 @@
 
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.MatchReturn;
 
 /**
@@ -161,7 +163,7 @@ public class FindPersonServiceReturn {
 	 * Set the near match array
 	 */
 	public void setNearMatchArray(final MatchReturn[] nearMatches) {
-		this.nearMatchArray = nearMatches;
+		this.nearMatchArray = Arrays.copyOf(nearMatches, nearMatches.length);
 	}
 	
 	/**

@@ -1,13 +1,15 @@
 /* SVN FILE: $Id: GetExternalIAPImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.FederationTable;
 import edu.psu.iam.cpr.core.database.tables.PersonUseridIapTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.IAPReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
@@ -40,7 +42,8 @@ import edu.psu.iam.cpr.service.returns.IAPServiceReturn;
  */
 public class GetExternalIAPImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(GetExternalIAPImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetExternalIAPImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -67,20 +70,20 @@ public class GetExternalIAPImpl implements ServiceInterface {
 		@SuppressWarnings("unused")
 		boolean fedValid = false;
 		ServiceHelper serviceHelper = new ServiceHelper();
-		log4jLogger.info("GetExternalIAP: Start of service.");
+		LOG4J_LOGGER.info("GetExternalIAP: Start of service.");
 		
 		try {
 			String userId 				= (String) otherParameters[0];
 			final String federationName = (String) otherParameters[1];
 			
-			StringBuilder parameters = new StringBuilder(128);
+			StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("requestedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
 			parameters.append("identifier=[").append(identifier).append("] ");
 			parameters.append("userID=[").append(userId).append("] ");
 			parameters.append("federationName=[").append(federationName).append("] ");
-			log4jLogger.info("GetExternalIAP: Input Parameters = " + parameters.toString());
+			LOG4J_LOGGER.info("GetExternalIAP: Input Parameters = " + parameters.toString());
 			
 			// Init the service.
 			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
@@ -93,7 +96,7 @@ public class GetExternalIAPImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info("GetExternalIAP: Found Person Id = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info("GetExternalIAP: Found Person Id = " + serviceCoreReturn.getPersonId());
 
 	
 			// Validate the data passed to the service
@@ -117,7 +120,7 @@ public class GetExternalIAPImpl implements ServiceInterface {
 			serviceReturn.setNumberElements(iapResults.length);
 			serviceReturn.setIapReturnRecord(iapResults);
 					
-			log4jLogger.info("GetExternalIAP: Status = SUCCESS, query returned " + iapResults.length + " elements.");
+			LOG4J_LOGGER.info("GetExternalIAP: Status = SUCCESS, query returned " + iapResults.length + " elements.");
 
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
 			db.closeSession();
@@ -125,16 +128,17 @@ public class GetExternalIAPImpl implements ServiceInterface {
 			
 		}
 		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(log4jLogger, serviceCoreReturn, db, e);
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new IAPServiceReturn(e.getReturnType().index(), errorMessage);
 		}
-		catch (GeneralDatabaseException e) {
-			serviceHelper.handleGeneralDatabaseException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new IAPServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new IAPServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new IAPServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new IAPServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+			
 		}
 		
 		return (Object) serviceReturn;

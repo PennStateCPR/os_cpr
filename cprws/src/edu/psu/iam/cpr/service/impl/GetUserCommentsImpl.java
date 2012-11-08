@@ -1,12 +1,14 @@
 /* SVN FILE: $Id: GetUserCommentsImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.UserCommentTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
@@ -40,7 +42,8 @@ import edu.psu.iam.cpr.service.returns.UserCommentServiceReturn;
  */
 public class GetUserCommentsImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(GetUserCommentsImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetUserCommentsImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -65,7 +68,7 @@ public class GetUserCommentsImpl implements ServiceInterface {
 		final Database db = new Database();
 		final ServiceHelper serviceHelper = new ServiceHelper();
 		
-		log4jLogger.info(serviceName + ": Start of service.");
+		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
 			String userId 					= (String) otherParameters[0];
@@ -73,7 +76,7 @@ public class GetUserCommentsImpl implements ServiceInterface {
 			final String returnHistory 		= (String) otherParameters[2];
 			
 			// Build the parameters string.
-			final StringBuilder parameters = new StringBuilder(10000);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("requestedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
@@ -81,7 +84,7 @@ public class GetUserCommentsImpl implements ServiceInterface {
 			parameters.append("userId=[").append(userId).append("] ");
 			parameters.append("userCommentType=[").append(userCommentType).append("] ");
 			parameters.append("returnHistory=[").append(returnHistory).append("] ");
-			log4jLogger.info(serviceName + ": Input Parameters = " + parameters.toString());
+			LOG4J_LOGGER.info(serviceName + ": Input Parameters = " + parameters.toString());
 			
 			// Init the service.
 			// Init the service.
@@ -95,11 +98,11 @@ public class GetUserCommentsImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info(serviceName + ": Found Person Id = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info(serviceName + ": Found Person Id = " + serviceCoreReturn.getPersonId());
 			
 			UserCommentTable userCommentTable = ValidateUserComment.validateGetUserCommentsParameters(db, 
 								serviceCoreReturn.getPersonId(), updatedBy, userCommentType, returnHistory);
-			log4jLogger.info(serviceName + ": Performing query for Person Id = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info(serviceName + ": Performing query for Person Id = " + serviceCoreReturn.getPersonId());
 			final UserCommentReturn queryResults[] = userCommentTable.getUserComments( db, userId );
 
 			
@@ -107,26 +110,27 @@ public class GetUserCommentsImpl implements ServiceInterface {
 			serviceReturn = new UserCommentServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, queryResults, queryResults.length);
 			
 			// Log a success!
-			log4jLogger.info(serviceName + ": Status = SUCCESS, query returned " + queryResults.length + " elements.");
+			LOG4J_LOGGER.info(serviceName + ": Status = SUCCESS, query returned " + queryResults.length + " elements.");
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
 			
 			// Commit
 			db.closeSession();
 		} 
 		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(log4jLogger, serviceCoreReturn, db, e);
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new UserCommentServiceReturn(e.getReturnType().index(), errorMessage);
 		}
-		catch (GeneralDatabaseException e) {
-			serviceHelper.handleGeneralDatabaseException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new UserCommentServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new UserCommentServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new UserCommentServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new UserCommentServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+			
 		}
 		
-		log4jLogger.info(serviceName + ": End of service.");
+		LOG4J_LOGGER.info(serviceName + ": End of service.");
 		return (Object) serviceReturn;
 	}
 

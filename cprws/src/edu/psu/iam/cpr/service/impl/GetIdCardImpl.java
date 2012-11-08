@@ -1,13 +1,15 @@
 /* SVN FILE: $Id: GetIdCardImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.IdCardTable;
 import edu.psu.iam.cpr.core.database.tables.PersonPhotoTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.PersonIdCardReturn;
 import edu.psu.iam.cpr.core.service.returns.PhotoReturn;
@@ -41,7 +43,8 @@ import edu.psu.iam.cpr.service.returns.IdCardServiceReturn;
  */
 public class GetIdCardImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(GetIdCardImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetIdCardImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -66,21 +69,21 @@ public class GetIdCardImpl implements ServiceInterface {
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
 		
-		log4jLogger.info(serviceName + ": Start of service.");
+		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
 			final String idCardType 	= (String) otherParameters[0];
 			final String returnHistory 	= (String) otherParameters[1];
 			
 			// Build the parameters string.
-			final StringBuilder parameters = new StringBuilder(10000);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("requestedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
 			parameters.append("identifier=[").append(identifier).append("] ");
 			parameters.append("idCardType=[").append(idCardType).append("] ");
 			parameters.append("returnHistory=[").append(returnHistory).append("] ");
-			log4jLogger.info(serviceName + ": Input Parameters = " + parameters.toString());
+			LOG4J_LOGGER.info(serviceName + ": Input Parameters = " + parameters.toString());
 			
 			// Init the service.
 			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
@@ -93,13 +96,13 @@ public class GetIdCardImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info(serviceName + ": Found Person Id = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info(serviceName + ": Found Person Id = " + serviceCoreReturn.getPersonId());
 									
 			// Do the query from the database.
 			IdCardTable idCardTable = ValidateIdCard.validateGetIdCardParameters(db, serviceCoreReturn.getPersonId(), 
 																updatedBy, idCardType, returnHistory);
 			
-			log4jLogger.info(serviceName + ": Performing query for Person Id = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info(serviceName + ": Performing query for Person Id = " + serviceCoreReturn.getPersonId());
 			final PersonIdCardReturn queryResults[] = idCardTable.getIdCardForPersonId(db, serviceCoreReturn.getPersonId()); 
 			final PhotoReturn photoReturn[] = new PersonPhotoTable().getPhoto(db, serviceCoreReturn.getPersonId());
 			
@@ -110,7 +113,7 @@ public class GetIdCardImpl implements ServiceInterface {
 			serviceReturn.setNumberPersonIdCardElements(queryResults.length);
 			serviceReturn.setPersonIdCardsReturnRecord(queryResults);
 			serviceReturn.setPhotoReturn(photoReturn);
- 			log4jLogger.info(serviceName + ": Status = SUCCESS, query returned " + queryResults.length + " elements.");
+ 			LOG4J_LOGGER.info(serviceName + ": Status = SUCCESS, query returned " + queryResults.length + " elements.");
 			
 			// Log a success!
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
@@ -118,19 +121,20 @@ public class GetIdCardImpl implements ServiceInterface {
 			db.closeSession();
 		} 
 		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(log4jLogger, serviceCoreReturn, db, e);
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new IdCardServiceReturn(e.getReturnType().index(), errorMessage);
 		}
-		catch (GeneralDatabaseException e) {
-			serviceHelper.handleGeneralDatabaseException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new IdCardServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new IdCardServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new IdCardServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new IdCardServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+			
 		}
 				
-		log4jLogger.info(serviceName + ": End of service.");
+		LOG4J_LOGGER.info(serviceName + ": End of service.");
 		
 		// Return the results to the caller.
 		return (Object) serviceReturn;

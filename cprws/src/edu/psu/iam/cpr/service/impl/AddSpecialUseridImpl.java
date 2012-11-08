@@ -1,13 +1,17 @@
 /* SVN FILE: $Id: AddSpecialUseridImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
+import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.UseridTable;
 import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.messaging.MessagingCore;
@@ -42,7 +46,8 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class AddSpecialUseridImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(ArchiveUserCommentImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(ArchiveUserCommentImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -68,7 +73,7 @@ public class AddSpecialUseridImpl implements ServiceInterface {
 		final Database db = new Database();
 		final ServiceHelper serviceHelper = new ServiceHelper();
 		
-		log4jLogger.info(serviceName + ": start of service.");
+		LOG4J_LOGGER.info(serviceName + ": start of service.");
 		
 		try {
 			/**
@@ -85,13 +90,13 @@ public class AddSpecialUseridImpl implements ServiceInterface {
 			
 			final String userid = (String) otherParameters[0];
 			
-			final StringBuilder parameters = new StringBuilder(5000);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("updatedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[PERSON_ID] ");
 			parameters.append("identifier=[").append(identifier).append("] ");
 			parameters.append("userid=[").append(userid).append("] ");
-			log4jLogger.info(serviceName + ": input parameters = " + parameters.toString());
+			LOG4J_LOGGER.info(serviceName + ": input parameters = " + parameters.toString());
 
 			// Init the service.
 			// Init the service.
@@ -105,7 +110,7 @@ public class AddSpecialUseridImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
 			
 			// Add the new userid.
 			final UseridTable useridTable = ValidateUserid.validateUseridParameters(db, serviceCoreReturn.getPersonId(), updatedBy);
@@ -114,7 +119,7 @@ public class AddSpecialUseridImpl implements ServiceInterface {
 			// Determine if the user is authorized to add a userid.
 			db.isDataActionAuthorized(serviceCoreReturn, AccessType.USER_ID.toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 			useridTable.addSpecialUserid(db);
-			log4jLogger.info(serviceName + ": adding special userid=" + userid);
+			LOG4J_LOGGER.info(serviceName + ": adding special userid=" + userid);
 			
 			// Build the return.
 			serviceReturn = new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);
@@ -122,42 +127,44 @@ public class AddSpecialUseridImpl implements ServiceInterface {
 			// Create a new json message.
 			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
 			jsonMessage.setUserid(useridTable);
-			log4jLogger.info(serviceName + ": json message=" + jsonMessage.toString());
+			LOG4J_LOGGER.info(serviceName + ": json message=" + jsonMessage.toString());
 			
 			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 			
 
 			// Log a success!
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
-			log4jLogger.info(serviceName + ": the service was successful!");
+			LOG4J_LOGGER.info(serviceName + ": the service was successful!");
 			
 			// Commit.
 			db.closeSession();
 		} 
-		catch (GeneralDatabaseException e) {
-			serviceHelper.handleGeneralDatabaseException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-		} 
 		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(log4jLogger, serviceCoreReturn, db, e);
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(e.getReturnType().index(), errorMessage);
 		}
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.ADD_FAILED_EXCEPTION.index(), e.getMessage());
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		} 
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
 		finally {
-			try {
-				mCore.closeMessaging();
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
+			mCore.closeMessaging();
 		}
 		
-		log4jLogger.info(serviceName + ": end of service.");
+		LOG4J_LOGGER.info(serviceName + ": end of service.");
 		// Return the results to the caller.
 		return (Object) serviceReturn;
-
 	}
 
 }

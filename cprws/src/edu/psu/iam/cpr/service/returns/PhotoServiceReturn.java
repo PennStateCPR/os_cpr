@@ -1,6 +1,8 @@
 /* SVN FILE: $Id: PhotoServiceReturn.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.PhotoReturn;
 
 /**
@@ -51,15 +53,15 @@ public class PhotoServiceReturn {
 	 * @param statusCode contains the status code that is result of executing this service.
 	 * @param statusMessage contains the message that is returned as the result of executing this service.
 	 * @param numberElements contains the number of elements returned in the array.
-	 * @param photoReturn contains the array of elements returned for a get.
+	 * @param photoArray contains the array of elements returned for a get.
 	 */
 	public PhotoServiceReturn(int statusCode, String statusMessage,
-			int numberElements, PhotoReturn[] photoReturn) {
+			int numberElements, PhotoReturn[] photoArray) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
 		this.numberElements = numberElements;
-		this.photoReturn = photoReturn;
+		this.photoReturn = Arrays.copyOf(photoArray, photoArray.length);
 	}
 
 	/**
@@ -122,10 +124,10 @@ public class PhotoServiceReturn {
 	}
 
 	/**
-	 * @param photoReturn the photoReturn to set
+	 * @param photoArray the photoReturn to set
 	 */
-	public void setPhotoReturn(PhotoReturn[] photoReturn) {
-		this.photoReturn = photoReturn;
+	public void setPhotoReturn(PhotoReturn[] photoArray) {
+		this.photoReturn = Arrays.copyOf(photoArray, photoArray.length);
 	}
 	
 }

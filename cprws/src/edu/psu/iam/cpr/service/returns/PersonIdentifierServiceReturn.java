@@ -1,6 +1,8 @@
 /* SVN FILE: $Id: PersonIdentifierServiceReturn.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.PersonIdentifierReturn;
 
 /**
@@ -50,16 +52,16 @@ public class PersonIdentifierServiceReturn {
 	 * Constructor.
 	 * @param statusCode contains the status code that is the result of executing the service.
 	 * @param statusMessage contains the message associated with the status code.
-	 * @param personIdentifierReturn contains the array of results.
+	 * @param personIdentifierArray contains the array of results.
 	 * @param numberOfElements contains the number of elements in the array.
 	 */
 	public PersonIdentifierServiceReturn(int statusCode, String statusMessage,
-			PersonIdentifierReturn[] personIdentifierReturn,
+			PersonIdentifierReturn[] personIdentifierArray,
 			int numberOfElements) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.personIdentifierReturn = personIdentifierReturn;
+		this.personIdentifierReturn = Arrays.copyOf(personIdentifierArray, personIdentifierArray.length);
 		this.numberOfElements = numberOfElements;
 	}
 
@@ -108,11 +110,11 @@ public class PersonIdentifierServiceReturn {
 	}
 
 	/**
-	 * @param personIdentifierReturn the personIdentifierReturn to set
+	 * @param personIdentifierArray the personIdentifierReturn to set
 	 */
 	public void setPersonIdentifierReturn(
-			PersonIdentifierReturn[] personIdentifierReturn) {
-		this.personIdentifierReturn = personIdentifierReturn;
+			PersonIdentifierReturn[] personIdentifierArray) {
+		this.personIdentifierReturn = Arrays.copyOf(personIdentifierArray, personIdentifierArray.length);
 	}
 
 	/**

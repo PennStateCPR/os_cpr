@@ -2,6 +2,8 @@
 
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.AffiliationReturn;
 
 /**
@@ -82,10 +84,10 @@ public class AffiliationServiceReturn {
 	}
 
 	/**
-	 * @param affiliationReturnRecord the affiliationReturnRecord to set
+	 * @param affiliationReturnArray the affiliationReturnRecord to set
 	 */
-	public void setAffiliationReturnRecord( AffiliationReturn[] affiliationReturnRecord) {
-		this.affiliationReturnRecord = affiliationReturnRecord;
+	public void setAffiliationReturnRecord( AffiliationReturn[] affiliationReturnArray) {
+		this.affiliationReturnRecord = Arrays.copyOf(affiliationReturnArray, affiliationReturnArray.length);
 	}
 
 	/**
@@ -127,15 +129,15 @@ public class AffiliationServiceReturn {
 	 * Constructor
 	 * @param statusCode status code that is returned as the result of executing a service.
 	 * @param statusMessage the status message that is returned as the result of executing a service.
-	 * @param affiliationReturnRecord the affiliation return record only will be populated for the get affiliations service call.
+	 * @param affiliationReturnArray the affiliation return record only will be populated for the get affiliations service call.
 	 * @param numberElements the number of elements in the affiliationReturnRecord array.
 	 */
 	public AffiliationServiceReturn(int statusCode, String statusMessage,
-			AffiliationReturn[] affiliationReturnRecord, int numberElements) {
+			AffiliationReturn[] affiliationReturnArray, int numberElements) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.affiliationReturnRecord = affiliationReturnRecord;
+		this.affiliationReturnRecord = Arrays.copyOf(affiliationReturnArray, affiliationReturnArray.length);
 		this.numberElements = numberElements;
 	}
 	/**

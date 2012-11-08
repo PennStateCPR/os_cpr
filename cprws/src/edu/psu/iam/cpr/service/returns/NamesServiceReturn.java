@@ -1,6 +1,8 @@
 /* SVN FILE: $Id: NamesServiceReturn.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.NameReturn;
 
 /**
@@ -50,15 +52,15 @@ public class NamesServiceReturn {
 	 * Constructor
 	 * @param statusCode status code that is returned as the result of executing a service.
 	 * @param statusMessage the status message that is returned as the result of executing a service.
-	 * @param namesReturnRecord the names return record only will be populated for a GetNames service call.
+	 * @param namesReturnArray the names return record only will be populated for a GetNames service call.
 	 * @param numberElements the number of elements in the namesReturnRecord array.
 	 */
 	public NamesServiceReturn(int statusCode, String statusMessage,
-			NameReturn[] namesReturnRecord, int numberElements) {
+			NameReturn[] namesReturnArray, int numberElements) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.namesReturnRecord = namesReturnRecord;
+		this.namesReturnRecord = Arrays.copyOf(namesReturnArray, namesReturnArray.length);
 		this.numberElements = numberElements;
 	}
 	
@@ -108,10 +110,10 @@ public class NamesServiceReturn {
 	}
 
 	/**
-	 * @param namesReturnRecord the namesReturnRecord to set
+	 * @param namesReturnArray the namesReturnRecord to set
 	 */
-	public void setNamesReturnRecord(NameReturn[] namesReturnRecord) {
-		this.namesReturnRecord = namesReturnRecord;
+	public void setNamesReturnRecord(NameReturn[] namesReturnArray) {
+		this.namesReturnRecord = Arrays.copyOf(namesReturnArray, namesReturnArray.length);
 	}
 
 	/**

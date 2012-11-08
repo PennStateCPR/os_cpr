@@ -1,12 +1,14 @@
 /* SVN FILE: $Id: GetConfidentialityImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.ConfidentialityTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.ConfidentialityReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
@@ -39,7 +41,7 @@ import edu.psu.iam.cpr.service.returns.ConfidentialityServiceReturn;
  */
 public class GetConfidentialityImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(GetConfidentialityImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetConfidentialityImpl.class);
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -63,7 +65,7 @@ public class GetConfidentialityImpl implements ServiceInterface {
 		final Database db = new Database();
 		final ServiceHelper serviceHelper = new ServiceHelper();
 		
-		log4jLogger.info(serviceName + ": Start of service.");
+		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		
 		try {
 			
@@ -76,7 +78,7 @@ public class GetConfidentialityImpl implements ServiceInterface {
 			parameters.append("identifierType=[").append(identifierType).append("] ");
 			parameters.append("identifier=[").append(identifier).append("] ");
 			parameters.append("returnHistory=[").append(returnHistory).append("] ");
-			log4jLogger.info(serviceName + ": input parameters = " + parameters.toString());
+			LOG4J_LOGGER.info(serviceName + ": input parameters = " + parameters.toString());
 
 			// Init the service.
 			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
@@ -89,19 +91,19 @@ public class GetConfidentialityImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
 
 			// Validate the input parameters.
 			final ConfidentialityTable confidentialityTable = ValidateConfidentiality.validateGetConfidentialityParameters(db, 
 											serviceCoreReturn.getPersonId(), updatedBy, returnHistory);
 			
 			// Get the data about the hold.
-			log4jLogger.info(serviceName + ": get confidentiality data.");
+			LOG4J_LOGGER.info(serviceName + ": get confidentiality data.");
 			final ConfidentialityReturn queryResults[] = confidentialityTable.getConfidentiality(db, serviceCoreReturn.getPersonId());
 
 			// Build the return class.
 			serviceReturn = new ConfidentialityServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, queryResults.length, queryResults);			
-			log4jLogger.info(serviceName + ": query results returned = " + queryResults.length);
+			LOG4J_LOGGER.info(serviceName + ": query results returned = " + queryResults.length);
 			
 			// Log a success!
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
@@ -110,19 +112,20 @@ public class GetConfidentialityImpl implements ServiceInterface {
 			db.closeSession();
 		}
 		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(log4jLogger, serviceCoreReturn, db, e);
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ConfidentialityServiceReturn(e.getReturnType().index(), errorMessage);
 		}
-		catch (GeneralDatabaseException e) {
-			serviceHelper.handleGeneralDatabaseException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ConfidentialityServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ConfidentialityServiceReturn(ReturnType.ARCHIVE_FAILED_EXCEPTION.index(), e.getMessage());
-		} 
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ConfidentialityServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ConfidentialityServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+			
+		}
 
-		log4jLogger.info(serviceName + ": End of service.");
+		LOG4J_LOGGER.info(serviceName + ": End of service.");
 		
 		// Success so return it.
 		return (Object) serviceReturn;

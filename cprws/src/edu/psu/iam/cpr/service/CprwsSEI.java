@@ -83,7 +83,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddAddress")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn AddAddress(
+	ServiceReturn AddAddress(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -120,7 +120,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "ArchiveAddress")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn ArchiveAddress(
+	ServiceReturn ArchiveAddress(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -149,7 +149,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetAddress")
 	@WebResult(name = "AddressServiceReturn")
-	public AddressServiceReturn GetAddress(
+	AddressServiceReturn GetAddress(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -178,7 +178,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "SetPrimaryAddressByType")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn SetPrimaryAddressByType(
+	ServiceReturn SetPrimaryAddressByType(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -218,7 +218,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UpdateAddress")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn UpdateAddress(
+	ServiceReturn UpdateAddress(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -255,7 +255,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddAffiliation")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn AddAffiliation(
+	ServiceReturn AddAffiliation(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -283,7 +283,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "ArchiveAffiliation")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn ArchiveAffiliation(
+	ServiceReturn ArchiveAffiliation(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -309,7 +309,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetAffiliations")
 	@WebResult(name = "AffiliationServiceReturn")
-	public AffiliationServiceReturn GetAffiliations(
+	AffiliationServiceReturn GetAffiliations(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -334,7 +334,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetExternalAffiliations")
 	@WebResult(name = "AffiliationServiceReturn")
-	public AffiliationServiceReturn GetExternalAffiliations(
+	AffiliationServiceReturn GetExternalAffiliations(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -359,7 +359,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetInternalAffiliations")
 	@WebResult(name = "AffiliationServiceReturn")
-	public AffiliationServiceReturn GetInternalAffiliations(
+	AffiliationServiceReturn GetInternalAffiliations(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -386,7 +386,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UpdateAffiliation")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn UpdateAffiliation(
+	ServiceReturn UpdateAffiliation(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -414,7 +414,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "SetPrimaryAffiliation")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn SetPrimaryAffiliation(
+	ServiceReturn SetPrimaryAffiliation(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -439,7 +439,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddConfidentialityHold")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn AddConfidentialityHold(
+	ServiceReturn AddConfidentialityHold(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -464,7 +464,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UpdateConfidentialityHold")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn UpdateConfidentialityHold(
+	ServiceReturn UpdateConfidentialityHold(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -489,7 +489,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "ArchiveConfidentialityHold")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn ArchiveConfidentialityHold(
+	ServiceReturn ArchiveConfidentialityHold(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -514,7 +514,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetConfidentialityHold")
 	@WebResult(name = "ConfidentialityServiceReturn")
-	public ConfidentialityServiceReturn GetConfidentialityHold(
+	ConfidentialityServiceReturn GetConfidentialityHold(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -541,7 +541,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddCredential")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn AddCredential(
+	ServiceReturn AddCredential(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -569,7 +569,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UpdateCredential")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn UpdateCredential(
+	ServiceReturn UpdateCredential(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -596,7 +596,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "ArchiveCredential")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn ArchiveCredential(
+	ServiceReturn ArchiveCredential(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -621,7 +621,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetCredential")
 	@WebResult(name = "CredentialServiceReturn")
-	public CredentialServiceReturn GetCredential(
+	CredentialServiceReturn GetCredential(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -652,7 +652,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddEmailAddress")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn AddEmailAddress(
+	ServiceReturn AddEmailAddress(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -683,7 +683,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UpdateEmailAddress")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn UpdateEmailAddress(
+	ServiceReturn UpdateEmailAddress(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -711,7 +711,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetEmailAddress")
 	@WebResult(name = "EmailAddressServiceReturn")
-	public EmailAddressServiceReturn GetEmailAddress(
+	EmailAddressServiceReturn GetEmailAddress(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -739,7 +739,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "ArchiveEmailAddress")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn ArchiveEmailAddress(
+	ServiceReturn ArchiveEmailAddress(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -778,7 +778,7 @@ public interface CprwsSEI {
 
 	@WebMethod(operationName = "SearchForPerson")
 	@WebResult(name = "FindPersonServiceReturn")
-	public FindPersonServiceReturn SearchForPerson(
+	FindPersonServiceReturn SearchForPerson(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -819,7 +819,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetPSUIAP")
 	@WebResult(name = "IAPServiceReturn")
-	public IAPServiceReturn GetPSUIAP(
+	IAPServiceReturn GetPSUIAP(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -847,7 +847,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetExternalIAP")
 	@WebResult(name = "IAPServiceReturn")
-	public IAPServiceReturn GetExternalIAP(
+	IAPServiceReturn GetExternalIAP(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -877,7 +877,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddIdCard")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn AddIdCard(
+	ServiceReturn AddIdCard(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -905,7 +905,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "ArchiveIdCard")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn ArchiveIdCard(
+	ServiceReturn ArchiveIdCard(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -930,7 +930,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetIdCard")
 	@WebResult(name = "IdCardServiceReturn")
-	public IdCardServiceReturn GetIdCard(
+	IdCardServiceReturn GetIdCard(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -955,7 +955,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetIdCardNumber")
 	@WebResult(name = "IdCardNumberServiceReturn")
-	public PersonIdCardNumberServiceReturn GetIdCardNumber(
+	PersonIdCardNumberServiceReturn GetIdCardNumber(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -983,7 +983,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UpdateIdCard")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn UpdateIdCard(
+	ServiceReturn UpdateIdCard(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1014,7 +1014,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddIdCardPrintEvent")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn AddIdCardPrintEvent(
+	ServiceReturn AddIdCardPrintEvent(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1040,7 +1040,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetIdCardPrintEvent")
 	@WebResult(name = "IdCardPrintEventServiceReturn")
-	public IdCardPrintEventServiceReturn GetIdCardPrintEvent(
+	IdCardPrintEventServiceReturn GetIdCardPrintEvent(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -1070,7 +1070,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddName")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn AddName(
+	ServiceReturn AddName(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1106,7 +1106,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UpdateName")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn UpdateName(
+	ServiceReturn UpdateName(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1137,7 +1137,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "ArchiveName")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn ArchiveName(
+	ServiceReturn ArchiveName(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1163,7 +1163,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetName")
 	@WebResult(name = "NamesServiceReturn")
-	public NamesServiceReturn GetName(
+	NamesServiceReturn GetName(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -1193,7 +1193,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddPersonLinkage")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn AddPersonLinkage(
+	ServiceReturn AddPersonLinkage(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1224,7 +1224,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UpdatePersonLinkage")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn UpdatePersonLinkage(
+	ServiceReturn UpdatePersonLinkage(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1252,7 +1252,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "ArchivePersonLinkage")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn ArchivePersonLinkage(
+	ServiceReturn ArchivePersonLinkage(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1279,7 +1279,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetPersonLinkage")
 	@WebResult(name = "PersonLinkageServiceReturn")
-	public PersonLinkageServiceReturn GetPersonLinkage(
+	PersonLinkageServiceReturn GetPersonLinkage(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -1331,7 +1331,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddPerson")
 	@WebResult(name = "PersonServiceReturn")
-	public PersonServiceReturn AddPerson(
+	PersonServiceReturn AddPerson(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1379,7 +1379,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UnarchivePerson")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn UnarchivePerson(
+	ServiceReturn UnarchivePerson(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1401,7 +1401,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "ArchivePerson")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn ArchivePerson(
+	ServiceReturn ArchivePerson(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1424,7 +1424,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetPerson")
 	@WebResult(name = "PersonServiceReturn")
-	public PersonServiceReturn GetPerson(
+	PersonServiceReturn GetPerson(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -1480,7 +1480,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UpdatePerson")
 	@WebResult(name = "PersonServiceReturn")
-	public PersonServiceReturn UpdatePerson(
+	PersonServiceReturn UpdatePerson(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1539,7 +1539,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddPhone")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn AddPhone(
+	ServiceReturn AddPhone(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1570,7 +1570,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "ArchivePhone")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn ArchivePhone(
+	ServiceReturn ArchivePhone(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1598,7 +1598,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetPhone")
 	@WebResult(name = "PhoneServiceReturn")
-	public PhoneServiceReturn GetPhone(
+	PhoneServiceReturn GetPhone(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -1627,7 +1627,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "SetPrimaryPhoneByType")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn SetPrimaryPhoneByType(
+	ServiceReturn SetPrimaryPhoneByType(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1659,7 +1659,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UpdatePhone")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn UpdatePhone(
+	ServiceReturn UpdatePhone(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1691,7 +1691,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddPhoto")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn AddPhoto(
+	ServiceReturn AddPhoto(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1716,7 +1716,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetPhoto")
 	@WebResult(name = "PhotoServiceReturn")
-	public PhotoServiceReturn GetPhoto(
+	PhotoServiceReturn GetPhoto(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -1738,7 +1738,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "ProcessRules")
 	@WebResult(name = "RulesServiceReturn")
-	public RulesServiceReturn ProcessRules(
+	RulesServiceReturn ProcessRules(
 			@WebParam(name = "rulesetName", mode = Mode.IN) String rulesetName,
 			@WebParam(name = "knownFacts", mode = Mode.IN) String[] knownFacts,
 			@WebParam(name = "newFact", mode = Mode.IN) String newFact);
@@ -1759,7 +1759,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "BlockUser")
 	@WebResult(name = "SecurityActionReturn")
-	public SecurityActionReturn BlockUser(
+	SecurityActionReturn BlockUser(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1783,7 +1783,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UnblockUser")
 	@WebResult(name = "SecurityActionReturn")
-	public SecurityActionReturn UnblockUser(
+	SecurityActionReturn UnblockUser(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1807,7 +1807,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "DisableUser")
 	@WebResult(name = "SecurityActionReturn")
-	public SecurityActionReturn DisableUser(
+	SecurityActionReturn DisableUser(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1831,7 +1831,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "EnableUser")
 	@WebResult(name = "SecurityActionReturn")
-	public SecurityActionReturn EnableUser(
+	SecurityActionReturn EnableUser(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1861,7 +1861,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "TransformAddress")
 	@WebResult(name = "TransformServiceReturn")
-	public TransformServiceReturn TransformAddress(
+	TransformServiceReturn TransformAddress(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -1891,7 +1891,7 @@ public interface CprwsSEI {
 
 	@WebMethod(operationName = "GetMatchCode")
 	@WebResult(name = "MatchCodeServiceReturn")
-	public MatchCodeServiceReturn GetMatchCode(
+	MatchCodeServiceReturn GetMatchCode(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -1922,7 +1922,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddUserComment")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn AddUserComment(
+	ServiceReturn AddUserComment(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1956,7 +1956,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UpdateUserComment")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn UpdateUserComment(
+	ServiceReturn UpdateUserComment(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1987,7 +1987,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetUserComments")
 	@WebResult(name = "UserCommentServiceReturn")
-	public UserCommentServiceReturn GetUserComments(
+	UserCommentServiceReturn GetUserComments(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -2020,7 +2020,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "ArchiveUserComment")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn ArchiveUserComment(
+	ServiceReturn ArchiveUserComment(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -2045,7 +2045,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddUserid")
 	@WebResult(name = "UseridServiceReturn")
-	public UseridServiceReturn AddUserid(
+	UseridServiceReturn AddUserid(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -2069,7 +2069,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddSpecialUserid")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn AddSpecialUserid(
+	ServiceReturn AddSpecialUserid(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -2093,7 +2093,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetUserid")
 	@WebResult(name = "UseridServiceReturn")
-	public UseridServiceReturn GetUserid(
+	UseridServiceReturn GetUserid(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
@@ -2117,7 +2117,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "SetPrimaryUserid")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn SetPrimaryUserid(
+	ServiceReturn SetPrimaryUserid(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -2141,7 +2141,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "ArchiveUserid")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn ArchiveUserid(
+	ServiceReturn ArchiveUserid(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -2165,7 +2165,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UnarchiveUserid")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn UnarchiveUserid(
+	ServiceReturn UnarchiveUserid(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -2190,7 +2190,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "AddPersonIdentifier")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn AddPersonIdentifier(
+	ServiceReturn AddPersonIdentifier(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -2216,7 +2216,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "UpdatePersonIdentifier")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn UpdatePersonIdentifier(
+	ServiceReturn UpdatePersonIdentifier(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -2241,7 +2241,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "ArchivePersonIdentifier")
 	@WebResult(name = "ServiceReturn")
-	public ServiceReturn ArchivePersonIdentifier(
+	ServiceReturn ArchivePersonIdentifier(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -2265,7 +2265,7 @@ public interface CprwsSEI {
 	 */
 	@WebMethod(operationName = "GetPersonIdentifier")
 	@WebResult(name = "PersonIdentifierServiceReturn")
-	public PersonIdentifierServiceReturn GetPersonIdentifier(
+	PersonIdentifierServiceReturn GetPersonIdentifier(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "requestedBy") String requestedBy,

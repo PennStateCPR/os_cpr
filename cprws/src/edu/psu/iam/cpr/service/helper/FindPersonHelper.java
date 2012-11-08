@@ -2,17 +2,12 @@
 
 package edu.psu.iam.cpr.service.helper;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.Types;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -21,23 +16,18 @@ import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.hibernate.jdbc.Work;
 import org.hibernate.type.StandardBasicTypes;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.database.helpers.DBTypesHelper;
 import edu.psu.iam.cpr.core.database.tables.DateOfBirthTable;
-import edu.psu.iam.cpr.core.database.tables.MatchResultsTable;
-import edu.psu.iam.cpr.core.database.tables.MatchingTable;
 import edu.psu.iam.cpr.core.database.tables.PersonGenderTable;
 import edu.psu.iam.cpr.core.database.tables.PsuIdTable;
 import edu.psu.iam.cpr.core.database.tables.UseridTable;
-import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.database.types.GenderType;
 import edu.psu.iam.cpr.core.database.types.MatchType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.DateOfBirthReturn;
 import edu.psu.iam.cpr.core.service.returns.GenderReturn;
@@ -45,7 +35,6 @@ import edu.psu.iam.cpr.core.service.returns.MatchReturn;
 import edu.psu.iam.cpr.core.service.returns.PsuIdReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.service.returns.UseridReturn;
-import edu.psu.iam.cpr.core.util.CprProperties;
 import edu.psu.iam.cpr.core.util.Validate;
 import edu.psu.iam.cpr.core.util.ValidateAddress;
 import edu.psu.iam.cpr.core.util.ValidateDateOfBirth;
@@ -138,12 +127,12 @@ public class FindPersonHelper {
 	 * 
 	 * @throws GeneralDatabaseException if db is null or closed.
 	 */
-	public FindPersonHelper(final Database db) throws GeneralDatabaseException {
+	public FindPersonHelper(final Database db) {
 		
 		super();
 		
 		if (db == null || !db.isSessionOpen()) {
-			throw new GeneralDatabaseException("Database is unavailable");
+			//TODO
 		}
 		
 		this.db = db;
@@ -192,6 +181,7 @@ public class FindPersonHelper {
 	 * @return will a return a find person service return object if successful.
 	 * @throws GeneralDatabaseException will be thrown if there is a general database problem.
 	 * @throws CprException will be thrown if there is a cpr specific problem.
+	 * @throws ParseException 
 	 */
 	@SuppressWarnings("unchecked")
 	public FindPersonServiceReturn doSearchForPersonOS(ServiceCoreReturn serviceCoreReturn,
@@ -212,7 +202,7 @@ public class FindPersonHelper {
 			String country, 
 			String dateOfBirth,
 			String gender, 
-			String rankCutOff) throws GeneralDatabaseException, CprException {
+			String rankCutOff) throws CprException, ParseException {
 		
 		if (ssn != null && ! ssn.trim().equals("")) {
 			Log4jLogger.debug("SearchForPerson: found ssn parm = " + ssn);
@@ -300,7 +290,7 @@ public class FindPersonHelper {
 		if (ssn != null) {
 			
 			// Need to find the key that is associated with the SSN person identifier.
-			HashMap<String,Object> map = DBTypesHelper.getInstance(db).getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+			HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
 			IdentifierType identifierType = null;
 			for (Map.Entry<String,Object> entry : map.entrySet()) {
 				identifierType = (IdentifierType) entry.getValue();
@@ -410,6 +400,7 @@ public class FindPersonHelper {
 	 * @return will a return a find person service return object if successful.
 	 * @throws GeneralDatabaseException will be thrown if there is a general database problem.
 	 * @throws CprException will be thrown if there is a cpr specific problem.
+	 * @throws ParseException 
 	 */
 	public FindPersonServiceReturn doSearchForPersonPSU(ServiceCoreReturn serviceCoreReturn,
 			String requestedBy,
@@ -429,7 +420,7 @@ public class FindPersonHelper {
 			String country, 
 			String dateOfBirth,
 			String gender, 
-			String rankCutOff) throws GeneralDatabaseException, CprException {
+			String rankCutOff) throws CprException, ParseException {
 
 		Long rankCutOffScore = FindPersonHelper.MINIMUM_RANKING_SCORE;
 		GenderType inputGenderType = null;
@@ -707,6 +698,7 @@ public class FindPersonHelper {
 		}
         
         return findPersonReturn;
+		
 	}
 	
 	/**
@@ -722,88 +714,7 @@ public class FindPersonHelper {
 	 * @param city The city to match
 	 */
 	public void getMatchCodesFromGI(final String firstName, final String middleName, final String lastName,
-						      final String address1, final String address2, final String address3, final String city) {
-		
-//		// format the inputs to the GI call
-//		final String nameMatchInput = MatchCodeService.formatNameMatchInput(firstName, middleName, lastName);
-//		final String addressMatchInput = MatchCodeService.formatAddressMatchInput(address1, address2, address3);
-//		final String cityMatchInput = MatchCodeService.formatCityMatchInput(city);
-//		
-//		boolean nameMatch = false;
-//		boolean addressMatch = false;
-//		boolean cityMatch = false;
-//		
-//		int i = 0;
-//		
-//		if (!"".equals(nameMatchInput)) {
-//			Log4jLogger.debug("FPH: name match input = " + nameMatchInput);
-//			nameMatch = true;
-//			i++;
-//		}
-//		
-//		if (!"".equals(addressMatchInput)) {
-//			Log4jLogger.debug("FPH: address match input = " + addressMatchInput);
-//			addressMatch = true;
-//			i++;
-//		}
-//		
-//		if (!"".equals(cityMatchInput)) {
-//			Log4jLogger.debug("FPH: city match input = " + cityMatchInput);
-//			cityMatch = true;
-//			i++;
-//		}
-//		
-//		final String matchInput[][] = new String[i][2];
-//		int j = 0;
-//
-//		if (nameMatch) {
-//			matchInput[j][0] = MatchCodeService.GI_MATCH_NAME;
-//			matchInput[j][1] = nameMatchInput.replace(',', ' ');
-//			j++;
-//		}
-//		
-//		if (addressMatch) {
-//			matchInput[j][0] = MatchCodeService.GI_MATCH_ADDRESS;
-//			matchInput[j][1] = addressMatchInput.replace(',', ' ');
-//			j++;
-//		}
-//
-//		if (cityMatch) {
-//			matchInput[j][0] = MatchCodeService.GI_MATCH_CITY;
-//			matchInput[j][1] = cityMatchInput.replace(',', ' ');
-//			j++;
-//		}
-//		
-//		// Get the match code(s)
-//		Log4jLogger.debug("FPH: ready to get match codes - quantity = " + j);
-//		final MatchCodeServiceReturn matchCodeServiceReturn = new MatchCodeService().getMatchCodes(matchInput);
-//		if (matchCodeServiceReturn != null && matchCodeServiceReturn.getStatusCode() == ReturnType.SUCCESS) {
-//			final String[][] matchCodesArray = matchCodeServiceReturn.getMatchCodesStringArray();
-//			for (int k = 0; k < matchCodesArray.length; k++) {
-//				String[] matchHit = matchCodesArray[k];
-//				if (matchHit.length < 4) {
-//					continue; // each matchHit should be a 4-tuple
-//				}
-//				String matchType = matchHit[0];
-//				String errorCode = matchHit[3];
-//				
-//				Log4jLogger.debug("FPH: " +
-//						"match type=[" + matchHit[0].trim() + 
-//						"] input=[" + matchHit[1].trim() +
-//						"] match code=[" + matchHit[2].trim() +
-//						"] error msg=[" + matchHit[3].trim() + "]");
-//				
-//				if (MatchCodeService.GI_MATCH_NAME.equals(matchType) && "".equals(errorCode)) {
-//					giNameMatchCode = matchHit[2].trim();
-//				} 
-//				else if (MatchCodeService.GI_MATCH_ADDRESS.equals(matchType) && "".equals(errorCode)) {
-//					giAddressMatchCode = matchHit[2].trim();
-//				} 
-//				else if (MatchCodeService.GI_MATCH_CITY.equals(matchType) && "".equals(errorCode)) {
-//					giCityMatchCode = matchHit[2].trim();
-//				}
-//			}
-//		}	
+						      final String address1, final String address2, final String address3, final String city) {		
 	}
 	
 	/**
@@ -815,7 +726,7 @@ public class FindPersonHelper {
 	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
-	public boolean matchGenderInCPR(final GenderType gender) throws GeneralDatabaseException, CprException {
+	public boolean matchGenderInCPR(final GenderType gender) throws CprException {
 		
 		// if no gender was specified, count that as a match
 		if (gender == null) {
@@ -847,7 +758,7 @@ public class FindPersonHelper {
 	 * @throws GeneralDatabaseException 
 	 * @throws CprException 
 	 */
-	public boolean matchDOBInCPR(final String dob) throws GeneralDatabaseException, CprException {
+	public boolean matchDOBInCPR(final String dob) throws CprException {
 		Log4jLogger.debug("FPH: checking date of birth; personId = " + personId + ", dob = " + dob);
 		
 		if (personId < 0) {
@@ -855,7 +766,7 @@ public class FindPersonHelper {
 		}
 		
 		if (db == null || !db.isSessionOpen()) {
-			throw new GeneralDatabaseException("Database is unavailable");
+			// TODO
 		}
 		
 		if (dob == null || "".equals(dob.trim())) {
@@ -927,16 +838,16 @@ public class FindPersonHelper {
 	 * @return true if they match; otherwise, false
 	 * @throws GeneralDatabaseException
 	 */
-	public boolean validateIDs(String psuId, String userId, String ssn) throws GeneralDatabaseException {
+	public boolean validateIDs(String psuId, String userId, String ssn) {
 		
 		// these are set to true if a parameter is not null and not an empty string
 		boolean hasPsuId = false;
 		boolean hasUserId = false;
 		boolean hasSSN = false;
 		
-		long psuIdPersonId = -1L;		// person id retrieved via psuid
-		long userIdPersonId = -1L;	// person id retrieved via userid
-		long ssnPersonId = -1L;		// person id retrieved via ssn;
+		long psuIdPersonId = -1L;		
+		long userIdPersonId = -1L;	
+		long ssnPersonId = -1L;		
 		
 		if (psuId != null) {
 			psuId = psuId.trim();
@@ -1027,7 +938,7 @@ public class FindPersonHelper {
 	 * @return the primary user ID or an empty string on error
 	 * @throws CprException 
 	 */
-	public String getPrimaryUserIdFromCPR() throws GeneralDatabaseException, CprException {
+	public String getPrimaryUserIdFromCPR() throws CprException {
 	
 		Log4jLogger.debug("FPH: now getting primary userid for person id = " + personId);
 		
@@ -1053,7 +964,7 @@ public class FindPersonHelper {
 		
 	}
 	
-	public String getPrimaryUserIdFromCPRFor(Long persId) throws GeneralDatabaseException, CprException {
+	public String getPrimaryUserIdFromCPRFor(Long persId) throws CprException {
 		
 		Log4jLogger.debug("FPH: now getting primary userid for person id = " + persId);
 		
@@ -1089,12 +1000,11 @@ public class FindPersonHelper {
 	 * @throws Exception
 	 * @return true if the matchCode matches the matchCode in the CPR; otherwise false.
 	 */
-	public boolean matchNameMatchCodeFromCPR() throws GeneralDatabaseException {
+	public boolean matchNameMatchCodeFromCPR()  {
 
 		if (personId < 0 || giNameMatchCode == null || giNameMatchCode.equals("")) {
 			return false;
 		}
-		try {
 			Session session = db.getSession();
 			SQLQuery query = session.createSQLQuery(CPR_GET_NAME_MATCH_CODES);
 			query.setParameter("person_id_in", personId);
@@ -1106,10 +1016,6 @@ public class FindPersonHelper {
 			else {
 				return false;
 			}
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve name for person identifier " + personId + "; " + e.getMessage());
-		}
 	}
 
 	/**
@@ -1119,13 +1025,12 @@ public class FindPersonHelper {
 	 * 
 	 * @return The address match code or an empty string on error
 	 */
-	public String getAddressMatchCodeFromCPR() throws GeneralDatabaseException {
+	public String getAddressMatchCodeFromCPR()  {
 		
 		if (personId < 0) {
 			return "";
 		}
 		
-		try {
 			Session session = db.getSession();
 			SQLQuery query = session.createSQLQuery(CPR_GET_ADDRESS_MATCH_CODES);
 			query.setParameter("person_id_in", personId);
@@ -1138,10 +1043,6 @@ public class FindPersonHelper {
 			else {
 				return "";
 			}
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve address for person identifier " + personId);
-		}
 	}
 	
 	/**
@@ -1151,13 +1052,12 @@ public class FindPersonHelper {
 	 * 
 	 * @return The city match code or an empty string on error
 	 */
-	public String getCityMatchCodeFromCPR() throws GeneralDatabaseException {
+	public String getCityMatchCodeFromCPR() {
 		
 		if (personId < 0) {
 			return "";
 		}
 		
-		try {
 			Session session = db.getSession();
 			SQLQuery query = session.createSQLQuery(CPR_GET_CITY_MATCH_CODES);
 			query.setParameter("person_id_in", personId);
@@ -1170,10 +1070,6 @@ public class FindPersonHelper {
 			else {
 				return "";
 			}
-		}
-		catch (Exception e) {
-			throw new GeneralDatabaseException("Unable to retrieve city for person identifier " + personId);
-		}
 	}
 	
 	/**
@@ -1183,141 +1079,143 @@ public class FindPersonHelper {
 	 * @throws CprException 
 	 */
 	public MatchReturn[] getNearMatchesFromCPR(final String state, final String postalCode, final String country,
-			final String dob, final String requestedBy, final Long rankCutOff) throws GeneralDatabaseException, CprException {
+			final String dob, final String requestedBy, final Long rankCutOff) throws CprException {
 		
-		Log4jLogger.debug("FPH: Starting near match process.");
-		Log4jLogger.debug("FPH: person id = " + personId);
-		Log4jLogger.debug("FPH: dob = " + dob);
-
-/**		
-		if (personId < 0) {
-			return new MatchReturn[0];
-		}
-*/
+//		Log4jLogger.debug("FPH: Starting near match process.");
+//		Log4jLogger.debug("FPH: person id = " + personId);
+//		Log4jLogger.debug("FPH: dob = " + dob);
+//
+///**		
+//		if (personId < 0) {
+//			return new MatchReturn[0];
+//		}
+//*/
+//		
+//		final StringBuilder parameters = new StringBuilder(1000);
+//		parameters.append("giNameMatchCode=[").append(giNameMatchCode).append("] ");
+//		parameters.append("giAddressMatchCode=[").append(giAddressMatchCode).append("] ");
+//		parameters.append("giCityMatchCode=[").append(giCityMatchCode).append("] ");
+//		if (FindPersonHelper.USA_COUNTRY_CODE.equals(country)) {
+//			parameters.append("state=[").append(state).append("] ");
+//		}
+//		else {
+//			parameters.append("country=[").append(country).append("] ");
+//		}
+//		parameters.append("postalCode=[").append(postalCode).append("] ");
+//		String testDob = dob.replaceAll("/", "");
+//		if (testDob.length() == 4) {
+//			testDob = testDob + "0000";
+//		}
+//		parameters.append("testDob=[").append(testDob).append("] ");
+//		parameters.append("requestedBy=[").append(requestedBy).append("] ");
+//		parameters.append("Types.NUMERIC=[").append(Types.NUMERIC).append("] ");
+//		Log4jLogger.info("FPH: Stored Procedure parms = " + parameters.toString());
+//
+//		Session session = db.getSession();
+//		MatchingTable matchTable = null;
+//		MatchReturn nearMatches[] = null;
+//		session.doWork(new Work() {
+//
+//			public void execute(Connection conn) {
+//				CallableStatement stmt = null;
+//				String query = new String();
+//				try {
+//					
+//					String modifiedDob = dob.replaceAll("/", "");
+//					if (modifiedDob.length() == 4) {
+//						modifiedDob = modifiedDob + "0000";
+//					}
+//					
+//					
+//					if (FindPersonHelper.USA_COUNTRY_CODE.equals(country)) {
+//						query = CPR_CALL_MATCH_PACKAGE_US;
+//					}
+//					else {
+//						query = CPR_CALL_MATCH_PACKAGE_NON_US;
+//					}
+//					
+//					stmt = conn.prepareCall(query);
+//					
+//					// Set up output and input parameters.
+//					stmt.setString(1, giNameMatchCode);
+//					stmt.setString(2, giAddressMatchCode);
+//					stmt.setString(3, giCityMatchCode);
+//					
+//					if (FindPersonHelper.USA_COUNTRY_CODE.equals(country)) {
+//						stmt.setString(4, state);
+//					}
+//					else {
+//						stmt.setString(4, country);
+//					}
+//					
+//					stmt.setString(5, postalCode);
+//					stmt.setString(6, modifiedDob);
+//					stmt.setString(7, requestedBy);
+//					stmt.registerOutParameter(8, Types.NUMERIC);
+//									
+//					// Execute the stored function.
+//					stmt.execute();
+//								
+//					// Get the status from the database.
+//					setMatchSet(stmt.getLong(8));
+//				}
+//				catch (Exception e) {
+//					setMatchSet(-1L);
+//				}
+//				finally {
+//					try {
+//						stmt.close();
+//					}
+//					catch (Exception e) {
+//					}
+//				}
+//			}		
+//		});
+//		
+//		Log4jLogger.debug("FPH: return code from stored procedure " + getMatchSet());	
+//		if (getMatchSet() == 0) {
+//			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "person");
+//		}
+//		else if (getMatchSet() == -1) {
+//			throw new GeneralDatabaseException("Exception from stored procedure");
+//		}
+//
+//		Log4jLogger.debug("FPH: Ready to select records >= rank cutoff from Match_Results table(match_set_id = " + getMatchSet() + ")");	
+//		matchTable = new MatchingTable(getMatchSet());
+//		List<MatchResultsTable> matchResults = matchTable.getMatchSetWithLimitAndCutoff(db, MAX_NEAR_MATCH_RESULTS, rankCutOff);
+//		Log4jLogger.debug("FPH: Number records selected from Match_Results table = " + matchResults.size());		
+//		Log4jLogger.debug("FPH: Ready to build near match return rows [person id, score, psu id, primary user id");
+//		if (matchResults.size() != 0) {
+//			nearMatches = new MatchReturn[matchResults.size()];
+//			// loop through matchResults and retrieve the psuId and userId for each entry
+//			int i = 0;
+//			PsuIdTable psuIdTable = new PsuIdTable(); 
+//			psuIdTable.setReturnHistoryFlag(false);
+//			for (MatchResultsTable match : matchResults) {
+//				MatchReturn nextEntry = new MatchReturn();
+//				nextEntry.setPersonId(match.getPersonId());
+//				nextEntry.setScore(match.getScore());
+//				PsuIdReturn psuIdReturn[] = psuIdTable.getPsuIdForPersonId(db, match.getPersonId());
+//				if (psuIdReturn.length == 0) {
+//					nextEntry.setPsuId(null);
+//				}
+//				else {
+//					nextEntry.setPsuId(psuIdReturn[0].getPsuId());
+//				}
+//				nextEntry.setUserId(getPrimaryUserIdFromCPRFor(match.getPersonId()));
+//				Log4jLogger.debug("FPH: return entry " + (i + 1) + 
+//						": person id = " + nextEntry.getPersonId() + 
+//						", score = " + nextEntry.getScore() +
+//						", PSU id = " + nextEntry.getPsuId() +
+//						", primary uid = " + nextEntry.getUserId());
+//				nearMatches[i] = nextEntry;
+//				i++;
+//			}
+//		}
+//		Log4jLogger.debug("FPH: near matches array complete. size = " + nearMatches.length);
+//		return nearMatches;
 		
-		final StringBuilder parameters = new StringBuilder(1000);
-		parameters.append("giNameMatchCode=[").append(giNameMatchCode).append("] ");
-		parameters.append("giAddressMatchCode=[").append(giAddressMatchCode).append("] ");
-		parameters.append("giCityMatchCode=[").append(giCityMatchCode).append("] ");
-		if (FindPersonHelper.USA_COUNTRY_CODE.equals(country)) {
-			parameters.append("state=[").append(state).append("] ");
-		}
-		else {
-			parameters.append("country=[").append(country).append("] ");
-		}
-		parameters.append("postalCode=[").append(postalCode).append("] ");
-		String testDob = dob.replaceAll("/", "");
-		if (testDob.length() == 4) {
-			testDob = testDob + "0000";
-		}
-		parameters.append("testDob=[").append(testDob).append("] ");
-		parameters.append("requestedBy=[").append(requestedBy).append("] ");
-		parameters.append("Types.NUMERIC=[").append(Types.NUMERIC).append("] ");
-		Log4jLogger.info("FPH: Stored Procedure parms = " + parameters.toString());
-
-		Session session = db.getSession();
-		MatchingTable matchTable = null;
-		MatchReturn nearMatches[] = null;
-		session.doWork(new Work() {
-
-			public void execute(Connection conn) {
-				CallableStatement stmt = null;
-				String query = new String();
-				try {
-					
-					String modifiedDob = dob.replaceAll("/", "");
-					if (modifiedDob.length() == 4) {
-						modifiedDob = modifiedDob + "0000";
-					}
-					
-					
-					if (FindPersonHelper.USA_COUNTRY_CODE.equals(country)) {
-						query = CPR_CALL_MATCH_PACKAGE_US;
-					}
-					else {
-						query = CPR_CALL_MATCH_PACKAGE_NON_US;
-					}
-					
-					stmt = conn.prepareCall(query);
-					
-					// Set up output and input parameters.
-					stmt.setString(1, giNameMatchCode);
-					stmt.setString(2, giAddressMatchCode);
-					stmt.setString(3, giCityMatchCode);
-					
-					if (FindPersonHelper.USA_COUNTRY_CODE.equals(country)) {
-						stmt.setString(4, state);
-					}
-					else {
-						stmt.setString(4, country);
-					}
-					
-					stmt.setString(5, postalCode);
-					stmt.setString(6, modifiedDob);
-					stmt.setString(7, requestedBy);
-					stmt.registerOutParameter(8, Types.NUMERIC);
-									
-					// Execute the stored function.
-					stmt.execute();
-								
-					// Get the status from the database.
-					setMatchSet(stmt.getLong(8));
-				}
-				catch (Exception e) {
-					setMatchSet(-1L);
-				}
-				finally {
-					try {
-						stmt.close();
-					}
-					catch (Exception e) {
-					}
-				}
-			}		
-		});
-		
-		Log4jLogger.debug("FPH: return code from stored procedure " + getMatchSet());	
-		if (getMatchSet() == 0) {
-			throw new CprException(ReturnType.RECORD_NOT_FOUND_EXCEPTION, "person");
-		}
-		else if (getMatchSet() == -1) {
-			throw new GeneralDatabaseException("Exception from stored procedure");
-		}
-
-		Log4jLogger.debug("FPH: Ready to select records >= rank cutoff from Match_Results table(match_set_id = " + getMatchSet() + ")");	
-		matchTable = new MatchingTable(getMatchSet());
-		List<MatchResultsTable> matchResults = matchTable.getMatchSetWithLimitAndCutoff(db, MAX_NEAR_MATCH_RESULTS, rankCutOff);
-		Log4jLogger.debug("FPH: Number records selected from Match_Results table = " + matchResults.size());		
-		Log4jLogger.debug("FPH: Ready to build near match return rows [person id, score, psu id, primary user id");
-		if (matchResults.size() != 0) {
-			nearMatches = new MatchReturn[matchResults.size()];
-			// loop through matchResults and retrieve the psuId and userId for each entry
-			int i = 0;
-			PsuIdTable psuIdTable = new PsuIdTable(); 
-			psuIdTable.setReturnHistoryFlag(false);
-			for (MatchResultsTable match : matchResults) {
-				MatchReturn nextEntry = new MatchReturn();
-				nextEntry.setPersonId(match.getPersonId());
-				nextEntry.setScore(match.getScore());
-				PsuIdReturn psuIdReturn[] = psuIdTable.getPsuIdForPersonId(db, match.getPersonId());
-				if (psuIdReturn.length == 0) {
-					nextEntry.setPsuId(null);
-				}
-				else {
-					nextEntry.setPsuId(psuIdReturn[0].getPsuId());
-				}
-				nextEntry.setUserId(getPrimaryUserIdFromCPRFor(match.getPersonId()));
-				Log4jLogger.debug("FPH: return entry " + (i + 1) + 
-						": person id = " + nextEntry.getPersonId() + 
-						", score = " + nextEntry.getScore() +
-						", PSU id = " + nextEntry.getPsuId() +
-						", primary uid = " + nextEntry.getUserId());
-				nearMatches[i] = nextEntry;
-				i++;
-			}
-		}
-		Log4jLogger.debug("FPH: near matches array complete. size = " + nearMatches.length);
-		return nearMatches;
+		return null;
 	}
 	
 	/**
@@ -1332,15 +1230,16 @@ public class FindPersonHelper {
 	public static final Date parseDateString(final String dateString, boolean lenient) throws ParseException {
 		Log4jLogger.debug("FPH: now = parseDateString for string = " + dateString);
 		
-		if (dateString == null) {
-			throw new ParseException("Date string is null", 0);
-		}
-		
-		SimpleDateFormat sdf = new SimpleDateFormat(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_FORMAT_PARTIAL_DATE.toString()));
-		sdf.setLenient(lenient);
-		Date d = sdf.parse(dateString.replace('-', '/').trim());
-		
-		return d;
+//		if (dateString == null) {
+//			throw new ParseException("Date string is null", 0);
+//		}
+//		
+//		SimpleDateFormat sdf = new SimpleDateFormat(CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_FORMAT_PARTIAL_DATE.toString()));
+//		sdf.setLenient(lenient);
+//		Date d = sdf.parse(dateString.replace('-', '/').trim());
+//		
+//		return d;
+		return null;
 	}
 	
 	/**

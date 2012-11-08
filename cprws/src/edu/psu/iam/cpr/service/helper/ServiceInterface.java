@@ -38,7 +38,7 @@ public interface ServiceInterface {
 	 * @param otherParameters contains an array of objects that are additional parameters to the service.
 	 * @return will return an object that contains the result of executing the service.
 	 */
-	public Object implementService(
+	 Object implementService(
 			String serviceName,
 			String ipAddress,
 			String principalId,

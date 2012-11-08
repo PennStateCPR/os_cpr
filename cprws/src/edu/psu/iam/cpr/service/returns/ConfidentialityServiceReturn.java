@@ -24,6 +24,8 @@
  */
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.ConfidentialityReturn;
 
 /**
@@ -81,15 +83,15 @@ public class ConfidentialityServiceReturn {
 	 * @param statusCode contains the status code that is the result of executing this service.
 	 * @param statusMessage contains the the status message.
 	 * @param numberElements contains the number of elements in the return.
-	 * @param confidentialityReturn contains the array of elements in the return.
+	 * @param confidentialityReturnArray contains the array of elements in the return.
 	 */
 	public ConfidentialityServiceReturn(int statusCode, String statusMessage,
-			int numberElements, ConfidentialityReturn[] confidentialityReturn) {
+			int numberElements, ConfidentialityReturn[] confidentialityReturnArray) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
 		this.numberElements = numberElements;
-		this.confidentialityReturn = confidentialityReturn;
+		this.confidentialityReturn = Arrays.copyOf(confidentialityReturnArray, confidentialityReturnArray.length);
 	}
 
 	/**
@@ -146,10 +148,10 @@ public class ConfidentialityServiceReturn {
 	}
 
 	/**
-	 * @param confidentialityReturn the confidentialityReturn to set
+	 * @param confidentialityReturnArray the confidentialityReturn to set
 	 */
-	public void setConfidentialityReturn(ConfidentialityReturn confidentialityReturn[]) {
-		this.confidentialityReturn = confidentialityReturn;
+	public void setConfidentialityReturn(ConfidentialityReturn confidentialityReturnArray[]) {
+		this.confidentialityReturn = Arrays.copyOf(confidentialityReturnArray, confidentialityReturnArray.length);
 	}
 
 	/**

@@ -1,14 +1,18 @@
 /* SVN FILE: $Id: UpdateAddressImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
+import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.AddressesTable;
 import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.messaging.MessagingCore;
@@ -45,7 +49,8 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class UpdateAddressImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(UpdateAddressImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(UpdateAddressImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -70,7 +75,7 @@ public class UpdateAddressImpl implements ServiceInterface {
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db=new Database();
 		
-		log4jLogger.info("UpdateAddress: Start of service.");
+		LOG4J_LOGGER.info("UpdateAddress: Start of service.");
 		try {
 			
 			final String addressType = (String) otherParameters[0];
@@ -85,7 +90,7 @@ public class UpdateAddressImpl implements ServiceInterface {
 			final String countryCode = (String) otherParameters[9];
 			final String campusCode = (String) otherParameters[10];
 			
-			final StringBuilder parameters = new StringBuilder(128);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("updatedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
@@ -101,7 +106,7 @@ public class UpdateAddressImpl implements ServiceInterface {
 			parameters.append("postalCode=[").append(postalCode).append("] ");
 			parameters.append("countryCode=[").append(countryCode).append("] ");
 			parameters.append("campusCode=[").append(campusCode).append("] ");
-			log4jLogger.info("UpdateAddress: Input Parameters = " + parameters.toString());
+			LOG4J_LOGGER.info("UpdateAddress: Input Parameters = " + parameters.toString());
 			
 
 			// Init the service.
@@ -115,7 +120,7 @@ public class UpdateAddressImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info("UpdateAddress: Found Person Id = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info("UpdateAddress: Found Person Id = " + serviceCoreReturn.getPersonId());
 
 			
 			// Validate the data passed to the service
@@ -124,7 +129,7 @@ public class UpdateAddressImpl implements ServiceInterface {
 					addressType, documentType, groupId,  updatedBy, address1, address2, address3, city, stateOrProvince, postalCode,  
 					countryCode, campusCode);
 			
-			if (CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_ADDRESS_VALIDATION.toString()).equals("YES")) {
+			if (CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_ADDRESS_VALIDATION.toString()).equals("YES")) {
 				final TransformAddressHelper transformAddressHelper = new TransformAddressHelper();
 				transformAddressHelper.transformRegistryAddress(db, serviceCoreReturn, addressTableRecord);
 			}
@@ -144,30 +149,33 @@ public class UpdateAddressImpl implements ServiceInterface {
 			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 
 
 			// Log a success!
-			log4jLogger.info("UpdateAddress: Status = SUCCESS, record updated");
+			LOG4J_LOGGER.info("UpdateAddress: Status = SUCCESS, record updated");
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
 			db.closeSession();
 		
 		}	
 		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(log4jLogger, serviceCoreReturn, db, e);
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(e.getReturnType().index(), errorMessage);
-		}		
-		catch (GeneralDatabaseException e) {
-			serviceHelper.handleGeneralDatabaseException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
 		}
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.UPDATE_FAILED_EXCEPTION.index(), e.getMessage());
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		} 
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
 		finally {
-			try {
-				mCore.closeMessaging();
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
+			mCore.closeMessaging();
 		}
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);
 	}

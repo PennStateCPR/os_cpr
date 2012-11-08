@@ -2,6 +2,8 @@
 
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.IAPReturn;
 /**
  * Copyright 2012 The Pennsylvania State University
@@ -80,10 +82,10 @@ public class IAPServiceReturn {
 	}
 
 	/**
-	 * @param iapReturnRecord the iapReturnRecord to set
+	 * @param iapReturnArray the iapReturnRecord to set
 	 */
-	public void setIapReturnRecord(IAPReturn[] iapReturnRecord) {
-		this.iapReturnRecord = iapReturnRecord;
+	public void setIapReturnRecord(IAPReturn[] iapReturnArray) {
+		this.iapReturnRecord = Arrays.copyOf(iapReturnArray, iapReturnArray.length);
 	}
 
 	/**
@@ -120,12 +122,12 @@ public class IAPServiceReturn {
 	/**
 	 * @param statusCode - contains the status code
 	 * @param statusMessage - contains the status message
-	 * @param iapReturnRecord contains the IAP Data
+	 * @param iapReturnArray contains the IAP Data
 	 * @param numberElements contains the number of elements in IAPReturn
 	 */
-	public IAPServiceReturn(int statusCode, String statusMessage, IAPReturn[] iapReturnRecord, int numberElements) {
+	public IAPServiceReturn(int statusCode, String statusMessage, IAPReturn[] iapReturnArray, int numberElements) {
 		this(statusCode, statusMessage);
-		this.iapReturnRecord = iapReturnRecord;
+		this.iapReturnRecord = Arrays.copyOf(iapReturnArray, iapReturnArray.length);
 		this.numberElements = numberElements;
 	}
 	/**

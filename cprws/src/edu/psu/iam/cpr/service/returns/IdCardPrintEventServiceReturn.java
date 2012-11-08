@@ -1,6 +1,8 @@
 /* SVN FILE: $Id: IdCardPrintEventServiceReturn.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.IdCardPrintLogReturn;
 
 /**
@@ -28,7 +30,6 @@ import edu.psu.iam.cpr.core.service.returns.IdCardPrintLogReturn;
 
 public class IdCardPrintEventServiceReturn {
 
-	
 	/** Contains the status code that is the result of executing of a service. */
 	private int statusCode;
 	
@@ -70,11 +71,11 @@ public class IdCardPrintEventServiceReturn {
 	}
 
 	/**
-	 * @param idCardPrintEventReturnRecord the idCardPrintEventReturnRecord to set
+	 * @param idCardPrintEventReturnArray the idCardPrintEventReturnRecord to set
 	 */
 	public void setIdCardPrintEventReturnRecord(
-			IdCardPrintLogReturn[] idCardPrintEventReturnRecord) {
-		this.idCardPrintEventReturnRecord = idCardPrintEventReturnRecord;
+			IdCardPrintLogReturn[] idCardPrintEventReturnArray) {
+		this.idCardPrintEventReturnRecord = Arrays.copyOf(idCardPrintEventReturnArray, idCardPrintEventReturnArray.length);
 	}
 
 	/**
@@ -101,5 +102,38 @@ public class IdCardPrintEventServiceReturn {
 	}
 
 	
+	/**
+	 * Constructor 
+	 */
+	public IdCardPrintEventServiceReturn() {
+		super();
+	}
+
+	/**
+	 * Constructor
+	 * @param statusCode contains the status code that is the result of executing this service.
+	 * @param statusMessage contains the status message.
+	 * @param idCardPrintEventReturnArray contains the query results.
+	 * @param numberIdCardPrintEventElements contains the number of elements in the array.
+	 */
+	public IdCardPrintEventServiceReturn(int statusCode, String statusMessage,
+			IdCardPrintLogReturn[] idCardPrintEventReturnArray,
+			int numberIdCardPrintEventElements) {
+		super();
+		this.statusCode = statusCode;
+		this.statusMessage = statusMessage;
+		this.idCardPrintEventReturnRecord = Arrays.copyOf(idCardPrintEventReturnArray, idCardPrintEventReturnArray.length);
+		this.numberIdCardPrintEventElements = numberIdCardPrintEventElements;
+	}
 	
+	/**
+	 * Constructor
+	 * @param statusCode contains the status code that is the result of executing this service.
+	 * @param statusMessage contains the status message.
+	 */
+	public IdCardPrintEventServiceReturn(int statusCode, String statusMessage) {
+		super();
+		this.statusCode = statusCode;
+		this.statusMessage = statusMessage;
+	}
 }

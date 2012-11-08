@@ -1,13 +1,14 @@
 /* SVN FILE: $Id: ArchiveCredentialImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
-import org.apache.log4j.Logger;
+import javax.naming.NamingException;
 
+import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.CredentialTable;
 import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
@@ -40,7 +41,8 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class ArchiveCredentialImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(ArchiveCredentialImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(ArchiveCredentialImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -64,18 +66,18 @@ public class ArchiveCredentialImpl implements ServiceInterface {
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
 
-		log4jLogger.info(serviceName + ": Start of service.");
+		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
 			final String credentialType = (String) otherParameters[0];
 			
-			final StringBuilder parameters = new StringBuilder(10000);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("updatedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
 			parameters.append("identifier=[").append(identifier).append("] ");
 			parameters.append("credentialType=[").append(credentialType).append("] ");
-			log4jLogger.info(serviceName + ": Input parameters = " + parameters.toString());
+			LOG4J_LOGGER.info(serviceName + ": Input parameters = " + parameters.toString());
 
 			// Init the service.
 			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
@@ -88,14 +90,14 @@ public class ArchiveCredentialImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info(serviceName + ": Found person identifier = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info(serviceName + ": Found person identifier = " + serviceCoreReturn.getPersonId());
 									
 			// Validate the parameters for the delete.
 			final CredentialTable credentialTable = ValidateCredential.validateArchiveCredentialParameters(db, 
 					serviceCoreReturn.getPersonId(), credentialType, updatedBy);
 				
 			// Determine if the caller is authorized to make this call.
-			log4jLogger.info(serviceName + ": Determing if the caller is authorized");
+			LOG4J_LOGGER.info(serviceName + ": Determing if the caller is authorized");
 			db.isDataActionAuthorized(serviceCoreReturn, credentialTable.getCredentialType().toString(), 
 					AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 			
@@ -104,26 +106,24 @@ public class ArchiveCredentialImpl implements ServiceInterface {
 			
 			// Log a success!
 			serviceCoreReturn.getServiceLogTable().endLog(db, "SUCCESS!");
-			log4jLogger.info(serviceName + ": SUCCESS!");
+			LOG4J_LOGGER.info(serviceName + ": SUCCESS!");
 		
 			// Commit
 			db.closeSession();
 		} 
 		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(log4jLogger, serviceCoreReturn, db, e);
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(e.getReturnType().index(), errorMessage);
 		}
-		catch (GeneralDatabaseException e) {
-			serviceHelper.handleGeneralDatabaseException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.ARCHIVE_FAILED_EXCEPTION.index(), e.getMessage());
-		} 
-		finally {
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
 		}
-		log4jLogger.info(serviceName + ": End of service.");
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		}
+		LOG4J_LOGGER.info(serviceName + ": End of service.");
 		
 		// Success so return it.
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), "Success!");

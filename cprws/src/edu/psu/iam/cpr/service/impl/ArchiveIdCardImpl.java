@@ -1,11 +1,17 @@
 /* SVN FILE: $Id: ArchiveIdCardImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
+import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.IdCardTable;
 import edu.psu.iam.cpr.core.database.types.AccessType;
+import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.messaging.MessagingCore;
@@ -39,7 +45,8 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class ArchiveIdCardImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(ArchiveIdCardImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(ArchiveIdCardImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -63,21 +70,21 @@ public class ArchiveIdCardImpl implements ServiceInterface {
 		final Database db = new Database();
 		MessagingCore mCore=null;
 		final ServiceHelper serviceHelper = new ServiceHelper();
-		log4jLogger.info("ArchiveIdCard: Start of service.");
+		LOG4J_LOGGER.info("ArchiveIdCard: Start of service.");
 
 		try {
 			
 			final String idCardType = (String) otherParameters[0];
 			
 			// Build the parameters string.
-			final StringBuilder parameters = new StringBuilder(10000);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("updatedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
 			parameters.append("identifier=[").append(identifier).append("] ");
 			parameters.append("idCardType=[").append(idCardType).append("] ");
 			
-			log4jLogger.info("ArchiveIdCard: Input Parameters = " + parameters.toString());
+			LOG4J_LOGGER.info("ArchiveIdCard: Input Parameters = " + parameters.toString());
 			
 			// Init the service.
 			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
@@ -90,20 +97,20 @@ public class ArchiveIdCardImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info("ArchiveIdCard: Found Person Id = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info("ArchiveIdCard: Found Person Id = " + serviceCoreReturn.getPersonId());
 			
 			
 			final IdCardTable idCardTableRecord = ValidateIdCard.validateArchiveIdCardParameters(db, serviceCoreReturn.getPersonId(), 
 					updatedBy, idCardType);
 			if (idCardTableRecord != null) {
-				log4jLogger.info("ArchiveIdCard: ValidateIdCard.validateArchiveIdCardParameters returned an IdCardRecord");
+				LOG4J_LOGGER.info("ArchiveIdCard: ValidateIdCard.validateArchiveIdCardParameters returned an IdCardRecord");
 			}
 			
 			db.isDataActionAuthorized(serviceCoreReturn,idCardTableRecord.getIdCardType().toString(), 
 					AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
-			log4jLogger.info("ArchiveIdCard: WriteAccess is valid");
+			LOG4J_LOGGER.info("ArchiveIdCard: WriteAccess is valid");
 			idCardTableRecord.archiveIdCard(db);
-			log4jLogger.info("ArchiveIdCard:Return from archivedIdCard");
+			LOG4J_LOGGER.info("ArchiveIdCard:Return from archivedIdCard");
 			
 			// Create a new json message.
 			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
@@ -113,24 +120,35 @@ public class ArchiveIdCardImpl implements ServiceInterface {
 			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 
 		
 			// Log a success!
-			log4jLogger.info("ArchiveIdCard: Status = SUCCESS, record added.");
+			LOG4J_LOGGER.info("ArchiveIdCard: Status = SUCCESS, record added.");
 
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
 			db.closeSession();
 		}	
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.ARCHIVE_FAILED_EXCEPTION.index(), e.getMessage());
+		catch (CprException e) {
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(e.getReturnType().index(), errorMessage);
+		}
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		} 
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
 		finally {
-			try {
-  				mCore.closeMessaging();
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
+  			mCore.closeMessaging();
 		}
-		log4jLogger.info("ArchiveIdCard: End of service.");
+		LOG4J_LOGGER.info("ArchiveIdCard: End of service.");
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);
 	}
 

@@ -1,6 +1,8 @@
 /* SVN FILE: $Id: UseridServiceReturn.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.UseridReturn;
 
 /**
@@ -51,15 +53,15 @@ public class UseridServiceReturn {
 	/**
 	 * @param statusCode contains the status code as the result of executing this service.
 	 * @param statusMessage contains the status message associated with executing this service.
-	 * @param useridReturnRecord contains an array of userid records.
+	 * @param useridReturnArray contains an array of userid records.
 	 * @param numberElements contains the number of elements in the array.
 	 */
 	public UseridServiceReturn(int statusCode, String statusMessage,  
-			UseridReturn[] useridReturnRecord, int numberElements) {
+			UseridReturn[] useridReturnArray, int numberElements) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.useridReturnRecord = useridReturnRecord;
+		this.useridReturnRecord = Arrays.copyOf(useridReturnArray, useridReturnArray.length);
 		this.numberElements = numberElements;
 	}
 
@@ -108,10 +110,10 @@ public class UseridServiceReturn {
 	}
 	
 	/**
-	 * @param useridReturnRecord the useridReturnRecord to set
+	 * @param useridReturnArray the useridReturnRecord to set
 	 */
-	public void setUseridReturnRecord(UseridReturn[] useridReturnRecord) {
-		this.useridReturnRecord = useridReturnRecord;
+	public void setUseridReturnRecord(UseridReturn[] useridReturnArray) {
+		this.useridReturnRecord = Arrays.copyOf(useridReturnArray, useridReturnArray.length);
 	}
 	
 	/**

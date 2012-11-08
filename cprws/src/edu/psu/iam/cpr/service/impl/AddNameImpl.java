@@ -1,13 +1,17 @@
 /* SVN FILE: $Id: AddNameImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
+import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.NamesTable;
 import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.messaging.MessagingCore;
@@ -42,7 +46,8 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class AddNameImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(AddNameImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(AddNameImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -67,7 +72,7 @@ public class AddNameImpl implements ServiceInterface {
 		final Database db = new Database();
 		final ServiceHelper serviceHelper = new ServiceHelper();
 		
-		log4jLogger.info("AddName: Start of service.");
+		LOG4J_LOGGER.info("AddName: Start of service.");
 		try {
 			
 			final String nameType = (String) otherParameters[0];
@@ -77,7 +82,7 @@ public class AddNameImpl implements ServiceInterface {
 			final String lastName = (String) otherParameters[4];
 			final String suffix = (String) otherParameters[5];
 			
-			final StringBuilder parameters = new StringBuilder(10000);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("updatedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
@@ -88,7 +93,7 @@ public class AddNameImpl implements ServiceInterface {
 			parameters.append("middleNames=[").append(middleNames).append("] ");
 			parameters.append("lastName=[").append(lastName).append("] ");
 			parameters.append("suffix=[").append(suffix).append("] ");
-			log4jLogger.info("AddName: Input Parameters = " + parameters.toString());
+			LOG4J_LOGGER.info("AddName: Input Parameters = " + parameters.toString());
 			
 			// Init the service.
 			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
@@ -101,56 +106,60 @@ public class AddNameImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info("AddName: Found person identifier = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info("AddName: Found person identifier = " + serviceCoreReturn.getPersonId());
 			
 			// Validate the service parameters.
 			final NamesTable namesTable = ValidateName.validateAddNameParameters(db, serviceCoreReturn.getPersonId(), nameType, 
 					documentType, firstName, middleNames, lastName, suffix, updatedBy);
 
 			// Determine if the caller is authorized to make this call.
-			log4jLogger.info("AddName: Determing if the caller is authorized");
+			LOG4J_LOGGER.info("AddName: Determing if the caller is authorized");
 			db.isDataActionAuthorized(serviceCoreReturn, namesTable.getNameType().toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 			
 			// Add the name to the database table.
-			log4jLogger.info("AddName: Add the name to the database.");
+			LOG4J_LOGGER.info("AddName: Add the name to the database.");
 			namesTable.addName(db);
 			
 			// Create a new json message.
 			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
 			jsonMessage.setName(namesTable);
-			log4jLogger.info("AddName: Created a JSON Message = " + jsonMessage.toString());
+			LOG4J_LOGGER.info("AddName: Created a JSON Message = " + jsonMessage.toString());
 				
 			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 		
 			
 			// Log a success!
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
 			
-			log4jLogger.info("AddName: SUCCESS!");
+			LOG4J_LOGGER.info("AddName: SUCCESS!");
 			
 			// Commit
 			db.closeSession();
 		} 
 		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(log4jLogger, serviceCoreReturn, db, e);
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(e.getReturnType().index(), errorMessage);
 		}
-		catch (GeneralDatabaseException e) {
-			serviceHelper.handleGeneralDatabaseException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
 		} 
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.ADD_FAILED_EXCEPTION.index(), e.getMessage());
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
 		finally {
-			try {
-				mCore.closeMessaging();
-			}
-			catch (Exception e) {
-			}
+			mCore.closeMessaging();
 		}
 		
-		log4jLogger.info("AddName: End of service.");
+		LOG4J_LOGGER.info("AddName: End of service.");
 
 		// Return the status to the caller.
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);

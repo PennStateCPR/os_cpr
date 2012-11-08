@@ -1,6 +1,8 @@
 /* SVN FILE: $Id: CredentialServiceReturn.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.CredentialReturn;
 
 
@@ -51,15 +53,15 @@ public class CredentialServiceReturn {
 	 * Constructor
 	 * @param statusCode contains the status code that is the result of executing this service.
 	 * @param statusMessage contains the status message that is the result of executing this service.
-	 * @param credentialReturnRecord contains an array of credential return objects.
+	 * @param credentialReturnRecordArray contains an array of credential return objects.
 	 * @param numberElements contains the number of elements in the array.
 	 */
 	public CredentialServiceReturn(int statusCode, String statusMessage,
-			CredentialReturn[] credentialReturnRecord, int numberElements) {
+			CredentialReturn[] credentialReturnRecordArray, int numberElements) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.credentialReturnRecord = credentialReturnRecord;
+		this.credentialReturnRecord = Arrays.copyOf(credentialReturnRecordArray, credentialReturnRecordArray.length);
 		this.numberElements = numberElements;
 	}
 
@@ -109,10 +111,10 @@ public class CredentialServiceReturn {
 	}
 
 	/**
-	 * @param credentialReturnRecord the credentialReturnRecord to set
+	 * @param credentialReturnRecordArray the credentialReturnRecord to set
 	 */
-	public void setCredentialReturnRecord(CredentialReturn[] credentialReturnRecord) {
-		this.credentialReturnRecord = credentialReturnRecord;
+	public void setCredentialReturnRecord(CredentialReturn[] credentialReturnRecordArray) {
+		this.credentialReturnRecord = Arrays.copyOf(credentialReturnRecordArray, credentialReturnRecordArray.length);
 	}
 
 	/**

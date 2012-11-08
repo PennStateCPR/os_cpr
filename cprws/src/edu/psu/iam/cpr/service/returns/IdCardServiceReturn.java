@@ -1,6 +1,8 @@
 /* SVN FILE: $Id$ */
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.PersonIdCardReturn;
 import edu.psu.iam.cpr.core.service.returns.PhotoReturn;
 
@@ -75,11 +77,11 @@ public class IdCardServiceReturn {
 		return personIdCardsReturnRecord;
 	}
 	/**
-	 * @param personIdCardsReturnRecord the personIdCardsReturnRecord to set
+	 * @param personIdCardsReturnArray the personIdCardsReturnRecord to set
 	 */
 	public void setPersonIdCardsReturnRecord(
-			PersonIdCardReturn[] personIdCardsReturnRecord) {
-		this.personIdCardsReturnRecord = personIdCardsReturnRecord;
+			PersonIdCardReturn[] personIdCardsReturnArray) {
+		this.personIdCardsReturnRecord = Arrays.copyOf(personIdCardsReturnArray, personIdCardsReturnArray.length);
 	}
 	/**
 	 * @return the numberPersonIdCardElements
@@ -101,10 +103,10 @@ public class IdCardServiceReturn {
 		return photoReturn;
 	}
 	/**
-	 * @param photoReturn the photoReturn to set
+	 * @param photoArray the photoReturn to set
 	 */
-	public void setPhotoReturn(PhotoReturn[] photoReturn) {
-		this.photoReturn = photoReturn;
+	public void setPhotoReturn(PhotoReturn[] photoArray) {
+		this.photoReturn = Arrays.copyOf(photoArray, photoArray.length);
 	}
 	/**
 	 * 
@@ -126,19 +128,19 @@ public class IdCardServiceReturn {
 	/**
 	 * @param statusCode
 	 * @param statusMessage
-	 * @param personIdCardsReturnRecord
+	 * @param personIdCardsReturnArray
 	 * @param numberPersonIdCardElements
-	 * @param photoReturn
+	 * @param photoArray
 	 */
 	public IdCardServiceReturn(int statusCode, String statusMessage,
-			PersonIdCardReturn[] personIdCardsReturnRecord,
-			int numberPersonIdCardElements, PhotoReturn[] photoReturn) {
+			PersonIdCardReturn[] personIdCardsReturnArray,
+			int numberPersonIdCardElements, PhotoReturn[] photoArray) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.personIdCardsReturnRecord = personIdCardsReturnRecord;
+		this.personIdCardsReturnRecord = Arrays.copyOf(personIdCardsReturnArray, personIdCardsReturnArray.length);
 		this.numberPersonIdCardElements = numberPersonIdCardElements;
-		this.photoReturn = photoReturn;
+		this.photoReturn = Arrays.copyOf(photoArray, photoArray.length);
 	}
 	
 	

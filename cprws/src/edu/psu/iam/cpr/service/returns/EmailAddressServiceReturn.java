@@ -22,6 +22,8 @@
  */
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.EmailAddressReturn;
 
 /**
@@ -58,16 +60,16 @@ public class EmailAddressServiceReturn {
 	 * Constructor
 	 * @param statusCode status code that is returned as the result of executing a service.
 	 * @param statusMessage the status message that is returned as the result of executing a service.
-	 * @param emailAddressReturnRecord the e-mail address return record only will be populated for a GetEmailAddress service call. 
+	 * @param emailAddressReturnRecordArray the e-mail address return record only will be populated for a GetEmailAddress service call. 
 	 * @param numberElements the number of elements in the emailAddressReturnRecord array.
 	 */
 	public EmailAddressServiceReturn(int statusCode, String statusMessage,
-			EmailAddressReturn[] emailAddressReturnRecord,
+			EmailAddressReturn[] emailAddressReturnRecordArray,
 			int numberElements) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.emailAddressReturnRecord = emailAddressReturnRecord;
+		this.emailAddressReturnRecord = Arrays.copyOf(emailAddressReturnRecordArray, emailAddressReturnRecordArray.length);
 		this.numberElements = numberElements;
 	}
 	
@@ -123,11 +125,11 @@ public class EmailAddressServiceReturn {
 	}
 
 	/**
-	 * @param emailAddressReturnRecord the emailAddressReturnRecord to set
+	 * @param emailAddressReturnRecordArray the emailAddressReturnRecord to set
 	 */
 	public void setEmailAddressReturnRecord(
-			EmailAddressReturn[] emailAddressReturnRecord) {
-		this.emailAddressReturnRecord = emailAddressReturnRecord;
+			EmailAddressReturn[] emailAddressReturnRecordArray) {
+		this.emailAddressReturnRecord = Arrays.copyOf(emailAddressReturnRecordArray, emailAddressReturnRecordArray.length);
 	}
 
 	/**

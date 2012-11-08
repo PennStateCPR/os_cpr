@@ -1,11 +1,19 @@
 /* SVN FILE: $Id: AddIdCardImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
+import java.text.ParseException;
+
+import javax.jms.JMSException;
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
+import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.IdCardTable;
 import edu.psu.iam.cpr.core.database.types.AccessType;
+import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.messaging.MessagingCore;
@@ -39,7 +47,8 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class AddIdCardImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(AddIdCardImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(AddIdCardImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -63,7 +72,7 @@ public class AddIdCardImpl implements ServiceInterface {
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
 		MessagingCore mCore=null;
-		log4jLogger.info("AddIdCard: Start of service.");
+		LOG4J_LOGGER.info("AddIdCard: Start of service.");
 		
 		try {
 			
@@ -74,7 +83,7 @@ public class AddIdCardImpl implements ServiceInterface {
 			final String photoDateTaken = (String) otherParameters[4];
 			
 			// Build the parameters string.
-			final StringBuilder parameters = new StringBuilder(10000);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("updatedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
@@ -84,7 +93,7 @@ public class AddIdCardImpl implements ServiceInterface {
 			parameters.append("idSerialNumber=[").append(idSerialNumber).append("] ");
 			parameters.append("photo=[BYTE DATA] ");
 			parameters.append("photoDateTaken=[").append(photoDateTaken).append("] ");
-			log4jLogger.info("AddIdCard: Input Parameters = " + parameters.toString());
+			LOG4J_LOGGER.info("AddIdCard: Input Parameters = " + parameters.toString());
 			
 			// Init the service.
 			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
@@ -97,7 +106,7 @@ public class AddIdCardImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info("AddIdCard: Found Person Id = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info("AddIdCard: Found Person Id = " + serviceCoreReturn.getPersonId());
 			
 			final IdCardTable idCardTableRecord = ValidateIdCard.validateAddUpdateIdCardParameters(db, serviceCoreReturn.getPersonId(), 
 						idCardType,updatedBy, idCardNumber, idSerialNumber, photo, photoDateTaken);
@@ -113,26 +122,41 @@ public class AddIdCardImpl implements ServiceInterface {
 			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 
 		
 			// Log a success!
-			log4jLogger.info("AddIdCard: Status = SUCCESS, record added.");
+			LOG4J_LOGGER.info("AddIdCard: Status = SUCCESS, record added.");
 
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
 			db.closeSession();
 		}	
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.ADD_FAILED_EXCEPTION.index(), e.getMessage());
+		catch (CprException e) {
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(e.getReturnType().index(), errorMessage);
+		}
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		} 
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (ParseException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		finally {
-			try {
-  				mCore.closeMessaging();
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
+  			mCore.closeMessaging();
 		}
-		log4jLogger.info("AddIdCard: End of service.");
+		LOG4J_LOGGER.info("AddIdCard: End of service.");
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);
-		
+
 	}
 
 }

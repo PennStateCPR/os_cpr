@@ -1,6 +1,8 @@
 /* SVN FILE: $Id: PhoneServiceReturn.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.PhoneReturn;
 
 /**
@@ -88,7 +90,7 @@ public class PhoneServiceReturn {
 	 * @param phoneArray the phoneReturnRecord to set
 	 */
 	public void setPhoneReturnRecord(PhoneReturn[] phoneArray) {
-		this.phoneReturnRecord = phoneArray;
+		this.phoneReturnRecord = Arrays.copyOf(phoneArray, phoneArray.length);
 	}
 
 	/**
@@ -130,15 +132,15 @@ public class PhoneServiceReturn {
 	 * Constructor
 	 * @param statusCode status code that is returned as the result of executing a service.
 	 * @param statusMessage the status message that is returned as the result of executing a service.
-	 * @param phoneReturnRecord the phone return record only will be populated for the GetPhone service call.
+	 * @param phoneArray the phone return record only will be populated for the GetPhone service call.
 	 * @param numberElements the number of elements in the phoneReturnRecord array.
 	 */
 	public PhoneServiceReturn(int statusCode, String statusMessage,
-			PhoneReturn[] phoneReturnRecord, int numberElements) {
+			PhoneReturn[] phoneArray, int numberElements) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.phoneReturnRecord = phoneReturnRecord;
+		this.phoneReturnRecord = Arrays.copyOf(phoneArray, phoneArray.length);
 		this.numberElements = numberElements;
 	}
 	

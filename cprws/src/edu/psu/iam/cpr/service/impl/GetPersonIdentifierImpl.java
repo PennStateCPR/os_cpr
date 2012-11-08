@@ -1,12 +1,14 @@
 /* SVN FILE: $Id: GetPersonIdentifierImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.PersonIdentifierTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.PersonIdentifierReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
@@ -40,7 +42,8 @@ import edu.psu.iam.cpr.service.returns.PersonIdentifierServiceReturn;
  */
 public class GetPersonIdentifierImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(GetPersonIdentifierImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetPersonIdentifierImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -63,20 +66,20 @@ public class GetPersonIdentifierImpl implements ServiceInterface {
 		final Database db = new Database();
 		final ServiceHelper serviceHelper = new ServiceHelper();
 		
-		log4jLogger.info(serviceName + ": Start of service.");
+		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		
 		try {
 			final String registryIdentifierType = (String) otherParameters[0];
 			final String returnHistory 			= (String) otherParameters[1];
 			
-			final StringBuilder parameters = new StringBuilder(10000);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("requestedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
 			parameters.append("identifier=[").append(identifier).append("] ");
 			parameters.append("registryIdentifierType=[").append(registryIdentifierType).append("] ");
 			parameters.append("returnHistory=[").append(returnHistory).append("] ");
-			log4jLogger.info(serviceName + ": input parameters = " + parameters.toString());
+			LOG4J_LOGGER.info(serviceName + ": input parameters = " + parameters.toString());
 
 			// Init the service.
 			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
@@ -89,7 +92,7 @@ public class GetPersonIdentifierImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info(serviceName + ": person identifier found =" + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info(serviceName + ": person identifier found =" + serviceCoreReturn.getPersonId());
 			
 			// Do the Get.
 			final PersonIdentifierTable personIdentifierTable = ValidatePersonIdentifier.validateGetPersonIdentifierParameters(db, 
@@ -102,31 +105,32 @@ public class GetPersonIdentifierImpl implements ServiceInterface {
 			// Build the return class.
 			serviceReturn = new PersonIdentifierServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, 
 					queryResults, queryResults.length);
-			log4jLogger.info(serviceName + ": get person identifier, records returned = " + queryResults.length);
+			LOG4J_LOGGER.info(serviceName + ": get person identifier, records returned = " + queryResults.length);
 			
 			// Log a success!
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
 			
-			log4jLogger.info(serviceName + ": success!");
+			LOG4J_LOGGER.info(serviceName + ": success!");
 
 			// Commit.
 			db.closeSession();
 			
 		}
-		catch (GeneralDatabaseException e) {
-			serviceHelper.handleGeneralDatabaseException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new PersonIdentifierServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-		} 
 		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(log4jLogger, serviceCoreReturn, db, e);
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new PersonIdentifierServiceReturn(e.getReturnType().index(), errorMessage);
 		}
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new PersonIdentifierServiceReturn(ReturnType.RECORD_NOT_FOUND_EXCEPTION.index(), e.getMessage());
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new PersonIdentifierServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new PersonIdentifierServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+			
 		}
 		
-		log4jLogger.info(serviceName + ": End of service.");
+		LOG4J_LOGGER.info(serviceName + ": End of service.");
 		
 		// Return a successful status to the caller.
 		return (Object) serviceReturn;

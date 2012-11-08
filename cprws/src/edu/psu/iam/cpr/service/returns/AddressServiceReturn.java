@@ -2,6 +2,8 @@
 
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.AddressReturn;
 /**
  * Copyright 2012 The Pennsylvania State University
@@ -74,8 +76,8 @@ public class AddressServiceReturn {
 	/**
 	 * @param addressReturnRecord the addressReturnRecord to set
 	 */
-	public void setAddressReturnRecord(AddressReturn[] addressReturnRecord) {
-		this.addressReturnRecord = addressReturnRecord;
+	public void setAddressReturnRecord(AddressReturn[] addressReturnArray) {
+		this.addressReturnRecord = Arrays.copyOf(addressReturnArray, addressReturnArray.length);
 	}
 
 	/**
@@ -132,11 +134,11 @@ public class AddressServiceReturn {
 	 * @param numberElements the number of elements in the addressReturnRecord array.
 	 */
 	public AddressServiceReturn(int statusCode, String statusMessage,
-			AddressReturn[] addressReturnRecord, int numberElements) {
+			AddressReturn[] addressReturnArray, int numberElements) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.addressReturnRecord = addressReturnRecord;
+		this.addressReturnRecord = Arrays.copyOf(addressReturnArray, addressReturnArray.length);
 		this.numberElements = numberElements;
 	}
 	/**

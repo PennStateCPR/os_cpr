@@ -1,6 +1,8 @@
 /* SVN FILE: $Id: RulesServiceReturn.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 /**
  * Provides the implementation of the RulesServiceReturn class.
  * 
@@ -49,15 +51,15 @@ public class RulesServiceReturn {
 	 * @param statusCode return status that is the result of executing this service.
 	 * @param statusMessage return message that is the result of executing this service.
 	 * @param numberOfFacts contains the number of facts that are returned to the caller.
-	 * @param facts contains the facts array.
+	 * @param factsArray contains the facts array.
 	 */
 	public RulesServiceReturn(int statusCode, String statusMessage,
-			int numberOfFacts, String[] facts) {
+			int numberOfFacts, String[] factsArray) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
 		this.numberOfFacts = numberOfFacts;
-		this.facts = facts;
+		this.facts = Arrays.copyOf(factsArray, factsArray.length);
 	}
 
 	/**
@@ -121,10 +123,10 @@ public class RulesServiceReturn {
 	}
 
 	/**
-	 * @param facts the facts to set
+	 * @param factsArray the facts to set
 	 */
-	public void setFacts(String[] facts) {
-		this.facts = facts;
+	public void setFacts(String[] factsArray) {
+		this.facts = Arrays.copyOf(factsArray, factsArray.length);
 	}
 	
 }

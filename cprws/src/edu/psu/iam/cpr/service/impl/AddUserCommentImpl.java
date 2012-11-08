@@ -1,13 +1,17 @@
 /* SVN FILE: $Id: AddUserCommentImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
+import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.UserCommentTable;
 import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.messaging.MessagingCore;
@@ -42,7 +46,8 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class AddUserCommentImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(AddUserCommentImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(AddUserCommentImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -67,14 +72,14 @@ public class AddUserCommentImpl implements ServiceInterface {
 		final Database db = new Database();
 		final ServiceHelper serviceHelper = new ServiceHelper();
 		
-		log4jLogger.info(serviceName + ": Start of service.");
+		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
 			final String userId = (String) otherParameters[0];
 			final String userCommentType = (String) otherParameters[1];
 			final String comment = (String) otherParameters[2];
 			
-			final StringBuilder parameters = new StringBuilder(5000);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("updatedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
@@ -82,7 +87,7 @@ public class AddUserCommentImpl implements ServiceInterface {
 			parameters.append("userId=[").append(userId).append("] ");
 			parameters.append("userCommentType=[").append(userCommentType).append("] ");
 			parameters.append("comment=[").append(comment).append("] ");
-			log4jLogger.info(serviceName + ": Input Parameters = " + parameters.toString());
+			LOG4J_LOGGER.info(serviceName + ": Input Parameters = " + parameters.toString());
 			
 			// Init the service.
 			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
@@ -95,28 +100,28 @@ public class AddUserCommentImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info(serviceName + ": Found Person Id = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info(serviceName + ": Found Person Id = " + serviceCoreReturn.getPersonId());
 
 			// Validate the data passed into the service.
 			final UserCommentTable userCommentTable = ValidateUserComment.validateUserCommentParameters(db, serviceCoreReturn.getPersonId(), userId, userCommentType, comment, updatedBy);
 
 			// Determine if the caller is authorized to make this call.
-			log4jLogger.info(serviceName + ": Determing if the caller is authorized");
+			LOG4J_LOGGER.info(serviceName + ": Determing if the caller is authorized");
 			db.isDataActionAuthorized(serviceCoreReturn, userCommentTable.getUserCommentType().toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 
 			// Insert the record.
-			log4jLogger.info(serviceName + ": Add the user comment to the database.");
+			LOG4J_LOGGER.info(serviceName + ": Add the user comment to the database.");
 			userCommentTable.addUserComment(db);
 			
 			// Create a new json message.
 			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
 			jsonMessage.setUserComment(userCommentTable);
-			log4jLogger.info(serviceName + ": Created a JSON Message = " + jsonMessage.toString());
+			LOG4J_LOGGER.info(serviceName + ": Created a JSON Message = " + jsonMessage.toString());
 			
 			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 				
 			
 			// Log a success!
-			log4jLogger.info(serviceName + ": Status = SUCCESS, User Comment added");
+			LOG4J_LOGGER.info(serviceName + ": Status = SUCCESS, User Comment added");
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
 			
 			// Commit
@@ -124,27 +129,30 @@ public class AddUserCommentImpl implements ServiceInterface {
 		}
 
 		catch (CprException e) {
-			String errorMessage = serviceHelper.handleCprException(log4jLogger, serviceCoreReturn, db, e);
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(e.getReturnType().index(), errorMessage);
 		}
-		catch (GeneralDatabaseException e) {
-			serviceHelper.handleGeneralDatabaseException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
 		} 
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.ADD_FAILED_EXCEPTION.index(), e.getMessage());
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
 		finally {
-			try {
-				mCore.closeMessaging();
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
+			mCore.closeMessaging();
 		}		
 		// Return a successful status.
-		log4jLogger.info(serviceName + ": End of service.");
+		LOG4J_LOGGER.info(serviceName + ": End of service.");
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);
 	}
 

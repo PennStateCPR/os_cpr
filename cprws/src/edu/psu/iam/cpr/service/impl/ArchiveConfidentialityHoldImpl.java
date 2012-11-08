@@ -1,13 +1,17 @@
 /* SVN FILE: $Id: ArchiveConfidentialityHoldImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
+import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.ConfidentialityTable;
 import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.messaging.MessagingCore;
@@ -42,7 +46,8 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class ArchiveConfidentialityHoldImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(ArchiveConfidentialityHoldImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(ArchiveConfidentialityHoldImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -67,20 +72,20 @@ public class ArchiveConfidentialityHoldImpl implements ServiceInterface {
 		MessagingCore mCore = null;
 		final Database db = new Database();
 		
-		log4jLogger.info("ArchiveConfidentialityHold: Start of service.");
+		LOG4J_LOGGER.info("ArchiveConfidentialityHold: Start of service.");
 		
 		try {
 			
 			final String confidentialityType = (String) otherParameters[0];
 			
 			// Build the parameter list.
-			final StringBuilder parameters = new StringBuilder(10000);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("updatedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
 			parameters.append("identifier=[").append(identifier).append("] ");
 			parameters.append("confidentialityType=[").append(confidentialityType).append("] ");
-			log4jLogger.info("ArchiveConfidentialityHold: input parameters = " + parameters.toString());
+			LOG4J_LOGGER.info("ArchiveConfidentialityHold: input parameters = " + parameters.toString());
 
 			// Init the service.
 			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
@@ -93,7 +98,7 @@ public class ArchiveConfidentialityHoldImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
 
 			// Validate the input parameters.
 			final ConfidentialityTable confidentialityTable = ValidateConfidentiality.validateArchiveConfidentialityParameters(db, 
@@ -104,13 +109,13 @@ public class ArchiveConfidentialityHoldImpl implements ServiceInterface {
 											AccessType.ACCESS_OPERATION_ARCHIVE.toString(), updatedBy);
 
 			// Archive the hold.
-			log4jLogger.info(serviceName + ": archive confidentiality hold.");
+			LOG4J_LOGGER.info(serviceName + ": archive confidentiality hold.");
 			confidentialityTable.archiveConfidentiality(db);
 			
 			// Create a new json message.
 			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
 			jsonMessage.setConfidentiality(confidentialityTable);
-			log4jLogger.info(serviceName + ": JSON message = " + jsonMessage.toString());
+			LOG4J_LOGGER.info(serviceName + ": JSON message = " + jsonMessage.toString());
 				
 			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 		
 
@@ -121,27 +126,30 @@ public class ArchiveConfidentialityHoldImpl implements ServiceInterface {
 			db.closeSession();
 		}
 		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(log4jLogger, serviceCoreReturn, db, e);
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(e.getReturnType().index(), errorMessage);
 		}
-		catch (GeneralDatabaseException e) {
-			serviceHelper.handleGeneralDatabaseException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
 		} 
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.ARCHIVE_FAILED_EXCEPTION.index(), e.getMessage());
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
 		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
+		}
 		finally {
-			try {
-				mCore.closeMessaging();
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
+			mCore.closeMessaging();
 		}
 		
-		log4jLogger.info("ArchiveConfidentialityHold: End of service.");
+		LOG4J_LOGGER.info("ArchiveConfidentialityHold: End of service.");
 		
 		// Success so return it.
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);

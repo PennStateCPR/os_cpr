@@ -4,6 +4,8 @@
  */
 package edu.psu.iam.cpr.service.returns;
 
+import java.util.Arrays;
+
 import edu.psu.iam.cpr.core.service.returns.UserCommentReturn;
 
 /**
@@ -60,15 +62,15 @@ public class UserCommentServiceReturn {
 	 * Constructor
 	 * @param statusCode
 	 * @param statusMessage
-	 * @param userCommentReturnRecord
+	 * @param userCommentReturnArray
 	 * @param numberElements
 	 */
 	public UserCommentServiceReturn(int statusCode, String statusMessage,
-			UserCommentReturn[] userCommentReturnRecord, int numberElements) {
+			UserCommentReturn[] userCommentReturnArray, int numberElements) {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.userCommentReturnRecord = userCommentReturnRecord;
+		this.userCommentReturnRecord = Arrays.copyOf(userCommentReturnArray, userCommentReturnArray.length);
 		this.numberElements = numberElements;
 	}
 	
@@ -124,11 +126,11 @@ public class UserCommentServiceReturn {
 	}
 
 	/**
-	 * @param userCommentReturnRecord the userCommentReturnRecord to set
+	 * @param userCommentReturnArray the userCommentReturnRecord to set
 	 */
 	public void setUserCommentReturnRecord(
-			UserCommentReturn[] userCommentReturnRecord) {
-		this.userCommentReturnRecord = userCommentReturnRecord;
+			UserCommentReturn[] userCommentReturnArray) {
+		this.userCommentReturnRecord = Arrays.copyOf(userCommentReturnArray, userCommentReturnArray.length);
 	}
 
 	/**

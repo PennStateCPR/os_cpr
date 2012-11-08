@@ -1,8 +1,10 @@
 /* SVN FILE: $Id: GetPersonImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
-import org.apache.log4j.Logger;
+import javax.naming.NamingException;
 
+import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.AddressesTable;
 import edu.psu.iam.cpr.core.database.tables.DateOfBirthTable;
@@ -14,7 +16,6 @@ import edu.psu.iam.cpr.core.database.tables.PhonesTable;
 import edu.psu.iam.cpr.core.database.tables.PsuIdTable;
 import edu.psu.iam.cpr.core.database.tables.UseridTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.AddressReturn;
 import edu.psu.iam.cpr.core.service.returns.AffiliationReturn;
@@ -57,7 +58,8 @@ import edu.psu.iam.cpr.service.returns.PersonServiceReturn;
  */
 public class GetPersonImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(GetPersonImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetPersonImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -82,19 +84,19 @@ public class GetPersonImpl implements ServiceInterface {
 		final Database db = new Database();
 		final ServiceHelper serviceHelper = new ServiceHelper();
 		
-		log4jLogger.info(serviceName + ": start of service.");
+		LOG4J_LOGGER.info(serviceName + ": start of service.");
 		
 		try {
 			
 			String returnHistory = (String) otherParameters[0];
 			
-			final StringBuilder parameters = new StringBuilder(5000);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("requestedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
 			parameters.append("identifier=[").append(identifier).append("] ");
 			parameters.append("returnHistory=[").append(returnHistory).append("] ");
-			log4jLogger.info(serviceName + ": input parameters = " + parameters.toString());
+			LOG4J_LOGGER.info(serviceName + ": input parameters = " + parameters.toString());
 			
 			if ((returnHistory = Validate.isValidYesNo(returnHistory)) == null) {
 				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
@@ -188,28 +190,27 @@ public class GetPersonImpl implements ServiceInterface {
 			personServiceReturn.setAffiliationReturnRecord(affiliationReturn);
 			
 			// Log a success!
-			log4jLogger.info(serviceName + ": the service was successful.");
+			LOG4J_LOGGER.info(serviceName + ": the service was successful.");
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
 			
 			// Do a commit.
 			db.closeSession();
 		} 
-		catch (GeneralDatabaseException e) {
-			serviceHelper.handleGeneralDatabaseException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new PersonServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-		} 
 		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(log4jLogger, serviceCoreReturn, db, e);
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new PersonServiceReturn(e.getReturnType().index(), errorMessage);
 		}
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new PersonServiceReturn(ReturnType.PERSON_NOT_FOUND_EXCEPTION.index(), e.getMessage());
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new PersonServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
 		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new PersonServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		} 
 		
-		log4jLogger.info(serviceName + ": end of service.");
+		LOG4J_LOGGER.info(serviceName + ": end of service.");
 		return (Object) personServiceReturn;
-
 	}
 
 }

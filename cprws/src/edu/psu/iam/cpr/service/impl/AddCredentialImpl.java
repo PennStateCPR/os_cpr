@@ -1,13 +1,14 @@
 /* SVN FILE: $Id: AddCredentialImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
-import org.apache.log4j.Logger;
+import javax.naming.NamingException;
 
+import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.CredentialTable;
 import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
@@ -40,7 +41,8 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class AddCredentialImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(AddCredentialImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(AddCredentialImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -64,20 +66,20 @@ public class AddCredentialImpl implements ServiceInterface {
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
 		
-		log4jLogger.info(serviceName + ": Start of service.");
+		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
 			final String credentialType = (String) otherParameters[0];
 			final String credentialData = (String) otherParameters[1];
 			
-			final StringBuilder parameters = new StringBuilder(10000);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("updatedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
 			parameters.append("identifier=[").append(identifier).append("] ");
 			parameters.append("credentialType=[").append(credentialType).append("] ");
 			parameters.append("credentialData=[").append(credentialData).append("] ");
-			log4jLogger.info(serviceName + ": Input Parameters = " + parameters.toString());
+			LOG4J_LOGGER.info(serviceName + ": Input Parameters = " + parameters.toString());
 			
 			// Init the service.
 			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
@@ -90,45 +92,43 @@ public class AddCredentialImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info(serviceName + ": Found person identifier = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info(serviceName + ": Found person identifier = " + serviceCoreReturn.getPersonId());
 			
 			// Validate the service parameters.
 			final CredentialTable credentialTable = ValidateCredential.validateAddCredentialParameters(db, 
 					serviceCoreReturn.getPersonId(), credentialType, credentialData, updatedBy);
 
 			// Determine if the caller is authorized to make this call.
-			log4jLogger.info(serviceName + ": Determing if the caller is authorized");
+			LOG4J_LOGGER.info(serviceName + ": Determing if the caller is authorized");
 			db.isDataActionAuthorized(serviceCoreReturn, credentialTable.getCredentialType().toString(), 
 					AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 			
 			// Add the credential to the database table.
-			log4jLogger.info(serviceName + ": Add the credential to the database.");
+			LOG4J_LOGGER.info(serviceName + ": Add the credential to the database.");
 			credentialTable.addCredential(db);
 						
 			// Log a success!
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
 			
-			log4jLogger.info(serviceName + ": SUCCESS!");
+			LOG4J_LOGGER.info(serviceName + ": SUCCESS!");
 			
 			// Commit
 			db.closeSession();
 		} 
 		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(log4jLogger, serviceCoreReturn, db, e);
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(e.getReturnType().index(), errorMessage);
 		}
-		catch (GeneralDatabaseException e) {
-			serviceHelper.handleGeneralDatabaseException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.ADD_FAILED_EXCEPTION.index(), e.getMessage());
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
 		}
 		
-		log4jLogger.info(serviceName + ": End of service.");
+		LOG4J_LOGGER.info(serviceName + ": End of service.");
 
 		// Return the status to the caller.
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);

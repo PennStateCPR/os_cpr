@@ -1,13 +1,17 @@
 /* SVN FILE: $Id: ArchiveAddressImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
+import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.AddressesTable;
 import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.GeneralDatabaseException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.messaging.MessagingCore;
@@ -42,7 +46,8 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class ArchiveAddressImpl implements ServiceInterface {
 
-	final private static Logger log4jLogger = Logger.getLogger(ArchiveAddressImpl.class);
+	final private static Logger LOG4J_LOGGER = Logger.getLogger(ArchiveAddressImpl.class);
+	private static final int BUFFER_SIZE = 2048;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -67,14 +72,14 @@ public class ArchiveAddressImpl implements ServiceInterface {
 		final Database db = new Database();
 		final ServiceHelper serviceHelper = new ServiceHelper();
 		
-		log4jLogger.info("ArchiveAddress: Start of service.");
+		LOG4J_LOGGER.info("ArchiveAddress: Start of service.");
 		try {
 			
 			final String addressType 	= (String) otherParameters[0];
 			final String documentType 	= (String) otherParameters[1];
 			final Long groupId 			= (Long) otherParameters[2];
 			
-			final StringBuilder parameters = new StringBuilder(128);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("updatedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
@@ -82,7 +87,7 @@ public class ArchiveAddressImpl implements ServiceInterface {
 			parameters.append("addressType=[").append(addressType).append("] ");
 			parameters.append("documentType=[").append(documentType).append("] ");
 			parameters.append("groupId=[").append(groupId).append("] ");
-			log4jLogger.info("ArchiveAddress: Input Parameters = " + parameters.toString());
+			LOG4J_LOGGER.info("ArchiveAddress: Input Parameters = " + parameters.toString());
 			
 			// Init the service.
 			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
@@ -95,7 +100,7 @@ public class ArchiveAddressImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			log4jLogger.info("ArchiveAddress: Found Person Id = " + serviceCoreReturn.getPersonId());
+			LOG4J_LOGGER.info("ArchiveAddress: Found Person Id = " + serviceCoreReturn.getPersonId());
 
 			
 			// Validate the data passed to the service
@@ -116,33 +121,34 @@ public class ArchiveAddressImpl implements ServiceInterface {
 			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 
 			
 			// Log a success!
-			log4jLogger.info("ArchiveAddress: Status = SUCCESS, record archived");
+			LOG4J_LOGGER.info("ArchiveAddress: Status = SUCCESS, record archived");
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
 			db.closeSession();
 		}
 		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(log4jLogger, serviceCoreReturn, db, e);
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(e.getReturnType().index(), errorMessage);
 		}
-		catch (GeneralDatabaseException e) {
-			serviceHelper.handleGeneralDatabaseException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
 		}
-		
-		catch (Exception e) {
-			serviceHelper.handleOtherException(log4jLogger, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.ARCHIVE_FAILED_EXCEPTION.index(), e.getMessage());
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		} 
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
 		finally {
-			
-			try {
-				mCore.closeMessaging();
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
+			mCore.closeMessaging();
 		}
-		log4jLogger.info("ArchiveAddress: End of service.");
+		LOG4J_LOGGER.info("ArchiveAddress: End of service.");
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(),ServiceHelper.SUCCESS_MESSAGE);
 	}
 
