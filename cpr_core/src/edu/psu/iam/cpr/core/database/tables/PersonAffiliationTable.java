@@ -557,7 +557,8 @@ public class PersonAffiliationTable {
 		sb.append("person_affiliation.last_update_by, " );
 		sb.append("person_affiliation.last_update_on, ");
 		sb.append("person_affiliation.created_by, " );
-		sb.append("person_affiliation.created_on ");
+		sb.append("person_affiliation.created_on, ");
+		sb.append("person_affiliation.affiliation_key ");
 		sb.append("FROM person_affiliation ");
 		sb.append("LEFT JOIN affiliations ");
 		sb.append("ON person_affiliation.affiliation_key = affiliations.affiliation_key " );
@@ -579,6 +580,7 @@ public class PersonAffiliationTable {
 		query.addScalar("last_update_on",StandardBasicTypes.TIMESTAMP );
 		query.addScalar("created_by",StandardBasicTypes.STRING );
 		query.addScalar("created_on",StandardBasicTypes.TIMESTAMP );
+		query.addScalar("affiliation_key", StandardBasicTypes.INTEGER);
 
 		Iterator<?> it = query.list().iterator();
 
