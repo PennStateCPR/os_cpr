@@ -68,7 +68,8 @@ public enum ReturnType {
         MESSAGE_RECEIVE_EXCEPTION(251,"Unable to receive message from queue \"%s\"."),
         DIRECTORY_EXCEPTION(500, "\"%s\"."),
         JSON_EXCEPTION(501, "\"%s\"."),
-        JMS_EXCEPTION(502, "\"%s\".");
+        JMS_EXCEPTION(502, "\"%s\"."),
+        NOT_IMPLEMENTED_EXCEPTION(503, "This service is not implemented in this version of the CPR.");
 
    /**
     * Contains the index
