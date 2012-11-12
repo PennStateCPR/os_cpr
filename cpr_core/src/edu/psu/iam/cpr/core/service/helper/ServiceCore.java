@@ -1,10 +1,14 @@
 /* SVN FILE: $Id: ServiceCore.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
 package edu.psu.iam.cpr.core.service.helper;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import javax.naming.NamingException;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
 import edu.psu.iam.cpr.core.authentication.AuthenticateService;
@@ -15,7 +19,7 @@ import edu.psu.iam.cpr.core.database.beans.ServiceLog;
 import edu.psu.iam.cpr.core.database.tables.ServiceLogTable;
 import edu.psu.iam.cpr.core.database.types.CprServiceName;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.util.PasswordService;
+import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
  * This class provides an implementation for the service core functions.  These functions are executed
@@ -106,16 +110,40 @@ public class ServiceCore {
 	public void authenticateService(Database db, String principalId, String password) throws CprException, NamingException {
 		
 		String hash = null;
+		MessageDigest md = null;
 		
 		LOG4J_LOGGER.info("authenticateService: start of function.");
-
-		hash = PasswordService.INSTANCE.encrypt(password);
 		
-		final SessionCookie cookie = new SessionCookie(principalId, hash, new Date().getTime());
-				
-		if (! SessionCache.INSTANCE.isSessionValid(cookie)) {
+		// Verify that a service principal and a password were specified.
+		if (principalId == null || principalId.length() == 0) {
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Service principal");
+		}
+
+		if (password == null || password.length() == 0) {
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Service principal's password");
+		}
+
+		try {
+			md = MessageDigest.getInstance("SHA");
+			md.update(password.getBytes("UTF-8"));
+			byte raw[] = md.digest();
+			hash = Base64.encodeBase64String(raw);
+		} 
+		catch (NoSuchAlgorithmException e) {
+		} 
+		catch (UnsupportedEncodingException e) {
+		}
+
+		if (hash != null) {
+			final SessionCookie cookie = new SessionCookie(principalId, hash, new Date().getTime());
+
+			if (! SessionCache.INSTANCE.isSessionValid(cookie)) {
+				AuthenticateService.authenticate(principalId, password);
+				SessionCache.INSTANCE.storeSession(cookie);
+			}
+		}
+		else {
 			AuthenticateService.authenticate(principalId, password);
-			SessionCache.INSTANCE.storeSession(cookie);
 		}
 				
 		LOG4J_LOGGER.info("authenticateService: end of function.");

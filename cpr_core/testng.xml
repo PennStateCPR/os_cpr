@@ -68,7 +68,6 @@
       <class name="edu.psu.iam.cpr.core.tests.NameTypeTest"/>
       <class name="edu.psu.iam.cpr.core.tests.NamesTableTest"/>
       <class name="edu.psu.iam.cpr.core.tests.NamesTest"/>
-      <class name="edu.psu.iam.cpr.core.tests.PasswordServiceTest"/>
       <class name="edu.psu.iam.cpr.core.tests.PersonAffiliationTableTest"/>
       <class name="edu.psu.iam.cpr.core.tests.PersonAffiliationTest"/>
       <class name="edu.psu.iam.cpr.core.tests.PersonGenderTableTest"/>
