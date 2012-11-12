@@ -40,8 +40,11 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class ArchivePersonLinkageImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(ArchivePersonLinkageImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(ArchivePersonLinkageImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int LINKAGE_TYPE = 0;
+	private static final int IDENTIFIER_TYPE = 1;
+	private static final int IDENTIFIER = 2;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -69,9 +72,9 @@ public class ArchivePersonLinkageImpl implements ServiceInterface {
 		
 		try {
 			
-			final String linkageType 			= (String) otherParameters[0];
-			final String linkedIdentifierType 	= (String) otherParameters[1];
-			final String linkedIdentifier 		= (String) otherParameters[2];
+			final String linkageType 			= (String) otherParameters[LINKAGE_TYPE];
+			final String linkedIdentifierType 	= (String) otherParameters[IDENTIFIER_TYPE];
+			final String linkedIdentifier 		= (String) otherParameters[IDENTIFIER];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -123,6 +126,10 @@ public class ArchivePersonLinkageImpl implements ServiceInterface {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
 		} 
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
+		}
 		
 		LOG4J_LOGGER.info(serviceName + ": End of service.");
 		

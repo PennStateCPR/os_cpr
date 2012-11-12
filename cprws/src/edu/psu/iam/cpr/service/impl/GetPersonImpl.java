@@ -58,8 +58,9 @@ import edu.psu.iam.cpr.service.returns.PersonServiceReturn;
  */
 public class GetPersonImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetPersonImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetPersonImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int RETURN_HISTORY = 0;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -88,8 +89,9 @@ public class GetPersonImpl implements ServiceInterface {
 		
 		try {
 			
-			String returnHistory = (String) otherParameters[0];
 			
+			String returnHistory = (String) otherParameters[RETURN_HISTORY];
+
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("requestedBy=[").append(updatedBy).append("] ");
@@ -98,7 +100,8 @@ public class GetPersonImpl implements ServiceInterface {
 			parameters.append("returnHistory=[").append(returnHistory).append("] ");
 			LOG4J_LOGGER.info(serviceName + ": input parameters = " + parameters.toString());
 			
-			if ((returnHistory = Validate.isValidYesNo(returnHistory)) == null) {
+			returnHistory = Validate.isValidYesNo(returnHistory);
+			if (returnHistory == null) {
 				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 			}
 			boolean returnHistoryFlag = (returnHistory.equals("Y")) ? true : false;
@@ -208,6 +211,11 @@ public class GetPersonImpl implements ServiceInterface {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new PersonServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
 		} 
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new PersonServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
+		} 
+
 		
 		LOG4J_LOGGER.info(serviceName + ": end of service.");
 		return (Object) personServiceReturn;

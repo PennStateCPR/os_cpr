@@ -42,8 +42,10 @@ import edu.psu.iam.cpr.service.returns.PersonIdentifierServiceReturn;
  */
 public class GetPersonIdentifierImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetPersonIdentifierImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetPersonIdentifierImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int IDENTIFIER_TYPE = 0;
+	private static final int RETURN_HISTORY = 1;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -69,8 +71,8 @@ public class GetPersonIdentifierImpl implements ServiceInterface {
 		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		
 		try {
-			final String registryIdentifierType = (String) otherParameters[0];
-			final String returnHistory 			= (String) otherParameters[1];
+			final String registryIdentifierType = (String) otherParameters[IDENTIFIER_TYPE];
+			final String returnHistory 			= (String) otherParameters[RETURN_HISTORY];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -100,7 +102,8 @@ public class GetPersonIdentifierImpl implements ServiceInterface {
 						registryIdentifierType, 
 						updatedBy, 
 						returnHistory);
-			final PersonIdentifierReturn queryResults[] = personIdentifierTable.getPersonIdentifiersForPersonId(db, serviceCoreReturn.getPersonId());
+			final PersonIdentifierReturn queryResults[] = personIdentifierTable.getPersonIdentifiersForPersonId(db, 
+					serviceCoreReturn.getPersonId());
 			
 			// Build the return class.
 			serviceReturn = new PersonIdentifierServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, 
@@ -127,7 +130,10 @@ public class GetPersonIdentifierImpl implements ServiceInterface {
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new PersonIdentifierServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-			
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new PersonIdentifierServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());			
 		}
 		
 		LOG4J_LOGGER.info(serviceName + ": End of service.");

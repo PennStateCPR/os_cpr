@@ -40,8 +40,10 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class AddPersonIdentifierImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(AddPersonIdentifierImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(AddPersonIdentifierImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int IDENTIFIER_TYPE = 0;
+	private static final int IDENTIFIER_VALUE = 1;
 	/**
 	 * This method provides the implementation for a service.
 	 * @param serviceName contains the name of the service.
@@ -66,8 +68,8 @@ public class AddPersonIdentifierImpl implements ServiceInterface {
 		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
-			final String registryIdentifierType = (String) otherParameters[0];
-			final String registryIdentifierValue = (String) otherParameters[1];
+			final String registryIdentifierType = (String) otherParameters[IDENTIFIER_TYPE];
+			final String registryIdentifierValue = (String) otherParameters[IDENTIFIER_VALUE];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -120,6 +122,10 @@ public class AddPersonIdentifierImpl implements ServiceInterface {
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		
 		LOG4J_LOGGER.info(serviceName + ": End of service.");

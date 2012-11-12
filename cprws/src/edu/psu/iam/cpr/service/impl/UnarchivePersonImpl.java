@@ -13,7 +13,6 @@ import edu.psu.iam.cpr.core.database.tables.PersonTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidatePerson;
@@ -45,7 +44,7 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class UnarchivePersonImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(UnarchivePersonImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(UnarchivePersonImpl.class);
 	private static final int BUFFER_SIZE = 2048;
 
 	/**
@@ -67,7 +66,6 @@ public class UnarchivePersonImpl implements ServiceInterface {
 
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		final ServiceCore serviceCore = new ServiceCore();
-		MessagingCore mCore = null;
 		final Database db = new Database();
 		final ServiceHelper serviceHelper = new ServiceHelper();
 		
@@ -103,7 +101,7 @@ public class UnarchivePersonImpl implements ServiceInterface {
 			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
 			
 			LOG4J_LOGGER.info(serviceName + ": json message=" + jsonMessage.toString());
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage);
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage);
 			
 			// Log a success!
 			LOG4J_LOGGER.info(serviceName + ": the service was successful.");
@@ -132,8 +130,9 @@ public class UnarchivePersonImpl implements ServiceInterface {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-			mCore.closeMessaging();
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		
 		LOG4J_LOGGER.info(serviceName + ": end of service.");

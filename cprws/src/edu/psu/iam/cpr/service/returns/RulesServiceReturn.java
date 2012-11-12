@@ -59,7 +59,12 @@ public class RulesServiceReturn {
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
 		this.numberOfFacts = numberOfFacts;
-		this.facts = Arrays.copyOf(factsArray, factsArray.length);
+		if (factsArray != null) {
+			this.facts = Arrays.copyOf(factsArray, factsArray.length);
+		}
+		else {
+			this.facts = null;
+		}
 	}
 
 	/**
@@ -126,7 +131,12 @@ public class RulesServiceReturn {
 	 * @param factsArray the facts to set
 	 */
 	public void setFacts(String[] factsArray) {
-		this.facts = Arrays.copyOf(factsArray, factsArray.length);
+		if (factsArray != null) {
+			this.facts = Arrays.copyOf(factsArray, factsArray.length);
+		}
+		else {
+			this.facts = null;
+		}
 	}
 	
 }

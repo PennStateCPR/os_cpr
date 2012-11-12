@@ -42,8 +42,10 @@ import edu.psu.iam.cpr.service.returns.IAPServiceReturn;
  */
 public class GetExternalIAPImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetExternalIAPImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetExternalIAPImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int USERID = 0;
+	private static final int FEDERATION_NAME = 1;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -73,8 +75,8 @@ public class GetExternalIAPImpl implements ServiceInterface {
 		LOG4J_LOGGER.info("GetExternalIAP: Start of service.");
 		
 		try {
-			String userId 				= (String) otherParameters[0];
-			final String federationName = (String) otherParameters[1];
+			String userId 				= (String) otherParameters[USERID];
+			final String federationName = (String) otherParameters[FEDERATION_NAME];
 			
 			StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -138,7 +140,10 @@ public class GetExternalIAPImpl implements ServiceInterface {
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new IAPServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-			
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new IAPServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());			
 		}
 		
 		return (Object) serviceReturn;

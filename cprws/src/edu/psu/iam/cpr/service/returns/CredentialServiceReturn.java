@@ -61,7 +61,12 @@ public class CredentialServiceReturn {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.credentialReturnRecord = Arrays.copyOf(credentialReturnRecordArray, credentialReturnRecordArray.length);
+		if (credentialReturnRecord != null) {
+			this.credentialReturnRecord = Arrays.copyOf(credentialReturnRecordArray, credentialReturnRecordArray.length);
+		}
+		else {
+			this.credentialReturnRecord = null;
+		}
 		this.numberElements = numberElements;
 	}
 
@@ -114,7 +119,12 @@ public class CredentialServiceReturn {
 	 * @param credentialReturnRecordArray the credentialReturnRecord to set
 	 */
 	public void setCredentialReturnRecord(CredentialReturn[] credentialReturnRecordArray) {
-		this.credentialReturnRecord = Arrays.copyOf(credentialReturnRecordArray, credentialReturnRecordArray.length);
+		if (credentialReturnRecord != null) {
+			this.credentialReturnRecord = Arrays.copyOf(credentialReturnRecordArray, credentialReturnRecordArray.length);
+		}
+		else {
+			this.credentialReturnRecord = null;
+		}
 	}
 
 	/**

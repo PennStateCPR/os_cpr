@@ -41,8 +41,9 @@ import edu.psu.iam.cpr.service.returns.EmailAddressServiceReturn;
  */
 public class GetEmailAddressImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetEmailAddressImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetEmailAddressImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int RETURN_HISTORY = 0;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -70,7 +71,7 @@ public class GetEmailAddressImpl implements ServiceInterface {
 		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
-			final String returnHistory = (String) otherParameters[0];
+			final String returnHistory = (String) otherParameters[RETURN_HISTORY];
 			
 			// Build the parameters string.
 			StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
@@ -120,7 +121,10 @@ public class GetEmailAddressImpl implements ServiceInterface {
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new EmailAddressServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-			
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new EmailAddressServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());			
 		}
 	
 		LOG4J_LOGGER.info(serviceName + ": End of service.");

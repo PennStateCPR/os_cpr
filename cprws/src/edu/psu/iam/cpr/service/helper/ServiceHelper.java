@@ -42,7 +42,7 @@ import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 public class ServiceHelper {
 		
 	/** Success message! */
-	final public static String SUCCESS_MESSAGE = "Success!";
+	public static final String SUCCESS_MESSAGE = "Success!";
 	private static final int BUFFER_SIZE = 1024;
 
 	/**
@@ -103,7 +103,6 @@ public class ServiceHelper {
 			serviceCoreReturn.getServiceLogTable().endLog(db, "Exception: " + e.getMessage());
 		}
 		catch (Exception e1) {
-			e1.printStackTrace();
 		}
 		log4jLogger.info("Exception: " + e.getMessage());
 		db.rollbackSession();
@@ -142,7 +141,6 @@ public class ServiceHelper {
 			serviceCoreReturn.getServiceLogTable().endLog(db, formattedException);
 		}
 		catch (Exception e1) {
-			e1.printStackTrace();
 		}
 		log4jLogger.info(formattedException);
 		db.rollbackSession();
@@ -169,45 +167,48 @@ public class ServiceHelper {
 			serviceCoreReturn.getServiceLogTable().endLog(db, "CPR Exception: " + errorMessage);
 		}
 		catch (Exception e1) {
-			e1.printStackTrace();
 		}
 		log4jLogger.info("CPR Exception: " + e.getReturnType().toString() + ", Message: " + errorMessage);
 		db.rollbackSession();
 		return errorMessage;
 	}
-
 	
 	/**
 	 * This routine is used to route messages to the service provisioners.
 	 * @param serviceName contains the service name
-	 * @param mCore contains the MessagingCode object
 	 * @param db contains the Database Object
 	 * @param jsonMessage contains the json message
-	 * @return MessagingCore
 	 * @throws JMSException will be thrown if there are any JMS problems.
 	 * @throws JSONException  will be thrown if there are any JSON problems.
 	 * @throws CprException will be thrown for any CPR related problems.
 	 * 
 	 */
-	public MessagingCore sendMessagesToServiceProviders(String serviceName, MessagingCore mCore,
+	public void sendMessagesToServiceProviders(String serviceName,
 			Database db, JsonMessage jsonMessage) throws JMSException, CprException, JSONException {
 
-		final CprComponentStatusTable cprComponentStatusTable = new CprComponentStatusTable();
+		MessagingCore mCore = null;
+		try {
+			final CprComponentStatusTable cprComponentStatusTable = new CprComponentStatusTable();
 
-		// Is messaging active?
-		if (cprComponentStatusTable.isCprComponentActive(db, CprComponent.MESSAGING)) {
+			// Is messaging active?
+			if (cprComponentStatusTable.isCprComponentActive(db, CprComponent.MESSAGING)) {
+				mCore = new MessagingCore(db, serviceName);
+				mCore.initializeMessaging();
+				mCore.sendMessage(db, jsonMessage);
+			}
 
-			mCore = new MessagingCore(db, serviceName);
-			mCore.initializeMessaging();
-			mCore.sendMessage(db, jsonMessage);
-			
+			// Messaging is down, so we need to queue up all of the messages.
+			else {
+				mCore = new MessagingCore(db, serviceName);
+				mCore.recordFailures(db, jsonMessage);
+			}
 		}
-
-		// Messaging is down, so we need to queue up all of the messages.
-		else {
-			mCore = new MessagingCore(db, serviceName);
-			mCore.recordFailures(db, jsonMessage);
+		finally {
+			try {
+				mCore.closeMessaging();
+			}
+			catch (Exception e) {
+			}
 		}
-		return mCore;
 	}
 }

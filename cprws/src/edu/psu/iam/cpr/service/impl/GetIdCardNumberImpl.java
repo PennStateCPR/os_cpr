@@ -42,7 +42,7 @@ import edu.psu.iam.cpr.service.returns.PersonIdCardNumberServiceReturn;
 
 public class GetIdCardNumberImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetIdCardNumberImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetIdCardNumberImpl.class);
 	private static final int BUFFER_SIZE = 2048;
 	
 	
@@ -126,7 +126,10 @@ public class GetIdCardNumberImpl implements ServiceInterface {
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new PersonIdCardNumberServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-			
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new PersonIdCardNumberServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());			
 		}
 				
 		LOG4J_LOGGER.info(serviceName + ": End of service.");

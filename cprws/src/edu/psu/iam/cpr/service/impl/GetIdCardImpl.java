@@ -43,8 +43,10 @@ import edu.psu.iam.cpr.service.returns.IdCardServiceReturn;
  */
 public class GetIdCardImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetIdCardImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetIdCardImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int ID_CARD_TYPE = 0;
+	private static final int RETURN_HISTORY = 1;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -72,8 +74,8 @@ public class GetIdCardImpl implements ServiceInterface {
 		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
-			final String idCardType 	= (String) otherParameters[0];
-			final String returnHistory 	= (String) otherParameters[1];
+			final String idCardType 	= (String) otherParameters[ID_CARD_TYPE];
+			final String returnHistory 	= (String) otherParameters[RETURN_HISTORY];
 			
 			// Build the parameters string.
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
@@ -131,7 +133,10 @@ public class GetIdCardImpl implements ServiceInterface {
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new IdCardServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-			
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new IdCardServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());			
 		}
 				
 		LOG4J_LOGGER.info(serviceName + ": End of service.");

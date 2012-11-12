@@ -75,7 +75,12 @@ public class IdCardPrintEventServiceReturn {
 	 */
 	public void setIdCardPrintEventReturnRecord(
 			IdCardPrintLogReturn[] idCardPrintEventReturnArray) {
-		this.idCardPrintEventReturnRecord = Arrays.copyOf(idCardPrintEventReturnArray, idCardPrintEventReturnArray.length);
+		if (idCardPrintEventReturnArray != null) {
+			this.idCardPrintEventReturnRecord = Arrays.copyOf(idCardPrintEventReturnArray, idCardPrintEventReturnArray.length);
+		}
+		else {
+			this.idCardPrintEventReturnRecord = null;
+		}
 	}
 
 	/**
@@ -122,7 +127,12 @@ public class IdCardPrintEventServiceReturn {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.idCardPrintEventReturnRecord = Arrays.copyOf(idCardPrintEventReturnArray, idCardPrintEventReturnArray.length);
+		if (idCardPrintEventReturnArray != null) {
+			this.idCardPrintEventReturnRecord = Arrays.copyOf(idCardPrintEventReturnArray, idCardPrintEventReturnArray.length);
+		}
+		else {
+			this.idCardPrintEventReturnRecord = null;
+		}
 		this.numberIdCardPrintEventElements = numberIdCardPrintEventElements;
 	}
 	

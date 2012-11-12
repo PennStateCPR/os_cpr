@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidateConfidentiality;
@@ -46,8 +45,9 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class ArchiveConfidentialityHoldImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(ArchiveConfidentialityHoldImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(ArchiveConfidentialityHoldImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int CONFIDENTIALITY_TYPE = 0;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -69,14 +69,13 @@ public class ArchiveConfidentialityHoldImpl implements ServiceInterface {
 		final ServiceHelper serviceHelper = new ServiceHelper();
 		final ServiceCore serviceCore = new ServiceCore();
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		MessagingCore mCore = null;
 		final Database db = new Database();
 		
 		LOG4J_LOGGER.info("ArchiveConfidentialityHold: Start of service.");
 		
 		try {
 			
-			final String confidentialityType = (String) otherParameters[0];
+			final String confidentialityType = (String) otherParameters[CONFIDENTIALITY_TYPE];
 			
 			// Build the parameter list.
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
@@ -117,12 +116,12 @@ public class ArchiveConfidentialityHoldImpl implements ServiceInterface {
 			jsonMessage.setConfidentiality(confidentialityTable);
 			LOG4J_LOGGER.info(serviceName + ": JSON message = " + jsonMessage.toString());
 				
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 		
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 		
 
 			// Log a success!
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
 			
-			// Commit;
+			// Commit
 			db.closeSession();
 		}
 		catch (CprException e) {
@@ -145,8 +144,9 @@ public class ArchiveConfidentialityHoldImpl implements ServiceInterface {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-			mCore.closeMessaging();
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		
 		LOG4J_LOGGER.info("ArchiveConfidentialityHold: End of service.");

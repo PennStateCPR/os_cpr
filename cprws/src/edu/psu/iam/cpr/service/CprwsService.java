@@ -1,21 +1,66 @@
 /* SVN FILE: $Id: CprwsService.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service;
 
+import java.text.ParseException;
+
 import javax.annotation.Resource;
+import javax.jms.JMSException;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebParam.Mode;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
 import org.apache.log4j.Logger;
+import org.hibernate.JDBCException;
+import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.database.Database;
+import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
+import edu.psu.iam.cpr.core.database.beans.Addresses;
+import edu.psu.iam.cpr.core.database.beans.Names;
+import edu.psu.iam.cpr.core.database.tables.AddressesTable;
+import edu.psu.iam.cpr.core.database.tables.DateOfBirthTable;
+import edu.psu.iam.cpr.core.database.tables.EmailAddressTable;
+import edu.psu.iam.cpr.core.database.tables.NamesTable;
+import edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable;
+import edu.psu.iam.cpr.core.database.tables.PersonGenderTable;
+import edu.psu.iam.cpr.core.database.tables.PersonIdentifierTable;
+import edu.psu.iam.cpr.core.database.tables.PersonTable;
+import edu.psu.iam.cpr.core.database.tables.PhonesTable;
+import edu.psu.iam.cpr.core.database.tables.PsuIdTable;
+import edu.psu.iam.cpr.core.database.tables.UseridTable;
 import edu.psu.iam.cpr.core.database.types.CprServiceName;
+import edu.psu.iam.cpr.core.database.types.MatchType;
+import edu.psu.iam.cpr.core.error.CprException;
+import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.rules.engine.RulesEngineHelper;
 import edu.psu.iam.cpr.core.rules.engine.RulesReturn;
+import edu.psu.iam.cpr.core.service.helper.ServiceCore;
+import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
+import edu.psu.iam.cpr.core.service.returns.MatchReturn;
+import edu.psu.iam.cpr.core.service.returns.PersonReturn;
+import edu.psu.iam.cpr.core.service.returns.PsuIdReturn;
+import edu.psu.iam.cpr.core.service.returns.UseridReturn;
+import edu.psu.iam.cpr.core.util.Validate;
+import edu.psu.iam.cpr.core.util.ValidateAddress;
+import edu.psu.iam.cpr.core.util.ValidateDateOfBirth;
+import edu.psu.iam.cpr.core.util.ValidateEmail;
+import edu.psu.iam.cpr.core.util.ValidateName;
+import edu.psu.iam.cpr.core.util.ValidatePerGenderRel;
+import edu.psu.iam.cpr.core.util.ValidatePerson;
+import edu.psu.iam.cpr.core.util.ValidatePersonAffiliation;
+import edu.psu.iam.cpr.core.util.ValidatePersonIdentifier;
+import edu.psu.iam.cpr.core.util.ValidatePhone;
+import edu.psu.iam.cpr.core.util.ValidateSSN;
+import edu.psu.iam.cpr.core.util.ValidateUserid;
+import edu.psu.iam.cpr.service.helper.FindPersonHelper;
+import edu.psu.iam.cpr.service.helper.ServiceHelper;
 import edu.psu.iam.cpr.service.impl.AddAddressImpl;
 import edu.psu.iam.cpr.service.impl.AddAffiliationImpl;
 import edu.psu.iam.cpr.service.impl.AddConfidentialityHoldImpl;
@@ -93,7 +138,6 @@ import edu.psu.iam.cpr.service.returns.PersonServiceReturn;
 import edu.psu.iam.cpr.service.returns.PhoneServiceReturn;
 import edu.psu.iam.cpr.service.returns.PhotoServiceReturn;
 import edu.psu.iam.cpr.service.returns.RulesServiceReturn;
-import edu.psu.iam.cpr.service.returns.SecurityActionReturn;
 import edu.psu.iam.cpr.service.returns.ServiceReturn;
 import edu.psu.iam.cpr.service.returns.TransformServiceReturn;
 import edu.psu.iam.cpr.service.returns.UserCommentServiceReturn;
@@ -129,10 +173,10 @@ public class CprwsService implements CprwsSEI {
 	WebServiceContext wsContext;
 
 	/** Instance of logger */
-	final private static Logger Log4jLogger = Logger.getLogger(CprwsService.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(CprwsService.class);
 	
 	/** Success message! */
-	final private static String SUCCESS_MESSAGE = "Success!";
+	private static final String SUCCESS_MESSAGE = "Success!";
 	
 	/**
 	 * This function provides the implementation for the AddAddress SOAP web service.
@@ -1082,93 +1126,72 @@ public class CprwsService implements CprwsSEI {
 		@WebParam(name="gender", mode=Mode.IN) String gender, 
 		@WebParam(name="rankCutOff", mode=Mode.IN) String rankCutOff) {
 
-//		final String serviceName = CprServiceName.FindPerson.toString();
-//		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-//		final ServiceCore serviceCore = new ServiceCore();
-//		final Database db = new Database();
-//		
-//		Log4jLogger.info("SearchForPerson: ***** Start of service *****.");
-//
-//		try {
-//		
-//			final StringBuilder parameters = new StringBuilder(10000);
-//			parameters.append("principalId=[").append(principalId).append("] ");
-//			parameters.append("requestedBy=[").append(requestedBy).append("] ");
-//			parameters.append("psuId=[").append(psuId).append("] ");
-//			parameters.append("userId=[").append(userId).append("] ");
-//			parameters.append("ssn=[").append(ssn).append("] ");
-//			parameters.append("firstName=[").append(firstName).append("] ");
-//			parameters.append("lastName=[").append(lastName).append("] ");
-//			parameters.append("middleName=[").append(middleName).append("] ");
-//			parameters.append("address1=[").append(address1).append("] ");
-//			parameters.append("address2=[").append(address2).append("] ");
-//			parameters.append("address3=[").append(address3).append("] ");
-//			parameters.append("city=[").append(city).append("] ");
-//			parameters.append("state=[").append(state).append("] ");
-//			parameters.append("postalCode=[").append(postalCode).append("] ");
-//			parameters.append("plus4=[").append(plus4).append("] ");
-//			parameters.append("country=[").append(country).append("] ");
-//			parameters.append("dateOfBirth=[").append(dateOfBirth).append("] ");
-//			parameters.append("gender=[").append(gender).append("] ");
-//			parameters.append("rankCutOff=[").append(rankCutOff).append("] ");
-//			Log4jLogger.info("SearchForPerson: Input Parameters = " + parameters.toString());
-//			
-//			// Init the service.
-//			db.openSession(SessionFactoryUtil.getSessionFactory());
-//			HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-//			serviceCoreReturn = serviceCore.initializeLogging(db, serviceName, request.getRemoteAddr(), parameters.toString(), requestedBy);
-//			serviceCore.initializeService(db, principalId, password, serviceName, serviceCoreReturn);
-//			
-//			final FindPersonHelper helper = new FindPersonHelper(db);
-//			FindPersonServiceReturn findPersonReturn = null;
-//			
-//			// Penn State Algorithm.
-//			if (MatchingAlgorithmType.valueOf(CprProperties.getInstance().getProperties().getProperty(
-//					CprPropertyName.CPR_MATCHING_ALGORITHM.toString())) == MatchingAlgorithmType.PENN_STATE) {
-//				findPersonReturn = helper.doSearchForPersonPSU(serviceCoreReturn, requestedBy, psuId, userId, ssn, 
-//						firstName, lastName, middleName, address1, address2, address3, city, state, postalCode, plus4, country, dateOfBirth, 
-//						gender, rankCutOff);
-//			}
-//			
-//			// Open Source Algorithm.
-//			else {
-//				findPersonReturn = helper.doSearchForPersonOS(serviceCoreReturn, requestedBy, psuId, userId, ssn, 
-//						firstName, lastName, middleName, address1, address2, address3, city, state, postalCode, plus4, country, dateOfBirth, 
-//						gender, rankCutOff);				
-//			}
-//			
-//			// Do a commit.
-//			db.closeSession();
-//			
-//	        return findPersonReturn;
-//		} 
-//		catch (CprException e) {
-//			String errorMessage = e.getReturnType().message();
-//			Log4jLogger.debug("SearchForPerson: cpr exception = " + errorMessage);
-//			if (e.getParameterValue() != null) {
-//				errorMessage = String.format(errorMessage, e.getParameterValue());
-//			}
-//			db.rollbackSession();
-//			return new FindPersonServiceReturn(e.getReturnType().index(), errorMessage);
-//		}
-//		catch (GeneralDatabaseException e) {
-//			Log4jLogger.debug("SearchForPerson: general database exception = " + e.getMessage());
-//			try {
-//				serviceCoreReturn.getServiceLogTable().endLog(db, "Exception: " + e.getMessage());
-//			}
-//			catch (Exception e1) {
-//			}
-//			db.rollbackSession();
-//			return new FindPersonServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-//		} 
-//		catch (Exception e) {
-//			Log4jLogger.debug("SearchForPerson: exception = " + e.getMessage());
-//			e.printStackTrace();
-//			serviceCoreReturn.getServiceLogTable().endLog(db, "Exception: " + e.getMessage());
-//			db.rollbackSession();
-//			return new FindPersonServiceReturn(ReturnType.ADD_FAILED_EXCEPTION.index(), e.getMessage());
-//		}
-		return null;
+		final String serviceName = CprServiceName.FindPerson.toString();
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		final ServiceCore serviceCore = new ServiceCore();
+		final Database db = new Database();
+		final ServiceHelper serviceHelper = new ServiceHelper();
+		
+		LOG4J_LOGGER.info("SearchForPerson: ***** Start of service *****.");
+
+		try {
+		
+			final StringBuilder parameters = new StringBuilder(10000);
+			parameters.append("principalId=[").append(principalId).append("] ");
+			parameters.append("requestedBy=[").append(requestedBy).append("] ");
+			parameters.append("psuId=[").append(psuId).append("] ");
+			parameters.append("userId=[").append(userId).append("] ");
+			parameters.append("ssn=[").append(ssn).append("] ");
+			parameters.append("firstName=[").append(firstName).append("] ");
+			parameters.append("lastName=[").append(lastName).append("] ");
+			parameters.append("middleName=[").append(middleName).append("] ");
+			parameters.append("address1=[").append(address1).append("] ");
+			parameters.append("address2=[").append(address2).append("] ");
+			parameters.append("address3=[").append(address3).append("] ");
+			parameters.append("city=[").append(city).append("] ");
+			parameters.append("state=[").append(state).append("] ");
+			parameters.append("postalCode=[").append(postalCode).append("] ");
+			parameters.append("plus4=[").append(plus4).append("] ");
+			parameters.append("country=[").append(country).append("] ");
+			parameters.append("dateOfBirth=[").append(dateOfBirth).append("] ");
+			parameters.append("gender=[").append(gender).append("] ");
+			parameters.append("rankCutOff=[").append(rankCutOff).append("] ");
+			LOG4J_LOGGER.info("SearchForPerson: Input Parameters = " + parameters.toString());
+			
+			// Init the service.
+			db.openSession(SessionFactoryUtil.getSessionFactory());
+			HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+			serviceCoreReturn = serviceCore.initializeLogging(db, serviceName, request.getRemoteAddr(), parameters.toString(), requestedBy);
+			serviceCore.initializeService(db, principalId, password, serviceName, serviceCoreReturn);
+
+			final FindPersonHelper helper = new FindPersonHelper(db);
+			FindPersonServiceReturn findPersonReturn = null;
+
+			findPersonReturn = helper.doSearchForPersonOS(serviceCoreReturn, requestedBy, psuId, userId, ssn, 
+					firstName, lastName, middleName, address1, address2, address3, city, state, postalCode, plus4, country, dateOfBirth, 
+					gender, rankCutOff);				
+
+			// Do a commit.
+			db.closeSession();
+			
+	        return findPersonReturn;
+		} 
+		catch (CprException e) {
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new FindPersonServiceReturn(e.getReturnType().index(), errorMessage);
+		}
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new FindPersonServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new FindPersonServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		} 
+		catch (ParseException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new FindPersonServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
+		}
 	}
 
 	/**
@@ -1845,8 +1868,8 @@ public class CprwsService implements CprwsSEI {
 	 * @param principalId server principal identifier (will be a Kerberos principal).
 	 * @param password password for the server principal specified as the first argument.
 	 * @param updatedBy the person (userid) who is making the change, this person will be an RA agent.
-	 * @param assignPsuId a y/n flag to indiciate whether a new PSU ID is to be created for the person.
-	 * @param assignUserid a y/n flag to indicate whether a new userid is to be created for the person.
+	 * @param assignPsuIdFlag  a y/n flag to indiciate whether a new PSU ID is to be created for the person.
+	 * @param assignUseridFlag a y/n flag to indicate whether a new userid is to be created for the person.
 	 * @param gender a flag to indicate the person's gender.
 	 * @param dob the person's date of birth, it can either be a full DOB or a partial one (mm/dd).
 	 * @param nameType the type of name that is being added.
@@ -1887,9 +1910,9 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="updatedBy", mode=Mode.IN)
 			String updatedBy, 
 			@WebParam( name="assignPsuId", mode=Mode.IN)
-			String assignPsuId, 
+			String assignPsuIdFlag, 
 			@WebParam( name="assignUserid", mode=Mode.IN)
-			String assignUserid, 
+			String assignUseridFlag, 
 			@WebParam( name="gender", mode=Mode.IN)
 			String gender, 
 			@WebParam( name="dob", mode=Mode.IN)
@@ -1943,383 +1966,347 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="ssn", mode=Mode.IN) 
 			String ssn) {
 		
-//		final String serviceName = CprServiceName.AddPerson.toString();
-//		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-//		MessagingCore mCore = null;
-//		PersonServiceReturn personServiceReturn = null;
-//		final ServiceCore serviceCore = new ServiceCore();
-//		final Database db = new Database();
-//		final ServiceHelper serviceHelper = new ServiceHelper();
-//		
-//		Log4jLogger.info(serviceName + ": start of service.");
-//		try {
-//			PersonGenderTable personGenderTable = null;
-//			DateOfBirthTable dateOfBirthTable = null;
-//			NamesTable namesTable = null;
-//			AddressesTable addressesTable = null;
-//			PhonesTable phonesTable = null;
-//			EmailAddressTable emailAddressTable = null;
-//			PersonTable personTable = null;
-//			UseridTable useridTable = null;
-//			PsuIdTable psuIdTable = null;
-//			PersonAffiliationTable affiliationsTable = null;
-//			
-//			final StringBuilder parameters = new StringBuilder(40000);
-//			parameters.append("principalId=[").append(principalId).append("] ");
-//			parameters.append("updatedBy=[").append(updatedBy).append("] ");
-//			parameters.append("assignPsuId=[").append(assignPsuId).append("] ");
-//			parameters.append("assignUserid=[").append(assignUserid).append("] ");
-//			parameters.append("gender=[").append(gender).append("] ");
-//			parameters.append("dob=[").append(dob).append("] ");
-//			parameters.append("nameType=[").append(nameType).append("] ");
-//			parameters.append("firstName=[").append(firstName).append("] ");
-//			parameters.append("middleNames=[").append(middleNames).append("] ");
-//			parameters.append("lastName=[").append(lastName).append("] ");
-//			parameters.append("suffix=[").append(suffix).append("] ");
-//			parameters.append("addressType=[").append(addressType).append("] ");
-//			parameters.append("address1=[").append(address1).append("] ");
-//			parameters.append("address2=[").append(address2).append("] ");
-//			parameters.append("address3=[").append(address3).append("] ");
-//			parameters.append("city=[").append(city).append("] ");
-//			parameters.append("stateOrProvince=[").append(stateOrProvince).append("] ");
-//			parameters.append("postalCode=[").append(postalCode).append("] ");
-//			parameters.append("countryCode=[").append(countryCode).append("] ");
-//			parameters.append("campusCode=[").append(campusCode).append("] ");
-//			parameters.append("phoneType=[").append(phoneType).append("] ");
-//			parameters.append("phoneNumber=[").append(phoneNumber).append("] ");
-//			parameters.append("extension=[").append(extension).append("] ");
-//			parameters.append("internationalNumber=[").append(internationalNumber).append("] ");
-//			parameters.append("emailType=[").append(emailType).append("] ");
-//			parameters.append("emailAddress=[").append(emailAddress).append("] ");
-//			parameters.append("affiliation=[").append(affiliation).append("] ");
-//			if (ssn != null) {
-//				parameters.append("ssn=[").append("SPECIFIED").append("] ");
-//			}
-//			Log4jLogger.info(serviceName + ": input parameters = " + parameters.toString());
-//						
-//			// Init the service.
-//			db.openSession(SessionFactoryUtil.getSessionFactory());
-//			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-//			serviceCoreReturn = serviceCore.initializeLogging(db, serviceName, request.getRemoteAddr(), parameters.toString(), updatedBy);
-//			serviceCore.initializeService(db, principalId, password, serviceName, serviceCoreReturn);
-//
-//			serviceCoreReturn.setPersonId(NO_PERSON_ID);
-//
-//			// Validate all of the input parameters to the service.
-//			personTable = ValidatePerson.validatePersonParameters(db, serviceCoreReturn.getPersonId(), updatedBy);
-//			
-//			assignPsuId = Validate.isValidYesNo(assignPsuId);
-//			if (assignPsuId == null) {
-//				return new PersonServiceReturn(ReturnType.INVALID_PARAMETERS_EXCEPTION.index(), 
-//						"Invalid value was specified for the assign psu id parameter.");
-//			}
-//			
-//			assignUserid = Validate.isValidYesNo(assignUserid);
-//			if (assignUserid == null) {
-//				return new PersonServiceReturn(ReturnType.INVALID_PARAMETERS_EXCEPTION.index(), 
-//						"Invalid value was specified for the assign userid parameter.");
-//			}
-//			
-//			if (gender != null) {
-//				personGenderTable = ValidatePerGenderRel.validateAddGenderParameters(serviceCoreReturn.getPersonId(), gender, updatedBy);
-//			}
-//			
-//			if (dob != null) {
-//				dateOfBirthTable = ValidateDateOfBirth.validateAddDateOfBirthParameters(serviceCoreReturn.getPersonId(), dob, updatedBy);
-//			}
-//			
-//			if (lastName != null) {
-//				namesTable = ValidateName.validateAddNameParameters(db, serviceCoreReturn.getPersonId(), nameType, nameDocumentType, 
-//						firstName, middleNames, lastName, suffix, updatedBy);
-//			}
-//			
-//			if (address1 != null) {
-//				addressesTable = ValidateAddress.validateAddAddressParameters(db, serviceCoreReturn.getPersonId(), addressType, 
-//						addressDocumentType, updatedBy, address1, address2, address3, city, stateOrProvince, postalCode,  countryCode, campusCode);
-//				if (CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_ADDRESS_VALIDATION.toString()).equals("YES")) {
-//					final TransformAddressHelper transformAddressHelper = new TransformAddressHelper();
-//					transformAddressHelper.transformRegistryAddress(db, serviceCoreReturn, addressesTable);
-//				}
-//			}
-//			
-//			if (phoneNumber != null) {
-//				phonesTable = ValidatePhone.validateAddPhonesParameters(db, serviceCoreReturn.getPersonId(), phoneType, 
-//						phoneNumber, extension, internationalNumber, updatedBy);
-//			}
-//			
-//			if (emailAddress != null) {
-//				emailAddressTable = ValidateEmail.validateEmailAddressParameters(db, serviceCoreReturn.getPersonId(), emailType, 
-//						emailAddress, updatedBy);
-//			}
-//			
-//			if (affiliation != null) {
-//				affiliationsTable = ValidatePersonAffiliation.validateAddAffiliationParameters(db, serviceCoreReturn.getPersonId(), 
-//						affiliation, updatedBy);
-//			}
-//			
-//			if (ssn != null) {
-//				if (! ValidateSSN.validateSSN(ssn)) {
-//					throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "SSN");
-//				}
-//			}
-//			
-//			// Verify that they have specified a name.
-//			if (namesTable == null) {
-//				throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Name");
-//			}
-//			
-//			// Verify that they have specified an address.
-//			if (addressesTable == null) {
-//				throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Address");
-//			}
-//			
-//			// Verify that they have specified a date of birth.
-//			if (dateOfBirthTable == null) {
-//				throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Date of birth");
-//			}
-//			
-//			String errorMessage = null;
-//			
-//			final String matchDob = dateOfBirthTable.getFormattedDateOfBirth();
-//			String matchGender = null;
-//			if (personGenderTable != null) {
-//				matchGender = personGenderTable.getGenderType().toString();
-//			}
-//			final Names namesBean = namesTable.getNamesBean();
-//			final Addresses addressesBean = addressesTable.getAddressesBean();
-//			
-//			// Do a match.
-//			try {
-//				FindPersonHelper findPersonHelper = new FindPersonHelper(db);
-//				FindPersonServiceReturn findPersonServiceReturn = null;
-//
-//				// Penn State has exact and near matching.
-//				if (MatchingAlgorithmType.valueOf(CprProperties.getInstance().getProperties().getProperty(
-//						CprPropertyName.CPR_MATCHING_ALGORITHM.toString())) == MatchingAlgorithmType.PENN_STATE) {
-//					findPersonServiceReturn = findPersonHelper.doSearchForPersonPSU(
-//							serviceCoreReturn, updatedBy, null, null, ssn, 
-//							namesBean.getFirstName(), namesBean.getLastName(), namesBean.getMiddleNames(), 
-//							addressesBean.getAddress1(), addressesBean.getAddress2(), addressesBean.getAddress3(), 
-//							addressesBean.getCity(), addressesBean.getState(), addressesBean.getPostalCode(), 
-//							null, addressesTable.getCountryThreeCharCode(), matchDob, matchGender, null);
-//				}
-//				
-//				// Open source only has exact matching.
-//				else {
-//					findPersonServiceReturn = findPersonHelper.doSearchForPersonOS(
-//							serviceCoreReturn, updatedBy, null, null, ssn, 
-//							namesBean.getFirstName(), namesBean.getLastName(), namesBean.getMiddleNames(), 
-//							addressesBean.getAddress1(), addressesBean.getAddress2(), addressesBean.getAddress3(), 
-//							addressesBean.getCity(), addressesBean.getState(), addressesBean.getPostalCode(), 
-//							null, addressesTable.getCountryThreeCharCode(), matchDob, matchGender, null);
-//				}
-//				if (findPersonServiceReturn.getStatusCode() == ReturnType.SUCCESS.index()) {
-//					final MatchType matchType = MatchType.valueOf(findPersonServiceReturn.getMatchingMethod());
-//					switch (matchType) {
-//
-//					// OK, we have found a match using PSU ID, SSN, and/or USERID.
-//					case PSU_ID:
-//					case SSN:
-//					case USERID:
-//						MatchReturn matchReturn = new MatchReturn();
-//						matchReturn.setPersonId(findPersonServiceReturn.getPersonID());
-//						matchReturn.setPsuId(findPersonServiceReturn.getPsuID());
-//						matchReturn.setUserId(findPersonServiceReturn.getUserId());
-//
-//						errorMessage = String.format("Record cannot be added, because an exact match was found using \"%s\".", matchType.toString()); 
-//						personServiceReturn = new PersonServiceReturn();
-//						personServiceReturn.setStatusCode(ReturnType.EXACT_MATCH_EXCEPTION.index());
-//						personServiceReturn.setStatusMessage(errorMessage);
-//						personServiceReturn.setExactMatchReturn(matchReturn);
-//						break;
-//
-//						// A match was found using a NEAR_MATCH.
-//					case NEAR_MATCH:
-//						errorMessage = "Record cannot be added, because multiple near matches were found.";
-//						personServiceReturn = new PersonServiceReturn();
-//						personServiceReturn.setStatusCode(ReturnType.NEAR_MATCH_EXCEPTION.index());
-//						personServiceReturn.setStatusMessage(errorMessage);
-//						personServiceReturn.setNearMatchReturnRecord(findPersonServiceReturn.getNearMatchArray());					
-//						personServiceReturn.setNumberofNearMatches(findPersonServiceReturn.getNearMatchArray().length);
-//						break;
-//
-//						// NO_MATCH indicates that the user was not found in the CPR, so we can continue.
-//					case NO_MATCH:
-//						break;
-//
-//					default:
-//						break;
-//					}
-//				}
-//			}
-//			catch (Exception e) {
-//			}
-//			
-//			// No match was found.
-//			if (personServiceReturn == null) {
-//				
-//				personTable.addPerson(db);
-//				
-//				serviceCoreReturn.setPersonId(personTable.getPersonBean().getPersonId());
-//
-//				if (personGenderTable != null) {
-//					personGenderTable.getPersonGenderBean().setPersonId(personTable.getPersonBean().getPersonId());
-//					personGenderTable.addGender(db);
-//				}
-//
-//				if (dateOfBirthTable != null) {
-//					dateOfBirthTable.getDateOfBirthBean().setPersonId(personTable.getPersonBean().getPersonId());
-//					dateOfBirthTable.addDateOfBirth(db);
-//				}
-//
-//				if (namesTable != null) {
-//					namesTable.getNamesBean().setPersonId(personTable.getPersonBean().getPersonId());
-//					namesTable.addName(db);
-//				}
-//
-//				if (addressesTable != null) {
-//					addressesTable.getAddressesBean().setPersonId(personTable.getPersonBean().getPersonId());
-//					addressesTable.addAddress(db);
-//				}
-//
-//				if (phonesTable != null) {
-//					phonesTable.getPhonesBean().setPersonId(personTable.getPersonBean().getPersonId());
-//					phonesTable.addPhone(db);
-//				}
-//
-//				if (emailAddressTable != null) {
-//					emailAddressTable.getEmailAddressBean().setPersonId(personTable.getPersonBean().getPersonId());
-//					emailAddressTable.addAddress(db);
-//				}
-//
-//				if (affiliationsTable != null) {
-//					affiliationsTable.getPersonAffiliationBean().setPersonId(personTable.getPersonBean().getPersonId());
-//					affiliationsTable.addAffiliation(db);
-//				}
-//
-//				if (assignUserid.equals("Y")) {
-//					useridTable = ValidateUserid.validateUseridParameters(db, personTable.getPersonBean().getPersonId(), updatedBy);
-//					useridTable.addUserid(db);
-//				}
-//
-//				if (assignPsuId.equals("Y")) {
-//					psuIdTable = new PsuIdTable(personTable.getPersonBean().getPersonId(), null, updatedBy);
-//					psuIdTable.addPsuIdForPersonId(db);
-//				}
-//				
-//				// Store of the SSN if one exists.
-//				if (MatchingAlgorithmType.valueOf(CprProperties.getInstance().getProperties().getProperty(
-//						CprPropertyName.CPR_MATCHING_ALGORITHM.toString())) == MatchingAlgorithmType.PENN_STATE) {
-////					if (ssn != null && psuIdTable != null) {
-////
-////						CidrServices cidrServices = new CidrServices();
-////						AddSsnServiceReturn serviceReturn = cidrServices.addSsn(updatedBy, psuIdTable.getPsuIdBean().getPsuId(), ssn);
-////
-////						if (serviceReturn.getStatusCode() == ReturnType.SUCCESS.index()) {
-////							//TODO SUCCESS PROCESSING
-////						}
-////						else {
-////							//TODO FAILURE PROCESSING
-////						}
-////					}
-//				}
-//				else {
-//					if (ssn != null) {
-//						PersonIdentifierTable personIdentifierTable = ValidatePersonIdentifier.validateAddPersonIdentifierParameters(db, 
-//								personTable.getPersonBean().getPersonId(), Database.SSN_IDENTIFIER, ssn, updatedBy);
-//						personIdentifierTable.addPersonIdentifier(db);
-//					}
-//				}
-//				
-//				
-//				// Set up the return to the caller.
-//				personServiceReturn = new PersonServiceReturn();
-//				personServiceReturn.setStatusCode(ReturnType.SUCCESS.index());
-//				personServiceReturn.setStatusMessage(SUCCESS_MESSAGE);
-//				personServiceReturn.setPersonReturn(new PersonReturn(personTable.getPersonBean().getPersonId()));
-//				if (useridTable != null) {
-//					final UseridReturn useridReturn[] = new UseridReturn[1];
-//					useridReturn[0] = new UseridReturn(useridTable.getUseridBean().getUserid(), useridTable.getUseridBean().getPrimaryFlag());
-//					personServiceReturn.setUseridReturnRecord(useridReturn);
-//					personServiceReturn.setNumberOfUserids(1);
-//				}
-//				if (psuIdTable != null) {
-//					final PsuIdReturn psuIdReturn[] = new PsuIdReturn[1];
-//					psuIdReturn[0] = new PsuIdReturn(psuIdTable.getPsuIdBean().getPsuId());
-//					personServiceReturn.setPsuIdReturnRecord(psuIdReturn);
-//					personServiceReturn.setNumberOfPsuIds(1);
-//				}
-//				
-//				// Create a new json message.
-//				final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-//				if (personGenderTable != null) {
-//					jsonMessage.setGender(personGenderTable);
-//				}
-//				if (dateOfBirthTable != null) {
-//					jsonMessage.setDateOfBirth(dateOfBirthTable);
-//				}
-//				if (namesTable != null) {
-//					jsonMessage.setName(namesTable);
-//				}
-//				if (addressesTable != null) {
-//					jsonMessage.setAddress(addressesTable);
-//				}
-//				if (phonesTable != null) {
-//					jsonMessage.setPhone(phonesTable);
-//				}
-//				if (emailAddressTable != null) {
-//					jsonMessage.setEmailAddress(emailAddressTable);
-//				}
-//				if (affiliationsTable != null) {
-//					jsonMessage.setAffiliation(affiliationsTable);
-//				}
-//				if (useridTable != null) {
-//					jsonMessage.setUserid(useridTable);
-//				}
-//				
-//				Log4jLogger.info(serviceName + ": json message=" + jsonMessage.toString());
-//				mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db,
-//						jsonMessage); 
-//				
-//				// Log a success!
-//				Log4jLogger.info(serviceName + ": the service was successful.");
-//				serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
-//
-//			}
-//			else {
-//				
-//				// Log a matching failure.
-//				Log4jLogger.info(serviceName + ": " + errorMessage);
-//				serviceCoreReturn.getServiceLogTable().endLog(db, errorMessage);
-//			}
-//			
-//			db.closeSession();
-//		} 
-//		catch (GeneralDatabaseException e) {
-//			serviceHelper.handleGeneralDatabaseException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new PersonServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-//		} 
-//		catch (CprException e) {
-//			final String errorMessage = serviceHelper.handleCprException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new PersonServiceReturn(e.getReturnType().index(), errorMessage);
-//		}
-//		catch (Exception e) {
-//			serviceHelper.handleOtherException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new PersonServiceReturn(ReturnType.ADD_FAILED_EXCEPTION.index(), e.getMessage());
-//		}
-//		finally {
-//			try {
-//				mCore.closeMessaging();
-//			}
-//			catch (Exception e) {
-//			}
-//		}		
-//		Log4jLogger.info(serviceName + ": end of service.");
-//
-//		// Return the status to the caller.
-//		return personServiceReturn;
+		final String serviceName = CprServiceName.AddPerson.toString();
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		PersonServiceReturn personServiceReturn = null;
+		final ServiceCore serviceCore = new ServiceCore();
+		final Database db = new Database();
+		final ServiceHelper serviceHelper = new ServiceHelper();
+		
+		LOG4J_LOGGER.info(serviceName + ": start of service.");
+		try {
+			PersonGenderTable personGenderTable = null;
+			DateOfBirthTable dateOfBirthTable = null;
+			NamesTable namesTable = null;
+			AddressesTable addressesTable = null;
+			PhonesTable phonesTable = null;
+			EmailAddressTable emailAddressTable = null;
+			PersonTable personTable = null;
+			UseridTable useridTable = null;
+			PsuIdTable psuIdTable = null;
+			PersonAffiliationTable affiliationsTable = null;
+			
+			final StringBuilder parameters = new StringBuilder(40000);
+			parameters.append("principalId=[").append(principalId).append("] ");
+			parameters.append("updatedBy=[").append(updatedBy).append("] ");
+			parameters.append("assignPsuId=[").append(assignPsuIdFlag).append("] ");
+			parameters.append("assignUserid=[").append(assignUseridFlag).append("] ");
+			parameters.append("gender=[").append(gender).append("] ");
+			parameters.append("dob=[").append(dob).append("] ");
+			parameters.append("nameType=[").append(nameType).append("] ");
+			parameters.append("firstName=[").append(firstName).append("] ");
+			parameters.append("middleNames=[").append(middleNames).append("] ");
+			parameters.append("lastName=[").append(lastName).append("] ");
+			parameters.append("suffix=[").append(suffix).append("] ");
+			parameters.append("addressType=[").append(addressType).append("] ");
+			parameters.append("address1=[").append(address1).append("] ");
+			parameters.append("address2=[").append(address2).append("] ");
+			parameters.append("address3=[").append(address3).append("] ");
+			parameters.append("city=[").append(city).append("] ");
+			parameters.append("stateOrProvince=[").append(stateOrProvince).append("] ");
+			parameters.append("postalCode=[").append(postalCode).append("] ");
+			parameters.append("countryCode=[").append(countryCode).append("] ");
+			parameters.append("campusCode=[").append(campusCode).append("] ");
+			parameters.append("phoneType=[").append(phoneType).append("] ");
+			parameters.append("phoneNumber=[").append(phoneNumber).append("] ");
+			parameters.append("extension=[").append(extension).append("] ");
+			parameters.append("internationalNumber=[").append(internationalNumber).append("] ");
+			parameters.append("emailType=[").append(emailType).append("] ");
+			parameters.append("emailAddress=[").append(emailAddress).append("] ");
+			parameters.append("affiliation=[").append(affiliation).append("] ");
+			if (ssn != null) {
+				parameters.append("ssn=[").append("SPECIFIED").append("] ");
+			}
+			LOG4J_LOGGER.info(serviceName + ": input parameters = " + parameters.toString());
+						
+			// Init the service.
+			db.openSession(SessionFactoryUtil.getSessionFactory());
+			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+			serviceCoreReturn = serviceCore.initializeLogging(db, serviceName, request.getRemoteAddr(), parameters.toString(), updatedBy);
+			serviceCore.initializeService(db, principalId, password, serviceName, serviceCoreReturn);
 
-		return null;
+			serviceCoreReturn.setPersonId(NO_PERSON_ID);
+
+			// Validate all of the input parameters to the service.
+			personTable = ValidatePerson.validatePersonParameters(db, serviceCoreReturn.getPersonId(), updatedBy);
+			
+			String assignPsuId = Validate.isValidYesNo(assignPsuIdFlag);
+			if (assignPsuId == null) {
+				return new PersonServiceReturn(ReturnType.INVALID_PARAMETERS_EXCEPTION.index(), 
+						"Invalid value was specified for the assign psu id parameter.");
+			}
+			
+			String assignUserid = Validate.isValidYesNo(assignUseridFlag);
+			if (assignUserid == null) {
+				return new PersonServiceReturn(ReturnType.INVALID_PARAMETERS_EXCEPTION.index(), 
+						"Invalid value was specified for the assign userid parameter.");
+			}
+			
+			if (gender != null) {
+				personGenderTable = ValidatePerGenderRel.validateAddGenderParameters(serviceCoreReturn.getPersonId(), gender, updatedBy);
+			}
+			
+			if (dob != null) {
+				dateOfBirthTable = ValidateDateOfBirth.validateAddDateOfBirthParameters(serviceCoreReturn.getPersonId(), dob, updatedBy);
+			}
+			
+			if (lastName != null) {
+				namesTable = ValidateName.validateAddNameParameters(db, serviceCoreReturn.getPersonId(), nameType, nameDocumentType, 
+						firstName, middleNames, lastName, suffix, updatedBy);
+			}
+			
+			if (address1 != null) {
+				addressesTable = ValidateAddress.validateAddAddressParameters(db, serviceCoreReturn.getPersonId(), addressType, 
+						addressDocumentType, updatedBy, address1, address2, address3, city, stateOrProvince, postalCode,  countryCode, campusCode);
+			}
+			
+			if (phoneNumber != null) {
+				phonesTable = ValidatePhone.validateAddPhonesParameters(db, serviceCoreReturn.getPersonId(), phoneType, 
+						phoneNumber, extension, internationalNumber, updatedBy);
+			}
+			
+			if (emailAddress != null) {
+				emailAddressTable = ValidateEmail.validateEmailAddressParameters(db, serviceCoreReturn.getPersonId(), emailType, 
+						emailAddress, updatedBy);
+			}
+			
+			if (affiliation != null) {
+				affiliationsTable = ValidatePersonAffiliation.validateAddAffiliationParameters(db, serviceCoreReturn.getPersonId(), 
+						affiliation, updatedBy);
+			}
+			
+			if ((ssn != null) && (! ValidateSSN.validateSSN(ssn))) {
+				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "SSN");	
+			}
+			
+			// Verify that they have specified a name.
+			if (namesTable == null) {
+				throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Name");
+			}
+			
+			// Verify that they have specified an address.
+			if (addressesTable == null) {
+				throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Address");
+			}
+			
+			// Verify that they have specified a date of birth.
+			if (dateOfBirthTable == null) {
+				throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Date of birth");
+			}
+			
+			String errorMessage = null;
+			
+			final String matchDob = dateOfBirthTable.getFormattedDateOfBirth();
+			String matchGender = null;
+			if (personGenderTable != null) {
+				matchGender = personGenderTable.getGenderType().toString();
+			}
+			final Names namesBean = namesTable.getNamesBean();
+			final Addresses addressesBean = addressesTable.getAddressesBean();
+			
+			// Do a match.
+			FindPersonHelper findPersonHelper = new FindPersonHelper(db);
+			FindPersonServiceReturn findPersonServiceReturn = null;
+
+			findPersonServiceReturn = findPersonHelper.doSearchForPersonOS(
+					serviceCoreReturn, updatedBy, null, null, ssn, 
+					namesBean.getFirstName(), namesBean.getLastName(), namesBean.getMiddleNames(), 
+					addressesBean.getAddress1(), addressesBean.getAddress2(), addressesBean.getAddress3(), 
+					addressesBean.getCity(), addressesBean.getState(), addressesBean.getPostalCode(), 
+					null, addressesTable.getCountryThreeCharCode(), matchDob, matchGender, null);
+			if (findPersonServiceReturn.getStatusCode() == ReturnType.SUCCESS.index()) {
+				final MatchType matchType = MatchType.valueOf(findPersonServiceReturn.getMatchingMethod());
+				switch (matchType) {
+
+				// OK, we have found a match using PSU ID, SSN, and/or USERID.
+				case PSU_ID:
+				case SSN:
+				case USERID:
+					MatchReturn matchReturn = new MatchReturn();
+					matchReturn.setPersonId(findPersonServiceReturn.getPersonID());
+					matchReturn.setPsuId(findPersonServiceReturn.getPsuID());
+					matchReturn.setUserId(findPersonServiceReturn.getUserId());
+
+					errorMessage = String.format("Record cannot be added, because an exact match was found using \"%s\".", matchType.toString()); 
+					personServiceReturn = new PersonServiceReturn();
+					personServiceReturn.setStatusCode(ReturnType.EXACT_MATCH_EXCEPTION.index());
+					personServiceReturn.setStatusMessage(errorMessage);
+					personServiceReturn.setExactMatchReturn(matchReturn);
+					break;
+
+					// A match was found using a NEAR_MATCH.
+				case NEAR_MATCH:
+					errorMessage = "Record cannot be added, because multiple near matches were found.";
+					personServiceReturn = new PersonServiceReturn();
+					personServiceReturn.setStatusCode(ReturnType.NEAR_MATCH_EXCEPTION.index());
+					personServiceReturn.setStatusMessage(errorMessage);
+					personServiceReturn.setNearMatchReturnRecord(findPersonServiceReturn.getNearMatchArray());					
+					personServiceReturn.setNumberofNearMatches(findPersonServiceReturn.getNearMatchArray().length);
+					break;
+
+					// NO_MATCH indicates that the user was not found in the CPR, so we can continue.
+				case NO_MATCH:
+					break;
+
+				default:
+					break;
+				}
+			}
+			
+			// No match was found.
+			if (personServiceReturn == null) {
+				
+				personTable.addPerson(db);
+				
+				serviceCoreReturn.setPersonId(personTable.getPersonBean().getPersonId());
+
+				if (personGenderTable != null) {
+					personGenderTable.getPersonGenderBean().setPersonId(personTable.getPersonBean().getPersonId());
+					personGenderTable.addGender(db);
+				}
+
+				if (dateOfBirthTable != null) {
+					dateOfBirthTable.getDateOfBirthBean().setPersonId(personTable.getPersonBean().getPersonId());
+					dateOfBirthTable.addDateOfBirth(db);
+				}
+
+				if (namesTable != null) {
+					namesTable.getNamesBean().setPersonId(personTable.getPersonBean().getPersonId());
+					namesTable.addName(db);
+				}
+
+				if (addressesTable != null) {
+					addressesTable.getAddressesBean().setPersonId(personTable.getPersonBean().getPersonId());
+					addressesTable.addAddress(db);
+				}
+
+				if (phonesTable != null) {
+					phonesTable.getPhonesBean().setPersonId(personTable.getPersonBean().getPersonId());
+					phonesTable.addPhone(db);
+				}
+
+				if (emailAddressTable != null) {
+					emailAddressTable.getEmailAddressBean().setPersonId(personTable.getPersonBean().getPersonId());
+					emailAddressTable.addAddress(db);
+				}
+
+				if (affiliationsTable != null) {
+					affiliationsTable.getPersonAffiliationBean().setPersonId(personTable.getPersonBean().getPersonId());
+					affiliationsTable.addAffiliation(db);
+				}
+
+				if (assignUserid.equals("Y")) {
+					useridTable = ValidateUserid.validateUseridParameters(db, personTable.getPersonBean().getPersonId(), updatedBy);
+					useridTable.addUserid(db);
+				}
+
+				if (assignPsuId.equals("Y")) {
+					psuIdTable = new PsuIdTable(personTable.getPersonBean().getPersonId(), null, updatedBy);
+					psuIdTable.addPsuIdForPersonId(db);
+				}
+				
+				// Store of the SSN if one exists.
+				if (ssn != null) {
+					PersonIdentifierTable personIdentifierTable = ValidatePersonIdentifier.validateAddPersonIdentifierParameters(db, 
+							personTable.getPersonBean().getPersonId(), Database.SSN_IDENTIFIER, ssn, updatedBy);
+					personIdentifierTable.addPersonIdentifier(db);
+				}
+				
+				
+				// Set up the return to the caller.
+				personServiceReturn = new PersonServiceReturn();
+				personServiceReturn.setStatusCode(ReturnType.SUCCESS.index());
+				personServiceReturn.setStatusMessage(SUCCESS_MESSAGE);
+				personServiceReturn.setPersonReturn(new PersonReturn(personTable.getPersonBean().getPersonId()));
+				if (useridTable != null) {
+					final UseridReturn useridReturn[] = new UseridReturn[1];
+					useridReturn[0] = new UseridReturn(useridTable.getUseridBean().getUserid(), useridTable.getUseridBean().getPrimaryFlag());
+					personServiceReturn.setUseridReturnRecord(useridReturn);
+					personServiceReturn.setNumberOfUserids(1);
+				}
+				if (psuIdTable != null) {
+					final PsuIdReturn psuIdReturn[] = new PsuIdReturn[1];
+					psuIdReturn[0] = new PsuIdReturn(psuIdTable.getPsuIdBean().getPsuId());
+					personServiceReturn.setPsuIdReturnRecord(psuIdReturn);
+					personServiceReturn.setNumberOfPsuIds(1);
+				}
+				
+				// Create a new json message.
+				final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
+				if (personGenderTable != null) {
+					jsonMessage.setGender(personGenderTable);
+				}
+				if (dateOfBirthTable != null) {
+					jsonMessage.setDateOfBirth(dateOfBirthTable);
+				}
+				if (namesTable != null) {
+					jsonMessage.setName(namesTable);
+				}
+				if (addressesTable != null) {
+					jsonMessage.setAddress(addressesTable);
+				}
+				if (phonesTable != null) {
+					jsonMessage.setPhone(phonesTable);
+				}
+				if (emailAddressTable != null) {
+					jsonMessage.setEmailAddress(emailAddressTable);
+				}
+				if (affiliationsTable != null) {
+					jsonMessage.setAffiliation(affiliationsTable);
+				}
+				if (useridTable != null) {
+					jsonMessage.setUserid(useridTable);
+				}
+				
+				LOG4J_LOGGER.info(serviceName + ": json message=" + jsonMessage.toString());
+				serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 
+				
+				// Log a success!
+				LOG4J_LOGGER.info(serviceName + ": the service was successful.");
+				serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
+
+			}
+			else {
+				
+				// Log a matching failure.
+				LOG4J_LOGGER.info(serviceName + ": " + errorMessage);
+				serviceCoreReturn.getServiceLogTable().endLog(db, errorMessage);
+			}
+			
+			db.closeSession();
+		} 
+		catch (CprException e) {
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new PersonServiceReturn(e.getReturnType().index(), errorMessage);
+		}
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new PersonServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new PersonServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		} 
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new PersonServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new PersonServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (ParseException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new PersonServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new PersonServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
+		}
+		LOG4J_LOGGER.info(serviceName + ": end of service.");
+
+		// Return the status to the caller.
+		return personServiceReturn;
 	}
 	
 	/**
@@ -2436,8 +2423,8 @@ public class CprwsService implements CprwsSEI {
 	 * @param updatedBy the person (userid) who is making the change, this person will be an RA agent.
 	 * @param identifierType the type of identifier used to find the person in the CPR. 
 	 * @param identifier the value for the identifier specified in the identifierType argument.
-	 * @param assignPsuId a y/n flag to indiciate whether a new PSU ID is to be created for the person.
-	 * @param assignUserid a y/n flag to indicate whether a new userid is to be created for the person.
+	 * @param assignPsuIdFlag a y/n flag to indiciate whether a new PSU ID is to be created for the person.
+	 * @param assignUseridFlag a y/n flag to indicate whether a new userid is to be created for the person.
 	 * @param gender a flag to indicate the person's gender.
 	 * @param dob the person's date of birth, it can either be a full DOB or a partial one (mm/dd).
 	 * @param nameType the type of name that is being added.
@@ -2484,9 +2471,9 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="identifier", mode=Mode.IN)
 			String identifier,
 			@WebParam( name="assignPsuId", mode=Mode.IN)
-			String assignPsuId, 
+			String assignPsuIdFlag, 
 			@WebParam( name="assignUserid", mode=Mode.IN)
-			String assignUserid, 
+			String assignUseridFlag, 
 			@WebParam( name="gender", mode=Mode.IN)
 			String gender, 
 			@WebParam( name="dob", mode=Mode.IN)
@@ -2544,296 +2531,272 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="ssn", mode=Mode.IN) 
 			String ssn) {
 		
-//		final String serviceName = CprServiceName.UpdatePerson.toString();
-//		
-//		PersonGenderTable personGenderTable = null;
-//		DateOfBirthTable dateOfBirthTable = null;
-//		NamesTable namesTable = null;
-//		AddressesTable addressesTable = null;
-//		PhonesTable phonesTable = null;
-//		EmailAddressTable emailAddressTable = null;
-//		PersonTable personTable = null;
-//		UseridTable useridTable = null;
-//		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-//		PersonServiceReturn personServiceReturn = null;
-//		MessagingCore mCore = null;
-//		PsuIdTable psuIdTable = null;
-//		PersonAffiliationTable affiliationsTable = null;
-//		final ServiceCore serviceCore = new ServiceCore();
-//		final Database db = new Database();
-//		final ServiceHelper serviceHelper = new ServiceHelper();
-//		Log4jLogger.info(serviceName + ": start of service.");
-//
-//	
-//		try {
-//
-//			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-//
-//			final StringBuilder parameters = new StringBuilder(40000);
-//			parameters.append("principalId=[").append(principalId).append("] ");
-//			parameters.append("updatedBy=[").append(updatedBy).append("] ");
-//			parameters.append("identifier=[").append(identifier).append("] ");
-//			parameters.append("identifierType=[").append(identifierType).append("] ");
-//			parameters.append("assignPsuId=[").append(assignPsuId).append("] ");
-//			parameters.append("assignUserid=[").append(assignUserid).append("] ");
-//			parameters.append("gender=[").append(gender).append("] ");
-//			parameters.append("dob=[").append(dob).append("] ");
-//			parameters.append("nameType=[").append(nameType).append("] ");
-//			parameters.append("firstName=[").append(firstName).append("] ");
-//			parameters.append("middleNames=[").append(middleNames).append("] ");
-//			parameters.append("lastName=[").append(lastName).append("] ");
-//			parameters.append("suffix=[").append(suffix).append("] ");
-//			parameters.append("addressType=[").append(addressType).append("] ");
-//			parameters.append("addressDocumentType=[").append(addressDocumentType).append("] ");
-//			parameters.append("addressGroupId=[").append(addressGroupId).append("] ");
-//			parameters.append("address1=[").append(address1).append("] ");
-//			parameters.append("address2=[").append(address2).append("] ");
-//			parameters.append("address3=[").append(address3).append("] ");
-//			parameters.append("city=[").append(city).append("] ");
-//			parameters.append("stateOrProvince=[").append(stateOrProvince).append("] ");
-//			parameters.append("postalCode=[").append(postalCode).append("] ");
-//			parameters.append("countryCode=[").append(countryCode).append("] ");
-//			parameters.append("campusCode=[").append(campusCode).append("] ");
-//			parameters.append("phoneType=[").append(phoneType).append("] ");
-//			parameters.append("phoneGroupId=[").append(phoneGroupId).append("] ");
-//			parameters.append("phoneNumber=[").append(phoneNumber).append("] ");
-//			parameters.append("extension=[").append(extension).append("] ");
-//			parameters.append("internationalNumber=[").append(internationalNumber).append("] ");
-//			parameters.append("emailType=[").append(emailType).append("] ");
-//			parameters.append("emailAddress=[").append(emailAddress).append("] ");
-//			parameters.append("affiliation=[").append(affiliation).append("] ");
-//			if (ssn != null) {
-//				parameters.append("ssn=[").append("SPECIFIED").append("] ");
-//			}
-//			Log4jLogger.info(serviceName + ": input parameters = " + parameters.toString());
-//
-//			// Init the service.
-//			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-//					request.getRemoteAddr(),
-//					principalId,
-//					password,
-//					updatedBy,
-//					identifierType, 
-//					identifier,
-//					serviceCore, 
-//					db, 
-//					parameters);
-//			
-//			// Validate all of the input parameters to the service.
-//			personTable = ValidatePerson.validatePersonParameters(db, serviceCoreReturn.getPersonId(), updatedBy);
-//			
-//			assignPsuId = Validate.isValidYesNo(assignPsuId);
-//			if (assignPsuId == null) {
-//				return new PersonServiceReturn(ReturnType.INVALID_PARAMETERS_EXCEPTION.index(), 
-//						"Invalid value was specified for the assign psu id parameter.");
-//			}
-//			
-//			assignUserid = Validate.isValidYesNo(assignUserid);
-//			if (assignUserid == null) {
-//				return new PersonServiceReturn(ReturnType.INVALID_PARAMETERS_EXCEPTION.index(), 
-//						"Invalid value was specified for the assign userid parameter.");
-//			}
-//			
-//			if (gender != null) {
-//				personGenderTable = ValidatePerGenderRel.validateAddGenderParameters(serviceCoreReturn.getPersonId(), gender, updatedBy);
-//			}
-//			
-//			if (dob != null) {
-//				dateOfBirthTable = ValidateDateOfBirth.validateAddDateOfBirthParameters(serviceCoreReturn.getPersonId(), dob, updatedBy);
-//			}
-//			
-//			if (lastName != null) {
-//				namesTable = ValidateName.validateAddNameParameters(db, serviceCoreReturn.getPersonId(), nameType, nameDocumentType, 
-//						firstName, middleNames, lastName, suffix, updatedBy);
-//			}
-//			
-//			if (address1 != null) {
-//				addressesTable = ValidateAddress.validateUpdateAddressParameters(db, serviceCoreReturn.getPersonId(), addressType, 
-//						addressDocumentType, addressGroupId, updatedBy, address1, address2, address3, city, stateOrProvince, postalCode,  
-//						countryCode, campusCode);
-//				if (CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_ADDRESS_VALIDATION.toString()).equals("YES")) {
-//					final TransformAddressHelper transformAddressHelper = new TransformAddressHelper();
-//					transformAddressHelper.transformRegistryAddress(db, serviceCoreReturn, addressesTable);
-//				}
-//			}
-//			
-//			if (phoneNumber != null) {
-//				phonesTable = ValidatePhone.validateUpdatePhonesParameters(db, serviceCoreReturn.getPersonId(), phoneType, phoneGroupId, 
-//						phoneNumber, extension, internationalNumber, updatedBy);
-//			}
-//			
-//			if (emailAddress != null) {
-//				emailAddressTable = ValidateEmail.validateEmailAddressParameters(db, serviceCoreReturn.getPersonId(), emailType, 
-//						emailAddress, updatedBy);
-//			}
-//			
-//			if (affiliation != null) {
-//				affiliationsTable = ValidatePersonAffiliation.validateAddAffiliationParameters(db,serviceCoreReturn.getPersonId(), 
-//						affiliation, updatedBy);
-//			}
-//			
-//			if (ssn != null) {
-//				if (! ValidateSSN.validateSSN(ssn)) {
-//					throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "SSN");
-//				}
-//			}
-//			
-//			try {				
-//				if (personGenderTable != null) {
-//					personGenderTable.getPersonGenderBean().setPersonId(personTable.getPersonBean().getPersonId());
-//					personGenderTable.addGender(db);
-//				}
-//				
-//				if (dateOfBirthTable != null) {
-//					dateOfBirthTable.getDateOfBirthBean().setPersonId(personTable.getPersonBean().getPersonId());
-//					dateOfBirthTable.addDateOfBirth(db);
-//				}
-//				
-//				if (namesTable != null) {
-//					namesTable.getNamesBean().setPersonId(personTable.getPersonBean().getPersonId());
-//					namesTable.addName(db);
-//				}
-//				
-//				if (addressesTable != null) {
-//					addressesTable.getAddressesBean().setPersonId(personTable.getPersonBean().getPersonId());
-//					addressesTable.updateAddress(db);
-//				}
-//				
-//				if (phonesTable != null) {
-//					phonesTable.getPhonesBean().setPersonId(personTable.getPersonBean().getPersonId());
-//					phonesTable.updatePhone(db);
-//				}
-//				
-//				if (emailAddressTable != null) {
-//					emailAddressTable.getEmailAddressBean().setPersonId(personTable.getPersonBean().getPersonId());
-//					emailAddressTable.updateAddress(db);
-//				}
-//				
-//				if (affiliationsTable != null) {
-//					affiliationsTable.getPersonAffiliationBean().setPersonId(personTable.getPersonBean().getPersonId());
-//					affiliationsTable.updateAffiliation(db);
-//				}
-//				
-//				if (assignUserid.equals("Y")) {
-//					useridTable = ValidateUserid.validateUseridParameters(db, personTable.getPersonBean().getPersonId(), updatedBy);
-//					useridTable.addUserid(db);
-//				}
-//				
-//				if (assignPsuId.equals("Y")) {
-//					psuIdTable = new PsuIdTable(personTable.getPersonBean().getPersonId(), null, updatedBy);
-//					psuIdTable.addPsuIdForPersonId(db);
-//				}
-//				
-//				if (MatchingAlgorithmType.valueOf(CprProperties.getInstance().getProperties().getProperty(
-//						CprPropertyName.CPR_MATCHING_ALGORITHM.toString())) == MatchingAlgorithmType.PENN_STATE) {
-////					if (ssn != null && psuIdTable != null) {
-////
-////						CidrServices cidrServices = new CidrServices();
-////						AddSsnServiceReturn serviceReturn = cidrServices.addSsn(updatedBy, psuIdTable.getPsuIdBean().getPsuId(), ssn);
-////
-////						if (serviceReturn.getStatusCode() == ReturnType.SUCCESS.index()) {
-////							//TODO SUCCESS PROCESSING
-////						}
-////						else {
-////							//TODO FAILURE PROCESSING
-////						}
-////					}
-//				}
-//				else {
-//					if (ssn != null) {
-//						PersonIdentifierTable personIdentifierTable = ValidatePersonIdentifier.validateAddPersonIdentifierParameters(db, 
-//								personTable.getPersonBean().getPersonId(), Database.SSN_IDENTIFIER, ssn, updatedBy);
-//						personIdentifierTable.addPersonIdentifier(db);
-//					}
-//				}
-//			}
-//			catch (Exception e) {
-//				db.rollbackSession();
-//				return new PersonServiceReturn(ReturnType.UPDATE_FAILED_EXCEPTION.index(), "Unable to update a person.");
-//			}
-//			
-//			// Set up the return to the caller.
-//			personServiceReturn = new PersonServiceReturn();
-//			personServiceReturn.setStatusCode(ReturnType.SUCCESS.index());
-//			personServiceReturn.setStatusMessage(SUCCESS_MESSAGE);
-//			personServiceReturn.setPersonReturn(new PersonReturn(personTable.getPersonBean().getPersonId()));
-//			if (useridTable != null) {
-//				final UseridReturn useridReturn[] = new UseridReturn[1];
-//				useridReturn[0] = new UseridReturn(useridTable.getUseridBean().getUserid(), useridTable.getUseridBean().getPrimaryFlag());
-//				personServiceReturn.setUseridReturnRecord(useridReturn);
-//				personServiceReturn.setNumberOfUserids(1);
-//			}
-//			if (psuIdTable != null) {
-//				final PsuIdReturn psuIdReturn[] = new PsuIdReturn[1];
-//				psuIdReturn[0] = new PsuIdReturn(psuIdTable.getPsuIdBean().getPsuId());
-//				personServiceReturn.setPsuIdReturnRecord(psuIdReturn);
-//				personServiceReturn.setNumberOfPsuIds(1);
-//			}
-//			
-//			// Create a new json message.
-//			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-//			if (personGenderTable != null) {
-//				jsonMessage.setGender(personGenderTable);
-//			}
-//			if (dateOfBirthTable != null) {
-//				jsonMessage.setDateOfBirth(dateOfBirthTable);
-//			}
-//			if (namesTable != null) {
-//				jsonMessage.setName(namesTable);
-//			}
-//			if (addressesTable != null) {
-//				jsonMessage.setAddress(addressesTable);
-//			}
-//			if (phonesTable != null) {
-//				jsonMessage.setPhone(phonesTable);
-//			}
-//			if (emailAddressTable != null) {
-//				jsonMessage.setEmailAddress(emailAddressTable);
-//			}
-//			if (affiliationsTable != null) {
-//				jsonMessage.setAffiliation(affiliationsTable);
-//			}
-//			if (useridTable != null) {
-//				jsonMessage.setUserid(useridTable);
-//			}
-//			
-//			Log4jLogger.info(serviceName + ": json message=" + jsonMessage.toString());
-//			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 			
-//
-//			// Log a success!
-//			Log4jLogger.info(serviceName + ": the service was successful.");
-//			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
-//			
-//			// Commit
-//			db.closeSession();
-//		} 
-//		catch (GeneralDatabaseException e) {
-//			serviceHelper.handleGeneralDatabaseException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new PersonServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-//		} 
-//		catch (CprException e) {
-//			final String errorMessage = serviceHelper.handleCprException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new PersonServiceReturn(e.getReturnType().index(), errorMessage);
-//		}
-//		catch (Exception e) {
-//			serviceHelper.handleOtherException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new PersonServiceReturn(ReturnType.UPDATE_FAILED_EXCEPTION.index(), e.getMessage());
-//		}
-//		finally {
-//			try {
-//				mCore.closeMessaging();
-//			}
-//			catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}		
-//		
-//		Log4jLogger.info(serviceName + ": end of service.");
-//		// Return the status to the caller.
-//		return personServiceReturn;
+		final String serviceName = CprServiceName.UpdatePerson.toString();
 		
-		return null;
-	}
+		PersonGenderTable personGenderTable = null;
+		DateOfBirthTable dateOfBirthTable = null;
+		NamesTable namesTable = null;
+		AddressesTable addressesTable = null;
+		PhonesTable phonesTable = null;
+		EmailAddressTable emailAddressTable = null;
+		PersonTable personTable = null;
+		UseridTable useridTable = null;
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		PersonServiceReturn personServiceReturn = null;
+		PsuIdTable psuIdTable = null;
+		PersonAffiliationTable affiliationsTable = null;
+		final ServiceCore serviceCore = new ServiceCore();
+		final Database db = new Database();
+		final ServiceHelper serviceHelper = new ServiceHelper();
+		LOG4J_LOGGER.info(serviceName + ": start of service.");
+
+	
+		try {
+
+			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+			final StringBuilder parameters = new StringBuilder(40000);
+			parameters.append("principalId=[").append(principalId).append("] ");
+			parameters.append("updatedBy=[").append(updatedBy).append("] ");
+			parameters.append("identifier=[").append(identifier).append("] ");
+			parameters.append("identifierType=[").append(identifierType).append("] ");
+			parameters.append("assignPsuId=[").append(assignPsuIdFlag).append("] ");
+			parameters.append("assignUserid=[").append(assignUseridFlag).append("] ");
+			parameters.append("gender=[").append(gender).append("] ");
+			parameters.append("dob=[").append(dob).append("] ");
+			parameters.append("nameType=[").append(nameType).append("] ");
+			parameters.append("firstName=[").append(firstName).append("] ");
+			parameters.append("middleNames=[").append(middleNames).append("] ");
+			parameters.append("lastName=[").append(lastName).append("] ");
+			parameters.append("suffix=[").append(suffix).append("] ");
+			parameters.append("addressType=[").append(addressType).append("] ");
+			parameters.append("addressDocumentType=[").append(addressDocumentType).append("] ");
+			parameters.append("addressGroupId=[").append(addressGroupId).append("] ");
+			parameters.append("address1=[").append(address1).append("] ");
+			parameters.append("address2=[").append(address2).append("] ");
+			parameters.append("address3=[").append(address3).append("] ");
+			parameters.append("city=[").append(city).append("] ");
+			parameters.append("stateOrProvince=[").append(stateOrProvince).append("] ");
+			parameters.append("postalCode=[").append(postalCode).append("] ");
+			parameters.append("countryCode=[").append(countryCode).append("] ");
+			parameters.append("campusCode=[").append(campusCode).append("] ");
+			parameters.append("phoneType=[").append(phoneType).append("] ");
+			parameters.append("phoneGroupId=[").append(phoneGroupId).append("] ");
+			parameters.append("phoneNumber=[").append(phoneNumber).append("] ");
+			parameters.append("extension=[").append(extension).append("] ");
+			parameters.append("internationalNumber=[").append(internationalNumber).append("] ");
+			parameters.append("emailType=[").append(emailType).append("] ");
+			parameters.append("emailAddress=[").append(emailAddress).append("] ");
+			parameters.append("affiliation=[").append(affiliation).append("] ");
+			if (ssn != null) {
+				parameters.append("ssn=[").append("SPECIFIED").append("] ");
+			}
+			LOG4J_LOGGER.info(serviceName + ": input parameters = " + parameters.toString());
+
+			// Init the service.
+			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
+					request.getRemoteAddr(),
+					principalId,
+					password,
+					updatedBy,
+					identifierType, 
+					identifier,
+					serviceCore, 
+					db, 
+					parameters);
+			
+			// Validate all of the input parameters to the service.
+			personTable = ValidatePerson.validatePersonParameters(db, serviceCoreReturn.getPersonId(), updatedBy);
+			
+			String assignPsuId = Validate.isValidYesNo(assignPsuIdFlag);
+			if (assignPsuId == null) {
+				return new PersonServiceReturn(ReturnType.INVALID_PARAMETERS_EXCEPTION.index(), 
+						"Invalid value was specified for the assign psu id parameter.");
+			}
+			
+			String assignUserid = Validate.isValidYesNo(assignUseridFlag);
+			if (assignUserid == null) {
+				return new PersonServiceReturn(ReturnType.INVALID_PARAMETERS_EXCEPTION.index(), 
+						"Invalid value was specified for the assign userid parameter.");
+			}
+			
+			if (gender != null) {
+				personGenderTable = ValidatePerGenderRel.validateAddGenderParameters(serviceCoreReturn.getPersonId(), gender, updatedBy);
+			}
+			
+			if (dob != null) {
+				dateOfBirthTable = ValidateDateOfBirth.validateAddDateOfBirthParameters(serviceCoreReturn.getPersonId(), dob, updatedBy);
+			}
+			
+			if (lastName != null) {
+				namesTable = ValidateName.validateAddNameParameters(db, serviceCoreReturn.getPersonId(), nameType, nameDocumentType, 
+						firstName, middleNames, lastName, suffix, updatedBy);
+			}
+			
+			if (address1 != null) {
+				addressesTable = ValidateAddress.validateUpdateAddressParameters(db, serviceCoreReturn.getPersonId(), addressType, 
+						addressDocumentType, addressGroupId, updatedBy, address1, address2, address3, city, stateOrProvince, postalCode,  
+						countryCode, campusCode);
+			}
+			
+			if (phoneNumber != null) {
+				phonesTable = ValidatePhone.validateUpdatePhonesParameters(db, serviceCoreReturn.getPersonId(), phoneType, phoneGroupId, 
+						phoneNumber, extension, internationalNumber, updatedBy);
+			}
+			
+			if (emailAddress != null) {
+				emailAddressTable = ValidateEmail.validateEmailAddressParameters(db, serviceCoreReturn.getPersonId(), emailType, 
+						emailAddress, updatedBy);
+			}
+			
+			if (affiliation != null) {
+				affiliationsTable = ValidatePersonAffiliation.validateAddAffiliationParameters(db,serviceCoreReturn.getPersonId(), 
+						affiliation, updatedBy);
+			}
+			
+			if (ssn != null && (! ValidateSSN.validateSSN(ssn))) {
+				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "SSN");
+			}
+			
+			if (personGenderTable != null) {
+				personGenderTable.getPersonGenderBean().setPersonId(personTable.getPersonBean().getPersonId());
+				personGenderTable.addGender(db);
+			}
+
+			if (dateOfBirthTable != null) {
+				dateOfBirthTable.getDateOfBirthBean().setPersonId(personTable.getPersonBean().getPersonId());
+				dateOfBirthTable.addDateOfBirth(db);
+			}
+
+			if (namesTable != null) {
+				namesTable.getNamesBean().setPersonId(personTable.getPersonBean().getPersonId());
+				namesTable.addName(db);
+			}
+
+			if (addressesTable != null) {
+				addressesTable.getAddressesBean().setPersonId(personTable.getPersonBean().getPersonId());
+				addressesTable.updateAddress(db);
+			}
+
+			if (phonesTable != null) {
+				phonesTable.getPhonesBean().setPersonId(personTable.getPersonBean().getPersonId());
+				phonesTable.updatePhone(db);
+			}
+
+			if (emailAddressTable != null) {
+				emailAddressTable.getEmailAddressBean().setPersonId(personTable.getPersonBean().getPersonId());
+				emailAddressTable.updateAddress(db);
+			}
+
+			if (affiliationsTable != null) {
+				affiliationsTable.getPersonAffiliationBean().setPersonId(personTable.getPersonBean().getPersonId());
+				affiliationsTable.updateAffiliation(db);
+			}
+
+			if (assignUserid.equals("Y")) {
+				useridTable = ValidateUserid.validateUseridParameters(db, personTable.getPersonBean().getPersonId(), updatedBy);
+				useridTable.addUserid(db);
+			}
+
+			if (assignPsuId.equals("Y")) {
+				psuIdTable = new PsuIdTable(personTable.getPersonBean().getPersonId(), null, updatedBy);
+				psuIdTable.addPsuIdForPersonId(db);
+			}
+
+			if (ssn != null) {
+				PersonIdentifierTable personIdentifierTable = ValidatePersonIdentifier.validateAddPersonIdentifierParameters(db, 
+						personTable.getPersonBean().getPersonId(), Database.SSN_IDENTIFIER, ssn, updatedBy);
+				personIdentifierTable.addPersonIdentifier(db);
+			}
+
+			// Set up the return to the caller.
+			personServiceReturn = new PersonServiceReturn();
+			personServiceReturn.setStatusCode(ReturnType.SUCCESS.index());
+			personServiceReturn.setStatusMessage(SUCCESS_MESSAGE);
+			personServiceReturn.setPersonReturn(new PersonReturn(personTable.getPersonBean().getPersonId()));
+			if (useridTable != null) {
+				final UseridReturn useridReturn[] = new UseridReturn[1];
+				useridReturn[0] = new UseridReturn(useridTable.getUseridBean().getUserid(), useridTable.getUseridBean().getPrimaryFlag());
+				personServiceReturn.setUseridReturnRecord(useridReturn);
+				personServiceReturn.setNumberOfUserids(1);
+			}
+			if (psuIdTable != null) {
+				final PsuIdReturn psuIdReturn[] = new PsuIdReturn[1];
+				psuIdReturn[0] = new PsuIdReturn(psuIdTable.getPsuIdBean().getPsuId());
+				personServiceReturn.setPsuIdReturnRecord(psuIdReturn);
+				personServiceReturn.setNumberOfPsuIds(1);
+			}
+			
+			// Create a new json message.
+			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
+			if (personGenderTable != null) {
+				jsonMessage.setGender(personGenderTable);
+			}
+			if (dateOfBirthTable != null) {
+				jsonMessage.setDateOfBirth(dateOfBirthTable);
+			}
+			if (namesTable != null) {
+				jsonMessage.setName(namesTable);
+			}
+			if (addressesTable != null) {
+				jsonMessage.setAddress(addressesTable);
+			}
+			if (phonesTable != null) {
+				jsonMessage.setPhone(phonesTable);
+			}
+			if (emailAddressTable != null) {
+				jsonMessage.setEmailAddress(emailAddressTable);
+			}
+			if (affiliationsTable != null) {
+				jsonMessage.setAffiliation(affiliationsTable);
+			}
+			if (useridTable != null) {
+				jsonMessage.setUserid(useridTable);
+			}
+			
+			LOG4J_LOGGER.info(serviceName + ": json message=" + jsonMessage.toString());
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 			
+
+			// Log a success!
+			LOG4J_LOGGER.info(serviceName + ": the service was successful.");
+			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
+			
+			// Commit
+			db.closeSession();
+		} 
+		catch (CprException e) {
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new PersonServiceReturn(e.getReturnType().index(), errorMessage);
+		}
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new PersonServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new PersonServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		} 
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new PersonServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new PersonServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (ParseException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new PersonServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new PersonServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
+		}
+		
+		LOG4J_LOGGER.info(serviceName + ": end of service.");
+		// Return the status to the caller.
+		return personServiceReturn;
+}
 		
 	/**
 	 * This function provides the implementation for the AddPhone SOAP web service.
@@ -3134,12 +3097,12 @@ public class CprwsService implements CprwsSEI {
 	 * @param identifierType contains the type of identifier used to find the person.
 	 * @param identifier contains the value of the identifier.
 	 * @param userid contains the credential that is being blocked.
-	 * @return SecurityActionReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.SecurityActionReturn
+	 * @return ServiceReturn object that contains the result of executing the service.
+	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
 	 */
 	@WebMethod(operationName="BlockUser")
-	@WebResult(name="SecurityActionReturn")
-	public SecurityActionReturn BlockUser(
+	@WebResult(name="ServiceReturn")
+	public ServiceReturn BlockUser(
 			@WebParam( name="principalId", mode=Mode.IN)
 			String principalId, 
 			@WebParam( name="password", mode=Mode.IN)
@@ -3153,78 +3116,80 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="userid", mode=Mode.IN)
 			String userid) {
 		
-//		final ServiceCore serviceCore = new ServiceCore();
-//		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-//		final String serviceName = CprServiceName.BlockUser.toString();
-//		MessagingCore mCore = null;
-//		final Database db = new Database();
-//		final ServiceHelper serviceHelper = new ServiceHelper();
-//		
-//		Log4jLogger.info(serviceName + ": start of service.");
-//		try {
-//			
-//			// Build the parameter list.
-//			final StringBuilder parameters = new StringBuilder(5000);
-//			parameters.append("principalId=[").append(principalId).append("] ");
-//			parameters.append("updatedBy=[").append(updatedBy).append("] ");
-//			parameters.append("identifierType=[").append(identifierType).append("] ");
-//			parameters.append("identifier=[").append(identifier).append("] ");
-//			parameters.append("userid=[").append(userid).append("] ");
-//			Log4jLogger.info(serviceName + ": input parameters =" + parameters.toString());
-//
-//			// Init the service.
-//			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-//			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-//					request.getRemoteAddr(),
-//					principalId,
-//					password,
-//					updatedBy,
-//					identifierType, 
-//					identifier,
-//					serviceCore, 
-//					db, 
-//					parameters);
-//			Log4jLogger.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
-//			
-//			// Create a new json message.
-//			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-//			Log4jLogger.info(serviceName + ": sent json message = " + jsonMessage.toString());
-//				
-//			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 		
-//
-//			// Log a success!
-//			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
-//			
-//			Log4jLogger.info(serviceName + ": service status is success.");
-//			
-//			// Commit.
-//			db.closeSession();
-//		}
-//		catch (CprException e) {
-//			final String errorMessage = serviceHelper.handleCprException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new SecurityActionReturn(e.getReturnType().index(), errorMessage);
-//		}
-//		catch (GeneralDatabaseException e) {
-//			serviceHelper.handleGeneralDatabaseException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new SecurityActionReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-//		} 
-//		catch (Exception e) {
-//			serviceHelper.handleOtherException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new SecurityActionReturn(ReturnType.SECURITY_OPERATION_EXCEPTION.index(), userid);
-//		} 
-//		finally {
-//			try {
-//				mCore.closeMessaging();
-//			}
-//			catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//		Log4jLogger.info(serviceName + ": end of service.");
-//		// Success so return it.
-//		return new SecurityActionReturn(ReturnType.SUCCESS.index(), SUCCESS_MESSAGE);
-		return null;
+		final ServiceCore serviceCore = new ServiceCore();
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		final String serviceName = CprServiceName.BlockUser.toString();
+		final Database db = new Database();
+		final ServiceHelper serviceHelper = new ServiceHelper();
+		
+		LOG4J_LOGGER.info(serviceName + ": start of service.");
+		try {
+			
+			// Build the parameter list.
+			final StringBuilder parameters = new StringBuilder(5000);
+			parameters.append("principalId=[").append(principalId).append("] ");
+			parameters.append("updatedBy=[").append(updatedBy).append("] ");
+			parameters.append("identifierType=[").append(identifierType).append("] ");
+			parameters.append("identifier=[").append(identifier).append("] ");
+			parameters.append("userid=[").append(userid).append("] ");
+			LOG4J_LOGGER.info(serviceName + ": input parameters =" + parameters.toString());
+
+			// Init the service.
+			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
+					request.getRemoteAddr(),
+					principalId,
+					password,
+					updatedBy,
+					identifierType, 
+					identifier,
+					serviceCore, 
+					db, 
+					parameters);
+			LOG4J_LOGGER.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
+			
+			// Create a new json message.
+			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
+			LOG4J_LOGGER.info(serviceName + ": sent json message = " + jsonMessage.toString());
+				
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 		
+
+			// Log a success!
+			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
+			
+			LOG4J_LOGGER.info(serviceName + ": service status is success.");
+			
+			// Commit.
+			db.closeSession();
+		}
+		catch (CprException e) {
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(e.getReturnType().index(), errorMessage);
+		}
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		} 
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
+		}
+		
+		LOG4J_LOGGER.info(serviceName + ": end of service.");
+		// Success so return it.
+		return new ServiceReturn(ReturnType.SUCCESS.index(), SUCCESS_MESSAGE);
 	}
 
 	/**
@@ -3238,12 +3203,12 @@ public class CprwsService implements CprwsSEI {
 	 * @param identifierType contains the type of identifier used to find the person.
 	 * @param identifier contains the value of the identifier.
 	 * @param userid contains the credential that is being unblocked.
-	 * @return SecurityActionReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.SecurityActionReturn
+	 * @return ServiceReturn object that contains the result of executing the service.
+	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
 	 */
 	@WebMethod(operationName="UnblockUser")
-	@WebResult(name="SecurityActionReturn")
-	public SecurityActionReturn UnblockUser(
+	@WebResult(name="ServiceReturn")
+	public ServiceReturn UnblockUser(
 			@WebParam( name="principalId", mode=Mode.IN)
 			String principalId, 
 			@WebParam( name="password", mode=Mode.IN)
@@ -3256,77 +3221,79 @@ public class CprwsService implements CprwsSEI {
 			String identifier,
 			@WebParam( name="userid", mode=Mode.IN)
 			String userid) {
-//		final ServiceCore serviceCore = new ServiceCore();
-//		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-//		final String serviceName = CprServiceName.UnblockUser.toString();
-//		MessagingCore mCore = null;
-//		final Database db = new Database();
-//		final ServiceHelper serviceHelper = new ServiceHelper();
-//		
-//		Log4jLogger.info(serviceName + ": start of service.");
-//		try {
-//			
-//			// Build the parameter list.
-//			final StringBuilder parameters = new StringBuilder(5000);
-//			parameters.append("principalId=[").append(principalId).append("] ");
-//			parameters.append("updatedBy=[").append(updatedBy).append("] ");
-//			parameters.append("identifierType=[").append(identifierType).append("] ");
-//			parameters.append("identifier=[").append(identifier).append("] ");
-//			parameters.append("userid=[").append(userid).append("] ");
-//			Log4jLogger.info(serviceName + ": input parameters =" + parameters.toString());
-//
-//			// Init the service.
-//			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-//			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-//					request.getRemoteAddr(),
-//					principalId,
-//					password,
-//					updatedBy,
-//					identifierType, 
-//					identifier,
-//					serviceCore, 
-//					db, 
-//					parameters);
-//			Log4jLogger.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
-//		
-//			// Create a new json message.
-//			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-//			Log4jLogger.info(serviceName + ": sent json message = " + jsonMessage.toString());
-//				
-//			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 		
-//
-//			// Log a success!
-//			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
-//			
-//			Log4jLogger.info(serviceName + ": service status is success.");
-//			// Commit
-//			db.closeSession();
-//		}
-//		catch (CprException e) {
-//			final String errorMessage = serviceHelper.handleCprException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new SecurityActionReturn(e.getReturnType().index(), errorMessage);
-//		}
-//		catch (GeneralDatabaseException e) {
-//			serviceHelper.handleGeneralDatabaseException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new SecurityActionReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-//		} 
-//		catch (Exception e) {
-//			serviceHelper.handleOtherException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new SecurityActionReturn(ReturnType.SECURITY_OPERATION_EXCEPTION.index(), userid);
-//		} 
-//		finally {
-//			try {
-//				mCore.closeMessaging();
-//			}
-//			catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//		Log4jLogger.info(serviceName + ": end of service.");
-//		// Success so return it.
-//		return new SecurityActionReturn(ReturnType.SUCCESS.index(), SUCCESS_MESSAGE);
-		return null;
+		final ServiceCore serviceCore = new ServiceCore();
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		final String serviceName = CprServiceName.UnblockUser.toString();
+		final Database db = new Database();
+		final ServiceHelper serviceHelper = new ServiceHelper();
+		
+		LOG4J_LOGGER.info(serviceName + ": start of service.");
+		try {
+			
+			// Build the parameter list.
+			final StringBuilder parameters = new StringBuilder(5000);
+			parameters.append("principalId=[").append(principalId).append("] ");
+			parameters.append("updatedBy=[").append(updatedBy).append("] ");
+			parameters.append("identifierType=[").append(identifierType).append("] ");
+			parameters.append("identifier=[").append(identifier).append("] ");
+			parameters.append("userid=[").append(userid).append("] ");
+			LOG4J_LOGGER.info(serviceName + ": input parameters =" + parameters.toString());
+
+			// Init the service.
+			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
+					request.getRemoteAddr(),
+					principalId,
+					password,
+					updatedBy,
+					identifierType, 
+					identifier,
+					serviceCore, 
+					db, 
+					parameters);
+			LOG4J_LOGGER.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
+		
+			// Create a new json message.
+			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
+			LOG4J_LOGGER.info(serviceName + ": sent json message = " + jsonMessage.toString());
+				
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 		
+
+			// Log a success!
+			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
+			
+			LOG4J_LOGGER.info(serviceName + ": service status is success.");
+			// Commit
+			db.closeSession();
+		}
+		catch (CprException e) {
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(e.getReturnType().index(), errorMessage);
+		}
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		} 
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
+		}
+		
+		LOG4J_LOGGER.info(serviceName + ": end of service.");
+		// Success so return it.
+		return new ServiceReturn(ReturnType.SUCCESS.index(), SUCCESS_MESSAGE);
 	}
 
 	/**
@@ -3340,12 +3307,12 @@ public class CprwsService implements CprwsSEI {
 	 * @param identifierType contains the type of identifier used to find the person.
 	 * @param identifier contains the value of the identifier.
 	 * @param userid contains the credential that is being disabled.
-	 * @return SecurityActionReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.SecurityActionReturn
+	 * @return ServiceReturn object that contains the result of executing the service.
+	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
 	 */
 	@WebMethod(operationName="DisableUser")
-	@WebResult(name="SecurityActionReturn")
-	public SecurityActionReturn DisableUser(
+	@WebResult(name="ServiceReturn")
+	public ServiceReturn DisableUser(
 			@WebParam( name="principalId", mode=Mode.IN)
 			String principalId, 
 			@WebParam( name="password", mode=Mode.IN)
@@ -3359,78 +3326,80 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="userid", mode=Mode.IN)
 			String userid) {
 		
-//		final ServiceCore serviceCore = new ServiceCore();
-//		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-//		final String serviceName = CprServiceName.DisableUser.toString();
-//		MessagingCore mCore = null;
-//		final Database db = new Database();
-//		final ServiceHelper serviceHelper = new ServiceHelper();
-//		
-//		Log4jLogger.info(serviceName + ": start of service.");
-//		try {
-//			
-//			// Build the parameter list.
-//			final StringBuilder parameters = new StringBuilder(5000);
-//			parameters.append("principalId=[").append(principalId).append("] ");
-//			parameters.append("updatedBy=[").append(updatedBy).append("] ");
-//			parameters.append("identifierType=[").append(identifierType).append("] ");
-//			parameters.append("identifier=[").append(identifier).append("] ");
-//			parameters.append("userid=[").append(userid).append("] ");
-//			Log4jLogger.info(serviceName + ": input parameters =" + parameters.toString());
-//
-//			// Init the service.
-//			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-//			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-//					request.getRemoteAddr(),
-//					principalId,
-//					password,
-//					updatedBy,
-//					identifierType, 
-//					identifier,
-//					serviceCore, 
-//					db, 
-//					parameters);
-//			Log4jLogger.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
-//			
-//			// Create a new json message.
-//			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-//			Log4jLogger.info(serviceName + ": sent json message = " + jsonMessage.toString());
-//				
-//			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 		
-//
-//			// Log a success!
-//			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
-//			
-//			Log4jLogger.info(serviceName + ": service status is success.");
-//			// Commit.
-//			db.closeSession();
-//		}
-//		catch (CprException e) {
-//			final String errorMessage = serviceHelper.handleCprException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new SecurityActionReturn(e.getReturnType().index(), errorMessage);
-//		}
-//		catch (GeneralDatabaseException e) {
-//			serviceHelper.handleGeneralDatabaseException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new SecurityActionReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-//		} 
-//		catch (Exception e) {
-//			serviceHelper.handleOtherException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new SecurityActionReturn(ReturnType.SECURITY_OPERATION_EXCEPTION.index(), userid);
-//		} 
-//		finally {
-//			try {
-//				mCore.closeMessaging();
-//			}
-//			catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//		Log4jLogger.info(serviceName + ": end of service.");
-//		
-//		// Success so return it.
-//		return new SecurityActionReturn(ReturnType.SUCCESS.index(), SUCCESS_MESSAGE);
-		return null;
+		final ServiceCore serviceCore = new ServiceCore();
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		final String serviceName = CprServiceName.DisableUser.toString();
+		final Database db = new Database();
+		final ServiceHelper serviceHelper = new ServiceHelper();
+		
+		LOG4J_LOGGER.info(serviceName + ": start of service.");
+		try {
+			
+			// Build the parameter list.
+			final StringBuilder parameters = new StringBuilder(5000);
+			parameters.append("principalId=[").append(principalId).append("] ");
+			parameters.append("updatedBy=[").append(updatedBy).append("] ");
+			parameters.append("identifierType=[").append(identifierType).append("] ");
+			parameters.append("identifier=[").append(identifier).append("] ");
+			parameters.append("userid=[").append(userid).append("] ");
+			LOG4J_LOGGER.info(serviceName + ": input parameters =" + parameters.toString());
+
+			// Init the service.
+			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
+					request.getRemoteAddr(),
+					principalId,
+					password,
+					updatedBy,
+					identifierType, 
+					identifier,
+					serviceCore, 
+					db, 
+					parameters);
+			LOG4J_LOGGER.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
+			
+			// Create a new json message.
+			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
+			LOG4J_LOGGER.info(serviceName + ": sent json message = " + jsonMessage.toString());
+				
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 		
+
+			// Log a success!
+			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
+			
+			LOG4J_LOGGER.info(serviceName + ": service status is success.");
+			// Commit.
+			db.closeSession();
+		}
+		catch (CprException e) {
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(e.getReturnType().index(), errorMessage);
+		}
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		} 
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
+		}
+		
+		LOG4J_LOGGER.info(serviceName + ": end of service.");
+		
+		// Success so return it.
+		return new ServiceReturn(ReturnType.SUCCESS.index(), SUCCESS_MESSAGE);
 	}
 
 	/**
@@ -3444,12 +3413,12 @@ public class CprwsService implements CprwsSEI {
 	 * @param identifierType contains the type of identifier used to find the person.
 	 * @param identifier contains the value of the identifier.
 	 * @param userid contains the credential that is being unlocked.
-	 * @return SecurityActionReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.SecurityActionReturn
+	 * @return ServiceReturn object that contains the result of executing the service.
+	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
 	 */
 	@WebMethod(operationName="EnableUser")
-	@WebResult(name="SecurityActionReturn")
-	public SecurityActionReturn EnableUser(
+	@WebResult(name="ServiceReturn")
+	public ServiceReturn EnableUser(
 			@WebParam( name="principalId", mode=Mode.IN)
 			String principalId, 
 			@WebParam( name="password", mode=Mode.IN)
@@ -3463,80 +3432,82 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="userid", mode=Mode.IN)
 			String userid) {
 		
-//		final ServiceCore serviceCore = new ServiceCore();
-//		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-//		final String serviceName = CprServiceName.EnableUser.toString();
-//		MessagingCore mCore = null;
-//		final Database db = new Database();
-//		final ServiceHelper serviceHelper = new ServiceHelper();
-//		
-//		Log4jLogger.info(serviceName + ": start of service.");
-//		try {
-//			
-//			// Build the parameter list.
-//			final StringBuilder parameters = new StringBuilder(5000);
-//			parameters.append("principalId=[").append(principalId).append("] ");
-//			parameters.append("updatedBy=[").append(updatedBy).append("] ");
-//			parameters.append("identifierType=[").append(identifierType).append("] ");
-//			parameters.append("identifier=[").append(identifier).append("] ");
-//			parameters.append("userid=[").append(userid).append("] ");
-//			Log4jLogger.info(serviceName + ": input parameters =" + parameters.toString());
-//
-//			// Init the service.
-//			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-//			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-//					request.getRemoteAddr(),
-//					principalId,
-//					password,
-//					updatedBy,
-//					identifierType, 
-//					identifier,
-//					serviceCore, 
-//					db, 
-//					parameters);
-//			Log4jLogger.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
-//			
-//			// Create a new json message.
-//			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-//				
-//			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 		
-//			Log4jLogger.info(serviceName + ": sent json message = " + jsonMessage.toString());
-//
-//			// Log a success!
-//			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
-//			
-//			Log4jLogger.info(serviceName + ": service status is success.");
-//			// Commit.
-//			db.closeSession();
-//		}
-//		catch (CprException e) {
-//			final String errorMessage = serviceHelper.handleCprException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new SecurityActionReturn(e.getReturnType().index(), errorMessage);
-//		}
-//		catch (GeneralDatabaseException e) {
-//			serviceHelper.handleGeneralDatabaseException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new SecurityActionReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-//		} 
-//		catch (Exception e) {
-//			serviceHelper.handleOtherException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new SecurityActionReturn(ReturnType.SECURITY_OPERATION_EXCEPTION.index(), userid);
-//		} 
-//		finally {
-//			try {
-//				mCore.closeMessaging();
-//			}
-//			catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//		Log4jLogger.info(serviceName + ": end of service.");
-//		
-//		// Success so return it.
-//		return new SecurityActionReturn(ReturnType.SUCCESS.index(), SUCCESS_MESSAGE);
-		return null;
+		final ServiceCore serviceCore = new ServiceCore();
+		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		final String serviceName = CprServiceName.EnableUser.toString();
+		final Database db = new Database();
+		final ServiceHelper serviceHelper = new ServiceHelper();
+		
+		LOG4J_LOGGER.info(serviceName + ": start of service.");
+		try {
+			
+			// Build the parameter list.
+			final StringBuilder parameters = new StringBuilder(5000);
+			parameters.append("principalId=[").append(principalId).append("] ");
+			parameters.append("updatedBy=[").append(updatedBy).append("] ");
+			parameters.append("identifierType=[").append(identifierType).append("] ");
+			parameters.append("identifier=[").append(identifier).append("] ");
+			parameters.append("userid=[").append(userid).append("] ");
+			LOG4J_LOGGER.info(serviceName + ": input parameters =" + parameters.toString());
+
+			// Init the service.
+			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
+					request.getRemoteAddr(),
+					principalId,
+					password,
+					updatedBy,
+					identifierType, 
+					identifier,
+					serviceCore, 
+					db, 
+					parameters);
+			LOG4J_LOGGER.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
+			
+			// Create a new json message.
+			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
+				
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 		
+			LOG4J_LOGGER.info(serviceName + ": sent json message = " + jsonMessage.toString());
+
+			// Log a success!
+			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
+			
+			LOG4J_LOGGER.info(serviceName + ": service status is success.");
+			// Commit.
+			db.closeSession();
+		}
+		catch (CprException e) {
+			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(e.getReturnType().index(), errorMessage);
+		}
+		catch (NamingException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+		}
+		catch (JDBCException e) {
+			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		} 
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
+		}
+		
+		LOG4J_LOGGER.info(serviceName + ": end of service.");
+		
+		// Success so return it.
+		return new ServiceReturn(ReturnType.SUCCESS.index(), SUCCESS_MESSAGE);
 	}
-	
+		
 	/**
 	 * This function implements the TransformAddress SOAP web service.  TransformAddress 
 	 * places the incoming address into a standardized format according to postal rules and makes an 
@@ -3557,79 +3528,22 @@ public class CprwsService implements CprwsSEI {
 	 * @see edu.psu.iam.cpr.service.returns.TransformServiceReturn
 	 * 
 	 */
-	@WebMethod(operationName="TransformAddress")
-	@WebResult(name="TransformServiceReturn")
+	@WebMethod(operationName = "TransformAddress")
+	@WebResult(name = "TransformServiceReturn")
 	public TransformServiceReturn TransformAddress(
-			@WebParam(name="principalId", mode=Mode.IN) String principalId, 
-			@WebParam(name="password", mode=Mode.IN) String password, 
-			@WebParam(name="requestedBy", mode=Mode.IN) String requestedBy, 
-			@WebParam(name="address1", mode=Mode.IN) String address1, 
-			@WebParam(name="address2", mode=Mode.IN) String address2, 
-			@WebParam(name="address3", mode=Mode.IN) String address3, 
-			@WebParam(name="city", mode=Mode.IN) String city, 
-			@WebParam(name="stateOrProvince", mode=Mode.IN) String stateOrProvince, 
-			@WebParam(name="postalCode", mode=Mode.IN) String postalCode,
-			@WebParam(name="countryCode", mode=Mode.IN) String countryCode) 
-	{
-
-//		if (CprProperties.getInstance().getProperties().getProperty(CprPropertyName.CPR_ADDRESS_VALIDATION.toString()).equals("YES")) {
-//			String serviceName = CprServiceName.TransformAddress.toString();
-//			ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-//			ServiceCore serviceCore = new ServiceCore();
-//			Database db = new Database();
-//			final ServiceHelper serviceHelper = new ServiceHelper();
-//			TransformServiceReturn transformServiceReturn = null;
-//
-//			Log4jLogger.info("TransformAddress: Start of service.");
-//
-//			try {
-//
-//				// build a string for request logging
-//				StringBuilder parameters = new StringBuilder(200);
-//				parameters.append("principalId=[").append(principalId).append("] ");
-//				parameters.append("requestedBy=[").append(requestedBy).append("] ");
-//				parameters.append("address1=[").append(requestedBy).append("] ");
-//				parameters.append("address2=[").append(requestedBy).append("] ");
-//				parameters.append("address3=[").append(requestedBy).append("] ");
-//				parameters.append("city=[").append(requestedBy).append("] ");
-//				parameters.append("stateOrProvince=[").append(requestedBy).append("] ");
-//				parameters.append("postalCode=[").append(requestedBy).append("] ");
-//				parameters.append("countryCode=[").append(requestedBy).append("] ");
-//
-//				// initialize the service.
-//				db.openSession(SessionFactoryUtil.getSessionFactory());
-//				HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-//				serviceCoreReturn = serviceCore.initializeLogging(db, serviceName, request.getRemoteAddr(), parameters.toString(), requestedBy);
-//				serviceCore.initializeService(db, principalId, password, serviceName, serviceCoreReturn);
-//
-//				transformServiceReturn = new TransformAddressHelper().doTransformAddress(db, serviceCoreReturn, requestedBy, address1, address2, 
-//						address3, city, stateOrProvince, postalCode, countryCode);
-//
-//				db.closeSession();
-//			} 
-//			catch (GeneralDatabaseException e) {
-//				serviceHelper.handleGeneralDatabaseException(Log4jLogger, serviceCoreReturn, db, e);
-//				return new TransformServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-//			} 
-//			catch (CprException e) {
-//				String errorMessage = serviceHelper.handleCprException(Log4jLogger, serviceCoreReturn, db, e);
-//				return new TransformServiceReturn(e.getReturnType().index(), errorMessage);
-//			}
-////			catch (SessionError e) {	
-////				serviceHelper.handleOtherException(Log4jLogger, serviceCoreReturn, db, e);
-////				return new TransformServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
-////			}
-//
-//			return transformServiceReturn;
-//		}
-//		else {
-//			return new TransformServiceReturn(ReturnType.SUCCESS.index(), "Not Implemented!");
-//		}
-		
-		return null;
+			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
+			@WebParam(name = "password", mode = Mode.IN) String password,
+			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
+			@WebParam(name = "address1", mode = Mode.IN) String address1,
+			@WebParam(name = "address2", mode = Mode.IN) String address2,
+			@WebParam(name = "address3", mode = Mode.IN) String address3,
+			@WebParam(name = "city", mode = Mode.IN) String city,
+			@WebParam(name = "stateOrProvince", mode = Mode.IN) String stateOrProvince,
+			@WebParam(name = "postalCode", mode = Mode.IN) String postalCode,
+			@WebParam(name = "countryCode", mode = Mode.IN) String countryCode) {
+		return new TransformServiceReturn(ReturnType.NOT_IMPLEMENTED_EXCEPTION.index(), ReturnType.NOT_IMPLEMENTED_EXCEPTION.message());
 	}
-	
-	
+
 	/**
 	 * This function implements the GetMatchCode SOAP web service.  Given a matching data type and data,
 	 * service GetMatchCode will connect to the data quality server and generate a match code.
@@ -3645,115 +3559,19 @@ public class CprwsService implements CprwsSEI {
 	 * 
 	 * @see edu.psu.iam.cpr.service.returns.MatchCodeServiceReturn
 	 */
-	
-	@WebMethod(operationName="GetMatchCode")
-	@WebResult(name="MatchCodeServiceReturn")
-	
+
+	@WebMethod(operationName = "GetMatchCode")
+	@WebResult(name = "MatchCodeServiceReturn")
 	public MatchCodeServiceReturn GetMatchCode(
-			@WebParam(name="principalId", mode=Mode.IN) String principalId, 
-			@WebParam(name="password", mode=Mode.IN) String password, 
-			@WebParam(name="requestedBy", mode=Mode.IN) String requestedBy, 
-			@WebParam(name="matchDataType", mode=Mode.IN) String matchDataType, 
-			@WebParam(name="dataValue", mode=Mode.IN) String dataValue)
-	{
-		
-//		/** Specifies how similar input data strings must be to generate the same match
-//		code. Expressed as a percentage with 85 as the vendor recommended default. Changing
-//		this value requires all stored match codes to be regenerated */
-//		final int sensitivity = 85;
-//
-//		String serviceName = CprServiceName.GetMatchCode.toString();
-//		MatchCodeServiceReturn serviceReturn = null;
-//		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-//		final ServiceCore serviceCore = new ServiceCore();
-//		final Database db = new Database();
-//		final ServiceHelper serviceHelper = new ServiceHelper();
-//		
-//		Log4jLogger.info("GetMatchCode: Start of service.");
-//		
-//		try {
-//			// build a string for request logging
-//			StringBuilder parameters = new StringBuilder(200);
-//			parameters.append("principalId=[").append(principalId).append("] ");
-//			parameters.append("requestedBy=[").append(requestedBy).append("] ");
-//			parameters.append("matchDataType=[").append(matchDataType).append("] ");
-//			parameters.append("dataValue=[").append(dataValue).append("] ");
-//			Log4jLogger.info(serviceName + ": Input Parameters = " + parameters.toString());
-//			
-//			// initialize the service.
-//			db.openSession(SessionFactoryUtil.getSessionFactory());
-//			HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-//			serviceCoreReturn = serviceCore.initializeLogging(db, serviceName, request.getRemoteAddr(), parameters.toString(), requestedBy);
-//			serviceCore.initializeService(db, principalId, password, serviceName, serviceCoreReturn);
-//						
-//		     // data quality server configuration 
-//			HashMap <String, String> config = new HashMap <String, String>();
-//			
-//			// get  data quality server attributes from properties file
-//			Properties props = CprProperties.getInstance().getProperties();
-//			String dqServer = props.getProperty("cpr.dq.server");
-//			String dqTransport = props.getProperty("cpr.dq.transport");
-//			String dqLogFile = props.getProperty("cpr.dq.logfile");
-//
-//			// log data quality server attributes used
-//			StringBuilder attributes = new StringBuilder(200);
-//			attributes.append("dqServer=[").append(dqServer).append("] ");
-//			attributes.append("dqTransport=[").append(dqTransport).append("] ");
-//			attributes.append("dqLogFile=[").append(dqLogFile).append("] ");
-//			Log4jLogger.debug(serviceName + ": Server Attributes = " + attributes.toString());
-//	
-//			// set data quality attributes
-//		    config.put("server", dqServer);
-//		    config.put("transport", dqTransport);
-//		    config.put("log_file", dqLogFile);
-//		    
-//		    // connect to the server and initialize the dfClient object 
-//		    Base base = new SessionObject(config);
-//		    Match match = (Match) base;
-//		    
-//			// generate a match code from the input value
-//			String matchCode = match.genMatchcode(matchDataType, sensitivity, dataValue);
-//		    
-//		    // extract output values from function return
-//        	serviceReturn = new MatchCodeServiceReturn (ReturnType.SUCCESS.index(), "SUCCESS");
-//        	serviceReturn.setMatchCode(matchCode);
-//        	
-//        	// close match session
-//            base.close();
-//			
-//		    // log a success!
-//			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
-//			
-//			db.closeSession();
-//			
-//			Log4jLogger.info("GetMatchCode: Status = SUCCESS");
-//            
-//	        return serviceReturn;
-//		} 
-//		catch (GeneralDatabaseException e) {
-//			serviceHelper.handleGeneralDatabaseException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new MatchCodeServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), e.getMessage());
-//		} 
-//		catch (CprException e) {
-//			String errorMessage = serviceHelper.handleCprException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new MatchCodeServiceReturn(e.getReturnType().index(), errorMessage);
-//		}
-//		catch (SessionError e) {	
-//			serviceHelper.handleOtherException(Log4jLogger, serviceCoreReturn, db, e);
-//			return new MatchCodeServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
-//		}
-//		finally {
-//			try {
-//				db.closeSession();
-//			}
-//			catch (Exception e) {			
-//				e.printStackTrace();
-//			}
-//		}
-		return null;
+			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
+			@WebParam(name = "password", mode = Mode.IN) String password,
+			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
+			@WebParam(name = "matchDataType", mode = Mode.IN) String matchDataType,
+			@WebParam(name = "dataValue", mode = Mode.IN) String dataValue) {
+		return new MatchCodeServiceReturn(ReturnType.NOT_IMPLEMENTED_EXCEPTION.index(), ReturnType.NOT_IMPLEMENTED_EXCEPTION.message());
 	}
 
-	
+
 	/**
 	 * This function provides the implementation for the AddUserComment SOAP web service.
 	 * AddUserComment will allow authorized Security Agent to be able to add a

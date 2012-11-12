@@ -42,8 +42,11 @@ import edu.psu.iam.cpr.service.returns.UserCommentServiceReturn;
  */
 public class GetUserCommentsImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetUserCommentsImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetUserCommentsImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int USERID = 0;
+	private static final int USER_COMMENT_TYPE = 1;
+	private static final int RETURN_HISTORY = 2;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -71,9 +74,9 @@ public class GetUserCommentsImpl implements ServiceInterface {
 		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
-			String userId 					= (String) otherParameters[0];
-			final String userCommentType 	= (String) otherParameters[1];
-			final String returnHistory 		= (String) otherParameters[2];
+			String userId 					= (String) otherParameters[USERID];
+			final String userCommentType 	= (String) otherParameters[USER_COMMENT_TYPE];
+			final String returnHistory 		= (String) otherParameters[RETURN_HISTORY];
 			
 			// Build the parameters string.
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
@@ -126,8 +129,11 @@ public class GetUserCommentsImpl implements ServiceInterface {
 		}
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new UserCommentServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-			
+			return (Object) new UserCommentServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);	
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new UserCommentServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());			
 		}
 		
 		LOG4J_LOGGER.info(serviceName + ": End of service.");

@@ -61,7 +61,12 @@ public class PhotoServiceReturn {
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
 		this.numberElements = numberElements;
-		this.photoReturn = Arrays.copyOf(photoArray, photoArray.length);
+		if (photoArray != null) {
+			this.photoReturn = Arrays.copyOf(photoArray, photoArray.length);
+		}
+		else {
+			this.photoReturn = null;
+		}
 	}
 
 	/**
@@ -127,7 +132,12 @@ public class PhotoServiceReturn {
 	 * @param photoArray the photoReturn to set
 	 */
 	public void setPhotoReturn(PhotoReturn[] photoArray) {
-		this.photoReturn = Arrays.copyOf(photoArray, photoArray.length);
+		if (photoArray != null) {
+			this.photoReturn = Arrays.copyOf(photoArray, photoArray.length);
+		}
+		else {
+			this.photoReturn = null;
+		}
 	}
 	
 }

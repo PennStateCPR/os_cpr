@@ -24,7 +24,6 @@ import edu.psu.iam.cpr.service.returns.PersonServiceReturn;
 import edu.psu.iam.cpr.service.returns.PhoneServiceReturn;
 import edu.psu.iam.cpr.service.returns.PhotoServiceReturn;
 import edu.psu.iam.cpr.service.returns.RulesServiceReturn;
-import edu.psu.iam.cpr.service.returns.SecurityActionReturn;
 import edu.psu.iam.cpr.service.returns.ServiceReturn;
 import edu.psu.iam.cpr.service.returns.TransformServiceReturn;
 import edu.psu.iam.cpr.service.returns.UserCommentServiceReturn;
@@ -1754,12 +1753,12 @@ public interface CprwsSEI {
 	 * @param identifierType contains the type of identifier used to find the person.
 	 * @param identifier contains the value of the identifier.
 	 * @param userid contains the credential that is being blocked.
-	 * @return SecurityActionReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.SecurityActionReturn
+	 * @return ServiceReturn object that contains the result of executing the service.
+	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "BlockUser")
-	@WebResult(name = "SecurityActionReturn")
-	SecurityActionReturn BlockUser(
+	@WebResult(name = "ServiceReturn")
+	ServiceReturn BlockUser(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1778,12 +1777,12 @@ public interface CprwsSEI {
 	 * @param identifierType contains the type of identifier used to find the person.
 	 * @param identifier contains the value of the identifier.
 	 * @param userid contains the credential that is being unblocked.
-	 * @return SecurityActionReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.SecurityActionReturn
+	 * @return ServiceReturn object that contains the result of executing the service.
+	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "UnblockUser")
-	@WebResult(name = "SecurityActionReturn")
-	SecurityActionReturn UnblockUser(
+	@WebResult(name = "ServiceReturn")
+	ServiceReturn UnblockUser(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1802,12 +1801,12 @@ public interface CprwsSEI {
 	 * @param identifierType contains the type of identifier used to find the person.
 	 * @param identifier contains the value of the identifier.
 	 * @param userid contains the credential that is being disabled.
-	 * @return SecurityActionReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.SecurityActionReturn
+	 * @return ServiceReturn object that contains the result of executing the service.
+	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "DisableUser")
-	@WebResult(name = "SecurityActionReturn")
-	SecurityActionReturn DisableUser(
+	@WebResult(name = "ServiceReturn")
+	ServiceReturn DisableUser(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
@@ -1826,19 +1825,19 @@ public interface CprwsSEI {
 	 * @param identifierType contains the type of identifier used to find the person.
 	 * @param identifier contains the value of the identifier.
 	 * @param userid contains the credential that is being unlocked.
-	 * @return SecurityActionReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.SecurityActionReturn
+	 * @return ServiceReturn object that contains the result of executing the service.
+	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "EnableUser")
-	@WebResult(name = "SecurityActionReturn")
-	SecurityActionReturn EnableUser(
+	@WebResult(name = "ServiceReturn")
+	ServiceReturn EnableUser(
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
 			@WebParam(name = "identifierType", mode = Mode.IN) String identifierType,
 			@WebParam(name = "identifier", mode = Mode.IN) String identifier,
 			@WebParam(name = "userid", mode = Mode.IN) String userid);
-
+	
 	/**
 	 * This function implements the TransformAddress SOAP web service.  TransformAddress 
 	 * places the incoming address into a standardized format according to postal rules and makes an 
@@ -1897,6 +1896,7 @@ public interface CprwsSEI {
 			@WebParam(name = "requestedBy", mode = Mode.IN) String requestedBy,
 			@WebParam(name = "matchDataType", mode = Mode.IN) String matchDataType,
 			@WebParam(name = "dataValue", mode = Mode.IN) String dataValue);
+
 
 	/**
 	 * This function provides the implementation for the AddUserComment SOAP web service.

@@ -41,7 +41,9 @@ import edu.psu.iam.cpr.service.returns.ConfidentialityServiceReturn;
  */
 public class GetConfidentialityImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetConfidentialityImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetConfidentialityImpl.class);
+	private static final int RETURN_HISTORY = 0;
+	private static final int BUFFER_SIZE = 2048;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -69,10 +71,10 @@ public class GetConfidentialityImpl implements ServiceInterface {
 		
 		try {
 			
-			final String returnHistory = (String) otherParameters[0];
+			final String returnHistory = (String) otherParameters[RETURN_HISTORY];
 			
 			// Build the parameter list.
-			final StringBuilder parameters = new StringBuilder(10000);
+			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
 			parameters.append("requestedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
@@ -122,7 +124,10 @@ public class GetConfidentialityImpl implements ServiceInterface {
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ConfidentialityServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-			
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ConfidentialityServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());			
 		}
 
 		LOG4J_LOGGER.info(serviceName + ": End of service.");

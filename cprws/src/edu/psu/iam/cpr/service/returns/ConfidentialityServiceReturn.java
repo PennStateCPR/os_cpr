@@ -91,7 +91,12 @@ public class ConfidentialityServiceReturn {
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
 		this.numberElements = numberElements;
-		this.confidentialityReturn = Arrays.copyOf(confidentialityReturnArray, confidentialityReturnArray.length);
+		if (confidentialityReturnArray != null) {
+			this.confidentialityReturn = Arrays.copyOf(confidentialityReturnArray, confidentialityReturnArray.length);
+		}
+		else {
+			this.confidentialityReturn = null;
+		}
 	}
 
 	/**
@@ -151,7 +156,12 @@ public class ConfidentialityServiceReturn {
 	 * @param confidentialityReturnArray the confidentialityReturn to set
 	 */
 	public void setConfidentialityReturn(ConfidentialityReturn confidentialityReturnArray[]) {
-		this.confidentialityReturn = Arrays.copyOf(confidentialityReturnArray, confidentialityReturnArray.length);
+		if (confidentialityReturnArray != null) {
+			this.confidentialityReturn = Arrays.copyOf(confidentialityReturnArray, confidentialityReturnArray.length);
+		}
+		else {
+			this.confidentialityReturn = null;
+		}
 	}
 
 	/**

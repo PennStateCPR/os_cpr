@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidateEmail;
@@ -46,8 +45,9 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class ArchiveEmailAddressImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(ArchiveEmailAddressImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(ArchiveEmailAddressImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int EMAIL_ADDRESS_TYPE = 0;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -68,14 +68,13 @@ public class ArchiveEmailAddressImpl implements ServiceInterface {
 		
 		final ServiceHelper serviceHelper = new ServiceHelper();
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		MessagingCore mCore = null;
 		ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
 
 		LOG4J_LOGGER.info("ArchiveEmailAddress: Start of service.");
 		try {
 
-			final String emailAddressType = (String) otherParameters[0];
+			final String emailAddressType = (String) otherParameters[EMAIL_ADDRESS_TYPE];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -112,7 +111,7 @@ public class ArchiveEmailAddressImpl implements ServiceInterface {
 			JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
 			jsonMessage.setEmailAddress(emailAddressTable);			
 
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 
 			
 			// Log a success!
 			LOG4J_LOGGER.info("ArchiveEmailAddress: Status = SUCCESS, EmailAddress archived");
@@ -139,8 +138,9 @@ public class ArchiveEmailAddressImpl implements ServiceInterface {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-			mCore.closeMessaging();
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		LOG4J_LOGGER.info("ArchiveEmailAddress: End of service.");
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);

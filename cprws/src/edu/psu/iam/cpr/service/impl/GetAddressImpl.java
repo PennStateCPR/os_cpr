@@ -42,8 +42,10 @@ import edu.psu.iam.cpr.service.returns.AddressServiceReturn;
  */
 public class GetAddressImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetAddressImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetAddressImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int ADDRESS_TYPE = 0;
+	private static final int RETURN_HISTORY = 1;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -70,8 +72,8 @@ public class GetAddressImpl implements ServiceInterface {
 		
 		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
-			final String addressType 	= (String) otherParameters[0];
-			final String returnHistory 	= (String) otherParameters[1];
+			final String addressType 	= (String) otherParameters[ADDRESS_TYPE];
+			final String returnHistory 	= (String) otherParameters[RETURN_HISTORY];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -83,7 +85,6 @@ public class GetAddressImpl implements ServiceInterface {
 			LOG4J_LOGGER.info(serviceName + ": Input Parameters = " + parameters.toString());
 
 			// Init the service.
-			//Log4JStopWatch totalWatch = new Log4JStopWatch("Initialize Service");
 			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
 					ipAddress,
 					principalId,
@@ -94,18 +95,13 @@ public class GetAddressImpl implements ServiceInterface {
 					serviceCore, 
 					db, 
 					parameters);
-			//totalWatch.stop();
 			LOG4J_LOGGER.info(serviceName + ": Found Person Id = " + serviceCoreReturn.getPersonId());
 
 			// Validate the data passed to the service
-			//totalWatch = new  Log4JStopWatch("Data Validation");
 			final AddressesTable addressTable = ValidateAddress.validateGetAddressParameters(db, serviceCoreReturn.getPersonId(),  
 					updatedBy, addressType, returnHistory);
-			//totalWatch.stop();
 			
-			//totalWatch = new  Log4JStopWatch("Get Data");
 			final AddressReturn[] addressResults = addressTable.getAddress(db, serviceCoreReturn.getPersonId());
-			//totalWatch.stop();
 
 			// Build the return class
 			serviceReturn = new AddressServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, addressResults, 
@@ -126,8 +122,11 @@ public class GetAddressImpl implements ServiceInterface {
 		}
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new AddressServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-			
+			return (Object) new AddressServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);			
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new AddressServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		LOG4J_LOGGER.info("GetAddress: End of service.");
 		return (Object) serviceReturn;

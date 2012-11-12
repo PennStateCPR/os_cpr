@@ -61,7 +61,12 @@ public class UseridServiceReturn {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.useridReturnRecord = Arrays.copyOf(useridReturnArray, useridReturnArray.length);
+		if (useridReturnArray != null) {
+			this.useridReturnRecord = Arrays.copyOf(useridReturnArray, useridReturnArray.length);
+		}
+		else {
+			this.useridReturnRecord = null;
+		}
 		this.numberElements = numberElements;
 	}
 
@@ -113,7 +118,12 @@ public class UseridServiceReturn {
 	 * @param useridReturnArray the useridReturnRecord to set
 	 */
 	public void setUseridReturnRecord(UseridReturn[] useridReturnArray) {
-		this.useridReturnRecord = Arrays.copyOf(useridReturnArray, useridReturnArray.length);
+		if (useridReturnArray != null) {
+			this.useridReturnRecord = Arrays.copyOf(useridReturnArray, useridReturnArray.length);
+		}
+		else {
+			this.useridReturnRecord = null;
+		}
 	}
 	
 	/**

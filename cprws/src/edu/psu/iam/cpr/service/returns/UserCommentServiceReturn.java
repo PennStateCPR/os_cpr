@@ -70,7 +70,12 @@ public class UserCommentServiceReturn {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.userCommentReturnRecord = Arrays.copyOf(userCommentReturnArray, userCommentReturnArray.length);
+		if (userCommentReturnArray != null) {
+			this.userCommentReturnRecord = Arrays.copyOf(userCommentReturnArray, userCommentReturnArray.length);
+		}
+		else {
+			this.userCommentReturnRecord = null;
+		}
 		this.numberElements = numberElements;
 	}
 	
@@ -130,7 +135,12 @@ public class UserCommentServiceReturn {
 	 */
 	public void setUserCommentReturnRecord(
 			UserCommentReturn[] userCommentReturnArray) {
-		this.userCommentReturnRecord = Arrays.copyOf(userCommentReturnArray, userCommentReturnArray.length);
+		if (userCommentReturnArray != null) {
+			this.userCommentReturnRecord = Arrays.copyOf(userCommentReturnArray, userCommentReturnArray.length);
+		}
+		else {
+			this.userCommentReturnRecord = null;
+		}
 	}
 
 	/**

@@ -41,7 +41,7 @@ import edu.psu.iam.cpr.service.returns.AffiliationServiceReturn;
  */
 public class GetAffiliationsImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetAffiliationsImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetAffiliationsImpl.class);
 	private static final int BUFFER_SIZE = 2048;
 
 	/**
@@ -88,7 +88,7 @@ public class GetAffiliationsImpl implements ServiceInterface {
 					parameters);
 			LOG4J_LOGGER.info(serviceName + ": Found Person Id = " + serviceCoreReturn.getPersonId());
 			
-			// Validate the data passed to the service;
+			// Validate the data passed to the service
 			PersonAffiliationTable aTable = ValidatePersonAffiliation.validateGetAffiliationsForPersonIdParameters(
 					db, serviceCoreReturn.getPersonId(), updatedBy,"N");
 			final AffiliationReturn[] affiliationResults = aTable.getAllAffiliationsForPersonId(db, serviceCoreReturn.getPersonId());
@@ -112,6 +112,10 @@ public class GetAffiliationsImpl implements ServiceInterface {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new AffiliationServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
 			
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new AffiliationServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());			
 		}
 		LOG4J_LOGGER.info(serviceName + ": End of service.");
 		return (Object) serviceReturn;

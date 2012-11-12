@@ -40,8 +40,11 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class AddPersonLinkageImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(AddPersonLinkageImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(AddPersonLinkageImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int LINKAGE_TYPE = 0;
+	private static final int LINKED_IDENTIFIER_TYPE = 1;
+	private static final int LINKED_IDENTIFIER = 2;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -68,9 +71,9 @@ public class AddPersonLinkageImpl implements ServiceInterface {
 		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
-			final String linkageType = (String) otherParameters[0];
-			final String linkedIdentifierType = (String) otherParameters[1];
-			final String linkedIdentifier = (String) otherParameters[2];
+			final String linkageType = (String) otherParameters[LINKAGE_TYPE];
+			final String linkedIdentifierType = (String) otherParameters[LINKED_IDENTIFIER_TYPE];
+			final String linkedIdentifier = (String) otherParameters[LINKED_IDENTIFIER];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -121,6 +124,10 @@ public class AddPersonLinkageImpl implements ServiceInterface {
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		
 		LOG4J_LOGGER.info(serviceName + ": End of service.");

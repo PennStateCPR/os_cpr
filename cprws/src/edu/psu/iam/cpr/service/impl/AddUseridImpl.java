@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.service.returns.UseridReturn;
@@ -48,7 +47,7 @@ import edu.psu.iam.cpr.service.returns.UseridServiceReturn;
  */
 public class AddUseridImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(ArchiveUserCommentImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(ArchiveUserCommentImpl.class);
 	private static final int BUFFER_SIZE = 2048;
 
 	/**
@@ -68,7 +67,6 @@ public class AddUseridImpl implements ServiceInterface {
 			String principalId, String password, String updatedBy,
 			String identifierType, String identifier, Object[] otherParameters) {
 		
-		MessagingCore mCore = null;
 		UseridServiceReturn serviceReturn = null;
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		final ServiceCore serviceCore = new ServiceCore();
@@ -121,7 +119,7 @@ public class AddUseridImpl implements ServiceInterface {
 			jsonMessage.setUserid(useridTable);
 			LOG4J_LOGGER.info(serviceName + ": JSON message = " + jsonMessage.toString());
 			
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 			
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 			
 
 			// Log a success!
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
@@ -132,26 +130,27 @@ public class AddUseridImpl implements ServiceInterface {
 		} 
 		catch (CprException e) {
 			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(e.getReturnType().index(), errorMessage);
+			return (Object) new UseridServiceReturn(e.getReturnType().index(), errorMessage);
 		}
 		catch (NamingException e) {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
+			return (Object) new UseridServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
 		}
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+			return (Object) new UseridServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
 		} 
 		catch (JSONException e) {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+			return (Object) new UseridServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
 		} 
 		catch (JMSException e) {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
+			return (Object) new UseridServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-			mCore.closeMessaging();
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		
 		LOG4J_LOGGER.info(serviceName + ": end of service.");

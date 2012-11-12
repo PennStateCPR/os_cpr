@@ -81,7 +81,12 @@ public class IdCardServiceReturn {
 	 */
 	public void setPersonIdCardsReturnRecord(
 			PersonIdCardReturn[] personIdCardsReturnArray) {
-		this.personIdCardsReturnRecord = Arrays.copyOf(personIdCardsReturnArray, personIdCardsReturnArray.length);
+		if (personIdCardsReturnArray != null) {
+			this.personIdCardsReturnRecord = Arrays.copyOf(personIdCardsReturnArray, personIdCardsReturnArray.length);
+		}
+		else {
+			this.personIdCardsReturnRecord = null;
+		}
 	}
 	/**
 	 * @return the numberPersonIdCardElements
@@ -106,7 +111,12 @@ public class IdCardServiceReturn {
 	 * @param photoArray the photoReturn to set
 	 */
 	public void setPhotoReturn(PhotoReturn[] photoArray) {
-		this.photoReturn = Arrays.copyOf(photoArray, photoArray.length);
+		if (photoArray != null) {
+			this.photoReturn = Arrays.copyOf(photoArray, photoArray.length);
+		}
+		else {
+			this.photoReturn = null;
+		}
 	}
 	/**
 	 * 
@@ -138,9 +148,19 @@ public class IdCardServiceReturn {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.personIdCardsReturnRecord = Arrays.copyOf(personIdCardsReturnArray, personIdCardsReturnArray.length);
+		if (personIdCardsReturnArray != null) {
+			this.personIdCardsReturnRecord = Arrays.copyOf(personIdCardsReturnArray, personIdCardsReturnArray.length);
+		}
+		else {
+			this.personIdCardsReturnRecord = null;
+		}
 		this.numberPersonIdCardElements = numberPersonIdCardElements;
-		this.photoReturn = Arrays.copyOf(photoArray, photoArray.length);
+		if (photoArray != null) {
+			this.photoReturn = Arrays.copyOf(photoArray, photoArray.length);
+		}
+		else {
+			this.photoReturn = null;
+		}
 	}
 	
 	

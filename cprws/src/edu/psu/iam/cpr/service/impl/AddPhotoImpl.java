@@ -42,9 +42,11 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class AddPhotoImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(AddPhotoImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(AddPhotoImpl.class);
 	private static final int BUFFER_SIZE = 2048;
-	
+	private static final int PHOTO = 0;
+	private static final int PHOTO_DATE_TAKEN = 1;
+		
 	/**
 	 * This method provides the implementation for a service.
 	 * @param serviceName contains the name of the service.
@@ -70,8 +72,8 @@ public class AddPhotoImpl implements ServiceInterface {
 		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
-			final byte[] photo = (byte[]) otherParameters[0];
-			final String photoDateTaken = (String) otherParameters[1];
+			final byte[] photo = (byte[]) otherParameters[PHOTO];
+			final String photoDateTaken = (String) otherParameters[PHOTO_DATE_TAKEN];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -124,6 +126,10 @@ public class AddPhotoImpl implements ServiceInterface {
 			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
 		} 
 		catch (ParseException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
+		}
+		catch (RuntimeException e) {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}

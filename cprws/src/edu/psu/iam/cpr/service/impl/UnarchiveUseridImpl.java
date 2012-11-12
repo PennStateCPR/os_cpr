@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidateUserid;
@@ -46,8 +45,9 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class UnarchiveUseridImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(UnarchiveUseridImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(UnarchiveUseridImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int USERID = 0;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -66,7 +66,6 @@ public class UnarchiveUseridImpl implements ServiceInterface {
 			String principalId, String password, String updatedBy,
 			String identifierType, String identifier, Object[] otherParameters) {
 		
-		MessagingCore mCore = null;
 		ServiceReturn serviceReturn = null;
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		final ServiceCore serviceCore = new ServiceCore();
@@ -76,7 +75,7 @@ public class UnarchiveUseridImpl implements ServiceInterface {
 		LOG4J_LOGGER.info(serviceName + ": start of service.");
 		try {
 			
-			final String userid = (String) otherParameters[0];
+			final String userid = (String) otherParameters[USERID];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -118,7 +117,7 @@ public class UnarchiveUseridImpl implements ServiceInterface {
 			jsonMessage.setUserid(useridTable);
 			LOG4J_LOGGER.info(serviceName + ": json message=" + jsonMessage.toString());
 			
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 			
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 			
 
 			// Log a success!
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
@@ -147,8 +146,9 @@ public class UnarchiveUseridImpl implements ServiceInterface {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-			mCore.closeMessaging();
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		
 		LOG4J_LOGGER.info(serviceName + ": end of service.");

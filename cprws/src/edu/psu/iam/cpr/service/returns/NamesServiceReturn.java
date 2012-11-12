@@ -60,7 +60,12 @@ public class NamesServiceReturn {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.namesReturnRecord = Arrays.copyOf(namesReturnArray, namesReturnArray.length);
+		if (namesReturnArray != null) {
+			this.namesReturnRecord = Arrays.copyOf(namesReturnArray, namesReturnArray.length);
+		}
+		else {
+			this.namesReturnRecord = null;
+		}
 		this.numberElements = numberElements;
 	}
 	
@@ -113,7 +118,12 @@ public class NamesServiceReturn {
 	 * @param namesReturnArray the namesReturnRecord to set
 	 */
 	public void setNamesReturnRecord(NameReturn[] namesReturnArray) {
-		this.namesReturnRecord = Arrays.copyOf(namesReturnArray, namesReturnArray.length);
+		if (namesReturnArray != null) {
+			this.namesReturnRecord = Arrays.copyOf(namesReturnArray, namesReturnArray.length);
+		}
+		else {
+			this.namesReturnRecord = null;
+		}
 	}
 
 	/**

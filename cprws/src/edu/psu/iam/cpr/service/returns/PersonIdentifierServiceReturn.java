@@ -61,7 +61,12 @@ public class PersonIdentifierServiceReturn {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.personIdentifierReturn = Arrays.copyOf(personIdentifierArray, personIdentifierArray.length);
+		if (personIdentifierArray != null) {
+			this.personIdentifierReturn = Arrays.copyOf(personIdentifierArray, personIdentifierArray.length);
+		}
+		else {
+			this.personIdentifierReturn = null;
+		}
 		this.numberOfElements = numberOfElements;
 	}
 
@@ -114,7 +119,12 @@ public class PersonIdentifierServiceReturn {
 	 */
 	public void setPersonIdentifierReturn(
 			PersonIdentifierReturn[] personIdentifierArray) {
-		this.personIdentifierReturn = Arrays.copyOf(personIdentifierArray, personIdentifierArray.length);
+		if (personIdentifierArray != null) {
+			this.personIdentifierReturn = Arrays.copyOf(personIdentifierArray, personIdentifierArray.length);
+		}
+		else {
+			this.personIdentifierReturn = null;
+		}
 	}
 
 	/**

@@ -85,7 +85,12 @@ public class IAPServiceReturn {
 	 * @param iapReturnArray the iapReturnRecord to set
 	 */
 	public void setIapReturnRecord(IAPReturn[] iapReturnArray) {
-		this.iapReturnRecord = Arrays.copyOf(iapReturnArray, iapReturnArray.length);
+		if (iapReturnArray != null) {
+			this.iapReturnRecord = Arrays.copyOf(iapReturnArray, iapReturnArray.length);
+		}
+		else {
+			this.iapReturnRecord = null;
+		}
 	}
 
 	/**
@@ -127,7 +132,12 @@ public class IAPServiceReturn {
 	 */
 	public IAPServiceReturn(int statusCode, String statusMessage, IAPReturn[] iapReturnArray, int numberElements) {
 		this(statusCode, statusMessage);
-		this.iapReturnRecord = Arrays.copyOf(iapReturnArray, iapReturnArray.length);
+		if (iapReturnArray != null) {
+			this.iapReturnRecord = Arrays.copyOf(iapReturnArray, iapReturnArray.length);
+		}
+		else {
+			this.iapReturnRecord = null;
+		}
 		this.numberElements = numberElements;
 	}
 	/**

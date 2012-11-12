@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidateAddress;
@@ -46,8 +45,11 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class ArchiveAddressImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(ArchiveAddressImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(ArchiveAddressImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int ADDRESS_TYPE = 0;
+	private static final int DOCUMENT_TYPE = 1;
+	private static final int GROUP_ID = 2;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -66,7 +68,6 @@ public class ArchiveAddressImpl implements ServiceInterface {
 			String principalId, String password, String updatedBy,
 			String identifierType, String identifier, Object[] otherParameters) {
 		
-		MessagingCore mCore = null;
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
@@ -75,9 +76,9 @@ public class ArchiveAddressImpl implements ServiceInterface {
 		LOG4J_LOGGER.info("ArchiveAddress: Start of service.");
 		try {
 			
-			final String addressType 	= (String) otherParameters[0];
-			final String documentType 	= (String) otherParameters[1];
-			final Long groupId 			= (Long) otherParameters[2];
+			final String addressType 	= (String) otherParameters[ADDRESS_TYPE];
+			final String documentType 	= (String) otherParameters[DOCUMENT_TYPE];
+			final Long groupId 			= (Long) otherParameters[GROUP_ID];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -118,7 +119,7 @@ public class ArchiveAddressImpl implements ServiceInterface {
 			jsonMessage.setAddress(addressTableRecord);
 			
 			// set up message connection
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 
 			
 			// Log a success!
 			LOG4J_LOGGER.info("ArchiveAddress: Status = SUCCESS, record archived");
@@ -145,8 +146,9 @@ public class ArchiveAddressImpl implements ServiceInterface {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-			mCore.closeMessaging();
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		LOG4J_LOGGER.info("ArchiveAddress: End of service.");
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(),ServiceHelper.SUCCESS_MESSAGE);

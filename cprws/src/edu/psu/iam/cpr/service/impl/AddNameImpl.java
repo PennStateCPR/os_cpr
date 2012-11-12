@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidateName;
@@ -46,8 +45,14 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class AddNameImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(AddNameImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(AddNameImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int NAME_TYPE = 0;
+	private static final int DOCUMENT_TYPE = 1;
+	private static final int FIRST_NAME = 2;
+	private static final int MIDDLE_NAMES = 3;
+	private static final int LAST_NAME = 4;
+	private static final int SUFFIX = 5;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -67,7 +72,6 @@ public class AddNameImpl implements ServiceInterface {
 			String identifierType, String identifier, Object[] otherParameters) {
 		
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		MessagingCore mCore = null;
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
 		final ServiceHelper serviceHelper = new ServiceHelper();
@@ -75,12 +79,12 @@ public class AddNameImpl implements ServiceInterface {
 		LOG4J_LOGGER.info("AddName: Start of service.");
 		try {
 			
-			final String nameType = (String) otherParameters[0];
-			final String documentType = (String) otherParameters[1];
-			final String firstName = (String) otherParameters[2];
-			final String middleNames = (String) otherParameters[3];
-			final String lastName = (String) otherParameters[4];
-			final String suffix = (String) otherParameters[5];
+			final String nameType = (String) otherParameters[NAME_TYPE];
+			final String documentType = (String) otherParameters[DOCUMENT_TYPE];
+			final String firstName = (String) otherParameters[FIRST_NAME];
+			final String middleNames = (String) otherParameters[MIDDLE_NAMES];
+			final String lastName = (String) otherParameters[LAST_NAME];
+			final String suffix = (String) otherParameters[SUFFIX];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -125,7 +129,7 @@ public class AddNameImpl implements ServiceInterface {
 			jsonMessage.setName(namesTable);
 			LOG4J_LOGGER.info("AddName: Created a JSON Message = " + jsonMessage.toString());
 				
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 		
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 		
 			
 			// Log a success!
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
@@ -155,8 +159,9 @@ public class AddNameImpl implements ServiceInterface {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-			mCore.closeMessaging();
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		
 		LOG4J_LOGGER.info("AddName: End of service.");

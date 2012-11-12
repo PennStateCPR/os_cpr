@@ -42,8 +42,9 @@ import edu.psu.iam.cpr.service.returns.AffiliationServiceReturn;
  */
 public class GetInternalAffiliationsImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetInternalAffiliationsImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetInternalAffiliationsImpl.class);
 	private static final int BUFFER_SIZE = 1024;
+	private static final int RETURN_HISTORY = 0;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -71,7 +72,7 @@ public class GetInternalAffiliationsImpl implements ServiceInterface {
 		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
-			final String returnHistory = (String) otherParameters[0];
+			final String returnHistory = (String) otherParameters[RETURN_HISTORY];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -100,7 +101,8 @@ public class GetInternalAffiliationsImpl implements ServiceInterface {
 			final AffiliationReturn[] queryResults = personAffiliationTable.getInternalAffiliationsForPersonId(db, serviceCoreReturn.getPersonId());
 			
 			// Build the return class
-			serviceReturn = new AffiliationServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, queryResults, queryResults.length);
+			serviceReturn = new AffiliationServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, queryResults, 
+					queryResults.length);
 
 			// Log success
 			LOG4J_LOGGER.info(serviceName + ": Status = SUCCESS, query returned " + queryResults.length + " elements.");
@@ -118,7 +120,10 @@ public class GetInternalAffiliationsImpl implements ServiceInterface {
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new AffiliationServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-			
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new AffiliationServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());			
 		}
 
 		LOG4J_LOGGER.info(serviceName + ": End of service.");

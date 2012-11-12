@@ -85,7 +85,12 @@ public class PersonIdCardNumberServiceReturn {
 	 */
 	public void setIdCardNumberReturnRecord(
 			PersonIdCardNumberReturn[] idCardNumberReturnArray) {
-		this.idCardNumberReturnRecord = Arrays.copyOf(idCardNumberReturnArray, idCardNumberReturnArray.length);
+		if (idCardNumberReturnArray != null) {
+			this.idCardNumberReturnRecord = Arrays.copyOf(idCardNumberReturnArray, idCardNumberReturnArray.length);
+		}
+		else {
+			this.idCardNumberReturnRecord = null;
+		}
 	}
 
 	/**
@@ -107,7 +112,6 @@ public class PersonIdCardNumberServiceReturn {
 	 */
 	public PersonIdCardNumberServiceReturn() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -132,7 +136,12 @@ public class PersonIdCardNumberServiceReturn {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.idCardNumberReturnRecord = Arrays.copyOf(idCardNumberReturnArray, idCardNumberReturnArray.length);
+		if (idCardNumberReturnArray != null) {
+			this.idCardNumberReturnRecord = Arrays.copyOf(idCardNumberReturnArray, idCardNumberReturnArray.length);
+		}
+		else {
+			this.idCardNumberReturnRecord = null;
+		}
 		this.numberIdCardNumberElements = numberIdCardNumberElements;
 	}
  

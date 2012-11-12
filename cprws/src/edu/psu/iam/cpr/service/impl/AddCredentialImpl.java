@@ -41,8 +41,10 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class AddCredentialImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(AddCredentialImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(AddCredentialImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int CREDENTIAL_TYPE = 0;
+	private static final int CREDENTIAL_DATA = 1;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -69,8 +71,8 @@ public class AddCredentialImpl implements ServiceInterface {
 		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
-			final String credentialType = (String) otherParameters[0];
-			final String credentialData = (String) otherParameters[1];
+			final String credentialType = (String) otherParameters[CREDENTIAL_TYPE];
+			final String credentialData = (String) otherParameters[CREDENTIAL_DATA];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -126,6 +128,10 @@ public class AddCredentialImpl implements ServiceInterface {
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		
 		LOG4J_LOGGER.info(serviceName + ": End of service.");

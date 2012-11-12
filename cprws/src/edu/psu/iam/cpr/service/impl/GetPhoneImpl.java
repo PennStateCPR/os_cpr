@@ -42,8 +42,10 @@ import edu.psu.iam.cpr.service.returns.PhoneServiceReturn;
  */
 public class GetPhoneImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetPhoneImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetPhoneImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int PHONE_TYPE = 0;
+	private static final int RETURN_HISTORY = 1;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -71,8 +73,8 @@ public class GetPhoneImpl implements ServiceInterface {
 		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
-			final String phoneType = (String) otherParameters[0];
-			final String returnHistory = (String) otherParameters[1];
+			final String phoneType = (String) otherParameters[PHONE_TYPE];
+			final String returnHistory = (String) otherParameters[RETURN_HISTORY];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -120,7 +122,10 @@ public class GetPhoneImpl implements ServiceInterface {
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new PhoneServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-			
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new PhoneServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());			
 		}
 		
 		// Return the results to the caller.

@@ -87,7 +87,12 @@ public class AffiliationServiceReturn {
 	 * @param affiliationReturnArray the affiliationReturnRecord to set
 	 */
 	public void setAffiliationReturnRecord( AffiliationReturn[] affiliationReturnArray) {
-		this.affiliationReturnRecord = Arrays.copyOf(affiliationReturnArray, affiliationReturnArray.length);
+		if (affiliationReturnArray != null) {
+			this.affiliationReturnRecord = Arrays.copyOf(affiliationReturnArray, affiliationReturnArray.length);
+		}
+		else {
+			this.affiliationReturnRecord = null;
+		}
 	}
 
 	/**
@@ -137,7 +142,12 @@ public class AffiliationServiceReturn {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.affiliationReturnRecord = Arrays.copyOf(affiliationReturnArray, affiliationReturnArray.length);
+		if (affiliationReturnArray != null) {
+			this.affiliationReturnRecord = Arrays.copyOf(affiliationReturnArray, affiliationReturnArray.length);
+		}
+		else {
+			this.affiliationReturnRecord = null;
+		}
 		this.numberElements = numberElements;
 	}
 	/**

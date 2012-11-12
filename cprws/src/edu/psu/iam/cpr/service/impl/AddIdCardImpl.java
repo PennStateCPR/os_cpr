@@ -16,7 +16,6 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidateIdCard;
@@ -47,8 +46,13 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class AddIdCardImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(AddIdCardImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(AddIdCardImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int ID_CARD_TYPE = 0;
+	private static final int ID_CARD_NUMBER = 1;
+	private static final int ID_SERIAL_NUMBER = 2;
+	private static final int PHOTO = 3;
+	private static final int PHOTO_DATE_TAKEN = 4;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -71,16 +75,15 @@ public class AddIdCardImpl implements ServiceInterface {
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
-		MessagingCore mCore=null;
 		LOG4J_LOGGER.info("AddIdCard: Start of service.");
 		
 		try {
 			
-			final String idCardType = (String) otherParameters[0];
-			final String idCardNumber = (String) otherParameters[1];
-			final String idSerialNumber = (String) otherParameters[2];
-			final byte[] photo = (byte[]) otherParameters[3];
-			final String photoDateTaken = (String) otherParameters[4];
+			final String idCardType = (String) otherParameters[ID_CARD_TYPE];
+			final String idCardNumber = (String) otherParameters[ID_CARD_NUMBER];
+			final String idSerialNumber = (String) otherParameters[ID_SERIAL_NUMBER];
+			final byte[] photo = (byte[]) otherParameters[PHOTO];
+			final String photoDateTaken = (String) otherParameters[PHOTO_DATE_TAKEN];
 			
 			// Build the parameters string.
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
@@ -119,7 +122,7 @@ public class AddIdCardImpl implements ServiceInterface {
 			jsonMessage.setPersonIdCard(idCardTableRecord);
 			
 			// set up message connection
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 
 		
 			// Log a success!
 			LOG4J_LOGGER.info("AddIdCard: Status = SUCCESS, record added.");
@@ -151,8 +154,9 @@ public class AddIdCardImpl implements ServiceInterface {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-  			mCore.closeMessaging();
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		LOG4J_LOGGER.info("AddIdCard: End of service.");
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);

@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidateUserComment;
@@ -46,9 +45,12 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class AddUserCommentImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(AddUserCommentImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(AddUserCommentImpl.class);
 	private static final int BUFFER_SIZE = 2048;
-
+	private static final int USERID = 0;
+	private static final int USER_COMMENT_TYPE = 1;
+	private static final int COMMENT = 2;
+	
 	/**
 	 * This method provides the implementation for a service.
 	 * @param serviceName contains the name of the service.
@@ -67,7 +69,6 @@ public class AddUserCommentImpl implements ServiceInterface {
 			String identifierType, String identifier, Object[] otherParameters) {
 		
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		MessagingCore mCore = null;
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
 		final ServiceHelper serviceHelper = new ServiceHelper();
@@ -75,9 +76,9 @@ public class AddUserCommentImpl implements ServiceInterface {
 		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
-			final String userId = (String) otherParameters[0];
-			final String userCommentType = (String) otherParameters[1];
-			final String comment = (String) otherParameters[2];
+			final String userId = (String) otherParameters[USERID];
+			final String userCommentType = (String) otherParameters[USER_COMMENT_TYPE];
+			final String comment = (String) otherParameters[COMMENT];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -118,7 +119,7 @@ public class AddUserCommentImpl implements ServiceInterface {
 			jsonMessage.setUserComment(userCommentTable);
 			LOG4J_LOGGER.info(serviceName + ": Created a JSON Message = " + jsonMessage.toString());
 			
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 				
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 				
 			
 			// Log a success!
 			LOG4J_LOGGER.info(serviceName + ": Status = SUCCESS, User Comment added");
@@ -148,9 +149,10 @@ public class AddUserCommentImpl implements ServiceInterface {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-			mCore.closeMessaging();
-		}		
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
+		}
 		// Return a successful status.
 		LOG4J_LOGGER.info(serviceName + ": End of service.");
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);

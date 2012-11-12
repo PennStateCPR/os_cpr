@@ -61,7 +61,12 @@ public class PersonLinkageServiceReturn {
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
 		this.numberElements = numberElements;
-		this.personLinkageReturn = Arrays.copyOf(personLinkageArray, personLinkageArray.length);
+		if (personLinkageArray != null) {
+			this.personLinkageReturn = Arrays.copyOf(personLinkageArray, personLinkageArray.length);
+		}
+		else {
+			this.personLinkageReturn = null;
+		}
 	}
 
 	/**
@@ -126,7 +131,12 @@ public class PersonLinkageServiceReturn {
 	 * @param personLinkageArray the personLinkageReturn to set
 	 */
 	public void setPersonLinkageReturn(PersonLinkageReturn[] personLinkageArray) {
-		this.personLinkageReturn = Arrays.copyOf(personLinkageArray, personLinkageArray.length);
+		if (personLinkageArray != null) {
+			this.personLinkageReturn = Arrays.copyOf(personLinkageArray, personLinkageArray.length);
+		}
+		else {
+			this.personLinkageReturn = null;
+		}
 	}
 	
 	/**

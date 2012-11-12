@@ -74,10 +74,15 @@ public class AddressServiceReturn {
 	}
 
 	/**
-	 * @param addressReturnRecord the addressReturnRecord to set
+	 * @param addressReturnArray the addressReturnArray to set
 	 */
 	public void setAddressReturnRecord(AddressReturn[] addressReturnArray) {
-		this.addressReturnRecord = Arrays.copyOf(addressReturnArray, addressReturnArray.length);
+		if (addressReturnArray != null) {
+			this.addressReturnRecord = Arrays.copyOf(addressReturnArray, addressReturnArray.length);
+		}
+		else {
+			this.addressReturnRecord = null;
+		}
 	}
 
 	/**
@@ -130,7 +135,7 @@ public class AddressServiceReturn {
 	 * Constructor
 	 * @param statusCode status code that is returned as the result of executing a service.
 	 * @param statusMessage the status message that is returned as the result of executing a service.
-	 * @param addressReturnRecord the address return record only will be populated for a GetAddress service call.
+	 * @param addressReturnArray the address return record only will be populated for a GetAddress service call.
 	 * @param numberElements the number of elements in the addressReturnRecord array.
 	 */
 	public AddressServiceReturn(int statusCode, String statusMessage,
@@ -138,7 +143,12 @@ public class AddressServiceReturn {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.addressReturnRecord = Arrays.copyOf(addressReturnArray, addressReturnArray.length);
+		if (addressReturnArray != null) {
+			this.addressReturnRecord = Arrays.copyOf(addressReturnArray, addressReturnArray.length);
+		}
+		else {
+			this.addressReturnRecord = null;
+		}
 		this.numberElements = numberElements;
 	}
 	/**

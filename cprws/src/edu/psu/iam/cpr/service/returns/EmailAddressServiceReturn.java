@@ -69,7 +69,12 @@ public class EmailAddressServiceReturn {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.emailAddressReturnRecord = Arrays.copyOf(emailAddressReturnRecordArray, emailAddressReturnRecordArray.length);
+		if (emailAddressReturnRecordArray != null) {
+			this.emailAddressReturnRecord = Arrays.copyOf(emailAddressReturnRecordArray, emailAddressReturnRecordArray.length);
+		}
+		else {
+			this.emailAddressReturnRecord = null;
+		}
 		this.numberElements = numberElements;
 	}
 	
@@ -129,7 +134,12 @@ public class EmailAddressServiceReturn {
 	 */
 	public void setEmailAddressReturnRecord(
 			EmailAddressReturn[] emailAddressReturnRecordArray) {
-		this.emailAddressReturnRecord = Arrays.copyOf(emailAddressReturnRecordArray, emailAddressReturnRecordArray.length);
+		if (emailAddressReturnRecordArray != null) {
+			this.emailAddressReturnRecord = Arrays.copyOf(emailAddressReturnRecordArray, emailAddressReturnRecordArray.length);
+		}
+		else {
+			this.emailAddressReturnRecord = null;
+		}
 	}
 
 	/**

@@ -11,18 +11,14 @@ import org.json.JSONException;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.AddressesTable;
 import edu.psu.iam.cpr.core.database.types.AccessType;
-import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.CprProperties;
 import edu.psu.iam.cpr.core.util.ValidateAddress;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
 import edu.psu.iam.cpr.service.helper.ServiceInterface;
-import edu.psu.iam.cpr.service.helper.TransformAddressHelper;
 import edu.psu.iam.cpr.service.returns.ServiceReturn;
 
 /**
@@ -49,8 +45,19 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class UpdateAddressImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(UpdateAddressImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(UpdateAddressImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int ADDRESS_TYPE = 0;
+	private static final int DOCUMENT_TYPE = 1;
+	private static final int GROUP_ID = 2;
+	private static final int ADDRESS1 = 3;
+	private static final int ADDRESS2 = 4;
+	private static final int ADDRESS3 = 5;
+	private static final int CITY = 6;
+	private static final int STATE = 7;
+	private static final int POSTAL_CODE = 8;
+	private static final int COUNTRY_CODE = 9;
+	private static final int CAMPUS_CODE = 10;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -70,7 +77,6 @@ public class UpdateAddressImpl implements ServiceInterface {
 			String identifierType, String identifier, Object[] otherParameters) {
 		
 		final ServiceHelper serviceHelper = new ServiceHelper();
-		MessagingCore mCore = null;
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db=new Database();
@@ -78,17 +84,17 @@ public class UpdateAddressImpl implements ServiceInterface {
 		LOG4J_LOGGER.info("UpdateAddress: Start of service.");
 		try {
 			
-			final String addressType = (String) otherParameters[0];
-			final String documentType = (String) otherParameters[1];
-			final Long groupId = (Long) otherParameters[2];
-			final String address1 = (String) otherParameters[3];
-			final String address2 = (String) otherParameters[4];
-			final String address3 = (String) otherParameters[5];
-			final String city = (String) otherParameters[6];
-			final String stateOrProvince = (String) otherParameters[7];
-			final String postalCode = (String) otherParameters[8];
-			final String countryCode = (String) otherParameters[9];
-			final String campusCode = (String) otherParameters[10];
+			final String addressType = (String) otherParameters[ADDRESS_TYPE];
+			final String documentType = (String) otherParameters[DOCUMENT_TYPE];
+			final Long groupId = (Long) otherParameters[GROUP_ID];
+			final String address1 = (String) otherParameters[ADDRESS1];
+			final String address2 = (String) otherParameters[ADDRESS2];
+			final String address3 = (String) otherParameters[ADDRESS3];
+			final String city = (String) otherParameters[CITY];
+			final String stateOrProvince = (String) otherParameters[STATE];
+			final String postalCode = (String) otherParameters[POSTAL_CODE];
+			final String countryCode = (String) otherParameters[COUNTRY_CODE];
+			final String campusCode = (String) otherParameters[CAMPUS_CODE];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -129,11 +135,6 @@ public class UpdateAddressImpl implements ServiceInterface {
 					addressType, documentType, groupId,  updatedBy, address1, address2, address3, city, stateOrProvince, postalCode,  
 					countryCode, campusCode);
 			
-			if (CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_ADDRESS_VALIDATION.toString()).equals("YES")) {
-				final TransformAddressHelper transformAddressHelper = new TransformAddressHelper();
-				transformAddressHelper.transformRegistryAddress(db, serviceCoreReturn, addressTableRecord);
-			}
-			
 			// Determine if the caller is authorized to make this call.
 			db.isDataActionAuthorized(serviceCoreReturn,addressTableRecord.getAddressType().toString(), 
 					AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy );
@@ -146,7 +147,7 @@ public class UpdateAddressImpl implements ServiceInterface {
 			jsonMessage.setAddress(addressTableRecord);
 			
 			// set up message connection
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 
 
 			// Log a success!
 			LOG4J_LOGGER.info("UpdateAddress: Status = SUCCESS, record updated");
@@ -174,8 +175,9 @@ public class UpdateAddressImpl implements ServiceInterface {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-			mCore.closeMessaging();
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);
 	}

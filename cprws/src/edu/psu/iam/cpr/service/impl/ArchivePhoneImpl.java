@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidatePhone;
@@ -46,8 +45,10 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class ArchivePhoneImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(ArchivePhoneImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(ArchivePhoneImpl.class);
 	private static final int BUFFER_SIZE=2048;
+	private static final int PHONE_TYPE = 0;
+	private static final int GROUP_ID = 1;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -66,7 +67,6 @@ public class ArchivePhoneImpl implements ServiceInterface {
 			String principalId, String password, String updatedBy,
 			String identifierType, String identifier, Object[] otherParameters) {
 		
-		MessagingCore mCore = null;
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
@@ -75,8 +75,8 @@ public class ArchivePhoneImpl implements ServiceInterface {
 		LOG4J_LOGGER.info("ArchivePhone: Start of service.");
 		try {
 			
-			final String phoneType = (String) otherParameters[0];
-			final Long groupId = (Long) otherParameters[1];
+			final String phoneType = (String) otherParameters[PHONE_TYPE];
+			final Long groupId = (Long) otherParameters[GROUP_ID];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -113,7 +113,7 @@ public class ArchivePhoneImpl implements ServiceInterface {
 			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName,updatedBy);
 			jsonMessage.setPhone(phonesTableRecord);
 			
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 
 			
 			// Log Success
 			LOG4J_LOGGER.info("ArchivePhone: Status = SUCCESS, Phone archived");
@@ -140,8 +140,9 @@ public class ArchivePhoneImpl implements ServiceInterface {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-			mCore.closeMessaging();
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		LOG4J_LOGGER.info("ArchivePhone: End of service.");
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);

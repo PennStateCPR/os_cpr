@@ -43,8 +43,11 @@ public class AddIdCardPrintEventImpl implements ServiceInterface {
 
 	
 
-		final private static Logger LOG4J_LOGGER = Logger.getLogger(AddIdCardPrintEventImpl.class);
+		private static final Logger LOG4J_LOGGER = Logger.getLogger(AddIdCardPrintEventImpl.class);
 		private static final int BUFFER_SIZE = 2048;
+		private static final int EVENT_USER_ID = 0;
+		private static final int EVENT_IP_ADDRESS = 1;
+		private static final int EVENT_WORKSTATION = 2;
 		
 		/**
 		 * This method provides the implementation for a service.
@@ -71,9 +74,9 @@ public class AddIdCardPrintEventImpl implements ServiceInterface {
 			
 			try {
 				
-				final String eventUserId = (String) otherParameters[0];
-				final String eventIpAddress = (String) otherParameters[1];
-				final String eventWorkStation = (String) otherParameters[2];
+				final String eventUserId = (String) otherParameters[EVENT_USER_ID];
+				final String eventIpAddress = (String) otherParameters[EVENT_IP_ADDRESS];
+				final String eventWorkStation = (String) otherParameters[EVENT_WORKSTATION];
 				
 				
 				// Build the parameters string.
@@ -122,6 +125,10 @@ public class AddIdCardPrintEventImpl implements ServiceInterface {
 			catch (JDBCException e) {
 				final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 				return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+			}
+			catch (RuntimeException e) {
+				serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+				return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 			}
 			
 			LOG4J_LOGGER.info("AddIdCardPrintEvent: End of service.");

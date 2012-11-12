@@ -182,7 +182,12 @@ public class PersonServiceReturn {
 	 * @param addressReturnArray the addressReturnRecord to set
 	 */
 	public void setAddressReturnRecord(AddressReturn[] addressReturnArray) {
-		this.addressReturnRecord = Arrays.copyOf(addressReturnArray, addressReturnArray.length);
+		if (addressReturnArray != null) {
+			this.addressReturnRecord = Arrays.copyOf(addressReturnArray, addressReturnArray.length);
+		}
+		else {
+			this.addressReturnRecord = null;
+		}
 	}
 
 	/**
@@ -211,7 +216,12 @@ public class PersonServiceReturn {
 	 */
 	public void setAffiliationReturnRecord(
 			AffiliationReturn[] affiliationReturnArray) {
-		this.affiliationReturnRecord = Arrays.copyOf(affiliationReturnArray, affiliationReturnArray.length);
+		if (affiliationReturnArray != null) {
+			this.affiliationReturnRecord = Arrays.copyOf(affiliationReturnArray, affiliationReturnArray.length);
+		}
+		else {
+			this.affiliationReturnRecord = null;
+		}
 	}
 
 	/**
@@ -240,7 +250,12 @@ public class PersonServiceReturn {
 	 */
 	public void setEmailAddressReturnRecord(
 			EmailAddressReturn[] emailAddressArray) {
-		this.emailAddressReturnRecord = Arrays.copyOf(emailAddressArray, emailAddressArray.length);
+		if (emailAddressArray != null) {
+			this.emailAddressReturnRecord = Arrays.copyOf(emailAddressArray, emailAddressArray.length);
+		}
+		else {
+			this.emailAddressReturnRecord = null;
+		}
 	}
 
 	/**
@@ -268,7 +283,12 @@ public class PersonServiceReturn {
 	 * @param nameArray the nameReturnRecord to set
 	 */
 	public void setNameReturnRecord(NameReturn[] nameArray) {
-		this.nameReturnRecord = Arrays.copyOf(nameArray, nameArray.length);
+		if (nameArray != null) {
+			this.nameReturnRecord = Arrays.copyOf(nameArray, nameArray.length);
+		}
+		else {
+			this.nameReturnRecord = null;
+		}
 	}
 
 	/**
@@ -310,7 +330,12 @@ public class PersonServiceReturn {
 	 * @param phoneArray the phoneReturnRecord to set
 	 */
 	public void setPhoneReturnRecord(PhoneReturn[] phoneArray) {
-		this.phoneReturnRecord = Arrays.copyOf(phoneArray, phoneArray.length);
+		if (phoneArray != null) {
+			this.phoneReturnRecord = Arrays.copyOf(phoneArray, phoneArray.length);
+		}
+		else {
+			this.phoneReturnRecord = null;
+		}
 	}
 
 	/**
@@ -338,7 +363,12 @@ public class PersonServiceReturn {
 	 * @param useridArray the useridReturnRecord to set
 	 */
 	public void setUseridReturnRecord(UseridReturn[] useridArray) {
-		this.useridReturnRecord = Arrays.copyOf(useridArray, useridArray.length);
+		if (useridArray != null) {
+			this.useridReturnRecord = Arrays.copyOf(useridArray, useridArray.length);
+		}
+		else {
+			this.useridReturnRecord = null;
+		}
 	}
 
 	/**
@@ -359,7 +389,12 @@ public class PersonServiceReturn {
 	 * @param nearMatchArray the nearMatchReturnRecord to set
 	 */
 	public void setNearMatchReturnRecord(MatchReturn nearMatchArray[]) {
-		this.nearMatchReturnRecord = Arrays.copyOf(nearMatchArray, nearMatchArray.length);
+		if (nearMatchArray != null) {
+			this.nearMatchReturnRecord = Arrays.copyOf(nearMatchArray, nearMatchArray.length);
+		}
+		else {
+			this.nearMatchReturnRecord = null;
+		}
 	}
 
 	/**
@@ -394,7 +429,12 @@ public class PersonServiceReturn {
 	 * @param dateOfBirthArray the dateOfBirthRecord to set
 	 */
 	public void setDateOfBirthRecord(DateOfBirthReturn[] dateOfBirthArray) {
-		this.dateOfBirthRecord = Arrays.copyOf(dateOfBirthArray, dateOfBirthArray.length);
+		if (dateOfBirthArray != null) {
+			this.dateOfBirthRecord = Arrays.copyOf(dateOfBirthArray, dateOfBirthArray.length);
+		}
+		else {
+			this.dateOfBirthRecord = null;
+		}
 	}
 
 	/**
@@ -422,7 +462,12 @@ public class PersonServiceReturn {
 	 * @param genderArray the genderReturnRecord to set
 	 */
 	public void setGenderReturnRecord(GenderReturn[] genderArray) {
-		this.genderReturnRecord = Arrays.copyOf(genderArray, genderArray.length);
+		if (genderArray != null) {
+			this.genderReturnRecord = Arrays.copyOf(genderArray, genderArray.length);
+		}
+		else {
+			this.genderReturnRecord = null;
+		}
 	}
 
 	/**
@@ -450,7 +495,12 @@ public class PersonServiceReturn {
 	 * @param psuIdArray the psuIdReturnRecord to set
 	 */
 	public void setPsuIdReturnRecord(PsuIdReturn[] psuIdArray) {
-		this.psuIdReturnRecord = Arrays.copyOf(psuIdArray, psuIdArray.length);
+		if (psuIdArray != null) {
+			this.psuIdReturnRecord = Arrays.copyOf(psuIdArray, psuIdArray.length);
+		}
+		else {
+			this.psuIdReturnRecord = null;
+		}
 	}
 
 	/**

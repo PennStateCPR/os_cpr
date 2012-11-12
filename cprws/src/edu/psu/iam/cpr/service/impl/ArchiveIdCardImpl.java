@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidateIdCard;
@@ -45,8 +44,9 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class ArchiveIdCardImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(ArchiveIdCardImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(ArchiveIdCardImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int ID_CARD_TYPE = 0;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -68,13 +68,12 @@ public class ArchiveIdCardImpl implements ServiceInterface {
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
-		MessagingCore mCore=null;
 		final ServiceHelper serviceHelper = new ServiceHelper();
 		LOG4J_LOGGER.info("ArchiveIdCard: Start of service.");
 
 		try {
 			
-			final String idCardType = (String) otherParameters[0];
+			final String idCardType = (String) otherParameters[ID_CARD_TYPE];
 			
 			// Build the parameters string.
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
@@ -117,7 +116,7 @@ public class ArchiveIdCardImpl implements ServiceInterface {
 			jsonMessage.setPersonIdCard(idCardTableRecord);
 			
 			// set up message connection
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 
 		
 			// Log a success!
 			LOG4J_LOGGER.info("ArchiveIdCard: Status = SUCCESS, record added.");
@@ -145,8 +144,9 @@ public class ArchiveIdCardImpl implements ServiceInterface {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-  			mCore.closeMessaging();
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		LOG4J_LOGGER.info("ArchiveIdCard: End of service.");
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);

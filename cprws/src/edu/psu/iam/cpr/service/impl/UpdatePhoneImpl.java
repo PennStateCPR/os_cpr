@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidatePhone;
@@ -46,8 +45,13 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class UpdatePhoneImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(UpdatePhoneImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(UpdatePhoneImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int PHONE_TYPE = 0;
+	private static final int GROUP_ID = 1;
+	private static final int PHONE_NUMBER = 2;
+	private static final int EXTENSION = 3;
+	private static final int INTERNATIONAL_NUMBER = 4;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -66,7 +70,6 @@ public class UpdatePhoneImpl implements ServiceInterface {
 			String principalId, String password, String updatedBy,
 			String identifierType, String identifier, Object[] otherParameters) {
 		
-		MessagingCore mCore = null;
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
@@ -75,11 +78,11 @@ public class UpdatePhoneImpl implements ServiceInterface {
 		LOG4J_LOGGER.info("UpdatePhone: Start of service.");
 		try {
 			
-			final String phoneType = (String) otherParameters[0];
-			final Long groupId = (Long) otherParameters[1];
-			final String phoneNumber = (String) otherParameters[2];
-			final String extension = (String) otherParameters[3];
-			final String internationalNumber = (String) otherParameters[4];
+			final String phoneType = (String) otherParameters[PHONE_TYPE];
+			final Long groupId = (Long) otherParameters[GROUP_ID];
+			final String phoneNumber = (String) otherParameters[PHONE_NUMBER];
+			final String extension = (String) otherParameters[EXTENSION];
+			final String internationalNumber = (String) otherParameters[INTERNATIONAL_NUMBER];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -118,7 +121,7 @@ public class UpdatePhoneImpl implements ServiceInterface {
 			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName,
 					updatedBy);
 			jsonMessage.setPhone(phonesTableRecord);
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore,db, jsonMessage); 
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 
 			
 			// Log Success
 			LOG4J_LOGGER.info("UpdatePhone: Status = SUCCESS, phone updated.");
@@ -146,8 +149,9 @@ public class UpdatePhoneImpl implements ServiceInterface {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-			mCore.closeMessaging();
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		LOG4J_LOGGER.info("UpdatePhone: End of service.");
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);

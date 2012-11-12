@@ -163,7 +163,12 @@ public class FindPersonServiceReturn {
 	 * Set the near match array
 	 */
 	public void setNearMatchArray(final MatchReturn[] nearMatches) {
-		this.nearMatchArray = Arrays.copyOf(nearMatches, nearMatches.length);
+		if (nearMatches != null) {
+			this.nearMatchArray = Arrays.copyOf(nearMatches, nearMatches.length);
+		}
+		else {
+			this.nearMatchArray = null;
+		}
 	}
 	
 	/**

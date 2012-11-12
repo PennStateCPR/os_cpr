@@ -13,7 +13,6 @@ import edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidatePersonAffiliation;
@@ -45,8 +44,9 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class SetPrimaryAffiliationImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(SetPrimaryAffiliationImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(SetPrimaryAffiliationImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int AFFILIATION = 0;
 
 	/**
 	 * This method provides the implementation for a service.
@@ -66,7 +66,6 @@ public class SetPrimaryAffiliationImpl implements ServiceInterface {
 			String identifierType, String identifier, Object[] otherParameters) {
 		
 		final ServiceHelper serviceHelper = new ServiceHelper();
-		MessagingCore  mCore  = null;
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
@@ -75,7 +74,7 @@ public class SetPrimaryAffiliationImpl implements ServiceInterface {
 
 		try {
 			
-			final String affiliation = (String) otherParameters[0];
+			final String affiliation = (String) otherParameters[AFFILIATION];
 			
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -112,7 +111,7 @@ public class SetPrimaryAffiliationImpl implements ServiceInterface {
 			jsonMessage.setAffiliation(aTableRecord);
 			// send message
 			// set up message connection
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 
 			
 			// Log success
 			LOG4J_LOGGER.info("SetPrimaryAffiliation: Status = SUCCESS, primary affiliation set.");
@@ -140,8 +139,9 @@ public class SetPrimaryAffiliationImpl implements ServiceInterface {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-			mCore.closeMessaging();
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);
 	}

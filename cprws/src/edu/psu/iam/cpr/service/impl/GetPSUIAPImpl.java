@@ -42,8 +42,10 @@ import edu.psu.iam.cpr.service.returns.IAPServiceReturn;
  */
 public class GetPSUIAPImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(GetPSUIAPImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetPSUIAPImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int USERID = 0;
+	private static final int RETURN_HISTORY = 1;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -71,8 +73,8 @@ public class GetPSUIAPImpl implements ServiceInterface {
 		LOG4J_LOGGER.info(serviceName + ": Start of service.");
 		try {
 			
-			String userId 				= (String) otherParameters[0];
-			final String returnHistory 	= (String) otherParameters[1];
+			String userId 				= (String) otherParameters[USERID];
+			final String returnHistory 	= (String) otherParameters[RETURN_HISTORY];
 			
 			// Build the parameters string.
 			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
@@ -122,8 +124,11 @@ public class GetPSUIAPImpl implements ServiceInterface {
 		}
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new IAPServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-			
+			return (Object) new IAPServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);	
+		}
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new IAPServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());			
 		}
 		LOG4J_LOGGER.info(serviceName + ": End of service.");
 		return (Object) serviceReturn;

@@ -14,7 +14,6 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidateEmail;
@@ -46,8 +45,10 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  */
 public class AddEmailAddressImpl implements ServiceInterface {
 
-	final private static Logger LOG4J_LOGGER = Logger.getLogger(AddEmailAddressImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(AddEmailAddressImpl.class);
 	private static final int BUFFER_SIZE = 2048;
+	private static final int EMAIL_ADDRESS_TYPE = 0;
+	private static final int EMAIL_ADDRESS = 1;
 	
 	/**
 	 * This method provides the implementation for a service.
@@ -69,15 +70,14 @@ public class AddEmailAddressImpl implements ServiceInterface {
 		final ServiceHelper serviceHelper = new ServiceHelper();
 		EmailAddressTable emailAddressTable = null;
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		MessagingCore mCore = null;
 		ServiceCore serviceCore = new ServiceCore();
 		Database db = new Database();
 		
 		LOG4J_LOGGER.info("AddEmailAddress: Start of service.");
 		try {
 
-			final String emailAddressType = (String) otherParameters[0];
-			final String emailAddress = (String) otherParameters[1];
+			final String emailAddressType = (String) otherParameters[EMAIL_ADDRESS_TYPE];
+			final String emailAddress = (String) otherParameters[EMAIL_ADDRESS];
 			
 			StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
 			parameters.append("principalId=[").append(principalId).append("] ");
@@ -117,7 +117,7 @@ public class AddEmailAddressImpl implements ServiceInterface {
 			JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
 			jsonMessage.setEmailAddress(emailAddressTable);			
 
-			mCore = serviceHelper.sendMessagesToServiceProviders(serviceName, mCore, db, jsonMessage); 				
+			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 				
 			
 			// Log a success!
 			LOG4J_LOGGER.info("AddEmailAddress: Status = SUCCESS, EmailAddress added");
@@ -144,9 +144,10 @@ public class AddEmailAddressImpl implements ServiceInterface {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
 		}
-		finally {
-			mCore.closeMessaging();
-		}	
+		catch (RuntimeException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
+		}
 		
 		LOG4J_LOGGER.info("AddEmailAddress: End of service.");
 		// Return a successful status.

@@ -90,7 +90,12 @@ public class PhoneServiceReturn {
 	 * @param phoneArray the phoneReturnRecord to set
 	 */
 	public void setPhoneReturnRecord(PhoneReturn[] phoneArray) {
-		this.phoneReturnRecord = Arrays.copyOf(phoneArray, phoneArray.length);
+		if (phoneArray != null) {
+			this.phoneReturnRecord = Arrays.copyOf(phoneArray, phoneArray.length);
+		}
+		else {
+			this.phoneReturnRecord = null;
+		}
 	}
 
 	/**
@@ -140,7 +145,12 @@ public class PhoneServiceReturn {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.phoneReturnRecord = Arrays.copyOf(phoneArray, phoneArray.length);
+		if (phoneArray != null) {
+			this.phoneReturnRecord = Arrays.copyOf(phoneArray, phoneArray.length);
+		}
+		else {
+			this.phoneReturnRecord = null;
+		}
 		this.numberElements = numberElements;
 	}
 	
