@@ -108,12 +108,15 @@ public class NamesTest {
 	// Successful add of a name that just has a last name.
 	@Test
 	public void _09testAddName4() throws Exception {
-		ServiceReturn serviceReturn = port.archiveName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "legal_name", null);
-		serviceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "legal_name", null, null, null, "Cher", null);
+		ServiceReturn serviceReturn = port.archiveName(ServiceAuthentication.GOOD_USERID, 
+				ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "legal_name", null);
+		serviceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 
+				"person_id", "100000", "legal_name", null, null, null, "Cher", null);
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
-		NamesServiceReturn namesServiceReturn = port.getName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000",null,"N");
+		NamesServiceReturn namesServiceReturn = port.getName(ServiceAuthentication.GOOD_USERID, 
+				ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000",null,"N");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(namesServiceReturn.getStatusMessage());
 		}

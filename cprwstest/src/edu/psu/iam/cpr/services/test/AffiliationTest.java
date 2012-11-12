@@ -55,6 +55,7 @@ public class AffiliationTest {
 				}
 			}
 		}
+
 	}
 
 	
@@ -555,7 +556,7 @@ public class AffiliationTest {
 		}
 	}
 
-@Test
+//@Test
 	public void _40testSetPrimaryAffiliation() throws Exception {
 	// add an affiliation
 		cleanUpAll("100003");
@@ -617,7 +618,7 @@ public class AffiliationTest {
 			}
 		}
 	}
-@Test
+//@Test
 	public void _41testSetPrimaryAffiliationChange() throws Exception {
 		// add an affiliation
 		cleanUpAll("100003");
@@ -753,7 +754,7 @@ public class AffiliationTest {
 		}
 		
 	}
-@Test
+//@Test
 	public void _42testPrimaryAffiliationChangeAfterArchive() throws Exception {
 		// add an affiliation
 		cleanUpAll("100003");

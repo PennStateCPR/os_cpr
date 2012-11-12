@@ -124,7 +124,7 @@ public class PersonLinkageTest {
 		PersonLinkageServiceReturn personLinkageReturn = port.getPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000" ,"N");
 		if (personLinkageReturn.getStatusCode() != 0) {
 			throw new Exception(personLinkageReturn.getStatusMessage());
-		}	
+		}		
 		AssertJUnit.assertTrue((personLinkageReturn.getNumberElements() > 0) ? true : false);
 	}
 	
