@@ -1,21 +1,14 @@
 /* SVN FILE: $Id: GetPSUIAPImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
-import javax.naming.NamingException;
-
-import org.apache.log4j.Logger;
-import org.hibernate.JDBCException;
-
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.PersonUseridIapTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.IAPReturn;
-import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidatePersonUseridIap;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.helper.ServiceInterface;
 import edu.psu.iam.cpr.service.returns.IAPServiceReturn;
 
 /**
@@ -40,98 +33,49 @@ import edu.psu.iam.cpr.service.returns.IAPServiceReturn;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class GetPSUIAPImpl implements ServiceInterface {
+public class GetPSUIAPImpl extends GenericGetServiceImpl {
 
-	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetPSUIAPImpl.class);
-	private static final int BUFFER_SIZE = 2048;
+	/** Contains the index for the userid parameter */
 	private static final int USERID = 0;
+	
+	/** Contains the index for the return history parameter */
 	private static final int RETURN_HISTORY = 1;
 	
-	/**
-	 * This method provides the implementation for a service.
-	 * @param serviceName contains the name of the service.
-	 * @param ipAddress contains the ip address of the caller. 
-	 * @param principalId contains the principal identifier that is used to authenticate the service.
-	 * @param password contains the password associated with the principal.
-	 * @param updatedBy contains the user that either updated or requested information.
-	 * @param identifierType contains the identifier type used to find the user.
-	 * @param identifier contains the value of the identifier.
-	 * @param otherParameters contains an array of Objects that are additional parameters to the service implementation.
-	 * @return Object will return an object will needed to be casted to obtain the real return.
-	 */
-
-	public Object implementService(String serviceName, String ipAddress,
-			String principalId, String password, String updatedBy,
-			String identifierType, String identifier, Object[] otherParameters) {
-
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		final ServiceCore serviceCore = new ServiceCore();
-		IAPServiceReturn serviceReturn = null;
-		final Database db=new Database();
-		final ServiceHelper serviceHelper = new ServiceHelper();
+    /**
+     * This method is used to execute the core logic for a service.
+     * @param db contains a open database session.
+     * @param serviceCoreReturn contains the service core information.
+     * @param updatedBy contains the userid requesting this information.
+     * @param otherParameters contains an array of Java objects that are additional parameters for the service.
+     * @return will return an object if successful.
+     * @throws CprException will be thrown if there are any problems.
+     */
+	@Override
+	public Object runService(Database db, ServiceCoreReturn serviceCoreReturn,
+			String updatedBy, Object[] otherParameters) throws CprException {
 		
-		LOG4J_LOGGER.info(serviceName + ": Start of service.");
-		try {
-			
-			String userId 				= (String) otherParameters[USERID];
-			final String returnHistory 	= (String) otherParameters[RETURN_HISTORY];
-			
-			// Build the parameters string.
-			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
-			parameters.append("principalId=[").append(principalId).append("] ");
-			parameters.append("requestedBy=[").append(updatedBy).append("] ");
-			parameters.append("identifierType=[").append(identifierType).append("] ");
-			parameters.append("identifier=[").append(identifier).append("] ");
-			parameters.append("userID=[").append(userId).append("] ");
-			parameters.append("returnHistory=[").append(returnHistory).append("] ");
-			LOG4J_LOGGER.info(serviceName + ": Input Parameters = " + parameters.toString());
+		String userId 				= (String) otherParameters[USERID];
+		final String returnHistory 	= (String) otherParameters[RETURN_HISTORY];
 		
-			// Init the service.
-			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-					ipAddress,
-					principalId,
-					password,
-					updatedBy,
-					identifierType, 
-					identifier,
-					serviceCore, 
-					db, 
-					parameters);
-			LOG4J_LOGGER.info(serviceName + ": Found Person Id = " + serviceCoreReturn.getPersonId());
+		// Validate the data passed to the service
+		PersonUseridIapTable personUseridIapTable = ValidatePersonUseridIap.validateGetPsuIapParameters(db, 
+								serviceCoreReturn.getPersonId(), userId, updatedBy, returnHistory);
+		userId = (userId != null) ? userId.trim() : null;
+		final IAPReturn[] iapResults = personUseridIapTable.getPSUIAP(db, serviceCoreReturn.getPersonId(), userId);
 
-			// Validate the data passed to the service
-			PersonUseridIapTable personUseridIapTable = ValidatePersonUseridIap.validateGetPsuIapParameters(db, 
-									serviceCoreReturn.getPersonId(), userId, updatedBy, returnHistory);
-			userId = (userId != null) ? userId.trim() : null;
-			final IAPReturn[] iapResults = personUseridIapTable.getPSUIAP(db, serviceCoreReturn.getPersonId(), userId);
-
-			// Build the return class
-			serviceReturn = new IAPServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, iapResults, iapResults.length);
-			
-			// Log a success!
-			LOG4J_LOGGER.info(serviceName + ": Status = SUCCESS, query returned " +iapResults.length + " elements.");
-
-			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
-			db.closeSession();
-		}
-		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new IAPServiceReturn(e.getReturnType().index(), errorMessage);
-		}
-		catch (NamingException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new IAPServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
-		}
-		catch (JDBCException e) {
-			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new IAPServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);	
-		}
-		catch (RuntimeException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new IAPServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());			
-		}
-		LOG4J_LOGGER.info(serviceName + ": End of service.");
-		return (Object) serviceReturn;
+		// Build the return class
+		return (Object) new IAPServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, iapResults, iapResults.length);
+		
 	}
-
+	
+    /**
+     * This routine is used to handle exceptions.
+     * @param statusCode contains the status code associated with the exception.
+     * @param statusMessage contains the error message text.
+     * @return will return an service return containing the exception information.
+     */
+	@Override
+	public Object handleException(int statusCode, String statusMessage) {
+		return (Object) new IAPServiceReturn(statusCode, statusMessage);
+	}
 }

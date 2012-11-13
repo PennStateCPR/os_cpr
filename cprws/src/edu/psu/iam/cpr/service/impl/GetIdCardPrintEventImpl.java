@@ -1,21 +1,14 @@
 /* SVN FILE: $Id: GetIdCardPrintEventImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
-import javax.naming.NamingException;
-
-import org.apache.log4j.Logger;
-import org.hibernate.JDBCException;
-
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.IdCardPrintLogTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.IdCardPrintLogReturn;
-import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.helper.ServiceInterface;
 import edu.psu.iam.cpr.service.returns.IdCardPrintEventServiceReturn;
 
 /**
@@ -41,103 +34,56 @@ import edu.psu.iam.cpr.service.returns.IdCardPrintEventServiceReturn;
 * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
 */
 
-public class GetIdCardPrintEventImpl implements ServiceInterface {
+public class GetIdCardPrintEventImpl extends GenericGetServiceImpl {
 
-	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetIdCardPrintEventImpl.class);
-	private static final int BUFFER_SIZE = 2048;
+	/** Contains the index for the identifier type parameter */
+	private static final int IDENTIFIER_TYPE = 0;
 	
-	/**
-	 * This method provides the implementation for a service.
-	 * @param serviceName contains the name of the service.
-	 * @param ipAddress contains the ip address of the caller. 
-	 * @param principalId contains the principal identifier that is used to authenticate the service.
-	 * @param password contains the password associated with the principal.
-	 * @param updatedBy contains the user that either updated or requested information.
-	 * @param identifierType contains the identifier type used to find the user.
-	 * @param identifier contains the value of the identifier.
-	 * 
-	 * @return Object will return an object will needed to be casted to obtain the real return.
-	 */
+	/** Contains the index for the identifier parameter */
+	private static final int IDENTIFIER = 1;
 
-	public Object implementService(String serviceName, String ipAddress,
-			String principalId, String password, String updatedBy,
-			String identifierType, String identifier, Object[] otherParameters) {
+    /**
+     * This method is used to execute the core logic for a service.
+     * @param db contains a open database session.
+     * @param serviceCoreReturn contains the service core information.
+     * @param updatedBy contains the userid requesting this information.
+     * @param otherParameters contains an array of Java objects that are additional parameters for the service.
+     * @return will return an object if successful.
+     * @throws CprException will be thrown if there are any problems.
+     */
+	@Override
+	public Object runService(Database db, ServiceCoreReturn serviceCoreReturn,
+			String updatedBy, Object[] otherParameters) throws CprException {
 		
-		final ServiceHelper serviceHelper = new ServiceHelper();
-		IdCardPrintEventServiceReturn serviceReturn = null;
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		final ServiceCore serviceCore = new ServiceCore();
-		final Database db = new Database();
+		final String identifierType = (String) otherParameters[IDENTIFIER_TYPE];
+		final String identifier = (String) otherParameters[IDENTIFIER];
 		
-		LOG4J_LOGGER.info(serviceName + ": Start of service.");
-		try {
-			
+		// Do the query from the database.
+		IdCardPrintLogTable idCardPrintLogTable = ValidateIdCardPrintLog.validateGetIdCardPrintLogParameters(db, identifierType, 
+															identifier);
 		
-			
-			// Build the parameters string.
-			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
-			parameters.append("principalId=[").append(principalId).append("] ");
-			parameters.append("requestedBy=[").append(updatedBy).append("] ");
-			parameters.append("identifierType=[").append(identifierType).append("] ");
-			parameters.append("identifier=[").append(identifier).append("] ");
-			LOG4J_LOGGER.info(serviceName + ": Input Parameters = " + parameters.toString());
-			
-			// Init the service.
-			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-					ipAddress,
-					principalId,
-					password,
-					updatedBy,
-					identifierType, 
-					identifier,
-					serviceCore, 
-					db, 
-					parameters);
-			LOG4J_LOGGER.info(serviceName + ": Found Person Id = " + serviceCoreReturn.getPersonId());
-									
-			// Do the query from the database.
-			IdCardPrintLogTable idCardPrintLogTable = ValidateIdCardPrintLog.validateGetIdCardPrintLogParameters(db, identifierType, 
-																identifier);
-			
-			LOG4J_LOGGER.info(serviceName + ": Performing query for Person Id = " + serviceCoreReturn.getPersonId());
-			final IdCardPrintLogReturn queryResults[] = idCardPrintLogTable.getIdCardPrintLog(db); 
-			
-			
-			// Build the return class.
-			serviceReturn = new IdCardPrintEventServiceReturn();
-			serviceReturn.setStatusCode(ReturnType.SUCCESS.index());
-			serviceReturn.setStatusMessage(ServiceHelper.SUCCESS_MESSAGE);
-			serviceReturn.setNumberIdCardPrintEventElements(queryResults.length);
-			serviceReturn.setIdCardPrintEventReturnRecord(queryResults);
-			
- 			LOG4J_LOGGER.info(serviceName + ": Status = SUCCESS, query returned " + queryResults.length + " elements.");
-			
-			// Log a success!
-			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
-			
-			db.closeSession();
-		} 
-		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new IdCardPrintEventServiceReturn(e.getReturnType().index(), errorMessage);
-		}
-		catch (NamingException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new IdCardPrintEventServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
-		}
-		catch (JDBCException e) {
-			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new IdCardPrintEventServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-		}
-		catch (RuntimeException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new IdCardPrintEventServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());			
-		}
-				
-		LOG4J_LOGGER.info(serviceName + ": End of service.");
+		final IdCardPrintLogReturn queryResults[] = idCardPrintLogTable.getIdCardPrintLog(db); 
 		
-		// Return the results to the caller.
+		// Build the return class.
+		IdCardPrintEventServiceReturn serviceReturn = new IdCardPrintEventServiceReturn();
+		serviceReturn.setStatusCode(ReturnType.SUCCESS.index());
+		serviceReturn.setStatusMessage(ServiceHelper.SUCCESS_MESSAGE);
+		serviceReturn.setNumberIdCardPrintEventElements(queryResults.length);
+		serviceReturn.setIdCardPrintEventReturnRecord(queryResults);
+		
 		return (Object) serviceReturn;
+		
+	}
+
+    /**
+     * This routine is used to handle exceptions.
+     * @param statusCode contains the status code associated with the exception.
+     * @param statusMessage contains the error message text.
+     * @return will return an service return containing the exception information.
+     */
+	@Override
+	public Object handleException(int statusCode, String statusMessage) {
+		return (Object) new IdCardPrintEventServiceReturn(statusCode, statusMessage);
 	}
 
 }

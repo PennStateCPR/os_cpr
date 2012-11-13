@@ -1500,7 +1500,7 @@ public class CprwsService implements CprwsSEI {
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 		return (IdCardPrintEventServiceReturn) new GetIdCardPrintEventImpl().implementService(
 						CprServiceName.GetIdCardPrintEvent.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, null);
+						identifier, new Object[]{identifierType, identifier});
 	}
 	
 	/**

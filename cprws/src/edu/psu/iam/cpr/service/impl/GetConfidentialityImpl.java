@@ -1,21 +1,14 @@
 /* SVN FILE: $Id: GetConfidentialityImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
-import javax.naming.NamingException;
-
-import org.apache.log4j.Logger;
-import org.hibernate.JDBCException;
-
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.ConfidentialityTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.ConfidentialityReturn;
-import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidateConfidentiality;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.helper.ServiceInterface;
 import edu.psu.iam.cpr.service.returns.ConfidentialityServiceReturn;
 
 /**
@@ -39,102 +32,46 @@ import edu.psu.iam.cpr.service.returns.ConfidentialityServiceReturn;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class GetConfidentialityImpl implements ServiceInterface {
+public class GetConfidentialityImpl extends GenericGetServiceImpl {
 
-	private static final Logger LOG4J_LOGGER = Logger.getLogger(GetConfidentialityImpl.class);
+	/** Contains the index of the return history parameter */
 	private static final int RETURN_HISTORY = 0;
-	private static final int BUFFER_SIZE = 2048;
 	
 	/**
-	 * This method provides the implementation for a service.
-	 * @param serviceName contains the name of the service.
-	 * @param ipAddress contains the ip address of the caller. 
-	 * @param principalId contains the principal identifier that is used to authenticate the service.
-	 * @param password contains the password associated with the principal.
-	 * @param updatedBy contains the user that either updated or requested information.
-	 * @param identifierType contains the identifier type used to find the user.
-	 * @param identifier contains the value of the identifier.
-	 * @param otherParameters contains an array of Objects that are additional parameters to the service implementation.
-	 * @return Object will return an object will needed to be casted to obtain the real return.
+	 * This method is used to execute the core logic for a service.
+	 * @param db contains a open database session.
+	 * @param serviceCoreReturn contains the service core information.
+	 * @param updatedBy contains the userid requesting this information.
+	 * @param otherParameters contains an array of Java objects that are additional parameters for the service.
+	 * @return will return an object if successful.
+	 * @throws CprException will be thrown if there are any problems.
 	 */
-
- 	public Object implementService(String serviceName, String ipAddress,
-			String principalId, String password, String updatedBy,
-			String identifierType, String identifier, Object[] otherParameters) {
-		final ServiceCore serviceCore = new ServiceCore();
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		ConfidentialityServiceReturn serviceReturn = null;
-		final Database db = new Database();
-		final ServiceHelper serviceHelper = new ServiceHelper();
+	@Override
+	public Object runService(Database db, ServiceCoreReturn serviceCoreReturn,
+			String updatedBy, Object[] otherParameters) throws CprException {
 		
-		LOG4J_LOGGER.info(serviceName + ": Start of service.");
+		String returnHistory = (String) otherParameters[RETURN_HISTORY];
 		
-		try {
-			
-			final String returnHistory = (String) otherParameters[RETURN_HISTORY];
-			
-			// Build the parameter list.
-			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
-			parameters.append("principalId=[").append(principalId).append("] ");
-			parameters.append("requestedBy=[").append(updatedBy).append("] ");
-			parameters.append("identifierType=[").append(identifierType).append("] ");
-			parameters.append("identifier=[").append(identifier).append("] ");
-			parameters.append("returnHistory=[").append(returnHistory).append("] ");
-			LOG4J_LOGGER.info(serviceName + ": input parameters = " + parameters.toString());
-
-			// Init the service.
-			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-					ipAddress,
-					principalId,
-					password,
-					updatedBy,
-					identifierType, 
-					identifier,
-					serviceCore, 
-					db, 
-					parameters);
-			LOG4J_LOGGER.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
-
-			// Validate the input parameters.
-			final ConfidentialityTable confidentialityTable = ValidateConfidentiality.validateGetConfidentialityParameters(db, 
-											serviceCoreReturn.getPersonId(), updatedBy, returnHistory);
-			
-			// Get the data about the hold.
-			LOG4J_LOGGER.info(serviceName + ": get confidentiality data.");
-			final ConfidentialityReturn queryResults[] = confidentialityTable.getConfidentiality(db, serviceCoreReturn.getPersonId());
-
-			// Build the return class.
-			serviceReturn = new ConfidentialityServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, queryResults.length, queryResults);			
-			LOG4J_LOGGER.info(serviceName + ": query results returned = " + queryResults.length);
-			
-			// Log a success!
-			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
-			
-			// Commit.
-			db.closeSession();
-		}
-		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ConfidentialityServiceReturn(e.getReturnType().index(), errorMessage);
-		}
-		catch (NamingException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ConfidentialityServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
-		}
-		catch (JDBCException e) {
-			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ConfidentialityServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-		}
-		catch (RuntimeException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ConfidentialityServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());			
-		}
-
-		LOG4J_LOGGER.info(serviceName + ": End of service.");
+		// Validate the input parameters.
+		final ConfidentialityTable confidentialityTable = ValidateConfidentiality.validateGetConfidentialityParameters(db, 
+										serviceCoreReturn.getPersonId(), updatedBy, returnHistory);
 		
-		// Success so return it.
-		return (Object) serviceReturn;
+		// Get the data about the hold.
+		final ConfidentialityReturn queryResults[] = confidentialityTable.getConfidentiality(db, serviceCoreReturn.getPersonId());
 
+		// Build the return class.
+		return (Object) new ConfidentialityServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, 
+										queryResults.length, queryResults);			
 	}
 
+	/**
+	 * This routine is used to handle exceptions.
+	 * @param statusCode contains the status code associated with the exception.
+	 * @param statusMessage contains the error message text.
+	 * @return will return an service return containing the exception information.
+	 */
+	@Override
+	public Object handleException(int statusCode, String statusMessage) {
+		return (Object) new ConfidentialityServiceReturn(statusCode, statusMessage);
+	}
 }
