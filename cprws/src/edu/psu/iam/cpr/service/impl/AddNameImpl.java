@@ -1,25 +1,16 @@
 /* SVN FILE: $Id: AddNameImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
-import javax.jms.JMSException;
-import javax.naming.NamingException;
-
-import org.apache.log4j.Logger;
-import org.hibernate.JDBCException;
 import org.json.JSONException;
+import java.text.ParseException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.NamesTable;
 import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.util.ValidateName;
-import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.helper.ServiceInterface;
-import edu.psu.iam.cpr.service.returns.ServiceReturn;
 
 /**
  * This class provides the implementation for the Add Name service.
@@ -43,131 +34,65 @@ import edu.psu.iam.cpr.service.returns.ServiceReturn;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class AddNameImpl implements ServiceInterface {
+public class AddNameImpl extends GenericServiceImpl {
 
-	private static final Logger LOG4J_LOGGER = Logger.getLogger(AddNameImpl.class);
-	private static final int BUFFER_SIZE = 2048;
+	/** Contains the index for the name type parameter */
 	private static final int NAME_TYPE = 0;
+	
+	/** Contains the index for the document type parameter */
 	private static final int DOCUMENT_TYPE = 1;
+	
+	/** Contains the index for the first name parameter */
 	private static final int FIRST_NAME = 2;
+	
+	/** Contains the index for the middle name parameter */
 	private static final int MIDDLE_NAMES = 3;
+	
+	/** Contains the index for the last name parameter */
 	private static final int LAST_NAME = 4;
+	
+	/** Contains index for the suffix parameter */
 	private static final int SUFFIX = 5;
-
-	/**
-	 * This method provides the implementation for a service.
-	 * @param serviceName contains the name of the service.
-	 * @param ipAddress contains the ip address of the caller. 
-	 * @param principalId contains the principal identifier that is used to authenticate the service.
-	 * @param password contains the password associated with the principal.
-	 * @param updatedBy contains the user that either updated or requested information.
-	 * @param identifierType contains the identifier type used to find the user.
-	 * @param identifier contains the value of the identifier.
-	 * @param otherParameters contains an array of Objects that are additional parameters to the service implementation.
-	 * @return Object will return an object will needed to be casted to obtain the real return.
-	 */
-
-	public Object implementService(String serviceName, String ipAddress,
-			String principalId, String password, String updatedBy,
-			String identifierType, String identifier, Object[] otherParameters) {
+	
+    /**
+     * This method is used to execute the core logic for a service.
+     * @param serviceName contains the name of the service.
+     * @param db contains a open database session.
+     * @param serviceCoreReturn contains the service core information.
+     * @param updatedBy contains the userid requesting this information.
+     * @param otherParameters contains an array of Java objects that are additional parameters for the service.
+     * @return will return an JsonMessage object if successful.
+     * @throws CprException will be thrown if there are any problems.
+     * @throws JSONException will be thrown if there are any issues creating a JSON message.
+     * @throws ParseException will be thrown if there are any issues related to parsing a data value.
+     */	
+	@Override
+	public JsonMessage runService(String serviceName, Database db,
+			ServiceCoreReturn serviceCoreReturn, String updatedBy,
+			Object[] otherParameters) throws CprException, JSONException, ParseException {
 		
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		final ServiceCore serviceCore = new ServiceCore();
-		final Database db = new Database();
-		final ServiceHelper serviceHelper = new ServiceHelper();
+		// Obtain the parameters.
+		final String nameType = (String) otherParameters[NAME_TYPE];
+		final String documentType = (String) otherParameters[DOCUMENT_TYPE];
+		final String firstName = (String) otherParameters[FIRST_NAME];
+		final String middleNames = (String) otherParameters[MIDDLE_NAMES];
+		final String lastName = (String) otherParameters[LAST_NAME];
+		final String suffix = (String) otherParameters[SUFFIX];
 		
-		LOG4J_LOGGER.info("AddName: Start of service.");
-		try {
-			
-			final String nameType = (String) otherParameters[NAME_TYPE];
-			final String documentType = (String) otherParameters[DOCUMENT_TYPE];
-			final String firstName = (String) otherParameters[FIRST_NAME];
-			final String middleNames = (String) otherParameters[MIDDLE_NAMES];
-			final String lastName = (String) otherParameters[LAST_NAME];
-			final String suffix = (String) otherParameters[SUFFIX];
-			
-			final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
-			parameters.append("principalId=[").append(principalId).append("] ");
-			parameters.append("updatedBy=[").append(updatedBy).append("] ");
-			parameters.append("identifierType=[").append(identifierType).append("] ");
-			parameters.append("identifier=[").append(identifier).append("] ");
-			parameters.append("nameType=[").append(nameType).append("] ");
-			parameters.append("documentType=[").append(documentType).append("] ");
-			parameters.append("firstName=[").append(firstName).append("] ");
-			parameters.append("middleNames=[").append(middleNames).append("] ");
-			parameters.append("lastName=[").append(lastName).append("] ");
-			parameters.append("suffix=[").append(suffix).append("] ");
-			LOG4J_LOGGER.info("AddName: Input Parameters = " + parameters.toString());
-			
-			// Init the service.
-			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-					ipAddress,
-					principalId,
-					password,
-					updatedBy,
-					identifierType, 
-					identifier,
-					serviceCore, 
-					db, 
-					parameters);
-			LOG4J_LOGGER.info("AddName: Found person identifier = " + serviceCoreReturn.getPersonId());
-			
-			// Validate the service parameters.
-			final NamesTable namesTable = ValidateName.validateAddNameParameters(db, serviceCoreReturn.getPersonId(), nameType, 
-					documentType, firstName, middleNames, lastName, suffix, updatedBy);
+		// Validate the service parameters.
+		final NamesTable namesTable = ValidateName.validateAddNameParameters(db, serviceCoreReturn.getPersonId(), nameType, 
+				documentType, firstName, middleNames, lastName, suffix, updatedBy);
 
-			// Determine if the caller is authorized to make this call.
-			LOG4J_LOGGER.info("AddName: Determing if the caller is authorized");
-			db.isDataActionAuthorized(serviceCoreReturn, namesTable.getNameType().toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
-			
-			// Add the name to the database table.
-			LOG4J_LOGGER.info("AddName: Add the name to the database.");
-			namesTable.addName(db);
-			
-			// Create a new json message.
-			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-			jsonMessage.setName(namesTable);
-			LOG4J_LOGGER.info("AddName: Created a JSON Message = " + jsonMessage.toString());
-				
-			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 		
-			
-			// Log a success!
-			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
-			
-			LOG4J_LOGGER.info("AddName: SUCCESS!");
-			
-			// Commit
-			db.closeSession();
-		} 
-		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(e.getReturnType().index(), errorMessage);
-		}
-		catch (NamingException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
-		}
-		catch (JDBCException e) {
-			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-		} 
-		catch (JSONException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (JMSException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
-		}
-		catch (RuntimeException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return (Object) new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
-		}
+		// Determine if the caller is authorized to make this call.
+		db.isDataActionAuthorized(serviceCoreReturn, namesTable.getNameType().toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 		
-		LOG4J_LOGGER.info("AddName: End of service.");
-
-		// Return the status to the caller.
-		return (Object) new ServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);
+		// Add the name to the database table.
+		namesTable.addName(db);
+		
+		// Create a new json message.
+		final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
+		jsonMessage.setName(namesTable);
+		
+		return jsonMessage;
 	}
-
 }

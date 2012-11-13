@@ -1296,8 +1296,8 @@ public interface CprwsSEI {
 	 * @param principalId server principal identifier (will be a Kerberos principal).
 	 * @param password password for the server principal specified as the first argument.
 	 * @param updatedBy the person (userid) who is making the change, this person will be an RA agent.
-	 * @param assignPsuId a y/n flag to indiciate whether a new PSU ID is to be created for the person.
-	 * @param assignUserid a y/n flag to indicate whether a new userid is to be created for the person.
+	 * @param assignPsuIdFlag  a y/n flag to indiciate whether a new PSU ID is to be created for the person.
+	 * @param assignUseridFlag a y/n flag to indicate whether a new userid is to be created for the person.
 	 * @param gender a flag to indicate the person's gender.
 	 * @param dob the person's date of birth, it can either be a full DOB or a partial one (mm/dd).
 	 * @param nameType the type of name that is being added.
@@ -1334,8 +1334,8 @@ public interface CprwsSEI {
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
-			@WebParam(name = "assignPsuId", mode = Mode.IN) String assignPsuId,
-			@WebParam(name = "assignUserid", mode = Mode.IN) String assignUserid,
+			@WebParam(name = "assignPsuIdFlag", mode=Mode.IN) String assignPsuIdFlag, 
+			@WebParam(name = "assignUseridFlag", mode=Mode.IN) String assignUseridFlag, 
 			@WebParam(name = "gender", mode = Mode.IN) String gender,
 			@WebParam(name = "dob", mode = Mode.IN) String dob,
 			@WebParam(name = "nameType", mode = Mode.IN) String nameType,
@@ -1443,8 +1443,8 @@ public interface CprwsSEI {
 	 * @param updatedBy the person (userid) who is making the change, this person will be an RA agent.
 	 * @param identifierType the type of identifier used to find the person in the CPR. 
 	 * @param identifier the value for the identifier specified in the identifierType argument.
-	 * @param assignPsuId a y/n flag to indiciate whether a new PSU ID is to be created for the person.
-	 * @param assignUserid a y/n flag to indicate whether a new userid is to be created for the person.
+	 * @param assignPsuIdFlag a y/n flag to indiciate whether a new PSU ID is to be created for the person.
+	 * @param assignUseridFlag a y/n flag to indicate whether a new userid is to be created for the person.
 	 * @param gender a flag to indicate the person's gender.
 	 * @param dob the person's date of birth, it can either be a full DOB or a partial one (mm/dd).
 	 * @param nameType the type of name that is being added.
@@ -1485,8 +1485,8 @@ public interface CprwsSEI {
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
 			@WebParam(name = "identifierType", mode = Mode.IN) String identifierType,
 			@WebParam(name = "identifier", mode = Mode.IN) String identifier,
-			@WebParam(name = "assignPsuId", mode = Mode.IN) String assignPsuId,
-			@WebParam(name = "assignUserid", mode = Mode.IN) String assignUserid,
+			@WebParam(name = "assignPsuIdFlag", mode=Mode.IN) String assignPsuIdFlag, 
+			@WebParam(name = "assignUseridFlag", mode=Mode.IN) String assignUseridFlag, 
 			@WebParam(name = "gender", mode = Mode.IN) String gender,
 			@WebParam(name = "dob", mode = Mode.IN) String dob,
 			@WebParam(name = "nameType", mode = Mode.IN) String nameType,

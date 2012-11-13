@@ -1471,7 +1471,8 @@ public class CprwsService implements CprwsSEI {
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 		return (ServiceReturn) new AddIdCardPrintEventImpl().implementService(
 					CprServiceName.AddIdCardPrintEvent.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{eventUserId, eventIpAddress, eventWorkstation});
+									identifierType, identifier, new Object[]{identifierType, identifier, 
+																		eventUserId, eventIpAddress, eventWorkstation});
 	}
 	/**
 	 * This function provides the implementation for the GetIdCardPrintEvent SOAP web service.  GetIdCardPrintEvent will allow 
@@ -1909,9 +1910,9 @@ public class CprwsService implements CprwsSEI {
 			String password, 
 			@WebParam( name="updatedBy", mode=Mode.IN)
 			String updatedBy, 
-			@WebParam( name="assignPsuId", mode=Mode.IN)
+			@WebParam( name="assignPsuIdFlag", mode=Mode.IN)
 			String assignPsuIdFlag, 
-			@WebParam( name="assignUserid", mode=Mode.IN)
+			@WebParam( name="assignUseridFlag", mode=Mode.IN)
 			String assignUseridFlag, 
 			@WebParam( name="gender", mode=Mode.IN)
 			String gender, 
@@ -2470,9 +2471,9 @@ public class CprwsService implements CprwsSEI {
 			String identifierType, 
 			@WebParam( name="identifier", mode=Mode.IN)
 			String identifier,
-			@WebParam( name="assignPsuId", mode=Mode.IN)
+			@WebParam( name="assignPsuIdFlag", mode=Mode.IN)
 			String assignPsuIdFlag, 
-			@WebParam( name="assignUserid", mode=Mode.IN)
+			@WebParam( name="assignUseridFlag", mode=Mode.IN)
 			String assignUseridFlag, 
 			@WebParam( name="gender", mode=Mode.IN)
 			String gender, 
