@@ -109,6 +109,7 @@ import edu.psu.iam.cpr.service.impl.GetPhoneImpl;
 import edu.psu.iam.cpr.service.impl.GetPhotoImpl;
 import edu.psu.iam.cpr.service.impl.GetUserCommentsImpl;
 import edu.psu.iam.cpr.service.impl.GetUseridImpl;
+import edu.psu.iam.cpr.service.impl.SecurityImpl;
 import edu.psu.iam.cpr.service.impl.SetPrimaryAddressByTypeImpl;
 import edu.psu.iam.cpr.service.impl.SetPrimaryAffiliationImpl;
 import edu.psu.iam.cpr.service.impl.SetPrimaryPhoneByTypeImpl;
@@ -3117,80 +3118,10 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="userid", mode=Mode.IN)
 			String userid) {
 		
-		final ServiceCore serviceCore = new ServiceCore();
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		final String serviceName = CprServiceName.BlockUser.toString();
-		final Database db = new Database();
-		final ServiceHelper serviceHelper = new ServiceHelper();
-		
-		LOG4J_LOGGER.info(serviceName + ": start of service.");
-		try {
-			
-			// Build the parameter list.
-			final StringBuilder parameters = new StringBuilder(5000);
-			parameters.append("principalId=[").append(principalId).append("] ");
-			parameters.append("updatedBy=[").append(updatedBy).append("] ");
-			parameters.append("identifierType=[").append(identifierType).append("] ");
-			parameters.append("identifier=[").append(identifier).append("] ");
-			parameters.append("userid=[").append(userid).append("] ");
-			LOG4J_LOGGER.info(serviceName + ": input parameters =" + parameters.toString());
-
-			// Init the service.
-			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-					request.getRemoteAddr(),
-					principalId,
-					password,
-					updatedBy,
-					identifierType, 
-					identifier,
-					serviceCore, 
-					db, 
-					parameters);
-			LOG4J_LOGGER.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
-			
-			// Create a new json message.
-			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-			LOG4J_LOGGER.info(serviceName + ": sent json message = " + jsonMessage.toString());
-				
-			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 		
-
-			// Log a success!
-			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
-			
-			LOG4J_LOGGER.info(serviceName + ": service status is success.");
-			
-			// Commit.
-			db.closeSession();
-		}
-		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(e.getReturnType().index(), errorMessage);
-		}
-		catch (NamingException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
-		}
-		catch (JDBCException e) {
-			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-		} 
-		catch (JSONException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (JMSException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
-		}
-		catch (RuntimeException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
-		}
-		
-		LOG4J_LOGGER.info(serviceName + ": end of service.");
-		// Success so return it.
-		return new ServiceReturn(ReturnType.SUCCESS.index(), SUCCESS_MESSAGE);
+		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		return (ServiceReturn) new SecurityImpl().implementService(
+					CprServiceName.BlockUser.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
+									identifierType, identifier, new Object[]{userid});
 	}
 
 	/**
@@ -3222,79 +3153,10 @@ public class CprwsService implements CprwsSEI {
 			String identifier,
 			@WebParam( name="userid", mode=Mode.IN)
 			String userid) {
-		final ServiceCore serviceCore = new ServiceCore();
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		final String serviceName = CprServiceName.UnblockUser.toString();
-		final Database db = new Database();
-		final ServiceHelper serviceHelper = new ServiceHelper();
-		
-		LOG4J_LOGGER.info(serviceName + ": start of service.");
-		try {
-			
-			// Build the parameter list.
-			final StringBuilder parameters = new StringBuilder(5000);
-			parameters.append("principalId=[").append(principalId).append("] ");
-			parameters.append("updatedBy=[").append(updatedBy).append("] ");
-			parameters.append("identifierType=[").append(identifierType).append("] ");
-			parameters.append("identifier=[").append(identifier).append("] ");
-			parameters.append("userid=[").append(userid).append("] ");
-			LOG4J_LOGGER.info(serviceName + ": input parameters =" + parameters.toString());
-
-			// Init the service.
-			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-					request.getRemoteAddr(),
-					principalId,
-					password,
-					updatedBy,
-					identifierType, 
-					identifier,
-					serviceCore, 
-					db, 
-					parameters);
-			LOG4J_LOGGER.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
-		
-			// Create a new json message.
-			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-			LOG4J_LOGGER.info(serviceName + ": sent json message = " + jsonMessage.toString());
-				
-			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 		
-
-			// Log a success!
-			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
-			
-			LOG4J_LOGGER.info(serviceName + ": service status is success.");
-			// Commit
-			db.closeSession();
-		}
-		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(e.getReturnType().index(), errorMessage);
-		}
-		catch (NamingException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
-		}
-		catch (JDBCException e) {
-			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-		} 
-		catch (JSONException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (JMSException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
-		}
-		catch (RuntimeException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
-		}
-		
-		LOG4J_LOGGER.info(serviceName + ": end of service.");
-		// Success so return it.
-		return new ServiceReturn(ReturnType.SUCCESS.index(), SUCCESS_MESSAGE);
+		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		return (ServiceReturn) new SecurityImpl().implementService(
+					CprServiceName.UnblockUser.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
+									identifierType, identifier, new Object[]{userid});
 	}
 
 	/**
@@ -3327,80 +3189,10 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="userid", mode=Mode.IN)
 			String userid) {
 		
-		final ServiceCore serviceCore = new ServiceCore();
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		final String serviceName = CprServiceName.DisableUser.toString();
-		final Database db = new Database();
-		final ServiceHelper serviceHelper = new ServiceHelper();
-		
-		LOG4J_LOGGER.info(serviceName + ": start of service.");
-		try {
-			
-			// Build the parameter list.
-			final StringBuilder parameters = new StringBuilder(5000);
-			parameters.append("principalId=[").append(principalId).append("] ");
-			parameters.append("updatedBy=[").append(updatedBy).append("] ");
-			parameters.append("identifierType=[").append(identifierType).append("] ");
-			parameters.append("identifier=[").append(identifier).append("] ");
-			parameters.append("userid=[").append(userid).append("] ");
-			LOG4J_LOGGER.info(serviceName + ": input parameters =" + parameters.toString());
-
-			// Init the service.
-			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-					request.getRemoteAddr(),
-					principalId,
-					password,
-					updatedBy,
-					identifierType, 
-					identifier,
-					serviceCore, 
-					db, 
-					parameters);
-			LOG4J_LOGGER.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
-			
-			// Create a new json message.
-			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-			LOG4J_LOGGER.info(serviceName + ": sent json message = " + jsonMessage.toString());
-				
-			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 		
-
-			// Log a success!
-			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
-			
-			LOG4J_LOGGER.info(serviceName + ": service status is success.");
-			// Commit.
-			db.closeSession();
-		}
-		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(e.getReturnType().index(), errorMessage);
-		}
-		catch (NamingException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
-		}
-		catch (JDBCException e) {
-			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-		} 
-		catch (JSONException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (JMSException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
-		}
-		catch (RuntimeException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
-		}
-		
-		LOG4J_LOGGER.info(serviceName + ": end of service.");
-		
-		// Success so return it.
-		return new ServiceReturn(ReturnType.SUCCESS.index(), SUCCESS_MESSAGE);
+		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		return (ServiceReturn) new SecurityImpl().implementService(
+					CprServiceName.DisableUser.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
+									identifierType, identifier, new Object[]{userid});
 	}
 
 	/**
@@ -3433,80 +3225,10 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="userid", mode=Mode.IN)
 			String userid) {
 		
-		final ServiceCore serviceCore = new ServiceCore();
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		final String serviceName = CprServiceName.EnableUser.toString();
-		final Database db = new Database();
-		final ServiceHelper serviceHelper = new ServiceHelper();
-		
-		LOG4J_LOGGER.info(serviceName + ": start of service.");
-		try {
-			
-			// Build the parameter list.
-			final StringBuilder parameters = new StringBuilder(5000);
-			parameters.append("principalId=[").append(principalId).append("] ");
-			parameters.append("updatedBy=[").append(updatedBy).append("] ");
-			parameters.append("identifierType=[").append(identifierType).append("] ");
-			parameters.append("identifier=[").append(identifier).append("] ");
-			parameters.append("userid=[").append(userid).append("] ");
-			LOG4J_LOGGER.info(serviceName + ": input parameters =" + parameters.toString());
-
-			// Init the service.
-			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-					request.getRemoteAddr(),
-					principalId,
-					password,
-					updatedBy,
-					identifierType, 
-					identifier,
-					serviceCore, 
-					db, 
-					parameters);
-			LOG4J_LOGGER.info(serviceName + ": person identifier = " + serviceCoreReturn.getPersonId());
-			
-			// Create a new json message.
-			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-				
-			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 		
-			LOG4J_LOGGER.info(serviceName + ": sent json message = " + jsonMessage.toString());
-
-			// Log a success!
-			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
-			
-			LOG4J_LOGGER.info(serviceName + ": service status is success.");
-			// Commit.
-			db.closeSession();
-		}
-		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(e.getReturnType().index(), errorMessage);
-		}
-		catch (NamingException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
-		}
-		catch (JDBCException e) {
-			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-		} 
-		catch (JSONException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (JMSException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
-		}
-		catch (RuntimeException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new ServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
-		}
-		
-		LOG4J_LOGGER.info(serviceName + ": end of service.");
-		
-		// Success so return it.
-		return new ServiceReturn(ReturnType.SUCCESS.index(), SUCCESS_MESSAGE);
+		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		return (ServiceReturn) new SecurityImpl().implementService(
+					CprServiceName.EnableUser.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
+									identifierType, identifier, new Object[]{userid});
 	}
 		
 	/**
