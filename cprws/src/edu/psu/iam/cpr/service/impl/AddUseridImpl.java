@@ -19,7 +19,6 @@ import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.service.returns.UseridReturn;
 import edu.psu.iam.cpr.core.util.ValidateUserid;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.helper.ServiceInterface;
 import edu.psu.iam.cpr.service.returns.ServiceReturn;
 import edu.psu.iam.cpr.service.returns.UseridServiceReturn;
 
@@ -45,7 +44,7 @@ import edu.psu.iam.cpr.service.returns.UseridServiceReturn;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class AddUseridImpl implements ServiceInterface {
+public class AddUseridImpl {
 
 	private static final Logger LOG4J_LOGGER = Logger.getLogger(ArchiveUserCommentImpl.class);
 	private static final int BUFFER_SIZE = 2048;
