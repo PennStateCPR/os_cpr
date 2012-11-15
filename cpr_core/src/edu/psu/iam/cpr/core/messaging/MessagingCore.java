@@ -325,7 +325,9 @@ public class MessagingCore {
     	}
     	finally {
     		try {
-    			msgSender.close();
+    			if (msgSender != null) {
+    				msgSender.close();
+    			}
     		} 
     		catch (JMSException e) {
     		}
