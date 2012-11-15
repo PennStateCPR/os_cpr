@@ -148,10 +148,9 @@ public class ConfidentialityTable {
 	 */
 	public final ConfidentialityType findConfidentialityEnum(String confidentialityTypeString) throws CprException {
 		if (confidentialityTypeString != null) {
-			for (ConfidentialityType confidentialityTypeEnum: ConfidentialityType.values()) {
-				if (confidentialityTypeEnum.toString().equalsIgnoreCase(confidentialityTypeString)) {
-					return confidentialityTypeEnum;
-				}
+			ConfidentialityType confidentialityTypeEnum = Utility.getEnumFromString(ConfidentialityType.class, confidentialityTypeString);
+			if (confidentialityTypeEnum != null) {
+				return confidentialityTypeEnum;
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Confidentiality Type");

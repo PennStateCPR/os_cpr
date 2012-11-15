@@ -208,10 +208,9 @@ public class PhonesTable {
 	 */
 	public final PhoneType findPhoneTypeEnum(String  phoneTypeString) throws CprException  {
 		if (phoneTypeString != null) {
-			for (PhoneType phoneTypeEnum: PhoneType.values()) {
-				if (phoneTypeEnum.toString().equalsIgnoreCase(phoneTypeString)) {
-					return phoneTypeEnum;
-				}
+			PhoneType phoneTypeEnum = Utility.getEnumFromString(PhoneType.class, phoneTypeString);
+			if (phoneTypeEnum != null) {
+				return phoneTypeEnum;
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Phone Type");

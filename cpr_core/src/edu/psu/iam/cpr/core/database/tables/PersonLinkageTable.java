@@ -151,10 +151,9 @@ public class PersonLinkageTable {
 	 */
 	public final LinkageType findLinkageTypeEnum(String linkageType) throws CprException {
 		if (linkageType != null) {
-			for (LinkageType linkageTypeEnum: LinkageType.values()) {
-				if (linkageTypeEnum.toString().equalsIgnoreCase(linkageType)) {
-					return linkageTypeEnum;
-				}
+			LinkageType linkageTypeEnum = Utility.getEnumFromString(LinkageType.class, linkageType);
+			if (linkageTypeEnum != null) {
+				return linkageTypeEnum;
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Linkage Type");

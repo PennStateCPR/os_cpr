@@ -148,10 +148,9 @@ public class PersonGenderTable {
 	 */
 	public final GenderType findGenderTypeEnum(final String genderType) throws CprException {
 		if (genderType != null) {
-			for (GenderType genderTypeEnum: GenderType.values()) {
-				if (genderTypeEnum.toString().equalsIgnoreCase(genderType)) {
-					return genderTypeEnum;
-				}
+			GenderType genderTypeEnum = Utility.getEnumFromString(GenderType.class, genderType);
+			if (genderTypeEnum != null) {
+				return genderTypeEnum;
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Gender Type");

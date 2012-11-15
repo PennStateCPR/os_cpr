@@ -67,4 +67,23 @@ public final class Utility {
 			return dateFormat.format(d);
 		}
 	}
+
+	/**
+	 * This routine is used to convert a string to an enumerated type.
+	 * @param enumClass Contains the enumerated type's class.
+	 * @param stringValue Contains the string that will be used to convert to an enum.
+	 * @return will return the enumerated value if successful.
+	 */
+	public static <T extends Enum<T>> T getEnumFromString(Class<T> enumClass, String stringValue)
+	{
+	    if( enumClass != null && stringValue != null ) {
+	        try {
+	            return Enum.valueOf(enumClass, stringValue.trim().toUpperCase());
+	        }
+	        catch(IllegalArgumentException ex) {
+	        }
+	    }
+	    return null;
+	}
+
 }

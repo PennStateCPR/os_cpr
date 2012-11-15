@@ -241,10 +241,9 @@ public class IdCardTable {
 	public final IdCardType findIdCardTypeEnum(String idCardTypeString) throws CprException{
 		
 		if (idCardTypeString != null) {
-			for (IdCardType idCardTypeEnum: IdCardType.values()) {
-				if (idCardTypeEnum.toString().equalsIgnoreCase(idCardTypeString)) {
-					return idCardTypeEnum;
-				}
+			IdCardType idCardTypeEnum = Utility.getEnumFromString(IdCardType.class, idCardTypeString);
+			if (idCardTypeEnum != null) {
+				return idCardTypeEnum;
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Id Card Type");

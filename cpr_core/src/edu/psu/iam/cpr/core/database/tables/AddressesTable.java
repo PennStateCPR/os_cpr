@@ -346,10 +346,9 @@ public class AddressesTable {
 	public final AddressType findAddressTypeEnum(String addressTypeString) throws CprException{
 		
 		if (addressTypeString != null) {
-			for (AddressType addressTypeEnum: AddressType.values()) {
-				if (addressTypeEnum.toString().equalsIgnoreCase(addressTypeString)) {
-					return addressTypeEnum;
-				}
+			AddressType addressTypeEnum = Utility.getEnumFromString(AddressType.class, addressTypeString);
+			if (addressTypeEnum != null) {
+				return addressTypeEnum;
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Address Type");
@@ -370,10 +369,9 @@ public class AddressesTable {
 	 */
 	public final DocumentType findDocumentTypeEnum(String documentType) throws CprException {
 		if (documentType != null) {
-			for (DocumentType documentTypeEnum: DocumentType.values()) {
-				if (documentTypeEnum.toString().equalsIgnoreCase(documentType)) {
-					return documentTypeEnum;
-				}
+			DocumentType documentTypeEnum = Utility.getEnumFromString(DocumentType.class, documentType);
+			if (documentTypeEnum != null) {
+				return documentTypeEnum;
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Document Type");

@@ -166,10 +166,9 @@ public class CredentialTable {
 	public final CredentialType findCredentialEnum(String credentialTypeString) throws CprException{
 		
 		if (credentialTypeString != null) {
-			for (CredentialType enumValue: CredentialType.values()) {
-				if (enumValue.toString().equalsIgnoreCase(credentialTypeString)) {
-					return enumValue;
-				}
+			CredentialType credentialTypeEnum = Utility.getEnumFromString(CredentialType.class, credentialTypeString);
+			if (credentialTypeEnum != null) {
+				return credentialTypeEnum;
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Credential Type");

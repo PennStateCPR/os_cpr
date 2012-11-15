@@ -177,10 +177,9 @@ public class UserCommentTable {
 	 */
 	public final UserCommentType findUserCommentTypeEnum(String userCommentType) throws CprException {
 		if (userCommentType != null) {
-			for (UserCommentType userCommentTypeEnum: UserCommentType.values()) {
-				if (userCommentTypeEnum.toString().equalsIgnoreCase(userCommentType)) {
-					return userCommentTypeEnum;
-				}
+			UserCommentType userCommentTypeEnum = Utility.getEnumFromString(UserCommentType.class, userCommentType);
+			if (userCommentTypeEnum != null) {
+				return userCommentTypeEnum;
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Comment Type");

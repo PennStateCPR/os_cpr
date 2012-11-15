@@ -138,10 +138,9 @@ public class EmailAddressTable {
 	 */
 	public final EmailAddressType findEmailAddressEnum(String emailAddressType) throws CprException {
 		if (emailAddressType != null) {
-			for (EmailAddressType emailAddressEnum: EmailAddressType.values()) {
-				if (emailAddressEnum.toString().equalsIgnoreCase(emailAddressType)) {
-					return emailAddressEnum;
-				}
+			EmailAddressType emailAddressEnum = Utility.getEnumFromString(EmailAddressType.class, emailAddressType);
+			if (emailAddressEnum != null) {
+				return emailAddressEnum;
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Email Address Type");

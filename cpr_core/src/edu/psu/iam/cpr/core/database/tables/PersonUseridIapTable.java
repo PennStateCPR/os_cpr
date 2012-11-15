@@ -91,10 +91,9 @@ public class PersonUseridIapTable {
 	
 	public final IapType findIapTypeEnum(String iapTypeString) throws CprException {
 		if (iapTypeString != null) {
-			for (IapType iapTypeEnum: IapType.values()) {
-				if (iapTypeEnum.toString().equalsIgnoreCase(iapTypeString)) {
-					return iapTypeEnum;
-				}
+			IapType iapTypeEnum = Utility.getEnumFromString(IapType.class, iapTypeString);
+			if (iapTypeEnum != null) {
+				return iapTypeEnum;
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Iap Type");

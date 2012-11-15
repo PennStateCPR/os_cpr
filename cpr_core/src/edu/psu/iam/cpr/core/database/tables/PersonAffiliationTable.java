@@ -202,10 +202,9 @@ public class PersonAffiliationTable {
 	public final AffiliationsType findAffiliationsTypeEnum(String affiliationTypeString) throws CprException {
 		
 		if (affiliationTypeString != null) {
-			for (AffiliationsType affiliationTypeEnum: AffiliationsType.values()) {
-				if (affiliationTypeEnum.toString().equalsIgnoreCase(affiliationTypeString)) {
-					return affiliationTypeEnum;
-				}
+			AffiliationsType affiliationTypeEnum = Utility.getEnumFromString(AffiliationsType.class, affiliationTypeString);
+			if (affiliationTypeEnum != null) {
+				return affiliationTypeEnum;
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, TABLE_NAME);

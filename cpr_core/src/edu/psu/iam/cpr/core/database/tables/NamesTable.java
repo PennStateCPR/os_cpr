@@ -193,10 +193,9 @@ public class NamesTable {
 	 */
 	public final NameType findNameTypeEnum(String nameType) throws CprException {
 		if (nameType != null) {
-			for (NameType nameTypeEnum: NameType.values()) {
-				if (nameTypeEnum.toString().equalsIgnoreCase(nameType)) {
-					return nameTypeEnum;
-				}
+			NameType nameTypeEnum = Utility.getEnumFromString(NameType.class, nameType);
+			if (nameTypeEnum != null) {
+				return nameTypeEnum;
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Name Type");
@@ -217,10 +216,9 @@ public class NamesTable {
 	 */
 	public final DocumentType findDocumentTypeEnum(String documentType) throws CprException {
 		if (documentType != null) {
-			for (DocumentType documentTypeEnum: DocumentType.values()) {
-				if (documentTypeEnum.toString().equalsIgnoreCase(documentType)) {
-					return documentTypeEnum;
-				}
+			DocumentType documentTypeEnum = Utility.getEnumFromString(DocumentType.class, documentType);
+			if (documentTypeEnum != null) {
+				return documentTypeEnum;
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Document Type");
