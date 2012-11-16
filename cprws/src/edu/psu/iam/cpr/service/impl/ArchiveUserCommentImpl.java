@@ -11,7 +11,7 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidateUserComment;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment;
 
 /**
  * This class provides the implementation for the archive user comments service.
@@ -69,7 +69,7 @@ public class ArchiveUserCommentImpl extends GenericServiceImpl {
 				serviceCoreReturn.getPersonId(), userId, userCommentType, updatedBy);
 
 		// Determine if the caller is authorized to make this call.
-		db.isDataActionAuthorized(serviceCoreReturn, userCommentTable.getUserCommentType().toString(), 
+		db.isDataActionAuthorized(userCommentTable.getUserCommentType().toString(), 
 				AccessType.ACCESS_OPERATION_ARCHIVE.toString(), updatedBy);
 		
 		// Archive the record.

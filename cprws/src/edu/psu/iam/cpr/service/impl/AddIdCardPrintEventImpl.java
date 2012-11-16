@@ -10,7 +10,7 @@ import edu.psu.iam.cpr.core.database.tables.IdCardPrintLogTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog;
 
 /**
 * This class provides the implementation of the AddIdCardPrintEvent.

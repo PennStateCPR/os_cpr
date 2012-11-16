@@ -11,7 +11,7 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidateEmail;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateEmail;
 
 /**
  * This class provides an implementation for the update email address service.
@@ -69,7 +69,7 @@ public class UpdateEmailAddressImpl extends GenericServiceImpl {
 				emailAddressType, emailAddress, updatedBy);
 		
 		// Determine if the caller is authorized to make this call.
-		db.isDataActionAuthorized(serviceCoreReturn, emailAddressTable.getEmailAddressType().toString(), 
+		db.isDataActionAuthorized(emailAddressTable.getEmailAddressType().toString(), 
 				AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 
 		// Update the record.

@@ -11,7 +11,7 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidateUserid;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserid;
 
 /**
  * This class provides the implementation for the Add Special Userid service.
@@ -64,7 +64,7 @@ public class AddSpecialUseridImpl extends GenericServiceImpl {
 		useridTable.getUseridBean().setUserid(userid);
 		
 		// Determine if the user is authorized to add a userid.
-		db.isDataActionAuthorized(serviceCoreReturn, AccessType.USER_ID.toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
+		db.isDataActionAuthorized(AccessType.USER_ID.toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 		useridTable.addSpecialUserid(db);
 		
 		// Create a new json message.

@@ -10,7 +10,7 @@ import edu.psu.iam.cpr.core.database.tables.PersonPhotoTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidatePersonPhoto;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonPhoto;
 
 /**
  * This class provides the implementation for the Add Photo service.

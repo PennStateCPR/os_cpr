@@ -11,7 +11,7 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidateUserid;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserid;
 
 /**
  * This class provides an implementation for the unarchive userid serivce.
@@ -63,7 +63,7 @@ public class UnarchiveUseridImpl extends GenericServiceImpl {
 		final UseridTable useridTable = ValidateUserid.validateUseridParameters(db, serviceCoreReturn.getPersonId(), userid, updatedBy);
 		
 		// Determine if the user is authorized to set a unarchive the userid.
-		db.isDataActionAuthorized(serviceCoreReturn, AccessType.USER_ID.toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
+		db.isDataActionAuthorized(AccessType.USER_ID.toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 		
 		// Unarchive the userid.
 		useridTable.unarchiveUserid(db);

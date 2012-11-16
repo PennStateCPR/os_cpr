@@ -23,7 +23,7 @@ import edu.psu.iam.cpr.core.service.returns.PhoneReturn;
 import edu.psu.iam.cpr.core.service.returns.PsuIdReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.service.returns.UseridReturn;
-import edu.psu.iam.cpr.core.util.ValidatePerson;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePerson;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
 import edu.psu.iam.cpr.service.returns.PersonServiceReturn;
 

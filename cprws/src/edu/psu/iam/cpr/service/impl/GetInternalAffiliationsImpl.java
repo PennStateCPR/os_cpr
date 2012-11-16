@@ -7,7 +7,7 @@ import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.AffiliationReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidatePersonAffiliation;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
 import edu.psu.iam.cpr.service.returns.AffiliationServiceReturn;
 

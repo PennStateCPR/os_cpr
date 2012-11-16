@@ -11,7 +11,7 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidateIdCard;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCard;
 
 /**
  * This class provides the implmentation for the Add Id Card service.
@@ -79,7 +79,7 @@ public class AddIdCardImpl extends GenericServiceImpl {
 				idCardType,updatedBy, idCardNumber, idSerialNumber, photo, photoDateTaken);
 		
 		// Determine if the action is authorized.
-		db.isDataActionAuthorized(serviceCoreReturn,idCardTableRecord.getIdCardType().toString(), 
+		db.isDataActionAuthorized(idCardTableRecord.getIdCardType().toString(), 
 				AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 		
 		// Add the record.

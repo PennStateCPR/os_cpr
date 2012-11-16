@@ -11,7 +11,7 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidateAddress;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress;
 
 /**
  * This class provides an implementation for the update address service.
@@ -106,7 +106,7 @@ public class UpdateAddressImpl extends GenericServiceImpl {
 				countryCode, campusCode);
 		
 		// Determine if the caller is authorized to make this call.
-		db.isDataActionAuthorized(serviceCoreReturn,addressTableRecord.getAddressType().toString(), 
+		db.isDataActionAuthorized(addressTableRecord.getAddressType().toString(), 
 				AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy );
 
 		// update the address

@@ -5,11 +5,11 @@ import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.AddressesTable;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress;
 import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidateAddress;
 import java.text.ParseException;
 
 /**
@@ -99,7 +99,7 @@ public class AddAddressImpl extends GenericServiceImpl {
 				address1, address2, address3, city, stateOrProvince, postalCode,  countryCode, campusCode);
 		
 		// Determine if the caller is authorized to make this call.
-		db.isDataActionAuthorized(serviceCoreReturn,addressTableRecord.getAddressType().toString(), 
+		db.isDataActionAuthorized(addressTableRecord.getAddressType().toString(), 
 				AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 		
 		// add the address

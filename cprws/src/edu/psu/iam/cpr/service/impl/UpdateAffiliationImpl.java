@@ -10,7 +10,7 @@ import edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidatePersonAffiliation;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation;
 
 /**
  * This class provides an implementation for the update affiliation service.
@@ -63,7 +63,7 @@ public class UpdateAffiliationImpl extends GenericServiceImpl {
 						affiliation, updatedBy);
 		
 		// Update the AFfiliation
-		db.isAffiliationAccessAuthorized(serviceCoreReturn, affiliation, updatedBy);
+		db.isAffiliationAccessAuthorized(affiliation, updatedBy);
 		aTableRecord.updateAffiliation(db);
 		
 		// Create a new json message.

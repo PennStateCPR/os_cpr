@@ -16,9 +16,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
+
+import edu.psu.iam.cpr.core.database.DBTypes;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
-import edu.psu.iam.cpr.core.database.helpers.DBTypesHelper;
 import edu.psu.iam.cpr.core.database.tables.DateOfBirthTable;
 import edu.psu.iam.cpr.core.database.tables.UseridTable;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
@@ -29,7 +30,7 @@ import edu.psu.iam.cpr.core.service.returns.DateOfBirthReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.service.returns.UseridReturn;
 import edu.psu.iam.cpr.core.util.CprProperties;
-import edu.psu.iam.cpr.core.util.ValidateDateOfBirth;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateDateOfBirth;
 import edu.psu.iam.cpr.core.util.ValidateSSN;
 import edu.psu.iam.cpr.service.returns.FindPersonServiceReturn;
 
@@ -240,7 +241,7 @@ public class FindPersonHelper {
 		if (localSSN != null) {
 			
 			// Need to find the key that is associated with the SSN person identifier.
-			HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+			HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 			IdentifierType identifierType = null;
 			for (Map.Entry<String,Object> entry : map.entrySet()) {
 				identifierType = (IdentifierType) entry.getValue();

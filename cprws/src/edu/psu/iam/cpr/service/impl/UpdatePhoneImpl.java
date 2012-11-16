@@ -11,7 +11,7 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidatePhone;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone;
 
 /**
  * This class provides an implementation for the update phone service.
@@ -79,7 +79,7 @@ public class UpdatePhoneImpl extends GenericServiceImpl {
 		// Validate the data passed to the service
 		final PhonesTable phonesTableRecord = ValidatePhone.validateUpdatePhonesParameters(db, serviceCoreReturn.getPersonId(),  
 				phoneType, groupId, phoneNumber, extension, internationalNumber, updatedBy);
-		db.isDataActionAuthorized(serviceCoreReturn, phonesTableRecord.getPhoneType().toString(), 
+		db.isDataActionAuthorized(phonesTableRecord.getPhoneType().toString(), 
 				AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 		
 		// Update the phone number.

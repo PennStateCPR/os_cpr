@@ -17,7 +17,7 @@ import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.service.returns.UseridReturn;
-import edu.psu.iam.cpr.core.util.ValidateUserid;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserid;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
 import edu.psu.iam.cpr.service.returns.ServiceReturn;
 import edu.psu.iam.cpr.service.returns.UseridServiceReturn;
@@ -99,7 +99,7 @@ public class AddUseridImpl {
 			final UseridTable useridTable = ValidateUserid.validateUseridParameters(db, serviceCoreReturn.getPersonId(), updatedBy);
 
 			// Determine if the user is authorized to add a userid.
-			db.isDataActionAuthorized(serviceCoreReturn, AccessType.USER_ID.toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
+			db.isDataActionAuthorized(AccessType.USER_ID.toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 			
 			// Add the new userid.
 			useridTable.addUserid(db);

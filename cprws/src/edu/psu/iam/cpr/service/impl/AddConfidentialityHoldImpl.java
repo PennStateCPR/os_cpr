@@ -11,7 +11,7 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidateConfidentiality;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateConfidentiality;
 
 /**
  * This class provides the implementation for the Add Confidentiality Hold service.
@@ -64,7 +64,7 @@ public class AddConfidentialityHoldImpl extends GenericServiceImpl {
 				serviceCoreReturn.getPersonId(), confidentialityType, updatedBy);
 		
 		// Verify that the user is authorized to perform the action based on the type of data.
-		db.isDataActionAuthorized(serviceCoreReturn, confidentialityTable.getConfidentialityType().toString(), 
+		db.isDataActionAuthorized(confidentialityTable.getConfidentialityType().toString(), 
 				AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 
 		// Establish the hold.

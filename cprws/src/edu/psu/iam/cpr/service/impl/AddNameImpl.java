@@ -10,7 +10,7 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidateName;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateName;
 
 /**
  * This class provides the implementation for the Add Name service.
@@ -84,7 +84,7 @@ public class AddNameImpl extends GenericServiceImpl {
 				documentType, firstName, middleNames, lastName, suffix, updatedBy);
 
 		// Determine if the caller is authorized to make this call.
-		db.isDataActionAuthorized(serviceCoreReturn, namesTable.getNameType().toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
+		db.isDataActionAuthorized(namesTable.getNameType().toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 		
 		// Add the name to the database table.
 		namesTable.addName(db);

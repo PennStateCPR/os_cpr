@@ -11,7 +11,7 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidateName;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateName;
 
 /**
  * This class provides the implementation for the Archive Name service.
@@ -68,7 +68,7 @@ public class ArchiveNameImpl extends GenericServiceImpl {
 				documentType, updatedBy);
 					
 		// Determine if the caller is authorized to make this call.
-		db.isDataActionAuthorized(serviceCoreReturn, namesTable.getNameType().toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), 
+		db.isDataActionAuthorized(namesTable.getNameType().toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), 
 				updatedBy);
 		
 		// Attempt to do the delete.

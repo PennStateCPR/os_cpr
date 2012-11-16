@@ -7,7 +7,7 @@ import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.PhotoReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidatePersonPhoto;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonPhoto;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
 import edu.psu.iam.cpr.service.returns.PhotoServiceReturn;
 

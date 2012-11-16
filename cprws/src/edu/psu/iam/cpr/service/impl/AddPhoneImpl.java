@@ -11,7 +11,7 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidatePhone;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone;
 
 /**
  * This class provides the implementation for the Add Phone service.
@@ -77,7 +77,7 @@ public class AddPhoneImpl extends GenericServiceImpl {
 				phoneType, phoneNumber, extension, internationalNumber, updatedBy);
 		
 		// Determine if the caller is authorized to make this call.
-		db.isDataActionAuthorized(serviceCoreReturn, phonesTableRecord.getPhoneType().toString(), 
+		db.isDataActionAuthorized(phonesTableRecord.getPhoneType().toString(), 
 				AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 		
 		// Do the add.

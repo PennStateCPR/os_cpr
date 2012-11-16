@@ -11,7 +11,7 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidatePhone;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone;
 
 /**
  * This class provides the implementation for the Archive Phone service.
@@ -69,7 +69,7 @@ public class ArchivePhoneImpl extends GenericServiceImpl {
 				phoneType,  groupId, updatedBy);
 		
 		// Determine the action is allowed.
-		db.isDataActionAuthorized(serviceCoreReturn, phonesTableRecord.getPhoneType().toString(), 
+		db.isDataActionAuthorized(phonesTableRecord.getPhoneType().toString(), 
 				AccessType.ACCESS_OPERATION_ARCHIVE.toString(), updatedBy);
 		
 		// Perform the archive.

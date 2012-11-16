@@ -10,7 +10,7 @@ import edu.psu.iam.cpr.core.database.tables.PersonTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidatePerson;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePerson;
 
 /**
  * This class provides the implementation for the Archive Person service.

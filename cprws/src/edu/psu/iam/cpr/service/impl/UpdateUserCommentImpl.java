@@ -11,7 +11,7 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidateUserComment;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment;
 
 /**
  * This class provides an implementation for the update user comment service.
@@ -73,7 +73,7 @@ public class UpdateUserCommentImpl extends GenericServiceImpl {
 				userId, userCommentType, comment, updatedBy);
 
 		// Determine if the caller is authorized to make this call.
-		db.isDataActionAuthorized(serviceCoreReturn, userCommentTable.getUserCommentType().toString(), 
+		db.isDataActionAuthorized(userCommentTable.getUserCommentType().toString(), 
 				AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 
 		// Update the record.

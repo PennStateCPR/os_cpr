@@ -10,7 +10,7 @@ import edu.psu.iam.cpr.core.database.tables.PersonLinkageTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidatePersonLinkage;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonLinkage;
 
 /**
  * This class provides the implementation for the Add Person Linkage service.

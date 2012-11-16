@@ -7,7 +7,7 @@ import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.PhoneReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidatePhone;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
 import edu.psu.iam.cpr.service.returns.PhoneServiceReturn;
 

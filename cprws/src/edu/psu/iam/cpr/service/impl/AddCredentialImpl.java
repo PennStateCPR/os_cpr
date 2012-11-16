@@ -11,7 +11,7 @@ import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.ValidateCredential;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateCredential;
 
 /**
  * This class provides the implementation for the Add Credential service.
@@ -68,7 +68,7 @@ public class AddCredentialImpl extends GenericServiceImpl {
 				serviceCoreReturn.getPersonId(), credentialType, credentialData, updatedBy);
 
 		// Determine if the caller is authorized to make this call.
-		db.isDataActionAuthorized(serviceCoreReturn, credentialTable.getCredentialType().toString(), 
+		db.isDataActionAuthorized(credentialTable.getCredentialType().toString(), 
 				AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
 		
 		// Add the credential to the database table.

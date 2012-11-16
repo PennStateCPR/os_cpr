@@ -7,7 +7,7 @@ import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.service.returns.UserCommentReturn;
-import edu.psu.iam.cpr.core.util.ValidateUserComment;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
 import edu.psu.iam.cpr.service.returns.UserCommentServiceReturn;
 
