@@ -18,12 +18,10 @@ package edu.psu.iam.cpr.core.tests;
 
 
 import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.Userid;
 import edu.psu.iam.cpr.core.database.helpers.UseridHelper;
-import edu.psu.iam.cpr.core.database.tables.GeneratedIdentityTable;
 
 public class UseridHelperTest {
 
@@ -41,18 +39,7 @@ public class UseridHelperTest {
 		UseridHelper u = new UseridHelper();
 		openDbConnection();
 		u.generateUserid(db.getSession(), bean);
-		u.getGeneratedIdentityTable().removeGeneratedIdentity(db.getSession());
 		db.closeSession();
 		
 	}
-
-	@Test
-	public final void testSetGeneratedIdentityTable() {
-		GeneratedIdentityTable g = new GeneratedIdentityTable(0, null, null);
-		UseridHelper u = new UseridHelper();
-		u.setGeneratedIdentityTable(g);
-		AssertJUnit.assertEquals(u.getGeneratedIdentityTable(),g);
-		
-	}
-
 }

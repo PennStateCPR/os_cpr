@@ -20,7 +20,7 @@
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 import java.util.regex.Pattern;
 
@@ -29,6 +29,8 @@ import edu.psu.iam.cpr.core.database.tables.EmailAddressTable;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.CprProperties;
+import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * ValidateEmail is a utility class that will validate email address data inputs 
@@ -205,7 +207,8 @@ public final class ValidateEmail {
 		
 		// Validate the return history parameter.
 		final EmailAddressTable emailAddressTable = new EmailAddressTable();
-		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
+		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
+		if (localReturnHistory == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
 		emailAddressTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);

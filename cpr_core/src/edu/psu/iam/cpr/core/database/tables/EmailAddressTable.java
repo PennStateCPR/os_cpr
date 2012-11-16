@@ -54,6 +54,10 @@ public class EmailAddressTable {
 	private static final int CREATED_ON = 7;
 	private static final int BUFFER_SIZE = 1024;
 
+	private static final String PERSON_ID_STRING = "person_id";
+
+	private static final String DATA_TYPE_KEY_STRING = "data_type_key";
+
 	/** Email address bean */
 	private EmailAddress emailAddressBean;
 	
@@ -184,8 +188,8 @@ public class EmailAddressTable {
 		// Expire the existing one.
 		final String sqlQuery = "from EmailAddress where personId = :person_id and dataTypeKey = :data_type_key AND endDate is NULL";
 		final Query query = session.createQuery(sqlQuery);
-		query.setParameter("person_id", bean.getPersonId());
-		query.setParameter("data_type_key", bean.getDataTypeKey());
+		query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
 			EmailAddress dbBean = (EmailAddress) it.next();
 			if ( db.areStringFieldsEqual(dbBean.getEmailAddress(), bean.getEmailAddress())) {
@@ -227,8 +231,8 @@ public class EmailAddressTable {
 		// Expire the existing one.
 		final String sqlQuery = "from EmailAddress where personId = :person_id and dataTypeKey = :data_type_key AND endDate is NULL";
 		final Query query = session.createQuery(sqlQuery);
-		query.setParameter("person_id", bean.getPersonId());
-		query.setParameter("data_type_key", bean.getDataTypeKey());
+		query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
 			EmailAddress dbBean = (EmailAddress) it.next();
 			if ( db.areStringFieldsEqual(dbBean.getEmailAddress(), bean.getEmailAddress())) {
@@ -269,16 +273,16 @@ public class EmailAddressTable {
 
 		String sqlQuery = "from EmailAddress where personId = :person_id and dataTypeKey = :data_type_key";
 		Query query = session.createQuery(sqlQuery);
-		query.setParameter("person_id", bean.getPersonId());
-		query.setParameter("data_type_key", bean.getDataTypeKey());
+		query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		Iterator<?> it = query.list().iterator();
 
 		if (it.hasNext()) {
 
 			sqlQuery = "from EmailAddress where personId = :person_id and dataTypeKey = :data_type_key and endDate is NULL";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 
 			it = query.list().iterator();
 
@@ -343,8 +347,8 @@ public class EmailAddressTable {
 		sb.append("ORDER BY data_type_key ASC, start_date ASC ");
 
 		final SQLQuery query = session.createSQLQuery(sb.toString());
-		query.setParameter("person_id", personId);
-		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.setParameter(PERSON_ID_STRING, personId);
+		query.addScalar(DATA_TYPE_KEY_STRING, StandardBasicTypes.LONG);
 		query.addScalar("email_address", StandardBasicTypes.STRING);
 		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
 		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);

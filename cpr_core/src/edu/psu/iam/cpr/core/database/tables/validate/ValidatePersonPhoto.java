@@ -1,5 +1,5 @@
 /* SVN FILE: $Id: ValidatePersonPhoto.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,6 +9,8 @@ import edu.psu.iam.cpr.core.database.tables.PersonPhotoTable;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.CprProperties;
+import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * This class contains functions that are used to validate information that was specified during an Add/Get 

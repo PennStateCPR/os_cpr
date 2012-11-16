@@ -12,10 +12,10 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.type.StandardBasicTypes;
 
+import edu.psu.iam.cpr.core.database.DBTypes;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.database.beans.PersonIdentifier;
-import edu.psu.iam.cpr.core.database.helpers.DBTypesHelper;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.PersonIdentifierReturn;
@@ -58,6 +58,8 @@ public class PersonIdentifierTable {
 	private static final int CREATED_BY = 6;
 	private static final int CREATED_ON = 7;
 	private static final int BUFFER_SIZE = 1024;
+
+	private static final String TYPE_KEY_STRING = "type_key";
 
 	/** Contains the person identifier bean */
 	private PersonIdentifier personIdentifierBean;
@@ -174,7 +176,7 @@ public class PersonIdentifierTable {
 		sqlQuery = "from PersonIdentifier where personId = :person_id AND typeKey = :type_key AND endDate IS NULL";
 		query = session.createQuery(sqlQuery);
 		query.setParameter("person_id", bean.getPersonId());
-		query.setParameter("type_key", bean.getTypeKey());
+		query.setParameter(TYPE_KEY_STRING, bean.getTypeKey());
 
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
 			PersonIdentifier dbBean = (PersonIdentifier) it.next();
@@ -228,7 +230,7 @@ public class PersonIdentifierTable {
 		sqlQuery = "from PersonIdentifier where personId = :person_id and typeKey = :type_key";
 		query = session.createQuery(sqlQuery);
 		query.setParameter("person_id", bean.getPersonId());
-		query.setParameter("type_key", bean.getTypeKey());
+		query.setParameter(TYPE_KEY_STRING, bean.getTypeKey());
 
 		if (query.list().size() > 0) {
 			// Check to see if an active record exists for the user and specified identifier type.
@@ -236,7 +238,7 @@ public class PersonIdentifierTable {
 
 			query = session.createQuery(sqlQuery);
 			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("type_key", bean.getTypeKey());
+			query.setParameter(TYPE_KEY_STRING, bean.getTypeKey());
 
 			final Iterator <?> it = query.list().iterator();
 			if (it.hasNext()) {
@@ -309,7 +311,7 @@ public class PersonIdentifierTable {
 			query.setParameter("type_key_in", getIdentifierType().getTypeKey());
 		}
 
-		query.addScalar("type_key", StandardBasicTypes.LONG);
+		query.addScalar(TYPE_KEY_STRING, StandardBasicTypes.LONG);
 		query.addScalar("identifier_value", StandardBasicTypes.STRING);
 		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
 		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
@@ -318,7 +320,7 @@ public class PersonIdentifierTable {
 		query.addScalar("created_by", StandardBasicTypes.STRING);
 		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
 
-		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 
 		// Perform the query.
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {

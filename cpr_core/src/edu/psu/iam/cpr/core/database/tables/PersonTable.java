@@ -39,6 +39,8 @@ public class PersonTable {
 	
 	/** Contains the database table name that this implementation is associated with */
 	private static final String TABLE_NAME = "Person";
+
+	private static final String PERSON_ID_STRING = "person_id";
 	
 	/** Contains the person database table bean */
 	private Person personBean;
@@ -130,14 +132,14 @@ public class PersonTable {
 		// Determine if the person exists?
 		String sqlQuery = "from Person where personId = :person_id";
 		Query query = session.createQuery(sqlQuery);
-		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter(PERSON_ID_STRING, bean.getPersonId());
 		Iterator<?> it = query.list().iterator();
 		if (it.hasNext()) {
 
 			// Determine if the person is active or not.
 			sqlQuery = "from Person where personId = :person_id AND endDate IS NULL";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
 			it = query.list().iterator();
 
 			// Person is active, expire them.
@@ -182,14 +184,14 @@ public class PersonTable {
 		// Determine if the person exists?
 		String sqlQuery = "from Person where personId = :person_id";
 		Query query = session.createQuery(sqlQuery);
-		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter(PERSON_ID_STRING, bean.getPersonId());
 		Iterator<?> it = query.list().iterator();
 		if (it.hasNext()) {
 
 			// Determine if the person is active or not.
 			sqlQuery = "from Person where personId = :person_id AND endDate IS NOT NULL";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
 			it = query.list().iterator();
 
 			// Person is active, expire them.

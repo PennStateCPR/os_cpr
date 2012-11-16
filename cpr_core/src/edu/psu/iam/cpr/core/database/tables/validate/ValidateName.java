@@ -1,5 +1,5 @@
 /* SVN FILE: $Id: ValidateName.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.NamesTable;
@@ -7,6 +7,7 @@ import edu.psu.iam.cpr.core.database.types.DocumentType;
 import edu.psu.iam.cpr.core.database.types.NameType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * This class provides an implementation of functions that perform name information validation.
@@ -32,6 +33,8 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  */
 public final class ValidateName {
 	
+	private static final String UPDATED_BY_STRING = "Updated by";
+
 	/** 
 	 * Constructor.
 	 */
@@ -80,7 +83,8 @@ public final class ValidateName {
 		}
 
 		// Verify the return history flag, and set its value to the boolean.
-		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
+		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
+		if (localReturnHistory == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
 		namesTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
@@ -122,13 +126,13 @@ public final class ValidateName {
 		}
 		
 		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
 		}
 	
 		// Verify that the length is OK for updated By.
 		db.getAllTableColumns("NAMES");
 		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, UPDATED_BY_STRING);
 		}
 					
 		// Validate that the name type and document type combination is valid.
@@ -178,14 +182,14 @@ public final class ValidateName {
 		}
 		final String dbColumnNames[] = { "FIRST_NAME", "MIDDLE_NAMES", "LAST_NAME", "SUFFIX", "LAST_UPDATE_BY" };
 		final String inputFields[]   = { localFirstName, localMiddleNames, localLastName, localSuffix, localUpdatedBy };
-		final String prettyNames[] = { "First name", "Middle name(s)", "Last name", "Suffix", "Updated by" };
+		final String prettyNames[] = { "First name", "Middle name(s)", "Last name", "Suffix", UPDATED_BY_STRING };
 		
 		// Ensure that a name type, updated by and last name was specified.
 		if (localNameType == null || localNameType.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Name type");
 		}
 		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
 		}
 		if (localLastName == null || localLastName.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Last name");

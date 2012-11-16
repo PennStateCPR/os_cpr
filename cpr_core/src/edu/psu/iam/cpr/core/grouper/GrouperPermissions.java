@@ -50,6 +50,10 @@ public class GrouperPermissions {
 	private static final String GROUPER_CPR_GROUPS_STEM ="apps:cpr:regAuth";
 
 	private static final int BUFFER_SIZE = 512;
+
+	private static final int RA_NAME_START = 0;
+
+	private static final int RA_NAME_END = 6;
      
      /**
  	 * 	Constructor
@@ -316,7 +320,7 @@ public class GrouperPermissions {
 			
 			final String parts[] = raName.split(":");
 			final StringBuilder result = new StringBuilder(BUFFER_SIZE);
-			result.append(parts[parts.length -1].substring( 0, parts[parts.length-1].length() - 6));
+			result.append(parts[parts.length -1].substring( RA_NAME_START, parts[parts.length-1].length() - RA_NAME_END));
 			return result.toString();
 		
 		}

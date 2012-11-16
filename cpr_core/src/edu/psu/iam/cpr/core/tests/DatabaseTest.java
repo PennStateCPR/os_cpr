@@ -19,10 +19,11 @@ package edu.psu.iam.cpr.core.tests;
 
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
+
+import edu.psu.iam.cpr.core.database.DBTypes;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
-import edu.psu.iam.cpr.core.database.helpers.DBTypesHelper;
 import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 
@@ -273,7 +274,7 @@ public class DatabaseTest {
 	@Test
 	public final void _31testGetPersonIdUsingIdentifier4() throws Exception {
 		openDbConnection();
-		IdentifierType i = (IdentifierType) DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE).get("UNIT_TEST_IDENTIFIER");
+		IdentifierType i = (IdentifierType) DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE).get("UNIT_TEST_IDENTIFIER");
 		long personId = db.getPersonIdUsingIdentifier(i, "TEST_VALUE");
 		db.closeSession();
 		AssertJUnit.assertEquals(personId, 100000);
@@ -440,12 +441,12 @@ public class DatabaseTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _56testisDataActionAuthorizedOneMore() throws Exception {
-		db.isDataActionAuthorized(null, null, null, null);
+		db.isDataActionAuthorized(null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _57testisDataActionAuthorized2() throws Exception {
 		openDbConnection();
-		db.isDataActionAuthorized(null, null, null, null);
+		db.isDataActionAuthorized(null, null, null);
 		db.closeSession();
 	}
 	@Test
@@ -455,7 +456,7 @@ public class DatabaseTest {
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
 		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
-		db.isDataActionAuthorized(serviceCoreReturn, AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_ARCHIVE.toString(), "jvuccolo");
+		db.isDataActionAuthorized(AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_ARCHIVE.toString(), "jvuccolo");
 		db.closeSession();
 	}
 	@Test
@@ -465,7 +466,7 @@ public class DatabaseTest {
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
 		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
-		db.isDataActionAuthorized(serviceCoreReturn, AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_READ.toString(), "jvuccolo");
+		db.isDataActionAuthorized(AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_READ.toString(), "jvuccolo");
 		db.closeSession();
 	}
 	@Test
@@ -475,7 +476,7 @@ public class DatabaseTest {
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
 		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
-		db.isDataActionAuthorized(serviceCoreReturn, AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), "jvuccolo");
+		db.isDataActionAuthorized(AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), "jvuccolo");
 		db.closeSession();
 	}
 	
@@ -514,11 +515,11 @@ public class DatabaseTest {
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _66testisDataActionAuthorized1() throws Exception{
-		db.isDataActionAuthorized(null, null, null, null);
+		db.isDataActionAuthorized(null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _67testisDataActionAuthorizedGrouper2() throws Exception {
-		db.isDataActionAuthorized(null, null, null,  null);
+		db.isDataActionAuthorized(null, null,  null);
 	}
 	@Test
 	public final void _68testisDataActionAuthorizedGrouper3() throws Exception {
@@ -527,7 +528,7 @@ public class DatabaseTest {
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
 		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
-		db.isDataActionAuthorized(serviceCoreReturn, "PERMANENT_PHONE", "ACCESS_OPERATION_ARCHIVE".toLowerCase(), "jvuccolo");
+		db.isDataActionAuthorized("PERMANENT_PHONE", "ACCESS_OPERATION_ARCHIVE".toLowerCase(), "jvuccolo");
 		db.closeSession();
 	}
 	@Test
@@ -537,7 +538,7 @@ public class DatabaseTest {
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
 		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
-		db.isDataActionAuthorized( serviceCoreReturn,"PERMANENT_PHONE", "ACCESS_OPERATION_READ", "jvuccolo" );
+		db.isDataActionAuthorized("PERMANENT_PHONE", "ACCESS_OPERATION_READ", "jvuccolo" );
 		db.closeSession();
 	}
 	@Test
@@ -547,7 +548,7 @@ public class DatabaseTest {
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
 		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
-		db.isDataActionAuthorized(serviceCoreReturn ,  "PERMANENT_PHONE", "ACCESS_OPERATION_WRITE", "jvuccolo");
+		db.isDataActionAuthorized("PERMANENT_PHONE", "ACCESS_OPERATION_WRITE", "jvuccolo");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
@@ -557,7 +558,7 @@ public class DatabaseTest {
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
 		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
-		db.isDataActionAuthorized( serviceCoreReturn, "EMPLOYEE_PHONE_", "ACCESS_OPERATION_ARCHIVE", "jvuccolo" );
+		db.isDataActionAuthorized("EMPLOYEE_PHONE_", "ACCESS_OPERATION_ARCHIVE", "jvuccolo" );
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
@@ -567,7 +568,7 @@ public class DatabaseTest {
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
 		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
-		db.isDataActionAuthorized(serviceCoreReturn,  "EMPLOYEE_PHONE_", "ARCE", "jvuccolo" );
+		db.isDataActionAuthorized("EMPLOYEE_PHONE_", "ARCE", "jvuccolo" );
 		db.closeSession();
 	}
 	@Test
@@ -577,7 +578,7 @@ public class DatabaseTest {
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
 		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
-		db.isDataActionAuthorized(serviceCoreReturn,  "LOCAL_ADDRESS", "ACCESS_OPERATION_WRITE", "llg5" );
+		db.isDataActionAuthorized("LOCAL_ADDRESS", "ACCESS_OPERATION_WRITE", "llg5" );
 		db.closeSession();
 	}
 	@Test
@@ -635,7 +636,7 @@ public class DatabaseTest {
 		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
 		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
-		boolean bTest =db.isAffiliationAccessAuthorized(serviceCoreReturn, "EMPLOYEE_WAGE_ACTIVE", "vlt");
+		boolean bTest =db.isAffiliationAccessAuthorized("EMPLOYEE_WAGE_ACTIVE", "vlt");
 		AssertJUnit.assertTrue(bTest);
 		db.closeSession();
 	}
@@ -648,7 +649,7 @@ public class DatabaseTest {
 		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
 		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		
-		boolean bTest =db.isAffiliationAccessAuthorized(serviceCoreReturn, "EMPLOYEE_STAFF_ACTIVE",  "vlt");
+		boolean bTest =db.isAffiliationAccessAuthorized("EMPLOYEE_STAFF_ACTIVE",  "vlt");
 		AssertJUnit.assertFalse(bTest);
 		db.closeSession();
 	}
@@ -661,10 +662,97 @@ public class DatabaseTest {
 		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
 		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		
-		boolean bTest =db.isAffiliationAccessAuthorized(serviceCoreReturn, "EMPLOYEE_STAFF_ACTIVE",  "llg5");
+		boolean bTest =db.isAffiliationAccessAuthorized("EMPLOYEE_STAFF_ACTIVE",  "llg5");
 		AssertJUnit.assertTrue(bTest);
 		db.closeSession();
 	}
 
+	/**
+	 * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidIdentifierType(java.lang.String)}.
+	 * @throws Exception 
+	 */
+	@Test
+	public final void _87testIsValidIdentifierType2() throws Exception {
+		openDbConnection();
+		IdentifierType t = db.isValidIdentifierType("person_id");
+		db.closeSession();
+		AssertJUnit.assertNotNull(t);
+	}
+	/**
+	 * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidIdentifierType(java.lang.String)}.
+	 * @throws Exception 
+	 */
+	@Test
+	public final void _88testIsValidIdentifierType3() throws Exception {
+		openDbConnection();
+		IdentifierType t = db.isValidIdentifierType("psu_id");
+		db.closeSession();
+		AssertJUnit.assertNotNull(t);
+	}
+	/**
+	 * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidIdentifierType(java.lang.String)}.
+	 * @throws Exception 
+	 */
+	@Test
+	public final void _89testIsValidIdentifierType4() throws Exception {
+		openDbConnection();
+		IdentifierType t = db.isValidIdentifierType("userid");
+		db.closeSession();
+		AssertJUnit.assertNotNull(t);
+	}
+	@Test
+	public final void _90testIsValidIdentifier1() throws Exception {
+		openDbConnection();
+		AssertJUnit.assertTrue(db.isIdentifierLengthValid("PERSON_ID", "1"));
+		db.closeSession();
+	}
 	
+	@Test
+	public final void _91testIsValidIdentifier2() throws Exception {
+		openDbConnection();
+		AssertJUnit.assertTrue(db.isIdentifierLengthValid("USERID", "adbcd"));
+		db.closeSession();
+	}
+	
+	@Test
+	public final void _92testIsValidIdentifier3() throws Exception {
+		openDbConnection();
+		AssertJUnit.assertTrue(db.isIdentifierLengthValid("SSN", "abcd"));
+		db.closeSession();
+	}
+	
+	@Test
+	public final void _93testIsValidIdentifier4() throws Exception {
+		openDbConnection();
+		AssertJUnit.assertTrue(db.isIdentifierLengthValid("PSU_ID", "abcd"));
+		db.closeSession();
+	}
+
+	@Test(expectedExceptions=Exception.class)
+	public final void _94testIsValidIdentifier7() throws Exception {
+		openDbConnection();
+		AssertJUnit.assertTrue(db.isIdentifierLengthValid("PSU_ID", "11111111111111111111111111111111111111111111111111111111111111111111111"));
+		db.closeSession();
+	}
+
+	@Test
+	public final void _95testIsValidIdentifier5() throws Exception {
+		openDbConnection();
+		AssertJUnit.assertTrue(db.isIdentifierLengthValid("ID_CARD", "abcd"));
+		db.closeSession();
+	}
+	
+	@Test(expectedExceptions=Exception.class)
+	public final void _96testDoIdentifierCheck2() throws Exception {
+		openDbConnection();
+		db.doIdentifierLengthCheck("abcd1111111111111111111111111111111111111111111111111111111111", "Psu Id", "PSU_ID", "PSU_ID");
+		db.closeSession();
+	}
+
+	@Test
+	public final void _97testDoIdentifierCheck1() throws Exception {
+		openDbConnection();
+		db.doIdentifierLengthCheck("abcd", "Psu Id", "PSU_ID", "PSU_ID");
+		db.closeSession();
+	}
 }

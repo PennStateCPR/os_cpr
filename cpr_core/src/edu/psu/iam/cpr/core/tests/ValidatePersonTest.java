@@ -20,7 +20,7 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.core.util.ValidatePerson;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePerson;
 
 public class ValidatePersonTest {
 

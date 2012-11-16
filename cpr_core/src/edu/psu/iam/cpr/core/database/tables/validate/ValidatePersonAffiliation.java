@@ -21,11 +21,12 @@
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * This class is responsible for the validation of the Person Affiliation data.
@@ -33,6 +34,8 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  *
  */
 public final class ValidatePersonAffiliation {
+
+	private static final String UPDATED_BY_STRING = "Updated by";
 
 	/**
 	 * Constructor.
@@ -61,12 +64,12 @@ public final class ValidatePersonAffiliation {
 		}
 		
 		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
 		}
 	
 		db.getAllTableColumns("PERSON_AFFILIATION");
 		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, UPDATED_BY_STRING);
 		}
 
 		return new PersonAffiliationTable(personId, affiliation, localUpdatedBy);
@@ -93,12 +96,12 @@ public final class ValidatePersonAffiliation {
 		
 		
 		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
 		}
 	
 		db.getAllTableColumns("PERSON_AFFILIATION");
 		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, UPDATED_BY_STRING);
 		}
 
 		return new PersonAffiliationTable(personId, affiliation, localUpdatedBy);

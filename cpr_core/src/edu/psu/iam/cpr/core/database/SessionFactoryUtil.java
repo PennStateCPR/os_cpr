@@ -3,6 +3,7 @@ package edu.psu.iam.cpr.core.database;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.impl.SessionFactoryImpl;
 
 /**
  * This class implements the production session factory for the CPR.  The
@@ -33,6 +34,9 @@ public final class SessionFactoryUtil {
 	/** The session factory enables the establishment of database connections (sessions). */
 	private static SessionFactory sessionFactory = null;
 	
+	/** Contains the default schema. */
+	private static String defaultSchema;
+	
 	/**
 	 * Constructor.
 	 */
@@ -42,9 +46,18 @@ public final class SessionFactoryUtil {
 	
 	static {
 		sessionFactory = new Configuration().configure().buildSessionFactory();
+		
+		// Obtain the default schema from hibernate.
+		SessionFactoryImpl sessionFactoryImpl = (SessionFactoryImpl) sessionFactory;
+		defaultSchema = sessionFactoryImpl.getSettings().getDefaultSchemaName();
+
 	}
 	
 	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
+	}
+	
+	public static String getDefaultSchema() {
+		return defaultSchema;
 	}
 }

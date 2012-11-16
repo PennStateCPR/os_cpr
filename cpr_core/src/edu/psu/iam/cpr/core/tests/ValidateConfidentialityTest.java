@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.ConfidentialityTable;
-import edu.psu.iam.cpr.core.util.ValidateConfidentiality;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateConfidentiality;
 
 /**
  * @author jvuccolo
@@ -41,7 +41,7 @@ public class ValidateConfidentialityTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateConfidentiality#validateAddConfidentialityParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateConfidentiality#validateAddConfidentialityParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws CprException 
 	 */
@@ -83,7 +83,7 @@ public class ValidateConfidentialityTest {
 	}
 
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateConfidentiality#validateArchiveConfidentialityParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateConfidentiality#validateArchiveConfidentialityParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws CprException 
 	 */
@@ -121,7 +121,7 @@ public class ValidateConfidentialityTest {
 	}
 
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateConfidentiality#validateGetConfidentialityParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateConfidentiality#validateGetConfidentialityParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws CprException 
 	 */

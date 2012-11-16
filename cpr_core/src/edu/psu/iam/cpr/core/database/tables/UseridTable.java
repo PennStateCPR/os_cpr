@@ -173,6 +173,7 @@ public class UseridTable {
 	public void addUserid(Database db) throws CprException {
 		
 		final Session session = db.getSession();
+		GeneratedIdentityTable generatedIdentityTable = null;
 		try {
 			final Userid bean = getUseridBean();
 
@@ -183,6 +184,10 @@ public class UseridTable {
 			final String charPart = getCharacterPart(bean.getUserid());
 			bean.setCharPart(charPart);
 			bean.setNumPart(getNumberPart(bean.getUserid(), charPart));
+			
+			generatedIdentityTable = new GeneratedIdentityTable(bean.getPersonId(), bean.getUserid(), bean.getCharPart(), bean.getNumPart(), 
+												bean.getLastUpdateBy());
+			generatedIdentityTable.addGeneratedIdentity(session);
 
 			// Do a select to determine what primary needs to be set to.
 			final String sqlQuery = "SELECT person_id FROM userid WHERE person_id = :person_id_in AND end_date IS NULL";
@@ -208,7 +213,7 @@ public class UseridTable {
 		}
 		finally {
 			try {
-				getUseridHelper().getGeneratedIdentityTable().removeGeneratedIdentity(session);
+				generatedIdentityTable.removeGeneratedIdentity(session);
 			}
 			catch (Exception e) {
 			}

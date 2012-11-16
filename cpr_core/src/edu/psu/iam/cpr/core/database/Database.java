@@ -17,12 +17,8 @@ import org.hibernate.type.StandardBasicTypes;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.database.types.AffiliationsType;
-import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.util.CprProperties;
-import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * Database is a utility class that will facility the opening and closing of database connections
@@ -261,14 +257,13 @@ public class Database {
 	/**
 	 * This routine is used to verify that the requester is allowed to perform an operation on a particular data type.
 	 * This routine will return true if the operation is allowed, otherwise it will throw an exception.
-	 * @param serviceCoreReturn contains the service core return class. 
 	 * @param dataResource contains the data source that is being checked.
 	 * @param action contains the action that is being checked.
 	 * @param requestedBy contains the access id of the perform who requested this operation.
 	 * @return will return true if successful.
 	 * @throws CprException will be thrown if the access is denied.
 	 */
-	public boolean isDataActionAuthorized(ServiceCoreReturn serviceCoreReturn, String dataResource, String action, String requestedBy) 
+	public boolean isDataActionAuthorized(String dataResource, String action, String requestedBy) 
 		throws CprException {
 
 		// Verify that the operation being checked is against a valid data key.
@@ -313,7 +308,7 @@ public class Database {
 
 		// Create the query, bind the parameters and set the return type.
 		final SQLQuery query = session.createSQLQuery(sb.toString());
-		query.setParameter("iam_group_key_in", serviceCoreReturn.getIamGroupKey());
+		query.setParameter("iam_group_key_in", getIamGroupKey());
 		query.setParameter("data_type_key_in", dataTypeKey);
 		query.addScalar("read_flag", StandardBasicTypes.STRING);
 		query.addScalar("write_flag", StandardBasicTypes.STRING);
@@ -430,7 +425,6 @@ public class Database {
 	}
 	/**
 	 * This routine is used to determine if an RA is authorize to assign an affiliation.
-	 * @param serviceCoreReturn contains the serviceCoreReturn object
 	 * @param affiliationType - contains the affiliation
 	 * @param requestedBy - userid of the requestor
 	 * 
@@ -438,7 +432,7 @@ public class Database {
 	 * 
 	 * @throws CprException
 	 */
-	public boolean isAffiliationAccessAuthorized(ServiceCoreReturn serviceCoreReturn, String affiliationType, String requestedBy)  
+	public boolean isAffiliationAccessAuthorized(String affiliationType, String requestedBy)  
 		throws CprException {
 
 		final Long affiliationKey = AffiliationsType.valueOf(affiliationType.toUpperCase().trim()).index();
@@ -471,7 +465,7 @@ public class Database {
 		// Create the query, bind the parameters and set the return type.
 		query = session.createSQLQuery(sb.toString());
 		query.setParameter("affiliation_key_in", affiliationKey);
-		query.setParameter("ra_type_key_in", serviceCoreReturn.getRegistrationAuthorityKey());
+		query.setParameter("ra_type_key_in", getRegistrationAuthorityKey());
 
 		it = query.list().iterator();
 		if ( !it.hasNext()) {
@@ -774,7 +768,7 @@ public class Database {
 		}
 			
 		// Validate the identifierType.
-		final IdentifierType localIdentifierType = Validate.isValidIdentifierType(this, idType);
+		final IdentifierType localIdentifierType = isValidIdentifierType(idType);
 		if (localIdentifierType == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Identifier type");
 		}
@@ -783,7 +777,7 @@ public class Database {
 		setIdentifierType(localIdentifierType);
 		
 		// Validate the length of the identifier type.
-		Validate.isIdentifierLengthValid(this, localIdentifierType.getTypeName(), identifier);
+		isIdentifierLengthValid(localIdentifierType.getTypeName(), identifier);
 		
 		personId = getPersonIdUsingIdentifier(localIdentifierType, identifier);
 			
@@ -810,7 +804,7 @@ public class Database {
 				ResultSet rs = null;
 				try {
 					rs = conn.getMetaData().getColumns(null, 
-							CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_DATABASE_NAME.toString()), 
+							SessionFactoryUtil.getDefaultSchema(),
 							tableName.toLowerCase(), "_%");
 					tableColumns = new HashMap<String, TableColumn>();
 					while (rs.next()) {
@@ -938,4 +932,71 @@ public class Database {
 	public long getRegistrationAuthorityKey() {
 		return registrationAuthorityKey;
 	}
+    
+    /**
+     * This routine is used to validate a string an attempt to establish an enumerated type.
+     * @param identifierType contains a string representing an indentifier type to be converted.
+     * @return returns either a valid IdentifierType or a null.
+     */
+    public IdentifierType isValidIdentifierType(String identifierType) {
+    	
+		return (IdentifierType) DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE).get(identifierType.toUpperCase().trim());
+    }
+    
+    /**
+     * The purpose of this routine is to validate whether an identifier's value is less than the maximum database field length.
+     * @param typeName contains the type's name.
+     * @param identifier contains the value of the identifier.
+     * @return will return true if the identifier is less than the maximum length.
+     * @throws CprExecption will be thrown if there are any CPR specific problems.
+     */
+    public boolean isIdentifierLengthValid(String typeName, String identifier) 
+    throws CprException {
+
+    	if (typeName.equals(Database.ID_CARD_IDENTIFIER)) {
+    		doIdentifierLengthCheck(identifier, "Id card number", "PERSON_ID_CARD", "ID_CARD_NUMBER");
+    	}
+    	else if (typeName.equals(Database.PERSON_ID_IDENTIFIER)) {
+    		if (identifier.length() == 0) {
+    			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Person identifier");
+    		}
+    	}
+    	else if (typeName.equals(Database.PSU_ID_IDENTIFIER)) {
+    		doIdentifierLengthCheck(identifier, "PSU Id Number", PSU_ID_IDENTIFIER, PSU_ID_IDENTIFIER);
+    	}
+    	else if (typeName.equals(Database.SSN_IDENTIFIER)) {
+    		doIdentifierLengthCheck(identifier, "Social Security Number", PSU_ID_IDENTIFIER, PSU_ID_IDENTIFIER);
+    	}
+    	else if (typeName.equals(Database.USERID_IDENTIFIER)) {
+    		doIdentifierLengthCheck(identifier, "Userid", USERID_IDENTIFIER, USERID_IDENTIFIER);
+    	}
+    	else {
+    		doIdentifierLengthCheck(identifier, typeName, "PERSON_IDENTIFIER", "IDENTIFIER_VALUE");
+    	}
+    	return true;
+    }
+
+	/**
+	 * This routine is used to perform the bulk of the identifier length check.
+	 * @param identifier contains the value of the identifier.
+	 * @param identifierName contains the english name of the identifier (for error message purposes).
+	 * @param tableName contains the name of the database table.
+	 * @param columnName contains the name of the database column to validate against.
+	 * @throws CprException will be thrown if there are any CPR specific problems.
+	 * @throws InvalidParametersException 
+	 * @throws NotSpecifiedException 
+	 */
+    public void doIdentifierLengthCheck(String identifier, 
+    		String identifierName, String tableName, String columnName) throws CprException {
+
+    	if (identifier.length() == 0) {
+    		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, identifierName);
+    	}
+
+    	getAllTableColumns(tableName);
+    	if (identifier.length() > getColumn(columnName).getColumnSize()) {
+    		throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, identifierName);
+    	}
+    }
+    
 }

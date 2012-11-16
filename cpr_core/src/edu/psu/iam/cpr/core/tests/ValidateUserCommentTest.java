@@ -30,8 +30,8 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.UserCommentTable;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment;
 import edu.psu.iam.cpr.core.database.types.UserCommentType;
-import edu.psu.iam.cpr.core.util.ValidateUserComment;
 
 
 /**
@@ -46,7 +46,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateGetUserCommentsParameters(Database, long, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateGetUserCommentsParameters(Database, long, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -56,7 +56,7 @@ public class ValidateUserCommentTest {
 	}
 
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateGetUserCommentsParameters(Database, long, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateGetUserCommentsParameters(Database, long, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -66,7 +66,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateGetUserCommentsParameters(Database, long, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateGetUserCommentsParameters(Database, long, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -78,7 +78,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateGetUserCommentsParameters(Database, long, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateGetUserCommentsParameters(Database, long, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -90,7 +90,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateGetUserCommentsParameters(Database, long, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateGetUserCommentsParameters(Database, long, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -104,7 +104,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -114,7 +114,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -124,7 +124,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -134,7 +134,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -144,7 +144,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -154,7 +154,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -164,7 +164,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -174,7 +174,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -184,7 +184,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -196,7 +196,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -208,7 +208,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -220,7 +220,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -231,7 +231,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateUserCommentsParameters(Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 */
 	@Test
@@ -242,7 +242,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -252,7 +252,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -262,7 +262,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -272,7 +272,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -282,7 +282,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -292,7 +292,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -302,7 +302,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -314,7 +314,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -326,7 +326,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -338,7 +338,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateArchiveUserCommentParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -350,7 +350,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -360,7 +360,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -370,7 +370,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -380,7 +380,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -390,7 +390,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -400,7 +400,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -410,7 +410,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -422,7 +422,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -434,7 +434,7 @@ public class ValidateUserCommentTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment#validateGetUserCommentByTypeParameters(Database, long, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */

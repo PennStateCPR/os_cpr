@@ -1,5 +1,5 @@
 /* SVN FILE: $Id: DBTypesHelper.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
-package edu.psu.iam.cpr.core.database.helpers;
+package edu.psu.iam.cpr.core.database;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 
 /**
@@ -35,7 +34,7 @@ import edu.psu.iam.cpr.core.database.beans.IdentifierType;
  * @version $Rev: 5340 $
  * @lastrevision $Date $
  */
-public enum DBTypesHelper {
+public enum DBTypes {
 	
 	INSTANCE;
 	
@@ -61,7 +60,7 @@ public enum DBTypesHelper {
 	 * Constructor 
 	 * Used to initialize the Enum.
 	 */
-	private DBTypesHelper() {
+	private DBTypes() {
 		
 		Session session = null;
 		

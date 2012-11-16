@@ -1,5 +1,5 @@
 /* SVN FILE: $Id: ValidatePerson.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.PersonTable;

@@ -57,6 +57,8 @@ public class CredentialTable {
 	private static final int CREATED_BY = 6;
 	private static final int CREATED_ON = 7;
 	private static final int BUFFER_SIZE = 2048;
+	
+	private static final String DATA_TYPE_KEY_STRING = "data_type_key";
 
 	/** Contains an instance of the credentials database bean. */
 	private Credential credentialBean;
@@ -190,7 +192,7 @@ public class CredentialTable {
 		sqlQuery = "from Credential where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
 		query = session.createQuery(sqlQuery);
 		query.setParameter("person_id", bean.getPersonId());
-		query.setParameter("data_type_key", bean.getDataTypeKey());
+		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
 			Credential dbBean = (Credential) it.next();
@@ -241,7 +243,7 @@ public class CredentialTable {
 		sqlQuery = "from Credential where personId = :person_id and dataTypeKey = :data_type_key";
 		query = session.createQuery(sqlQuery);
 		query.setParameter("person_id", bean.getPersonId());
-		query.setParameter("data_type_key", bean.getDataTypeKey());
+		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 
 		if (query.list().size() > 0) {
 			// Check to see if an active record exists for the user and specified credential type.
@@ -249,7 +251,7 @@ public class CredentialTable {
 
 			query = session.createQuery(sqlQuery);
 			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 
 			final Iterator <?> it = query.list().iterator();
 			if (it.hasNext()) {
@@ -322,7 +324,7 @@ public class CredentialTable {
 			query.setParameter("data_type_key_in", getCredentialType().index());
 		}
 
-		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.addScalar(DATA_TYPE_KEY_STRING, StandardBasicTypes.LONG);
 		query.addScalar("credential_data", StandardBasicTypes.STRING);
 		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
 		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);

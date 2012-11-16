@@ -20,13 +20,14 @@
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.UserCommentTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.Validate;
 
 
 /**
@@ -146,7 +147,8 @@ public final class ValidateUserComment {
 		}
 				
 		// Validate the return history flag.
-		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
+		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
+		if (localReturnHistory == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
 		userCommentTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);

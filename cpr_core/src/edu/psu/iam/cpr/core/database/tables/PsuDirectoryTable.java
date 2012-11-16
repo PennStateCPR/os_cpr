@@ -47,6 +47,8 @@ public class PsuDirectoryTable {
 	private static final int PSU_DIRECTORY_KEY = 1;
 
 	private static final String TABLE_NAME = "PSU Directory";
+
+	private static final String PERSON_ID_STRING = "person_id";
 	
 	/** Directory bean class */
 	private PsuDirectory psuDirectoryBean;
@@ -125,7 +127,7 @@ public class PsuDirectoryTable {
 			// Check to see if the record already exists.
 			final String sqlQuery = "from PsuDirectory where personId = :person_id";
 			final Query query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
 			final Iterator<?> it = query.list().iterator();
 			if (it.hasNext()) {
 				recordExists = true;
@@ -137,7 +139,7 @@ public class PsuDirectoryTable {
 			// Check to see if the record already exists.
 			final String sqlQuery = "from PsuDirectory where personId = :person_id and userid = :userid";
 			final Query query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
 			query.setParameter("userid", bean.getUserid());
 			final Iterator<?> it = query.list().iterator();
 			if (it.hasNext()) {
@@ -236,13 +238,13 @@ public class PsuDirectoryTable {
 			if (bean.getUserid() != null) {
 				final String sqlQuery = "from PsuDirectory where personId = :person_id and userid = :userid";
 				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
+				query.setParameter(PERSON_ID_STRING, bean.getPersonId());
 				query.setParameter("userid", bean.getUserid());
 			}
 			else {
 				final String sqlQuery = "from PsuDirectory where personId = :person_id";
 				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
+				query.setParameter(PERSON_ID_STRING, bean.getPersonId());
 			}
 			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 				PsuDirectory dbBean = (PsuDirectory) it.next();

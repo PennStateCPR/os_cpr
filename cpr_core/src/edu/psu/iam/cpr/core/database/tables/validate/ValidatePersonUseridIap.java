@@ -21,7 +21,7 @@
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 /**
  * Copyright 2012 The Pennsylvania State University
@@ -43,9 +43,12 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.PersonUseridIapTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.Validate;
 
 public final class ValidatePersonUseridIap {
 	
+	private static final String USERID_STRING = "Userid";
+
 	/**
 	 * Constructor
 	 */
@@ -73,7 +76,7 @@ public final class ValidatePersonUseridIap {
 
 		// Verify that they have specified an userid.
 		if (localUserid == null || localUserid.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Userid");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, USERID_STRING);
 		}
 		
 		// Verify that they have specified a requested by.
@@ -84,7 +87,7 @@ public final class ValidatePersonUseridIap {
 		// Verify that the length is OK for updated By and localUserid
 		db.getAllTableColumns("PERSON_USERID_IAP");
 		if (localUserid.length() > db.getColumn("USERID").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Userid"); 
+			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, USERID_STRING); 
 		}
 		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requestedby");
@@ -92,7 +95,8 @@ public final class ValidatePersonUseridIap {
 		
 		// Validate the return history flag.
 		final PersonUseridIapTable personUseridIapTable = new PersonUseridIapTable();
-		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
+		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
+		if (localReturnHistory == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
 		personUseridIapTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
@@ -119,7 +123,7 @@ public final class ValidatePersonUseridIap {
 
 		// Verify that they have specified an localUserid.
 		if (localUserid == null || localUserid.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Userid");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, USERID_STRING);
 		}
 		
 		// Verify that they have specified an federation
@@ -140,7 +144,7 @@ public final class ValidatePersonUseridIap {
 		// Verify that the length is OK for updated By, localUserid and federation.
 		db.getAllTableColumns("PERSON_USERID_IAP");
 		if (localUserid.length() > db.getColumn("USERID").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Userid"); 
+			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, USERID_STRING); 
 		}
 		
 		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {

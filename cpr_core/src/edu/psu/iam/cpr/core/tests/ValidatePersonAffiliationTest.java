@@ -20,7 +20,7 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.core.util.ValidatePersonAffiliation;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation;
 
 public class ValidatePersonAffiliationTest {
 	
@@ -32,7 +32,7 @@ public class ValidatePersonAffiliationTest {
 
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String,java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String,java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -47,7 +47,7 @@ public class ValidatePersonAffiliationTest {
 
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int, java.lang.String, java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateAddAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -64,7 +64,7 @@ public class ValidatePersonAffiliationTest {
 
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int, java.lang.String, java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateAddAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -80,7 +80,7 @@ public class ValidatePersonAffiliationTest {
 	
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int, java.lang.String, java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateAddAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -96,7 +96,7 @@ public class ValidatePersonAffiliationTest {
 	}
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int, java.lang.String, java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateAddAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -113,7 +113,7 @@ public class ValidatePersonAffiliationTest {
 	
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String, java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String, java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -130,7 +130,7 @@ public class ValidatePersonAffiliationTest {
 
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String,  java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String,  java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -146,7 +146,7 @@ public class ValidatePersonAffiliationTest {
 	}
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String,  java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String,  java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -162,7 +162,7 @@ public class ValidatePersonAffiliationTest {
 	}
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String, java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateAddAffiliationParameters(int,java.lang.String, java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -207,7 +207,7 @@ public class ValidatePersonAffiliationTest {
 
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int, java.lang.String, java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -224,7 +224,7 @@ public class ValidatePersonAffiliationTest {
 
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int, java.lang.String, java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -239,7 +239,7 @@ public class ValidatePersonAffiliationTest {
 
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int,java.lang.String,  java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int,java.lang.String,  java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -253,7 +253,7 @@ public class ValidatePersonAffiliationTest {
 	}
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int, java.lang.String, java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -271,7 +271,7 @@ public class ValidatePersonAffiliationTest {
 
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int, java.lang.String, java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int, java.lang.String, java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception
@@ -304,7 +304,7 @@ public class ValidatePersonAffiliationTest {
 	}
 	/**
 	 * Test method for
-	 * {@link edu.psu.iam.cpr.core.util.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int,java.lang.String,  java.lang.String)}
+	 * {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation#validateDeleteAffiliationParameters(int,java.lang.String,  java.lang.String)}
 	 * .
 	 * 
 	 * @throws Exception

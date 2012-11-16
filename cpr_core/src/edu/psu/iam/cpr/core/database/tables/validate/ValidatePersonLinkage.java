@@ -1,10 +1,11 @@
 /* SVN FILE: $Id: ValidatePersonLinkage.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.PersonLinkageTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * This class contains functions that are used to validate information that was specified during an Add/Archive/Get 
@@ -67,7 +68,8 @@ public final class ValidatePersonLinkage {
 		final PersonLinkageTable personLinkageTable = new PersonLinkageTable();
 
 		// Verify the return history flag, and set its value to the boolean.
-		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
+		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
+		if (localReturnHistory == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
 		personLinkageTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);

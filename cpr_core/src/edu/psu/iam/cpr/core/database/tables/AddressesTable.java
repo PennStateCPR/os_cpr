@@ -20,7 +20,6 @@ import edu.psu.iam.cpr.core.database.types.DocumentType;
 import edu.psu.iam.cpr.core.database.types.MatchingAlgorithmType;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.returns.AddressReturn;
 import edu.psu.iam.cpr.core.util.CprProperties;
 import edu.psu.iam.cpr.core.util.Utility;
@@ -55,7 +54,7 @@ public class AddressesTable {
 	private static final String TABLE_NAME = "Addresses";
 	
 	/** Instance of logger */
-	private static final Logger LOG4J_LOGGER = Logger.getLogger(ServiceCore.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(AddressesTable.class);
 
 	private static final int BUFFER_SIZE = 2048;
 
@@ -81,6 +80,11 @@ public class AddressesTable {
 	private static final int CAMPUS_NAME = 19;
 	private static final int COUNTRY_CODE = 20;
 	private static final int COUNTRY_NAME = 21;
+	
+	private static final String DATA_TYPE_KEY_STRING = "data_type_key";
+	private static final String DOCUMENT_TYPE_KEY_STRING = "document_type_key";
+	private static final String PERSON_ID_STRING = "person_id";
+	private static final String GROUP_ID_STRING = "group_id";
 	
 	/**
 	 *  Contains a reference to the addresses bean.
@@ -417,16 +421,16 @@ public class AddressesTable {
 		if (bean.getDocumentTypeKey() == null) {
 			sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		}
 		else
 		{
 			sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND  documentTypeKey = :document_type_key AND endDate IS NULL";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			query.setParameter("document_type_key", bean.getDocumentTypeKey());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+			query.setParameter(DOCUMENT_TYPE_KEY_STRING, bean.getDocumentTypeKey());
 		}
 
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext() &&  (! matchFound); ) {
@@ -463,8 +467,8 @@ public class AddressesTable {
 		if (! matchFound) {
 			sqlQuery =" SELECT MAX(group_id) as max_group_id FROM addresses WHERE person_id=:person_id and data_type_key=:data_type_key";
 			final SQLQuery query1 = session.createSQLQuery(sqlQuery);
-			query1.setParameter("person_id", bean.getPersonId());
-			query1.setParameter("data_type_key", bean.getDataTypeKey());
+			query1.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query1.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 			query1.addScalar("max_group_id", StandardBasicTypes.LONG);
 			final Iterator<? >it = query1.list().iterator();
 			// Oracle results in a return value of null if no max_group_id -    that is this address type has no records assigned to it for person
@@ -517,34 +521,34 @@ public class AddressesTable {
 		if (bean.getDocumentTypeKey() == null) {
 			sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND groupId = :group_id";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			query.setParameter("group_id", bean.getGroupId());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+			query.setParameter(GROUP_ID_STRING, bean.getGroupId());
 		}
 		else
 		{
 			sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND  documentTypeKey = :document_type_key AND groupId = :group_id";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			query.setParameter("document_type_key", bean.getDocumentTypeKey());
-			query.setParameter("group_id", bean.getGroupId());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+			query.setParameter(DOCUMENT_TYPE_KEY_STRING, bean.getDocumentTypeKey());
+			query.setParameter(GROUP_ID_STRING, bean.getGroupId());
 		}
 		if (query.list().size() > 0) {
 			// Check to see if an active record exists for the user and specified address type.
 			sqlQuery += " and endDate is NULL";
 			if (bean.getDocumentTypeKey() == null) {
 				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
-				query.setParameter("group_id", bean.getGroupId());
+				query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+				query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+				query.setParameter(GROUP_ID_STRING, bean.getGroupId());
 			}
 			else {
 				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
-				query.setParameter("document_type_key", bean.getDocumentTypeKey());
-				query.setParameter("group_id", bean.getGroupId());
+				query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+				query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+				query.setParameter(DOCUMENT_TYPE_KEY_STRING, bean.getDocumentTypeKey());
+				query.setParameter(GROUP_ID_STRING, bean.getGroupId());
 			}
 			final Iterator<?> it= query.list().iterator();
 			// Expire existing one
@@ -626,9 +630,9 @@ public class AddressesTable {
 		if (getAddressType() != null) {
 			query.setParameter("data_type_key_in", getAddressType().index());
 		}
-		query.addScalar("data_type_key", StandardBasicTypes.LONG);
-		query.addScalar("document_type_key", StandardBasicTypes.LONG);
-		query.addScalar("group_id", StandardBasicTypes.LONG);
+		query.addScalar(DATA_TYPE_KEY_STRING, StandardBasicTypes.LONG);
+		query.addScalar(DOCUMENT_TYPE_KEY_STRING, StandardBasicTypes.LONG);
+		query.addScalar(GROUP_ID_STRING, StandardBasicTypes.LONG);
 		query.addScalar("primary_flag", StandardBasicTypes.STRING);
 		query.addScalar("address1", StandardBasicTypes.STRING);
 		query.addScalar("address2", StandardBasicTypes.STRING);
@@ -724,8 +728,8 @@ public class AddressesTable {
 			sb.append("AND end_date IS NULL ");
 			query = session.createSQLQuery(sb.toString());
 			query.setParameter("person_id_in", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			query.setParameter("group_id",bean.getGroupId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+			query.setParameter(GROUP_ID_STRING,bean.getGroupId());
 			query.addScalar("primary_flag", StandardBasicTypes.STRING);
 		}
 		else {
@@ -739,9 +743,9 @@ public class AddressesTable {
 			sb.append("AND end_date IS NULL ");
 			query = session.createSQLQuery(sb.toString());
 			query.setParameter("person_id_in", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			query.setParameter("document_type_key", bean.getDocumentTypeKey());
-			query.setParameter("group_id",bean.getGroupId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+			query.setParameter(DOCUMENT_TYPE_KEY_STRING, bean.getDocumentTypeKey());
+			query.setParameter(GROUP_ID_STRING,bean.getGroupId());
 			query.addScalar("primary_flag", StandardBasicTypes.STRING);
 		}
 		Iterator<?> it = query.list().iterator();
@@ -760,15 +764,15 @@ public class AddressesTable {
 				if (bean.getDocumentTypeKey() == null) {
 					sqlQuery = "from Addresses where personId = :person_id and dataTypeKey = :data_type_key and primaryFlag = 'Y' and endDate is null";
 					query1 = session.createQuery(sqlQuery);
-					query1.setParameter("person_id", bean.getPersonId());
-					query1.setParameter("data_type_key", bean.getDataTypeKey());	
+					query1.setParameter(PERSON_ID_STRING, bean.getPersonId());
+					query1.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());	
 				}
 				else{
 					sqlQuery = "from Addresses where personId = :person_id and dataTypeKey = :data_type_key and documentTypeKey = :document_type_key and primaryFlag = 'Y' and endDate is null";
 					query1 = session.createQuery(sqlQuery);
-					query1.setParameter("person_id", bean.getPersonId());
-					query1.setParameter("data_type_key", bean.getDataTypeKey());	
-					query1.setParameter("document_type_key", bean.getDocumentTypeKey());	
+					query1.setParameter(PERSON_ID_STRING, bean.getPersonId());
+					query1.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());	
+					query1.setParameter(DOCUMENT_TYPE_KEY_STRING, bean.getDocumentTypeKey());	
 				}			
 				it = query1.list().iterator();
 				while (it.hasNext()) {
@@ -782,18 +786,18 @@ public class AddressesTable {
 				if (bean.getDocumentTypeKey() == null) {
 					sqlQuery = "from Addresses where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id and endDate IS NULL";
 					query1 = session.createQuery(sqlQuery);
-					query1.setParameter("person_id", bean.getPersonId());
-					query1.setParameter("data_type_key", bean.getDataTypeKey());
-					query1.setParameter("group_id", bean.getGroupId());
+					query1.setParameter(PERSON_ID_STRING, bean.getPersonId());
+					query1.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+					query1.setParameter(GROUP_ID_STRING, bean.getGroupId());
 				}
 				else {
 
 					sqlQuery = "from Addresses where personId = :person_id and dataTypeKey = :data_type_key and documentTypeKey = :document_type_key and groupId = :group_id and endDate IS NULL";
 					query1 = session.createQuery(sqlQuery);
-					query1.setParameter("person_id", bean.getPersonId());
-					query1.setParameter("data_type_key", bean.getDataTypeKey());
-					query1.setParameter("document_type_key", bean.getDocumentTypeKey());
-					query1.setParameter("group_id", bean.getGroupId());
+					query1.setParameter(PERSON_ID_STRING, bean.getPersonId());
+					query1.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+					query1.setParameter(DOCUMENT_TYPE_KEY_STRING, bean.getDocumentTypeKey());
+					query1.setParameter(GROUP_ID_STRING, bean.getGroupId());
 				}
 				it = query1.list().iterator();
 				if (it.hasNext()) {
@@ -836,16 +840,16 @@ public class AddressesTable {
 		if (bean.getDocumentTypeKey() == null) {
 			sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		}
 		else
 		{
 			sqlQuery = "from Addresses where personId = :person_id AND dataTypeKey = :data_type_key AND documentTypeKey = :document_type_key AND endDate IS NULL";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			query.setParameter("document_type_key", bean.getDocumentTypeKey());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+			query.setParameter(DOCUMENT_TYPE_KEY_STRING, bean.getDocumentTypeKey());
 		}
 
 
@@ -876,17 +880,17 @@ public class AddressesTable {
 			if (bean.getDocumentTypeKey() == null) {
 				sqlQuery ="from Addresses where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id and endDate IS NULL";
 				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
-				query.setParameter("group_id", bean.getGroupId());
+				query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+				query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+				query.setParameter(GROUP_ID_STRING, bean.getGroupId());
 			}
 			else {
 				sqlQuery ="from Addresses where personId = :person_id and dataTypeKey = :data_type_key AND groupId = :group_id  AND documentTypeKey = :document_type_key AND endDate IS NULL";
 				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
-				query.setParameter("document_type_key", bean.getDocumentTypeKey());
-				query.setParameter("group_id", bean.getGroupId());
+				query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+				query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+				query.setParameter(DOCUMENT_TYPE_KEY_STRING, bean.getDocumentTypeKey());
+				query.setParameter(GROUP_ID_STRING, bean.getGroupId());
 			}
 			final Iterator<?> it = query.list().iterator();
 			// Expire the existing address

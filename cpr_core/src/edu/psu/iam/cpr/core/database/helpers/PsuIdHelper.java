@@ -9,7 +9,6 @@ import org.hibernate.Session;
 import org.hibernate.type.StandardBasicTypes;
 
 import edu.psu.iam.cpr.core.database.beans.PsuId;
-import edu.psu.iam.cpr.core.database.tables.GeneratedIdentityTable;
 import edu.psu.iam.cpr.core.util.CprProperties;
 
 /**
@@ -62,9 +61,6 @@ public class PsuIdHelper {
 
 	private static final int BUFFER_SIZE = 2000;
 	
-	/** Contains an instance of the generated identity table implementation */
-	private GeneratedIdentityTable generatedIdentityTable;
-	
 	/**
 	 * This routine is used to generate a random number which represents a PSU ID.  The number generated will depend on 
 	 * the mode the CPR is running in.
@@ -111,29 +107,10 @@ public class PsuIdHelper {
 			// Not found, so we can assign it to the user.
 			if (query.list().size() == 0) {
 				
-				setGeneratedIdentityTable(new GeneratedIdentityTable(bean.getPersonId(), psuId, bean.getLastUpdateBy()));
-				getGeneratedIdentityTable().addGeneratedIdentity(session);
-				
 				bean.setPsuId(psuId);
 				
 				done = true;
 			}
 		}
 	}
-
-	/**
-	 * @return the generatedIdentityTable
-	 */
-	public GeneratedIdentityTable getGeneratedIdentityTable() {
-		return generatedIdentityTable;
-	}
-
-	/**
-	 * @param generatedIdentityTable the generatedIdentityTable to set
-	 */
-	public void setGeneratedIdentityTable(
-			GeneratedIdentityTable generatedIdentityTable) {
-		this.generatedIdentityTable = generatedIdentityTable;
-	}
-
 }

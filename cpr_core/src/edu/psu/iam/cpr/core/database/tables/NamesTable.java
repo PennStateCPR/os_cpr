@@ -62,6 +62,10 @@ public class NamesTable {
 	private static final int CREATED_ON = 11;
 	private static final int BUFFER_SIZE = 2048;
 	
+	private static final String DATA_TYPE_KEY_STRING = "data_type_key";
+	private static final String DOCUMENT_TYPE_KEY_STRING = "document_type_key";
+	private static final String PERSON_ID_STRING = "person_id";
+
 	/** Contains the name of the names database table */
 	private static final String TABLE_NAME = "Names";
 
@@ -274,8 +278,8 @@ public class NamesTable {
 			query.setParameter("data_type_key_in", getNameType().index());
 		}
 
-		query.addScalar("data_type_key", StandardBasicTypes.LONG);
-		query.addScalar("document_type_key", StandardBasicTypes.LONG);
+		query.addScalar(DATA_TYPE_KEY_STRING, StandardBasicTypes.LONG);
+		query.addScalar(DOCUMENT_TYPE_KEY_STRING, StandardBasicTypes.LONG);
 		query.addScalar("first_name", StandardBasicTypes.STRING);
 		query.addScalar("middle_names", StandardBasicTypes.STRING);
 		query.addScalar("last_name", StandardBasicTypes.STRING);
@@ -341,17 +345,17 @@ public class NamesTable {
 		if (bean.getDocumentTypeKey() == null) {
 			sqlQuery = "from Names where personId = :person_id and dataTypeKey = :data_type_key";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		}
 
 		// A Document type key was specified.
 		else {
 			sqlQuery = "from Names where personId = :person_id and dataTypeKey = :data_type_key and documentTypeKey = :document_type_key";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			query.setParameter("document_type_key", bean.getDocumentTypeKey());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+			query.setParameter(DOCUMENT_TYPE_KEY_STRING, bean.getDocumentTypeKey());
 		}
 
 		if (query.list().size() > 0) {
@@ -360,14 +364,14 @@ public class NamesTable {
 
 			if (bean.getDocumentTypeKey() == null) {
 				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
+				query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+				query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 			}
 			else {
 				query = session.createQuery(sqlQuery);
-				query.setParameter("person_id", bean.getPersonId());
-				query.setParameter("data_type_key", bean.getDataTypeKey());
-				query.setParameter("document_type_key", bean.getDocumentTypeKey());
+				query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+				query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+				query.setParameter(DOCUMENT_TYPE_KEY_STRING, bean.getDocumentTypeKey());
 			}
 
 			final Iterator <?> it = query.list().iterator();
@@ -415,15 +419,15 @@ public class NamesTable {
 		if (bean.getDocumentTypeKey() == null) {
 			sqlQuery = "from Names where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		}
 		else {
 			sqlQuery = "from Names where personId = :person_id AND dataTypeKey = :data_type_key AND documentTypeKey = :document_type_key AND endDate IS NULL";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());				
-			query.setParameter("document_type_key", bean.getDocumentTypeKey());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());				
+			query.setParameter(DOCUMENT_TYPE_KEY_STRING, bean.getDocumentTypeKey());
 		}
 
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {

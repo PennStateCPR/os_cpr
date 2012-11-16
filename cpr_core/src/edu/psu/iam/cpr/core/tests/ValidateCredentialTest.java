@@ -24,8 +24,8 @@ import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.CredentialTable;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateCredential;
 import edu.psu.iam.cpr.core.database.types.CredentialType;
-import edu.psu.iam.cpr.core.util.ValidateCredential;
 
 public class ValidateCredentialTest {
 

@@ -1,5 +1,5 @@
 /* SVN FILE: $Id: ValidateIdCardPrintLog.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
@@ -64,7 +64,7 @@ public final class ValidateIdCardPrintLog {
 		 * if identifier type is not id_card_number
 		 * throw an error
 		 */
-		final IdentifierType identifierType = Validate.isValidIdentifierType(db, idType);
+		final IdentifierType identifierType = db.isValidIdentifierType(idType);
 		if (identifierType.getTypeName().equals(Database.ID_CARD_IDENTIFIER)) {
 			eventIdCard = identifier.trim();			
 		}
@@ -108,7 +108,7 @@ public final class ValidateIdCardPrintLog {
 		throws CprException {
 		String eventIdCard = null;
 		
-		final IdentifierType identifierType = Validate.isValidIdentifierType(db, idType);
+		final IdentifierType identifierType = db.isValidIdentifierType(idType);
 		if (identifierType.getTypeName().equals(Database.ID_CARD_IDENTIFIER)) {
 			
 			eventIdCard = identifier.trim();	

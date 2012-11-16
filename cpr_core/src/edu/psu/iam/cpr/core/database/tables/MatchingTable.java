@@ -70,6 +70,8 @@ public class MatchingTable {
 	private static final int RES_PERSON_ID = 1;
 	private static final int RES_SCORE = 2;
 
+	private static final String MATCH_SET_KEY_STRING = "match_set_key_in";
+
 	
 	/** the match set identifier. */
 	protected Long matchSetKey;
@@ -182,7 +184,7 @@ public class MatchingTable {
 		
 		final Session session = db.getSession();
 		final SQLQuery query = session.createSQLQuery(REMOVE_MATCH_SET_SQL);
-		query.setParameter("match_set_key_in", getMatchSetKey());
+		query.setParameter(MATCH_SET_KEY_STRING, getMatchSetKey());
 		query.executeUpdate();		
 	}
 	
@@ -196,7 +198,7 @@ public class MatchingTable {
 		final ArrayList<MatchResultsTable> matchResultsTable = new ArrayList<MatchResultsTable>();
 		final Session session = db.getSession();
 		final SQLQuery query = session.createSQLQuery(GET_MATCH_SET_SQL);
-		query.setParameter("match_set_key_in", getMatchSetKey());
+		query.setParameter(MATCH_SET_KEY_STRING, getMatchSetKey());
 		query.addScalar("match_set_key", StandardBasicTypes.LONG);
 		query.addScalar("person_id", StandardBasicTypes.LONG);
 		query.addScalar("score", StandardBasicTypes.LONG);
@@ -224,7 +226,7 @@ public class MatchingTable {
 		final Session session = db.getSession();
 
 		final SQLQuery query = session.createSQLQuery(GET_MATCH_SET_SQL_LIMIT);
-		query.setParameter("match_set_key_in", getMatchSetKey());
+		query.setParameter(MATCH_SET_KEY_STRING, getMatchSetKey());
 		query.setParameter("rownum_in", maxResults);
 		query.addScalar("match_set_key", StandardBasicTypes.LONG);
 		query.addScalar("person_id", StandardBasicTypes.LONG);
@@ -262,7 +264,7 @@ public class MatchingTable {
 		
 		final Session session = db.getSession();
 		final SQLQuery query = session.createSQLQuery(GET_MATCH_SET_MIN_SCORE_SQL_LIMIT);
-		query.setParameter("match_set_key_in", getMatchSetKey());
+		query.setParameter(MATCH_SET_KEY_STRING, getMatchSetKey());
 		query.setParameter("score_in", minMatchScore);
 		query.setParameter("rownum_in", maxResults);
 		query.addScalar("match_set_key", StandardBasicTypes.LONG);

@@ -25,8 +25,8 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.NamesTable;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateName;
 import edu.psu.iam.cpr.core.database.types.NameType;
-import edu.psu.iam.cpr.core.util.ValidateName;
 
 /**
  * @author jvuccolo

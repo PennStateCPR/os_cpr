@@ -1,10 +1,11 @@
 /* SVN FILE: $Id: ValidateConfidentiality.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.ConfidentialityTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * The purpose of this class is to validate information specified with a confidentiality hold.
@@ -31,6 +32,7 @@ import edu.psu.iam.cpr.core.error.ReturnType;
 public final class ValidateConfidentiality {
 	
 	private static final String RETURN_HISTORY = "Return history";
+	private static final String UPDATED_BY_STRING = "Updated by";
 	
 	/**
 	 * Constructor.
@@ -63,7 +65,7 @@ public final class ValidateConfidentiality {
 		
 		// Verify that parameters have been specified.
 		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
 		}
 		if (localConfidentialityType == null || localConfidentialityType.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Confidentiality type");
@@ -72,7 +74,7 @@ public final class ValidateConfidentiality {
 		// Ensure that the updated by parameter is <= the database column.
 		db.getAllTableColumns("confidentiality");
 		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, UPDATED_BY_STRING);
 		}
 				
 		// Build the return database table class.
@@ -103,7 +105,7 @@ public final class ValidateConfidentiality {
 		
 		// Verify that parameters have been specified.
 		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
 		}
 		if (localConfidentialityType == null || localConfidentialityType.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Confidentiality type");
@@ -112,7 +114,7 @@ public final class ValidateConfidentiality {
 		// Ensure that the updated by parameter is <= the database column.
 		db.getAllTableColumns("confidentiality");
 		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, UPDATED_BY_STRING);
 		}
 				
 		// Build the return database table class.		
@@ -139,19 +141,20 @@ public final class ValidateConfidentiality {
 		
 		// Verify that parameters have been specified.
 		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
 		}
 		
 		// Ensure that the updated by parameter is <= the database column.
 		db.getAllTableColumns("confidentiality");
 		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, UPDATED_BY_STRING);
 		}
 		
 		final ConfidentialityTable confidentialityTable = new ConfidentialityTable();
 
 		// Verify the return history flag, and set its value to the boolean.
-		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
+		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
+		if (localReturnHistory == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, RETURN_HISTORY);
 		}
 		confidentialityTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);

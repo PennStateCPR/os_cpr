@@ -12,7 +12,6 @@ import org.hibernate.type.StandardBasicTypes;
 
 import edu.psu.iam.cpr.core.database.beans.Names;
 import edu.psu.iam.cpr.core.database.beans.Userid;
-import edu.psu.iam.cpr.core.database.tables.GeneratedIdentityTable;
 import edu.psu.iam.cpr.core.database.types.NameType;
 
 /**
@@ -50,9 +49,6 @@ public class UseridHelper {
 	
 	/** Contains the total number of letters in a userid */
 	private static final int TOTAL_LETTERS = 3;
-	
-	/** Contains an instance of the generated identity implementation */
-	private GeneratedIdentityTable generatedIdentityTable;
 	
 	private static final double FIRST_LETTER_RANGE1 = 0.2418;
 	private static final double FIRST_LETTER_RANGE2 = 0.4217;
@@ -112,7 +108,7 @@ public class UseridHelper {
 	 */
 	public void generateUserid(Session session, Userid bean)  {
 		
-			
+
 		// Obtain the list of active names for the person.
 		String sqlQuery = "from Names where personId = :person_id AND endDate IS NULL";
 		Query query = session.createQuery(sqlQuery);
@@ -241,10 +237,6 @@ public class UseridHelper {
 				query.executeUpdate();
 				session.flush();
 
-				// Save it off.
-				setGeneratedIdentityTable(new GeneratedIdentityTable(bean.getPersonId(), userid, charPart, numPart, bean.getLastUpdateBy()));
-				getGeneratedIdentityTable().addGeneratedIdentity(session);
-
 				bean.setUserid(userid);
 				done = true;					
 			}
@@ -264,21 +256,6 @@ public class UseridHelper {
 					break;
 				}
 			}
-			}
+		}
 	}
-
-	/**
-	 * @param generatedIdentityTable the generatedIdentityTable to set
-	 */
-	public void setGeneratedIdentityTable(GeneratedIdentityTable generatedIdentityTable) {
-		this.generatedIdentityTable = generatedIdentityTable;
-	}
-
-	/**
-	 * @return the generatedIdentityTable
-	 */
-	public GeneratedIdentityTable getGeneratedIdentityTable() {
-		return generatedIdentityTable;
-	}
-
 }

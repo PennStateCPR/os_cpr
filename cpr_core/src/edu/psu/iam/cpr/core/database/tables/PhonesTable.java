@@ -60,6 +60,10 @@ public class PhonesTable {
 	private static final int CREATED_ON = 11;
 	
 	private static final int BUFFER_SIZE = 1024;
+	
+	private static final String PERSON_ID_STRING = "person_id";
+	private static final String DATA_TYPE_KEY_STRING = "data_type_key";
+	private static final String GROUP_ID_STRING = "group_id";
 
 	/** Contains a phone bean reference */
 	private PhoneType phoneType;
@@ -232,8 +236,8 @@ public class PhonesTable {
 		// verify that this is not a duplicate record within type
 		String sqlQuery = "from Phones where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
 		final Query query = session.createQuery(sqlQuery);
-		query.setParameter("person_id", bean.getPersonId());
-		query.setParameter("data_type_key", bean.getDataTypeKey());
+		query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
 			Phones dbBean = (Phones) it.next();
 			if (db.areStringFieldsEqual(bean.getPhoneNumber(), dbBean.getPhoneNumber()) &&
@@ -247,8 +251,8 @@ public class PhonesTable {
 			// Find the maximum group id for the person and their phone type combination.
 			sqlQuery = "SELECT MAX(group_id) as max_group_id FROM phones WHERE person_id = :person_id AND data_type_key = :data_type_key";
 			final SQLQuery query1 = session.createSQLQuery(sqlQuery);
-			query1.setParameter("person_id", bean.getPersonId());
-			query1.setParameter("data_type_key", bean.getDataTypeKey());
+			query1.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query1.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 			query1.addScalar("max_group_id", StandardBasicTypes.LONG);
 			final Iterator<?> it = query1.list().iterator();
 			if (it.hasNext()) {
@@ -292,8 +296,8 @@ public class PhonesTable {
 
 		String sqlQuery = "from Phones where personId = :person_id AND dataTypeKey = :data_type_key AND endDate IS NULL";
 		Query query = session.createQuery(sqlQuery);
-		query.setParameter("person_id", bean.getPersonId());
-		query.setParameter("data_type_key", bean.getDataTypeKey());
+		query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
 			Phones dbBean = (Phones) it.next();
 			if (db.areStringFieldsEqual(bean.getPhoneNumber(), dbBean.getPhoneNumber()) &&
@@ -306,9 +310,9 @@ public class PhonesTable {
 		if (! matchFound) {
 			sqlQuery = "from Phones where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id and endDate IS NULL";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			query.setParameter("group_id", bean.getGroupId());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+			query.setParameter(GROUP_ID_STRING, bean.getGroupId());
 			for (final Iterator<? >it = query.list().iterator(); it.hasNext(); ) {
 				Phones dbBean = (Phones) it.next();
 				dbBean.setEndDate(bean.getLastUpdateOn());
@@ -354,16 +358,16 @@ public class PhonesTable {
 
 		String sqlQuery = "from Phones where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id ";
 		Query query = session.createQuery(sqlQuery);
-		query.setParameter("person_id", bean.getPersonId());
-		query.setParameter("data_type_key", bean.getDataTypeKey());
-		query.setParameter("group_id", bean.getGroupId());
+		query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+		query.setParameter(GROUP_ID_STRING, bean.getGroupId());
 
 		if (query.list().size() > 0)  {
 			sqlQuery += " and endDate is null";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
-			query.setParameter("group_id", bean.getGroupId());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+			query.setParameter(GROUP_ID_STRING, bean.getGroupId());
 			final Iterator<?> it = query.list().iterator();
 			if (it.hasNext()) {
 				Phones dbBean = (Phones) it.next();
@@ -431,8 +435,8 @@ public class PhonesTable {
 			query.setParameter("data_type_key_in", getPhoneType().index());
 		}
 
-		query.addScalar("data_type_key", StandardBasicTypes.LONG);
-		query.addScalar("group_id", StandardBasicTypes.LONG);
+		query.addScalar(DATA_TYPE_KEY_STRING, StandardBasicTypes.LONG);
+		query.addScalar(GROUP_ID_STRING, StandardBasicTypes.LONG);
 		query.addScalar("primary_flag", StandardBasicTypes.STRING);
 		query.addScalar("phone_number", StandardBasicTypes.STRING);
 		query.addScalar("extension", StandardBasicTypes.STRING);
@@ -488,8 +492,8 @@ public class PhonesTable {
 		sb.append("AND end_date IS NULL ");
 		final SQLQuery query = session.createSQLQuery(sb.toString());
 		query.setParameter("person_id_in", bean.getPersonId());
-		query.setParameter("data_type_key", bean.getDataTypeKey());
-		query.setParameter("group_id",bean.getGroupId());
+		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+		query.setParameter(GROUP_ID_STRING,bean.getGroupId());
 		query.addScalar("primary_flag", StandardBasicTypes.STRING);
 		Iterator<?> it = query.list().iterator();
 		if (! it.hasNext()) {
@@ -505,8 +509,8 @@ public class PhonesTable {
 
 				String sqlQuery = "from Phones where personId = :person_id and dataTypeKey = :data_type_key and primaryFlag = 'Y' and endDate is null";
 				Query query1 = session.createQuery(sqlQuery);
-				query1.setParameter("person_id", bean.getPersonId());
-				query1.setParameter("data_type_key", bean.getDataTypeKey());
+				query1.setParameter(PERSON_ID_STRING, bean.getPersonId());
+				query1.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 				for (it = query1.list().iterator(); it.hasNext(); ) {
 					Phones dbBean = (Phones) it.next();
 					dbBean.setPrimaryFlag("N");
@@ -518,9 +522,9 @@ public class PhonesTable {
 
 				sqlQuery = "from Phones where personId = :person_id and dataTypeKey = :data_type_key and groupId = :group_id and endDate IS NULL";
 				query1 = session.createQuery(sqlQuery);
-				query1.setParameter("person_id", bean.getPersonId());
-				query1.setParameter("data_type_key", bean.getDataTypeKey());
-				query1.setParameter("group_id", bean.getGroupId());
+				query1.setParameter(PERSON_ID_STRING, bean.getPersonId());
+				query1.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+				query1.setParameter(GROUP_ID_STRING, bean.getGroupId());
 				it = query1.list().iterator();
 				if (it.hasNext()) {
 					Phones dbBean = (Phones) it.next();

@@ -26,8 +26,8 @@ import java.text.ParseException;
 
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.tables.DateOfBirthTable;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateDateOfBirth;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.util.ValidateDateOfBirth;
 
 /**
  * @author jvuccolo

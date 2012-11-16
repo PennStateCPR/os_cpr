@@ -25,12 +25,7 @@ package edu.psu.iam.cpr.core.util;
 import java.text.SimpleDateFormat;
 import java.util.regex.*;
 
-import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.beans.IdentifierType;
-import edu.psu.iam.cpr.core.database.helpers.DBTypesHelper;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 
 
 /**
@@ -104,76 +99,6 @@ public final class Validate {
 	    }
 	    return false;
 	}
-    
-    /**
-     * This routine is used to validate a string an attempt to establish an enumerated type.
-     * @param db contains a database parameter.
-     * @param identifierType contains a string representing an indentifier type to be converted.
-     * @return returns either a valid IdentifierType or a null.
-     */
-    public static IdentifierType isValidIdentifierType(Database db, String identifierType) {
-    	
-		return (IdentifierType) DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE).get(identifierType.toUpperCase().trim());
-    }
-    
-    /**
-     * The purpose of this routine is to validate whether an identifier's value is less than the maximum database field length.
-     * @param db contains a database connection.
-     * @param typeName contains the type's name.
-     * @param identifier contains the value of the identifier.
-     * @return will return true if the identifier is less than the maximum length.
-     * @throws CprExecption will be thrown if there are any CPR specific problems.
-     */
-    public static boolean isIdentifierLengthValid(Database db, String typeName, String identifier) 
-    throws CprException {
-
-    	if (typeName.equals(Database.ID_CARD_IDENTIFIER)) {
-    		doIdentifierLengthCheck(db, identifier, "Id card number", "PERSON_ID_CARD", "ID_CARD_NUMBER");
-    	}
-    	else if (typeName.equals(Database.PERSON_ID_IDENTIFIER)) {
-    		if (identifier.length() == 0) {
-    			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Person identifier");
-    		}
-    	}
-    	else if (typeName.equals(Database.PSU_ID_IDENTIFIER)) {
-    		doIdentifierLengthCheck(db, identifier, "PSU Id Number", "PSU_ID", "PSU_ID");
-    	}
-    	else if (typeName.equals(Database.SSN_IDENTIFIER)) {
-    		doIdentifierLengthCheck(db, identifier, "Social Security Number", "PSU_ID", "PSU_ID");
-    	}
-    	else if (typeName.equals(Database.USERID_IDENTIFIER)) {
-    		doIdentifierLengthCheck(db, identifier, "Userid", "USERID", "USERID");
-    	}
-    	else {
-    		doIdentifierLengthCheck(db, identifier, typeName, "PERSON_IDENTIFIER", "IDENTIFIER_VALUE");
-    	}
-    	return true;
-    }
-
-	/**
-	 * This routine is used to perform the bulk of the identifier length check.
-	 * @param db contains the database connection.
-	 * @param identifier contains the value of the identifier.
-	 * @param identifierName contains the english name of the identifier (for error message purposes).
-	 * @param tableName contains the name of the database table.
-	 * @param columnName contains the name of the database column to validate against.
-	 * @throws CprException will be thrown if there are any CPR specific problems.
-	 * @throws InvalidParametersException 
-	 * @throws NotSpecifiedException 
-	 */
-    public static void doIdentifierLengthCheck(Database db, String identifier, 
-    		String identifierName, String tableName, String columnName) throws CprException {
-
-    	if (identifier.length() == 0) {
-    		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, identifierName);
-    	}
-
-    	db.getAllTableColumns(tableName);
-    	if (identifier.length() > db.getColumn(columnName).getColumnSize()) {
-    		throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, identifierName);
-    	}
-    }
-    
     /**
      * This routine is used to validate a date.  It is passed in a date in the format of MM/DD/YYYY.  If the 
      * date is valid it will return true, otherwise it will return false.

@@ -19,13 +19,14 @@ package edu.psu.iam.cpr.core.tests;
 
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
-import edu.psu.iam.cpr.core.database.helpers.DBTypesHelper;
+
+import edu.psu.iam.cpr.core.database.DBTypes;
 
 public class DBTypesHelperTest {
 
 	@Test
 	public final void testGetTypeMaps() throws Exception {
-		AssertJUnit.assertNotNull(DBTypesHelper.INSTANCE.getTypeMaps(0));
+		AssertJUnit.assertNotNull(DBTypes.INSTANCE.getTypeMaps(0));
 	}
 
 }

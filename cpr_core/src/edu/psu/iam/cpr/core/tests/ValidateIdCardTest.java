@@ -23,7 +23,7 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.core.util.ValidateIdCard;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCard;
 
 
 /**
@@ -33,7 +33,7 @@ import edu.psu.iam.cpr.core.util.ValidateIdCard;
 public class ValidateIdCardTest {
 
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCard#ValidateAddUpdateIdCard(edu.psu.iam.cpr.core.database.Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCard#ValidateAddUpdateIdCard(edu.psu.iam.cpr.core.database.Database, long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws CprException 
 	 * @throws Exception 
 	 */

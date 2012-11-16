@@ -26,11 +26,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import edu.psu.iam.cpr.core.database.DBTypes;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.database.beans.PersonIdentifier;
-import edu.psu.iam.cpr.core.database.helpers.DBTypesHelper;
 import edu.psu.iam.cpr.core.database.tables.PersonIdentifierTable;
 import edu.psu.iam.cpr.core.service.returns.PersonIdentifierReturn;
 
@@ -93,7 +93,7 @@ public class PersonIdentifierTableTest {
 	@Test
 	public final void _08testGetPersonIdentifiersForPersonId1() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -122,7 +122,7 @@ public class PersonIdentifierTableTest {
 	@Test
 	public final void _10testAddPersonIdentifier1() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -139,7 +139,7 @@ public class PersonIdentifierTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _11testAddPersonIdentifier2() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -156,7 +156,7 @@ public class PersonIdentifierTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _12testArchivePersonIdentifier1() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -173,7 +173,7 @@ public class PersonIdentifierTableTest {
 	@Test
 	public final void _13testArchivePersonIdentifier2() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -190,7 +190,7 @@ public class PersonIdentifierTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _14testArchivePersonIdentifier3() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -207,7 +207,7 @@ public class PersonIdentifierTableTest {
 	@Test 
 	public final void _15testSSNStorage() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -236,7 +236,7 @@ public class PersonIdentifierTableTest {
 	@Test
 	public final void restoreThings() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypesHelper.INSTANCE.getTypeMaps(DBTypesHelper.IDENTIFIER_TYPE);
+		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();

@@ -1,10 +1,11 @@
 /* SVN FILE: $Id: ValidateCredential.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.CredentialTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * This class provides an implementation of functions that perform credential information validation.
@@ -30,6 +31,8 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  */
 
 public final class ValidateCredential {
+
+	private static final String UPDATED_BY_STRING = "Updated by";
 
 	/**
 	 * Constructor
@@ -72,7 +75,8 @@ public final class ValidateCredential {
 		}
 
 		// Verify the return history flag, and set its value to the boolean.
-		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
+		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
+		if (localReturnHistory == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
 		credentialTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
@@ -105,13 +109,13 @@ public final class ValidateCredential {
 		}
 		
 		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
 		}
 	
 		// Verify that the length is OK for updated By.
 		db.getAllTableColumns("CREDENTIAL");
 		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, UPDATED_BY_STRING);
 		}
 			
 		return new CredentialTable(personId, localCredentialType, localUpdatedBy);
@@ -142,14 +146,14 @@ public final class ValidateCredential {
 		}
 		final String dbColumnNames[] = { "CREDENTIAL_DATA", "LAST_UPDATE_BY" };
 		final String inputFields[]   = { localCredentialData, localUpdatedBy };
-		final String prettyNames[] = { "Credential data", "Updated by" };
+		final String prettyNames[] = { "Credential data", UPDATED_BY_STRING };
 		
 		// Ensure that a credential type, updated by and credential data was specified.
 		if (localCredentialType == null || localCredentialType.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Credential type");
 		}
 		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
 		}
 		if (localCredentialData == null || localCredentialData.length() == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Credential data");

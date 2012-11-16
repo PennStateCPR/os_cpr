@@ -1,11 +1,12 @@
 /* SVN FILE: $Id: ValidatePersonIdentifier.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.database.tables.PersonIdentifierTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * This class contains functions that are used to validate information that was specified during an Add/Archive/Get 
@@ -31,6 +32,8 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  */
 public final class ValidatePersonIdentifier {
 	
+	private static final String IDENTIFIER_TYPE_STRING = "Identifier type";
+
 	/**
 	 * Constructor
 	 */
@@ -75,12 +78,12 @@ public final class ValidatePersonIdentifier {
 
 		// Validate the identifier type string if one was specified.
 		if (localIdentifierTypeName != null) {
-			final IdentifierType identifierType = Validate.isValidIdentifierType(db, localIdentifierTypeName);
+			final IdentifierType identifierType = db.isValidIdentifierType(localIdentifierTypeName);
 			if (identifierType == null) {
-				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Identifier type");
+				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, IDENTIFIER_TYPE_STRING);
 			}
 			if (identifierType.getCanAssignFlag().equals("N")) {
-				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Identifier type");
+				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, IDENTIFIER_TYPE_STRING);
 			}
 			personIdentifierTable.setIdentifierType(identifierType);
 		}
@@ -108,7 +111,8 @@ public final class ValidatePersonIdentifier {
 		
 		// Verify the return history flag, and set its value to the boolean.
 		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
-		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
+		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
+		if (localReturnHistory == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
 		personIdentifierTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
@@ -135,7 +139,7 @@ public final class ValidatePersonIdentifier {
 		
 		// Verify that an identifier was specified.
 		if (personIdentifierTable.getIdentifierType() == null) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Identifier type");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, IDENTIFIER_TYPE_STRING);
 		}
 		
 		return personIdentifierTable;
@@ -174,7 +178,7 @@ public final class ValidatePersonIdentifier {
 		
 		// Ensure they have specified a identifier type.
 		if (personIdentifierTable.getIdentifierType() == null) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Identifier type");
+			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, IDENTIFIER_TYPE_STRING);
 		}
 		
 		return personIdentifierTable;

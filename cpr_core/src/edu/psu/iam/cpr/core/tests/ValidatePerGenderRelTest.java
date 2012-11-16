@@ -21,7 +21,8 @@ package edu.psu.iam.cpr.core.tests;
 
 
 import org.testng.annotations.Test;
-import edu.psu.iam.cpr.core.util.ValidatePerGenderRel;
+
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePerGenderRel;
 
 /**
  * @author jvuccolo

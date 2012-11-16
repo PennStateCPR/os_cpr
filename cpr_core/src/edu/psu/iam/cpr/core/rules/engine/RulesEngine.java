@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
+import org.drools.RuntimeDroolsException;
 import org.drools.builder.KnowledgeBuilder;
 import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
@@ -159,7 +160,7 @@ public class RulesEngine {
 		final KnowledgeBuilder builder = KnowledgeBuilderFactory.newKnowledgeBuilder();  
 		builder.add(ResourceFactory.newClassPathResource(getRulesetName()), ResourceType.DRL);  
 		if (builder.hasErrors()) {  
-			throw new RuntimeException(builder.getErrors().toString());  
+			throw new RuntimeDroolsException(builder.getErrors().toString());  
 		}  
 
 		final KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();    

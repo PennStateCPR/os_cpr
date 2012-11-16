@@ -23,7 +23,7 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.core.util.ValidatePersonUseridIap;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonUseridIap;
 
 /**
  * @author llg5
@@ -51,7 +51,7 @@ public class ValidatePersonUseridIapTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetPsuIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonUseridIap#validateGetPsuIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -62,7 +62,7 @@ public class ValidatePersonUseridIapTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetPsuIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonUseridIap#validateGetPsuIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -86,7 +86,7 @@ public class ValidatePersonUseridIapTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetPsuIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonUseridIap#validateGetPsuIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -97,7 +97,7 @@ public class ValidatePersonUseridIapTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetPsuIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonUseridIap#validateGetPsuIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -112,7 +112,7 @@ public class ValidatePersonUseridIapTest {
 	
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -126,7 +126,7 @@ public class ValidatePersonUseridIapTest {
 	
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -152,7 +152,7 @@ public class ValidatePersonUseridIapTest {
 
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -166,7 +166,7 @@ public class ValidatePersonUseridIapTest {
 	
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -189,7 +189,7 @@ public class ValidatePersonUseridIapTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -204,7 +204,7 @@ public class ValidatePersonUseridIapTest {
 	
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonUseridIap#validateGetExternalIapParameters(edu.psu.iam.cpr.core.database.Database, int, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */

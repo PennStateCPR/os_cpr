@@ -29,7 +29,7 @@ import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.core.util.ValidateEmail;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateEmail;
 
 /**
  * @author jvuccolo

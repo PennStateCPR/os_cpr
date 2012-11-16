@@ -215,12 +215,16 @@ public class PsuIdTable {
 	public void addPsuIdForPersonId(Database db) {
 		
 		final Session session = db.getSession();
+		GeneratedIdentityTable generatedIdentityTable = null;
 		try {
 			final PsuId bean = getPsuIdBean();
 
 			// Obtain a PSU ID using a stored procedure.
 			getPsuIdHelper().generatePSUIdNumber(session, bean);
-
+			
+			generatedIdentityTable = new GeneratedIdentityTable(bean.getPersonId(), bean.getPsuId(), bean.getLastUpdateBy());
+			generatedIdentityTable.addGeneratedIdentity(session);
+			
 			// Expire the existing PSU ID.
 			final String sqlQuery = "from PsuId where personId = :person_id AND endDate IS NULL";
 			final Query query = session.createQuery(sqlQuery);
@@ -240,7 +244,7 @@ public class PsuIdTable {
 		}
 		finally {
 			try {
-				getPsuIdHelper().getGeneratedIdentityTable().removeGeneratedIdentity(session);
+				generatedIdentityTable.removeGeneratedIdentity(session);
 			}
 			catch (Exception e) {
 			}

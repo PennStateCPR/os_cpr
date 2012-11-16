@@ -1,5 +1,5 @@
 /* SVN FILE: $Id: ValidatePerGenderRel.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 import edu.psu.iam.cpr.core.database.tables.PersonGenderTable;
 import edu.psu.iam.cpr.core.error.CprException;

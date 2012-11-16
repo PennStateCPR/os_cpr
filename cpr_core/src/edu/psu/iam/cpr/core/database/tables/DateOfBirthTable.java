@@ -66,6 +66,8 @@ public class DateOfBirthTable {
 	private static final int DAY_START_POSITION = 2;
 	private static final int DAY_END_POSITION = 4;
 	private static final int YEAR_START_POSITION = 4;
+	
+	private static final String EMPTY_YEAR_STRING = "0000";
 
 	/** Date of birth Bean **/
 	private DateOfBirth dateOfBirthBean;
@@ -98,7 +100,7 @@ public class DateOfBirthTable {
 		bean.setDobChar(dobChar);
 		
 		// Attempt to convert the DOB string representation to an actual date.
-		if (dobChar.endsWith("0000")) {
+		if (dobChar.endsWith(EMPTY_YEAR_STRING)) {
 			bean.setDob(null);
 		}
 		else {
@@ -191,7 +193,7 @@ public class DateOfBirthTable {
 
 		// Did we reach the end of the array, if not append on 4 zero's for the year.
 		if (i != lengthArray.length) {
-			buffer.append("0000");
+			buffer.append(EMPTY_YEAR_STRING);
 		}
 
 		return buffer.toString();
@@ -272,7 +274,7 @@ public class DateOfBirthTable {
 				final String year = dobChar.substring(YEAR_START_POSITION);
 
 				// Only month and day of DOB was specified.
-				if (year.equals("0000")) {
+				if (year.equals(EMPTY_YEAR_STRING)) {
 					results.add(new DateOfBirthReturn(month + "/" + day,				
 							Utility.convertTimestampToString((Date) res[START_DATE]),	
 							Utility.convertTimestampToString((Date) res[END_DATE]),	
@@ -313,7 +315,7 @@ public class DateOfBirthTable {
 		sb.append(month);
 		sb.append("/");
 		sb.append(day);
-		if (! year.equals("0000")) {
+		if (! year.equals(EMPTY_YEAR_STRING)) {
 			sb.append("/");
 			sb.append(year);
 		}

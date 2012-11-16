@@ -25,8 +25,8 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.AddressesTable;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress;
 import edu.psu.iam.cpr.core.database.types.AddressType;
-import edu.psu.iam.cpr.core.util.ValidateAddress;
 
 /**
  * @author llg5
@@ -41,7 +41,7 @@ public class ValidateAddressTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -61,7 +61,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	} 
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -73,7 +73,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -84,7 +84,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -92,7 +92,7 @@ public class ValidateAddressTest {
 		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, null,null, "llg5"), null);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -103,7 +103,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -114,7 +114,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -125,7 +125,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test (expectedExceptions=Exception.class)
@@ -134,7 +134,7 @@ public class ValidateAddressTest {
 		ValidateAddress.validCampusCode(db, "UP", s, "llg5");
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -143,7 +143,7 @@ public class ValidateAddressTest {
 		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "UP123",s, "llg5"), new Long(-1));
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -152,7 +152,7 @@ public class ValidateAddressTest {
 		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "UPa",s, "llg5"), new Long(-1));
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -163,7 +163,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -193,7 +193,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -204,7 +204,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCountryCode(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCountryCode(java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -213,7 +213,7 @@ public class ValidateAddressTest {
 		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, null,s, "llg5"), -1);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -224,7 +224,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -235,7 +235,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -247,7 +247,7 @@ public class ValidateAddressTest {
 	}
 
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -256,7 +256,7 @@ public class ValidateAddressTest {
 		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "Usa123",s, "llg5"), -1);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -265,7 +265,7 @@ public class ValidateAddressTest {
 		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "Usaa",s, "llg5"),-1);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -274,7 +274,7 @@ public class ValidateAddressTest {
 		ValidateAddress.validCountryCode(db, "USA",s, "llg5");
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -285,7 +285,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -298,77 +298,77 @@ public class ValidateAddressTest {
 	
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidZipCode(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidZipCode(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidZipCodeNull() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidZipCode(null), true);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidZipCode(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidZipCode(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidZipCodeSpace01234() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidZipCode(" 01234"), true);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidZipCode(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidZipCode(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidZipCode01234Space() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidZipCode("01234 "), true);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidZipCode(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidZipCode(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidZipCode1() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidZipCode("1"), false);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidZipCode(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidZipCode(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidZipCode01() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidZipCode("01"), false);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidZipCode(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidZipCode(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidZipCodea1234a() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidZipCode("a1234"), false);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidZipCode(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidZipCode(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidZipCodeSpacea135() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidZipCode(" a135"), false);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidZipCode(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidZipCode(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidZipCodeSpace012345() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidZipCode(" 012345"), false);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidZipCode(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidZipCode(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidZipCodeBlank() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidZipCode(""), true);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidState(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidState(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidStatePA() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidState("PA"), true);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidState(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidState(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidStatePASpace() {
@@ -376,21 +376,21 @@ public class ValidateAddressTest {
 	}
 
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidState(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidState(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidStateSpacePASpace() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidState(" PA "), true);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidState(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidState(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidStateLower() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidState("pa"), true);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidState(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidState(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidStateMixed() {
@@ -398,35 +398,35 @@ public class ValidateAddressTest {
 	}
 
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidState(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidState(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidStateNull() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidState(null), true);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidState(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidState(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidStatePEN() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidState("PEN"), false);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidState(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidState(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidStatePN() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidState("PN"), false);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#isValidState(java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#isValidState(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidStateEmptyString() {
 		AssertJUnit.assertEquals(ValidateAddress.isValidState(""), true);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String, java.lang.String, java.lang.String)}.
 	 * AddressType not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -438,7 +438,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * addresstype must be of valid type
 	 * @throws Exception 
 	 * @throws CprException 
@@ -450,7 +450,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * addresstype must be of valid type
 	 * @throws Exception 
 	 * @throws CprException 
@@ -462,7 +462,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -474,7 +474,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -486,7 +486,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -499,7 +499,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -512,7 +512,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -525,7 +525,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -538,7 +538,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -551,7 +551,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -564,7 +564,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -577,7 +577,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -590,7 +590,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -603,7 +603,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 *
 	 */
@@ -615,7 +615,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * 
 	 */
@@ -627,7 +627,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * 
 	 */
@@ -639,7 +639,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * 
 	 */
@@ -651,7 +651,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * 
 	 */
@@ -663,7 +663,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * 
 	 */
@@ -675,7 +675,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * 
 	 */
@@ -687,7 +687,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * 
 	 */
@@ -699,7 +699,7 @@ public class ValidateAddressTest {
 		db.closeSession();
 	}
 /**
- * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+ * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
  * last updated by may not be null
  * @throws Exception 
  * @throws CprException 
@@ -711,7 +711,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	db.closeSession();
 }
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * last updated by may not be null and must be less than 31 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -723,7 +723,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * last updated by may not be null and must be less than 31 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -735,7 +735,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * address1 must be less than 61 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -747,7 +747,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * address2 must be less than 61 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -759,7 +759,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * address3 must be less than 61 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -771,7 +771,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * address3 must be less than 61 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -783,7 +783,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * address3 must be less than 61 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -795,7 +795,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * city must be less than 41 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -807,7 +807,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * city must be less than 41 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -819,7 +819,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * state must be 2 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -831,7 +831,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * postal code must be all numeric
 	 * @throws Exception 
 	 * @throws CprException 
@@ -843,7 +843,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * postal code must be all numeric
 	 * @throws Exception 
 	 * @throws CprException 
@@ -855,7 +855,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String, java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String )}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String, java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String )}.
 	 * Country code must be 3 alpha
 	 * @throws Exception 
 	 * @throws CprException 
@@ -867,7 +867,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * Campus code must be 2 alpha
 	 * @throws Exception 
 	 * @throws CprException 
@@ -879,7 +879,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * Campus code must be 2 alpha
 	 * @throws Exception 
 	 * @throws CprException 
@@ -891,7 +891,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String  )}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String  )}.
 	 * invalid request or service principal
 	 * @throws Exception 
 	 * @throws CprException 
@@ -903,7 +903,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String  )}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String  )}.
 	 * invalid request or service principal
 	 * @throws Exception 
 	 * @throws CprException 
@@ -915,7 +915,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String  )}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String  )}.
 	 * invalid request or service principal
 	 * @throws Exception 
 	 * @throws CprException 
@@ -926,7 +926,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Local_address", null, 1L, " ");
 		db.closeSession();
 	}/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String  )}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String  )}.
 	 * invalid request or service principal
 	 * @throws Exception 
 	 * @throws CprException 
@@ -938,7 +938,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
 	 * @throws Exception 
 	 * @throws CprException 
@@ -950,7 +950,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
 	 * @throws Exception 
 	 * @throws CprException 
@@ -962,7 +962,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
 	 * @throws Exception 
 	 * @throws CprException 
@@ -974,7 +974,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
 	 * @throws Exception 
 	 * @throws CprException 
@@ -986,7 +986,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
 	 * @throws Exception 
 	 * @throws CprException 
@@ -998,7 +998,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String,  java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String,  java.lang.String)}.
 	 * type is invalid
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1010,7 +1010,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String,  java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String,  java.lang.String)}.
 	 * type is invalid
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1022,7 +1022,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int, java.lang.String, java.lang.String)}.
 	 * type is invalid - must be specified
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1034,7 +1034,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int,  java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int,  java.lang.String, java.lang.String)}.
 	 * type is invalid - must be specified
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1046,7 +1046,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int,  java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateArchiveAndSetPrimaryAddressParameters(int,  java.lang.String, java.lang.String)}.
 	 * type is invalid - must be specified
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1059,7 +1059,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateGetAddressParameters(int, java.lang.String )}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateGetAddressParameters(int, java.lang.String )}.
 	 * invalid request or service principal
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1071,7 +1071,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateGetAddressParameters(int, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateGetAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1083,7 +1083,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateGetAddressParameters(int, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateGetAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1095,7 +1095,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateGetAddressParameters(int, java.lang.String )}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateGetAddressParameters(int, java.lang.String )}.
 	 * invalid request or service principal
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1109,7 +1109,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateGetAddressParameters(int, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateGetAddressParameters(int, java.lang.String)}.
 	 * all the data is valid in this call
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1121,7 +1121,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * AddressType not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1133,7 +1133,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * addresstype must be of valid type
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1145,7 +1145,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * addresstype must be of valid type
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1157,7 +1157,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * addresstype must be of valid type
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1169,7 +1169,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1181,7 +1181,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1193,7 +1193,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * last updated by may not be null and must be less than 31 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1205,7 +1205,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * address1 must be less than 61 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1217,7 +1217,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * address2 must be less than 61 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1229,7 +1229,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * address3 must be less than 61 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1241,7 +1241,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * address3 must be less than 61 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1253,7 +1253,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * address3 must be less than 61 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1265,7 +1265,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * city must be less than 41 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1278,7 +1278,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * address3 must be less than 61 characters
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1290,7 +1290,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * stateOrProvince > 2 character when a province
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1302,7 +1302,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * stateOrProvince > 2 character when a province
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1314,7 +1314,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * stateOrProvince > 2 character when a province
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1326,7 +1326,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * postal code must be all numeric
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1338,7 +1338,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * postal code must be all numeric
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1350,7 +1350,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * Country code must be 3 alpha
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1362,7 +1362,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * Country code must be 3 alpha
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1374,7 +1374,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateUpdateAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String)}.
 	 * Campus code must be 2 alpha
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1387,7 +1387,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1400,7 +1400,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 
@@ -1415,7 +1415,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validateAddAddressParameters(int, java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String,java.lang.String,java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,java.lang.String)}.
 	 * last updated by may not be null
 	 * @throws Exception 
 	 * @throws CprException 

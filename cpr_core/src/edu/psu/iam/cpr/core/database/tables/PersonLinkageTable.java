@@ -60,6 +60,9 @@ public class PersonLinkageTable {
 	
 	private static final int BUFFER_SIZE = 1024;
 
+	private static final String PERSON_ID_STRING = "person_id";
+	private static final String DATA_TYPE_KEY_STRING = "data_type_key";
+
 	/** Contains the database bean */
 	private PersonLinkage personLinkageBean;
 	
@@ -179,8 +182,8 @@ public class PersonLinkageTable {
 		// Expire the existing relationship.
 		final String sqlQuery = "from PersonLinkage where personId = :person_id AND dataTypeKey = :data_type_key";
 		final Query query = session.createQuery(sqlQuery);
-		query.setParameter("person_id", bean.getPersonId());
-		query.setParameter("data_type_key", bean.getDataTypeKey());
+		query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 			PersonLinkage dbBean = (PersonLinkage) it.next();
 			dbBean.setEndDate(bean.getLastUpdateOn());
@@ -213,10 +216,10 @@ public class PersonLinkageTable {
 		sb.append("linked_person_id = :linked_person_id AND ");
 		sb.append("data_type_key = :data_type_key ");
 		final SQLQuery query = session.createSQLQuery(sb.toString());
-		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter(PERSON_ID_STRING, bean.getPersonId());
 		query.setParameter("linked_person_id", bean.getLinkedPersonId());
-		query.setParameter("data_type_key", bean.getDataTypeKey());
-		query.addScalar("person_id", StandardBasicTypes.LONG);
+		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
+		query.addScalar(PERSON_ID_STRING, StandardBasicTypes.LONG);
 		if (query.list().size() == 0) {
 			recordNotFound = true;
 		}
@@ -225,9 +228,9 @@ public class PersonLinkageTable {
 			sb.append("from PersonLinkage WHERE personId = :person_id AND linkedPersonId = :linked_person_id AND ");
 			sb.append("dataTypeKey = :data_type_key AND endDate IS NULL");
 			final Query query1 = session.createQuery(sb.toString());
-			query1.setParameter("person_id", bean.getPersonId());
+			query1.setParameter(PERSON_ID_STRING, bean.getPersonId());
 			query1.setParameter("linked_person_id", bean.getLinkedPersonId());
-			query1.setParameter("data_type_key", bean.getDataTypeKey());
+			query1.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 			final Iterator<?> it = query1.list().iterator();
 			if (it.hasNext()) {
 				PersonLinkage dbBean = (PersonLinkage) it.next();
@@ -282,8 +285,8 @@ public class PersonLinkageTable {
 		// Set up hibernate for the query, bind parameters and determine return types.
 		final SQLQuery query = session.createSQLQuery(sb.toString());
 		query.setParameter("person_id_in", personId);
-		query.addScalar("data_type_key", StandardBasicTypes.LONG);
-		query.addScalar("person_id", StandardBasicTypes.LONG);
+		query.addScalar(DATA_TYPE_KEY_STRING, StandardBasicTypes.LONG);
+		query.addScalar(PERSON_ID_STRING, StandardBasicTypes.LONG);
 		query.addScalar("linked_person_id", StandardBasicTypes.LONG);
 		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
 		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);

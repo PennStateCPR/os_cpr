@@ -23,7 +23,7 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog;
 
 /**
  * @author llg5
@@ -36,7 +36,7 @@ public class ValidateIdCardPrintLogTest {
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -45,7 +45,7 @@ public class ValidateIdCardPrintLogTest {
 		ValidateIdCardPrintLog.validateAddIdCardPrintLogParameters( null, null, null,null, null, null);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String,  java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String,  java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -54,7 +54,7 @@ public class ValidateIdCardPrintLogTest {
 		ValidateIdCardPrintLog.validateAddIdCardPrintLogParameters(null, "FRED", null, null, null, null);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String,  java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String,  java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -64,7 +64,7 @@ public class ValidateIdCardPrintLogTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -73,7 +73,7 @@ public class ValidateIdCardPrintLogTest {
 		ValidateIdCardPrintLog.validateAddIdCardPrintLogParameters(null, "ID_CARD", "1234567890123456",null, "128.118.88.126", "MyWorkStation");
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String,  java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String,  java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -82,7 +82,7 @@ public class ValidateIdCardPrintLogTest {
 		ValidateIdCardPrintLog.validateAddIdCardPrintLogParameters(null, "ID_CARD", "1234567890123456","eventId", null, "MyWorkStation");
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String,  java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String,  java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -93,7 +93,7 @@ public class ValidateIdCardPrintLogTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String,  java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String,  java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -104,7 +104,7 @@ public class ValidateIdCardPrintLogTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -115,7 +115,7 @@ public class ValidateIdCardPrintLogTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -126,7 +126,7 @@ public class ValidateIdCardPrintLogTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String,  java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String,  java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -137,7 +137,7 @@ public class ValidateIdCardPrintLogTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String,  java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateAddIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database, java.lang.String,  java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -149,7 +149,7 @@ public class ValidateIdCardPrintLogTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateGetIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database,  java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateGetIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database,  java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -158,7 +158,7 @@ public class ValidateIdCardPrintLogTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateGetIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database,  java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateGetIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database,  java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -166,7 +166,7 @@ public class ValidateIdCardPrintLogTest {
 		ValidateIdCardPrintLog.validateGetIdCardPrintLogParameters(null, null,"1234567890123456");
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateGetIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database,  java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateGetIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database,  java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -177,7 +177,7 @@ public class ValidateIdCardPrintLogTest {
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateIdCardPrintLog#validateGetIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database,  java.lang.String, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog#validateGetIdCardPrintLogParameters(edu.psu.iam.cpr.core.database.Database,  java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */

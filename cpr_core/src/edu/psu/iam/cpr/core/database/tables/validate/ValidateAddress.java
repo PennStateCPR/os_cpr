@@ -1,13 +1,11 @@
 /* SVN FILE: $Id: ValidateAddress.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
 
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 import java.util.regex.Pattern;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.TableColumn;
-import edu.psu.iam.cpr.core.database.beans.CampusCs;
-import edu.psu.iam.cpr.core.database.beans.Country;
 import edu.psu.iam.cpr.core.database.tables.AddressesTable;
 import edu.psu.iam.cpr.core.database.tables.CampusCsTable;
 import edu.psu.iam.cpr.core.database.tables.CountryTable;
@@ -17,6 +15,8 @@ import edu.psu.iam.cpr.core.database.types.DocumentType;
 import edu.psu.iam.cpr.core.database.types.StateList;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.CprProperties;
+import edu.psu.iam.cpr.core.util.Validate;
 /**
 This class provides an implementation of functions that perform address information validation. 
 *
@@ -70,9 +70,6 @@ public final class ValidateAddress {
 	 * @return true if address is valid; false otherwise
 	 * @throws CprException 
 	 */
-	
-	
-	
 	public static boolean isAddressValid(Database db, String localAddress1, String localAddress2,
 			String localAddress3, String localCity,  String stateName, String localPostalCode, boolean usaAddress ) throws CprException {
 		
@@ -134,13 +131,12 @@ public final class ValidateAddress {
 			
 			// Get the campus information by using the code against the database.
 			campusData.getCampusInfo(db, localCampusCode, updatedBy);
-			CampusCs bean = campusData.getCampusCsBean();
 			
 			// Store of the campus code key value and the campus name.
-			long code = bean.getCampusCodeKey();
+			long code = campusData.getCampusCsBean().getCampusCodeKey();
 			if (code != -1L) {
 				if (campusName != null) {
-					campusName.append(bean.getCampus());
+					campusName.append(campusData.getCampusCsBean().getCampus());
 				}
 				return code;
 			}
@@ -187,12 +183,11 @@ public final class ValidateAddress {
 			
 			// Get the country code information from the database.
 			countryData.getCountryInfo(db, localCountryCode, retrievedBy);
-			Country bean = countryData.getCountryBean();
 			
-			long code = bean.getCountryKey();
+			long code = countryData.getCountryBean().getCountryKey();
 			if (code != -1L) {
 				if (countryName != null) {
-					countryName.append(bean.getCountry());
+					countryName.append(countryData.getCountryBean().getCountry());
 				}
 				return code;
 			}
@@ -502,7 +497,8 @@ public final class ValidateAddress {
 		}
 		
 		// Validate the return history parameter.
-		if ((localReturnHistory = Validate.isValidYesNo(returnHistory)) == null) {
+		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
+		if (localReturnHistory == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, RETURN_HISTORY);
 		}
 		addressesTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);

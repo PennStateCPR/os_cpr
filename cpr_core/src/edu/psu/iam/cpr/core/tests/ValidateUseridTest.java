@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.UseridTable;
-import edu.psu.iam.cpr.core.util.ValidateUserid;
+import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserid;
 
 /**
  * @author jvuccolo
@@ -39,7 +39,7 @@ public class ValidateUseridTest {
 	}
 
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserid#validateUseridParameters(int, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserid#validateUseridParameters(int, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -48,7 +48,7 @@ public class ValidateUseridTest {
 		ValidateUserid.validateUseridParameters(db, 100000, null);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserid#validateUseridParameters(int, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserid#validateUseridParameters(int, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -57,7 +57,7 @@ public class ValidateUseridTest {
 		ValidateUserid.validateUseridParameters(db, 100000, "");
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserid#validateUseridParameters(int, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserid#validateUseridParameters(int, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */
@@ -69,7 +69,7 @@ public class ValidateUseridTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.ValidateUserid#validateUseridParameters(int, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateUserid#validateUseridParameters(int, java.lang.String)}.
 	 * @throws Exception 
 	 * @throws Exception 
 	 */

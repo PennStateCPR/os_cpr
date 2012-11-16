@@ -1,6 +1,6 @@
 /* SVN FILE: $Id: ValidatePhone.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
 
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 import java.util.regex.Pattern;
 
@@ -11,6 +11,8 @@ import edu.psu.iam.cpr.core.database.tables.PhonesTable;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.CprProperties;
+import edu.psu.iam.cpr.core.util.Validate;
 
 
 /**
@@ -273,7 +275,8 @@ public final class ValidatePhone {
 		}
 		
 		// Validate the return history flag.
-		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
+		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
+		if (localReturnHistory == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
 		phonesTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);

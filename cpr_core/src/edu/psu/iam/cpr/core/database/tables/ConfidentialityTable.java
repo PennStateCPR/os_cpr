@@ -56,6 +56,7 @@ public class ConfidentialityTable {
 
 	/** Contains the name of the database table this implementation is for */
 	private static final String TABLE_NAME = "Confidentiality";
+	private static final String DATA_TYPE_KEY_STRING = "data_type_key";
 	
 	/** Confidentiality database table bean. */
 	private Confidentiality confidentialityBean;
@@ -169,7 +170,7 @@ public class ConfidentialityTable {
 		final String sqlQuery = "from Confidentiality where personId = :person_id and dataTypeKey = :data_type_key and endDate IS NULL";
 		final Query query = session.createQuery(sqlQuery);
 		query.setParameter("person_id", bean.getPersonId());
-		query.setParameter("data_type_key", bean.getDataTypeKey());
+		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 			Confidentiality dbBean = (Confidentiality) it.next();
@@ -201,7 +202,7 @@ public class ConfidentialityTable {
 		String sqlQuery = "from Confidentiality where personId = :person_id and dataTypeKey = :data_type_key";
 		Query query = session.createQuery(sqlQuery);
 		query.setParameter("person_id", bean.getPersonId());
-		query.setParameter("data_type_key", bean.getDataTypeKey());
+		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 
 		Iterator<?> it = query.list().iterator();
 
@@ -211,7 +212,7 @@ public class ConfidentialityTable {
 			sqlQuery = "from Confidentiality where personId = :person_id and dataTypeKey = :data_type_key and endDate is NULL";
 			query = session.createQuery(sqlQuery);
 			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 
 			it = query.list().iterator();
 
@@ -278,7 +279,7 @@ public class ConfidentialityTable {
 		// Create the hibernate select statement.
 		final SQLQuery query = session.createSQLQuery(sb.toString());
 		query.setParameter("person_id_in", personId);
-		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.addScalar(DATA_TYPE_KEY_STRING, StandardBasicTypes.LONG);
 		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
 		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
 		query.addScalar("last_update_by", StandardBasicTypes.STRING);

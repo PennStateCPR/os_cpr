@@ -18,12 +18,10 @@ package edu.psu.iam.cpr.core.tests;
 
 
 import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.PsuId;
 import edu.psu.iam.cpr.core.database.helpers.PsuIdHelper;
-import edu.psu.iam.cpr.core.database.tables.GeneratedIdentityTable;
 
 public class PsuIdHelperTest {
 
@@ -41,17 +39,7 @@ public class PsuIdHelperTest {
 		bean.setCreatedBy("jvuccolo");
 		openDbConnection();
 		p.generatePSUIdNumber(db.getSession(), bean);
-		p.getGeneratedIdentityTable().removeGeneratedIdentity(db.getSession());
 		db.closeSession();
 	}
-
-	@Test
-	public final void testGetGeneratedIdentityTable() {
-		GeneratedIdentityTable g = new GeneratedIdentityTable(0, null, null);
-		PsuIdHelper p = new PsuIdHelper();
-		p.setGeneratedIdentityTable(g);
-		AssertJUnit.assertEquals(p.getGeneratedIdentityTable(),g);
-	}
-
 
 }

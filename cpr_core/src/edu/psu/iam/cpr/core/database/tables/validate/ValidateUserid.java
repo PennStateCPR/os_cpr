@@ -1,10 +1,11 @@
 /* SVN FILE: $Id: ValidateUserid.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
-package edu.psu.iam.cpr.core.util;
+package edu.psu.iam.cpr.core.database.tables.validate;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.UseridTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * This class contains methods that are used to validate information specified during an AddUserid, GetUserid
@@ -81,7 +82,8 @@ public final class ValidateUserid {
 		String localReturnHistory = returnHistory;
 
 		// Verify the return history flag, and set its value to the boolean.
-		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
+		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
+		if (localReturnHistory == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
 		useridTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);

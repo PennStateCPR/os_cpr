@@ -63,6 +63,10 @@ public class IdCardTable {
 	
 	private static final int BUFFER_SIZE = 2048;
 
+	private static final String PERSON_ID_STRING = "person_id";
+
+	private static final String DATA_TYPE_KEY_STRING = "data_type_key";
+
 	/** person Id Card bean. */
 	private PersonIdCard personIdCardBean;
 	
@@ -293,7 +297,7 @@ public class IdCardTable {
 		//check to see if the person has any id card
 		sqlQuery = "from PersonIdCard where personId = :person_id AND endDate IS NULL";
 		query = session.createQuery(sqlQuery);
-		query.setParameter("person_id", bean.getPersonId());
+		query.setParameter(PERSON_ID_STRING, bean.getPersonId());
 
 		it = query.list().iterator();
 		// are there any active card records for this person
@@ -495,16 +499,16 @@ public class IdCardTable {
 
 		sqlQuery = "from PersonIdCard where personId = :person_id AND dataTypeKey = :data_type_key ";
 		query = session.createQuery(sqlQuery);
-		query.setParameter("person_id", bean.getPersonId());
-		query.setParameter("data_type_key", bean.getDataTypeKey());
+		query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		Iterator<?> it = query.list().iterator();
 
 		if (it.hasNext()) {
 			// Check to see if an active record exists for the user and specified address type.
 			sqlQuery += " and endDate is NULL";
 			query = session.createQuery(sqlQuery);
-			query.setParameter("person_id", bean.getPersonId());
-			query.setParameter("data_type_key", bean.getDataTypeKey());
+			query.setParameter(PERSON_ID_STRING, bean.getPersonId());
+			query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 
 			it = query.list().iterator();
 			if (it.hasNext()) {
@@ -567,13 +571,13 @@ public class IdCardTable {
 
 		sb.append("ORDER BY data_type_key ASC, start_date ASC ");
 		final SQLQuery query = session.createSQLQuery(sb.toString());
-		query.setParameter("person_id", personId);
+		query.setParameter(PERSON_ID_STRING, personId);
 
 		if (getIdCardType() != null) {
 			query.setParameter("data_type_key_in", getIdCardType().index());
 		}
 
-		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.addScalar(DATA_TYPE_KEY_STRING, StandardBasicTypes.LONG);
 		query.addScalar("id_card_number", StandardBasicTypes.STRING);
 		query.addScalar("id_serial_number", StandardBasicTypes.STRING);
 		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
@@ -616,9 +620,9 @@ public class IdCardTable {
 
 		sb.append("ORDER BY data_type_key ASC, start_date ASC ");
 		final SQLQuery query = session.createSQLQuery(sb.toString());
-		query.setParameter("person_id", personId);
+		query.setParameter(PERSON_ID_STRING, personId);
 
-		query.addScalar("data_type_key", StandardBasicTypes.LONG);
+		query.addScalar(DATA_TYPE_KEY_STRING, StandardBasicTypes.LONG);
 		query.addScalar("id_card_number", StandardBasicTypes.STRING);
 
 		for (final Iterator<?> it=query.list().iterator(); it.hasNext();) {
