@@ -2,3 +2,6 @@
 /.classpath
 /.project
 /test-output
+/sonar-project.properties
+/.sonar
+/javadoc
