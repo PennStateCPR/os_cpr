@@ -30,7 +30,6 @@ import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.util.CprProperties;
-import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * ValidateEmail is a utility class that will validate email address data inputs 
@@ -56,6 +55,10 @@ import edu.psu.iam.cpr.core.util.Validate;
  */
 public final class ValidateEmail {
 	
+	private static final String DATABASE_TABLE_NAME = "EMAIL_ADDRESS";
+	private static final String LAST_UPDATE_BY = "LAST_UPDATE_BY";
+	private static final String EMAIL_ADDRESS = "EMAIL_ADDRESS";
+
 	/** 
 	 * Constructor.
 	 */
@@ -94,40 +97,14 @@ public final class ValidateEmail {
 	public static EmailAddressTable validateEmailAddressParameters(Database db, long personId,
 			String emailType, String emailAddress, String updatedBy) throws CprException {
 		
-		EmailAddressTable emailAddressTable = null;
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
 		
-		// For input strings that are non-null, trim them.
-		String localEmailType = null;
-		if (emailType != null) {
-			if (emailType.trim().length() != 0) {
-				localEmailType = emailType.trim().toUpperCase();
-			}
-		}
-		String localEmailAddress = (emailAddress != null) ? emailAddress.trim() : null;
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		String localEmailAddress = ValidateHelper.checkField(db, emailAddress, EMAIL_ADDRESS, "Email address", true);
+		String localEmailType = ValidateHelper.checkField(db, emailType, null, "Email type", false);
+		String localUpdatedBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, "Updated by", true);
 	
-		// Verify that an email address type, email address and updated by were specified.
-		if (localEmailType == null || localEmailType.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Email type");
-		}
-		if (localEmailAddress == null || localEmailAddress.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Email address");
-		}
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
-		}
-
-		// Verify that the length for the email address and updated by do not exceed the maximums for the database.
-		db.getAllTableColumns("EMAIL_ADDRESS");
-		if (localEmailAddress.length() > db.getColumn("EMAIL_ADDRESS").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Email address");
-		}
-		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
-		}
-		
 		// Create a new object.
-		emailAddressTable = new EmailAddressTable(personId, localEmailType, localEmailAddress, localUpdatedBy);
+		EmailAddressTable emailAddressTable = new EmailAddressTable(personId, localEmailType, localEmailAddress, localUpdatedBy);
 
 		// Verify that the email address is good.
 		if (! isValidEmail(emailAddressTable.getEmailAddressBean().getEmailAddress())) {
@@ -149,33 +126,7 @@ public final class ValidateEmail {
 	public static EmailAddressTable validatePrimaryEmailParameters(Database db, long personId,
 			String emailType, String updatedBy) throws CprException {
 		
-		String emailAddress = null;
-
-		// For non-null input fields, trim the strings.
-		String localEmailType = null;
-		if (emailType != null) {
-			if (emailType.trim().length() != 0) {
-				localEmailType = emailType.trim().toUpperCase();
-			}
-		}
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		
-		// Verify that an email type and updated by were specified.
-		if (localEmailType == null || localEmailType.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Email address type");
-		}
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
-		}
-		
-		// Verify that the fields do not exceed the database lengths.
-		db.getAllTableColumns("EMAIL_ADDRESS");
-		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
-		}
-
-		// Create the new object.
-		return new EmailAddressTable(personId, localEmailType, emailAddress, localUpdatedBy);
+		return validateArchiveEmailAddressParameters(db, personId, emailType, updatedBy);
 	}	
 	
 	/**
@@ -190,28 +141,16 @@ public final class ValidateEmail {
 	public static EmailAddressTable validateGetEmailAddressParameters(Database db, long personId, String requestedBy, 
 			String returnHistory) throws CprException {
 				
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+
 		// For non-null input fields, trim them off.
-		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
-		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
-		
-		// Verify that a requestor was specified.
-		if (localRequestedBy == null || localRequestedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
-		}
-				
-		// Verify that the fields do not exceed the database lengths.
-		db.getAllTableColumns("EMAIL_ADDRESS");
-		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requested by");
-		}
+		@SuppressWarnings("unused")
+		String localRequestedBy = ValidateHelper.checkField(db, requestedBy, LAST_UPDATE_BY, "Requested by", true);
+		boolean returnHistoryFlag = ValidateHelper.checkReturnHistory(returnHistory);
 		
 		// Validate the return history parameter.
 		final EmailAddressTable emailAddressTable = new EmailAddressTable();
-		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
-		if (localReturnHistory == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
-		}
-		emailAddressTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
+		emailAddressTable.setReturnHistoryFlag(returnHistoryFlag);
 		
 		return emailAddressTable;
 	}
@@ -229,29 +168,11 @@ public final class ValidateEmail {
 	public static EmailAddressTable validateArchiveEmailAddressParameters(Database db, long personId, String emailAddressType, 
 			String updatedBy) throws CprException {
 		
-		// For input parameters that are non-null, trim them.
-		String localEmailAddressType = null;
-		if (emailAddressType != null) {
-			if (emailAddressType.trim().length() != 0) {
-				localEmailAddressType = emailAddressType.trim().toUpperCase();
-			}
-		}
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		
-		// Verify that an email address type was specified.
-		if (localEmailAddressType == null || localEmailAddressType.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Email address type");
-		}
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
-		}
-		
-		// Verify that the fields do not exceed the database lengths.
-		db.getAllTableColumns("EMAIL_ADDRESS");
-		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
-		}
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
 
+		String localEmailAddressType = ValidateHelper.checkField(db, emailAddressType, null, "Email address type", false);
+		String localUpdatedBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, "Updated by", true);
+		
 		// Attempt to instantiate a new email address table class.
 		return new EmailAddressTable(personId, localEmailAddressType, localUpdatedBy);
 	}

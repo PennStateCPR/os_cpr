@@ -5,7 +5,6 @@ package edu.psu.iam.cpr.core.database.tables.validate;
 import java.util.regex.Pattern;
 
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.TableColumn;
 import edu.psu.iam.cpr.core.database.tables.AddressesTable;
 import edu.psu.iam.cpr.core.database.tables.CampusCsTable;
 import edu.psu.iam.cpr.core.database.tables.CountryTable;
@@ -16,7 +15,7 @@ import edu.psu.iam.cpr.core.database.types.StateList;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.util.CprProperties;
-import edu.psu.iam.cpr.core.util.Validate;
+import edu.psu.iam.cpr.core.util.Utility;
 /**
 This class provides an implementation of functions that perform address information validation. 
 *
@@ -46,8 +45,17 @@ public final class ValidateAddress {
 	private static final String ADDRESS = "Address";
 	private static final String CAMPUS_CODE = "Campus code";
 	private static final String GROUP_ID = "Group Id";
-	private static final String UPDATED_BY = "Updated by";
-	private static final String RETURN_HISTORY = "Return history";
+	
+	private static final String DATABASE_TABLE_NAME = "ADDRESSES";
+	private static final String LAST_UPDATE_BY = "LAST_UPDATE_BY";	
+	private static final String ADDRESS1 = "ADDRESS1";
+	private static final String ADDRESS2 = "ADDRESS2";
+	private static final String ADDRESS3 = "ADDRESS3";
+	private static final String CITY = "CITY";
+	private static final String STATE = "STATE";
+	private static final String POSTAL_CODE = "POSTAL_CODE";
+	private static final String PROVINCE = "PROVINCE";
+	
 	
 	private static final int BUFFER_SIZE = 200;
 
@@ -74,17 +82,18 @@ public final class ValidateAddress {
 			String localAddress3, String localCity,  String stateName, String localPostalCode, boolean usaAddress ) throws CprException {
 		
 		// at least one of the street address fields must be populated
-		if ((localAddress1 == null || localAddress1.equals("")) &&
-				(localAddress2 == null || localAddress2.equals("")) && 
-				(localAddress3 == null || localAddress3.equals(""))) {
+		if (ValidateHelper.isFieldEmpty(localAddress1) &&
+				ValidateHelper.isFieldEmpty(localAddress2) &&
+				ValidateHelper.isFieldEmpty(localAddress3)) {
 			return false;
 		}
-		if (localCity == null  || localCity.equals("")) {
+		
+		if (ValidateHelper.isFieldEmpty(localCity)) {
 			return false;
-
 		}
+		
 		if (usaAddress) {
-			if (stateName != null && !isValidState(stateName)) {
+			if (stateName != null && (! isValidState(stateName))) {
 				return false;
 			}
 
@@ -208,8 +217,6 @@ public final class ValidateAddress {
 	 */
 	public static boolean isValidState(String state)  {
 
-		// state is not required
-
 		// Null is valid
 		if (state == null) {
 			return true;
@@ -265,7 +272,6 @@ public final class ValidateAddress {
 				localZipCode)) {
 			return true;
 		}
-		
 
 		return false;
 	}
@@ -294,108 +300,74 @@ public final class ValidateAddress {
 			String stateOrProvince, String postalCode,  String countryCode,
 			String campusCode) throws 
 			CprException {
+				
+		StringBuffer countryName = new StringBuffer(BUFFER_SIZE);
+		StringBuffer campusName = new StringBuffer(BUFFER_SIZE);
 		
-		boolean invalidCountry = false;
-		boolean invalidCampus = false;
-		StringBuffer countryName = new StringBuffer();
-		StringBuffer campusName = new StringBuffer();
 		Long countryCodeId = -1L;
 		Long campusCodeId = -1L;
 		String stateName= null;
 		String provinceName = null;
 		
-		String localAddress1 = (address1 != null) ? address1.trim() : null;
-		String localAddress2 = (address2 != null) ? address2.trim() : null;
-		String localAddress3 = (address3 != null) ? address3.trim() : null;
-		String localCity = (city != null) ? city.trim() : null;
-		String localPostalCode = (postalCode != null) ? postalCode.trim() : null;
-		String localStateOrProvince = (stateOrProvince != null) ? stateOrProvince.trim() : null;
-		String localCampusCode = (campusCode != null) ? campusCode.trim() : null;
-		String localCountryCode = (countryCode != null) ? countryCode.trim() : null;
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null; 
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+
+		String localAddress1 = ValidateHelper.trimField(address1);
+		String localAddress2 = ValidateHelper.trimField(address2);
+		String localAddress3 = ValidateHelper.trimField(address3);
+		String localCity = ValidateHelper.trimField(city);
+		String localPostalCode = ValidateHelper.trimField(postalCode);
+		String localStateOrProvince = ValidateHelper.trimField(stateOrProvince);
+		String localCampusCode = ValidateHelper.trimField(campusCode);
+		String localCountryCode = ValidateHelper.trimField(countryCode);
+		String localUpdatedBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, "Updated by", true);
 		
 		String localAddressTypeString = null;
 		if (addressTypeString != null) {
-			if (addressTypeString.trim().length() != 0) {
-				localAddressTypeString = addressTypeString.trim().toUpperCase();
-			}
+			localAddressTypeString = addressTypeString.trim().toUpperCase();
 		}
+		localAddressTypeString = ValidateHelper.checkField(null, localAddressTypeString, null, "Address type", false);
+		
 		String localDocumentType = null;
 		if (documentType != null) {
-			if (documentType.trim().length() != 0) {
-				localDocumentType = documentType.trim().toUpperCase();
-			}
+			localDocumentType = documentType.trim().toUpperCase();
 		}
 		
-		String dbColumnNames[] = { "ADDRESS1", "ADDRESS2", "ADDRESS3", "CITY",
-				"STATE", "POSTAL_CODE", "PROVINCE", "LAST_UPDATE_BY" };
-		String inputFields[] = { localAddress1, localAddress2, localAddress3, localCity, stateName,
-				localPostalCode, provinceName, localUpdatedBy  };
+		String dbColumnNames[] = { ADDRESS1, ADDRESS2, ADDRESS3, CITY, STATE, POSTAL_CODE, PROVINCE };
+		String inputFields[] = { localAddress1, localAddress2, localAddress3, localCity, stateName, localPostalCode, provinceName };
 		String prettyNames[] = {  "Address line 1", "Address line 2 ",
-				"Address line 3", "City", "State", "Postal code", "Province",
-				"Updated by" };
-				
-		db.getAllTableColumns("ADDRESSES");
-		
-		countryCodeId = validCountryCode(db, localCountryCode, countryName, updatedBy);
-		if (countryCodeId == -1L) {
-			invalidCountry=true;
-		}
-			
-		if (invalidCountry ) {			
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, COUNTRY_CODE);
-		}
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
-		}
-		if (localAddressTypeString == null || localAddressTypeString.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Address type");			
-		}
-		
-		// Validate that the address type and document type combination is valid.
-		if (! isValidCombination(localAddressTypeString, localDocumentType)) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, ADDRESS_DOCUMENT_TYPE);
-		}
-		// Verify that the lengths for the individual fields do not exceed the
-		// maximum for the database.
-		db.getAllTableColumns("ADDRESSES");
+				"Address line 3", "City", "State", "Postal code", "Province" };
 		for (int i = 0; i < dbColumnNames.length; ++i) {
-			if (inputFields[i] != null
-					&& inputFields[i].length() > db.getColumn(dbColumnNames[i])
-							.getColumnSize()) {
+			if (inputFields[i] != null && (! ValidateHelper.isFieldLengthValid(db, inputFields[i], dbColumnNames[i]))) {
 				throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, prettyNames[i]);
 			}
 		}
 		
-		/*	
-		 * 
-		 * IF countryCode USA or assumed USA  set stateName to stateOrProvince
-		 * otherwise set provinceName = stateOrProvince
-		 * 
-		 */
-		if (  localCountryCode.equalsIgnoreCase("USA"))
-		{
+		countryCodeId = validCountryCode(db, localCountryCode, countryName, updatedBy);
+		if (countryCodeId == -1L) {
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, COUNTRY_CODE);
+		}
+			
+		// Validate that the address type and document type combination is valid.
+		if (! isValidCombination(localAddressTypeString, localDocumentType)) {
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, ADDRESS_DOCUMENT_TYPE);
+		}
+
+		if (localCountryCode.equalsIgnoreCase("USA")) {
 			stateName = localStateOrProvince;
-			if (!isAddressValid(db, localAddress1, localAddress2, localAddress3, localCity, stateName, localPostalCode, true)) {
+			if (! isAddressValid(db, localAddress1, localAddress2, localAddress3, localCity, stateName, localPostalCode, true)) {
 				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, ADDRESS);
 			}
 		}
-		else 
-		{
+		else  {
 			provinceName = localStateOrProvince;
-			if (!isAddressValid(db, localAddress1, localAddress2, localAddress3, localCity, provinceName, localPostalCode, false)) {
+			if (! isAddressValid(db, localAddress1, localAddress2, localAddress3, localCity, provinceName, localPostalCode, false)) {
 				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, ADDRESS);
 			}
 		}
 
 		campusCodeId = validCampusCode(db, localCampusCode, campusName, updatedBy);
 		if (campusCodeId != null && campusCodeId.equals(-1L) ) {
-			invalidCampus = true;
-		}
-		
-		if (invalidCampus) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, CAMPUS_CODE);
-			
 		}
 		
 		return new AddressesTable(personId, localAddressTypeString, localDocumentType, null,
@@ -420,38 +392,29 @@ public final class ValidateAddress {
 			long personId, String addressTypeString, String documentType, Long groupId, String updatedBy)
 			throws CprException {
 				
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null; 
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+		String localUpdatedBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, "Updated by", true);
+		
 		String localAddressTypeString = null;
 		if (addressTypeString != null) {
-			if (addressTypeString.trim().length() != 0) {
-				localAddressTypeString = addressTypeString.trim().toUpperCase();
-			}
+			localAddressTypeString = addressTypeString.trim().toUpperCase();
+			localAddressTypeString = ValidateHelper.checkField(null, localAddressTypeString, null, "Address type", false);
 		}
+		
 		String localDocumentType = null;
 		if (documentType != null) {
-			if (documentType.trim().length() != 0) {
-				localDocumentType = documentType.trim().toUpperCase();
-			}
+			localDocumentType = documentType.trim().toUpperCase();
 		}
 				
 		if (groupId == null) {
     		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, GROUP_ID);
     	}
-		db.getAllTableColumns("ADDRESSES");
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, UPDATED_BY);
-		}
-		TableColumn c = db.getColumn("LAST_UPDATE_BY");
-		if (localUpdatedBy.length() > c.getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Userid/server principal");
-		}
-		if (localAddressTypeString == null || localAddressTypeString.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Address type");
-		}
+		
 		// Validate that the address type and document type combination is valid.
 		if (! isValidCombination(localAddressTypeString, localDocumentType)) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, ADDRESS_DOCUMENT_TYPE);
 		}
+
 		return new AddressesTable(personId, localAddressTypeString, localDocumentType, groupId, localUpdatedBy);
 	}
 
@@ -469,25 +432,16 @@ public final class ValidateAddress {
 	public static AddressesTable validateGetAddressParameters(final Database db, long personId,
 			String updatedBy, String addressType, String returnHistory) throws CprException {
 
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+		
 		// Trim all of the string values.
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		@SuppressWarnings("unused")
+		String localUpdatedBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, "Requested by", true);
 		String localAddressType = null;
 		if (addressType != null) {
-			if (addressType.trim().length() != 0) {
-				localAddressType = addressType.trim().toUpperCase();
-			}
+			localAddressType = addressType.trim().toUpperCase();
 		}		
-		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
-		
-		// Validate the updated by parameter.
-		db.getAllTableColumns("ADDRESSES");
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
-		}
-		TableColumn c = db.getColumn("LAST_UPDATE_BY");
-		if (localUpdatedBy.length() > c.getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Userid/server principal");
-		}
+		boolean returnHistoryFlag = ValidateHelper.checkReturnHistory(returnHistory);
 		
 		// If an address type was specified, need to validate it.
 		final AddressesTable addressesTable = new AddressesTable();
@@ -496,12 +450,7 @@ public final class ValidateAddress {
 				addressesTable.setAddressType(addressesTable.findAddressTypeEnum(localAddressType));
 		}
 		
-		// Validate the return history parameter.
-		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
-		if (localReturnHistory == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, RETURN_HISTORY);
-		}
-		addressesTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
+		addressesTable.setReturnHistoryFlag(returnHistoryFlag);
 		
 		return addressesTable;
 	}
@@ -531,114 +480,17 @@ public final class ValidateAddress {
 			String stateOrProvince, String postalCode, String countryCode,
 			String campusCode) throws 
 			CprException {
-		boolean invalidCountry = false;
-		boolean invalidCampus  = false;
-		StringBuffer countryName = new StringBuffer(BUFFER_SIZE);
-		StringBuffer campusName = new StringBuffer(BUFFER_SIZE);
-		Long countryCodeId = -1L;
-		Long campusCodeId = -1L;
-		String stateName= null;
-		String provinceName = null;
 		
-		db.getAllTableColumns("ADDRESSES");
-		String localAddress1 = (address1 != null) ? address1.trim() : null;
-		String localAddress2 = (address2 != null) ? address2.trim() : null;
-		String localAddress3 = (address3 != null) ? address3.trim() : null;
-		String localCity = (city != null) ? city.trim() : null;
-		String localPostalCode = (postalCode != null) ? postalCode.trim() : null;
-		String localStateOrProvince = (stateOrProvince != null) ? stateOrProvince.trim() : null;
-		String localCampusCode = (campusCode != null) ? campusCode.trim() : null;
-		String localCountryCode = (countryCode != null) ? countryCode.trim() : null;
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		String localAddressTypeString = null;
-		if (addressTypeString != null) {
-			if (addressTypeString.trim().length() != 0) {
-				localAddressTypeString = addressTypeString.trim().toUpperCase();
-			}
-		}
-		String localDocumentType = null;
-		if (documentType != null) {
-			if (documentType.trim().length() != 0) {
-				localDocumentType = documentType.trim().toUpperCase();
-			}
-		}
+		AddressesTable addressesTable = validateAddAddressParameters(db ,personId, addressTypeString, documentType, updatedBy,
+				address1, address2, address3, city, stateOrProvince, postalCode, countryCode, campusCode);
 		
-		String dbColumnNames[] = { "ADDRESS1", "ADDRESS2", "ADDRESS3", "CITY",
-				"STATE", "POSTAL_CODE", "PROVINCE", "LAST_UPDATE_BY" };
-		String inputFields[] = { localAddress1, localAddress2, localAddress3, localCity, stateName,
-				localPostalCode, provinceName, localUpdatedBy  };
-		String prettyNames[] = {  "Address line 1", "Address line 2 ",
-				"Address line 3", "City", "State", "Postal code", "Province",
-				"Updated by" };
-		
-		countryCodeId = validCountryCode(db, localCountryCode, countryName, updatedBy);
-		if (countryCodeId == -1L) {
-			invalidCountry=true;
-		}
-		if (invalidCountry ) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, COUNTRY_CODE);
-		}
 		if (groupId == null ) {
     		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, GROUP_ID);
     	}
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
-		}
-		if (localAddressTypeString == null || localAddressTypeString.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Address type");			
-		}
 		
-		// Validate that the address type and document type combination is valid.
-		if (! isValidCombination(localAddressTypeString, localDocumentType)) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, ADDRESS_DOCUMENT_TYPE);
-		}
+		addressesTable.getAddressesBean().setGroupId(groupId);
 		
-		// Verify that the lengths for the individual fields do not exceed the
-		// maximum for the database.
-		db.getAllTableColumns("ADDRESSES");
-		for (int i = 0; i < dbColumnNames.length; ++i) {
-			if (inputFields[i] != null
-					&& inputFields[i].length() > db.getColumn(dbColumnNames[i])
-							.getColumnSize()) {
-				throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, prettyNames[i]);
-			}
-		}
-		/*	
-		 * If CountryCodeId is 0, no country entered assumed USA
-		 * IF countryCode USA or assumed USA  set stateName to stateOrProvince
-		 * otherwise set provinceName = stateOrProvince
-		 * 
-		 */
-		if (localCountryCode.equalsIgnoreCase("USA"))
-		{
-			stateName = localStateOrProvince;
-			if (!isAddressValid(db,localAddress1, localAddress2, localAddress3, localCity, stateName, localPostalCode,true) ){
-				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, ADDRESS);
-			}
-		}
-		else 
-		{
-			provinceName = localStateOrProvince;
-			if (!isAddressValid(db,localAddress1, localAddress2, localAddress3, localCity, provinceName, localPostalCode, false)) {
-				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, ADDRESS);
-			}
-		}
-		
-		campusCodeId = validCampusCode(db, localCampusCode, campusName, updatedBy);
-		if (campusCodeId != null && campusCodeId.equals(-1L) ) {
-			invalidCampus = true;
-		}
-		
-		if (invalidCampus) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, CAMPUS_CODE);
-			
-		}
-		return new AddressesTable(personId, localAddressTypeString, localDocumentType, groupId, 
-					localUpdatedBy, localAddress1, localAddress2, localAddress3, localCity, stateName,
-					localPostalCode,  provinceName, countryCodeId, campusCodeId, 
-					countryName.toString(), campusName.toString(), localCountryCode);
-		
-		
+		return addressesTable;
 	}
 	
 	/**
@@ -649,25 +501,8 @@ public final class ValidateAddress {
 	 */
 	public static boolean isValidCombination(String addressType, String documentType) {
 		
-		AddressType addressEnum = null;
-		DocumentType documentTypeEnum = null;
-		
-		
-		// Convert the nameType string to an enumerated type.
-		try {
-			addressEnum = AddressType.valueOf(addressType);
-		}
-		catch (Exception e) {
-		}
-		
-		// If a document type was specified, attempt to convert it to an enumerated type.
-		if (documentType != null) {
-			try {
-				documentTypeEnum = DocumentType.valueOf(documentType);
-			}
-			catch (Exception e) {
-			}
-		}
+		AddressType addressEnum = Utility.getEnumFromString(AddressType.class, addressType);
+		DocumentType documentTypeEnum = Utility.getEnumFromString(DocumentType.class, documentType);
 		
 		// If either the document type and/or name type could not have been converted return false.
 		if ((addressType != null && addressEnum == null) ||

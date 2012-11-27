@@ -81,16 +81,8 @@ public final class ValidateDateOfBirth {
 	public static DateOfBirthTable validateAddDateOfBirthParameters(long personId, String dateOfBirth, String updatedBy) throws CprException, 
 		ParseException  {
 		
-		String localDateOfBirth = (dateOfBirth != null) ? dateOfBirth.trim() : dateOfBirth;
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : updatedBy;
-		
-		if (localDateOfBirth == null || localDateOfBirth.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Date of birth");
-		}
-		
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
-		}
+		String localDateOfBirth = ValidateHelper.checkField(null, dateOfBirth, null, "Date of birth", false);
+		String localUpdatedBy = ValidateHelper.checkField(null, updatedBy, null, "Updated by", false);
 		
 		// If they happen to enter a date of birth with dashes replace it with slashes.
 		localDateOfBirth = localDateOfBirth.replace('-', '/');
@@ -185,22 +177,16 @@ public final class ValidateDateOfBirth {
 	 * @return DateOfBirthTable
 	 * @throws CprException 
 	 */
-	public static DateOfBirthTable validateGetDateOfBirthParameters(long personId, String requestedBy, String returnHistory) throws CprException  {
-		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : requestedBy;
-		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : returnHistory;
+	public static DateOfBirthTable validateGetDateOfBirthParameters(long personId, String requestedBy, String returnHistory) 
+		throws CprException  {
 		
-		// Verify the requested by parameter.
-		if (localRequestedBy == null || localRequestedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
-		}
+		@SuppressWarnings("unused")
+		String localRequestedBy = ValidateHelper.checkField(null, requestedBy, null, "Requested by", false);
+		boolean returnHistoryFlag = ValidateHelper.checkReturnHistory(returnHistory);
 		
 		// Validate the return history flag.
 		final DateOfBirthTable dateOfBirthTable = new DateOfBirthTable();
-		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
-		if (localReturnHistory == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
-		}
-		dateOfBirthTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
+		dateOfBirthTable.setReturnHistoryFlag(returnHistoryFlag);
 		
 		return dateOfBirthTable;
 	}

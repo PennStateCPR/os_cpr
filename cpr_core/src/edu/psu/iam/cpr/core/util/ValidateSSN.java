@@ -79,7 +79,7 @@ public final class ValidateSSN {
 		}
 		
     	// match with or without separators (hyphens or spaces)
-	    if (!Pattern.matches(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_REGEX_SSN.toString()), localSSN)) {
+	    if (! Pattern.matches(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_REGEX_SSN.toString()), localSSN)) {
 	    	return false;
 	    }
 		
@@ -90,8 +90,20 @@ public final class ValidateSSN {
 	    String serialNumber = localSSN.substring(SERIAL_START, SERIAL_END);
 	    
 	    // validation rules from http://ssa-custhelp.ssa.gov/app/answers/detail/a_id/425
-	    
-	    if (areaNumber.equals("000") || groupNumber.equals("00") || serialNumber.equals("0000")) {
+	    return isSSNPartValid(areaNumber, groupNumber, serialNumber);
+	}
+
+	/**
+	 * This function is used to validate the parts of an SSN.
+	 * @param areaNumber contains the area number.
+	 * @param groupNumber contains the group number.
+	 * @param serialNumber contains the serial number.
+	 * @return will return true if successful, otherwise it will return false.
+	 */
+	private static boolean isSSNPartValid(String areaNumber,
+			String groupNumber, String serialNumber) {
+		
+		if (areaNumber.equals("000") || groupNumber.equals("00") || serialNumber.equals("0000")) {
 	    	return false;
 	    }
 

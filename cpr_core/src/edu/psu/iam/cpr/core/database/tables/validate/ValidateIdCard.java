@@ -39,6 +39,8 @@ import edu.psu.iam.cpr.core.util.Validate;
 public final class ValidateIdCard {
 	
 	private static final int ID_CARD_NUMBER_LENGTH = 16;
+	private static final String DATABASE_TABLE_NAME = "PERSON_ID_CARD";
+	private static final String LAST_UPDATE_BY = "LAST_UPDATE_BY";
 
 	/**
 	 * Constructor
@@ -71,62 +73,44 @@ public final class ValidateIdCard {
 			String idCardNumber, String idSerialNumber, byte[] photo, String dateTaken)  throws CprException, ParseException {
 		IdCardTable idCardTable = null;
 		
-		String localDateTaken = (dateTaken != null) ? dateTaken.trim() : null;
-		String localIdCardNumber = (idCardNumber  != null) ? idCardNumber.trim() : null;
-		String localIdSerialNumber = (idSerialNumber  != null) ? idSerialNumber.trim() : null;
-		String localIdCardTypeString = null;
-		if (idCardTypeString != null) {
-			if (idCardTypeString.trim().length() != 0) {
-				localIdCardTypeString = idCardTypeString.trim().toUpperCase();
-			}
-		}
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
 		
-		if (localIdCardTypeString == null || localIdCardTypeString.trim().length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Id Card type");			
-		}
-		if (localIdCardNumber == null || localIdCardNumber.trim().length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Id Card Number");
-		}
+		String localDateTaken = ValidateHelper.trimField(dateTaken);
+		String localIdCardNumber = ValidateHelper.checkField(null, idCardNumber, null, "Id card number", false);
+		String localIdSerialNumber = ValidateHelper.trimField(idSerialNumber);
+		String localIdCardTypeString = ValidateHelper.checkField(null, idCardTypeString, null, "Id card type", false);
+		@SuppressWarnings("unused")
+		String localUpdateBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, "Updated by", true);
+		
 		if (localIdCardNumber.length() != ID_CARD_NUMBER_LENGTH) {
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Id Card Number");
 		}
+		
 		if (!localIdCardNumber.matches("^[0-9]{16}") ){
 			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Id Card Number");
 		}
 		
-		db.getAllTableColumns("PERSON_ID_CARD");
-		
-		if (localIdSerialNumber != null ) {
-			if (localIdSerialNumber.length() > db.getColumn("ID_SERIAL_NUMBER").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Id Serial Number");
-			}
-		}
-		if  (photo == null || photo.length == 0)  {
-			if (localDateTaken != null &&  localDateTaken.length() != 0)  {		
+		if  (ValidateHelper.isPhotoEmpty(photo))  {
+			if (! ValidateHelper.isFieldEmpty(localDateTaken))  {		
 				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Image");
 			}
-			
-		
 		}
-		else
-		{
-			if (localDateTaken == null || localDateTaken.length() == 0) {
+		else {
+			if (ValidateHelper.isFieldEmpty(localDateTaken)) {
 				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Date taken");
 			}
-			else {
-		
+
 			// Validate the date taken.
-				if (! Validate.isValidDate(localDateTaken)) {
+			if (! Validate.isValidDate(localDateTaken)) {
 				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Date taken");
-				}
 			}
 		}
+		
 		if (localDateTaken == null) {
 			idCardTable = new IdCardTable(personId, localIdCardTypeString, updatedBy, localIdCardNumber,  
 					localIdSerialNumber);
 		}
-		else
-		{
+		else {
 			idCardTable = new IdCardTable(personId, localIdCardTypeString, updatedBy, localIdCardNumber,  
 					localIdSerialNumber, photo, new SimpleDateFormat(
 							CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_FORMAT_DATE.toString())).parse(
@@ -148,22 +132,14 @@ public final class ValidateIdCard {
 	public static IdCardTable  validateArchiveIdCardParameters ( final Database db,
 			long personId, String updatedBy, String idCardTypeString) throws CprException {
 		
-		String localUpdatedBy = (updatedBy  != null) ? updatedBy.trim() : null;
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+		String localUpdatedBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, "Updated by", true);
+
 		String localIdCardTypeString = null;
 		if (idCardTypeString != null) {
-			if (idCardTypeString.trim().length() != 0) {
-				localIdCardTypeString = idCardTypeString.trim().toUpperCase();
-			}
+			localIdCardTypeString = idCardTypeString.trim().toUpperCase();
 		}
 		
-		if (localUpdatedBy == null || localUpdatedBy.trim().length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Update by");
-		}
-		
-		db.getAllTableColumns("PERSON_ID_CARD");
-		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Update by");
-		}
 		return new IdCardTable(personId, localIdCardTypeString, localUpdatedBy);
 	}
 	
@@ -181,22 +157,14 @@ public final class ValidateIdCard {
 			long personId, String requestedBy, String idCardType, String returnHistory) throws CprException {
 
 		// Trim all of the String parameters.
-		String localRequestedBy = (requestedBy  != null) ? requestedBy.trim() : null;
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+		
+		@SuppressWarnings("unused")
+		String localRequestedBy = ValidateHelper.checkField(db, requestedBy, LAST_UPDATE_BY, "Requested by", true);
+		boolean returnHistoryFlag = ValidateHelper.checkReturnHistory(returnHistory);
 		String localIdCardType = null;
 		if (idCardType != null) {
-			if (idCardType.trim().length() != 0) {
-				localIdCardType = idCardType.trim().toUpperCase();
-			}
-		}
-		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
-
-		// Validate the requested by.
-		if (localRequestedBy == null || localRequestedBy.trim().length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
-		}
-		db.getAllTableColumns("PERSON_ID_CARD");
-		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requested by");
+			localIdCardType = idCardType.trim().toUpperCase();
 		}
 		
 		// Validate the id card type.
@@ -204,13 +172,7 @@ public final class ValidateIdCard {
 		if (localIdCardType != null) {
 			idCardTable.setIdCardType(idCardTable.findIdCardTypeEnum(localIdCardType));
 		}
-		
-		// Validate the return history flag.
-		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
-		if (localReturnHistory == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
-		}
-		idCardTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
+		idCardTable.setReturnHistoryFlag(returnHistoryFlag);
 		
 		return idCardTable;
 	}

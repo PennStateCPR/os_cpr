@@ -178,10 +178,6 @@ public class ValidateNameTest {
 	}
 	
 	@Test
-	public final void _22testIsValidCombination1() {
-		AssertJUnit.assertFalse(ValidateName.isValidCombination(null, null));
-	}
-	@Test
 	public final void _23testIsValidCombination2() {
 		AssertJUnit.assertFalse(ValidateName.isValidCombination("", ""));
 	}

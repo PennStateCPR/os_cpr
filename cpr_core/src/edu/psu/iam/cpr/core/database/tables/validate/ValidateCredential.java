@@ -4,8 +4,6 @@ package edu.psu.iam.cpr.core.database.tables.validate;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.CredentialTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * This class provides an implementation of functions that perform credential information validation.
@@ -32,7 +30,9 @@ import edu.psu.iam.cpr.core.util.Validate;
 
 public final class ValidateCredential {
 
-	private static final String UPDATED_BY_STRING = "Updated by";
+	private static final String DATABASE_TABLE_NAME = "CREDENTIAL";
+	private static final String LAST_UPDATE_BY = "LAST_UPDATE_BY";
+	private static final String CREDENTIAL_DATA = "CREDENTIAL_DATA";
 
 	/**
 	 * Constructor
@@ -54,32 +54,19 @@ public final class ValidateCredential {
 	public static CredentialTable validateGetCredentialParameters(Database db, long personId, String requestedBy, String credentialType, 
 			String returnHistory) throws CprException {
 		
-		// If the strings are not null, trim them.
-		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
-		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
 		
-		if (localRequestedBy == null || localRequestedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
-		}
-		
-		// Verify that updatedBy is within the length of the database field.
-		db.getAllTableColumns("CREDENTIAL");
-		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requested by");
-		}
-		
-		// Validate the credential type if one was specified.
+		@SuppressWarnings("unused")
+		String localRequestedBy = ValidateHelper.checkField(db, requestedBy, LAST_UPDATE_BY, "Requested by", true);
+		boolean returnHistoryFlag = ValidateHelper.checkReturnHistory(returnHistory);
+				
 		final CredentialTable credentialTable = new CredentialTable();
+		
 		if (credentialType != null) {
 			credentialTable.setCredentialType(credentialTable.findCredentialEnum(credentialType));
 		}
-
-		// Verify the return history flag, and set its value to the boolean.
-		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
-		if (localReturnHistory == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
-		}
-		credentialTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
+		
+		credentialTable.setReturnHistoryFlag(returnHistoryFlag);
 
 		return credentialTable;
 	}
@@ -96,28 +83,11 @@ public final class ValidateCredential {
 	public static CredentialTable validateArchiveCredentialParameters(Database db, long personId, String credentialType, String updatedBy) 
 		throws CprException {
 	
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		String localCredentialType = null;
-		if (credentialType != null) {
-			if (credentialType.trim().length() != 0) {
-				localCredentialType = credentialType.trim().toUpperCase();
-			}
-		}
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
 		
-		if (localCredentialType == null || localCredentialType.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Credential type");
-		}
+		String localUpdatedBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, "Updated by", true);
+		String localCredentialType = ValidateHelper.checkField(db, credentialType, null, "Credential type", false);
 		
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
-		}
-	
-		// Verify that the length is OK for updated By.
-		db.getAllTableColumns("CREDENTIAL");
-		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, UPDATED_BY_STRING);
-		}
-			
 		return new CredentialTable(personId, localCredentialType, localUpdatedBy);
 	}
 	
@@ -134,40 +104,12 @@ public final class ValidateCredential {
 	public static CredentialTable validateAddCredentialParameters(Database db, long personId, String credentialType, String credentialData, 
 			String updatedBy) throws CprException {
 		
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
 		
-		// Trim all of the strings if they are not null.
-		String localCredentialData = (credentialData != null) ? credentialData.trim() : null;
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		String localCredentialType = null;
-		if (credentialType != null) {
-			if (credentialType.trim().length() != 0) {
-				localCredentialType = credentialType.trim().toUpperCase();
-			}
-		}
-		final String dbColumnNames[] = { "CREDENTIAL_DATA", "LAST_UPDATE_BY" };
-		final String inputFields[]   = { localCredentialData, localUpdatedBy };
-		final String prettyNames[] = { "Credential data", UPDATED_BY_STRING };
+		String localCredentialData = ValidateHelper.checkField(db, credentialData, CREDENTIAL_DATA, "Credential data", true);
+		String localUpdatedBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, "Updated by", true);
+		String localCredentialType = ValidateHelper.checkField(db, credentialType, null, "Credential type", false);	
 		
-		// Ensure that a credential type, updated by and credential data was specified.
-		if (localCredentialType == null || localCredentialType.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Credential type");
-		}
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
-		}
-		if (localCredentialData == null || localCredentialData.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Credential data");
-		}
-
-		// Verify that the lengths for the individual fields do not exceed the maximum for the database.
-		db.getAllTableColumns("CREDENTIAL");
-		for (int i = 0; i < dbColumnNames.length; ++i) {
-			if (inputFields[i] != null && inputFields[i].length() > db.getColumn(dbColumnNames[i]).getColumnSize()) {
-				throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, prettyNames[i]);
-			}
-		}		
-		
-		// At this point we are ready to save off the information to a class.
 		return new CredentialTable(personId, localCredentialType, localCredentialData, localUpdatedBy);
 	}
 	

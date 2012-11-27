@@ -3,7 +3,6 @@ package edu.psu.iam.cpr.core.database.tables.validate;
 
 import edu.psu.iam.cpr.core.database.tables.PersonGenderTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
  * This class provides an implementation of functions that are used to validate gender information.
@@ -52,20 +51,12 @@ public final class ValidatePerGenderRel {
 		
 		String localGenderString = null;
 		if (genderString != null) {
-			if (genderString.trim().length() != 0) {
-				localGenderString = genderString.trim().toUpperCase();
-			}
-		}
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : updatedBy;
-		
-		if (localGenderString == null || localGenderString.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, GENDER);
+			localGenderString = genderString.trim().toUpperCase();
 		}
 		
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY);
-		}
-		
+		final String localUpdatedBy = ValidateHelper.checkField(null, updatedBy, null, UPDATED_BY, false);
+		localGenderString = ValidateHelper.checkField(null, localGenderString, null, GENDER, false);
+
 		return new PersonGenderTable(personId, localGenderString, localUpdatedBy);
 	}
 }

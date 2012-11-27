@@ -36,6 +36,9 @@ import edu.psu.iam.cpr.core.util.Validate;
  */
 public final class ValidatePersonPhoto {
 
+	private static final String DATABASE_TABLE_NAME = "PERSON_PHOTO";
+	private static final String LAST_UPDATE_BY = "LAST_UPDATE_BY";
+	
 	/**
 	 * Constructor
 	 */
@@ -57,16 +60,10 @@ public final class ValidatePersonPhoto {
 	public static PersonPhotoTable validateAddPhotoParameters(Database db, Long personId, byte[] image, String dateTaken, String updatedBy) 
 			throws CprException, ParseException {
 		
-		String localDateTaken = (dateTaken != null) ? dateTaken.trim() : null;
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+		String localDateTaken = ValidateHelper.checkField(null, dateTaken, null, "Date taken", false);
+		String localUpdatedBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, "Updated by", true);
 		
-		// Verify that the date taken, updated by and image parameters were specified.
-		if (localDateTaken == null || localDateTaken.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Date taken");
-		}
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
-		}
 		if (image == null || image.length == 0) {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Image");			
 		}
@@ -74,12 +71,6 @@ public final class ValidatePersonPhoto {
 		// Validate the date taken.
 		if (! Validate.isValidDate(localDateTaken)) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Date taken");
-		}
-		
-		// Check that the last update by column is less than the actual database size.
-		db.getAllTableColumns("PERSON_PHOTO");
-		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
 		}
 		
 		// Instantiate a person photo table object and return it to the caller.
@@ -97,16 +88,8 @@ public final class ValidatePersonPhoto {
 	 */
 	public static void validateGetPhotoParameters(Database db, Long personId, String requestedBy) throws CprException {
 
-		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
-		
-		// Verify that the requestor has been specified and doesn't exceed the maximum length in the database.
-		if (localRequestedBy == null || localRequestedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
-		}
-		
-		db.getAllTableColumns("PERSON_PHOTO");
-		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requested by");
-		}
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+		@SuppressWarnings("unused")
+		String localRequestedBy = ValidateHelper.checkField(db, requestedBy, LAST_UPDATE_BY, "Requested by", true);
 	}
 }

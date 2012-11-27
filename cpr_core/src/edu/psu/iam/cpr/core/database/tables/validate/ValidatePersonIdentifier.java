@@ -6,7 +6,6 @@ import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.database.tables.PersonIdentifierTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * This class contains functions that are used to validate information that was specified during an Add/Archive/Get 
@@ -33,6 +32,9 @@ import edu.psu.iam.cpr.core.util.Validate;
 public final class ValidatePersonIdentifier {
 	
 	private static final String IDENTIFIER_TYPE_STRING = "Identifier type";
+	private static final String DATABASE_TABLE_NAME = "PERSON_IDENTIFIER";
+	private static final String LAST_UPDATE_BY = "LAST_UPDATE_BY";
+	private static final String IDENTIFIER_VALUE = "IDENTIFIER_VALUE";
 
 	/**
 	 * Constructor
@@ -55,23 +57,15 @@ public final class ValidatePersonIdentifier {
 			String identifierTypeName,
 			String requestedBy) throws CprException
 	{
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+		
 		// Trim off all of the string parameters.
-		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
+		String localRequestedBy = ValidateHelper.checkField(db, requestedBy, LAST_UPDATE_BY, "Requested by", true);
+		
 		String localIdentifierTypeName = null;
 		if (identifierTypeName != null) {
-			if (identifierTypeName.trim().length() != 0) {
-				localIdentifierTypeName = identifierTypeName.trim().toUpperCase();
-			}
-		}
-
-		// Verify that the localRequestedBy was specified and its length is valid.
-		if (localRequestedBy == null || localRequestedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
-		}
-
-		db.getAllTableColumns("PERSON_IDENTIFIER");
-		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requested by");
+			localIdentifierTypeName = identifierTypeName.trim().toUpperCase();
+			localIdentifierTypeName = ValidateHelper.checkField(null, localIdentifierTypeName, null, "Identifier type", false);
 		}
 
 		final PersonIdentifierTable personIdentifierTable = new PersonIdentifierTable(personId, localRequestedBy);
@@ -109,13 +103,8 @@ public final class ValidatePersonIdentifier {
 
 		PersonIdentifierTable personIdentifierTable = validateCommonParameters(db, personId, identifierTypeName, requestedBy);
 		
-		// Verify the return history flag, and set its value to the boolean.
-		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
-		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
-		if (localReturnHistory == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
-		}
-		personIdentifierTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
+		boolean returnHistoryFlag = ValidateHelper.checkReturnHistory(returnHistory);		
+		personIdentifierTable.setReturnHistoryFlag(returnHistoryFlag);
 
 		return personIdentifierTable;
 	}
@@ -161,15 +150,10 @@ public final class ValidatePersonIdentifier {
 			String identifierValue,
 			String requestedBy) throws CprException {
 	
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+		
 		// Validate the identifier value to ensure its specified and contains a valid length.
-		String localIdentifierValue = (identifierValue != null) ? identifierValue.trim() : null;
-		if (localIdentifierValue == null || localIdentifierValue.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Identifier value");
-		}
-		db.getAllTableColumns("PERSON_IDENTIFIER");
-		if (localIdentifierValue.length() > db.getColumn("IDENTIFIER_VALUE").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Identifier value");
-		}
+		String localIdentifierValue = ValidateHelper.checkField(db, identifierValue, IDENTIFIER_VALUE, "Identifier value", true);
 		
 		PersonIdentifierTable personIdentifierTable = validateCommonParameters(db, personId, 
 				identifierTypeName, requestedBy);

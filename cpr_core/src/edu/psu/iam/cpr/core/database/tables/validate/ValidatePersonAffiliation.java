@@ -25,8 +25,6 @@ package edu.psu.iam.cpr.core.database.tables.validate;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * This class is responsible for the validation of the Person Affiliation data.
@@ -36,6 +34,8 @@ import edu.psu.iam.cpr.core.util.Validate;
 public final class ValidatePersonAffiliation {
 
 	private static final String UPDATED_BY_STRING = "Updated by";
+	private static final String DATABASE_TABLE_NAME ="PERSON_AFFILIATION";
+	private static final String LAST_UPDATE_BY = "LAST_UPDATE_BY";
 
 	/**
 	 * Constructor.
@@ -57,22 +57,10 @@ public final class ValidatePersonAffiliation {
 	public static PersonAffiliationTable validateAddAffiliationParameters(Database db, long personId, String affiliation,  String updatedBy) 
 		throws CprException {
 		
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		
-		if (affiliation == null || affiliation.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Affiliation");
-		}
-		
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
-		}
-	
-		db.getAllTableColumns("PERSON_AFFILIATION");
-		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, UPDATED_BY_STRING);
-		}
-
-		return new PersonAffiliationTable(personId, affiliation, localUpdatedBy);
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+		final String localUpdatedBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, UPDATED_BY_STRING, true);
+		final String localAffiliation = ValidateHelper.checkField(null, affiliation, null, "Affiliation", false);
+		return new PersonAffiliationTable(personId, localAffiliation, localUpdatedBy);
 	}
 
 	/**
@@ -87,24 +75,7 @@ public final class ValidatePersonAffiliation {
 	 */
 	public static PersonAffiliationTable validateArchiveAffiliationParameters(Database db, long personId, String affiliation,  
 			String updatedBy) throws CprException {
-		
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		
-		if (affiliation == null || affiliation.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Affiliation");
-		}
-		
-		
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
-		}
-	
-		db.getAllTableColumns("PERSON_AFFILIATION");
-		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, UPDATED_BY_STRING);
-		}
-
-		return new PersonAffiliationTable(personId, affiliation, localUpdatedBy);
+		return validateAddAffiliationParameters(db, personId, affiliation, updatedBy);
 	}
 	
 	/**
@@ -120,24 +91,14 @@ public final class ValidatePersonAffiliation {
 	public static PersonAffiliationTable validateGetAffiliationsForPersonIdParameters(Database db, long personId,  String requestedBy, 
 			String returnHistory) throws CprException {
 		
-		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
-		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
 		
-		if (localRequestedBy == null || localRequestedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
-		}
-	
-		db.getAllTableColumns("PERSON_AFFILIATION");
-		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requested by");
-		}
-
+		@SuppressWarnings("unused")
+		String localRequestedBy = ValidateHelper.checkField(db, requestedBy, LAST_UPDATE_BY, "Requested by", false);
+		boolean returnHistoryFlag = ValidateHelper.checkReturnHistory(returnHistory);
+		
 		final PersonAffiliationTable personAffiliationTable = new PersonAffiliationTable();
-		
-		if ((localReturnHistory = Validate.isValidYesNo(localReturnHistory)) == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
-		}
-		personAffiliationTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
+		personAffiliationTable.setReturnHistoryFlag(returnHistoryFlag);
 		
 		return personAffiliationTable;
 		

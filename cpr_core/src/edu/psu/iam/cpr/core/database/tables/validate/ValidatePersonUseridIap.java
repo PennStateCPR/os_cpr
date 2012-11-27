@@ -42,10 +42,12 @@ package edu.psu.iam.cpr.core.database.tables.validate;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.PersonUseridIapTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.util.Validate;
 
 public final class ValidatePersonUseridIap {
+	
+	private static final String DATABASE_TABLE_NAME = "PERSON_USERID_IAP";
+	private static final String USERID = "USERID";
+	private static final String LAST_UPDATE_BY = "LAST_UPDATE_BY";
 	
 	private static final String USERID_STRING = "Userid";
 
@@ -66,40 +68,21 @@ public final class ValidatePersonUseridIap {
 	 * @return PersonUseridIapTable
 	 * @throws CprException 
 	 */
-	public static PersonUseridIapTable validateGetPsuIapParameters(Database db, long personId, String userid, String requestedBy, String returnHistory) 
-					throws CprException {
+	public static PersonUseridIapTable validateGetPsuIapParameters(Database db, long personId, String userid, String requestedBy, 
+			String returnHistory) throws CprException {
 	
 		
-		String localUserid = (userid != null) ? userid.trim() : null;
-		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
-		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+		
+		@SuppressWarnings("unused")
+		String localUserid = ValidateHelper.checkField(db, userid, USERID, USERID_STRING, true);
+		boolean returnHistoryFlag = ValidateHelper.checkReturnHistory(returnHistory);
+		@SuppressWarnings("unused")
+		String localRequestedBy = ValidateHelper.checkField(db, requestedBy, LAST_UPDATE_BY, "Requested by", true);
 
-		// Verify that they have specified an userid.
-		if (localUserid == null || localUserid.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, USERID_STRING);
-		}
-		
-		// Verify that they have specified a requested by.
-		if (localRequestedBy == null || localRequestedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "requested by");
-		}
-	
-		// Verify that the length is OK for updated By and localUserid
-		db.getAllTableColumns("PERSON_USERID_IAP");
-		if (localUserid.length() > db.getColumn("USERID").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, USERID_STRING); 
-		}
-		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requestedby");
-		}
-		
 		// Validate the return history flag.
 		final PersonUseridIapTable personUseridIapTable = new PersonUseridIapTable();
-		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
-		if (localReturnHistory == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
-		}
-		personUseridIapTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
+		personUseridIapTable.setReturnHistoryFlag(returnHistoryFlag);
 		
 		return personUseridIapTable;		
 	}
@@ -118,39 +101,17 @@ public final class ValidatePersonUseridIap {
 			String requestedBy, String federation) throws CprException {
 	
 
-		String localUserid = (userid != null) ? userid.trim() : null;
-		String localRequestedBy = (requestedBy != null) ? requestedBy.trim() : null;
-
-		// Verify that they have specified an localUserid.
-		if (localUserid == null || localUserid.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, USERID_STRING);
-		}
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
 		
-		// Verify that they have specified an federation
-		if (federation == null || federation.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Federation");
-		}
+		@SuppressWarnings("unused")
+		String localUserid = ValidateHelper.checkField(db, userid, USERID, USERID_STRING, true);
+		@SuppressWarnings("unused")
+		String localRequestedBy = ValidateHelper.checkField(db, requestedBy, LAST_UPDATE_BY, "Requested by", true);
+		
 		db.getAllTableColumns("FEDERATION");
-		
-		if (federation.length() > db.getColumn("FEDERATION").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Federation"); 
-		}
-		
-		
-		if (localRequestedBy == null || localRequestedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Requested by");
-		}
-	
-		// Verify that the length is OK for updated By, localUserid and federation.
-		db.getAllTableColumns("PERSON_USERID_IAP");
-		if (localUserid.length() > db.getColumn("USERID").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, USERID_STRING); 
-		}
-		
-		if (localRequestedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Requested by");
-		}
-		
+		@SuppressWarnings("unused")
+		String localFederation = ValidateHelper.checkField(db, federation, "FEDERATION", "Federation", true);
+
 	}
 
 }

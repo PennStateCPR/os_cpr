@@ -32,6 +32,8 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  */
 public final class ValidateIdCardPrintLog {
 
+	private static final String DATABASE_TABLE_NAME = "ID_CARD_PRINT_LOG";
+	
 	/**
 	 * Constructor.
 	 */
@@ -53,47 +55,22 @@ public final class ValidateIdCardPrintLog {
 			 String eventUserId, String eventIpAddress, String eventWorkstation) throws CprException {
 		String eventIdCard = null;
 		
-		String localEventUserId = (eventUserId != null) ? eventUserId.trim() : null;
-		String localEventIpAddress = (eventIpAddress != null) ? eventIpAddress .trim() : null;
-		String localEventWorkstation = (eventWorkstation != null) ? eventWorkstation .trim() : null;
-		final String dbColumnNames[] = { "WORK_STATION_NAME", "WORK_STATION_IP_ADDRESS", "PRINTED_BY"};
-		final String inputFields[] = { localEventWorkstation, localEventIpAddress, localEventUserId };
-		final String prettyNames[] = {  "Work Station Name", "Work Station IpAddress ",
-				"Printed By" };
-		/*
-		 * if identifier type is not id_card_number
-		 * throw an error
-		 */
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+
+		final String localEventUserId = ValidateHelper.checkField(db, eventUserId, "PRINTED_BY", "Printed By", true);
+		final String localEventIpAddress = ValidateHelper.checkField(db, eventIpAddress, "WORK_STATION_IP_ADDRESS", 
+				"Work Station IpAddress", true);
+		final String localEventWorkstation = ValidateHelper.checkField(db, eventWorkstation, "WORK_STATION_NAME", 
+				"Work Station Name", true);
+
 		final IdentifierType identifierType = db.isValidIdentifierType(idType);
 		if (identifierType.getTypeName().equals(Database.ID_CARD_IDENTIFIER)) {
 			eventIdCard = identifier.trim();			
 		}
-		else  
-		{
+		else {
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Id Card Number");
 		}
-		/*
-		 * verify the localEventUserId, localEventIpAddress, localEventWorkstation and updatedBy are valid (not null, correct lengths)
-		 * 
-		 */
-		if (localEventUserId == null || localEventUserId.trim().length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Printed By");
-		}
 		
-		if (localEventIpAddress== null || localEventIpAddress.trim().length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "IpAddress");
-		}
-		if (localEventWorkstation== null || localEventWorkstation.trim().length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Work Station");
-		}
-		db.getAllTableColumns("ID_CARD_PRINT_LOG");
-		for (int i = 0; i < dbColumnNames.length; ++i) {
-			if (inputFields[i] != null
-					&& inputFields[i].length() > db.getColumn(dbColumnNames[i])
-							.getColumnSize()) {
-				throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, prettyNames[i]);
-			}
-		}
 		return new IdCardPrintLogTable(eventIdCard, localEventUserId, localEventIpAddress, localEventWorkstation);
 	}
 	/**
@@ -110,16 +87,11 @@ public final class ValidateIdCardPrintLog {
 		
 		final IdentifierType identifierType = db.isValidIdentifierType(idType);
 		if (identifierType.getTypeName().equals(Database.ID_CARD_IDENTIFIER)) {
-			
 			eventIdCard = identifier.trim();	
-				
 		}
 		else {
-			
-		
 			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Id Card Number");
 		}
 		return new IdCardPrintLogTable(eventIdCard);
-		
 	}
 }

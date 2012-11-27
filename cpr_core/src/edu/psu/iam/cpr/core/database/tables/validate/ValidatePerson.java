@@ -4,7 +4,6 @@ package edu.psu.iam.cpr.core.database.tables.validate;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.PersonTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 
 /**
  * The class provides an implementation of functions that are used to validate information specified during an
@@ -31,6 +30,9 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  */
 public final class ValidatePerson {
 	
+	private static final String DATABASE_TABLE_NAME = "PERSON";
+	private static final String LAST_UPDATE_BY = "LAST_UPDATE_BY";
+
 	/**
 	 * Constructor
 	 */
@@ -48,17 +50,10 @@ public final class ValidatePerson {
 	 */
 	public static PersonTable validatePersonParameters(Database db, long personId, String updatedBy) throws  CprException {
 		
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : updatedBy;		
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Updated by");
-		}
-		
-		db.getAllTableColumns("PERSON");
-		
-		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, "Updated by");
-		}
-		
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+
+		String localUpdatedBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, "Updated by", true);
+
 		return new PersonTable(personId, localUpdatedBy);
 
 	}

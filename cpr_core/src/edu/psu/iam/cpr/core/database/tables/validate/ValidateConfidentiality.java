@@ -4,8 +4,6 @@ package edu.psu.iam.cpr.core.database.tables.validate;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.ConfidentialityTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * The purpose of this class is to validate information specified with a confidentiality hold.
@@ -31,8 +29,9 @@ import edu.psu.iam.cpr.core.util.Validate;
  */
 public final class ValidateConfidentiality {
 	
-	private static final String RETURN_HISTORY = "Return history";
 	private static final String UPDATED_BY_STRING = "Updated by";
+	private static final String LAST_UPDATE_BY = "LAST_UPDATE_BY";
+	private static final String DATABASE_TABLE_NAME = "CONFIDENTIALITY";
 	
 	/**
 	 * Constructor.
@@ -54,29 +53,17 @@ public final class ValidateConfidentiality {
 	public static ConfidentialityTable validateAddConfidentialityParameters(Database db, long personId, String confidentialityType, 
 			String updatedBy) throws CprException {
 
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+		
 		// Trim all of the input parameters that are string.
 		String localConfidentialityType = null;
 		if (confidentialityType != null) {
-			if (confidentialityType.trim().length() != 0) {
-				localConfidentialityType = confidentialityType.trim().toUpperCase();
-			}
-		}
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		
-		// Verify that parameters have been specified.
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
-		}
-		if (localConfidentialityType == null || localConfidentialityType.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Confidentiality type");
+			localConfidentialityType = confidentialityType.trim().toUpperCase();
 		}
 		
-		// Ensure that the updated by parameter is <= the database column.
-		db.getAllTableColumns("confidentiality");
-		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, UPDATED_BY_STRING);
-		}
-				
+		String localUpdatedBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, UPDATED_BY_STRING, true);
+		localConfidentialityType = ValidateHelper.checkField(null, localConfidentialityType, null, "Confidentiality type", false);
+						
 		// Build the return database table class.
 		return new ConfidentialityTable(personId, localConfidentialityType, localUpdatedBy);
 	}
@@ -94,31 +81,8 @@ public final class ValidateConfidentiality {
 	public static ConfidentialityTable validateArchiveConfidentialityParameters(Database db, long personId, String confidentialityType, 
 			String updatedBy) throws CprException {
 		
-		// Trim all of the input parameters that are string.
-		String localConfidentialityType = null;
-		if (confidentialityType != null) {
-			if (confidentialityType.trim().length() != 0) {
-				localConfidentialityType = confidentialityType.trim().toUpperCase();
-			}
-		}
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
+		return validateAddConfidentialityParameters(db, personId, confidentialityType, updatedBy);
 		
-		// Verify that parameters have been specified.
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
-		}
-		if (localConfidentialityType == null || localConfidentialityType.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Confidentiality type");
-		}
-		
-		// Ensure that the updated by parameter is <= the database column.
-		db.getAllTableColumns("confidentiality");
-		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, UPDATED_BY_STRING);
-		}
-				
-		// Build the return database table class.		
-		return new ConfidentialityTable(personId, localConfidentialityType, localUpdatedBy);
 	}
 	
 	/**
@@ -135,29 +99,15 @@ public final class ValidateConfidentiality {
 	public static ConfidentialityTable validateGetConfidentialityParameters(Database db, long personId, String updatedBy, String returnHistory) 
 		throws CprException {
 
+		db.getAllTableColumns(DATABASE_TABLE_NAME);
+		
 		// Trim all of the input parameters that are string.
-		String localUpdatedBy = (updatedBy != null) ? updatedBy.trim() : null;
-		String localReturnHistory = (returnHistory != null) ? returnHistory.trim() : null;
-		
-		// Verify that parameters have been specified.
-		if (localUpdatedBy == null || localUpdatedBy.length() == 0) {
-			throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, UPDATED_BY_STRING);
-		}
-		
-		// Ensure that the updated by parameter is <= the database column.
-		db.getAllTableColumns("confidentiality");
-		if (localUpdatedBy.length() > db.getColumn("LAST_UPDATE_BY").getColumnSize()) {
-			throw new CprException(ReturnType.PARAMETER_LENGTH_EXCEPTION, UPDATED_BY_STRING);
-		}
-		
-		final ConfidentialityTable confidentialityTable = new ConfidentialityTable();
+		@SuppressWarnings("unused")
+		String localUpdatedBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, UPDATED_BY_STRING, true);
+		boolean returnHistoryFlag = ValidateHelper.checkReturnHistory(returnHistory);
 
-		// Verify the return history flag, and set its value to the boolean.
-		localReturnHistory = Validate.isValidYesNo(localReturnHistory);
-		if (localReturnHistory == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, RETURN_HISTORY);
-		}
-		confidentialityTable.setReturnHistoryFlag((localReturnHistory.equals("Y")) ? true : false);
+		final ConfidentialityTable confidentialityTable = new ConfidentialityTable();
+		confidentialityTable.setReturnHistoryFlag(returnHistoryFlag);
 
 		return confidentialityTable;
 	}
