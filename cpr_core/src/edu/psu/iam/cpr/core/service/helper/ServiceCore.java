@@ -85,8 +85,9 @@ public class ServiceCore {
 		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
 		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 	
-		// Only want to find the person id if the service is NOT Add Person.
-		if (! serviceName.equals(CprServiceName.AddPerson.toString())) {
+		// Only want to find the person id if the service is NOT Add Person and NOT Find Person.
+		if ((! serviceName.equals(CprServiceName.AddPerson.toString())) &&
+				(! serviceName.equals(CprServiceName.FindPerson.toString()))) {
 			// Using the identifierType and identifier attempt to find the person in the CPR.
 			LOG4J_LOGGER.info("Attempting to get the person id....");
 			serviceCoreReturn.setPersonId(db.getPersonId(identifierType, identifier));
