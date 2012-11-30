@@ -20,7 +20,6 @@ import org.hibernate.JDBCException;
 import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.Addresses;
 import edu.psu.iam.cpr.core.database.beans.Names;
 import edu.psu.iam.cpr.core.database.tables.AddressesTable;
@@ -145,8 +144,8 @@ import edu.psu.iam.cpr.service.returns.UserCommentServiceReturn;
 import edu.psu.iam.cpr.service.returns.UseridServiceReturn;
 
 /**
-  * The functions contained in this file provide an implementation for the CPR SOAP-based services.
-  * 
+ * The functions contained in this file provide an implementation for the CPR SOAP-based services.
+ * 
  * Copyright 2012 The Pennsylvania State University
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -160,12 +159,12 @@ import edu.psu.iam.cpr.service.returns.UseridServiceReturn;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-  *
-  * @package edu.psu.iam.cpr.service
-  * @author $Author: jvuccolo $
-  * @version $Rev: 5343 $
-  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
-  */
+ *
+ * @package edu.psu.iam.cpr.service
+ * @author $Author: jvuccolo $
+ * @version $Rev: 5343 $
+ * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
+ */
 @WebService(serviceName = "cprws", endpointInterface = "edu.psu.iam.cpr.service.CprwsSEI")
 public class CprwsService implements CprwsSEI {
 
@@ -1128,7 +1127,7 @@ public class CprwsService implements CprwsSEI {
 		@WebParam(name="rankCutOff", mode=Mode.IN) String rankCutOff) {
 
 		final String serviceName = CprServiceName.FindPerson.toString();
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		ServiceCoreReturn serviceCoreReturn = null;
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
 		final ServiceHelper serviceHelper = new ServiceHelper();
@@ -1160,10 +1159,17 @@ public class CprwsService implements CprwsSEI {
 			LOG4J_LOGGER.info("SearchForPerson: Input Parameters = " + parameters.toString());
 			
 			// Init the service.
-			db.openSession(SessionFactoryUtil.getSessionFactory());
-			HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-			serviceCoreReturn = serviceCore.initializeLogging(db, serviceName, request.getRemoteAddr(), parameters.toString(), requestedBy);
-			serviceCore.initializeService(db, principalId, password, serviceName, serviceCoreReturn);
+			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
+					request.getRemoteAddr(),
+					principalId,
+					password,
+					requestedBy,
+					null, 
+					null,
+					serviceCore, 
+					db, 
+					parameters);
 
 			final FindPersonHelper helper = new FindPersonHelper(db);
 			FindPersonServiceReturn findPersonReturn = null;
@@ -1969,7 +1975,7 @@ public class CprwsService implements CprwsSEI {
 			String ssn) {
 		
 		final String serviceName = CprServiceName.AddPerson.toString();
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		ServiceCoreReturn serviceCoreReturn = null;
 		PersonServiceReturn personServiceReturn = null;
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
@@ -2022,10 +2028,17 @@ public class CprwsService implements CprwsSEI {
 			LOG4J_LOGGER.info(serviceName + ": input parameters = " + parameters.toString());
 						
 			// Init the service.
-			db.openSession(SessionFactoryUtil.getSessionFactory());
 			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-			serviceCoreReturn = serviceCore.initializeLogging(db, serviceName, request.getRemoteAddr(), parameters.toString(), updatedBy);
-			serviceCore.initializeService(db, principalId, password, serviceName, serviceCoreReturn);
+			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
+					request.getRemoteAddr(),
+					principalId,
+					password,
+					updatedBy,
+					null, 
+					null,
+					serviceCore, 
+					db, 
+					parameters);
 
 			serviceCoreReturn.setPersonId(NO_PERSON_ID);
 
@@ -2543,7 +2556,7 @@ public class CprwsService implements CprwsSEI {
 		EmailAddressTable emailAddressTable = null;
 		PersonTable personTable = null;
 		UseridTable useridTable = null;
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		ServiceCoreReturn serviceCoreReturn = null;
 		PersonServiceReturn personServiceReturn = null;
 		PsuIdTable psuIdTable = null;
 		PersonAffiliationTable affiliationsTable = null;

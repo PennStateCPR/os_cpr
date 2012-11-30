@@ -4,7 +4,6 @@ import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 import org.hibernate.JDBCException;
-
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;

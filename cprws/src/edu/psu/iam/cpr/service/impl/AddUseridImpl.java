@@ -61,7 +61,6 @@ public class AddUseridImpl {
 	 * @param otherParameters contains an array of Objects that are additional parameters to the service implementation.
 	 * @return Object will return an object will needed to be casted to obtain the real return.
 	 */
-
 	public Object implementService(String serviceName, String ipAddress,
 			String principalId, String password, String updatedBy,
 			String identifierType, String identifier, Object[] otherParameters) {
@@ -156,5 +155,4 @@ public class AddUseridImpl {
 		// Return the results to the caller.
 		return serviceReturn;
 	}
-
 }
