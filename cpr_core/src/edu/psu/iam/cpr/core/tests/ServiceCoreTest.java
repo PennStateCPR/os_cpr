@@ -27,27 +27,27 @@ public class ServiceCoreTest {
 
 	@Test(expectedExceptions=Exception.class)
 	public final void testInitalizeService1() throws Exception {
-		new ServiceCore().initializeService(null, null, null, null, null);
+		new ServiceCore().initializeService(null, null, null, null, null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testInitalizeService2() throws Exception {
-		new ServiceCore().initializeService(new Database(), "cprblah", null, null, null);
+		new ServiceCore().initializeService(new Database(), "cprblah", null, null, null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testInitalizeService3() throws Exception {
-		new ServiceCore().initializeService(new Database(), "cprblah", "abcd", null, null);
+		new ServiceCore().initializeService(new Database(), "cprblah", "abcd", null, null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testInitalizeService4() throws Exception {
-		new ServiceCore().initializeService(new Database(), "cprblah", "dun4IAM", null, null);
+		new ServiceCore().initializeService(new Database(), "cprblah", "dun4IAM", null, null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testInitalizeService5() throws Exception {
-		new ServiceCore().initializeService(new Database(), "cprblah", "dun4IAM", "AddPerson", null);
+		new ServiceCore().initializeService(new Database(), "cprblah", "dun4IAM", "AddPerson", null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testInitalizeService6() throws Exception {
-		new ServiceCore().initializeService(new Database(), "cprblah", "dun4IAM", "AddPerson", new ServiceCoreReturn());
+		new ServiceCore().initializeService(new Database(), "cprblah", "dun4IAM", "AddPerson", null, null, new ServiceCoreReturn());
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testIntializeService7() throws Exception {

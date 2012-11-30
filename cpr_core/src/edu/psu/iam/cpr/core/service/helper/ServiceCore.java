@@ -85,14 +85,17 @@ public class ServiceCore {
 		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
 		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 	
-		// Using the identifierType and identifier attempt to find the person in the CPR.
-		LOG4J_LOGGER.info("Attempting to get the person id....");
-		serviceCoreReturn.setPersonId(db.getPersonId(identifierType, identifier));
-			
-		// Check to see if the person is active, only if the service is not UnarchivePerson.
-		LOG4J_LOGGER.info("Determing if the person is active or not...");
-		if (! serviceName.equals(CprServiceName.UnarchivePerson.toString())) {
-			db.isPersonActive(serviceCoreReturn.getPersonId());
+		// Only want to find the person id if the service is NOT Add Person.
+		if (! serviceName.equals(CprServiceName.AddPerson.toString())) {
+			// Using the identifierType and identifier attempt to find the person in the CPR.
+			LOG4J_LOGGER.info("Attempting to get the person id....");
+			serviceCoreReturn.setPersonId(db.getPersonId(identifierType, identifier));
+
+			// Check to see if the person is active, only if the service is not UnarchivePerson.
+			if (! serviceName.equals(CprServiceName.UnarchivePerson.toString())) {
+				LOG4J_LOGGER.info("Determing if the person is active or not...");
+				db.isPersonActive(serviceCoreReturn.getPersonId());
+			}
 		}
 
 		LOG4J_LOGGER.info("initalizeService: end of function.");
@@ -190,31 +193,6 @@ public class ServiceCore {
 		
 	}
 
-	/**
-	 * This routine is used to initialize the AddPerson service.
-	 * @param db contains the database connection.
-	 * @param principalId contains the principal identifier used to authenticate the service.
-	 * @param password contains the password for the principal.
-	 * @param serviceName contains the name of the service.
-	 * @param serviceCoreReturn contains the service core return object.
-	 * @throws CprException 
-	 * @throws NamingException 
-
-	 */
-	public void initializeService(Database db, String principalId, String password, String serviceName, ServiceCoreReturn serviceCoreReturn) 
-		throws CprException, NamingException {
-		
-		LOG4J_LOGGER.info("initializeService: start of function.");
-		// Do an service principal authentication.
-		authenticateService(db, principalId, password);
-	
-		// Add in check to see if the caller is authorized.
-		db.requestorAuthorized(principalId, serviceCoreReturn.getServiceLogTable().getServiceLogBean().getRequestUserid(), serviceName);
-		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
-		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
-		LOG4J_LOGGER.info("initializeService: start of function.");
-	}
-	
 	/**
 	 * This routine is used to dump a service parameter.  It will either return the parameter's value or NOT SPECIFIED if the 
 	 * parameter is null.
