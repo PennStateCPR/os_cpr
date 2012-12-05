@@ -1,14 +1,21 @@
 package edu.psu.iam.cpr.service.impl;
 
+import java.text.ParseException;
+
+import javax.jms.JMSException;
 import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 import org.hibernate.JDBCException;
+import org.json.JSONException;
+
 import edu.psu.iam.cpr.core.database.Database;
+import edu.psu.iam.cpr.core.database.types.CprServiceName;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
+import edu.psu.iam.cpr.core.util.ValidateSSN;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
 /**
  * 
@@ -31,10 +38,10 @@ import edu.psu.iam.cpr.service.helper.ServiceHelper;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public abstract class GenericGetServiceImpl {
+public abstract class ExtendedBaseServiceImpl {
 	
 	/** Contains the log4j Logger instance */
-	private static final Logger LOG4J_LOGGER = Logger.getLogger(GenericGetServiceImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(ExtendedBaseServiceImpl.class);
 	
 	/** Buffer size */
 	private static final int BUFFER_SIZE = 4096;
@@ -55,7 +62,7 @@ public abstract class GenericGetServiceImpl {
 			String principalId, String password, String updatedBy,
 			String identifierType, String identifier, Object[] otherParameters) {
 
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		ServiceCoreReturn serviceCoreReturn = null;
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
 		final ServiceHelper serviceHelper = new ServiceHelper();
@@ -76,7 +83,13 @@ public abstract class GenericGetServiceImpl {
 					parameters.append((i+1));
 					parameters.append("=[");
 					try {
-						parameters.append((String) otherParameters[i]);
+						String s = (String) otherParameters[i];
+						if (ValidateSSN.validateSSN(s)) {
+							parameters.append("Sensitive Value Cannot Output");
+						}
+						else {
+							parameters.append(s);
+						}
 					}
 					catch (ClassCastException e) {
 						parameters.append("Non-String Argument");
@@ -100,11 +113,15 @@ public abstract class GenericGetServiceImpl {
 			LOG4J_LOGGER.info(serviceName + ": Found Person Id = " + serviceCoreReturn.getPersonId());
 					
 			// Do the actual work of the service.
-			serviceReturn = runService(db, serviceCoreReturn, updatedBy, otherParameters);
-			
-			// Log a success!
-			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
-			
+			serviceReturn = runService(db, serviceName, LOG4J_LOGGER, serviceHelper, serviceCoreReturn, updatedBy, otherParameters);
+			LOG4J_LOGGER.info(serviceName + ": Ran the service implementation.");
+
+			// Log a success!  Add Person is special because it can return a failure due to matching and a success.
+			if ((! serviceName.equals(CprServiceName.AddPerson.toString()))) { 
+				serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
+				LOG4J_LOGGER.info(serviceName + ": Success!");
+			}
+
 			// Commit
 			db.closeSession();
 		}
@@ -116,9 +133,21 @@ public abstract class GenericGetServiceImpl {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return handleException(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
 		}
+		catch (JSONException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return handleException(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
+		} 
+		catch (JMSException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return handleException(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
+		}
 		catch (JDBCException e) {
 			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
 			return handleException(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
+		}
+		catch (ParseException e) {
+			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
+			return handleException(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
 		}
 		catch (RuntimeException e) {
 			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
@@ -128,8 +157,9 @@ public abstract class GenericGetServiceImpl {
 		return serviceReturn;
 	}
 	
-	public abstract Object runService(Database db, ServiceCoreReturn serviceCoreReturn, String updatedBy, Object[] otherParameters) 
-									throws CprException;
+	public abstract Object runService(Database db, String serviceName, Logger log4jLogger, ServiceHelper serviceHelper, 
+									ServiceCoreReturn serviceCoreReturn, String updatedBy, Object[] otherParameters) 
+									throws CprException, JSONException, JMSException, ParseException;
 	public abstract Object handleException(int statusCode, String statusMessage);
 
 }

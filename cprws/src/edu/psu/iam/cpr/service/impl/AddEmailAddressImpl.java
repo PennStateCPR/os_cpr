@@ -35,7 +35,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidateEmail;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class AddEmailAddressImpl extends GenericServiceImpl {
+public class AddEmailAddressImpl extends BaseServiceImpl {
 
 	/** Contains the index of the email address type parameter */
 	private static final int EMAIL_ADDRESS_TYPE = 0;

@@ -1,6 +1,13 @@
 /* SVN FILE: $Id: GetNameImpl.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.impl;
 
+import java.text.ParseException;
+
+import javax.jms.JMSException;
+
+import org.apache.log4j.Logger;
+import org.json.JSONException;
+
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.tables.NamesTable;
 import edu.psu.iam.cpr.core.error.CprException;
@@ -34,7 +41,7 @@ import edu.psu.iam.cpr.service.returns.NamesServiceReturn;
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
 
-public class GetNameImpl extends GenericGetServiceImpl {
+public class GetNameImpl extends ExtendedBaseServiceImpl {
 
 	/** Contains the index for the name type parameter */
 	private static final int NAME_TYPE = 0;
@@ -45,16 +52,23 @@ public class GetNameImpl extends GenericGetServiceImpl {
     /**
      * This method is used to execute the core logic for a service.
      * @param db contains a open database session.
+     * @param serviceName contains the name of the service.
+     * @param log4jLogger database logger.
+     * @param serviceHelper contains the service helper object.
      * @param serviceCoreReturn contains the service core information.
      * @param updatedBy contains the userid requesting this information.
      * @param otherParameters contains an array of Java objects that are additional parameters for the service.
      * @return will return an object if successful.
      * @throws CprException will be thrown if there are any problems.
+     * @throws JSONException will be thrown if there are any JSON issues.
+     * @throws JMSException will be thrown if there are any JMS issues.
+     * @throws ParseException will be thrown if there are any parsing issues.
      */
 	@Override
 	public Object runService(Database db,
-			ServiceCoreReturn serviceCoreReturn, String updatedBy,
-			Object[] otherParameters) throws CprException {
+			String serviceName, Logger log4jLogger,
+			ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
+			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
 		String nameType = (String) otherParameters[NAME_TYPE];
 		String returnHistory = (String) otherParameters[RETURN_HISTORY];

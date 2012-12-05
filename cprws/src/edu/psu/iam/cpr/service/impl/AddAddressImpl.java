@@ -34,7 +34,7 @@ import java.text.ParseException;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class AddAddressImpl extends GenericServiceImpl {
+public class AddAddressImpl extends BaseServiceImpl {
 
 	/** Contains the index for the address type */
 	private static final int ADDRESS_TYPE = 0;

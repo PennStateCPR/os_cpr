@@ -18,10 +18,10 @@ import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
 import edu.psu.iam.cpr.service.returns.ServiceReturn;
 
-public abstract class GenericServiceImpl {
+public abstract class BaseServiceImpl {
 
 	/** Contains the log4j Logger instance */
-	private static final Logger LOG4J_LOGGER = Logger.getLogger(GenericServiceImpl.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(BaseServiceImpl.class);
 	
 	/** Buffer size */
 	private static final int BUFFER_SIZE = 4096;
@@ -42,7 +42,7 @@ public abstract class GenericServiceImpl {
 			String principalId, String password, String updatedBy,
 			String identifierType, String identifier, Object[] otherParameters) {
 		
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
+		ServiceCoreReturn serviceCoreReturn = null;
 		final ServiceCore serviceCore = new ServiceCore();
 		final Database db = new Database();
 		final ServiceHelper serviceHelper = new ServiceHelper();

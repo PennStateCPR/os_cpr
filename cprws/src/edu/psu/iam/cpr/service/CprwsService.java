@@ -1,67 +1,23 @@
 /* SVN FILE: $Id: CprwsService.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service;
 
-import java.text.ParseException;
-
 import javax.annotation.Resource;
-import javax.jms.JMSException;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebParam.Mode;
 import javax.jws.WebResult;
 import javax.jws.WebService;
-import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
-import org.apache.log4j.Logger;
-import org.hibernate.JDBCException;
-import org.json.JSONException;
-
-import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.beans.Addresses;
-import edu.psu.iam.cpr.core.database.beans.Names;
-import edu.psu.iam.cpr.core.database.tables.AddressesTable;
-import edu.psu.iam.cpr.core.database.tables.DateOfBirthTable;
-import edu.psu.iam.cpr.core.database.tables.EmailAddressTable;
-import edu.psu.iam.cpr.core.database.tables.NamesTable;
-import edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable;
-import edu.psu.iam.cpr.core.database.tables.PersonGenderTable;
-import edu.psu.iam.cpr.core.database.tables.PersonIdentifierTable;
-import edu.psu.iam.cpr.core.database.tables.PersonTable;
-import edu.psu.iam.cpr.core.database.tables.PhonesTable;
-import edu.psu.iam.cpr.core.database.tables.PsuIdTable;
-import edu.psu.iam.cpr.core.database.tables.UseridTable;
 import edu.psu.iam.cpr.core.database.types.CprServiceName;
-import edu.psu.iam.cpr.core.database.types.MatchType;
-import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.rules.engine.RulesEngineHelper;
 import edu.psu.iam.cpr.core.rules.engine.RulesReturn;
-import edu.psu.iam.cpr.core.service.helper.ServiceCore;
-import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.service.returns.MatchReturn;
-import edu.psu.iam.cpr.core.service.returns.PersonReturn;
-import edu.psu.iam.cpr.core.service.returns.PsuIdReturn;
-import edu.psu.iam.cpr.core.service.returns.UseridReturn;
-import edu.psu.iam.cpr.core.util.Validate;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateDateOfBirth;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateEmail;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateName;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidatePerGenderRel;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidatePerson;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonIdentifier;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone;
-import edu.psu.iam.cpr.core.util.ValidateSSN;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserid;
-import edu.psu.iam.cpr.service.helper.FindPersonHelper;
-import edu.psu.iam.cpr.service.helper.ServiceHelper;
 import edu.psu.iam.cpr.service.impl.AddAddressImpl;
 import edu.psu.iam.cpr.service.impl.AddAffiliationImpl;
+import edu.psu.iam.cpr.service.impl.AddPersonImpl;
 import edu.psu.iam.cpr.service.impl.AddConfidentialityHoldImpl;
 import edu.psu.iam.cpr.service.impl.AddCredentialImpl;
 import edu.psu.iam.cpr.service.impl.AddEmailAddressImpl;
@@ -108,6 +64,7 @@ import edu.psu.iam.cpr.service.impl.GetPhoneImpl;
 import edu.psu.iam.cpr.service.impl.GetPhotoImpl;
 import edu.psu.iam.cpr.service.impl.GetUserCommentsImpl;
 import edu.psu.iam.cpr.service.impl.GetUseridImpl;
+import edu.psu.iam.cpr.service.impl.SearchForPersonImpl;
 import edu.psu.iam.cpr.service.impl.SecurityImpl;
 import edu.psu.iam.cpr.service.impl.SetPrimaryAddressByTypeImpl;
 import edu.psu.iam.cpr.service.impl.SetPrimaryAffiliationImpl;
@@ -172,12 +129,6 @@ public class CprwsService implements CprwsSEI {
 	@Resource
 	WebServiceContext wsContext;
 
-	/** Instance of logger */
-	private static final Logger LOG4J_LOGGER = Logger.getLogger(CprwsService.class);
-	
-	/** Success message! */
-	private static final String SUCCESS_MESSAGE = "Success!";
-	
 	/**
 	 * This function provides the implementation for the AddAddress SOAP web service.
 	 * AddAddress  will allow authorized registration authorities to add an address for a person in the
@@ -1126,79 +1077,11 @@ public class CprwsService implements CprwsSEI {
 		@WebParam(name="gender", mode=Mode.IN) String gender, 
 		@WebParam(name="rankCutOff", mode=Mode.IN) String rankCutOff) {
 
-		final String serviceName = CprServiceName.FindPerson.toString();
-		ServiceCoreReturn serviceCoreReturn = null;
-		final ServiceCore serviceCore = new ServiceCore();
-		final Database db = new Database();
-		final ServiceHelper serviceHelper = new ServiceHelper();
-		
-		LOG4J_LOGGER.info("SearchForPerson: ***** Start of service *****.");
-
-		try {
-		
-			final StringBuilder parameters = new StringBuilder(10000);
-			parameters.append("principalId=[").append(principalId).append("] ");
-			parameters.append("requestedBy=[").append(requestedBy).append("] ");
-			parameters.append("psuId=[").append(psuId).append("] ");
-			parameters.append("userId=[").append(userId).append("] ");
-			parameters.append("ssn=[").append(ssn).append("] ");
-			parameters.append("firstName=[").append(firstName).append("] ");
-			parameters.append("lastName=[").append(lastName).append("] ");
-			parameters.append("middleName=[").append(middleName).append("] ");
-			parameters.append("address1=[").append(address1).append("] ");
-			parameters.append("address2=[").append(address2).append("] ");
-			parameters.append("address3=[").append(address3).append("] ");
-			parameters.append("city=[").append(city).append("] ");
-			parameters.append("state=[").append(state).append("] ");
-			parameters.append("postalCode=[").append(postalCode).append("] ");
-			parameters.append("plus4=[").append(plus4).append("] ");
-			parameters.append("country=[").append(country).append("] ");
-			parameters.append("dateOfBirth=[").append(dateOfBirth).append("] ");
-			parameters.append("gender=[").append(gender).append("] ");
-			parameters.append("rankCutOff=[").append(rankCutOff).append("] ");
-			LOG4J_LOGGER.info("SearchForPerson: Input Parameters = " + parameters.toString());
-			
-			// Init the service.
-			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-					request.getRemoteAddr(),
-					principalId,
-					password,
-					requestedBy,
-					null, 
-					null,
-					serviceCore, 
-					db, 
-					parameters);
-
-			final FindPersonHelper helper = new FindPersonHelper(db);
-			FindPersonServiceReturn findPersonReturn = null;
-
-			findPersonReturn = helper.doSearchForPersonOS(serviceCoreReturn, requestedBy, psuId, userId, ssn, 
-					firstName, lastName, middleName, address1, address2, address3, city, state, postalCode, plus4, country, dateOfBirth, 
-					gender, rankCutOff);				
-
-			// Do a commit.
-			db.closeSession();
-			
-	        return findPersonReturn;
-		} 
-		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new FindPersonServiceReturn(e.getReturnType().index(), errorMessage);
-		}
-		catch (NamingException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new FindPersonServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
-		}
-		catch (JDBCException e) {
-			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new FindPersonServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-		} 
-		catch (ParseException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new FindPersonServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
-		}
+		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		return (FindPersonServiceReturn) new SearchForPersonImpl().implementService(
+						CprServiceName.FindPerson.toString(), request.getRemoteAddr(), principalId, password, requestedBy, null, 
+						null, new Object[]{psuId, userId, ssn, firstName, lastName, middleName, address1, address2, address3,
+							city, state, postalCode, plus4, country, dateOfBirth, gender, rankCutOff});
 	}
 
 	/**
@@ -1863,9 +1746,6 @@ public class CprwsService implements CprwsSEI {
 						identifier, new Object[]{returnHistory});
 	}
 		
-	/** Used by the Add Person service to indicate that there is no person identifier established yet for the user. */
-	private static final int NO_PERSON_ID = -1;
-	
 	/**
 	 * This function provides the implementation for the AddPerson SOAP web service.  AddPerson will allow 
 	 * authorized registration authorities to add a new person to the Central Person Registry.  
@@ -1974,354 +1854,14 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="ssn", mode=Mode.IN) 
 			String ssn) {
 		
-		final String serviceName = CprServiceName.AddPerson.toString();
-		ServiceCoreReturn serviceCoreReturn = null;
-		PersonServiceReturn personServiceReturn = null;
-		final ServiceCore serviceCore = new ServiceCore();
-		final Database db = new Database();
-		final ServiceHelper serviceHelper = new ServiceHelper();
+		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		return (PersonServiceReturn) new AddPersonImpl().implementService(
+						CprServiceName.AddPerson.toString(), request.getRemoteAddr(), principalId, password, updatedBy, null, 
+						null, new Object[]{assignPsuIdFlag, assignUseridFlag, gender, dob, nameType, nameDocumentType, firstName, middleNames,
+							lastName, suffix, addressType, addressDocumentType, address1, address2, address3, city, stateOrProvince, 
+							postalCode, countryCode, campusCode, phoneType, phoneNumber, extension, internationalNumber, 
+							emailType, emailAddress, affiliation, ssn});
 		
-		LOG4J_LOGGER.info(serviceName + ": start of service.");
-		try {
-			PersonGenderTable personGenderTable = null;
-			DateOfBirthTable dateOfBirthTable = null;
-			NamesTable namesTable = null;
-			AddressesTable addressesTable = null;
-			PhonesTable phonesTable = null;
-			EmailAddressTable emailAddressTable = null;
-			PersonTable personTable = null;
-			UseridTable useridTable = null;
-			PsuIdTable psuIdTable = null;
-			PersonAffiliationTable affiliationsTable = null;
-			
-			final StringBuilder parameters = new StringBuilder(40000);
-			parameters.append("principalId=[").append(principalId).append("] ");
-			parameters.append("updatedBy=[").append(updatedBy).append("] ");
-			parameters.append("assignPsuId=[").append(assignPsuIdFlag).append("] ");
-			parameters.append("assignUserid=[").append(assignUseridFlag).append("] ");
-			parameters.append("gender=[").append(gender).append("] ");
-			parameters.append("dob=[").append(dob).append("] ");
-			parameters.append("nameType=[").append(nameType).append("] ");
-			parameters.append("firstName=[").append(firstName).append("] ");
-			parameters.append("middleNames=[").append(middleNames).append("] ");
-			parameters.append("lastName=[").append(lastName).append("] ");
-			parameters.append("suffix=[").append(suffix).append("] ");
-			parameters.append("addressType=[").append(addressType).append("] ");
-			parameters.append("address1=[").append(address1).append("] ");
-			parameters.append("address2=[").append(address2).append("] ");
-			parameters.append("address3=[").append(address3).append("] ");
-			parameters.append("city=[").append(city).append("] ");
-			parameters.append("stateOrProvince=[").append(stateOrProvince).append("] ");
-			parameters.append("postalCode=[").append(postalCode).append("] ");
-			parameters.append("countryCode=[").append(countryCode).append("] ");
-			parameters.append("campusCode=[").append(campusCode).append("] ");
-			parameters.append("phoneType=[").append(phoneType).append("] ");
-			parameters.append("phoneNumber=[").append(phoneNumber).append("] ");
-			parameters.append("extension=[").append(extension).append("] ");
-			parameters.append("internationalNumber=[").append(internationalNumber).append("] ");
-			parameters.append("emailType=[").append(emailType).append("] ");
-			parameters.append("emailAddress=[").append(emailAddress).append("] ");
-			parameters.append("affiliation=[").append(affiliation).append("] ");
-			if (ssn != null) {
-				parameters.append("ssn=[").append("SPECIFIED").append("] ");
-			}
-			LOG4J_LOGGER.info(serviceName + ": input parameters = " + parameters.toString());
-						
-			// Init the service.
-			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-					request.getRemoteAddr(),
-					principalId,
-					password,
-					updatedBy,
-					null, 
-					null,
-					serviceCore, 
-					db, 
-					parameters);
-
-			serviceCoreReturn.setPersonId(NO_PERSON_ID);
-
-			// Validate all of the input parameters to the service.
-			personTable = ValidatePerson.validatePersonParameters(db, serviceCoreReturn.getPersonId(), updatedBy);
-			
-			String assignPsuId = Validate.isValidYesNo(assignPsuIdFlag);
-			if (assignPsuId == null) {
-				return new PersonServiceReturn(ReturnType.INVALID_PARAMETERS_EXCEPTION.index(), 
-						"Invalid value was specified for the assign psu id parameter.");
-			}
-			
-			String assignUserid = Validate.isValidYesNo(assignUseridFlag);
-			if (assignUserid == null) {
-				return new PersonServiceReturn(ReturnType.INVALID_PARAMETERS_EXCEPTION.index(), 
-						"Invalid value was specified for the assign userid parameter.");
-			}
-			
-			if (gender != null) {
-				personGenderTable = ValidatePerGenderRel.validateAddGenderParameters(serviceCoreReturn.getPersonId(), gender, updatedBy);
-			}
-			
-			if (dob != null) {
-				dateOfBirthTable = ValidateDateOfBirth.validateAddDateOfBirthParameters(serviceCoreReturn.getPersonId(), dob, updatedBy);
-			}
-			
-			if (lastName != null) {
-				namesTable = ValidateName.validateAddNameParameters(db, serviceCoreReturn.getPersonId(), nameType, nameDocumentType, 
-						firstName, middleNames, lastName, suffix, updatedBy);
-			}
-			
-			if (address1 != null) {
-				addressesTable = ValidateAddress.validateAddAddressParameters(db, serviceCoreReturn.getPersonId(), addressType, 
-						addressDocumentType, updatedBy, address1, address2, address3, city, stateOrProvince, postalCode,  countryCode, campusCode);
-			}
-			
-			if (phoneNumber != null) {
-				phonesTable = ValidatePhone.validateAddPhonesParameters(db, serviceCoreReturn.getPersonId(), phoneType, 
-						phoneNumber, extension, internationalNumber, updatedBy);
-			}
-			
-			if (emailAddress != null) {
-				emailAddressTable = ValidateEmail.validateEmailAddressParameters(db, serviceCoreReturn.getPersonId(), emailType, 
-						emailAddress, updatedBy);
-			}
-			
-			if (affiliation != null) {
-				affiliationsTable = ValidatePersonAffiliation.validateAddAffiliationParameters(db, serviceCoreReturn.getPersonId(), 
-						affiliation, updatedBy);
-			}
-			
-			if ((ssn != null) && (! ValidateSSN.validateSSN(ssn))) {
-				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "SSN");	
-			}
-			
-			// Verify that they have specified a name.
-			if (namesTable == null) {
-				throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Name");
-			}
-			
-			// Verify that they have specified an address.
-			if (addressesTable == null) {
-				throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Address");
-			}
-			
-			// Verify that they have specified a date of birth.
-			if (dateOfBirthTable == null) {
-				throw new CprException(ReturnType.NOT_SPECIFIED_EXCEPTION, "Date of birth");
-			}
-			
-			String errorMessage = null;
-			
-			final String matchDob = dateOfBirthTable.getFormattedDateOfBirth();
-			String matchGender = null;
-			if (personGenderTable != null) {
-				matchGender = personGenderTable.getGenderType().toString();
-			}
-			final Names namesBean = namesTable.getNamesBean();
-			final Addresses addressesBean = addressesTable.getAddressesBean();
-			
-			// Do a match.
-			FindPersonHelper findPersonHelper = new FindPersonHelper(db);
-			FindPersonServiceReturn findPersonServiceReturn = null;
-
-			findPersonServiceReturn = findPersonHelper.doSearchForPersonOS(
-					serviceCoreReturn, updatedBy, null, null, ssn, 
-					namesBean.getFirstName(), namesBean.getLastName(), namesBean.getMiddleNames(), 
-					addressesBean.getAddress1(), addressesBean.getAddress2(), addressesBean.getAddress3(), 
-					addressesBean.getCity(), addressesBean.getState(), addressesBean.getPostalCode(), 
-					null, addressesTable.getCountryThreeCharCode(), matchDob, matchGender, null);
-			if (findPersonServiceReturn.getStatusCode() == ReturnType.SUCCESS.index()) {
-				final MatchType matchType = MatchType.valueOf(findPersonServiceReturn.getMatchingMethod());
-				switch (matchType) {
-
-				// OK, we have found a match using PSU ID, SSN, and/or USERID.
-				case PSU_ID:
-				case SSN:
-				case USERID:
-					MatchReturn matchReturn = new MatchReturn();
-					matchReturn.setPersonId(findPersonServiceReturn.getPersonID());
-					matchReturn.setPsuId(findPersonServiceReturn.getPsuID());
-					matchReturn.setUserId(findPersonServiceReturn.getUserId());
-
-					errorMessage = String.format("Record cannot be added, because an exact match was found using \"%s\".", matchType.toString()); 
-					personServiceReturn = new PersonServiceReturn();
-					personServiceReturn.setStatusCode(ReturnType.EXACT_MATCH_EXCEPTION.index());
-					personServiceReturn.setStatusMessage(errorMessage);
-					personServiceReturn.setExactMatchReturn(matchReturn);
-					break;
-
-					// A match was found using a NEAR_MATCH.
-				case NEAR_MATCH:
-					errorMessage = "Record cannot be added, because multiple near matches were found.";
-					personServiceReturn = new PersonServiceReturn();
-					personServiceReturn.setStatusCode(ReturnType.NEAR_MATCH_EXCEPTION.index());
-					personServiceReturn.setStatusMessage(errorMessage);
-					personServiceReturn.setNearMatchReturnRecord(findPersonServiceReturn.getNearMatchArray());					
-					personServiceReturn.setNumberofNearMatches(findPersonServiceReturn.getNearMatchArray().length);
-					break;
-
-					// NO_MATCH indicates that the user was not found in the CPR, so we can continue.
-				case NO_MATCH:
-					break;
-
-				default:
-					break;
-				}
-			}
-			
-			// No match was found.
-			if (personServiceReturn == null) {
-				
-				personTable.addPerson(db);
-				
-				serviceCoreReturn.setPersonId(personTable.getPersonBean().getPersonId());
-
-				if (personGenderTable != null) {
-					personGenderTable.getPersonGenderBean().setPersonId(personTable.getPersonBean().getPersonId());
-					personGenderTable.addGender(db);
-				}
-
-				if (dateOfBirthTable != null) {
-					dateOfBirthTable.getDateOfBirthBean().setPersonId(personTable.getPersonBean().getPersonId());
-					dateOfBirthTable.addDateOfBirth(db);
-				}
-
-				if (namesTable != null) {
-					namesTable.getNamesBean().setPersonId(personTable.getPersonBean().getPersonId());
-					namesTable.addName(db);
-				}
-
-				if (addressesTable != null) {
-					addressesTable.getAddressesBean().setPersonId(personTable.getPersonBean().getPersonId());
-					addressesTable.addAddress(db);
-				}
-
-				if (phonesTable != null) {
-					phonesTable.getPhonesBean().setPersonId(personTable.getPersonBean().getPersonId());
-					phonesTable.addPhone(db);
-				}
-
-				if (emailAddressTable != null) {
-					emailAddressTable.getEmailAddressBean().setPersonId(personTable.getPersonBean().getPersonId());
-					emailAddressTable.addAddress(db);
-				}
-
-				if (affiliationsTable != null) {
-					affiliationsTable.getPersonAffiliationBean().setPersonId(personTable.getPersonBean().getPersonId());
-					affiliationsTable.addAffiliation(db);
-				}
-
-				if (assignUserid.equals("Y")) {
-					useridTable = ValidateUserid.validateUseridParameters(db, personTable.getPersonBean().getPersonId(), updatedBy);
-					useridTable.addUserid(db);
-				}
-
-				if (assignPsuId.equals("Y")) {
-					psuIdTable = new PsuIdTable(personTable.getPersonBean().getPersonId(), null, updatedBy);
-					psuIdTable.addPsuIdForPersonId(db);
-				}
-				
-				// Store of the SSN if one exists.
-				if (ssn != null) {
-					PersonIdentifierTable personIdentifierTable = ValidatePersonIdentifier.validateAddPersonIdentifierParameters(db, 
-							personTable.getPersonBean().getPersonId(), Database.SSN_IDENTIFIER, ssn, updatedBy);
-					personIdentifierTable.addPersonIdentifier(db);
-				}
-				
-				
-				// Set up the return to the caller.
-				personServiceReturn = new PersonServiceReturn();
-				personServiceReturn.setStatusCode(ReturnType.SUCCESS.index());
-				personServiceReturn.setStatusMessage(SUCCESS_MESSAGE);
-				personServiceReturn.setPersonReturn(new PersonReturn(personTable.getPersonBean().getPersonId()));
-				if (useridTable != null) {
-					final UseridReturn useridReturn[] = new UseridReturn[1];
-					useridReturn[0] = new UseridReturn(useridTable.getUseridBean().getUserid(), useridTable.getUseridBean().getPrimaryFlag());
-					personServiceReturn.setUseridReturnRecord(useridReturn);
-					personServiceReturn.setNumberOfUserids(1);
-				}
-				if (psuIdTable != null) {
-					final PsuIdReturn psuIdReturn[] = new PsuIdReturn[1];
-					psuIdReturn[0] = new PsuIdReturn(psuIdTable.getPsuIdBean().getPsuId());
-					personServiceReturn.setPsuIdReturnRecord(psuIdReturn);
-					personServiceReturn.setNumberOfPsuIds(1);
-				}
-				
-				// Create a new json message.
-				final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-				if (personGenderTable != null) {
-					jsonMessage.setGender(personGenderTable);
-				}
-				if (dateOfBirthTable != null) {
-					jsonMessage.setDateOfBirth(dateOfBirthTable);
-				}
-				if (namesTable != null) {
-					jsonMessage.setName(namesTable);
-				}
-				if (addressesTable != null) {
-					jsonMessage.setAddress(addressesTable);
-				}
-				if (phonesTable != null) {
-					jsonMessage.setPhone(phonesTable);
-				}
-				if (emailAddressTable != null) {
-					jsonMessage.setEmailAddress(emailAddressTable);
-				}
-				if (affiliationsTable != null) {
-					jsonMessage.setAffiliation(affiliationsTable);
-				}
-				if (useridTable != null) {
-					jsonMessage.setUserid(useridTable);
-				}
-				
-				LOG4J_LOGGER.info(serviceName + ": json message=" + jsonMessage.toString());
-				serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 
-				
-				// Log a success!
-				LOG4J_LOGGER.info(serviceName + ": the service was successful.");
-				serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
-
-			}
-			else {
-				
-				// Log a matching failure.
-				LOG4J_LOGGER.info(serviceName + ": " + errorMessage);
-				serviceCoreReturn.getServiceLogTable().endLog(db, errorMessage);
-			}
-			
-			db.closeSession();
-		} 
-		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new PersonServiceReturn(e.getReturnType().index(), errorMessage);
-		}
-		catch (NamingException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new PersonServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
-		}
-		catch (JDBCException e) {
-			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new PersonServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-		} 
-		catch (JSONException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new PersonServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (JMSException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new PersonServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (ParseException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new PersonServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
-		}
-		catch (RuntimeException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new PersonServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
-		}
-		LOG4J_LOGGER.info(serviceName + ": end of service.");
-
-		// Return the status to the caller.
-		return personServiceReturn;
 	}
 	
 	/**
@@ -2546,271 +2086,14 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="ssn", mode=Mode.IN) 
 			String ssn) {
 		
-		final String serviceName = CprServiceName.UpdatePerson.toString();
+		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		return (PersonServiceReturn) new AddPersonImpl().implementService(
+						CprServiceName.UpdatePerson.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
+						identifier, new Object[]{assignPsuIdFlag, assignUseridFlag, gender, dob, nameType, nameDocumentType, firstName, 
+							middleNames, lastName, suffix, addressType, addressDocumentType, Long.toString(addressGroupId), address1, 
+							address2, address3, city, stateOrProvince, postalCode, countryCode, campusCode, phoneType, 
+							Long.toString(phoneGroupId), phoneNumber, extension, internationalNumber, emailType, emailAddress, affiliation, ssn});
 		
-		PersonGenderTable personGenderTable = null;
-		DateOfBirthTable dateOfBirthTable = null;
-		NamesTable namesTable = null;
-		AddressesTable addressesTable = null;
-		PhonesTable phonesTable = null;
-		EmailAddressTable emailAddressTable = null;
-		PersonTable personTable = null;
-		UseridTable useridTable = null;
-		ServiceCoreReturn serviceCoreReturn = null;
-		PersonServiceReturn personServiceReturn = null;
-		PsuIdTable psuIdTable = null;
-		PersonAffiliationTable affiliationsTable = null;
-		final ServiceCore serviceCore = new ServiceCore();
-		final Database db = new Database();
-		final ServiceHelper serviceHelper = new ServiceHelper();
-		LOG4J_LOGGER.info(serviceName + ": start of service.");
-
-	
-		try {
-
-			final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-
-			final StringBuilder parameters = new StringBuilder(40000);
-			parameters.append("principalId=[").append(principalId).append("] ");
-			parameters.append("updatedBy=[").append(updatedBy).append("] ");
-			parameters.append("identifier=[").append(identifier).append("] ");
-			parameters.append("identifierType=[").append(identifierType).append("] ");
-			parameters.append("assignPsuId=[").append(assignPsuIdFlag).append("] ");
-			parameters.append("assignUserid=[").append(assignUseridFlag).append("] ");
-			parameters.append("gender=[").append(gender).append("] ");
-			parameters.append("dob=[").append(dob).append("] ");
-			parameters.append("nameType=[").append(nameType).append("] ");
-			parameters.append("firstName=[").append(firstName).append("] ");
-			parameters.append("middleNames=[").append(middleNames).append("] ");
-			parameters.append("lastName=[").append(lastName).append("] ");
-			parameters.append("suffix=[").append(suffix).append("] ");
-			parameters.append("addressType=[").append(addressType).append("] ");
-			parameters.append("addressDocumentType=[").append(addressDocumentType).append("] ");
-			parameters.append("addressGroupId=[").append(addressGroupId).append("] ");
-			parameters.append("address1=[").append(address1).append("] ");
-			parameters.append("address2=[").append(address2).append("] ");
-			parameters.append("address3=[").append(address3).append("] ");
-			parameters.append("city=[").append(city).append("] ");
-			parameters.append("stateOrProvince=[").append(stateOrProvince).append("] ");
-			parameters.append("postalCode=[").append(postalCode).append("] ");
-			parameters.append("countryCode=[").append(countryCode).append("] ");
-			parameters.append("campusCode=[").append(campusCode).append("] ");
-			parameters.append("phoneType=[").append(phoneType).append("] ");
-			parameters.append("phoneGroupId=[").append(phoneGroupId).append("] ");
-			parameters.append("phoneNumber=[").append(phoneNumber).append("] ");
-			parameters.append("extension=[").append(extension).append("] ");
-			parameters.append("internationalNumber=[").append(internationalNumber).append("] ");
-			parameters.append("emailType=[").append(emailType).append("] ");
-			parameters.append("emailAddress=[").append(emailAddress).append("] ");
-			parameters.append("affiliation=[").append(affiliation).append("] ");
-			if (ssn != null) {
-				parameters.append("ssn=[").append("SPECIFIED").append("] ");
-			}
-			LOG4J_LOGGER.info(serviceName + ": input parameters = " + parameters.toString());
-
-			// Init the service.
-			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
-					request.getRemoteAddr(),
-					principalId,
-					password,
-					updatedBy,
-					identifierType, 
-					identifier,
-					serviceCore, 
-					db, 
-					parameters);
-			
-			// Validate all of the input parameters to the service.
-			personTable = ValidatePerson.validatePersonParameters(db, serviceCoreReturn.getPersonId(), updatedBy);
-			
-			String assignPsuId = Validate.isValidYesNo(assignPsuIdFlag);
-			if (assignPsuId == null) {
-				return new PersonServiceReturn(ReturnType.INVALID_PARAMETERS_EXCEPTION.index(), 
-						"Invalid value was specified for the assign psu id parameter.");
-			}
-			
-			String assignUserid = Validate.isValidYesNo(assignUseridFlag);
-			if (assignUserid == null) {
-				return new PersonServiceReturn(ReturnType.INVALID_PARAMETERS_EXCEPTION.index(), 
-						"Invalid value was specified for the assign userid parameter.");
-			}
-			
-			if (gender != null) {
-				personGenderTable = ValidatePerGenderRel.validateAddGenderParameters(serviceCoreReturn.getPersonId(), gender, updatedBy);
-			}
-			
-			if (dob != null) {
-				dateOfBirthTable = ValidateDateOfBirth.validateAddDateOfBirthParameters(serviceCoreReturn.getPersonId(), dob, updatedBy);
-			}
-			
-			if (lastName != null) {
-				namesTable = ValidateName.validateAddNameParameters(db, serviceCoreReturn.getPersonId(), nameType, nameDocumentType, 
-						firstName, middleNames, lastName, suffix, updatedBy);
-			}
-			
-			if (address1 != null) {
-				addressesTable = ValidateAddress.validateUpdateAddressParameters(db, serviceCoreReturn.getPersonId(), addressType, 
-						addressDocumentType, addressGroupId, updatedBy, address1, address2, address3, city, stateOrProvince, postalCode,  
-						countryCode, campusCode);
-			}
-			
-			if (phoneNumber != null) {
-				phonesTable = ValidatePhone.validateUpdatePhonesParameters(db, serviceCoreReturn.getPersonId(), phoneType, phoneGroupId, 
-						phoneNumber, extension, internationalNumber, updatedBy);
-			}
-			
-			if (emailAddress != null) {
-				emailAddressTable = ValidateEmail.validateEmailAddressParameters(db, serviceCoreReturn.getPersonId(), emailType, 
-						emailAddress, updatedBy);
-			}
-			
-			if (affiliation != null) {
-				affiliationsTable = ValidatePersonAffiliation.validateAddAffiliationParameters(db,serviceCoreReturn.getPersonId(), 
-						affiliation, updatedBy);
-			}
-			
-			if (ssn != null && (! ValidateSSN.validateSSN(ssn))) {
-				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "SSN");
-			}
-			
-			if (personGenderTable != null) {
-				personGenderTable.getPersonGenderBean().setPersonId(personTable.getPersonBean().getPersonId());
-				personGenderTable.addGender(db);
-			}
-
-			if (dateOfBirthTable != null) {
-				dateOfBirthTable.getDateOfBirthBean().setPersonId(personTable.getPersonBean().getPersonId());
-				dateOfBirthTable.addDateOfBirth(db);
-			}
-
-			if (namesTable != null) {
-				namesTable.getNamesBean().setPersonId(personTable.getPersonBean().getPersonId());
-				namesTable.addName(db);
-			}
-
-			if (addressesTable != null) {
-				addressesTable.getAddressesBean().setPersonId(personTable.getPersonBean().getPersonId());
-				addressesTable.updateAddress(db);
-			}
-
-			if (phonesTable != null) {
-				phonesTable.getPhonesBean().setPersonId(personTable.getPersonBean().getPersonId());
-				phonesTable.updatePhone(db);
-			}
-
-			if (emailAddressTable != null) {
-				emailAddressTable.getEmailAddressBean().setPersonId(personTable.getPersonBean().getPersonId());
-				emailAddressTable.updateAddress(db);
-			}
-
-			if (affiliationsTable != null) {
-				affiliationsTable.getPersonAffiliationBean().setPersonId(personTable.getPersonBean().getPersonId());
-				affiliationsTable.updateAffiliation(db);
-			}
-
-			if (assignUserid.equals("Y")) {
-				useridTable = ValidateUserid.validateUseridParameters(db, personTable.getPersonBean().getPersonId(), updatedBy);
-				useridTable.addUserid(db);
-			}
-
-			if (assignPsuId.equals("Y")) {
-				psuIdTable = new PsuIdTable(personTable.getPersonBean().getPersonId(), null, updatedBy);
-				psuIdTable.addPsuIdForPersonId(db);
-			}
-
-			if (ssn != null) {
-				PersonIdentifierTable personIdentifierTable = ValidatePersonIdentifier.validateAddPersonIdentifierParameters(db, 
-						personTable.getPersonBean().getPersonId(), Database.SSN_IDENTIFIER, ssn, updatedBy);
-				personIdentifierTable.addPersonIdentifier(db);
-			}
-
-			// Set up the return to the caller.
-			personServiceReturn = new PersonServiceReturn();
-			personServiceReturn.setStatusCode(ReturnType.SUCCESS.index());
-			personServiceReturn.setStatusMessage(SUCCESS_MESSAGE);
-			personServiceReturn.setPersonReturn(new PersonReturn(personTable.getPersonBean().getPersonId()));
-			if (useridTable != null) {
-				final UseridReturn useridReturn[] = new UseridReturn[1];
-				useridReturn[0] = new UseridReturn(useridTable.getUseridBean().getUserid(), useridTable.getUseridBean().getPrimaryFlag());
-				personServiceReturn.setUseridReturnRecord(useridReturn);
-				personServiceReturn.setNumberOfUserids(1);
-			}
-			if (psuIdTable != null) {
-				final PsuIdReturn psuIdReturn[] = new PsuIdReturn[1];
-				psuIdReturn[0] = new PsuIdReturn(psuIdTable.getPsuIdBean().getPsuId());
-				personServiceReturn.setPsuIdReturnRecord(psuIdReturn);
-				personServiceReturn.setNumberOfPsuIds(1);
-			}
-			
-			// Create a new json message.
-			final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-			if (personGenderTable != null) {
-				jsonMessage.setGender(personGenderTable);
-			}
-			if (dateOfBirthTable != null) {
-				jsonMessage.setDateOfBirth(dateOfBirthTable);
-			}
-			if (namesTable != null) {
-				jsonMessage.setName(namesTable);
-			}
-			if (addressesTable != null) {
-				jsonMessage.setAddress(addressesTable);
-			}
-			if (phonesTable != null) {
-				jsonMessage.setPhone(phonesTable);
-			}
-			if (emailAddressTable != null) {
-				jsonMessage.setEmailAddress(emailAddressTable);
-			}
-			if (affiliationsTable != null) {
-				jsonMessage.setAffiliation(affiliationsTable);
-			}
-			if (useridTable != null) {
-				jsonMessage.setUserid(useridTable);
-			}
-			
-			LOG4J_LOGGER.info(serviceName + ": json message=" + jsonMessage.toString());
-			serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 			
-
-			// Log a success!
-			LOG4J_LOGGER.info(serviceName + ": the service was successful.");
-			serviceCoreReturn.getServiceLogTable().endLog(db, SUCCESS_MESSAGE);
-			
-			// Commit
-			db.closeSession();
-		} 
-		catch (CprException e) {
-			final String errorMessage = serviceHelper.handleCprException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new PersonServiceReturn(e.getReturnType().index(), errorMessage);
-		}
-		catch (NamingException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new PersonServiceReturn(ReturnType.DIRECTORY_EXCEPTION.index(), e.getMessage());
-		}
-		catch (JDBCException e) {
-			final String errorMessage = serviceHelper.handleJDBCException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new PersonServiceReturn(ReturnType.GENERAL_DATABASE_EXCEPTION.index(), errorMessage);
-		} 
-		catch (JSONException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new PersonServiceReturn(ReturnType.JSON_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (JMSException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new PersonServiceReturn(ReturnType.JMS_EXCEPTION.index(), e.getMessage());
-		} 
-		catch (ParseException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new PersonServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
-		}
-		catch (RuntimeException e) {
-			serviceHelper.handleOtherException(LOG4J_LOGGER, serviceCoreReturn, db, e);
-			return new PersonServiceReturn(ReturnType.GENERAL_EXCEPTION.index(), e.getMessage());
-		}
-		
-		LOG4J_LOGGER.info(serviceName + ": end of service.");
-		// Return the status to the caller.
-		return personServiceReturn;
 }
 		
 	/**

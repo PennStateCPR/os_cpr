@@ -34,7 +34,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonIdentifier;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class AddPersonIdentifierImpl extends GenericServiceImpl {
+public class AddPersonIdentifierImpl extends BaseServiceImpl {
 
 	/** Contains the index for the identifier type parameter */
 	private static final int IDENTIFIER_TYPE = 0;

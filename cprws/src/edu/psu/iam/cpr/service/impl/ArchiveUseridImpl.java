@@ -35,7 +35,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserid;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class ArchiveUseridImpl extends GenericServiceImpl {
+public class ArchiveUseridImpl extends BaseServiceImpl {
 
 	/** Contains the index for the userid parameter */
 	private static final int USERID = 0;

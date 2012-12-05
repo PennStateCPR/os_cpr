@@ -34,7 +34,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidateName;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class AddNameImpl extends GenericServiceImpl {
+public class AddNameImpl extends BaseServiceImpl {
 
 	/** Contains the index for the name type parameter */
 	private static final int NAME_TYPE = 0;

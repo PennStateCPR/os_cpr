@@ -34,7 +34,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonPhoto;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class AddPhotoImpl extends GenericServiceImpl {
+public class AddPhotoImpl extends BaseServiceImpl {
 
 	/** Contains the index for the photo parameter */
 	private static final int PHOTO = 0;

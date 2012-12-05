@@ -34,7 +34,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCard;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class AddIdCardImpl extends GenericServiceImpl {
+public class AddIdCardImpl extends BaseServiceImpl {
 
 	/** Contains the index of the id card type parameter */
 	private static final int ID_CARD_TYPE = 0;

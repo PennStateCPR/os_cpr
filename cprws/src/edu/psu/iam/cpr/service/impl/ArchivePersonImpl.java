@@ -34,7 +34,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidatePerson;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class ArchivePersonImpl extends GenericServiceImpl {
+public class ArchivePersonImpl extends BaseServiceImpl {
 
     /**
      * This method is used to execute the core logic for a service.

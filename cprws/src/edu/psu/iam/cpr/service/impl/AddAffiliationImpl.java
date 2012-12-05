@@ -34,7 +34,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class AddAffiliationImpl extends GenericServiceImpl {
+public class AddAffiliationImpl extends BaseServiceImpl {
 
 	/** Contains the index for the affiliation parameter */
 	private static final int AFFILIATION = 0;

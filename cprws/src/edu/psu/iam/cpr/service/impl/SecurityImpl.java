@@ -32,7 +32,7 @@ import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class SecurityImpl extends GenericServiceImpl {
+public class SecurityImpl extends BaseServiceImpl {
 
 	/** Contains the index for the userid parameter */
 	private static final int USERID = 0;

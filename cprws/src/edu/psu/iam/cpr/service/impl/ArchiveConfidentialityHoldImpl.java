@@ -35,7 +35,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidateConfidentiality;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class ArchiveConfidentialityHoldImpl extends GenericServiceImpl {
+public class ArchiveConfidentialityHoldImpl extends BaseServiceImpl {
 
 	/** Contains the index of the confidentiality type parameter */
 	private static final int CONFIDENTIALITY_TYPE = 0;

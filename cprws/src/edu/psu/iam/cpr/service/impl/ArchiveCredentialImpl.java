@@ -35,7 +35,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidateCredential;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class ArchiveCredentialImpl extends GenericServiceImpl {
+public class ArchiveCredentialImpl extends BaseServiceImpl {
 	/** Contains the index for the credential type parameter */
 	private static final int CREDENTIAL_TYPE = 0;
 

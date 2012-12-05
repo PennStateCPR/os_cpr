@@ -35,7 +35,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone;
  * @version $Rev: 5343 $
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
-public class AddPhoneImpl extends GenericServiceImpl {
+public class AddPhoneImpl extends BaseServiceImpl {
 
 	/** Contains the index for the phone type parameter */
 	private static final int PHONE_TYPE = 0;
