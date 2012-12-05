@@ -75,6 +75,7 @@ import edu.psu.iam.cpr.service.impl.UnarchiveUseridImpl;
 import edu.psu.iam.cpr.service.impl.UpdateAddressImpl;
 import edu.psu.iam.cpr.service.impl.UpdateAffiliationImpl;
 import edu.psu.iam.cpr.service.impl.UpdateEmailAddressImpl;
+import edu.psu.iam.cpr.service.impl.UpdatePersonImpl;
 import edu.psu.iam.cpr.service.impl.UpdatePhoneImpl;
 import edu.psu.iam.cpr.service.impl.UpdateUserCommentImpl;
 import edu.psu.iam.cpr.service.returns.AddressServiceReturn;
@@ -2087,7 +2088,7 @@ public class CprwsService implements CprwsSEI {
 			String ssn) {
 		
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (PersonServiceReturn) new AddPersonImpl().implementService(
+		return (PersonServiceReturn) new UpdatePersonImpl().implementService(
 						CprServiceName.UpdatePerson.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
 						identifier, new Object[]{assignPsuIdFlag, assignUseridFlag, gender, dob, nameType, nameDocumentType, firstName, 
 							middleNames, lastName, suffix, addressType, addressDocumentType, Long.toString(addressGroupId), address1, 
