@@ -495,13 +495,13 @@ public class AddPersonImpl extends ExtendedBaseServiceImpl {
 		// Validate the assign psu id flag.
 		assignPsuId = Validate.isValidYesNo(assignPsuIdFlag);
 		if (assignPsuId == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Invalid value was specified for the assign psu id parameter.");
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Assign psu id flag");
 		}
 		
 		// Validate the assign userid flag.
 		assignUserid = Validate.isValidYesNo(assignUseridFlag);
 		if (assignUserid == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Invalid value was specified for the assign userid parameter.");
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Assign userid flag");
 		}
 		
 		// Validate gender if specified.

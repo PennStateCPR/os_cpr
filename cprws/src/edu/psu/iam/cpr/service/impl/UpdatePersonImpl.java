@@ -2,6 +2,7 @@ package edu.psu.iam.cpr.service.impl;
 
 import java.text.ParseException;
 
+
 import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -28,6 +29,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation;
 import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonIdentifier;
 import edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone;
 import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserid;
+import edu.psu.iam.cpr.core.util.Utility;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
@@ -126,7 +128,6 @@ public class UpdatePersonImpl extends ExtendedBaseServiceImpl {
 			ServiceCoreReturn serviceCoreReturn, String updatedBy,
 			Object[] otherParameters) throws CprException, JSONException,
 			JMSException, ParseException {
-				
 		String assignPsuIdFlag 		= (String) otherParameters[ASSIGN_PSU_ID_FLAG];
 		String assignUseridFlag 	= (String) otherParameters[ASSIGN_USERID_FLAG];
 		String gender 				= (String) otherParameters[GENDER];
@@ -139,7 +140,7 @@ public class UpdatePersonImpl extends ExtendedBaseServiceImpl {
 		String suffix 				= (String) otherParameters[SUFFIX];
 		String addressType 			= (String) otherParameters[ADDRESS_TYPE];
 		String addressDocumentType 	= (String) otherParameters[ADDRESS_DOCUMENT_TYPE];
-		Long addressGroupId			= Long.valueOf((String) otherParameters[ADDRESS_GROUP_ID]);
+		Long addressGroupId			= Utility.safeConvertStringToLong((String) otherParameters[ADDRESS_GROUP_ID]);
 		String address1 			= (String) otherParameters[ADDRESS1];
 		String address2 			= (String) otherParameters[ADDRESS2];
 		String address3 			= (String) otherParameters[ADDRESS3];
@@ -149,7 +150,7 @@ public class UpdatePersonImpl extends ExtendedBaseServiceImpl {
 		String countryCode 			= (String) otherParameters[COUNTRY_CODE];
 		String campusCode 			= (String) otherParameters[CAMPUS_CODE];
 		String phoneType 			= (String) otherParameters[PHONE_TYPE];
-		Long phoneGroupId			= Long.valueOf((String) otherParameters[PHONE_GROUP_ID]);
+		Long phoneGroupId			= Utility.safeConvertStringToLong((String) otherParameters[PHONE_GROUP_ID]);
 		String phoneNumber 			= (String) otherParameters[PHONE_NUMBER];
 		String extension 			= (String) otherParameters[EXTENSION];
 		String internationalNumber 	= (String) otherParameters[INTERNATIONAL_NUMBER];
@@ -374,13 +375,13 @@ public class UpdatePersonImpl extends ExtendedBaseServiceImpl {
 		// Validate the assign psu id flag.
 		assignPsuId = Validate.isValidYesNo(assignPsuIdFlag);
 		if (assignPsuId == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Invalid value was specified for the assign psu id parameter.");
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Assign psu id flag");
 		}
 		
 		// Validate the assign userid flag.
 		assignUserid = Validate.isValidYesNo(assignUseridFlag);
 		if (assignUserid == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Invalid value was specified for the assign userid parameter.");
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Assign userid flag");
 		}
 
 		if (gender != null) {

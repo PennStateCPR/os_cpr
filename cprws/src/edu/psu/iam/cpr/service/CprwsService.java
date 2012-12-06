@@ -15,6 +15,7 @@ import edu.psu.iam.cpr.core.database.types.CprServiceName;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.rules.engine.RulesEngineHelper;
 import edu.psu.iam.cpr.core.rules.engine.RulesReturn;
+import edu.psu.iam.cpr.core.util.Utility;
 import edu.psu.iam.cpr.service.impl.AddAddressImpl;
 import edu.psu.iam.cpr.service.impl.AddAffiliationImpl;
 import edu.psu.iam.cpr.service.impl.AddPersonImpl;
@@ -2091,9 +2092,10 @@ public class CprwsService implements CprwsSEI {
 		return (PersonServiceReturn) new UpdatePersonImpl().implementService(
 						CprServiceName.UpdatePerson.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
 						identifier, new Object[]{assignPsuIdFlag, assignUseridFlag, gender, dob, nameType, nameDocumentType, firstName, 
-							middleNames, lastName, suffix, addressType, addressDocumentType, Long.toString(addressGroupId), address1, 
-							address2, address3, city, stateOrProvince, postalCode, countryCode, campusCode, phoneType, 
-							Long.toString(phoneGroupId), phoneNumber, extension, internationalNumber, emailType, emailAddress, affiliation, ssn});
+							middleNames, lastName, suffix, addressType, addressDocumentType, Utility.safeConvertLongToString(addressGroupId), 
+							address1, address2, address3, city, stateOrProvince, postalCode, countryCode, campusCode, phoneType, 
+							Utility.safeConvertLongToString(phoneGroupId), phoneNumber, extension, internationalNumber, emailType, 
+							emailAddress, affiliation, ssn});
 		
 }
 		
