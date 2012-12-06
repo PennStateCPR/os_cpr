@@ -85,5 +85,19 @@ public final class Utility {
 	    }
 	    return null;
 	}
+	
+	/**
+	 * This routine is a helper to convert a long value to a string, it handles the case where a null pointer is passed in.
+	 * @param value contains the value to be converted.
+	 * @return will return a null value if one was specified, otherwise it will return the string representation of the long value.
+	 */
+	public static String safeConvertLongToString(Long value) {
+		if (value == null) {
+			return null;
+		}
+		else {
+			return Long.toString(value);
+		}
+	}
 
 }
