@@ -401,4 +401,136 @@ public class PersonTest {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
+	
+	@Test(expectedExceptions=Exception.class)
+	public void _44testUpdatePerson() throws Exception {
+		String assignPsuId = null;
+		String assignUserid = null;
+		String gender = null;
+		String dob = "11/99/2001";
+		String nameType = null;
+		String nameDocumentType = null;
+		String firstName = null;
+		String middleNames = null;
+		String lastName = null;
+		String suffix = null;
+		String addressType = null;
+		String addressDocumentType = null;
+		Long addressGroupId =null;
+		String address1 =null;
+		String address2 = null;
+		String address3 = null;
+		String city = null;
+		String stateOrProvince = null;
+		String postalCode = null;
+		String countryCode = null;
+		String campusCode = null;
+		String phoneType = null;
+		Long phoneGroupId = null;
+		String phoneNumber = null;
+		String extension = null;
+		String internationalNumber = null;
+		String emailType = null;
+		String emailAddress = null;
+		String affiliation = null;
+		String ssn = null;
+		PersonServiceReturn personReturn = port.updatePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 
+				"person_id", "100000", assignPsuId, assignUserid, gender, dob, nameType, nameDocumentType, firstName, middleNames, lastName, 
+				suffix, 
+				addressType, addressDocumentType, addressGroupId, address1, address2, address3, city, stateOrProvince, postalCode, 
+				countryCode, campusCode, phoneType, phoneGroupId, phoneNumber, extension, internationalNumber, 
+				emailType, emailAddress, affiliation, ssn);
+		if (personReturn.getStatusCode() != 0) {			
+			throw new Exception(personReturn.getStatusMessage());
+		}
+	}
+	
+	@Test
+	public void _45testUpdatePerson() throws Exception {
+		String assignPsuId = null;
+		String assignUserid = null;
+		String gender = null;
+		String dob = "1/1/2001";
+		String nameType = null;
+		String nameDocumentType = null;
+		String firstName = null;
+		String middleNames = null;
+		String lastName = null;
+		String suffix = null;
+		String addressType = null;
+		String addressDocumentType = null;
+		Long addressGroupId =null;
+		String address1 =null;
+		String address2 = null;
+		String address3 = null;
+		String city = null;
+		String stateOrProvince = null;
+		String postalCode = null;
+		String countryCode = null;
+		String campusCode = null;
+		String phoneType = null;
+		Long phoneGroupId = null;
+		String phoneNumber = null;
+		String extension = null;
+		String internationalNumber = null;
+		String emailType = null;
+		String emailAddress = null;
+		String affiliation = null;
+		String ssn = null;
+		PersonServiceReturn personReturn = port.updatePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 
+				"person_id", "100000", assignPsuId, assignUserid, gender, dob, nameType, nameDocumentType, firstName, middleNames, lastName, 
+				suffix, 
+				addressType, addressDocumentType, addressGroupId, address1, address2, address3, city, stateOrProvince, postalCode, 
+				countryCode, campusCode, phoneType, phoneGroupId, phoneNumber, extension, internationalNumber, 
+				emailType, emailAddress, affiliation, ssn);
+		if (personReturn.getStatusCode() != 0) {			
+			throw new Exception(personReturn.getStatusMessage());
+		}
+	}
+	
+	@Test
+	public void _46testUpdatePerson() throws Exception {
+		String assignPsuId = null;
+		String assignUserid = null;
+		String gender = null;
+		String dob = null;
+		String nameType = null;
+		String nameDocumentType = null;
+		String firstName = null;
+		String middleNames = null;
+		String lastName = null;
+		String suffix = null;
+		String addressType = null;
+		String addressDocumentType = null;
+		Long addressGroupId =null;
+		String address1 =null;
+		String address2 = null;
+		String address3 = null;
+		String city = null;
+		String stateOrProvince = null;
+		String postalCode = null;
+		String countryCode = null;
+		String campusCode = null;
+		String phoneType = null;
+		Long phoneGroupId = null;
+		String phoneNumber = null;
+		String extension = null;
+		String internationalNumber = null;
+		String emailType = "OTHER_EMAIL";
+		Random rp = new Random(new Date().getTime());
+		int pA = Math.abs(rp.nextInt())%1000;  //0-999
+		DecimalFormat fmt2 = new DecimalFormat("000");
+		String emailAddress = "abcd" + fmt2.format(pA) + "@gmail.com";
+		String affiliation = null;
+		String ssn = null;
+		PersonServiceReturn personReturn = port.updatePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 
+				"person_id", "100000", assignPsuId, assignUserid, gender, dob, nameType, nameDocumentType, firstName, middleNames, lastName, 
+				suffix, 
+				addressType, addressDocumentType, addressGroupId, address1, address2, address3, city, stateOrProvince, postalCode, 
+				countryCode, campusCode, phoneType, phoneGroupId, phoneNumber, extension, internationalNumber, 
+				emailType, emailAddress, affiliation, ssn);
+		if (personReturn.getStatusCode() != 0) {			
+			throw new Exception(personReturn.getStatusMessage());
+		}
+	}
 }
