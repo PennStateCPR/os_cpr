@@ -99,5 +99,18 @@ public final class Utility {
 			return Long.toString(value);
 		}
 	}
-
+	
+	/**
+	 * This routine is used to safely convert a string value to a Long.
+	 * @param value contains the string value to be converted.
+	 * @return will return a long if successful.
+	 */
+	public static Long safeConvertStringToLong(String value) {
+		if (value == null) {
+			return -1L;
+		}
+		else {
+			return Long.valueOf(value);
+		}
+	}
 }
