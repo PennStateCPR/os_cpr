@@ -1,5 +1,8 @@
 The purpose of this README is to provide you with instructions on how to build
-the Directory Provisioner Code.
+the Directory Provisioner Code.  The directory provisioner is an example of how
+to accept messages from a queue and process them by updating LDAP.  The provisioner
+should work with any LDAP server with the eduPerson schema installed.  It has
+been tested using OpenLDAP.
 
 1)  In the src folder, you will need to copy some files:
     *) cp cpr.properties.example cpr.properties.
