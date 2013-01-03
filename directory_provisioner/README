@@ -1,0 +1,25 @@
+The purpose of this README is to provide you with instructions on how to build
+the Directory Provisioner Code.
+
+1)  In the src folder, you will need to copy some files:
+    *) cp cpr.properties.example cpr.properties.
+    	
+2)	Next you will need to copy the cpr.properties file, in the src folder, 
+	cp cpr.properties.example cpr.properties
+	
+	#
+	# JMS
+	#
+	cpr.jms.broker=
+	cpr.jms.userid=
+	cpr.jms.password=
+	cpr.jms.replyto=Queue.CPR
+	* Update the above lines with the location of the JMS instance and userid/password for a queue called
+	Queue.CPR.
+
+
+3)	Build the CPR code.
+	* ant
+	
+8)	When you build the code, the javadoc will be placed in the javadoc folder and
+	the directory_provisioner.jar will be placed in the dist/lib folder.

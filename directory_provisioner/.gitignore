@@ -1,0 +1,11 @@
+/.settings
+/bin
+/build
+/dist
+/logs
+/.classpath
+/.project
+/.DS_Store
+/src/cpr.properties
+/.sonar
+/sonar-project.properties
