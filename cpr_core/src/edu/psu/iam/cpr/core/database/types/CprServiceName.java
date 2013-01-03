@@ -90,6 +90,7 @@ public enum CprServiceName {
 	GetUserid,
 	IAMOnlineIdentityProvisioning,
 	ProcessRules,
+	SetPassword,
 	SetPrimaryAddressByType,
 	SetPrimaryAffiliation,
 	SetPrimaryEmailAddress,
