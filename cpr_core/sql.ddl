@@ -5,6 +5,8 @@ create database cpr;
 
 use cpr;
 
+	SET FOREIGN_KEY_CHECKS=0;
+	
     drop table if exists identifier_type;
 
     drop table if exists person_identifier;
@@ -183,6 +185,34 @@ use cpr;
 
     drop table if exists web_service;
 
+    drop table if exists answer_group;
+    
+	drop table if exists application_properties;
+	
+	drop table if exists email_notification;
+	
+	drop table if exists ra_applications;
+	
+	drop table if exists ra_application_properties;
+	
+	drop table if exists ra_screens;
+	
+	drop table if exists ra_screen_fields;
+	
+	drop table if exists security_questions;
+	
+	drop table if exists security_question_answers;
+	
+	drop table if exists ui_applications;
+	
+	drop table if exists ui_field_types;
+	
+	drop table if exists ui_log;
+	
+	drop table if exists ui_screens;
+	
+	drop table if exists ui_screen_fields;
+	
     create table person (
         person_id bigint not null auto_increment,
         created_by varchar(30) not null,
@@ -1324,6 +1354,195 @@ use cpr;
         primary key (web_service_key)
     ) ENGINE=INNODB;
 
+    create table answer_group ( 
+     answer_group_key bigint not null auto_increment,
+     answer_method varchar(30) not null, 
+     default_selection varchar(100), 
+     last_update_by varchar(30) not null, 
+     last_update_on datetime not null, 
+     created_by varchar(30) not null, 
+     created_on datetime not null,
+     primary key (answer_group_key)
+    ) ENGINE=INNODB;
+
+	create table application_properties 
+    ( 
+     ui_application_key bigint not null auto_increment,
+     key_name varchar(200) not null, 
+     key_value varchar(200) not null, 
+     active_flag varchar(1) not null, 
+     last_update_by varchar(30) not null, 
+     last_update_on datetime not null, 
+     created_by varchar(30) not null, 
+     created_on datetime not null,
+     primary key (ui_application_key)
+    ) ENGINE=INNODB;
+
+	create table email_notification 
+    ( 
+     mail_notification_key bigint not null auto_increment,
+     email_subject varchar(100) not null, 
+     text_body varchar(1500) not null, 
+     html_body varchar(1500) not null, 
+     notification_process varchar(100) not null, 
+     last_update_by varchar(30) not null, 
+     last_update_on datetime not null, 
+     created_by varchar(30) not null, 
+     created_on datetime not null,
+     primary key (mail_notification_key)
+    ) ENGINE=INNODB;
+
+	create table ra_applications 
+    ( 
+     ra_application_key bigint not null auto_increment,
+     ui_application_key bigint not null, 
+     registration_authority_key bigint not null, 
+     suspend_flag varchar(1) default 'y'  not null check ( suspend_flag in ('n', 'y')), 
+     allow_ssn_collection_flag varchar(1) default 'n'  not null check ( allow_ssn_collection_flag in ('n', 'y')), 
+     last_update_by varchar(30) not null, 
+     last_update_on datetime not null, 
+     created_by varchar(30) not null, 
+     created_on datetime not null,
+     primary key (ra_application_key)
+    ) ENGINE=INNODB;
+
+	create table ra_application_properties 
+    ( 
+     ra_application_properties_key bigint not null auto_increment,
+     ra_application_key bigint not null, 
+     ui_application_key bigint not null, 
+     key_name varchar(200) not null, 
+     key_value varchar(200) not null, 
+     last_update_by varchar(30) not null, 
+     last_update_on datetime not null, 
+     created_by varchar(30) not null, 
+     created_on datetime not null,
+     primary key (ra_application_properties_key)
+    ) ENGINE=INNODB;
+
+	create table ra_screens 
+    ( 
+     ra_screen_key bigint not null auto_increment,
+     ra_application_key bigint not null, 
+     ui_screen_name varchar(30) not null, 
+     ra_screen_order bigint not null, 
+     last_update_by varchar(30) not null, 
+     last_update_on datetime not null, 
+     created_by varchar(30) not null, 
+     created_on datetime not null,
+     primary key (ra_screen_key)
+    ) ENGINE=INNODB;
+
+	create table ra_screen_fields 
+    ( 
+     ra_screen_field_key bigint not null auto_increment,
+     ra_screen_key bigint not null, 
+     ui_screen_name varchar(30) not null, 
+     ui_field_name varchar(30) not null, 
+     required_flag varchar(1) default 'y'  not null check ( required_flag in ('n', 'y')), 
+     display_flag varchar(1) default 'y'  not null check ( display_flag in ('n', 'y')), 
+     last_update_by varchar(30) not null, 
+     last_update_on datetime not null, 
+     created_by varchar(30) not null, 
+     created_on datetime not null,
+     primary key (ra_screen_field_key)
+    ) ENGINE=INNODB;
+
+	create table security_questions 
+    ( 
+     sec_quest_key bigint not null auto_increment,
+     sec_quest_group_key bigint not null, 
+     question varchar(100) not null, 
+     start_date datetime not null, 
+     end_date datetime , 
+     last_update_by varchar(30) not null, 
+     last_update_on datetime not null, 
+     created_by varchar(30) not null, 
+     created_on datetime not null,
+     primary key (sec_quest_key)
+    ) ENGINE=INNODB;
+
+
+	create table security_question_answers 
+    ( 
+     sec_quest_answer_key bigint not null auto_increment,
+     person_id bigint not null, 
+     userid varchar(30) not null, 
+     sec_quest_key bigint not null, 
+     sec_quest_group_key bigint not null, 
+     answer varchar(100) not null, 
+     created_on datetime not null,
+     primary key (sec_quest_answer_key)
+    ) ENGINE=INNODB;
+
+	create table ui_applications 
+    ( 
+     ui_application_key bigint not null auto_increment,
+     application_name varchar(200) not null, 
+     application_desc varchar(1000) not null, 
+     suspend_flag varchar(1) default 'y'  not null check ( suspend_flag in ('n', 'y')), 
+     last_update_by varchar(30) not null, 
+     last_update_on datetime not null, 
+     created_by varchar(30) not null, 
+     created_on datetime not null,
+     primary key (ui_application_key)
+    ) ENGINE=INNODB;
+
+	create table ui_field_types 
+    ( 
+     ui_field_type varchar(25) not null, 
+     last_update_by varchar(30) not null, 
+     last_update_on datetime not null, 
+     created_by varchar(30) not null, 
+     created_on datetime not null,
+     primary key (ui_field_type)
+    ) ENGINE=INNODB;
+
+	create table ui_log 
+    ( 
+     ui_log_key bigint not null auto_increment,
+     ui_application_key bigint not null, 
+     request_datetime datetime not null, 
+     request_duration bigint , 
+     request_string varchar(2000), 
+     result_string varchar(1000), 
+     ip_address varchar(50), 
+     request_userid varchar(30), 
+     browser_type varchar(200), 
+     error_flag varchar(1) default 'n'  not null check ( error_flag in ('n', 'y')),
+     primary key (ui_log_key)
+    ) ENGINE=INNODB;
+
+	create table ui_screens 
+    ( 
+     ui_screen_name varchar(30) not null, 
+     ui_application_key bigint not null auto_increment,
+     required_flag varchar(1) default 'y'  not null check ( required_flag in ('n', 'y')), 
+     active_flag varchar(1) not null, 
+     last_update_by varchar(30) not null, 
+     last_update_on datetime not null, 
+     created_by varchar(30) not null, 
+     created_on datetime not null,
+     primary key (ui_application_key)
+    ) ENGINE=INNODB;
+
+	create table ui_screen_fields 
+    ( 
+     ui_screen_name varchar(30) not null, 
+     ui_field_name varchar(30) not null, 
+     ui_field_type varchar(25) not null, 
+     max_length bigint , 
+     field_width bigint , 
+     field_height bigint , 
+     required_flag varchar(1) default 'y'  not null check ( required_flag in ('n', 'y')), 
+     display_flag varchar(1) default 'y'  not null check ( display_flag in ('n', 'y')), 
+     active_flag varchar(1) not null, 
+     last_update_by varchar(30) not null, 
+     last_update_on datetime not null, 
+     created_by varchar(30) not null, 
+     created_on datetime not null 
+    ) ENGINE=INNODB;
+    
 alter table addresses add foreign key (person_id) references person(person_id);
 alter table addresses add foreign key (data_type_key) references data_types(data_type_key);
 alter table confidentiality add foreign key (person_id) references person(person_id);
@@ -1394,6 +1613,19 @@ alter table user_service_status add foreign key (person_id) references person(pe
 alter table userid add foreign key (person_id) references person(person_id);
 alter table userid_policy_status add foreign key (person_id) references person(person_id);
 alter table userid_policy_status add foreign key (userid) references userid(userid);
+alter table ui_screen_fields add constraint ui_screen_fields_pk primary key (ui_screen_name, ui_field_name);
+alter table application_properties add constraint appprop_rauiapp_fk foreign key ( ui_application_key) references ui_applications ( ui_application_key);
+alter table ra_application_properties add foreign key ( ra_application_key) references ra_applications ( ra_application_key);
+alter table ra_applications add foreign key ( registration_authority_key) references registration_authority ( registration_authority_key);
+alter table ra_applications add foreign key ( ui_application_key) references ui_applications ( ui_application_key);
+alter table ra_screen_fields add foreign key ( ra_screen_key) references ra_screens ( ra_screen_key);
+alter table ra_screen_fields add foreign key ( ui_screen_name, ui_field_name) references ui_screen_fields ( ui_screen_name, ui_field_name);
+alter table ra_screens add foreign key ( ra_application_key) references ra_applications ( ra_application_key);
+alter table security_question_answers add foreign key ( sec_quest_key) references security_questions ( sec_quest_key);
+alter table security_question_answers add foreign key ( userid, person_id) references userid ( userid, person_id);
+alter table ui_log add foreign key ( ui_application_key) references ui_applications ( ui_application_key);
+alter table ui_screen_fields add foreign key ( ui_field_type) references ui_field_types ( ui_field_type);
+alter table ui_screens add foreign key ( ui_application_key) references ui_applications ( ui_application_key);
 
 
 CREATE or replace VIEW v_database_log (number_tries, entry_timestamp, request_duration) AS 
@@ -1564,3 +1796,197 @@ FROM sp_response
   	AND services.active_flag = 'Y'
   JOIN service_actions ON sp_response.service_action_key = service_actions.service_action_key
   	AND service_actions.active_flag = 'Y';
+
+create index email_notification_01_idx on email_notification (notification_process asc);
+create index ra_applications_10_idx on ra_applications ( registration_authority_key asc );
+create index security_questions_01_idx on security_questions ( sec_quest_group_key asc , end_date asc );
+create index sec_quest_answers_01_idx on security_question_answers ( person_id asc , userid asc );
+create index addresses_02_idx on addresses ( person_id asc, end_date asc, data_type_key asc); 
+create index addresses_03_idx on addresses ( address1 asc, address2 asc, address3 asc);
+create index addresses_10_idx on addresses ( person_id asc); 
+create index addresses_20_idx on addresses ( data_type_key asc);
+create index addresses_21_idx on addresses ( campus_code_key asc);
+create index addresses_22_idx on addresses ( country_key asc);
+create index addresses_match_idx on addresses ( person_id asc, address_match_code asc, city_match_code asc, state asc, postal_code asc);
+create index addresses_pk on addresses ( address_key asc);
+create index affiliations_01_idx on affiliations ( active_flag asc, affiliation_key asc);
+create index affiliations_pk on affiliations ( affiliation_key asc); 
+create index aff_transition_rules_01_idx on aff_transition_rules ( current_affiliation_key asc, request_affiliation_key asc, result_affiliation_key asc, expire_flag asc);
+create index aff_transition_rules_pk on aff_transition_rules ( aff_transition_rule_key asc);
+create index bad_prefixes_idx on bad_prefixes ( char_part asc);
+create index cactus_country_map_01_idx on cactus_country_map ( country_code asc);
+create index campus_cs_01_idx on campus_cs ( campus_code asc, active_flag asc);
+create index campus_cs_pk on campus_cs ( campus_code_key asc);
+create index caught_errors_01_idx on caught_errors ( entry_timestamp asc);
+create index cidr_load_country_idx on cidr_load ( country asc);
+create index cidr_load_psu_id_idx on cidr_load ( psu_id asc);
+create index confidentiality_01_idx on confidentiality ( end_date asc, person_id asc, data_type_key asc);
+create index confidentiality_10_idx on confidentiality ( person_id asc); 
+create index confidentiality_20_idx on confidentiality ( data_type_key asc);
+create index confidentiality_pk on confidentiality ( confidentiality_key asc);
+create index country_pk on country ( country_key asc);
+create index cpr_component_status_01_idx on cpr_component_status ( cpr_component asc);
+create index cpr_component_status_pk on cpr_component_status ( cpr_component_status_key asc);
+create index credential_01_idx on credential ( end_date asc, person_id asc, data_type_key asc);
+create index credential_20_idx on credential ( person_id asc);
+create index credential_21_idx on credential ( data_type_key asc);
+create index credent_pk on credential ( credential_key asc);
+create index database_log_entrystamp_idx on database_log ( entry_timestamp asc, program_name asc);
+create index database_log_pk on database_log ( database_log_key asc);
+create index data_element_doc_type_pk on data_element_doc_types ( data_element_doc_type_key asc);
+create index data_element_types_pk on data_element_types ( data_element_type_key asc);
+create index data_types_01_idx on data_types ( enum_string asc);
+create index data_types_20_idx on data_types ( parent_data_type_key asc);
+create index data_types_pk on data_types ( data_type_key asc);
+create index date_of_birth_01_idx on date_of_birth ( person_id asc, end_date asc);
+create index date_of_birth_10_idx on date_of_birth ( person_id asc);
+create index date_of_birth_pk on date_of_birth ( date_of_birth_key asc);
+create index email_address_10_idx on email_address ( person_id asc);
+create index email_address_20_idx on email_address ( data_type_key asc);
+create index email_address_pk on email_address ( email_address_key asc);
+create index email_notification_01_idx on email_notification ( notification_process asc);
+create index email_notification_pk on email_notification ( mail_notification_key asc);
+create index event_triggers_pk on event_triggers ( event_trigger_key asc);
+create index external_iap_01_idx on external_iap ( external_iap_key asc, active_flag asc, external_iap asc);
+create index external_iap_pk on external_iap ( external_iap_key asc);
+create index ext_affiliation_pk on ext_affiliation ( ext_affiliation_key asc);
+create index ext_affiliation_mapping_01_idx on ext_affiliation_mapping ( affiliation_key asc, ext_affiliation_key asc);
+create index ext_affiliation_map_pk on ext_affiliation_mapping ( ext_affiliation_mapping_key asc);
+create index ext_affiliation_type_pk on ext_affiliation_types ( ext_affiliation_type_key asc);
+create index federation_01_idx on federation ( federation_key asc, active_flag asc, federation asc);
+create index federation_pk on federation ( federation_key asc);
+create index generated_identity_01_idx on generated_identity ( generated_identity asc);
+create index generated_identity_02_idx on generated_identity ( char_part asc, num_part asc);
+create index generated_identity_10_idx on generated_identity ( person_id asc);
+create index generated_identity_pk on generated_identity ( generated_identity_key asc);
+create index generated_identity_set_id_idx on generated_identity ( set_id asc); 
+create index group_access_01_idx on group_access ( ra_group_key asc, end_date asc, web_service_key asc);
+create index group_access_10_idx on group_access ( web_service_key asc);
+create index group_access_20_idx on group_access ( ra_group_key asc);
+create index group_access_pk on group_access ( group_access_key asc);
+create index group_data_type_access_01_idx on group_data_type_access ( data_type_key asc, iam_group_key asc);
+create index group_data_type_access_pk on group_data_type_access ( group_data_type_access_key asc);
+create index group_members_01_idx on group_members ( iam_group_key asc, userid asc, end_date asc);
+create index group_members_02_idx on group_members ( userid asc, end_date asc);
+create index group_members_20_idx on group_members ( userid asc, person_id asc);
+create index group_members_pk on group_members ( group_member_key asc);
+create index group_member_comments_pk on group_member_comments ( group_member_comment_key asc);
+create index groups_pk on iam_groups ( iam_group_key asc);
+create index iam_groups_01_idx on iam_groups ( active_flag asc, iam_group_key asc);
+create index iam_groups_02_idx on iam_groups ( iam_group asc);
+create index iap_pk on iap ( iap_key asc);
+create index iap_data_element_pk on iap_data_element ( iap_data_element_key asc);
+create index iap_document_pk on iap_document ( iap_document_key asc);
+create index iap_ext_mapping_01_idx on iap_ext_mapping ( iap_key asc, external_iap_key asc, end_date asc);
+create index iap_ext_mapping_pk on iap_ext_mapping ( iap_ext_mapping_key asc);
+create index iap_rules_pk on iap_rules ( iap_rule_key asc);
+create index id_card_print_history_pk on id_card_print_log ( id_card_print_log_key asc);
+create index id_card_print_log_20_idx on id_card_print_log ( person_id_card_key asc);
+create index java_exceptions_pk on java_exceptions ( java_exception_key asc);
+create index match_results_10_idx on match_results ( person_id asc);
+create index match_results_idx on match_results ( match_set_key asc, score asc, person_id asc);
+create index message_log_01_idx on message_log ( created_on asc);
+create index message_log_pk on message_log ( message_log_key asc);
+create index message_history_log_pk on message_log_history ( message_log_history_key asc);
+create index message_log_history_01_idx on message_log_history ( message_id asc);
+create index names_10_idx on names ( person_id asc);
+create index names_21_idx on names ( data_type_key asc);
+create index names_match_idx on names ( name_match_code asc, person_id asc);
+create index names_namessp_idx on names ( person_id asc, end_date asc);
+create index names_pk on names ( name_key asc);
+create index person_id_end_date_idx on person ( person_id asc, end_date asc);
+create index person_pk on person ( person_id asc);
+create index person_affiliation_01_idx on person_affiliation ( person_id asc, affiliation_key asc, end_date asc);
+create index person_affiliation_10_idx on person_affiliation ( person_id asc);
+create index person_affiliation_21_idx on person_affiliation ( affiliation_key asc);
+create index person_affiliation_22_idx on person_affiliation ( person_id asc, end_date asc);
+create index person_affiliation_pk on person_affiliation ( person_affiliation_key asc);
+create index person_gender_01_idx on person_gender ( person_id asc, end_date asc, data_type_key asc);
+create index person_gender_10_idx on person_gender ( person_id asc);
+create index person_gender_20_idx on person_gender ( data_type_key asc);
+create index person_gender_pk on person_gender ( person_gender_key asc);
+create index person_iap_data_pk on person_iap_data ( person_iap_data_key asc);
+create index person_iap_vp_10_idx on person_iap_vp ( person_id asc); 
+create index person_iap_vp_20_idx on person_iap_vp ( iap_key asc);
+create index person_iap_vp_21_idx on person_iap_vp ( registration_authority_key asc);
+create index person_iap_vp_22_idx on person_iap_vp ( group_member_key asc);
+create index person_iap_vp_23_idx on person_iap_vp ( userid asc, person_id asc);
+create index person_iap_vp_pk on person_iap_vp ( person_iap_vp_key asc);
+create index person_id_card_01_idx on person_id_card ( person_id asc, end_date asc, data_type_key asc);
+create index person_id_card_pk on person_id_card ( person_id_card_key asc);
+create index person_linkage_01_idx on person_linkage ( linked_person_id asc, person_id asc, data_type_key asc);
+create index person_linkage_02_idx on person_linkage ( end_date asc);
+create index person_linkage_10_idx on person_linkage ( person_id asc); 
+create index person_linkage_20_idx on person_linkage ( data_type_key asc);
+create index person_linkage_pk on person_linkage ( person_linkage_key asc);
+create index person_photo_20_idx on person_photo ( person_id asc);
+create index person_photo_pk on person_photo ( person_photo_key asc);
+create index person_userid_iap_01_idx on person_userid_iap ( userid asc, iap_key asc, end_date asc);
+create index person_userid_iap_20_idx on person_userid_iap ( userid asc, person_id asc);
+create index person_userid_iap_pk on person_userid_iap ( person_userid_iap_key asc);
+create index phones_01_idx on phones ( group_id asc, data_type_key asc, person_id asc, end_date asc);
+create index phones_02_idx on phones ( data_type_key asc, person_id asc, start_date asc);
+create index phones_10_idx on phones ( person_id asc);
+create index phones_20_idx on phones ( data_type_key asc);
+create index phones_pk on phones ( phone_key asc);
+create index photo_id_issuer_pk on photo_id_issuer ( photo_id_issuer_key asc);
+create index photo_id_issuer_data_type_pk on photo_id_issuer_data_type ( photo_id_issuer_data_type_key asc);
+create index policies_pk on policies ( policy_key asc);
+create index psu_directory_01_idx on psu_directory ( person_id asc, end_date asc);
+create index psu_directory_10_idx on psu_directory ( person_id asc);
+create index psu_directory_20_idx on psu_directory ( userid asc, person_id asc);
+create index psu_directory_pk on psu_directory ( psu_directory_key asc);
+create index psu_id_01_idx on psu_id ( person_id asc, end_date asc);
+create index psu_id_02_idx on psu_id ( psu_id asc, end_date asc);
+create index psu_id_pk on psu_id ( psu_id_key asc);
+create index psu_id_exceptions_idx on psu_id_exceptions ( psu_id asc);
+create index ra_affiliation_01_idx on ra_affiliation ( affiliation_key asc, registration_authority_key asc);
+create index ra_affiliation_pk on ra_affiliation ( ra_affiliation_key asc);
+create index ra_applications_10_idx on ra_applications ( registration_authority_key asc);
+create index ra_applications_pk on ra_applications ( ra_application_key asc);
+create index ra_application_properites_pk on ra_application_properties ( ra_application_properties_key asc);
+create index ra_comments_pk on ra_comments ( ra_comment_key asc);
+create index ra_groups_01_idx on ra_groups ( registration_authority_key asc, end_date asc, iam_group_key asc);
+create index ra_groups_pk on ra_groups ( ra_group_key asc);
+create index ra_iap_assign_pk on ra_iap_assign ( ra_iap_assign_key asc);
+create index ra_screens_pk on ra_screens ( ra_screen_key asc);
+create index ra_screen_fields_pk on ra_screen_fields ( ra_screen_field_key asc);
+create index ra_server_principals_01_idx on ra_server_principals ( ra_server_principal asc, end_date asc, registration_authority_key asc);
+create index ra_server_principals_pk on ra_server_principals ( ra_server_principal_key asc);
+create index registration_authority_01_idx on registration_authority ( end_date asc);
+create index registration_authority_02_idx on registration_authority ( registration_authority asc);
+create index registration_authority_10_idx on registration_authority ( ra_contact_key asc);
+create index registration_authority_pk on registration_authority ( registration_authority_key asc);
+create index security_questions_01_idx on security_questions ( sec_quest_group_key asc, end_date asc);
+create index security_questions_pk on security_questions ( sec_quest_key asc);
+create index security_question_answers_pk on security_question_answers ( sec_quest_answer_key asc);
+create index sec_quest_answers_01_idx on security_question_answers ( person_id asc, userid asc);
+create index services_pk on services ( service_key asc);
+create index service_actions_pk on service_actions ( service_action_key asc);
+create index service_log_01_idx on service_log ( request_userid asc);
+create index service_log_pk on service_log ( service_log_key asc);
+create index srvclog_request_start_idx on service_log ( request_start asc);
+create index service_provisioner_01_idx on service_provisioner ( suspend_flag asc, end_date asc, service_provisioner_key asc);
+create index service_provisioner_pk on service_provisioner ( service_provisioner_key asc);
+create index sp_notification_01_idx on sp_notification ( service_provisioner_key asc, web_service_key asc, end_date asc);
+create index sp_notification_pk on sp_notification ( sp_notification_key asc);
+create index sp_response_pk on sp_response ( sp_response_key asc);
+create index sp_services_pk on sp_services ( sp_service_key asc);
+create index uiapp_pk on ui_applications ( ui_application_key asc);
+create index ui_field_types_pk on ui_field_types ( ui_field_type asc);
+create index ui_log_pk on ui_log ( ui_log_key asc);
+create index ui_screens_pk on ui_screens ( ui_screen_name asc);
+create index ui_screen_fields_pk on ui_screen_fields ( ui_screen_name asc, ui_field_name asc);
+create index userid_02_idx on userid ( char_part asc, num_part asc);
+create index userid_10_idx on userid ( person_id asc);
+create index userid_pk on userid ( userid asc, person_id asc);
+create index user_policy_status_pk on userid_policy_status ( userid_policy_status_key asc);
+create index userid_pool_idx on userid_pool ( char_part asc, num_part asc);
+create index userid_pool_pk on userid_pool ( userid_pool_key asc);
+create index user_comments_01_idx on user_comments ( end_date asc, userid asc);
+create index user_comments_20_idx on user_comments ( userid asc, person_id asc);
+create index user_comments_21_idx on user_comments ( data_type_key asc);
+create index user_comments_pk on user_comments ( user_comment_key asc);
+create index user_service_status_pk on user_service_status ( user_service_status_key asc);
+create index web_service_01_idx on web_service ( web_service asc, end_date asc, web_service_key asc);
+create index web_service_pk on web_service ( web_service_key asc);
