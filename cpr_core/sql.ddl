@@ -1490,7 +1490,7 @@ use cpr;
 
 	create table ui_field_types 
     ( 
-     ui_field_type varchar(25) not null, 
+     ui_field_type varchar(25) not null default ' ', 
      last_update_by varchar(30) not null, 
      last_update_on datetime not null, 
      created_by varchar(30) not null, 
