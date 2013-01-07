@@ -45,6 +45,7 @@ public class PrimeCPR {
 			System.out.println("Complete!");
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 		}
 		finally {
 			try {
