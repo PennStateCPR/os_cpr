@@ -44,7 +44,7 @@ public class UiFieldTypesLoader implements BeanLoader {
 				bean.setLastUpdateOn(d);
 				
 				for (int i = 0; i < columns.length; ++i) {
-					if (columns[i].equals("ui_field_types")) {
+					if (columns[i].equals("ui_field_type")) {
 						bean.setUiFieldType(fields[i]);
 					}
 				}			
