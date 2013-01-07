@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: SecurityQuestionAnswers.java 5084 2012-09-13 14:49:56Z jvuccolo $ */
+/* SVN FILE: $Id: BuildBean.java 5970 2013-01-04 15:50:31Z jvuccolo $ */
 package edu.psu.iam.cpr.utility.beans;
 
 import java.io.Serializable;
@@ -19,8 +19,8 @@ import javax.persistence.Table;
  *
  * @package edu.psu.iam.cpr.core.database.beans
  * @author $Author: jvuccolo $
- * @version $Rev: 5084 $
- * @lastrevision $Date: 2012-09-13 10:49:56 -0400 (Thu, 13 Sep 2012) $
+ * @version $Rev: 5970 $
+ * @lastrevision $Date: 2013-01-04 10:50:31 -0500 (Fri, 04 Jan 2013) $
  */
 
 @Entity
@@ -30,6 +30,18 @@ public class SecurityQuestionAnswers implements Serializable {
         /** Contains the serialized UID */
         private static final long serialVersionUID = 1L;
 
+        /** Contains the secQuestKey. */
+        @Column(name="sec_quest_key", nullable=false)
+        private Long secQuestKey;
+
+        /** Contains the personId. */
+        @Column(name="person_id", nullable=false)
+        private Long personId;
+
+        /** Contains the createdOn. */
+        @Column(name="created_on", nullable=false)
+        private Date createdOn;
+
         /** Contains the secQuestAnswerKey. */
         @Id
         @Column(name="sec_quest_answer_key", nullable=false)
@@ -37,25 +49,13 @@ public class SecurityQuestionAnswers implements Serializable {
         @SequenceGenerator(name="seq_security_question_answers", sequenceName="seq_security_question_answers", allocationSize = 1, initialValue= 1)
         private Long secQuestAnswerKey;
 
-        /** Contains the secQuestGroupKey. */
-        @Column(name="sec_quest_group_key", nullable=false)
-        private Long secQuestGroupKey;
-
-        /** Contains the createdOn. */
-        @Column(name="created_on", nullable=false)
-        private Date createdOn;
-
-        /** Contains the personId. */
-        @Column(name="person_id", nullable=false)
-        private Long personId;
-
-        /** Contains the secQuestKey. */
-        @Column(name="sec_quest_key", nullable=false)
-        private Long secQuestKey;
-
         /** Contains the answer. */
         @Column(name="answer", nullable=false, length=100)
         private String answer;
+
+        /** Contains the secQuestGroupKey. */
+        @Column(name="sec_quest_group_key", nullable=false)
+        private Long secQuestGroupKey;
 
         /** Contains the userid. */
         @Column(name="userid", nullable=false, length=30)
@@ -66,62 +66,6 @@ public class SecurityQuestionAnswers implements Serializable {
          */
         public SecurityQuestionAnswers() {
             super();
-        }
-
-        /**
-         * @return the secQuestAnswerKey
-         */
-        public Long getSecQuestAnswerKey() {
-                return secQuestAnswerKey;
-        }
-
-        /**
-         * @param secQuestAnswerKey the secQuestAnswerKey to set.
-         */
-        public void setSecQuestAnswerKey(Long secQuestAnswerKey) {
-                this.secQuestAnswerKey = secQuestAnswerKey;
-        }
-
-        /**
-         * @return the secQuestGroupKey
-         */
-        public Long getSecQuestGroupKey() {
-                return secQuestGroupKey;
-        }
-
-        /**
-         * @param secQuestGroupKey the secQuestGroupKey to set.
-         */
-        public void setSecQuestGroupKey(Long secQuestGroupKey) {
-                this.secQuestGroupKey = secQuestGroupKey;
-        }
-
-        /**
-         * @return the createdOn
-         */
-        public Date getCreatedOn() {
-                return createdOn;
-        }
-
-        /**
-         * @param createdOn the createdOn to set.
-         */
-        public void setCreatedOn(Date createdOn) {
-                this.createdOn = createdOn;
-        }
-
-        /**
-         * @return the personId
-         */
-        public Long getPersonId() {
-                return personId;
-        }
-
-        /**
-         * @param personId the personId to set.
-         */
-        public void setPersonId(Long personId) {
-                this.personId = personId;
         }
 
         /**
@@ -139,6 +83,48 @@ public class SecurityQuestionAnswers implements Serializable {
         }
 
         /**
+         * @return the personId
+         */
+        public Long getPersonId() {
+                return personId;
+        }
+
+        /**
+         * @param personId the personId to set.
+         */
+        public void setPersonId(Long personId) {
+                this.personId = personId;
+        }
+
+        /**
+         * @return the createdOn
+         */
+        public Date getCreatedOn() {
+                return createdOn;
+        }
+
+        /**
+         * @param createdOn the createdOn to set.
+         */
+        public void setCreatedOn(Date createdOn) {
+                this.createdOn = createdOn;
+        }
+
+        /**
+         * @return the secQuestAnswerKey
+         */
+        public Long getSecQuestAnswerKey() {
+                return secQuestAnswerKey;
+        }
+
+        /**
+         * @param secQuestAnswerKey the secQuestAnswerKey to set.
+         */
+        public void setSecQuestAnswerKey(Long secQuestAnswerKey) {
+                this.secQuestAnswerKey = secQuestAnswerKey;
+        }
+
+        /**
          * @return the answer
          */
         public String getAnswer() {
@@ -150,6 +136,20 @@ public class SecurityQuestionAnswers implements Serializable {
          */
         public void setAnswer(String answer) {
                 this.answer = answer;
+        }
+
+        /**
+         * @return the secQuestGroupKey
+         */
+        public Long getSecQuestGroupKey() {
+                return secQuestGroupKey;
+        }
+
+        /**
+         * @param secQuestGroupKey the secQuestGroupKey to set.
+         */
+        public void setSecQuestGroupKey(Long secQuestGroupKey) {
+                this.secQuestGroupKey = secQuestGroupKey;
         }
 
         /**

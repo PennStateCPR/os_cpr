@@ -24,8 +24,8 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="ra_screens")
-public class RaScreens implements Serializable {
+@Table(name="ra_applications")
+public class RaApplications implements Serializable {
 
         /** Contains the serialized UID */
         private static final long serialVersionUID = 1L;
@@ -34,32 +34,36 @@ public class RaScreens implements Serializable {
         @Column(name="created_by", nullable=false, length=30)
         private String createdBy;
 
-        /** Contains the raScreenOrder. */
-        @Column(name="ra_screen_order", nullable=false)
-        private Long raScreenOrder;
-
         /** Contains the raApplicationKey. */
+        @Id
         @Column(name="ra_application_key", nullable=false)
+        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ra_applications")
+        @SequenceGenerator(name="seq_ra_applications", sequenceName="seq_ra_applications", allocationSize = 1, initialValue= 1)
         private Long raApplicationKey;
 
-        /** Contains the raScreenKey. */
-        @Id
-        @Column(name="ra_screen_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ra_screens")
-        @SequenceGenerator(name="seq_ra_screens", sequenceName="seq_ra_screens", allocationSize = 1, initialValue= 1)
-        private Long raScreenKey;
+        /** Contains the registrationAuthorityKey. */
+        @Column(name="registration_authority_key", nullable=false)
+        private Long registrationAuthorityKey;
+
+        /** Contains the suspendFlag. */
+        @Column(name="suspend_flag", nullable=false, length=1)
+        private String suspendFlag;
+
+        /** Contains the uiApplicationKey. */
+        @Column(name="ui_application_key", nullable=false)
+        private Long uiApplicationKey;
 
         /** Contains the createdOn. */
         @Column(name="created_on", nullable=false)
         private Date createdOn;
 
+        /** Contains the allowSsnCollectionFlag. */
+        @Column(name="allow_ssn_collection_flag", nullable=false, length=1)
+        private String allowSsnCollectionFlag;
+
         /** Contains the lastUpdateBy. */
         @Column(name="last_update_by", nullable=false, length=30)
         private String lastUpdateBy;
-
-        /** Contains the uiScreenName. */
-        @Column(name="ui_screen_name", nullable=false, length=30)
-        private String uiScreenName;
 
         /** Contains the lastUpdateOn. */
         @Column(name="last_update_on", nullable=false)
@@ -68,7 +72,7 @@ public class RaScreens implements Serializable {
         /**
          * Constructor
          */
-        public RaScreens() {
+        public RaApplications() {
             super();
         }
 
@@ -87,20 +91,6 @@ public class RaScreens implements Serializable {
         }
 
         /**
-         * @return the raScreenOrder
-         */
-        public Long getRaScreenOrder() {
-                return raScreenOrder;
-        }
-
-        /**
-         * @param raScreenOrder the raScreenOrder to set.
-         */
-        public void setRaScreenOrder(Long raScreenOrder) {
-                this.raScreenOrder = raScreenOrder;
-        }
-
-        /**
          * @return the raApplicationKey
          */
         public Long getRaApplicationKey() {
@@ -115,17 +105,45 @@ public class RaScreens implements Serializable {
         }
 
         /**
-         * @return the raScreenKey
+         * @return the registrationAuthorityKey
          */
-        public Long getRaScreenKey() {
-                return raScreenKey;
+        public Long getRegistrationAuthorityKey() {
+                return registrationAuthorityKey;
         }
 
         /**
-         * @param raScreenKey the raScreenKey to set.
+         * @param registrationAuthorityKey the registrationAuthorityKey to set.
          */
-        public void setRaScreenKey(Long raScreenKey) {
-                this.raScreenKey = raScreenKey;
+        public void setRegistrationAuthorityKey(Long registrationAuthorityKey) {
+                this.registrationAuthorityKey = registrationAuthorityKey;
+        }
+
+        /**
+         * @return the suspendFlag
+         */
+        public String getSuspendFlag() {
+                return suspendFlag;
+        }
+
+        /**
+         * @param suspendFlag the suspendFlag to set.
+         */
+        public void setSuspendFlag(String suspendFlag) {
+                this.suspendFlag = suspendFlag;
+        }
+
+        /**
+         * @return the uiApplicationKey
+         */
+        public Long getUiApplicationKey() {
+                return uiApplicationKey;
+        }
+
+        /**
+         * @param uiApplicationKey the uiApplicationKey to set.
+         */
+        public void setUiApplicationKey(Long uiApplicationKey) {
+                this.uiApplicationKey = uiApplicationKey;
         }
 
         /**
@@ -143,6 +161,20 @@ public class RaScreens implements Serializable {
         }
 
         /**
+         * @return the allowSsnCollectionFlag
+         */
+        public String getAllowSsnCollectionFlag() {
+                return allowSsnCollectionFlag;
+        }
+
+        /**
+         * @param allowSsnCollectionFlag the allowSsnCollectionFlag to set.
+         */
+        public void setAllowSsnCollectionFlag(String allowSsnCollectionFlag) {
+                this.allowSsnCollectionFlag = allowSsnCollectionFlag;
+        }
+
+        /**
          * @return the lastUpdateBy
          */
         public String getLastUpdateBy() {
@@ -154,20 +186,6 @@ public class RaScreens implements Serializable {
          */
         public void setLastUpdateBy(String lastUpdateBy) {
                 this.lastUpdateBy = lastUpdateBy;
-        }
-
-        /**
-         * @return the uiScreenName
-         */
-        public String getUiScreenName() {
-                return uiScreenName;
-        }
-
-        /**
-         * @param uiScreenName the uiScreenName to set.
-         */
-        public void setUiScreenName(String uiScreenName) {
-                this.uiScreenName = uiScreenName;
         }
 
         /**

@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: RaScreenFields.java 5084 2012-09-13 14:49:56Z jvuccolo $ */
+/* SVN FILE: $Id: BuildBean.java 5970 2013-01-04 15:50:31Z jvuccolo $ */
 package edu.psu.iam.cpr.utility.beans;
 
 import java.io.Serializable;
@@ -19,8 +19,8 @@ import javax.persistence.Table;
  *
  * @package edu.psu.iam.cpr.core.database.beans
  * @author $Author: jvuccolo $
- * @version $Rev: 5084 $
- * @lastrevision $Date: 2012-09-13 10:49:56 -0400 (Thu, 13 Sep 2012) $
+ * @version $Rev: 5970 $
+ * @lastrevision $Date: 2013-01-04 10:50:31 -0500 (Fri, 04 Jan 2013) $
  */
 
 @Entity
@@ -34,29 +34,25 @@ public class RaScreenFields implements Serializable {
         @Column(name="created_by", nullable=false, length=30)
         private String createdBy;
 
-        /** Contains the lastUpdateOn. */
-        @Column(name="last_update_on", nullable=false)
-        private Date lastUpdateOn;
+        /** Contains the requiredFlag. */
+        @Column(name="required_flag", nullable=false, length=1)
+        private String requiredFlag;
+
+        /** Contains the raScreenKey. */
+        @Column(name="ra_screen_key", nullable=false)
+        private Long raScreenKey;
 
         /** Contains the createdOn. */
         @Column(name="created_on", nullable=false)
         private Date createdOn;
 
-        /** Contains the requiredFlag. */
-        @Column(name="required_flag", nullable=false, length=1)
-        private String requiredFlag;
+        /** Contains the displayFlag. */
+        @Column(name="display_flag", nullable=false, length=1)
+        private String displayFlag;
 
         /** Contains the lastUpdateBy. */
         @Column(name="last_update_by", nullable=false, length=30)
         private String lastUpdateBy;
-
-        /** Contains the uiScreenFieldKey. */
-        @Column(name="ui_screen_field_key", nullable=false)
-        private Long uiScreenFieldKey;
-
-        /** Contains the displayFlag. */
-        @Column(name="display_flag", nullable=false, length=1)
-        private String displayFlag;
 
         /** Contains the raScreenFieldKey. */
         @Id
@@ -64,6 +60,18 @@ public class RaScreenFields implements Serializable {
         @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ra_screen_fields")
         @SequenceGenerator(name="seq_ra_screen_fields", sequenceName="seq_ra_screen_fields", allocationSize = 1, initialValue= 1)
         private Long raScreenFieldKey;
+
+        /** Contains the uiScreenName. */
+        @Column(name="ui_screen_name", nullable=false, length=30)
+        private String uiScreenName;
+
+        /** Contains the lastUpdateOn. */
+        @Column(name="last_update_on", nullable=false)
+        private Date lastUpdateOn;
+
+        /** Contains the uiFieldName. */
+        @Column(name="ui_field_name", nullable=false, length=30)
+        private String uiFieldName;
 
         /**
          * Constructor
@@ -87,17 +95,31 @@ public class RaScreenFields implements Serializable {
         }
 
         /**
-         * @return the lastUpdateOn
+         * @return the requiredFlag
          */
-        public Date getLastUpdateOn() {
-                return lastUpdateOn;
+        public String getRequiredFlag() {
+                return requiredFlag;
         }
 
         /**
-         * @param lastUpdateOn the lastUpdateOn to set.
+         * @param requiredFlag the requiredFlag to set.
          */
-        public void setLastUpdateOn(Date lastUpdateOn) {
-                this.lastUpdateOn = lastUpdateOn;
+        public void setRequiredFlag(String requiredFlag) {
+                this.requiredFlag = requiredFlag;
+        }
+
+        /**
+         * @return the raScreenKey
+         */
+        public Long getRaScreenKey() {
+                return raScreenKey;
+        }
+
+        /**
+         * @param raScreenKey the raScreenKey to set.
+         */
+        public void setRaScreenKey(Long raScreenKey) {
+                this.raScreenKey = raScreenKey;
         }
 
         /**
@@ -115,17 +137,17 @@ public class RaScreenFields implements Serializable {
         }
 
         /**
-         * @return the requiredFlag
+         * @return the displayFlag
          */
-        public String getRequiredFlag() {
-                return requiredFlag;
+        public String getDisplayFlag() {
+                return displayFlag;
         }
 
         /**
-         * @param requiredFlag the requiredFlag to set.
+         * @param displayFlag the displayFlag to set.
          */
-        public void setRequiredFlag(String requiredFlag) {
-                this.requiredFlag = requiredFlag;
+        public void setDisplayFlag(String displayFlag) {
+                this.displayFlag = displayFlag;
         }
 
         /**
@@ -143,34 +165,6 @@ public class RaScreenFields implements Serializable {
         }
 
         /**
-         * @return the uiScreenFieldKey
-         */
-        public Long getUiScreenFieldKey() {
-                return uiScreenFieldKey;
-        }
-
-        /**
-         * @param uiScreenFieldKey the uiScreenFieldKey to set.
-         */
-        public void setUiScreenFieldKey(Long uiScreenFieldKey) {
-                this.uiScreenFieldKey = uiScreenFieldKey;
-        }
-
-        /**
-         * @return the displayFlag
-         */
-        public String getDisplayFlag() {
-                return displayFlag;
-        }
-
-        /**
-         * @param displayFlag the displayFlag to set.
-         */
-        public void setDisplayFlag(String displayFlag) {
-                this.displayFlag = displayFlag;
-        }
-
-        /**
          * @return the raScreenFieldKey
          */
         public Long getRaScreenFieldKey() {
@@ -182,6 +176,48 @@ public class RaScreenFields implements Serializable {
          */
         public void setRaScreenFieldKey(Long raScreenFieldKey) {
                 this.raScreenFieldKey = raScreenFieldKey;
+        }
+
+        /**
+         * @return the uiScreenName
+         */
+        public String getUiScreenName() {
+                return uiScreenName;
+        }
+
+        /**
+         * @param uiScreenName the uiScreenName to set.
+         */
+        public void setUiScreenName(String uiScreenName) {
+                this.uiScreenName = uiScreenName;
+        }
+
+        /**
+         * @return the lastUpdateOn
+         */
+        public Date getLastUpdateOn() {
+                return lastUpdateOn;
+        }
+
+        /**
+         * @param lastUpdateOn the lastUpdateOn to set.
+         */
+        public void setLastUpdateOn(Date lastUpdateOn) {
+                this.lastUpdateOn = lastUpdateOn;
+        }
+
+        /**
+         * @return the uiFieldName
+         */
+        public String getUiFieldName() {
+                return uiFieldName;
+        }
+
+        /**
+         * @param uiFieldName the uiFieldName to set.
+         */
+        public void setUiFieldName(String uiFieldName) {
+                this.uiFieldName = uiFieldName;
         }
 
 }

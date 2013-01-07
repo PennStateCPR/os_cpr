@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: SecurityQuestions.java 5084 2012-09-13 14:49:56Z jvuccolo $ */
+/* SVN FILE: $Id: BuildBean.java 5970 2013-01-04 15:50:31Z jvuccolo $ */
 package edu.psu.iam.cpr.utility.beans;
 
 import java.io.Serializable;
@@ -19,8 +19,8 @@ import javax.persistence.Table;
  *
  * @package edu.psu.iam.cpr.core.database.beans
  * @author $Author: jvuccolo $
- * @version $Rev: 5084 $
- * @lastrevision $Date: 2012-09-13 10:49:56 -0400 (Thu, 13 Sep 2012) $
+ * @version $Rev: 5970 $
+ * @lastrevision $Date: 2013-01-04 10:50:31 -0500 (Fri, 04 Jan 2013) $
  */
 
 @Entity
@@ -30,33 +30,9 @@ public class SecurityQuestions implements Serializable {
         /** Contains the serialized UID */
         private static final long serialVersionUID = 1L;
 
-        /** Contains the startDate. */
-        @Column(name="start_date", nullable=false)
-        private Date startDate;
-
         /** Contains the createdBy. */
         @Column(name="created_by", nullable=false, length=30)
         private String createdBy;
-
-        /** Contains the lastUpdateOn. */
-        @Column(name="last_update_on", nullable=false)
-        private Date lastUpdateOn;
-
-        /** Contains the secQuestGroupKey. */
-        @Column(name="sec_quest_group_key", nullable=false)
-        private Long secQuestGroupKey;
-
-        /** Contains the createdOn. */
-        @Column(name="created_on", nullable=false)
-        private Date createdOn;
-
-        /** Contains the lastUpdateBy. */
-        @Column(name="last_update_by", nullable=false, length=30)
-        private String lastUpdateBy;
-
-        /** Contains the question. */
-        @Column(name="question", nullable=false, length=100)
-        private String question;
 
         /** Contains the endDate. */
         @Column(name="end_date", nullable=true)
@@ -69,25 +45,35 @@ public class SecurityQuestions implements Serializable {
         @SequenceGenerator(name="seq_security_questions", sequenceName="seq_security_questions", allocationSize = 1, initialValue= 1)
         private Long secQuestKey;
 
+        /** Contains the createdOn. */
+        @Column(name="created_on", nullable=false)
+        private Date createdOn;
+
+        /** Contains the secQuestGroupKey. */
+        @Column(name="sec_quest_group_key", nullable=false)
+        private Long secQuestGroupKey;
+
+        /** Contains the lastUpdateBy. */
+        @Column(name="last_update_by", nullable=false, length=30)
+        private String lastUpdateBy;
+
+        /** Contains the question. */
+        @Column(name="question", nullable=false, length=100)
+        private String question;
+
+        /** Contains the startDate. */
+        @Column(name="start_date", nullable=false)
+        private Date startDate;
+
+        /** Contains the lastUpdateOn. */
+        @Column(name="last_update_on", nullable=false)
+        private Date lastUpdateOn;
+
         /**
          * Constructor
          */
         public SecurityQuestions() {
             super();
-        }
-
-        /**
-         * @return the startDate
-         */
-        public Date getStartDate() {
-                return startDate;
-        }
-
-        /**
-         * @param startDate the startDate to set.
-         */
-        public void setStartDate(Date startDate) {
-                this.startDate = startDate;
         }
 
         /**
@@ -105,31 +91,31 @@ public class SecurityQuestions implements Serializable {
         }
 
         /**
-         * @return the lastUpdateOn
+         * @return the endDate
          */
-        public Date getLastUpdateOn() {
-                return lastUpdateOn;
+        public Date getEndDate() {
+                return endDate;
         }
 
         /**
-         * @param lastUpdateOn the lastUpdateOn to set.
+         * @param endDate the endDate to set.
          */
-        public void setLastUpdateOn(Date lastUpdateOn) {
-                this.lastUpdateOn = lastUpdateOn;
+        public void setEndDate(Date endDate) {
+                this.endDate = endDate;
         }
 
         /**
-         * @return the secQuestGroupKey
+         * @return the secQuestKey
          */
-        public Long getSecQuestGroupKey() {
-                return secQuestGroupKey;
+        public Long getSecQuestKey() {
+                return secQuestKey;
         }
 
         /**
-         * @param secQuestGroupKey the secQuestGroupKey to set.
+         * @param secQuestKey the secQuestKey to set.
          */
-        public void setSecQuestGroupKey(Long secQuestGroupKey) {
-                this.secQuestGroupKey = secQuestGroupKey;
+        public void setSecQuestKey(Long secQuestKey) {
+                this.secQuestKey = secQuestKey;
         }
 
         /**
@@ -144,6 +130,20 @@ public class SecurityQuestions implements Serializable {
          */
         public void setCreatedOn(Date createdOn) {
                 this.createdOn = createdOn;
+        }
+
+        /**
+         * @return the secQuestGroupKey
+         */
+        public Long getSecQuestGroupKey() {
+                return secQuestGroupKey;
+        }
+
+        /**
+         * @param secQuestGroupKey the secQuestGroupKey to set.
+         */
+        public void setSecQuestGroupKey(Long secQuestGroupKey) {
+                this.secQuestGroupKey = secQuestGroupKey;
         }
 
         /**
@@ -175,31 +175,31 @@ public class SecurityQuestions implements Serializable {
         }
 
         /**
-         * @return the endDate
+         * @return the startDate
          */
-        public Date getEndDate() {
-                return endDate;
+        public Date getStartDate() {
+                return startDate;
         }
 
         /**
-         * @param endDate the endDate to set.
+         * @param startDate the startDate to set.
          */
-        public void setEndDate(Date endDate) {
-                this.endDate = endDate;
+        public void setStartDate(Date startDate) {
+                this.startDate = startDate;
         }
 
         /**
-         * @return the secQuestKey
+         * @return the lastUpdateOn
          */
-        public Long getSecQuestKey() {
-                return secQuestKey;
+        public Date getLastUpdateOn() {
+                return lastUpdateOn;
         }
 
         /**
-         * @param secQuestKey the secQuestKey to set.
+         * @param lastUpdateOn the lastUpdateOn to set.
          */
-        public void setSecQuestKey(Long secQuestKey) {
-                this.secQuestKey = secQuestKey;
+        public void setLastUpdateOn(Date lastUpdateOn) {
+                this.lastUpdateOn = lastUpdateOn;
         }
 
 }

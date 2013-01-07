@@ -24,8 +24,8 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="ra_screens")
-public class RaScreens implements Serializable {
+@Table(name="email_notification")
+public class EmailNotification implements Serializable {
 
         /** Contains the serialized UID */
         private static final long serialVersionUID = 1L;
@@ -34,32 +34,36 @@ public class RaScreens implements Serializable {
         @Column(name="created_by", nullable=false, length=30)
         private String createdBy;
 
-        /** Contains the raScreenOrder. */
-        @Column(name="ra_screen_order", nullable=false)
-        private Long raScreenOrder;
+        /** Contains the htmlBody. */
+        @Column(name="html_body", nullable=false, length=1500)
+        private String htmlBody;
 
-        /** Contains the raApplicationKey. */
-        @Column(name="ra_application_key", nullable=false)
-        private Long raApplicationKey;
+        /** Contains the notificationProcess. */
+        @Column(name="notification_process", nullable=false, length=100)
+        private String notificationProcess;
 
-        /** Contains the raScreenKey. */
+        /** Contains the mailNotificationKey. */
         @Id
-        @Column(name="ra_screen_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ra_screens")
-        @SequenceGenerator(name="seq_ra_screens", sequenceName="seq_ra_screens", allocationSize = 1, initialValue= 1)
-        private Long raScreenKey;
+        @Column(name="mail_notification_key", nullable=false)
+        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_email_notification")
+        @SequenceGenerator(name="seq_email_notification", sequenceName="seq_email_notification", allocationSize = 1, initialValue= 1)
+        private Long mailNotificationKey;
 
         /** Contains the createdOn. */
         @Column(name="created_on", nullable=false)
         private Date createdOn;
 
+        /** Contains the textBody. */
+        @Column(name="text_body", nullable=false, length=1500)
+        private String textBody;
+
         /** Contains the lastUpdateBy. */
         @Column(name="last_update_by", nullable=false, length=30)
         private String lastUpdateBy;
 
-        /** Contains the uiScreenName. */
-        @Column(name="ui_screen_name", nullable=false, length=30)
-        private String uiScreenName;
+        /** Contains the emailSubject. */
+        @Column(name="email_subject", nullable=false, length=100)
+        private String emailSubject;
 
         /** Contains the lastUpdateOn. */
         @Column(name="last_update_on", nullable=false)
@@ -68,7 +72,7 @@ public class RaScreens implements Serializable {
         /**
          * Constructor
          */
-        public RaScreens() {
+        public EmailNotification() {
             super();
         }
 
@@ -87,45 +91,45 @@ public class RaScreens implements Serializable {
         }
 
         /**
-         * @return the raScreenOrder
+         * @return the htmlBody
          */
-        public Long getRaScreenOrder() {
-                return raScreenOrder;
+        public String getHtmlBody() {
+                return htmlBody;
         }
 
         /**
-         * @param raScreenOrder the raScreenOrder to set.
+         * @param htmlBody the htmlBody to set.
          */
-        public void setRaScreenOrder(Long raScreenOrder) {
-                this.raScreenOrder = raScreenOrder;
+        public void setHtmlBody(String htmlBody) {
+                this.htmlBody = htmlBody;
         }
 
         /**
-         * @return the raApplicationKey
+         * @return the notificationProcess
          */
-        public Long getRaApplicationKey() {
-                return raApplicationKey;
+        public String getNotificationProcess() {
+                return notificationProcess;
         }
 
         /**
-         * @param raApplicationKey the raApplicationKey to set.
+         * @param notificationProcess the notificationProcess to set.
          */
-        public void setRaApplicationKey(Long raApplicationKey) {
-                this.raApplicationKey = raApplicationKey;
+        public void setNotificationProcess(String notificationProcess) {
+                this.notificationProcess = notificationProcess;
         }
 
         /**
-         * @return the raScreenKey
+         * @return the mailNotificationKey
          */
-        public Long getRaScreenKey() {
-                return raScreenKey;
+        public Long getMailNotificationKey() {
+                return mailNotificationKey;
         }
 
         /**
-         * @param raScreenKey the raScreenKey to set.
+         * @param mailNotificationKey the mailNotificationKey to set.
          */
-        public void setRaScreenKey(Long raScreenKey) {
-                this.raScreenKey = raScreenKey;
+        public void setMailNotificationKey(Long mailNotificationKey) {
+                this.mailNotificationKey = mailNotificationKey;
         }
 
         /**
@@ -143,6 +147,20 @@ public class RaScreens implements Serializable {
         }
 
         /**
+         * @return the textBody
+         */
+        public String getTextBody() {
+                return textBody;
+        }
+
+        /**
+         * @param textBody the textBody to set.
+         */
+        public void setTextBody(String textBody) {
+                this.textBody = textBody;
+        }
+
+        /**
          * @return the lastUpdateBy
          */
         public String getLastUpdateBy() {
@@ -157,17 +175,17 @@ public class RaScreens implements Serializable {
         }
 
         /**
-         * @return the uiScreenName
+         * @return the emailSubject
          */
-        public String getUiScreenName() {
-                return uiScreenName;
+        public String getEmailSubject() {
+                return emailSubject;
         }
 
         /**
-         * @param uiScreenName the uiScreenName to set.
+         * @param emailSubject the emailSubject to set.
          */
-        public void setUiScreenName(String uiScreenName) {
-                this.uiScreenName = uiScreenName;
+        public void setEmailSubject(String emailSubject) {
+                this.emailSubject = emailSubject;
         }
 
         /**

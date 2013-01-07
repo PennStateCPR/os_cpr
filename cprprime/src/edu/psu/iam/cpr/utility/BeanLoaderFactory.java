@@ -115,6 +115,39 @@ public class BeanLoaderFactory {
 		else if (tableName.equals("WebService")) { 
 			return new WebServiceLoader();
 		}
+		else if (tableName.equals("ApplicationProperties")) {
+			return new ApplicationPropertiesLoader();
+		}
+		else if (tableName.equals("EmailNotification")) {
+			return new EmailNotificationLoader();
+		}
+		else if (tableName.equals("SecurityQuestions")) {
+			return new SecurityQuestionsLoader();
+		}
+		else if (tableName.equals("UiApplications")) {
+			return new UiApplicationsLoader();
+		}
+		else if (tableName.equals("UiFieldTypes")) {
+			return new UiFieldTypesLoader();
+		}
+		else if (tableName.equals("UiScreenFields")) {
+			return new UiScreenFieldsLoader();
+		}
+		else if (tableName.equals("UiScreens")) {
+			return new UiScreensLoader();
+		}
+		else if (tableName.equals("RaApplicationProperties")) {
+			return new RaApplicationPropertiesLoader();
+		}
+		else if (tableName.equals("RaApplications")) {
+			return new RaApplicationsLoader();
+		}
+		else if (tableName.equals("RaScreenFields")) {
+			return new RaScreenFieldsLoader();
+		}
+		else if (tableName.equals("RaScreens")) {
+			return new RaScreensLoader();
+		}
 		return null;
 	}
 

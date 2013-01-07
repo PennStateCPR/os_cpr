@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: ApplicationProperties.java 5084 2012-09-13 14:49:56Z jvuccolo $ */
+/* SVN FILE: $Id: BuildBean.java 5970 2013-01-04 15:50:31Z jvuccolo $ */
 package edu.psu.iam.cpr.utility.beans;
 
 import java.io.Serializable;
@@ -19,8 +19,8 @@ import javax.persistence.Table;
  *
  * @package edu.psu.iam.cpr.core.database.beans
  * @author $Author: jvuccolo $
- * @version $Rev: 5084 $
- * @lastrevision $Date: 2012-09-13 10:49:56 -0400 (Thu, 13 Sep 2012) $
+ * @version $Rev: 5970 $
+ * @lastrevision $Date: 2013-01-04 10:50:31 -0500 (Fri, 04 Jan 2013) $
  */
 
 @Entity
@@ -34,36 +34,36 @@ public class ApplicationProperties implements Serializable {
         @Column(name="created_by", nullable=false, length=30)
         private String createdBy;
 
-        /** Contains the lastUpdateOn. */
-        @Column(name="last_update_on", nullable=false)
-        private Date lastUpdateOn;
+        /** Contains the keyName. */
+        @Column(name="key_name", nullable=false, length=200)
+        private String keyName;
+
+        /** Contains the uiApplicationKey. */
+        @Id
+        @Column(name="ui_application_key", nullable=false)
+        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_application_properties")
+        @SequenceGenerator(name="seq_application_properties", sequenceName="seq_application_properties", allocationSize = 1, initialValue= 1)
+        private Long uiApplicationKey;
 
         /** Contains the createdOn. */
         @Column(name="created_on", nullable=false)
         private Date createdOn;
 
-        /** Contains the keyName. */
-        @Column(name="key_name", nullable=false, length=200)
-        private String keyName;
+        /** Contains the keyValue. */
+        @Column(name="key_value", nullable=false, length=200)
+        private String keyValue;
 
         /** Contains the lastUpdateBy. */
         @Column(name="last_update_by", nullable=false, length=30)
         private String lastUpdateBy;
 
-        /** Contains the keyValue. */
-        @Column(name="key_value", nullable=false, length=200)
-        private String keyValue;
+        /** Contains the lastUpdateOn. */
+        @Column(name="last_update_on", nullable=false)
+        private Date lastUpdateOn;
 
-        /** Contains the raUiApplicationKey. */
-        @Column(name="ra_ui_application_key", nullable=false)
-        private Long raUiApplicationKey;
-
-        /** Contains the applicationPropertiesKey. */
-        @Id
-        @Column(name="application_properties_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_application_properties")
-        @SequenceGenerator(name="seq_application_properties", sequenceName="seq_application_properties", allocationSize = 1, initialValue= 1)
-        private Long applicationPropertiesKey;
+        /** Contains the activeFlag. */
+        @Column(name="active_flag", nullable=false, length=1)
+        private String activeFlag;
 
         /**
          * Constructor
@@ -87,17 +87,31 @@ public class ApplicationProperties implements Serializable {
         }
 
         /**
-         * @return the lastUpdateOn
+         * @return the keyName
          */
-        public Date getLastUpdateOn() {
-                return lastUpdateOn;
+        public String getKeyName() {
+                return keyName;
         }
 
         /**
-         * @param lastUpdateOn the lastUpdateOn to set.
+         * @param keyName the keyName to set.
          */
-        public void setLastUpdateOn(Date lastUpdateOn) {
-                this.lastUpdateOn = lastUpdateOn;
+        public void setKeyName(String keyName) {
+                this.keyName = keyName;
+        }
+
+        /**
+         * @return the uiApplicationKey
+         */
+        public Long getUiApplicationKey() {
+                return uiApplicationKey;
+        }
+
+        /**
+         * @param uiApplicationKey the uiApplicationKey to set.
+         */
+        public void setUiApplicationKey(Long uiApplicationKey) {
+                this.uiApplicationKey = uiApplicationKey;
         }
 
         /**
@@ -115,17 +129,17 @@ public class ApplicationProperties implements Serializable {
         }
 
         /**
-         * @return the keyName
+         * @return the keyValue
          */
-        public String getKeyName() {
-                return keyName;
+        public String getKeyValue() {
+                return keyValue;
         }
 
         /**
-         * @param keyName the keyName to set.
+         * @param keyValue the keyValue to set.
          */
-        public void setKeyName(String keyName) {
-                this.keyName = keyName;
+        public void setKeyValue(String keyValue) {
+                this.keyValue = keyValue;
         }
 
         /**
@@ -143,45 +157,31 @@ public class ApplicationProperties implements Serializable {
         }
 
         /**
-         * @return the keyValue
+         * @return the lastUpdateOn
          */
-        public String getKeyValue() {
-                return keyValue;
+        public Date getLastUpdateOn() {
+                return lastUpdateOn;
         }
 
         /**
-         * @param keyValue the keyValue to set.
+         * @param lastUpdateOn the lastUpdateOn to set.
          */
-        public void setKeyValue(String keyValue) {
-                this.keyValue = keyValue;
+        public void setLastUpdateOn(Date lastUpdateOn) {
+                this.lastUpdateOn = lastUpdateOn;
         }
 
         /**
-         * @return the raUiApplicationKey
+         * @return the activeFlag
          */
-        public Long getRaUiApplicationKey() {
-                return raUiApplicationKey;
+        public String getActiveFlag() {
+                return activeFlag;
         }
 
         /**
-         * @param raUiApplicationKey the raUiApplicationKey to set.
+         * @param activeFlag the activeFlag to set.
          */
-        public void setRaUiApplicationKey(Long raUiApplicationKey) {
-                this.raUiApplicationKey = raUiApplicationKey;
-        }
-
-        /**
-         * @return the applicationPropertiesKey
-         */
-        public Long getApplicationPropertiesKey() {
-                return applicationPropertiesKey;
-        }
-
-        /**
-         * @param applicationPropertiesKey the applicationPropertiesKey to set.
-         */
-        public void setApplicationPropertiesKey(Long applicationPropertiesKey) {
-                this.applicationPropertiesKey = applicationPropertiesKey;
+        public void setActiveFlag(String activeFlag) {
+                this.activeFlag = activeFlag;
         }
 
 }

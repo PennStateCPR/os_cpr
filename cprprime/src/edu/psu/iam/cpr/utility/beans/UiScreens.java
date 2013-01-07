@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: UiScreens.java 5084 2012-09-13 14:49:56Z jvuccolo $ */
+/* SVN FILE: $Id: BuildBean.java 5970 2013-01-04 15:50:31Z jvuccolo $ */
 package edu.psu.iam.cpr.utility.beans;
 
 import java.io.Serializable;
@@ -19,8 +19,8 @@ import javax.persistence.Table;
  *
  * @package edu.psu.iam.cpr.core.database.beans
  * @author $Author: jvuccolo $
- * @version $Rev: 5084 $
- * @lastrevision $Date: 2012-09-13 10:49:56 -0400 (Thu, 13 Sep 2012) $
+ * @version $Rev: 5970 $
+ * @lastrevision $Date: 2013-01-04 10:50:31 -0500 (Fri, 04 Jan 2013) $
  */
 
 @Entity
@@ -34,17 +34,20 @@ public class UiScreens implements Serializable {
         @Column(name="created_by", nullable=false, length=30)
         private String createdBy;
 
-        /** Contains the lastUpdateOn. */
-        @Column(name="last_update_on", nullable=false)
-        private Date lastUpdateOn;
+        /** Contains the requiredFlag. */
+        @Column(name="required_flag", nullable=false, length=1)
+        private String requiredFlag;
+
+        /** Contains the uiApplicationKey. */
+        @Id
+        @Column(name="ui_application_key", nullable=false)
+        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ui_screens")
+        @SequenceGenerator(name="seq_ui_screens", sequenceName="seq_ui_screens", allocationSize = 1, initialValue= 1)
+        private Long uiApplicationKey;
 
         /** Contains the createdOn. */
         @Column(name="created_on", nullable=false)
         private Date createdOn;
-
-        /** Contains the requiredFlag. */
-        @Column(name="required_flag", nullable=false, length=1)
-        private String requiredFlag;
 
         /** Contains the lastUpdateBy. */
         @Column(name="last_update_by", nullable=false, length=30)
@@ -54,12 +57,13 @@ public class UiScreens implements Serializable {
         @Column(name="ui_screen_name", nullable=false, length=30)
         private String uiScreenName;
 
-        /** Contains the uiScreenKey. */
-        @Id
-        @Column(name="ui_screen_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ui_screens")
-        @SequenceGenerator(name="seq_ui_screens", sequenceName="seq_ui_screens", allocationSize = 1, initialValue= 1)
-        private Long uiScreenKey;
+        /** Contains the lastUpdateOn. */
+        @Column(name="last_update_on", nullable=false)
+        private Date lastUpdateOn;
+
+        /** Contains the activeFlag. */
+        @Column(name="active_flag", nullable=false, length=1)
+        private String activeFlag;
 
         /**
          * Constructor
@@ -83,17 +87,31 @@ public class UiScreens implements Serializable {
         }
 
         /**
-         * @return the lastUpdateOn
+         * @return the requiredFlag
          */
-        public Date getLastUpdateOn() {
-                return lastUpdateOn;
+        public String getRequiredFlag() {
+                return requiredFlag;
         }
 
         /**
-         * @param lastUpdateOn the lastUpdateOn to set.
+         * @param requiredFlag the requiredFlag to set.
          */
-        public void setLastUpdateOn(Date lastUpdateOn) {
-                this.lastUpdateOn = lastUpdateOn;
+        public void setRequiredFlag(String requiredFlag) {
+                this.requiredFlag = requiredFlag;
+        }
+
+        /**
+         * @return the uiApplicationKey
+         */
+        public Long getUiApplicationKey() {
+                return uiApplicationKey;
+        }
+
+        /**
+         * @param uiApplicationKey the uiApplicationKey to set.
+         */
+        public void setUiApplicationKey(Long uiApplicationKey) {
+                this.uiApplicationKey = uiApplicationKey;
         }
 
         /**
@@ -108,20 +126,6 @@ public class UiScreens implements Serializable {
          */
         public void setCreatedOn(Date createdOn) {
                 this.createdOn = createdOn;
-        }
-
-        /**
-         * @return the requiredFlag
-         */
-        public String getRequiredFlag() {
-                return requiredFlag;
-        }
-
-        /**
-         * @param requiredFlag the requiredFlag to set.
-         */
-        public void setRequiredFlag(String requiredFlag) {
-                this.requiredFlag = requiredFlag;
         }
 
         /**
@@ -153,17 +157,31 @@ public class UiScreens implements Serializable {
         }
 
         /**
-         * @return the uiScreenKey
+         * @return the lastUpdateOn
          */
-        public Long getUiScreenKey() {
-                return uiScreenKey;
+        public Date getLastUpdateOn() {
+                return lastUpdateOn;
         }
 
         /**
-         * @param uiScreenKey the uiScreenKey to set.
+         * @param lastUpdateOn the lastUpdateOn to set.
          */
-        public void setUiScreenKey(Long uiScreenKey) {
-                this.uiScreenKey = uiScreenKey;
+        public void setLastUpdateOn(Date lastUpdateOn) {
+                this.lastUpdateOn = lastUpdateOn;
+        }
+
+        /**
+         * @return the activeFlag
+         */
+        public String getActiveFlag() {
+                return activeFlag;
+        }
+
+        /**
+         * @param activeFlag the activeFlag to set.
+         */
+        public void setActiveFlag(String activeFlag) {
+                this.activeFlag = activeFlag;
         }
 
 }

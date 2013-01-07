@@ -24,8 +24,8 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="ra_screens")
-public class RaScreens implements Serializable {
+@Table(name="ui_field_types")
+public class UiFieldTypes implements Serializable {
 
         /** Contains the serialized UID */
         private static final long serialVersionUID = 1L;
@@ -34,32 +34,20 @@ public class RaScreens implements Serializable {
         @Column(name="created_by", nullable=false, length=30)
         private String createdBy;
 
-        /** Contains the raScreenOrder. */
-        @Column(name="ra_screen_order", nullable=false)
-        private Long raScreenOrder;
-
-        /** Contains the raApplicationKey. */
-        @Column(name="ra_application_key", nullable=false)
-        private Long raApplicationKey;
-
-        /** Contains the raScreenKey. */
-        @Id
-        @Column(name="ra_screen_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ra_screens")
-        @SequenceGenerator(name="seq_ra_screens", sequenceName="seq_ra_screens", allocationSize = 1, initialValue= 1)
-        private Long raScreenKey;
-
         /** Contains the createdOn. */
         @Column(name="created_on", nullable=false)
         private Date createdOn;
 
+        /** Contains the uiFieldType. */
+        @Id
+        @Column(name="ui_field_type", nullable=false, length=25)
+        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ui_field_types")
+        @SequenceGenerator(name="seq_ui_field_types", sequenceName="seq_ui_field_types", allocationSize = 1, initialValue= 1)
+        private String uiFieldType;
+
         /** Contains the lastUpdateBy. */
         @Column(name="last_update_by", nullable=false, length=30)
         private String lastUpdateBy;
-
-        /** Contains the uiScreenName. */
-        @Column(name="ui_screen_name", nullable=false, length=30)
-        private String uiScreenName;
 
         /** Contains the lastUpdateOn. */
         @Column(name="last_update_on", nullable=false)
@@ -68,7 +56,7 @@ public class RaScreens implements Serializable {
         /**
          * Constructor
          */
-        public RaScreens() {
+        public UiFieldTypes() {
             super();
         }
 
@@ -87,48 +75,6 @@ public class RaScreens implements Serializable {
         }
 
         /**
-         * @return the raScreenOrder
-         */
-        public Long getRaScreenOrder() {
-                return raScreenOrder;
-        }
-
-        /**
-         * @param raScreenOrder the raScreenOrder to set.
-         */
-        public void setRaScreenOrder(Long raScreenOrder) {
-                this.raScreenOrder = raScreenOrder;
-        }
-
-        /**
-         * @return the raApplicationKey
-         */
-        public Long getRaApplicationKey() {
-                return raApplicationKey;
-        }
-
-        /**
-         * @param raApplicationKey the raApplicationKey to set.
-         */
-        public void setRaApplicationKey(Long raApplicationKey) {
-                this.raApplicationKey = raApplicationKey;
-        }
-
-        /**
-         * @return the raScreenKey
-         */
-        public Long getRaScreenKey() {
-                return raScreenKey;
-        }
-
-        /**
-         * @param raScreenKey the raScreenKey to set.
-         */
-        public void setRaScreenKey(Long raScreenKey) {
-                this.raScreenKey = raScreenKey;
-        }
-
-        /**
          * @return the createdOn
          */
         public Date getCreatedOn() {
@@ -143,6 +89,20 @@ public class RaScreens implements Serializable {
         }
 
         /**
+         * @return the uiFieldType
+         */
+        public String getUiFieldType() {
+                return uiFieldType;
+        }
+
+        /**
+         * @param uiFieldType the uiFieldType to set.
+         */
+        public void setUiFieldType(String uiFieldType) {
+                this.uiFieldType = uiFieldType;
+        }
+
+        /**
          * @return the lastUpdateBy
          */
         public String getLastUpdateBy() {
@@ -154,20 +114,6 @@ public class RaScreens implements Serializable {
          */
         public void setLastUpdateBy(String lastUpdateBy) {
                 this.lastUpdateBy = lastUpdateBy;
-        }
-
-        /**
-         * @return the uiScreenName
-         */
-        public String getUiScreenName() {
-                return uiScreenName;
-        }
-
-        /**
-         * @param uiScreenName the uiScreenName to set.
-         */
-        public void setUiScreenName(String uiScreenName) {
-                this.uiScreenName = uiScreenName;
         }
 
         /**

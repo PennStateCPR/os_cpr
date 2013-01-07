@@ -16,6 +16,7 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.Affiliations" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.AllowedCharPart" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.AllowedNumPart" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.AnswerGroup" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.ApplicationProperties" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.BadPrefixes" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.CampusCs" />
@@ -30,6 +31,7 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.DatabaseLog" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.DateOfBirth" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.EmailAddress" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.EmailNotification" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.EventTriggers" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.ExtAffiliation" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.ExtAffiliationMapping" />
@@ -47,8 +49,8 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.IapDocument" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.IapExtMapping" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.IapRules" />
-		<mapping class="edu.psu.iam.cpr.utility.beans.IdentifierType" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.IdCardPrintLog" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.IdentifierType" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.JavaExceptions" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.MatchResults" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.MessageLog" />
@@ -59,8 +61,8 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.PersonGender" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.PersonIapData" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.PersonIapVp" />
-		<mapping class="edu.psu.iam.cpr.utility.beans.PersonIdentifier" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.PersonIdCard" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.PersonIdentifier" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.PersonLinkage" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.PersonPhoto" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.PersonUseridIap" />
@@ -72,6 +74,8 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.PsuId" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.PsuIdExceptions" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.RaAffiliation" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.RaApplicationProperties" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.RaApplications" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.RaComments" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.RaGroups" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.RaIapAssign" />
@@ -90,6 +94,9 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.SpResponse" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.SpServices" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.SpWarningNotifications" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.UiApplications" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.UiFieldTypes" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.UiLog" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.UiScreenFields" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.UiScreens" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.UserComments" />
