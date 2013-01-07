@@ -21,8 +21,6 @@ use cpr;
 
     drop table if exists allowed_num_part;
 
-    drop table if exists application_properties;
-
     drop table if exists bad_prefixes;
 
     drop table if exists campus_cs;
@@ -135,19 +133,11 @@ use cpr;
 
     drop table if exists ra_iap_assign;
 
-    drop table if exists ra_screen_fields;
-
-    drop table if exists ra_screens;
-
-    drop table if exists ra_server_principals;
+     drop table if exists ra_server_principals;
 
     drop table if exists ra_ui_application;
 
     drop table if exists registration_authority;
-
-    drop table if exists security_question_answers;
-
-    drop table if exists security_questions;
 
     drop table if exists service_actions;
 
@@ -164,10 +154,6 @@ use cpr;
     drop table if exists sp_services;
 
     drop table if exists sp_warning_notifications;
-
-    drop table if exists ui_screen_fields;
-
-    drop table if exists ui_screens;
 
     drop table if exists user_comments;
 
@@ -289,18 +275,6 @@ use cpr;
     create table allowed_num_part (
         num_part bigint not null,
         primary key (num_part)
-    ) ENGINE=INNODB;
-
-    create table application_properties (
-        application_properties_key bigint not null auto_increment,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        key_name varchar(200) not null,
-        key_value varchar(200) not null,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        ra_ui_application_key bigint not null,
-        primary key (application_properties_key)
     ) ENGINE=INNODB;
 
     create table bad_prefixes (
@@ -1036,30 +1010,6 @@ use cpr;
         primary key (ra_iap_assign_key)
     ) ENGINE=INNODB;
 
-    create table ra_screen_fields (
-        ra_screen_field_key bigint not null auto_increment,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        display_flag varchar(1) not null,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        required_flag varchar(1) not null,
-        ui_screen_field_key bigint not null,
-        primary key (ra_screen_field_key)
-    ) ENGINE=INNODB;
-
-    create table ra_screens (
-        ra_screen_key bigint not null auto_increment,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        last_update_by varchar(30),
-        last_update_on datetime not null,
-        ra_screen_order bigint not null,
-        ra_ui_application_key bigint not null,
-        ui_screen_key bigint not null,
-        primary key (ra_screen_key)
-    ) ENGINE=INNODB;
-
     create table ra_server_principals (
         ra_server_principal_key bigint not null auto_increment,
         created_by varchar(30) not null,
@@ -1099,30 +1049,6 @@ use cpr;
         start_date datetime not null,
         suspend_flag varchar(1) not null,
         primary key (registration_authority_key)
-    ) ENGINE=INNODB;
-
-    create table security_question_answers (
-        sec_quest_answer_key bigint not null auto_increment,
-        answer varchar(100) not null,
-        created_on datetime not null,
-        person_id bigint not null,
-        sec_quest_group_key bigint not null,
-        sec_quest_key bigint not null,
-        userid varchar(30) not null,
-        primary key (sec_quest_answer_key)
-    ) ENGINE=INNODB;
-
-    create table security_questions (
-        sec_quest_key bigint not null auto_increment,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        end_date datetime,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        question varchar(100) not null,
-        sec_quest_group_key bigint not null,
-        start_date datetime not null,
-        primary key (sec_quest_key)
     ) ENGINE=INNODB;
 
     create table service_actions (
@@ -1231,31 +1157,7 @@ use cpr;
         primary key (sp_warning_notification_key)
     ) ENGINE=INNODB;
 
-    create table ui_screen_fields (
-        ui_screen_field_key bigint not null auto_increment,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        display_flag varchar(1) not null,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        required_flag varchar(1) not null,
-        ui_field_name varchar(30) not null,
-        ui_screen_key bigint not null,
-        primary key (ui_screen_field_key)
-    ) ENGINE=INNODB;
-
-    create table ui_screens (
-        ui_screen_key bigint not null auto_increment,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        required_flag varchar(1) not null,
-        ui_screen_name varchar(30) not null,
-        primary key (ui_screen_key)
-    ) ENGINE=INNODB;
-
-    create table user_comments (
+     create table user_comments (
         user_comment_key bigint not null auto_increment,
         comments varchar(2000) not null,
         created_by varchar(30) not null,
@@ -1367,7 +1269,7 @@ use cpr;
 
 	create table application_properties 
     ( 
-     ui_application_key bigint not null auto_increment,
+     ui_application_key bigint not null,
      key_name varchar(200) not null, 
      key_value varchar(200) not null, 
      active_flag varchar(1) not null, 
@@ -1375,7 +1277,7 @@ use cpr;
      last_update_on datetime not null, 
      created_by varchar(30) not null, 
      created_on datetime not null,
-     primary key (ui_application_key)
+     primary key (ui_application_key,key_name)
     ) ENGINE=INNODB;
 
 	create table email_notification 
@@ -1515,21 +1417,21 @@ use cpr;
 
 	create table ui_screens 
     ( 
-     ui_screen_name varchar(30) not null, 
-     ui_application_key bigint not null auto_increment,
+     ui_screen_name varchar(30) not null default ' ', 
+     ui_application_key bigint not null,
      required_flag varchar(1) default 'y'  not null check ( required_flag in ('n', 'y')), 
      active_flag varchar(1) not null, 
      last_update_by varchar(30) not null, 
      last_update_on datetime not null, 
      created_by varchar(30) not null, 
      created_on datetime not null,
-     primary key (ui_application_key)
+     primary key (ui_screen_name)
     ) ENGINE=INNODB;
 
 	create table ui_screen_fields 
     ( 
-     ui_screen_name varchar(30) not null, 
-     ui_field_name varchar(30) not null, 
+     ui_screen_name varchar(30) not null default ' ', 
+     ui_field_name varchar(30) not null default ' ', 
      ui_field_type varchar(25) not null, 
      max_length bigint , 
      field_width bigint , 
@@ -1814,12 +1716,8 @@ create index affiliations_pk on affiliations ( affiliation_key asc);
 create index aff_transition_rules_01_idx on aff_transition_rules ( current_affiliation_key asc, request_affiliation_key asc, result_affiliation_key asc, expire_flag asc);
 create index aff_transition_rules_pk on aff_transition_rules ( aff_transition_rule_key asc);
 create index bad_prefixes_idx on bad_prefixes ( char_part asc);
-create index cactus_country_map_01_idx on cactus_country_map ( country_code asc);
 create index campus_cs_01_idx on campus_cs ( campus_code asc, active_flag asc);
 create index campus_cs_pk on campus_cs ( campus_code_key asc);
-create index caught_errors_01_idx on caught_errors ( entry_timestamp asc);
-create index cidr_load_country_idx on cidr_load ( country asc);
-create index cidr_load_psu_id_idx on cidr_load ( psu_id asc);
 create index confidentiality_01_idx on confidentiality ( end_date asc, person_id asc, data_type_key asc);
 create index confidentiality_10_idx on confidentiality ( person_id asc); 
 create index confidentiality_20_idx on confidentiality ( data_type_key asc);
@@ -1844,8 +1742,6 @@ create index date_of_birth_pk on date_of_birth ( date_of_birth_key asc);
 create index email_address_10_idx on email_address ( person_id asc);
 create index email_address_20_idx on email_address ( data_type_key asc);
 create index email_address_pk on email_address ( email_address_key asc);
-create index email_notification_01_idx on email_notification ( notification_process asc);
-create index email_notification_pk on email_notification ( mail_notification_key asc);
 create index event_triggers_pk on event_triggers ( event_trigger_key asc);
 create index external_iap_01_idx on external_iap ( external_iap_key asc, active_flag asc, external_iap asc);
 create index external_iap_pk on external_iap ( external_iap_key asc);
@@ -1942,7 +1838,6 @@ create index psu_id_pk on psu_id ( psu_id_key asc);
 create index psu_id_exceptions_idx on psu_id_exceptions ( psu_id asc);
 create index ra_affiliation_01_idx on ra_affiliation ( affiliation_key asc, registration_authority_key asc);
 create index ra_affiliation_pk on ra_affiliation ( ra_affiliation_key asc);
-create index ra_applications_10_idx on ra_applications ( registration_authority_key asc);
 create index ra_applications_pk on ra_applications ( ra_application_key asc);
 create index ra_application_properites_pk on ra_application_properties ( ra_application_properties_key asc);
 create index ra_comments_pk on ra_comments ( ra_comment_key asc);
@@ -1957,10 +1852,8 @@ create index registration_authority_01_idx on registration_authority ( end_date 
 create index registration_authority_02_idx on registration_authority ( registration_authority asc);
 create index registration_authority_10_idx on registration_authority ( ra_contact_key asc);
 create index registration_authority_pk on registration_authority ( registration_authority_key asc);
-create index security_questions_01_idx on security_questions ( sec_quest_group_key asc, end_date asc);
 create index security_questions_pk on security_questions ( sec_quest_key asc);
 create index security_question_answers_pk on security_question_answers ( sec_quest_answer_key asc);
-create index sec_quest_answers_01_idx on security_question_answers ( person_id asc, userid asc);
 create index services_pk on services ( service_key asc);
 create index service_actions_pk on service_actions ( service_action_key asc);
 create index service_log_01_idx on service_log ( request_userid asc);
