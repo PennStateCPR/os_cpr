@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: RaScreenFields.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
+/* SVN FILE: $Id$ */
 package edu.psu.iam.cpr.core.database.beans;
 
 import java.io.Serializable;
@@ -13,24 +13,14 @@ import javax.persistence.Table;
 
 /**
  *
- * Copyright 2012 The Pennsylvania State University
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To
+ * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative
+ * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
  * @package edu.psu.iam.cpr.core.database.beans
- * @author $Author: jvuccolo $
- * @version $Rev: 5340 $
- * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
+ * @author $Author$
+ * @version $Rev$
+ * @lastrevision $Date$
  */
 
 @Entity
@@ -40,35 +30,43 @@ public class RaScreenFields implements Serializable {
         /** Contains the serialized UID */
         private static final long serialVersionUID = 1L;
 
-        /** Contains the createdBy. */
+        /** Contains the user id or system identifier that created the record. */
         @Column(name="created_by", nullable=false, length=30)
         private String createdBy;
 
-        /** Contains the lastUpdateOn. */
+        /** Contains the date and time that the record was last updated. */
         @Column(name="last_update_on", nullable=false)
         private Date lastUpdateOn;
 
-        /** Contains the createdOn. */
+        /** Contains the date and time that the record was created. */
         @Column(name="created_on", nullable=false)
         private Date createdOn;
 
-        /** Contains the requiredFlag. */
+        /** Contains a flag to indicate if the user interface screen field is required.  The valid values are Y or N.  The default value is Y. */
         @Column(name="required_flag", nullable=false, length=1)
         private String requiredFlag;
 
-        /** Contains the lastUpdateBy. */
+        /** Contains the user id or system identifier that last updated the record. */
         @Column(name="last_update_by", nullable=false, length=30)
         private String lastUpdateBy;
 
-        /** Contains the uiScreenFieldKey. */
-        @Column(name="ui_screen_field_key", nullable=false)
-        private Long uiScreenFieldKey;
+        /** Contains a unique number that identifies a user interface screen field. */
+        @Column(name="ui_screen_name", nullable=false, length=30)
+        private String uiScreenName;
 
-        /** Contains the displayFlag. */
+        /** Contains a flag to indicate if, by default, the registration authority wants the field to be displayed on the user interface screen.  The valid values are Y or N.  The default value is Y. */
         @Column(name="display_flag", nullable=false, length=1)
         private String displayFlag;
 
-        /** Contains the raScreenFieldKey. */
+        /** Contains a unique number that identifies a registration authority screen. */
+        @Column(name="ra_screen_key", nullable=false)
+        private Long raScreenKey;
+
+        /** Contains a user interface field name. */
+        @Column(name="ui_field_name", nullable=false, length=30)
+        private String uiFieldName;
+
+        /** Contains a unique number that identifies a registration authority screen field.  It is populated by the seq_ra_screen_field sequence. */
         @Id
         @Column(name="ra_screen_field_key", nullable=false)
         @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ra_screen_fields")
@@ -153,17 +151,17 @@ public class RaScreenFields implements Serializable {
         }
 
         /**
-         * @return the uiScreenFieldKey
+         * @return the uiScreenName
          */
-        public Long getUiScreenFieldKey() {
-                return uiScreenFieldKey;
+        public String getUiScreenName() {
+                return uiScreenName;
         }
 
         /**
-         * @param uiScreenFieldKey the uiScreenFieldKey to set.
+         * @param uiScreenName the uiScreenName to set.
          */
-        public void setUiScreenFieldKey(Long uiScreenFieldKey) {
-                this.uiScreenFieldKey = uiScreenFieldKey;
+        public void setUiScreenName(String uiScreenName) {
+                this.uiScreenName = uiScreenName;
         }
 
         /**
@@ -178,6 +176,34 @@ public class RaScreenFields implements Serializable {
          */
         public void setDisplayFlag(String displayFlag) {
                 this.displayFlag = displayFlag;
+        }
+
+        /**
+         * @return the raScreenKey
+         */
+        public Long getRaScreenKey() {
+                return raScreenKey;
+        }
+
+        /**
+         * @param raScreenKey the raScreenKey to set.
+         */
+        public void setRaScreenKey(Long raScreenKey) {
+                this.raScreenKey = raScreenKey;
+        }
+
+        /**
+         * @return the uiFieldName
+         */
+        public String getUiFieldName() {
+                return uiFieldName;
+        }
+
+        /**
+         * @param uiFieldName the uiFieldName to set.
+         */
+        public void setUiFieldName(String uiFieldName) {
+                this.uiFieldName = uiFieldName;
         }
 
         /**

@@ -21,8 +21,8 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="ui_screens")
-public class UiScreens implements Serializable {
+@Table(name="ui_field_types")
+public class UiFieldTypes implements Serializable {
 
         /** Contains the serialized UID */
         private static final long serialVersionUID = 1L;
@@ -31,39 +31,27 @@ public class UiScreens implements Serializable {
         @Column(name="created_by", nullable=false, length=30)
         private String createdBy;
 
-        /** Contains the requiredFlag. */
-        @Column(name="required_flag", nullable=false, length=1)
-        private String requiredFlag;
-
-        /** Contains the uiApplicationKey. */
-        @Column(name="ui_application_key", nullable=false)
-        private Long uiApplicationKey;
-
         /** Contains the createdOn. */
         @Column(name="created_on", nullable=false)
         private Date createdOn;
+
+        /** Contains the uiFieldType. */
+        @Id
+        @Column(name="ui_field_type", nullable=false, length=25)
+        private String uiFieldType;
 
         /** Contains the lastUpdateBy. */
         @Column(name="last_update_by", nullable=false, length=30)
         private String lastUpdateBy;
 
-        /** Contains the uiScreenName. */
-        @Id
-        @Column(name="ui_screen_name", nullable=false, length=30)
-        private String uiScreenName;
-
         /** Contains the lastUpdateOn. */
         @Column(name="last_update_on", nullable=false)
         private Date lastUpdateOn;
 
-        /** Contains the activeFlag. */
-        @Column(name="active_flag", nullable=false, length=1)
-        private String activeFlag;
-
         /**
          * Constructor
          */
-        public UiScreens() {
+        public UiFieldTypes() {
             super();
         }
 
@@ -82,34 +70,6 @@ public class UiScreens implements Serializable {
         }
 
         /**
-         * @return the requiredFlag
-         */
-        public String getRequiredFlag() {
-                return requiredFlag;
-        }
-
-        /**
-         * @param requiredFlag the requiredFlag to set.
-         */
-        public void setRequiredFlag(String requiredFlag) {
-                this.requiredFlag = requiredFlag;
-        }
-
-        /**
-         * @return the uiApplicationKey
-         */
-        public Long getUiApplicationKey() {
-                return uiApplicationKey;
-        }
-
-        /**
-         * @param uiApplicationKey the uiApplicationKey to set.
-         */
-        public void setUiApplicationKey(Long uiApplicationKey) {
-                this.uiApplicationKey = uiApplicationKey;
-        }
-
-        /**
          * @return the createdOn
          */
         public Date getCreatedOn() {
@@ -121,6 +81,20 @@ public class UiScreens implements Serializable {
          */
         public void setCreatedOn(Date createdOn) {
                 this.createdOn = createdOn;
+        }
+
+        /**
+         * @return the uiFieldType
+         */
+        public String getUiFieldType() {
+                return uiFieldType;
+        }
+
+        /**
+         * @param uiFieldType the uiFieldType to set.
+         */
+        public void setUiFieldType(String uiFieldType) {
+                this.uiFieldType = uiFieldType;
         }
 
         /**
@@ -138,20 +112,6 @@ public class UiScreens implements Serializable {
         }
 
         /**
-         * @return the uiScreenName
-         */
-        public String getUiScreenName() {
-                return uiScreenName;
-        }
-
-        /**
-         * @param uiScreenName the uiScreenName to set.
-         */
-        public void setUiScreenName(String uiScreenName) {
-                this.uiScreenName = uiScreenName;
-        }
-
-        /**
          * @return the lastUpdateOn
          */
         public Date getLastUpdateOn() {
@@ -163,20 +123,6 @@ public class UiScreens implements Serializable {
          */
         public void setLastUpdateOn(Date lastUpdateOn) {
                 this.lastUpdateOn = lastUpdateOn;
-        }
-
-        /**
-         * @return the activeFlag
-         */
-        public String getActiveFlag() {
-                return activeFlag;
-        }
-
-        /**
-         * @param activeFlag the activeFlag to set.
-         */
-        public void setActiveFlag(String activeFlag) {
-                this.activeFlag = activeFlag;
         }
 
 }

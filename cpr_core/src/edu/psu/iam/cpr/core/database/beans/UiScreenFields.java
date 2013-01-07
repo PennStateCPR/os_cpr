@@ -1,36 +1,23 @@
-/* SVN FILE: $Id: UiScreenFields.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
+/* SVN FILE: $Id: BuildBean.java 5970 2013-01-04 15:50:31Z jvuccolo $ */
 package edu.psu.iam.cpr.core.database.beans;
 
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
  *
- * Copyright 2012 The Pennsylvania State University
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To
+ * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative
+ * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
  * @package edu.psu.iam.cpr.core.database.beans
  * @author $Author: jvuccolo $
- * @version $Rev: 5340 $
- * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
+ * @version $Rev: 5970 $
+ * @lastrevision $Date: 2013-01-04 10:50:31 -0500 (Fri, 04 Jan 2013) $
  */
 
 @Entity
@@ -40,42 +27,57 @@ public class UiScreenFields implements Serializable {
         /** Contains the serialized UID */
         private static final long serialVersionUID = 1L;
 
+        /** Contains the maxLength. */
+        @Column(name="max_length", nullable=true)
+        private Long maxLength;
+
         /** Contains the createdBy. */
         @Column(name="created_by", nullable=false, length=30)
         private String createdBy;
 
-        /** Contains the lastUpdateOn. */
-        @Column(name="last_update_on", nullable=false)
-        private Date lastUpdateOn;
+        /** Contains the fieldWidth. */
+        @Column(name="field_width", nullable=true)
+        private Long fieldWidth;
 
         /** Contains the createdOn. */
         @Column(name="created_on", nullable=false)
         private Date createdOn;
 
+        /** Contains the fieldHeight. */
+        @Column(name="field_height", nullable=true)
+        private Long fieldHeight;
+
+        /** Contains the lastUpdateOn. */
+        @Column(name="last_update_on", nullable=false)
+        private Date lastUpdateOn;
+
         /** Contains the requiredFlag. */
         @Column(name="required_flag", nullable=false, length=1)
         private String requiredFlag;
 
-        /** Contains the lastUpdateBy. */
-        @Column(name="last_update_by", nullable=false, length=30)
-        private String lastUpdateBy;
-
-        /** Contains the uiScreenFieldKey. */
-        @Id
-        @Column(name="ui_screen_field_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ui_screen_fields")
-        @SequenceGenerator(name="seq_ui_screen_fields", sequenceName="seq_ui_screen_fields", allocationSize = 1, initialValue= 1)
-        private Long uiScreenFieldKey;
+        /** Contains the uiFieldType. */
+        @Column(name="ui_field_type", nullable=false, length=25)
+        private String uiFieldType;
 
         /** Contains the displayFlag. */
         @Column(name="display_flag", nullable=false, length=1)
         private String displayFlag;
 
-        /** Contains the uiScreenKey. */
-        @Column(name="ui_screen_key", nullable=false)
-        private Long uiScreenKey;
+        /** Contains the lastUpdateBy. */
+        @Column(name="last_update_by", nullable=false, length=30)
+        private String lastUpdateBy;
+
+        /** Contains the uiScreenName. */
+        @Id
+        @Column(name="ui_screen_name", nullable=false, length=30)
+        private String uiScreenName;
+
+        /** Contains the activeFlag. */
+        @Column(name="active_flag", nullable=false, length=1)
+        private String activeFlag;
 
         /** Contains the uiFieldName. */
+        @Id
         @Column(name="ui_field_name", nullable=false, length=30)
         private String uiFieldName;
 
@@ -84,6 +86,20 @@ public class UiScreenFields implements Serializable {
          */
         public UiScreenFields() {
             super();
+        }
+
+        /**
+         * @return the maxLength
+         */
+        public Long getMaxLength() {
+                return maxLength;
+        }
+
+        /**
+         * @param maxLength the maxLength to set.
+         */
+        public void setMaxLength(Long maxLength) {
+                this.maxLength = maxLength;
         }
 
         /**
@@ -101,17 +117,17 @@ public class UiScreenFields implements Serializable {
         }
 
         /**
-         * @return the lastUpdateOn
+         * @return the fieldWidth
          */
-        public Date getLastUpdateOn() {
-                return lastUpdateOn;
+        public Long getFieldWidth() {
+                return fieldWidth;
         }
 
         /**
-         * @param lastUpdateOn the lastUpdateOn to set.
+         * @param fieldWidth the fieldWidth to set.
          */
-        public void setLastUpdateOn(Date lastUpdateOn) {
-                this.lastUpdateOn = lastUpdateOn;
+        public void setFieldWidth(Long fieldWidth) {
+                this.fieldWidth = fieldWidth;
         }
 
         /**
@@ -129,6 +145,34 @@ public class UiScreenFields implements Serializable {
         }
 
         /**
+         * @return the fieldHeight
+         */
+        public Long getFieldHeight() {
+                return fieldHeight;
+        }
+
+        /**
+         * @param fieldHeight the fieldHeight to set.
+         */
+        public void setFieldHeight(Long fieldHeight) {
+                this.fieldHeight = fieldHeight;
+        }
+
+        /**
+         * @return the lastUpdateOn
+         */
+        public Date getLastUpdateOn() {
+                return lastUpdateOn;
+        }
+
+        /**
+         * @param lastUpdateOn the lastUpdateOn to set.
+         */
+        public void setLastUpdateOn(Date lastUpdateOn) {
+                this.lastUpdateOn = lastUpdateOn;
+        }
+
+        /**
          * @return the requiredFlag
          */
         public String getRequiredFlag() {
@@ -143,31 +187,17 @@ public class UiScreenFields implements Serializable {
         }
 
         /**
-         * @return the lastUpdateBy
+         * @return the uiFieldType
          */
-        public String getLastUpdateBy() {
-                return lastUpdateBy;
+        public String getUiFieldType() {
+                return uiFieldType;
         }
 
         /**
-         * @param lastUpdateBy the lastUpdateBy to set.
+         * @param uiFieldType the uiFieldType to set.
          */
-        public void setLastUpdateBy(String lastUpdateBy) {
-                this.lastUpdateBy = lastUpdateBy;
-        }
-
-        /**
-         * @return the uiScreenFieldKey
-         */
-        public Long getUiScreenFieldKey() {
-                return uiScreenFieldKey;
-        }
-
-        /**
-         * @param uiScreenFieldKey the uiScreenFieldKey to set.
-         */
-        public void setUiScreenFieldKey(Long uiScreenFieldKey) {
-                this.uiScreenFieldKey = uiScreenFieldKey;
+        public void setUiFieldType(String uiFieldType) {
+                this.uiFieldType = uiFieldType;
         }
 
         /**
@@ -185,17 +215,45 @@ public class UiScreenFields implements Serializable {
         }
 
         /**
-         * @return the uiScreenKey
+         * @return the lastUpdateBy
          */
-        public Long getUiScreenKey() {
-                return uiScreenKey;
+        public String getLastUpdateBy() {
+                return lastUpdateBy;
         }
 
         /**
-         * @param uiScreenKey the uiScreenKey to set.
+         * @param lastUpdateBy the lastUpdateBy to set.
          */
-        public void setUiScreenKey(Long uiScreenKey) {
-                this.uiScreenKey = uiScreenKey;
+        public void setLastUpdateBy(String lastUpdateBy) {
+                this.lastUpdateBy = lastUpdateBy;
+        }
+
+        /**
+         * @return the uiScreenName
+         */
+        public String getUiScreenName() {
+                return uiScreenName;
+        }
+
+        /**
+         * @param uiScreenName the uiScreenName to set.
+         */
+        public void setUiScreenName(String uiScreenName) {
+                this.uiScreenName = uiScreenName;
+        }
+
+        /**
+         * @return the activeFlag
+         */
+        public String getActiveFlag() {
+                return activeFlag;
+        }
+
+        /**
+         * @param activeFlag the activeFlag to set.
+         */
+        public void setActiveFlag(String activeFlag) {
+                this.activeFlag = activeFlag;
         }
 
         /**

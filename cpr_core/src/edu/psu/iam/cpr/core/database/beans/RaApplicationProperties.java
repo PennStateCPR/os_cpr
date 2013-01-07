@@ -24,8 +24,8 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="ra_screens")
-public class RaScreens implements Serializable {
+@Table(name="ra_application_properties")
+public class RaApplicationProperties implements Serializable {
 
         /** Contains the serialized UID */
         private static final long serialVersionUID = 1L;
@@ -42,33 +42,37 @@ public class RaScreens implements Serializable {
         @Column(name="created_on", nullable=false)
         private Date createdOn;
 
-        /** Contains the screen order chosen by the registration authority for the application */
-        @Column(name="ra_screen_order", nullable=false)
-        private Long raScreenOrder;
+        /** Contains an application property selected by a registration authority. */
+        @Column(name="key_name", nullable=false, length=200)
+        private String keyName;
 
         /** Contains the user id or system identifier that last updated the record. */
         @Column(name="last_update_by", nullable=false, length=30)
         private String lastUpdateBy;
 
-        /** Contains the name of a user interface screen. */
-        @Column(name="ui_screen_name", nullable=false, length=30)
-        private String uiScreenName;
+        /** Contains the value for application property selected by a registration authority. */
+        @Column(name="key_value", nullable=false, length=200)
+        private String keyValue;
 
-        /** Contains a unique number that identifies a registration authority screen record.  It is populated by the seq_ra_screen sequence. */
-        @Id
-        @Column(name="ra_screen_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ra_screens")
-        @SequenceGenerator(name="seq_ra_screens", sequenceName="seq_ra_screens", allocationSize = 1, initialValue= 1)
-        private Long raScreenKey;
+        /** Contains a unique number that identifies a user interface application. */
+        @Column(name="ui_application_key", nullable=false)
+        private Long uiApplicationKey;
 
         /** Contains a unique number that identifies a registration authority application. */
         @Column(name="ra_application_key", nullable=false)
         private Long raApplicationKey;
 
+        /** Contains a unique number that identifies an application property for a registration authority.  It is populated by the seq_ra_application_properties sequence. */
+        @Id
+        @Column(name="ra_application_properties_key", nullable=false)
+        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ra_application_properties")
+        @SequenceGenerator(name="seq_ra_application_properties", sequenceName="seq_ra_application_properties", allocationSize = 1, initialValue= 1)
+        private Long raApplicationPropertiesKey;
+
         /**
          * Constructor
          */
-        public RaScreens() {
+        public RaApplicationProperties() {
             super();
         }
 
@@ -115,17 +119,17 @@ public class RaScreens implements Serializable {
         }
 
         /**
-         * @return the raScreenOrder
+         * @return the keyName
          */
-        public Long getRaScreenOrder() {
-                return raScreenOrder;
+        public String getKeyName() {
+                return keyName;
         }
 
         /**
-         * @param raScreenOrder the raScreenOrder to set.
+         * @param keyName the keyName to set.
          */
-        public void setRaScreenOrder(Long raScreenOrder) {
-                this.raScreenOrder = raScreenOrder;
+        public void setKeyName(String keyName) {
+                this.keyName = keyName;
         }
 
         /**
@@ -143,31 +147,31 @@ public class RaScreens implements Serializable {
         }
 
         /**
-         * @return the uiScreenName
+         * @return the keyValue
          */
-        public String getUiScreenName() {
-                return uiScreenName;
+        public String getKeyValue() {
+                return keyValue;
         }
 
         /**
-         * @param uiScreenName the uiScreenName to set.
+         * @param keyValue the keyValue to set.
          */
-        public void setUiScreenName(String uiScreenName) {
-                this.uiScreenName = uiScreenName;
+        public void setKeyValue(String keyValue) {
+                this.keyValue = keyValue;
         }
 
         /**
-         * @return the raScreenKey
+         * @return the uiApplicationKey
          */
-        public Long getRaScreenKey() {
-                return raScreenKey;
+        public Long getUiApplicationKey() {
+                return uiApplicationKey;
         }
 
         /**
-         * @param raScreenKey the raScreenKey to set.
+         * @param uiApplicationKey the uiApplicationKey to set.
          */
-        public void setRaScreenKey(Long raScreenKey) {
-                this.raScreenKey = raScreenKey;
+        public void setUiApplicationKey(Long uiApplicationKey) {
+                this.uiApplicationKey = uiApplicationKey;
         }
 
         /**
@@ -182,6 +186,20 @@ public class RaScreens implements Serializable {
          */
         public void setRaApplicationKey(Long raApplicationKey) {
                 this.raApplicationKey = raApplicationKey;
+        }
+
+        /**
+         * @return the raApplicationPropertiesKey
+         */
+        public Long getRaApplicationPropertiesKey() {
+                return raApplicationPropertiesKey;
+        }
+
+        /**
+         * @param raApplicationPropertiesKey the raApplicationPropertiesKey to set.
+         */
+        public void setRaApplicationPropertiesKey(Long raApplicationPropertiesKey) {
+                this.raApplicationPropertiesKey = raApplicationPropertiesKey;
         }
 
 }

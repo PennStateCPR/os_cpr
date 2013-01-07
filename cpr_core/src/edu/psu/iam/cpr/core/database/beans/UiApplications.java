@@ -24,8 +24,8 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="ra_screens")
-public class RaScreens implements Serializable {
+@Table(name="ui_applications")
+public class UiApplications implements Serializable {
 
         /** Contains the serialized UID */
         private static final long serialVersionUID = 1L;
@@ -42,33 +42,33 @@ public class RaScreens implements Serializable {
         @Column(name="created_on", nullable=false)
         private Date createdOn;
 
-        /** Contains the screen order chosen by the registration authority for the application */
-        @Column(name="ra_screen_order", nullable=false)
-        private Long raScreenOrder;
-
         /** Contains the user id or system identifier that last updated the record. */
         @Column(name="last_update_by", nullable=false, length=30)
         private String lastUpdateBy;
 
-        /** Contains the name of a user interface screen. */
-        @Column(name="ui_screen_name", nullable=false, length=30)
-        private String uiScreenName;
+        /** Contains the name of a user interface application. */
+        @Column(name="application_name", nullable=false, length=200)
+        private String applicationName;
 
-        /** Contains a unique number that identifies a registration authority screen record.  It is populated by the seq_ra_screen sequence. */
+        /** Contains the description of a user interface application. */
+        @Column(name="application_desc", nullable=false, length=1000)
+        private String applicationDesc;
+
+        /** Contains a flag to indicate if a user interface application is suspended.  The valid values are Y or N.  The default value is Y. */
+        @Column(name="suspend_flag", nullable=false, length=1)
+        private String suspendFlag;
+
+        /** Contains a unique number that identifies a user interface application.  It is populated by the seq_ui_application sequence. */
         @Id
-        @Column(name="ra_screen_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ra_screens")
-        @SequenceGenerator(name="seq_ra_screens", sequenceName="seq_ra_screens", allocationSize = 1, initialValue= 1)
-        private Long raScreenKey;
-
-        /** Contains a unique number that identifies a registration authority application. */
-        @Column(name="ra_application_key", nullable=false)
-        private Long raApplicationKey;
+        @Column(name="ui_application_key", nullable=false)
+        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ui_applications")
+        @SequenceGenerator(name="seq_ui_applications", sequenceName="seq_ui_applications", allocationSize = 1, initialValue= 1)
+        private Long uiApplicationKey;
 
         /**
          * Constructor
          */
-        public RaScreens() {
+        public UiApplications() {
             super();
         }
 
@@ -115,20 +115,6 @@ public class RaScreens implements Serializable {
         }
 
         /**
-         * @return the raScreenOrder
-         */
-        public Long getRaScreenOrder() {
-                return raScreenOrder;
-        }
-
-        /**
-         * @param raScreenOrder the raScreenOrder to set.
-         */
-        public void setRaScreenOrder(Long raScreenOrder) {
-                this.raScreenOrder = raScreenOrder;
-        }
-
-        /**
          * @return the lastUpdateBy
          */
         public String getLastUpdateBy() {
@@ -143,45 +129,59 @@ public class RaScreens implements Serializable {
         }
 
         /**
-         * @return the uiScreenName
+         * @return the applicationName
          */
-        public String getUiScreenName() {
-                return uiScreenName;
+        public String getApplicationName() {
+                return applicationName;
         }
 
         /**
-         * @param uiScreenName the uiScreenName to set.
+         * @param applicationName the applicationName to set.
          */
-        public void setUiScreenName(String uiScreenName) {
-                this.uiScreenName = uiScreenName;
+        public void setApplicationName(String applicationName) {
+                this.applicationName = applicationName;
         }
 
         /**
-         * @return the raScreenKey
+         * @return the applicationDesc
          */
-        public Long getRaScreenKey() {
-                return raScreenKey;
+        public String getApplicationDesc() {
+                return applicationDesc;
         }
 
         /**
-         * @param raScreenKey the raScreenKey to set.
+         * @param applicationDesc the applicationDesc to set.
          */
-        public void setRaScreenKey(Long raScreenKey) {
-                this.raScreenKey = raScreenKey;
+        public void setApplicationDesc(String applicationDesc) {
+                this.applicationDesc = applicationDesc;
         }
 
         /**
-         * @return the raApplicationKey
+         * @return the suspendFlag
          */
-        public Long getRaApplicationKey() {
-                return raApplicationKey;
+        public String getSuspendFlag() {
+                return suspendFlag;
         }
 
         /**
-         * @param raApplicationKey the raApplicationKey to set.
+         * @param suspendFlag the suspendFlag to set.
          */
-        public void setRaApplicationKey(Long raApplicationKey) {
-                this.raApplicationKey = raApplicationKey;
+        public void setSuspendFlag(String suspendFlag) {
+                this.suspendFlag = suspendFlag;
+        }
+
+        /**
+         * @return the uiApplicationKey
+         */
+        public Long getUiApplicationKey() {
+                return uiApplicationKey;
+        }
+
+        /**
+         * @param uiApplicationKey the uiApplicationKey to set.
+         */
+        public void setUiApplicationKey(Long uiApplicationKey) {
+                this.uiApplicationKey = uiApplicationKey;
         }
 
 }

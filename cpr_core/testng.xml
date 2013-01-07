@@ -28,6 +28,7 @@
       <class name="edu.psu.iam.cpr.core.tests.CredentialTypeTest"/>
       <class name="edu.psu.iam.cpr.core.tests.DBTypesHelperTest"/>
       <class name="edu.psu.iam.cpr.core.tests.DatabaseTest"/>
+      <class name="edu.psu.iam.cpr.core.tests.DatabaseUITest"/>
       <class name="edu.psu.iam.cpr.core.tests.DateOfBirthReturnTest"/>
       <class name="edu.psu.iam.cpr.core.tests.DateOfBirthTableTest"/>
       <class name="edu.psu.iam.cpr.core.tests.DateOfBirthTest"/>
@@ -36,8 +37,10 @@
       <class name="edu.psu.iam.cpr.core.tests.EmailAddressTableTest"/>
       <class name="edu.psu.iam.cpr.core.tests.EmailAddressTest"/>
       <class name="edu.psu.iam.cpr.core.tests.EmailAddressTypeTest"/>
+      <class name="edu.psu.iam.cpr.core.tests.EmailMsgUITest"/>
       <class name="edu.psu.iam.cpr.core.tests.ExternalAffiliationTest"/>
       <class name="edu.psu.iam.cpr.core.tests.FederationTableTest"/>
+      <class name="edu.psu.iam.cpr.core.tests.FieldUITest"/>
       <class name="edu.psu.iam.cpr.core.tests.GenderReturnTest"/>
       <class name="edu.psu.iam.cpr.core.tests.GenderTypeTest"/>
       <class name="edu.psu.iam.cpr.core.tests.GeneratedIdentityTest"/>
@@ -102,6 +105,7 @@
       <class name="edu.psu.iam.cpr.core.tests.PsuIdTableTest"/>
       <class name="edu.psu.iam.cpr.core.tests.PsuIdTest"/>
       <class name="edu.psu.iam.cpr.core.tests.ReturnTypeTest"/>
+      <class name="edu.psu.iam.cpr.core.tests.ScreenUITest"/>
       <class name="edu.psu.iam.cpr.core.tests.ServiceCoreReturnTest"/>
       <class name="edu.psu.iam.cpr.core.tests.ServiceCoreTest"/>
       <class name="edu.psu.iam.cpr.core.tests.ServiceLogTableTest"/>
