@@ -5,10 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -35,14 +32,13 @@ public class ApplicationProperties implements Serializable {
         private String createdBy;
 
         /** Contains the keyName. */
+        @Id
         @Column(name="key_name", nullable=false, length=200)
         private String keyName;
 
         /** Contains the uiApplicationKey. */
         @Id
         @Column(name="ui_application_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_application_properties")
-        @SequenceGenerator(name="seq_application_properties", sequenceName="seq_application_properties", allocationSize = 1, initialValue= 1)
         private Long uiApplicationKey;
 
         /** Contains the createdOn. */

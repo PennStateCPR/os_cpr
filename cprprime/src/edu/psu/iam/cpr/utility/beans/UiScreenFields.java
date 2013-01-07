@@ -5,10 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -73,8 +70,6 @@ public class UiScreenFields implements Serializable {
         /** Contains the uiScreenName. */
         @Id
         @Column(name="ui_screen_name", nullable=false, length=30)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ui_screen_fields")
-        @SequenceGenerator(name="seq_ui_screen_fields", sequenceName="seq_ui_screen_fields", allocationSize = 1, initialValue= 1)
         private String uiScreenName;
 
         /** Contains the activeFlag. */
@@ -84,8 +79,6 @@ public class UiScreenFields implements Serializable {
         /** Contains the uiFieldName. */
         @Id
         @Column(name="ui_field_name", nullable=false, length=30)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ui_screen_fields")
-        @SequenceGenerator(name="seq_ui_screen_fields", sequenceName="seq_ui_screen_fields", allocationSize = 1, initialValue= 1)
         private String uiFieldName;
 
         /**

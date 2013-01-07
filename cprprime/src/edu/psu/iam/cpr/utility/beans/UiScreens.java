@@ -5,10 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -39,10 +36,7 @@ public class UiScreens implements Serializable {
         private String requiredFlag;
 
         /** Contains the uiApplicationKey. */
-        @Id
         @Column(name="ui_application_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ui_screens")
-        @SequenceGenerator(name="seq_ui_screens", sequenceName="seq_ui_screens", allocationSize = 1, initialValue= 1)
         private Long uiApplicationKey;
 
         /** Contains the createdOn. */
@@ -54,6 +48,7 @@ public class UiScreens implements Serializable {
         private String lastUpdateBy;
 
         /** Contains the uiScreenName. */
+        @Id
         @Column(name="ui_screen_name", nullable=false, length=30)
         private String uiScreenName;
 
