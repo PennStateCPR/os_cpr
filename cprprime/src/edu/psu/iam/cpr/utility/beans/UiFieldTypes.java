@@ -5,10 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -41,8 +38,6 @@ public class UiFieldTypes implements Serializable {
         /** Contains the uiFieldType. */
         @Id
         @Column(name="ui_field_type", nullable=false, length=25)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_ui_field_types")
-        @SequenceGenerator(name="seq_ui_field_types", sequenceName="seq_ui_field_types", allocationSize = 1, initialValue= 1)
         private String uiFieldType;
 
         /** Contains the lastUpdateBy. */
