@@ -148,6 +148,12 @@ public class BeanLoaderFactory {
 		else if (tableName.equals("RaScreens")) {
 			return new RaScreensLoader();
 		}
+		else if (tableName.equals("UspsStates")) {
+			return new UspsStatesLoader();
+		}
+		else if (tableName.equals("UspsStateTypes")) {
+			return new UspsStateTypesLoader();
+		}
 		return null;
 	}
 
