@@ -22,6 +22,7 @@
         <pathelement path="${classes.dir}" />
 		<path refid="lib.path.id" />
 	</path>
+
 		
     <target name="download-ivy" depends="init" unless="skip.download">
 		<mkdir dir="${ivy.jar.dir}"/>
@@ -67,7 +68,32 @@
 			
 	<target name="dist" depends="compile">
 		<mkdir dir="${jar.dir}" />
-		<jar jarfile="${jar.dir}/${jar.file}" basedir="${classes.dir}" />
+		<copy todir="${classes.dir}" flatten="true">
+			<path refid="lib.path.id" />
+		</copy>
+		<copy file="../cpr_core/dist/lib/${core.file}" todir="${classes.dir}" flatten="true" />
+		<copy file="src/cpr.properties" todir="${classes.dir}" />
+		<copy file="src/log4j.properties" todir="${classes.dir}" />
+
+		<path id="classpath.build.lib">
+			<fileset dir="${classes.dir}" includes="*.*" />
+		</path>
+
+		<pathconvert property="classpath.dist" pathsep=" ">
+			<path refid="classpath.build.lib" />
+			<mapper>
+				<chainedmapper>
+					<flattenmapper />
+				</chainedmapper>
+			</mapper>
+		</pathconvert>
+
+		<jar jarfile="${jar.dir}/${jar.file}" basedir="${classes.dir}">
+            		<manifest>
+                		<attribute name="Main-Class" value="edu.psu.iam.cpr.provisioner.directory.DirectoryReceiver"/>
+                		<attribute name="Class-Path" value="${classpath.dist}"/>
+            		</manifest>
+		</jar>
 		<copy file="${jar.dir}/${jar.file}" todir="${lib.dir}" />
 	</target>
 	

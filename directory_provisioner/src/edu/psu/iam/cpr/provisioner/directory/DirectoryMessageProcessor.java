@@ -98,7 +98,7 @@ public class DirectoryMessageProcessor {
 	private static String logClassPath = DirectoryMessageProcessor.class.getName();
 
 	/** Log properties file name */
-	private static final String LOG_PROPERTIES_FILE = "log4j/log4j.properties";
+	private static final String LOG_PROPERTIES_FILE = "log4j.properties";
 	
 	/** String Builder buffer size */
 	private static final int BUFFER_SIZE = 500;
