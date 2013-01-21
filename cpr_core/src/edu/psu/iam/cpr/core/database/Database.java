@@ -65,10 +65,10 @@ public class Database {
 	private static final Logger LOG4J_LOGGER = Logger.getLogger(Database.class);
 
 	/** IAM Group Key. */
-	private long iamGroupKey;
+	private long iamGroupKey = 0;
 	
 	/** Registration Authority Key. */
-	private long registrationAuthorityKey;
+	private long registrationAuthorityKey = 0;
 	
 	private static final int IAM_GROUP_KEY = 0;
 	private static final int GRP_MBRS_SUSPEND_FLAG = 1;

@@ -1,8 +1,8 @@
 /* SVN FILE: $Id: ServiceCoreReturn.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
 package edu.psu.iam.cpr.core.service.helper;
 
+import edu.psu.iam.cpr.core.authorization.AuthorizationService;
 import edu.psu.iam.cpr.core.database.tables.ServiceLogTable;
-import edu.psu.iam.cpr.core.grouper.GrouperPermissions;
 
 /**
  * This class provides an implementation of functions that represent the results of initializing a service,
@@ -35,14 +35,8 @@ public class ServiceCoreReturn {
 	/** Contains the service log table. */
 	private ServiceLogTable serviceLogTable;
 	
-	/** IAM Group Key. */
-	private long iamGroupKey;
-	
-	/** Registration Authority Key. */
-	private long registrationAuthorityKey;
-	
-	/** grouper data */
-	private GrouperPermissions grouperPerm;
+	/** Authorization Service */
+	private AuthorizationService authorizationService;
 	
 	/**
 	 * Constructor.
@@ -80,44 +74,17 @@ public class ServiceCoreReturn {
 	}
 
 	/**
-	 * @param iamGroupKey the iamGroupKey to set
+	 * @param authorizationService the authorizationService to set
 	 */
-	public void setIamGroupKey(long iamGroupKey) {
-		this.iamGroupKey = iamGroupKey;
+	public void setAuthorizationService(AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
 	}
 
 	/**
-	 * @return the iamGroupKey
+	 * @return the authorizationService
 	 */
-	public long getIamGroupKey() {
-		return iamGroupKey;
+	public AuthorizationService getAuthorizationService() {
+		return authorizationService;
 	}
 
-	/**
-	 * @param registrationAuthorityKey the registrationAuthorityKey to set
-	 */
-	public void setRegistrationAuthorityKey(long registrationAuthorityKey) {
-		this.registrationAuthorityKey = registrationAuthorityKey;
-	}
-
-	/**
-	 * @return the registrationAuthorityKey
-	 */
-	public long getRegistrationAuthorityKey() {
-		return registrationAuthorityKey;
-	}
-
-	/**
-	 * @return the grouperPerm
-	 */
-	public GrouperPermissions getGrouperPerm() {
-		return grouperPerm;
-	}
-
-	/**
-	 * @param grouperPerm the grouperPerm to set
-	 */
-	public void setGrouperPerm(GrouperPermissions grouperPerm) {
-		this.grouperPerm = grouperPerm;
-	}	
 }

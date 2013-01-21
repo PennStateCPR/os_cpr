@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: RAGroupData.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
+/* SVN FILE: $Id: RAGroupData.java 3536 2012-04-02 20:01:39Z jvuccolo $ */
 
 
 package edu.psu.iam.cpr.core.grouper;
@@ -7,25 +7,15 @@ package edu.psu.iam.cpr.core.grouper;
  *  This class provides an implementation for interfacing with the Grouper.  There are methods
  *  here to send REST request to grouper and process the response.
  * 
- * Copyright 2012 The Pennsylvania State University
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To 
+ * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative 
+ * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
  *  
  * @package edu.psu.iam.cpr.core.grouper
  * @author $Author: jvuccolo $
- * @version $Rev: 5340 $
- * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
+ * @version $Rev: 3536 $
+ * @lastrevision $Date: 2012-04-02 16:01:39 -0400 (Mon, 02 Apr 2012) $
  */
 public class RAGroupData {
 

@@ -52,6 +52,19 @@ import edu.psu.iam.cpr.core.database.types.CprPropertyName;
  */
 public final class Validate {
 	
+	private static final SimpleDateFormat FULL_DATE_FORMAT;
+	private static final SimpleDateFormat PARTIAL_DATE_FORMAT;
+	
+	static {
+		FULL_DATE_FORMAT = new SimpleDateFormat(CprProperties.INSTANCE.getProperties().getProperty(
+													CprPropertyName.CPR_FORMAT_DATE.toString()));
+		FULL_DATE_FORMAT.setLenient(false);
+		
+		PARTIAL_DATE_FORMAT = new SimpleDateFormat(CprProperties.INSTANCE.getProperties().getProperty(
+													CprPropertyName.CPR_FORMAT_PARTIAL_DATE.toString()));
+		PARTIAL_DATE_FORMAT.setLenient(false);
+	}
+	
 	/**
 	 * Constructor
 	 */
@@ -108,9 +121,7 @@ public final class Validate {
     public static boolean isValidDate(String dateString) {
  
     	try {
-    		final SimpleDateFormat sdf = new SimpleDateFormat(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_FORMAT_DATE.toString()));
-    		sdf.setLenient(false);
-    		sdf.parse(dateString);
+    		FULL_DATE_FORMAT.parse(dateString);
     		return true;
     	}
     	catch (Exception e) {
@@ -126,9 +137,7 @@ public final class Validate {
     public static boolean isValidPartialDate(String dateString) {
     	
     	try {
-    		final SimpleDateFormat sdf = new SimpleDateFormat(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_FORMAT_PARTIAL_DATE.toString()));
-    		sdf.setLenient(false);
-    		sdf.parse(dateString);
+    		PARTIAL_DATE_FORMAT.parse(dateString);
     		return true;
     	} 
     	catch (Exception e) {

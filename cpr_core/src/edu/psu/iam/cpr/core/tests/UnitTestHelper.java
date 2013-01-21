@@ -1,6 +1,6 @@
 package edu.psu.iam.cpr.core.tests;
 
-public class UnitTestHelper {
+public final class UnitTestHelper {
 	
 	public static final String TEST_REQUESTOR = "cpruser";
 	
@@ -8,4 +8,7 @@ public class UnitTestHelper {
 	
 	public static final String TEST_PASSWORD = "abcd1234";
 
+	private UnitTestHelper() {
+		
+	}
 }

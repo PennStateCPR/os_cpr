@@ -35,12 +35,12 @@ public class CprComponentStatusTableTest {
 	}
 	
 	@Test
-	public final void testCprComponentStatusTable() {
+	public final void _01testCprComponentStatusTable() {
 		new CprComponentStatusTable();
 	}
 
 	@Test
-	public final void testIsCprComponentActive() throws Exception {
+	public final void _02testIsCprComponentActive() throws Exception {
 		openDbConnection();
 		CprComponentStatusTable t = new CprComponentStatusTable();
 		t.changeComponentStatus(db, CprComponent.MESSAGING, ComponentStatus.DISABLED);
@@ -49,7 +49,7 @@ public class CprComponentStatusTableTest {
 	}
 
 	@Test
-	public final void testChangeComponentStatus() throws Exception {
+	public final void _03testChangeComponentStatus() throws Exception {
 		openDbConnection();
 		CprComponentStatusTable t = new CprComponentStatusTable();
 		t.changeComponentStatus(db, CprComponent.MESSAGING, ComponentStatus.ACTIVE);
@@ -58,7 +58,7 @@ public class CprComponentStatusTableTest {
 	}
 
 	@Test
-	public final void testSetCprComponentStatusBean() {
+	public final void _04testSetCprComponentStatusBean() {
 		CprComponentStatus bean = new CprComponentStatus();
 		CprComponentStatusTable t = new CprComponentStatusTable();
 		t.setCprComponentStatusBean(bean);

@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import edu.psu.iam.cpr.core.authentication.AuthenticateService;
 import edu.psu.iam.cpr.core.authentication.SessionCache;
 import edu.psu.iam.cpr.core.authentication.SessionCookie;
+import edu.psu.iam.cpr.core.authorization.AuthorizationService;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.ServiceLog;
 import edu.psu.iam.cpr.core.database.tables.ServiceLogTable;
@@ -81,9 +82,10 @@ public class ServiceCore {
 	
 		// Add in check to see if the caller is authorized.
 		LOG4J_LOGGER.info("Checking for service authorization...");
-		db.requestorAuthorized(principalId, serviceCoreReturn.getServiceLogTable().getServiceLogBean().getRequestUserid(), serviceName);
-		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
-		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
+		AuthorizationService authorizationService = new AuthorizationService();
+		serviceCoreReturn.setAuthorizationService(authorizationService);
+		authorizationService.serviceAuthorized(db, principalId, 
+				serviceCoreReturn.getServiceLogTable().getServiceLogBean().getRequestUserid(), serviceName);
 	
 		// Only want to find the person id if the service is NOT Add Person and NOT Find Person.
 		if ((! serviceName.equals(CprServiceName.AddPerson.toString())) &&

@@ -59,3 +59,13 @@ cpr.regex.state=^[A-Z]{2}$
 cpr.regex.campus.code=^[A-Z]{2}$
 cpr.regex.country.code=^[A-Z]{3}$
 cpr.regex.postal.code=^[0-9]{5}((-| )?[0-9]{4})?$
+#
+# Authorization Service
+#
+cpr.authz.model=database
+
+#
+# Grouper 
+#
+cpr.grouper.resources.stem=apps:cpr:resources
+cpr.grouper.groups.stem=apps:cpr:regAuth

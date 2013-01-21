@@ -72,18 +72,4 @@ public class ServiceCoreReturnTest {
 		s.getServiceLogTable();
 	}
 	
-	@Test
-	public final void testSetIamGroupKey() {
-		ServiceCoreReturn s = new ServiceCoreReturn();
-		s.setIamGroupKey(-1);
-		AssertJUnit.assertEquals(s.getIamGroupKey(),-1);
-	}
-	
-	@Test
-	public final void testSetRegistrationAuthorityKey() {
-		ServiceCoreReturn s = new ServiceCoreReturn();
-		s.setRegistrationAuthorityKey(-1);
-		AssertJUnit.assertEquals(s.getRegistrationAuthorityKey(), -1);
-	}
-	
 }

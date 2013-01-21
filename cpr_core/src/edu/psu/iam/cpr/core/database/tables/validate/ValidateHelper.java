@@ -28,7 +28,7 @@ import edu.psu.iam.cpr.core.util.Validate;
  * @since 1.0
  */
 
-public class ValidateHelper {
+public final class ValidateHelper {
 	
 	/**
 	 * Constructor

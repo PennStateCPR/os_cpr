@@ -2,7 +2,8 @@
 package edu.psu.iam.cpr.core.authentication;
 
 import java.util.Date;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * SessionCache is a singleton class that provides a hash table
@@ -31,8 +32,22 @@ public enum SessionCache {
 
 	INSTANCE;
 	
+	/** Contains the initial capacity of the hash map */
+	private static final int INITIAL_CAPACITY = 8;
+	
+	/** The load factor threshold, used to control resizing. Resizing may be performed when the average number of 
+	 *  elements per bin exceeds this threshold.
+	 */
+	private static final float LOAD_FACTOR = 0.9f;
+	
+	/**  the estimated number of concurrently updating threads. The implementation performs internal sizing 
+	 * to try to accommodate this many threads 
+	 */
+	private static final int CONCURRENCY_LEVEL = 1;
+	
 	/** Contains the credential cookie hash table */
-	private static HashMap<String, SessionCookie> credsMap = new HashMap<String, SessionCookie>();
+	private static ConcurrentMap<String, SessionCookie> credsMap = new ConcurrentHashMap<String, SessionCookie>(INITIAL_CAPACITY,
+			LOAD_FACTOR, CONCURRENCY_LEVEL);
 	
 	/** Contains the expiration time of a session within the cache. */
 	private static final int SESSION_EXPIRATION_TIME_MINUTES = 15;

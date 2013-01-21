@@ -25,7 +25,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.database.types.AccessType;
-import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 
 public class DatabaseTest {
 
@@ -453,9 +452,6 @@ public class DatabaseTest {
 	public final void _58testisDataActionAuthorized3() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
-		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized(AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_ARCHIVE.toString(), "jvuccolo");
 		db.closeSession();
 	}
@@ -463,9 +459,6 @@ public class DatabaseTest {
 	public final void _59testisDataActionAuthorized4() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
-		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized(AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_READ.toString(), "jvuccolo");
 		db.closeSession();
 	}
@@ -473,9 +466,6 @@ public class DatabaseTest {
 	public final void _60testisDataActionAuthorized5() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
-		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized(AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), "jvuccolo");
 		db.closeSession();
 	}
@@ -525,9 +515,6 @@ public class DatabaseTest {
 	public final void _68testisDataActionAuthorizedGrouper3() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
-		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized("PERMANENT_PHONE", "ACCESS_OPERATION_ARCHIVE".toLowerCase(), "jvuccolo");
 		db.closeSession();
 	}
@@ -535,9 +522,6 @@ public class DatabaseTest {
 	public final void _69testisDataActionAuthorized() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
-		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized("PERMANENT_PHONE", "ACCESS_OPERATION_READ", "jvuccolo" );
 		db.closeSession();
 	}
@@ -545,9 +529,6 @@ public class DatabaseTest {
 	public final void _70testisDataActionAuthorizedGrouper5() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
-		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized("PERMANENT_PHONE", "ACCESS_OPERATION_WRITE", "jvuccolo");
 		db.closeSession();
 	}
@@ -555,9 +536,6 @@ public class DatabaseTest {
 	public final void _71testisDataActionAuthorized6() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
-		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized("EMPLOYEE_PHONE_", "ACCESS_OPERATION_ARCHIVE", "jvuccolo" );
 		db.closeSession();
 	}
@@ -565,9 +543,6 @@ public class DatabaseTest {
 	public final void _72testisDataActionAuthorized7() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
-		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized("EMPLOYEE_PHONE_", "ARCE", "jvuccolo" );
 		db.closeSession();
 	}
@@ -575,9 +550,6 @@ public class DatabaseTest {
 	public final void _73testisDataActionAuthorized8() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
-		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		db.isDataActionAuthorized("LOCAL_ADDRESS", "ACCESS_OPERATION_WRITE", "llg5" );
 		db.closeSession();
 	}
@@ -633,9 +605,6 @@ public class DatabaseTest {
 	public final void _83testIsAffiliationRANotAuthorized() throws Exception {
 	openDbConnection();
 		db.requestorAuthorized("cpruser", "vlt", "AddAffiliation");
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
-		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
 		boolean bTest =db.isAffiliationAccessAuthorized("EMPLOYEE_WAGE_ACTIVE", "vlt");
 		AssertJUnit.assertTrue(bTest);
 		db.closeSession();
@@ -645,10 +614,6 @@ public class DatabaseTest {
 	public final void _84testIsAffiliationNotAuthorized() throws Exception {
 		openDbConnection();
 		db.requestorAuthorized("portal5", "vlt", "AddAffiliation");
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
-		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
-		
 		boolean bTest =db.isAffiliationAccessAuthorized("EMPLOYEE_STAFF_ACTIVE",  "vlt");
 		AssertJUnit.assertFalse(bTest);
 		db.closeSession();
@@ -658,10 +623,6 @@ public class DatabaseTest {
 	public final void _85testIsAffiliationAuthorized() throws Exception {
 		openDbConnection();
 		 db.requestorAuthorized("cpruser", "llg5", "AddAffiliation");
-		ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
-		serviceCoreReturn.setIamGroupKey(db.getIamGroupKey());
-		serviceCoreReturn.setRegistrationAuthorityKey(db.getRegistrationAuthorityKey());
-		
 		boolean bTest =db.isAffiliationAccessAuthorized("EMPLOYEE_STAFF_ACTIVE",  "llg5");
 		AssertJUnit.assertTrue(bTest);
 		db.closeSession();
