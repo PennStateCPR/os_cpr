@@ -8,15 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.GetPsuIAPApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.returns.IAPServiceReturn;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.PersonUseridIapTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.returns.IAPReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonUseridIap;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.IAPServiceReturn;
 
 /**
  * This class provides an implementation for the get psu IAP service.
@@ -42,12 +40,6 @@ import edu.psu.iam.cpr.service.returns.IAPServiceReturn;
  */
 public class GetPSUIAPImpl extends ExtendedBaseServiceImpl {
 
-	/** Contains the index for the userid parameter */
-	private static final int USERID = 0;
-	
-	/** Contains the index for the return history parameter */
-	private static final int RETURN_HISTORY = 1;
-	
     /**
      * This method is used to execute the core logic for a service.
      * @param db contains a open database session.
@@ -68,17 +60,9 @@ public class GetPSUIAPImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		String userId 				= (String) otherParameters[USERID];
-		final String returnHistory 	= (String) otherParameters[RETURN_HISTORY];
-		
-		// Validate the data passed to the service
-		PersonUseridIapTable personUseridIapTable = ValidatePersonUseridIap.validateGetPsuIapParameters(db, 
-								serviceCoreReturn.getPersonId(), userId, updatedBy, returnHistory);
-		userId = (userId != null) ? userId.trim() : null;
-		final IAPReturn[] iapResults = personUseridIapTable.getPSUIAP(db, serviceCoreReturn.getPersonId(), userId);
-
-		// Build the return class
-		return (Object) new IAPServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, iapResults, iapResults.length);
+		return (Object) new GetPsuIAPApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 		
 	}
 	

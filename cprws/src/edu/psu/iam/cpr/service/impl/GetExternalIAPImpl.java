@@ -8,16 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.GetExternalIAPApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.FederationTable;
-import edu.psu.iam.cpr.core.database.tables.PersonUseridIapTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.returns.IAPReturn;
+import edu.psu.iam.cpr.core.api.returns.IAPServiceReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonUseridIap;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.IAPServiceReturn;
 
 /**
  * This class provides an implementation for the get external iap service.
@@ -42,12 +39,6 @@ import edu.psu.iam.cpr.service.returns.IAPServiceReturn;
  */
 public class GetExternalIAPImpl extends ExtendedBaseServiceImpl {
 	
-	/** Contains the index for the userid parameter */
-	private static final int USERID = 0;
-	
-	/** Contains the index for the federation name parameter */
-	private static final int FEDERATION_NAME = 1;
-	
     /**
      * This method is used to execute the core logic for a service.
      * @param db contains a open database session.
@@ -68,30 +59,9 @@ public class GetExternalIAPImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		String userId 				= (String) otherParameters[USERID];
-		final String federationName = (String) otherParameters[FEDERATION_NAME];
-		
-		// Validate the data passed to the service
-		ValidatePersonUseridIap.validateGetExternalIapParameters(db, serviceCoreReturn.getPersonId(), userId,federationName, updatedBy);
-		
-		FederationTable fedTable = new FederationTable();
-		@SuppressWarnings("unused")
-		boolean fedValid = fedTable.isFederationValid(db, federationName);
-		
-		// get a new iap table
-		final PersonUseridIapTable personUseridIapTable  = new PersonUseridIapTable();
-		userId = (userId != null) ? userId.trim() : null;
-	
-		final IAPReturn[] iapResults = personUseridIapTable.getExternalIAP(db, serviceCoreReturn.getPersonId(), userId, federationName);
-	
-		// Build the return class
-		IAPServiceReturn serviceReturn = new IAPServiceReturn();
-		serviceReturn.setStatusCode(ReturnType.SUCCESS.index());
-		serviceReturn.setStatusMessage(ServiceHelper.SUCCESS_MESSAGE);	
-		serviceReturn.setNumberElements(iapResults.length);
-		serviceReturn.setIapReturnRecord(iapResults);
-		
-		return (Object) serviceReturn;
+		return (Object) new GetExternalIAPApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 	
 	

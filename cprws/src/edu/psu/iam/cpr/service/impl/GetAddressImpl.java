@@ -8,15 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.GetAddressApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.returns.AddressServiceReturn;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.AddressesTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.returns.AddressReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.AddressServiceReturn;
 
 /**
  * This service provides the implementation for the get address service.
@@ -42,12 +40,6 @@ import edu.psu.iam.cpr.service.returns.AddressServiceReturn;
  */
 public class GetAddressImpl extends ExtendedBaseServiceImpl {
 
-	/** contains the index for the address type parameter */
-	private static final int ADDRESS_TYPE = 0;
-	
-	/** contains the index for the return history parameter */
-	private static final int RETURN_HISTORY = 1;
-
 	/**
      * This method is used to execute the core logic for a service.
      * @param db contains a open database session.
@@ -68,19 +60,9 @@ public class GetAddressImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		final String addressType 	= (String) otherParameters[ADDRESS_TYPE];
-		final String returnHistory 	= (String) otherParameters[RETURN_HISTORY];
-
-		// Validate the data passed to the service
-		final AddressesTable addressTable = ValidateAddress.validateGetAddressParameters(db, serviceCoreReturn.getPersonId(),  
-				updatedBy, addressType, returnHistory);
-		
-		// Do the query.
-		final AddressReturn[] addressResults = addressTable.getAddress(db, serviceCoreReturn.getPersonId());
-
-		// Build the return class
-		return (Object) new AddressServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, addressResults, 
-				addressResults.length);
+		return (Object) new GetAddressApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 		
 	}
 

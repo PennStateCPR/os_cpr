@@ -3,14 +3,15 @@ package edu.psu.iam.cpr.service.impl;
 
 import java.text.ParseException;
 
+import javax.jms.JMSException;
+
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.ArchivePersonIdentifierApi;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.PersonIdentifierTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonIdentifier;
 
 /**
  * This class provides the implementation for the Archive Person Identifier service.
@@ -36,9 +37,6 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonIdentifier;
  */
 public class ArchivePersonIdentifierImpl extends BaseServiceImpl {
 
-	/** Contains the index for the identifier type parameter */
-	private static final int IDENTIFIER_TYPE = 0;
-	
     /**
      * This method is used to execute the core logic for a service.
      * @param serviceName contains the name of the service.
@@ -46,28 +44,17 @@ public class ArchivePersonIdentifierImpl extends BaseServiceImpl {
      * @param serviceCoreReturn contains the service core information.
      * @param updatedBy contains the userid requesting this information.
      * @param otherParameters contains an array of Java objects that are additional parameters for the service.
-     * @return will return an JsonMessage object if successful.
      * @throws CprException will be thrown if there are any problems.
      * @throws JSONException will be thrown if there are any issues creating a JSON message.
      * @throws ParseException will be thrown if there are any issues related to parsing a data value.
+     * @throws JMSException will be thrown if there are any messaging problems.
      */	
 	@Override
-	public JsonMessage runService(String serviceName, Database db,
+	public void runService(String serviceName, Database db,
 			ServiceCoreReturn serviceCoreReturn, String updatedBy,
 			Object[] otherParameters) throws CprException, JSONException,
-			ParseException {
-		
-		final String registryIdentifierType = (String) otherParameters[IDENTIFIER_TYPE];
-		
-		// Validate the parameters.
-		final PersonIdentifierTable personIdentifierTable = ValidatePersonIdentifier.validateArchivePersonIdentifierParameters(db, 
-				serviceCoreReturn.getPersonId(), 
-				registryIdentifierType, 
-				updatedBy);
-
-		// Do the archive.
-		personIdentifierTable.archivePersonIdentifier(db);
-		
-		return null;
+			ParseException, JMSException {
+		new ArchivePersonIdentifierApi().implementApi(serviceName, db, updatedBy, serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 }

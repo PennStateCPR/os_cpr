@@ -3,14 +3,15 @@ package edu.psu.iam.cpr.service.impl;
 
 import java.text.ParseException;
 
+import javax.jms.JMSException;
+
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.AddIdCardPrintEventApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.IdCardPrintLogTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog;
 
 /**
 * This class provides the implementation of the AddIdCardPrintEvent.
@@ -37,41 +38,14 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog;
 
 public class AddIdCardPrintEventImpl extends BaseServiceImpl {
 
-	/** Contains the index for the identifier type parameter */
-	private static final int IDENTIFIER_TYPE = 0;
-	
-	/** Contains the index for the identifier parameter */
-	private static final int IDENTIFIER = 1;
-	
-	/** Contains the index for the event userid parameter */
-	private static final int EVENT_USER_ID = 2;
-	
-	/** Contains the index for the ip address parameter */
-	private static final int EVENT_IP_ADDRESS = 3;
-	
-	/** Contains the index for the workstation parameter */
-	private static final int EVENT_WORKSTATION = 4;
-
 	@Override
-	public JsonMessage runService(String serviceName, Database db,
+	public void runService(String serviceName, Database db,
 			ServiceCoreReturn serviceCoreReturn, String updatedBy,
 			Object[] otherParameters) throws CprException, JSONException,
-			ParseException {
+			ParseException, JMSException {
 		
-		final String identifierType = (String) otherParameters[IDENTIFIER_TYPE];
-		final String identifier = (String) otherParameters[IDENTIFIER];
-		final String eventUserId = (String) otherParameters[EVENT_USER_ID];
-		final String eventIpAddress = (String) otherParameters[EVENT_IP_ADDRESS];
-		final String eventWorkStation = (String) otherParameters[EVENT_WORKSTATION];
-
-		final IdCardPrintLogTable idCardPrintLogTableRecord = ValidateIdCardPrintLog.validateAddIdCardPrintLogParameters(db, 
-				identifierType,identifier, 
-				eventUserId, eventIpAddress, eventWorkStation);
-		
-		idCardPrintLogTableRecord.addIdCardPrintLog(db);
-		
-		return null;
-
+		new AddIdCardPrintEventApi().implementApi(serviceName, db, updatedBy, serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 		
 }

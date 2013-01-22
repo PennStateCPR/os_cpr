@@ -8,15 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.GetUseridApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.returns.UseridServiceReturn;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.UseridTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.service.returns.UseridReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserid;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.UseridServiceReturn;
 
 /**
  * This class provides an implementation for the get userid service.
@@ -42,9 +40,6 @@ import edu.psu.iam.cpr.service.returns.UseridServiceReturn;
  */
 public class GetUseridImpl extends ExtendedBaseServiceImpl {
 
-	/** Contains the index for the return history flag */
-	private static final int RETURN_HISTORY = 0;
-
     /**
      * This method is used to execute the core logic for a service.
      * @param db contains a open database session.
@@ -65,14 +60,9 @@ public class GetUseridImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		final String returnHistory = (String) otherParameters[RETURN_HISTORY];
-		
-		// Obtain the list of userid's for the person.
-		final UseridTable useridTable = ValidateUserid.validateGetUseridParameters(db, serviceCoreReturn.getPersonId(), updatedBy, returnHistory);
-		final UseridReturn[] queryResults = useridTable.getUseridsForPersonId(db, serviceCoreReturn.getPersonId());
-		
-		// Build the return value class.
-		return (Object) new UseridServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, queryResults, queryResults.length);
+		return (Object) new GetUseridApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 
     /**

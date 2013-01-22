@@ -11,9 +11,10 @@ import org.json.JSONException;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.service.helper.FindPersonHelper;
+import edu.psu.iam.cpr.core.api.SearchForPersonApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.returns.FindPersonServiceReturn;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.FindPersonServiceReturn;
 
 /**
  * This service provides the implementation for the search for person service.
@@ -39,24 +40,6 @@ import edu.psu.iam.cpr.service.returns.FindPersonServiceReturn;
  */
 public class SearchForPersonImpl extends ExtendedBaseServiceImpl {
 
-	private static final int PSU_ID 		= 0;
-	private static final int USERID 		= 1;
-	private static final int SSN 			= 2;
-	private static final int FIRST_NAME 	= 3;
-	private static final int LAST_NAME 		= 4;
-	private static final int MIDDLE_NAME 	= 5;
-	private static final int ADDRESS1 		= 6;
-	private static final int ADDRESS2 		= 7;
-	private static final int ADDRESS3 		= 8;
-	private static final int CITY 			= 9;
-	private static final int STATE 			= 10;
-	private static final int POSTAL_CODE 	= 11;
-	private static final int PLUS4 			= 12;
-	private static final int COUNTRY 		= 13;
-	private static final int DATE_OF_BIRTH 	= 14;
-	private static final int GENDER 		= 15;
-	private static final int RANK_CUT_OFF 	= 16;
-
 	/**
      * This method is used to execute the core logic for a service.
      * @param db contains a open database session.
@@ -79,30 +62,9 @@ public class SearchForPersonImpl extends ExtendedBaseServiceImpl {
 			Object[] otherParameters) throws CprException, JSONException,
 			JMSException, ParseException {
 		
-		final String psuId 			= (String) otherParameters[PSU_ID];
-		final String userId 		= (String) otherParameters[USERID];
-		final String ssn 			= (String) otherParameters[SSN];
-		final String firstName 		= (String) otherParameters[FIRST_NAME];
-		final String lastName 		= (String) otherParameters[LAST_NAME];
-		final String middleName 	= (String) otherParameters[MIDDLE_NAME];
-		final String address1 		= (String) otherParameters[ADDRESS1];
-		final String address2 		= (String) otherParameters[ADDRESS2];
-		final String address3 		= (String) otherParameters[ADDRESS3];
-		final String city 			= (String) otherParameters[CITY];
-		final String state 			= (String) otherParameters[STATE];
-		final String postalCode 	= (String) otherParameters[POSTAL_CODE];
-		final String plus4 			= (String) otherParameters[PLUS4];
-		final String country 		= (String) otherParameters[COUNTRY];
-		final String dateOfBirth 	= (String) otherParameters[DATE_OF_BIRTH];
-		final String gender 		= (String) otherParameters[GENDER];
-		final String rankCutOff 	= (String) otherParameters[RANK_CUT_OFF];
-		
-		final FindPersonHelper helper = new FindPersonHelper(db);
-
-		return (Object) helper.doSearchForPersonOS(serviceCoreReturn, updatedBy, psuId, userId, ssn, 
-				firstName, lastName, middleName, address1, address2, address3, city, state, postalCode, plus4, country, dateOfBirth, 
-				gender, rankCutOff);				
-
+		return (Object) new SearchForPersonApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 
 	/**

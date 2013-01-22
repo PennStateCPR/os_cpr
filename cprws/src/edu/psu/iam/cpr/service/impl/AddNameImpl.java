@@ -4,13 +4,13 @@ package edu.psu.iam.cpr.service.impl;
 import org.json.JSONException;
 import java.text.ParseException;
 
+import javax.jms.JMSException;
+
+import edu.psu.iam.cpr.core.api.AddNameApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.NamesTable;
-import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateName;
 
 /**
  * This class provides the implementation for the Add Name service.
@@ -36,24 +36,6 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidateName;
  */
 public class AddNameImpl extends BaseServiceImpl {
 
-	/** Contains the index for the name type parameter */
-	private static final int NAME_TYPE = 0;
-	
-	/** Contains the index for the document type parameter */
-	private static final int DOCUMENT_TYPE = 1;
-	
-	/** Contains the index for the first name parameter */
-	private static final int FIRST_NAME = 2;
-	
-	/** Contains the index for the middle name parameter */
-	private static final int MIDDLE_NAMES = 3;
-	
-	/** Contains the index for the last name parameter */
-	private static final int LAST_NAME = 4;
-	
-	/** Contains index for the suffix parameter */
-	private static final int SUFFIX = 5;
-	
     /**
      * This method is used to execute the core logic for a service.
      * @param serviceName contains the name of the service.
@@ -61,38 +43,17 @@ public class AddNameImpl extends BaseServiceImpl {
      * @param serviceCoreReturn contains the service core information.
      * @param updatedBy contains the userid requesting this information.
      * @param otherParameters contains an array of Java objects that are additional parameters for the service.
-     * @return will return an JsonMessage object if successful.
      * @throws CprException will be thrown if there are any problems.
      * @throws JSONException will be thrown if there are any issues creating a JSON message.
      * @throws ParseException will be thrown if there are any issues related to parsing a data value.
+     * @throws JMSException will be thrown if there are any JMS issues.
      */	
 	@Override
-	public JsonMessage runService(String serviceName, Database db,
+	public void runService(String serviceName, Database db,
 			ServiceCoreReturn serviceCoreReturn, String updatedBy,
-			Object[] otherParameters) throws CprException, JSONException, ParseException {
+			Object[] otherParameters) throws CprException, JSONException, ParseException, JMSException {
 		
-		// Obtain the parameters.
-		final String nameType = (String) otherParameters[NAME_TYPE];
-		final String documentType = (String) otherParameters[DOCUMENT_TYPE];
-		final String firstName = (String) otherParameters[FIRST_NAME];
-		final String middleNames = (String) otherParameters[MIDDLE_NAMES];
-		final String lastName = (String) otherParameters[LAST_NAME];
-		final String suffix = (String) otherParameters[SUFFIX];
-		
-		// Validate the service parameters.
-		final NamesTable namesTable = ValidateName.validateAddNameParameters(db, serviceCoreReturn.getPersonId(), nameType, 
-				documentType, firstName, middleNames, lastName, suffix, updatedBy);
-
-		// Determine if the caller is authorized to make this call.
-		db.isDataActionAuthorized(namesTable.getNameType().toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
-		
-		// Add the name to the database table.
-		namesTable.addName(db);
-		
-		// Create a new json message.
-		final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-		jsonMessage.setName(namesTable);
-		
-		return jsonMessage;
+		new AddNameApi().implementApi(serviceName, db, updatedBy, serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 }

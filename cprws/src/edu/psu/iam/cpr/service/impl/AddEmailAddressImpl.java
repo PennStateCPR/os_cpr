@@ -3,15 +3,15 @@ package edu.psu.iam.cpr.service.impl;
 
 import java.text.ParseException;
 
+import javax.jms.JMSException;
+
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.AddEmailAddressApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.EmailAddressTable;
-import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateEmail;
 
 /**
  * This class provides the implementation for the Add Email services.
@@ -37,12 +37,6 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidateEmail;
  */
 public class AddEmailAddressImpl extends BaseServiceImpl {
 
-	/** Contains the index of the email address type parameter */
-	private static final int EMAIL_ADDRESS_TYPE = 0;
-	
-	/** Contains the index of the email address parameter */
-	private static final int EMAIL_ADDRESS = 1;
-	
     /**
      * This method is used to execute the core logic for a service.
      * @param serviceName contains the name of the service.
@@ -50,33 +44,16 @@ public class AddEmailAddressImpl extends BaseServiceImpl {
      * @param serviceCoreReturn contains the service core information.
      * @param updatedBy contains the userid requesting this information.
      * @param otherParameters contains an array of Java objects that are additional parameters for the service.
-     * @return will return an JsonMessage object if successful.
      * @throws CprException will be thrown if there are any problems.
      * @throws JSONException will be thrown if there are any issues creating a JSON message.
      * @throws ParseException will be thrown if there are any issues related to parsing a data value.
+     * @throws JMSException will be thrown if there are any problems.
      */	
 	@Override
-	public JsonMessage runService(String serviceName, Database db,
+	public void runService(String serviceName, Database db,
 			ServiceCoreReturn serviceCoreReturn, String updatedBy,
-			Object[] otherParameters) throws CprException, JSONException, ParseException {
-		final String emailAddressType = (String) otherParameters[EMAIL_ADDRESS_TYPE];
-		final String emailAddress = (String) otherParameters[EMAIL_ADDRESS];
-		
-		// Validate the data passed into the service.
-		EmailAddressTable emailAddressTable = ValidateEmail.validateEmailAddressParameters(db, serviceCoreReturn.getPersonId(), 
-				emailAddressType, emailAddress, updatedBy);
-
-		// Determine if the caller is authorized to make this call.
-		db.isDataActionAuthorized(emailAddressTable.getEmailAddressType().toString(), 
-				AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
-			
-		// Insert the record.
-		emailAddressTable.addAddress(db);
-		
-		// Create a new json message.
-		JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-		jsonMessage.setEmailAddress(emailAddressTable);	
-		
-		return jsonMessage;
+			Object[] otherParameters) throws CprException, JSONException, ParseException, JMSException {
+		new AddEmailAddressApi().implementApi(serviceName, db, updatedBy, serviceCoreReturn, otherParameters, 
+				ApiHelper.DO_AUTHZ_CHECK);
 	}
 }

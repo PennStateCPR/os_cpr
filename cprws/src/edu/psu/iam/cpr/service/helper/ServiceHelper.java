@@ -1,20 +1,13 @@
 /* SVN FILE: $Id: ServiceHelper.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service.helper;
 
-import javax.jms.JMSException;
 import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 import org.hibernate.JDBCException;
-import org.json.JSONException;
-
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.core.database.tables.CprComponentStatusTable;
-import edu.psu.iam.cpr.core.database.types.CprComponent;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.messaging.JsonMessage;
-import edu.psu.iam.cpr.core.messaging.MessagingCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 
@@ -44,7 +37,7 @@ public class ServiceHelper {
 	/** Success message! */
 	public static final String SUCCESS_MESSAGE = "Success!";
 	private static final int BUFFER_SIZE = 1024;
-
+	
 	/**
 	 * Empty Constructor.
 	 */
@@ -171,44 +164,5 @@ public class ServiceHelper {
 		log4jLogger.info("CPR Exception: " + e.getReturnType().toString() + ", Message: " + errorMessage);
 		db.rollbackSession();
 		return errorMessage;
-	}
-	
-	/**
-	 * This routine is used to route messages to the service provisioners.
-	 * @param serviceName contains the service name
-	 * @param db contains the Database Object
-	 * @param jsonMessage contains the json message
-	 * @throws JMSException will be thrown if there are any JMS problems.
-	 * @throws JSONException  will be thrown if there are any JSON problems.
-	 * @throws CprException will be thrown for any CPR related problems.
-	 * 
-	 */
-	public void sendMessagesToServiceProviders(String serviceName,
-			Database db, JsonMessage jsonMessage) throws JMSException, CprException, JSONException {
-
-		MessagingCore mCore = null;
-		try {
-			final CprComponentStatusTable cprComponentStatusTable = new CprComponentStatusTable();
-
-			// Is messaging active?
-			if (cprComponentStatusTable.isCprComponentActive(db, CprComponent.MESSAGING)) {
-				mCore = new MessagingCore(db, serviceName);
-				mCore.initializeMessaging();
-				mCore.sendMessage(db, jsonMessage);
-			}
-
-			// Messaging is down, so we need to queue up all of the messages.
-			else {
-				mCore = new MessagingCore(db, serviceName);
-				mCore.recordFailures(db, jsonMessage);
-			}
-		}
-		finally {
-			try {
-				mCore.closeMessaging();
-			}
-			catch (Exception e) {
-			}
-		}
 	}
 }

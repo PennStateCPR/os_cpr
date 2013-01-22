@@ -8,15 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.GetIdCardPrintEventApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.returns.IdCardPrintEventServiceReturn;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.IdCardPrintLogTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.returns.IdCardPrintLogReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCardPrintLog;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.IdCardPrintEventServiceReturn;
 
 /**
 * This class provides the implementation of the GetIdCardPrintEvent.
@@ -43,12 +41,6 @@ import edu.psu.iam.cpr.service.returns.IdCardPrintEventServiceReturn;
 
 public class GetIdCardPrintEventImpl extends ExtendedBaseServiceImpl {
 
-	/** Contains the index for the identifier type parameter */
-	private static final int IDENTIFIER_TYPE = 0;
-	
-	/** Contains the index for the identifier parameter */
-	private static final int IDENTIFIER = 1;
-
     /**
      * This method is used to execute the core logic for a service.
      * @param db contains a open database session.
@@ -69,23 +61,9 @@ public class GetIdCardPrintEventImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		final String identifierType = (String) otherParameters[IDENTIFIER_TYPE];
-		final String identifier = (String) otherParameters[IDENTIFIER];
-		
-		// Do the query from the database.
-		IdCardPrintLogTable idCardPrintLogTable = ValidateIdCardPrintLog.validateGetIdCardPrintLogParameters(db, identifierType, 
-															identifier);
-		
-		final IdCardPrintLogReturn queryResults[] = idCardPrintLogTable.getIdCardPrintLog(db); 
-		
-		// Build the return class.
-		IdCardPrintEventServiceReturn serviceReturn = new IdCardPrintEventServiceReturn();
-		serviceReturn.setStatusCode(ReturnType.SUCCESS.index());
-		serviceReturn.setStatusMessage(ServiceHelper.SUCCESS_MESSAGE);
-		serviceReturn.setNumberIdCardPrintEventElements(queryResults.length);
-		serviceReturn.setIdCardPrintEventReturnRecord(queryResults);
-		
-		return (Object) serviceReturn;
+		return (Object) new GetIdCardPrintEventApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 		
 	}
 

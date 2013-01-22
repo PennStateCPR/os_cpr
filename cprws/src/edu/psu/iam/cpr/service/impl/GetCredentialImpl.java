@@ -8,15 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.returns.CredentialServiceReturn;
+import edu.psu.iam.cpr.core.api.GetCredentialApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.CredentialTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.returns.CredentialReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateCredential;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.CredentialServiceReturn;
 
 /**
  * This class provides an implementation for the get credential service.
@@ -41,12 +39,6 @@ import edu.psu.iam.cpr.service.returns.CredentialServiceReturn;
  */
 public class GetCredentialImpl extends ExtendedBaseServiceImpl {
 
-	/** Contains the index for the credential type parameter */
-	private static final int CREDENTIAL_TYPE = 0;
-	
-	/** Contains the index for the return history parameter */
-	private static final int RETURN_HISTORY = 1;
-
 	/**
      * This method is used to execute the core logic for a service.
      * @param db contains a open database session.
@@ -67,17 +59,9 @@ public class GetCredentialImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		final String credentialType = (String) otherParameters[CREDENTIAL_TYPE];
-		final String returnHistory 	= (String) otherParameters[RETURN_HISTORY];
-		
-		// Do the query from the database.
-		CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, serviceCoreReturn.getPersonId(), 
-																	updatedBy, credentialType, returnHistory);
-		final CredentialReturn queryResults[] = credentialTable.getCredentialForPersonId(db, serviceCoreReturn.getPersonId());
-		
-		// Build the return class.
-		return (Object) new CredentialServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, queryResults, 
-				queryResults.length);
+		return (Object) new GetCredentialApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 
 	/**

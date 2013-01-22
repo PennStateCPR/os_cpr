@@ -8,16 +8,12 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.UseridTable;
-import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.service.returns.UseridReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserid;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.UseridServiceReturn;
+import edu.psu.iam.cpr.core.api.AddUseridApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.returns.UseridServiceReturn;
 
 /**
  * This class provides the implementation for the Add Userid service.
@@ -64,24 +60,9 @@ public class AddUseridImpl extends ExtendedBaseServiceImpl {
 			ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JSONException, JMSException, ParseException {
 		
-		final UseridTable useridTable = ValidateUserid.validateUseridParameters(db, serviceCoreReturn.getPersonId(), updatedBy);
-
-		db.isDataActionAuthorized(AccessType.USER_ID.toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
-		
-		useridTable.addUserid(db);
-		
-		UseridServiceReturn serviceReturn = new UseridServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE);
-		final UseridReturn useridReturn[] = new UseridReturn[1];
-		useridReturn[0] = new UseridReturn(useridTable.getUseridBean().getUserid(), useridTable.getUseridBean().getPrimaryFlag());
-		serviceReturn.setNumberElements(1);
-		serviceReturn.setUseridReturnRecord(useridReturn);
-		
-		JsonMessage	jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-		jsonMessage.setUserid(useridTable);
-
-		serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage);
-
-		return serviceReturn;
+		return (Object) new AddUseridApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 
     /**

@@ -8,15 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.GetEmailAddressApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.EmailAddressTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.returns.EmailAddressReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateEmail;
+import edu.psu.iam.cpr.core.api.returns.EmailAddressServiceReturn;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.EmailAddressServiceReturn;
 
 /**
  * This class provides an implementation for the get email address service.
@@ -41,9 +39,6 @@ import edu.psu.iam.cpr.service.returns.EmailAddressServiceReturn;
  */
 public class GetEmailAddressImpl extends ExtendedBaseServiceImpl {
 
-	/** Contains the index for the return history parameter */
-	private static final int RETURN_HISTORY = 0;
-	
     /**
      * This method is used to execute the core logic for a service.
      * @param db contains a open database session.
@@ -64,19 +59,9 @@ public class GetEmailAddressImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		final String returnHistory = (String) otherParameters[RETURN_HISTORY];
-		
-		// Validate the data.
-		EmailAddressTable emailAddressTable = ValidateEmail.validateGetEmailAddressParameters(db, serviceCoreReturn.getPersonId(), 
-																			updatedBy, returnHistory);
-		
-		// Perform the query.
-		EmailAddressReturn[] queryResults = emailAddressTable.getEmailAddressForPersonId( db, serviceCoreReturn.getPersonId());
-
-		// Build the return class.
-		return (Object) new EmailAddressServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, 
-				queryResults, queryResults.length);
-
+		return (Object) new GetEmailAddressApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 	
     /**

@@ -8,15 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.GetIdCardNumberApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.returns.PersonIdCardNumberServiceReturn;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.IdCardTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.returns.PersonIdCardNumberReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCard;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.PersonIdCardNumberServiceReturn;
 
 /**
  * This class provides an implementation for the get id card service.
@@ -61,20 +59,9 @@ public class GetIdCardNumberImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		// Do the query from the database.
-		IdCardTable idCardTable = ValidateIdCard.validateGetIdCardParameters(db, serviceCoreReturn.getPersonId(), 
-															updatedBy, null, null);
-		
-		final PersonIdCardNumberReturn queryResults[] = idCardTable.getIdCardNumberForPersonId(db, serviceCoreReturn.getPersonId()); 
-		
-		// Build the return class.
-		PersonIdCardNumberServiceReturn serviceReturn = new PersonIdCardNumberServiceReturn();
-		serviceReturn.setStatusCode(ReturnType.SUCCESS.index());
-		serviceReturn.setStatusMessage(ServiceHelper.SUCCESS_MESSAGE);
-		serviceReturn.setNumberIdCardNumberElements(queryResults.length);
-		serviceReturn.setIdCardNumberReturnRecord(queryResults);
-		
-		return (Object) serviceReturn;
+		return (Object) new GetIdCardNumberApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 
     /**

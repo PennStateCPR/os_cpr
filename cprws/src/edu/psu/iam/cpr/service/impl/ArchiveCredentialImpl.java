@@ -3,15 +3,15 @@ package edu.psu.iam.cpr.service.impl;
 
 import java.text.ParseException;
 
+import javax.jms.JMSException;
+
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.ArchiveCredentialApi;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.CredentialTable;
-import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateCredential;
 
 /**
  * This class provides the implementation for the Archive Credential service.
@@ -36,9 +36,6 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidateCredential;
  * @lastrevision $Date: 2012-09-27 10:56:40 -0400 (Thu, 27 Sep 2012) $
  */
 public class ArchiveCredentialImpl extends BaseServiceImpl {
-	/** Contains the index for the credential type parameter */
-	private static final int CREDENTIAL_TYPE = 0;
-
     /**
      * This method is used to execute the core logic for a service.
      * @param serviceName contains the name of the service.
@@ -46,30 +43,17 @@ public class ArchiveCredentialImpl extends BaseServiceImpl {
      * @param serviceCoreReturn contains the service core information.
      * @param updatedBy contains the userid requesting this information.
      * @param otherParameters contains an array of Java objects that are additional parameters for the service.
-     * @return will return an JsonMessage object if successful.
      * @throws CprException will be thrown if there are any problems.
      * @throws JSONException will be thrown if there are any issues creating a JSON message.
      * @throws ParseException will be thrown if there are any issues related to parsing a data value.
+     * @throws JMSException will be thrown for messaging.
      */	
 	@Override
-	public JsonMessage runService(String serviceName, Database db,
+	public void runService(String serviceName, Database db,
 			ServiceCoreReturn serviceCoreReturn, String updatedBy,
 			Object[] otherParameters) throws CprException, JSONException,
-			ParseException {
-		
-		final String credentialType = (String) otherParameters[CREDENTIAL_TYPE];
-								
-		// Validate the parameters for the delete.
-		final CredentialTable credentialTable = ValidateCredential.validateArchiveCredentialParameters(db, 
-				serviceCoreReturn.getPersonId(), credentialType, updatedBy);
-			
-		// Determine if the caller is authorized to make this call.
-		db.isDataActionAuthorized(credentialTable.getCredentialType().toString(), 
-				AccessType.ACCESS_OPERATION_WRITE.toString(), updatedBy);
-		
-		// Attempt to do the archive.
-		credentialTable.archiveCredential(db);
-		
-		return null;
+			ParseException, JMSException {
+		new ArchiveCredentialApi().implementApi(serviceName, db, updatedBy, serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 }

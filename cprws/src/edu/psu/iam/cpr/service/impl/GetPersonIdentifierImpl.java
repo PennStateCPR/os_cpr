@@ -8,15 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.GetPersonIdentifierApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.returns.PersonIdentifierServiceReturn;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.PersonIdentifierTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.returns.PersonIdentifierReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonIdentifier;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.PersonIdentifierServiceReturn;
 
 /**
  * This class provides an implementation for the get person identifier service.
@@ -42,12 +40,6 @@ import edu.psu.iam.cpr.service.returns.PersonIdentifierServiceReturn;
  */
 public class GetPersonIdentifierImpl extends ExtendedBaseServiceImpl {
 
-	/** Contains the index for the identifier type parameter */
-	private static final int IDENTIFIER_TYPE = 0;
-	
-	/** Contains the index for the return history parameter */
-	private static final int RETURN_HISTORY = 1;
-	
     /**
      * This method is used to execute the core logic for a service.
      * @param db contains a open database session.
@@ -68,23 +60,9 @@ public class GetPersonIdentifierImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		final String registryIdentifierType = (String) otherParameters[IDENTIFIER_TYPE];
-		final String returnHistory 			= (String) otherParameters[RETURN_HISTORY];
-		
-		// Validate.
-		final PersonIdentifierTable personIdentifierTable = ValidatePersonIdentifier.validateGetPersonIdentifierParameters(db, 
-					serviceCoreReturn.getPersonId(), 
-					registryIdentifierType, 
-					updatedBy, 
-					returnHistory);
-		
-		// Do the get.
-		final PersonIdentifierReturn queryResults[] = personIdentifierTable.getPersonIdentifiersForPersonId(db, 
-				serviceCoreReturn.getPersonId());
-		
-		// Build the return class.
-		return (Object) new PersonIdentifierServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, 
-				queryResults, queryResults.length);
+		return (Object) new GetPersonIdentifierApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 	
     /**

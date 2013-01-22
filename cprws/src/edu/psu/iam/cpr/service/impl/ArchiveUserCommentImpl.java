@@ -3,15 +3,15 @@ package edu.psu.iam.cpr.service.impl;
 
 import java.text.ParseException;
 
+import javax.jms.JMSException;
+
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.ArchiveUserCommentApi;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.UserCommentTable;
-import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment;
 
 /**
  * This class provides the implementation for the archive user comments service.
@@ -37,12 +37,6 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment;
  */
 public class ArchiveUserCommentImpl extends BaseServiceImpl {
 
-	/** Contains the index for the userid input parameter */
-	private static final int USERID = 0;
-	
-	/** Contains the index for the user comment type parameter */
-	private static final int USER_COMMENT_TYPE = 1;
-	
     /**
      * This method is used to execute the core logic for a service.
      * @param serviceName contains the name of the service.
@@ -50,35 +44,17 @@ public class ArchiveUserCommentImpl extends BaseServiceImpl {
      * @param serviceCoreReturn contains the service core information.
      * @param updatedBy contains the userid requesting this information.
      * @param otherParameters contains an array of Java objects that are additional parameters for the service.
-     * @return will return an JsonMessage object if successful.
      * @throws CprException will be thrown if there are any problems.
      * @throws JSONException will be thrown if there are any issues creating a JSON message.
      * @throws ParseException will be thrown if there are any issues related to parsing a data value.
+     * @throws JMSException will be thrown if there are any issues related to messaging.
      */	
 	@Override
-	public JsonMessage runService(String serviceName, Database db,
+	public void runService(String serviceName, Database db,
 			ServiceCoreReturn serviceCoreReturn, String updatedBy,
 			Object[] otherParameters) throws CprException, JSONException,
-			ParseException {
-		
-		final String userId 			= (String) otherParameters[USERID];
-		final String userCommentType 	= (String) otherParameters[USER_COMMENT_TYPE];
-		
-		// Validate the data passed into the service.
-		final UserCommentTable userCommentTable = ValidateUserComment.validateArchiveUserCommentParameters(db, 
-				serviceCoreReturn.getPersonId(), userId, userCommentType, updatedBy);
-
-		// Determine if the caller is authorized to make this call.
-		db.isDataActionAuthorized(userCommentTable.getUserCommentType().toString(), 
-				AccessType.ACCESS_OPERATION_ARCHIVE.toString(), updatedBy);
-		
-		// Archive the record.
-		userCommentTable.archiveUserComment(db);
-		
-		// Create a new json message.
-		final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-		jsonMessage.setUserComment(userCommentTable);
-		
-		return jsonMessage;
+			ParseException, JMSException {
+		new ArchiveUserCommentApi().implementApi(serviceName, db, updatedBy, serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 }

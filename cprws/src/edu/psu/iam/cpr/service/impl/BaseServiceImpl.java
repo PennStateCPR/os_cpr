@@ -12,11 +12,10 @@ import org.json.JSONException;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.ServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.ServiceReturn;
 
 public abstract class BaseServiceImpl {
 
@@ -86,12 +85,7 @@ public abstract class BaseServiceImpl {
 			LOG4J_LOGGER.info(serviceName + ": Found person identifier = " + serviceCoreReturn.getPersonId());
 			
 			// Run the service.
-			final JsonMessage jsonMessage = runService(serviceName, db, serviceCoreReturn, updatedBy, otherParameters);
-			
-			// If the message is set, send out the messages to the service provisioners.
-			if (jsonMessage != null) {
-				serviceHelper.sendMessagesToServiceProviders(serviceName, db, jsonMessage); 
-			}
+			runService(serviceName, db, serviceCoreReturn, updatedBy, otherParameters);
 			
 			// Log a success!
 			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
@@ -137,8 +131,8 @@ public abstract class BaseServiceImpl {
 	
 	}
 	
-	public abstract JsonMessage runService(String serviceName, Database db, ServiceCoreReturn serviceCoreReturn, 
-					String updatedBy, Object[] otherParameters) throws CprException, JSONException, ParseException;
+	public abstract void runService(String serviceName, Database db, ServiceCoreReturn serviceCoreReturn, 
+					String updatedBy, Object[] otherParameters) throws CprException, JSONException, JMSException, ParseException;
 
 	
 }

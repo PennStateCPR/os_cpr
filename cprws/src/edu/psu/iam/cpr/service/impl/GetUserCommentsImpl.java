@@ -8,15 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.GetUserCommentsApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.returns.UserCommentServiceReturn;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.UserCommentTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.service.returns.UserCommentReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserComment;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.UserCommentServiceReturn;
 
 /**
  * This class provides an implementation for the get user comments service.
@@ -42,15 +40,6 @@ import edu.psu.iam.cpr.service.returns.UserCommentServiceReturn;
  */
 public class GetUserCommentsImpl extends ExtendedBaseServiceImpl {
 
-	/** Contains the index for the userid parameter */
-	private static final int USERID = 0;
-	
-	/** Contains the index for the user comment type parameter */
-	private static final int USER_COMMENT_TYPE = 1;
-	
-	/** Contains the index for the return history parameter */
-	private static final int RETURN_HISTORY = 2;
-
     /**
      * This method is used to execute the core logic for a service.
      * @param db contains a open database session.
@@ -71,18 +60,9 @@ public class GetUserCommentsImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		String userId 					= (String) otherParameters[USERID];
-		final String userCommentType 	= (String) otherParameters[USER_COMMENT_TYPE];
-		final String returnHistory 		= (String) otherParameters[RETURN_HISTORY];
-		
-		UserCommentTable userCommentTable = ValidateUserComment.validateGetUserCommentsParameters(db, 
-				serviceCoreReturn.getPersonId(), updatedBy, userCommentType, returnHistory);
-		
-		final UserCommentReturn queryResults[] = userCommentTable.getUserComments( db, userId );
-
-		// Build the return class.
-		return (Object) new UserCommentServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, queryResults, 
-								queryResults.length);
+		return (Object) new GetUserCommentsApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 	
     /**

@@ -8,31 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.GetPersonApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.returns.PersonServiceReturn;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.AddressesTable;
-import edu.psu.iam.cpr.core.database.tables.DateOfBirthTable;
-import edu.psu.iam.cpr.core.database.tables.EmailAddressTable;
-import edu.psu.iam.cpr.core.database.tables.NamesTable;
-import edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable;
-import edu.psu.iam.cpr.core.database.tables.PersonGenderTable;
-import edu.psu.iam.cpr.core.database.tables.PhonesTable;
-import edu.psu.iam.cpr.core.database.tables.PsuIdTable;
-import edu.psu.iam.cpr.core.database.tables.UseridTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.returns.AddressReturn;
-import edu.psu.iam.cpr.core.service.returns.AffiliationReturn;
-import edu.psu.iam.cpr.core.service.returns.DateOfBirthReturn;
-import edu.psu.iam.cpr.core.service.returns.EmailAddressReturn;
-import edu.psu.iam.cpr.core.service.returns.GenderReturn;
-import edu.psu.iam.cpr.core.service.returns.NameReturn;
-import edu.psu.iam.cpr.core.service.returns.PhoneReturn;
-import edu.psu.iam.cpr.core.service.returns.PsuIdReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.service.returns.UseridReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidatePerson;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.PersonServiceReturn;
 
 /**
  * This class provides an implementation for the get person service.
@@ -58,9 +40,6 @@ import edu.psu.iam.cpr.service.returns.PersonServiceReturn;
  */
 public class GetPersonImpl extends ExtendedBaseServiceImpl {
 
-	/** Contains the index for the return history parameter */
-	private static final int RETURN_HISTORY = 0;
-
     /**
      * This method is used to execute the core logic for a service.
      * @param db contains a open database session.
@@ -81,90 +60,9 @@ public class GetPersonImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		// Validate the return history parameter.
-		String returnHistory = (String) otherParameters[RETURN_HISTORY];
-		if (returnHistory == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
-		}
-		boolean returnHistoryFlag = (returnHistory.equals("Y")) ? true : false;
-		
-		// Validate the person parameters.
-		ValidatePerson.validatePersonParameters(db, serviceCoreReturn.getPersonId(), updatedBy);
-
-		PersonServiceReturn personServiceReturn = new PersonServiceReturn();
-
-		personServiceReturn.setStatusCode(ReturnType.SUCCESS.index());
-		personServiceReturn.setStatusMessage(ServiceHelper.SUCCESS_MESSAGE);
-
-		// Get the DOB.
-		final DateOfBirthTable dateOfBirthTable = new DateOfBirthTable();
-		dateOfBirthTable.setReturnHistoryFlag(returnHistoryFlag);
-		final DateOfBirthReturn dateOfBirthReturn[] = dateOfBirthTable.getDateOfBirthForPersonId(db, 
-				serviceCoreReturn.getPersonId());
-		personServiceReturn.setNumberOfDateOfBirthdays(dateOfBirthReturn.length);
-		personServiceReturn.setDateOfBirthRecord(dateOfBirthReturn);
-
-		// Get the Gender.
-		final PersonGenderTable perGenderRelTable = new PersonGenderTable();
-		perGenderRelTable.setReturnHistoryFlag(returnHistoryFlag);
-		final GenderReturn genderReturn[] = perGenderRelTable.getGenderForPersonId(db, 
-				serviceCoreReturn.getPersonId());
-		personServiceReturn.setNumberOfGenders(genderReturn.length);
-		personServiceReturn.setGenderReturnRecord(genderReturn);
-
-		// Get the PSU ID.
-		final PsuIdTable psuIdTable = new PsuIdTable();
-		psuIdTable.setReturnHistoryFlag(returnHistoryFlag);
-		final PsuIdReturn psuIdReturn[] = psuIdTable.getPsuIdForPersonId(db, 
-				serviceCoreReturn.getPersonId());
-		personServiceReturn.setNumberOfPsuIds(psuIdReturn.length);
-		personServiceReturn.setPsuIdReturnRecord(psuIdReturn);
-
-		// Get the names.
-		final NamesTable namesTable = new NamesTable();
-		namesTable.setReturnHistoryFlag(returnHistoryFlag);
-		final NameReturn nameReturn[] = namesTable.getNamesForPersonId(db, serviceCoreReturn.getPersonId());
-		personServiceReturn.setNumberOfNames(nameReturn.length);
-		personServiceReturn.setNameReturnRecord(nameReturn);
-
-		// Get the addresses.
-		final AddressesTable addressesTable = new AddressesTable();
-		addressesTable.setReturnHistoryFlag(returnHistoryFlag);
-		final AddressReturn addressReturn[] = addressesTable.getAddress(db, serviceCoreReturn.getPersonId());
-		personServiceReturn.setNumberOfAddresses(addressReturn.length);
-		personServiceReturn.setAddressReturnRecord(addressReturn);
-
-		// Get the phones.
-		final PhonesTable phonesTable = new PhonesTable();
-		phonesTable.setReturnHistoryFlag(returnHistoryFlag);
-		final PhoneReturn phoneReturn[] = phonesTable.getPhones(db, serviceCoreReturn.getPersonId());
-		personServiceReturn.setNumberOfPhones(phoneReturn.length);
-		personServiceReturn.setPhoneReturnRecord(phoneReturn);
-
-		// Get the email addresses.
-		final EmailAddressTable emailAddressTable = new EmailAddressTable();
-		emailAddressTable.setReturnHistoryFlag(returnHistoryFlag);
-		final EmailAddressReturn emailAddressReturn[] = emailAddressTable.getEmailAddressForPersonId(db, serviceCoreReturn.getPersonId());			
-		personServiceReturn.setNumberOfEmailAddresses(emailAddressReturn.length);
-		personServiceReturn.setEmailAddressReturnRecord(emailAddressReturn);
-
-		// Get the userids.
-		final UseridTable useridTable = new UseridTable();
-		useridTable.setReturnHistoryFlag(returnHistoryFlag);
-		final UseridReturn useridReturn[] = useridTable.getUseridsForPersonId(db, serviceCoreReturn.getPersonId());
-		personServiceReturn.setNumberOfUserids(useridReturn.length);
-		personServiceReturn.setUseridReturnRecord(useridReturn);
-
-
-		// Get the affiliations.
-		final PersonAffiliationTable affiliationsTable = new PersonAffiliationTable();
-		affiliationsTable.setReturnHistoryFlag(returnHistoryFlag);
-		final AffiliationReturn affiliationReturn[] = affiliationsTable.getAllAffiliationsForPersonId(db, serviceCoreReturn.getPersonId());
-		personServiceReturn.setNumberOfAffiliations(affiliationReturn.length);
-		personServiceReturn.setAffiliationReturnRecord(affiliationReturn);
-		
-		return (Object) personServiceReturn;
-
+		return (Object) new GetPersonApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 
     /**

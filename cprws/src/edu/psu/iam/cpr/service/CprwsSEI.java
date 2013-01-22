@@ -6,28 +6,29 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.WebParam.Mode;
 
-import edu.psu.iam.cpr.service.returns.AddressServiceReturn;
-import edu.psu.iam.cpr.service.returns.AffiliationServiceReturn;
-import edu.psu.iam.cpr.service.returns.ConfidentialityServiceReturn;
-import edu.psu.iam.cpr.service.returns.CredentialServiceReturn;
-import edu.psu.iam.cpr.service.returns.EmailAddressServiceReturn;
-import edu.psu.iam.cpr.service.returns.FindPersonServiceReturn;
-import edu.psu.iam.cpr.service.returns.IAPServiceReturn;
-import edu.psu.iam.cpr.service.returns.IdCardPrintEventServiceReturn;
-import edu.psu.iam.cpr.service.returns.IdCardServiceReturn;
-import edu.psu.iam.cpr.service.returns.MatchCodeServiceReturn;
-import edu.psu.iam.cpr.service.returns.NamesServiceReturn;
-import edu.psu.iam.cpr.service.returns.PersonIdCardNumberServiceReturn;
-import edu.psu.iam.cpr.service.returns.PersonIdentifierServiceReturn;
-import edu.psu.iam.cpr.service.returns.PersonLinkageServiceReturn;
-import edu.psu.iam.cpr.service.returns.PersonServiceReturn;
-import edu.psu.iam.cpr.service.returns.PhoneServiceReturn;
-import edu.psu.iam.cpr.service.returns.PhotoServiceReturn;
-import edu.psu.iam.cpr.service.returns.RulesServiceReturn;
-import edu.psu.iam.cpr.service.returns.ServiceReturn;
-import edu.psu.iam.cpr.service.returns.TransformServiceReturn;
-import edu.psu.iam.cpr.service.returns.UserCommentServiceReturn;
-import edu.psu.iam.cpr.service.returns.UseridServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.NamesServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.ServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.AddressServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.AffiliationServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.ConfidentialityServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.CredentialServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.EmailAddressServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.FindPersonServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.IAPServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.IdCardPrintEventServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.IdCardServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.MatchCodeServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.PersonIdCardNumberServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.PersonIdentifierServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.PersonLinkageServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.PersonServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.PhoneServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.PhotoServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.RulesServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.TransformServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.UserCommentServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.UseridServiceReturn;
+
 
 /**
  * The functions contained in this file provide an implementation for the CPR SOAP-based services.
@@ -78,7 +79,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "AddAddress")
 	@WebResult(name = "ServiceReturn")
@@ -115,7 +116,7 @@ public interface CprwsSEI {
 	 * @param groupId the groupId of the address record within the address type
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * 	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * 	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "ArchiveAddress")
 	@WebResult(name = "ServiceReturn")
@@ -143,7 +144,7 @@ public interface CprwsSEI {
 	 * @param returnHistory a Y/N flag that indicates whether to return history or not.
 	 * @return AddressServiceReturn object that contains the result of executing the service.
 	 *
-	 * @see edu.psu.iam.cpr.service.returns.AddressServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.AddressServiceReturn
 	 * 
 	 */
 	@WebMethod(operationName = "GetAddress")
@@ -173,7 +174,7 @@ public interface CprwsSEI {
 	 * @param groupId the groupId of the address record within the address type
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * 	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * 	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "SetPrimaryAddressByType")
 	@WebResult(name = "ServiceReturn")
@@ -213,7 +214,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "UpdateAddress")
 	@WebResult(name = "ServiceReturn")
@@ -250,7 +251,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "AddAffiliation")
 	@WebResult(name = "ServiceReturn")
@@ -278,7 +279,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "ArchiveAffiliation")
 	@WebResult(name = "ServiceReturn")
@@ -303,7 +304,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return AffiliationServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.AffiliationServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.AffiliationServiceReturn
 	
 	 */
 	@WebMethod(operationName = "GetAffiliations")
@@ -328,7 +329,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return AffiliationServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.AffiliationServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.AffiliationServiceReturn
 	
 	 */
 	@WebMethod(operationName = "GetExternalAffiliations")
@@ -353,7 +354,7 @@ public interface CprwsSEI {
 	 * @param returnHistory Y/N flag that will indicate whether to return history or not.
 	 * @return AffiliationServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.AffiliationServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.AffiliationServiceReturn
 	
 	 */
 	@WebMethod(operationName = "GetInternalAffiliations")
@@ -381,7 +382,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "UpdateAffiliation")
 	@WebResult(name = "ServiceReturn")
@@ -408,7 +409,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 *
 	 */
 	@WebMethod(operationName = "SetPrimaryAffiliation")
@@ -434,7 +435,7 @@ public interface CprwsSEI {
 	 * @param identifier contains the value of the identifier.
 	 * @param confidentialityType contains the type of confidentiality hold.
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "AddConfidentialityHold")
 	@WebResult(name = "ServiceReturn")
@@ -459,7 +460,7 @@ public interface CprwsSEI {
 	 * @param identifier contains the value of the identifier.
 	 * @param confidentialityType contains the type of confidentiality hold.
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "UpdateConfidentialityHold")
 	@WebResult(name = "ServiceReturn")
@@ -484,7 +485,7 @@ public interface CprwsSEI {
 	 * @param identifier contains the value of the identifier.
 	 * @param confidentialityType contains the type of confidentiality hold.
 	 * @return ConfidentialityServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "ArchiveConfidentialityHold")
 	@WebResult(name = "ServiceReturn")
@@ -509,7 +510,7 @@ public interface CprwsSEI {
 	 * @param identifier contains the value of the identifier.
 	 * @param returnHistory Y/N flag that indicates whether history is to be returned or not.
 	 * @return ConfidentialityServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ConfidentialityServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ConfidentialityServiceReturn
 	 */
 	@WebMethod(operationName = "GetConfidentialityHold")
 	@WebResult(name = "ConfidentialityServiceReturn")
@@ -535,7 +536,7 @@ public interface CprwsSEI {
 	 * @param credentialType the type of credential that is being added.
 	 * @param credentialData the data associated with the credential.
 	 * @return will return a ServiceReturn instance.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 * 
 	 */
 	@WebMethod(operationName = "AddCredential")
@@ -563,7 +564,7 @@ public interface CprwsSEI {
 	 * @param credentialType the type of credential that is being updated.
 	 * @param credentialData the data associated with the credential.
 	 * @return ServiceReturn
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 * 
 	 */
 	@WebMethod(operationName = "UpdateCredential")
@@ -590,7 +591,7 @@ public interface CprwsSEI {
 	 * @param identifier the value for the identifier specified in the identifierType argument.
 	 * @param credentialType the type of credential that is being archived.
 	 * @return will return a ServiceReturn object upon success.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 * 
 	 */
 	@WebMethod(operationName = "ArchiveCredential")
@@ -615,7 +616,7 @@ public interface CprwsSEI {
 	 * @param credentialType contains the type of credential to be returned, if specified.
 	 * @param returnHistory Y/N flag that indicates whether history is to be returned or not.
 	 * @return ServiceReturn
-	 * @see edu.psu.iam.cpr.service.returns.CredentialServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.CredentialServiceReturn
 	 * 
 	 */
 	@WebMethod(operationName = "GetCredential")
@@ -647,7 +648,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "AddEmailAddress")
 	@WebResult(name = "ServiceReturn")
@@ -678,7 +679,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "UpdateEmailAddress")
 	@WebResult(name = "ServiceReturn")
@@ -705,7 +706,7 @@ public interface CprwsSEI {
 	 * @param returnHistory Y/N that indicates whether to return history records or not.
 	 * @return EmailAddressServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.EmailAddressServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.EmailAddressServiceReturn
 	 * 
 	 */
 	@WebMethod(operationName = "GetEmailAddress")
@@ -734,7 +735,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "ArchiveEmailAddress")
 	@WebResult(name = "ServiceReturn")
@@ -814,7 +815,7 @@ public interface CprwsSEI {
 	 * @param returnHistory Y/N flag that indicates whether to return history or not.
 	 * @return IAPServiceReturn  object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.IAPServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.IAPServiceReturn
 	 */
 	@WebMethod(operationName = "GetPSUIAP")
 	@WebResult(name = "IAPServiceReturn")
@@ -842,7 +843,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return IAPServiceReturn  object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.IAPServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.IAPServiceReturn
 	 */
 	@WebMethod(operationName = "GetExternalIAP")
 	@WebResult(name = "IAPServiceReturn")
@@ -872,7 +873,7 @@ public interface CprwsSEI {
 	 * @param photoDateTaken date photo was taken
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "AddIdCard")
 	@WebResult(name = "ServiceReturn")
@@ -900,7 +901,7 @@ public interface CprwsSEI {
 	 * @param identifier the value for the identifier specified in the identifierType argument.
 	 * @param idCardType the type of id card to return
 	 * @return will return a ServiceReturn object upon successful completion of the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "ArchiveIdCard")
 	@WebResult(name = "ServiceReturn")
@@ -925,7 +926,7 @@ public interface CprwsSEI {
 	 * @param idCardType contains the id card type to be used for a query, if specified.
 	 * @param returnHistory Y/N flag that indicates whether history is returned or not.
 	 * @return IdCardServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.IdCardServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.IdCardServiceReturn
 	 */
 	@WebMethod(operationName = "GetIdCard")
 	@WebResult(name = "IdCardServiceReturn")
@@ -950,7 +951,7 @@ public interface CprwsSEI {
 	 * @param identifier the value for the identifier specified in the identifierType argument.
 	 *
 	 * @return IdCardNumberServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.IdCardServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.IdCardServiceReturn
 	 */
 	@WebMethod(operationName = "GetIdCardNumber")
 	@WebResult(name = "IdCardNumberServiceReturn")
@@ -978,7 +979,7 @@ public interface CprwsSEI {
 	 * @param photoDateTaken date photo was taken
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "UpdateIdCard")
 	@WebResult(name = "ServiceReturn")
@@ -1009,7 +1010,7 @@ public interface CprwsSEI {
 	 * @param eventWorkstation the name of the workstation where the id card was printed.
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "AddIdCardPrintEvent")
 	@WebResult(name = "ServiceReturn")
@@ -1035,7 +1036,7 @@ public interface CprwsSEI {
 	 * @param identifier the value for the identifier specified in the identifierType argument.
 	 * @return GetIdCardPrintEventServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.IdCardPrintEventServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.IdCardPrintEventServiceReturn
 	 */
 	@WebMethod(operationName = "GetIdCardPrintEvent")
 	@WebResult(name = "IdCardPrintEventServiceReturn")
@@ -1064,7 +1065,7 @@ public interface CprwsSEI {
 	 * @param lastName the last name that is being added.
 	 * @param suffix optionally the suffix that is being added.
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 * 
 	 */
 	@WebMethod(operationName = "AddName")
@@ -1100,7 +1101,7 @@ public interface CprwsSEI {
 	 * @param lastName the last name that is being added.
 	 * @param suffix optionally the suffix that is being added.
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 * 
 	 */
 	@WebMethod(operationName = "UpdateName")
@@ -1132,7 +1133,7 @@ public interface CprwsSEI {
 	 * @param nameType the type of name that is being archived.
 	 * @param documentType the type of documented name that is being archived (optional).
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "ArchiveName")
 	@WebResult(name = "ServiceReturn")
@@ -1158,7 +1159,7 @@ public interface CprwsSEI {
 	 * @param nameType contains the type of name to be retrieved, if specified.
 	 * @param returnHistory flag that indicates whether history must be returned or not.
 	 * @return NamesServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.NamesServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.NamesServiceReturn
 	 */
 	@WebMethod(operationName = "GetName")
 	@WebResult(name = "NamesServiceReturn")
@@ -1188,7 +1189,7 @@ public interface CprwsSEI {
 	 * @param linkedIdentifierType contains the type of identifier used to find the person being linked.
 	 * @param linkedIdentifier contains the value of the identifier for the person being linked.
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "AddPersonLinkage")
 	@WebResult(name = "ServiceReturn")
@@ -1219,7 +1220,7 @@ public interface CprwsSEI {
 	 * @param linkedIdentifierType contains the type of identifier used to find the person being linked.
 	 * @param linkedIdentifier contains the value of the identifier for the person being linked.
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "UpdatePersonLinkage")
 	@WebResult(name = "ServiceReturn")
@@ -1247,7 +1248,7 @@ public interface CprwsSEI {
 	 * @param linkedIdentifierType contains the type of identifier used to find the person being linked.
 	 * @param linkedIdentifier contains the value of the identifier for the person being linked.
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "ArchivePersonLinkage")
 	@WebResult(name = "ServiceReturn")
@@ -1274,7 +1275,7 @@ public interface CprwsSEI {
 	 * @param identifier contains the value of the identifier.
 	 * @param returnHistory Y/N flag that indicates whether history is to be returned or not.
 	 * @return PersonLinkageServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.PersonLinkageServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.PersonLinkageServiceReturn
 	 */
 	@WebMethod(operationName = "GetPersonLinkage")
 	@WebResult(name = "PersonLinkageServiceReturn")
@@ -1325,7 +1326,7 @@ public interface CprwsSEI {
 	 * @param affiliation the affiliation to be added.
 	 * @param ssn contains the user's SSN.
 	 * @return PersonServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.PersonServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.PersonServiceReturn
 	 * 
 	 */
 	@WebMethod(operationName = "AddPerson")
@@ -1374,7 +1375,7 @@ public interface CprwsSEI {
 	 * @param identifierType contains the type of identifier used to find the person.
 	 * @param identifier contains the value of the identifier.
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "UnarchivePerson")
 	@WebResult(name = "ServiceReturn")
@@ -1396,7 +1397,7 @@ public interface CprwsSEI {
 	 * @param identifierType contains the type of identifier used to find the person.
 	 * @param identifier contains the value of the identifier.
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "ArchivePerson")
 	@WebResult(name = "ServiceReturn")
@@ -1419,7 +1420,7 @@ public interface CprwsSEI {
 	 * @param identifier contains the value of the identifier.
 	 * @param returnHistory Y/N flag that indicates whether to return a complete history or not.
 	 * @return PersonServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.PersonServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.PersonServiceReturn
 	 */
 	@WebMethod(operationName = "GetPerson")
 	@WebResult(name = "PersonServiceReturn")
@@ -1474,7 +1475,7 @@ public interface CprwsSEI {
 	 * @param affiliation the affiliation to be added.
 	 * @param ssn the user's social security number.
 	 * @return PersonServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.PersonServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.PersonServiceReturn
 	 * 
 	 */
 	@WebMethod(operationName = "UpdatePerson")
@@ -1534,7 +1535,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "AddPhone")
 	@WebResult(name = "ServiceReturn")
@@ -1565,7 +1566,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "ArchivePhone")
 	@WebResult(name = "ServiceReturn")
@@ -1592,7 +1593,7 @@ public interface CprwsSEI {
 	 * @param returnHistory Y/N that indicates whether history is to be returned.
 	 * @return PhoneServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.PhoneServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.PhoneServiceReturn
 	 * 
 	 */
 	@WebMethod(operationName = "GetPhone")
@@ -1622,7 +1623,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "SetPrimaryPhoneByType")
 	@WebResult(name = "ServiceReturn")
@@ -1654,7 +1655,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "UpdatePhone")
 	@WebResult(name = "ServiceReturn")
@@ -1686,7 +1687,7 @@ public interface CprwsSEI {
 	 * @param photo contains the bytes of the jpeg photo.
 	 * @param photoDateTaken contains the date the photo was taken.
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "AddPhoto")
 	@WebResult(name = "ServiceReturn")
@@ -1711,7 +1712,7 @@ public interface CprwsSEI {
 	 * @param identifierType contains the type of identifier used to find the person.
 	 * @param identifier contains the value of the identifier.
 	 * @return PhotoServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.PhotoServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.PhotoServiceReturn
 	 */
 	@WebMethod(operationName = "GetPhoto")
 	@WebResult(name = "PhotoServiceReturn")
@@ -1732,7 +1733,7 @@ public interface CprwsSEI {
 	 * @param knownFacts an array containing the known facts.
 	 * @param newFact the new fact to be asserted.
 	 * @return RulesServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.RulesServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.RulesServiceReturn
 	 * 
 	 */
 	@WebMethod(operationName = "ProcessRules")
@@ -1754,7 +1755,7 @@ public interface CprwsSEI {
 	 * @param identifier contains the value of the identifier.
 	 * @param userid contains the credential that is being blocked.
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "BlockUser")
 	@WebResult(name = "ServiceReturn")
@@ -1778,7 +1779,7 @@ public interface CprwsSEI {
 	 * @param identifier contains the value of the identifier.
 	 * @param userid contains the credential that is being unblocked.
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "UnblockUser")
 	@WebResult(name = "ServiceReturn")
@@ -1802,7 +1803,7 @@ public interface CprwsSEI {
 	 * @param identifier contains the value of the identifier.
 	 * @param userid contains the credential that is being disabled.
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "DisableUser")
 	@WebResult(name = "ServiceReturn")
@@ -1826,7 +1827,7 @@ public interface CprwsSEI {
 	 * @param identifier contains the value of the identifier.
 	 * @param userid contains the credential that is being unlocked.
 	 * @return ServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "EnableUser")
 	@WebResult(name = "ServiceReturn")
@@ -1855,7 +1856,7 @@ public interface CprwsSEI {
 	 * @param postalCode the postal code of the address. For US address, may include plus4 code.
 	 * @param countryCode three character country code as defined in ISO 3166
 	 * @return TransformServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.TransformServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.TransformServiceReturn
 	 * 
 	 */
 	@WebMethod(operationName = "TransformAddress")
@@ -1885,7 +1886,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return MatchCodeServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.MatchCodeServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.MatchCodeServiceReturn
 	 */
 
 	@WebMethod(operationName = "GetMatchCode")
@@ -1918,7 +1919,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "AddUserComment")
 	@WebResult(name = "ServiceReturn")
@@ -1952,7 +1953,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "UpdateUserComment")
 	@WebResult(name = "ServiceReturn")
@@ -1982,7 +1983,7 @@ public interface CprwsSEI {
 	 * @param returnHistory Y/N flag that indicates whether history is to be returned or not.
 	 * @return UserCommentServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.UserCommentServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.UserCommentServiceReturn
 	 * 
 	 */
 	@WebMethod(operationName = "GetUserComments")
@@ -2016,7 +2017,7 @@ public interface CprwsSEI {
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "ArchiveUserComment")
 	@WebResult(name = "ServiceReturn")
@@ -2041,7 +2042,7 @@ public interface CprwsSEI {
 	 * @param updatedBy the person (userid) who is making the change, this person will be an RA agent.
 	 * @param personId the CPR private person identifier who a userid is to be created for.
 	 * @return UseridServiceReturn object contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.UseridServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.UseridServiceReturn
 	 */
 	@WebMethod(operationName = "AddUserid")
 	@WebResult(name = "UseridServiceReturn")
@@ -2065,7 +2066,7 @@ public interface CprwsSEI {
 	 * @param personId the CPR private person identifier who a userid is to be created for.
 	 * @param userid the userid that will be added for the user.
 	 * @return ServiceReturn object contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "AddSpecialUserid")
 	@WebResult(name = "ServiceReturn")
@@ -2089,7 +2090,7 @@ public interface CprwsSEI {
 	 * @param identifier the value for the identifier specified in the identifierType argument.
 	 * @param returnHistory Y/N flag that indicates whether history is to be returned.
 	 * @return UseridServiceReturn object that contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.UseridServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.UseridServiceReturn
 	 */
 	@WebMethod(operationName = "GetUserid")
 	@WebResult(name = "UseridServiceReturn")
@@ -2113,7 +2114,7 @@ public interface CprwsSEI {
 	 * @param identifier the value for the identifier specified in the identifierType argument.
 	 * @param userid the userid that will be set as primary for the user.
 	 * @return ServiceReturn object contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "SetPrimaryUserid")
 	@WebResult(name = "ServiceReturn")
@@ -2137,7 +2138,7 @@ public interface CprwsSEI {
 	 * @param identifier the value for the identifier specified in the identifierType argument.
 	 * @param userid the userid that will be archived.
 	 * @return ServiceReturn object contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "ArchiveUserid")
 	@WebResult(name = "ServiceReturn")
@@ -2161,7 +2162,7 @@ public interface CprwsSEI {
 	 * @param identifier the value for the identifier specified in the identifierType argument.
 	 * @param userid the userid that will be unarchived.
 	 * @return ServiceReturn object contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "UnarchiveUserid")
 	@WebResult(name = "ServiceReturn")
@@ -2186,7 +2187,7 @@ public interface CprwsSEI {
 	 * @param registryIdentifierType contains the type of SoR identifier that is being added to the user.
 	 * @param registryIdentifierValue contains the value of the identfier that is being added.
 	 * @return ServiceReturn object contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "AddPersonIdentifier")
 	@WebResult(name = "ServiceReturn")
@@ -2212,7 +2213,7 @@ public interface CprwsSEI {
 	 * @param registryIdentifierType contains the type of SoR identifier that is being added to the user.
 	 * @param registryIdentifierValue contains the value of the identfier that is being added.
 	 * @return ServiceReturn object contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "UpdatePersonIdentifier")
 	@WebResult(name = "ServiceReturn")
@@ -2237,7 +2238,7 @@ public interface CprwsSEI {
 	 * @param identifier the value for the identifier specified in the identifierType argument.
 	 * @param registryIdentifierType contains the type of SoR identifier that is being added to the user.
 	 * @return ServiceReturn object contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "ArchivePersonIdentifier")
 	@WebResult(name = "ServiceReturn")
@@ -2261,7 +2262,7 @@ public interface CprwsSEI {
 	 * @param identifier the value for the identifier specified in the identifierType argument.
 	 * @param registryIdentifierType contains the type of SoR identifier that is being added to the user.
 	 * @return PersonIdentifierServiceReturn object contains the result of executing the service.
-	 * @see edu.psu.iam.cpr.service.returns.ServiceReturn
+	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 */
 	@WebMethod(operationName = "GetPersonIdentifier")
 	@WebResult(name = "PersonIdentifierServiceReturn")

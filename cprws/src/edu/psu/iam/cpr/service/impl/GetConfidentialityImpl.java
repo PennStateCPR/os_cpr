@@ -8,15 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.GetConfidentialityApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.returns.ConfidentialityServiceReturn;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.ConfidentialityTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.returns.ConfidentialityReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidateConfidentiality;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.ConfidentialityServiceReturn;
 
 /**
  * This class provides an implementation for the get confidentiality service.
@@ -41,9 +39,6 @@ import edu.psu.iam.cpr.service.returns.ConfidentialityServiceReturn;
  */
 public class GetConfidentialityImpl extends ExtendedBaseServiceImpl {
 
-	/** Contains the index of the return history parameter */
-	private static final int RETURN_HISTORY = 0;
-	
 	/**
      * This method is used to execute the core logic for a service.
      * @param db contains a open database session.
@@ -64,18 +59,9 @@ public class GetConfidentialityImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		String returnHistory = (String) otherParameters[RETURN_HISTORY];
-		
-		// Validate the input parameters.
-		final ConfidentialityTable confidentialityTable = ValidateConfidentiality.validateGetConfidentialityParameters(db, 
-										serviceCoreReturn.getPersonId(), updatedBy, returnHistory);
-		
-		// Get the data about the hold.
-		final ConfidentialityReturn queryResults[] = confidentialityTable.getConfidentiality(db, serviceCoreReturn.getPersonId());
-
-		// Build the return class.
-		return (Object) new ConfidentialityServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, 
-										queryResults.length, queryResults);			
+		return (Object) new GetConfidentialityApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 
 	/**

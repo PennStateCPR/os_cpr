@@ -2,12 +2,14 @@ package edu.psu.iam.cpr.service.impl;
 
 import java.text.ParseException;
 
+import javax.jms.JMSException;
+
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.SecurityApi;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.UseridTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 
 /**
@@ -34,9 +36,6 @@ import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
  */
 public class SecurityImpl extends BaseServiceImpl {
 
-	/** Contains the index for the userid parameter */
-	private static final int USERID = 0;
-	
     /**
      * This method is used to execute the core logic for a service.
      * @param serviceName contains the name of the service.
@@ -44,28 +43,18 @@ public class SecurityImpl extends BaseServiceImpl {
      * @param serviceCoreReturn contains the service core information.
      * @param updatedBy contains the userid requesting this information.
      * @param otherParameters contains an array of Java objects that are additional parameters for the service.
-     * @return will return an JsonMessage object if successful.
      * @throws CprException will be thrown if there are any problems.
      * @throws JSONException will be thrown if there are any issues creating a JSON message.
      * @throws ParseException will be thrown if there are any issues related to parsing a data value.
+     * @throws JMSException will be thrown if there are any messaging problems.
      */	
 	@Override
-	public JsonMessage runService(String serviceName, Database db,
+	public void runService(String serviceName, Database db,
 			ServiceCoreReturn serviceCoreReturn, String updatedBy,
 			Object[] otherParameters) throws CprException, JSONException,
-			ParseException {
-		
-		final String userid = (String) otherParameters[USERID];
-		
-		// Build the userid table.
-		UseridTable useridTable = new UseridTable(serviceCoreReturn.getPersonId(), updatedBy);
-		useridTable.getUseridBean().setUserid(userid);
-		
-		// Create a new json message.
-		final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), serviceName, updatedBy);
-		jsonMessage.setUserid(useridTable);
-		
-		return jsonMessage;
+			ParseException, JMSException {
+		new SecurityApi().implementApi(serviceName, db, updatedBy, serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 
 }

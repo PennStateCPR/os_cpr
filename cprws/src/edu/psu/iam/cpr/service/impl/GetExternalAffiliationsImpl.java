@@ -8,15 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.GetExternalAffiliationsApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.returns.AffiliationServiceReturn;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.returns.AffiliationReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonAffiliation;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.AffiliationServiceReturn;
 
 /**
  * This class provides an implementation for the get external affiliations service.
@@ -61,16 +59,9 @@ public class GetExternalAffiliationsImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		// Validate the data passed to the service
-		final PersonAffiliationTable aTable = ValidatePersonAffiliation.validateGetAffiliationsForPersonIdParameters(db, 
-								serviceCoreReturn.getPersonId(), updatedBy, "N");
-		
-		// Perform the query.
-		final AffiliationReturn[] affiliationResults = aTable.getExternalAffiliationsForPersonId(db, serviceCoreReturn.getPersonId());
-
-		// Build the return class
-		return (Object) new AffiliationServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, 
-				affiliationResults, affiliationResults.length);
+		return (Object) new GetExternalAffiliationsApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	
 	}
 

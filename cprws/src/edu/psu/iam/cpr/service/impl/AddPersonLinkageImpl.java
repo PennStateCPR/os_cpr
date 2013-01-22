@@ -3,14 +3,15 @@ package edu.psu.iam.cpr.service.impl;
 
 import java.text.ParseException;
 
+import javax.jms.JMSException;
+
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.AddPersonLinkageApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.PersonLinkageTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonLinkage;
 
 /**
  * This class provides the implementation for the Add Person Linkage service.
@@ -36,15 +37,6 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonLinkage;
  */
 public class AddPersonLinkageImpl extends BaseServiceImpl {
 
-	/** Contains the index for the linkage type parameter */
-	private static final int LINKAGE_TYPE = 0;
-	
-	/** Contains the index for linked identifier type parameter */
-	private static final int LINKED_IDENTIFIER_TYPE = 1;
-	
-	/** Contains the index for linked identifier value parameter */
-	private static final int LINKED_IDENTIFIER = 2;
-
     /**
      * This method is used to execute the core logic for a service.
      * @param serviceName contains the name of the service.
@@ -52,27 +44,19 @@ public class AddPersonLinkageImpl extends BaseServiceImpl {
      * @param serviceCoreReturn contains the service core information.
      * @param updatedBy contains the userid requesting this information.
      * @param otherParameters contains an array of Java objects that are additional parameters for the service.
-     * @return will return an JsonMessage object if successful.
      * @throws CprException will be thrown if there are any problems.
      * @throws JSONException will be thrown if there are any issues creating a JSON message.
      * @throws ParseException will be thrown if there are any issues related to parsing a data value.
+     * @throws JMSException will be thrown for messaging
      */	
 	@Override
-	public JsonMessage runService(String serviceName, Database db,
+	public void runService(String serviceName, Database db,
 			ServiceCoreReturn serviceCoreReturn, String updatedBy,
 			Object[] otherParameters) throws CprException, JSONException,
-			ParseException {
+			ParseException, JMSException {
 		
-		final String linkageType = (String) otherParameters[LINKAGE_TYPE];
-		final String linkedIdentifierType = (String) otherParameters[LINKED_IDENTIFIER_TYPE];
-		final String linkedIdentifier = (String) otherParameters[LINKED_IDENTIFIER];
+		new AddPersonLinkageApi().implementApi(serviceName, db, updatedBy, serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 		
-		// Do the link.
-		final PersonLinkageTable personLinkageTable = ValidatePersonLinkage.validatePersonLinkageParameters(db, 
-				serviceCoreReturn.getPersonId(), linkedIdentifierType, linkedIdentifier, linkageType, updatedBy);
-		
-		personLinkageTable.addPersonLinkage(db);
-		
-		return null;
 	}
 }

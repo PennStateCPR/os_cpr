@@ -8,15 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.GetPhotoApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.returns.PhotoServiceReturn;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.PersonPhotoTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.returns.PhotoReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonPhoto;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.PhotoServiceReturn;
 
 /**
  * This class provides an implementation for the get photo service.
@@ -62,20 +60,9 @@ public class GetPhotoImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		// Do the query from the database.
-		ValidatePersonPhoto.validateGetPhotoParameters(db, serviceCoreReturn.getPersonId(), updatedBy);
-		
-		final PersonPhotoTable personPhotoTable = new PersonPhotoTable();
-		final PhotoReturn queryResults[] = personPhotoTable.getPhoto(db, serviceCoreReturn.getPersonId());
-		
-		// Build the return class.
-		PhotoServiceReturn serviceReturn = new PhotoServiceReturn();
-		serviceReturn.setStatusCode(ReturnType.SUCCESS.index());
-		serviceReturn.setStatusMessage(ServiceHelper.SUCCESS_MESSAGE);
-		serviceReturn.setNumberElements(queryResults.length);
-		serviceReturn.setPhotoReturn(queryResults);
-		
-		return (Object) serviceReturn;
+		return (Object) new GetPhotoApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 
     /**

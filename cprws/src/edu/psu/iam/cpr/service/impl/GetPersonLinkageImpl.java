@@ -8,15 +8,13 @@ import javax.jms.JMSException;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
+import edu.psu.iam.cpr.core.api.GetPersonLinkageApi;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
+import edu.psu.iam.cpr.core.api.returns.PersonLinkageServiceReturn;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.tables.PersonLinkageTable;
 import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.returns.PersonLinkageReturn;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
-import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonLinkage;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
-import edu.psu.iam.cpr.service.returns.PersonLinkageServiceReturn;
 
 /**
  * This class provides an implementation for the get person linkage service.
@@ -42,9 +40,6 @@ import edu.psu.iam.cpr.service.returns.PersonLinkageServiceReturn;
  */
 public class GetPersonLinkageImpl extends ExtendedBaseServiceImpl {
 	
-	/** Contains the index for the return history parameter */
-	private static final int RETURN_HISTORY = 0;
-
     /**
      * This method is used to execute the core logic for a service.
      * @param db contains a open database session.
@@ -65,17 +60,9 @@ public class GetPersonLinkageImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		final String returnHistory = (String) otherParameters[RETURN_HISTORY];
-		
-		// Do the Get.
-		final PersonLinkageTable personLinkageTable = ValidatePersonLinkage.validateGetPersonLinkageParameters(db, 
-										serviceCoreReturn.getPersonId(), updatedBy, returnHistory);
-		
-		final PersonLinkageReturn queryResults[] = personLinkageTable.getPersonLinkage(db, serviceCoreReturn.getPersonId());
-		
-		// Build the return class.
-		return (Object) new PersonLinkageServiceReturn(ReturnType.SUCCESS.index(), ServiceHelper.SUCCESS_MESSAGE, queryResults.length, 
-				queryResults);
+		return (Object) new GetPersonLinkageApi().implementApi(serviceName, db, updatedBy, 
+				serviceCoreReturn, 
+				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 
     /**
