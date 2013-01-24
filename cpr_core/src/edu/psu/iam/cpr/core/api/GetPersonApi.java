@@ -28,6 +28,7 @@ import edu.psu.iam.cpr.core.service.returns.DateOfBirthReturn;
 import edu.psu.iam.cpr.core.service.returns.EmailAddressReturn;
 import edu.psu.iam.cpr.core.service.returns.GenderReturn;
 import edu.psu.iam.cpr.core.service.returns.NameReturn;
+import edu.psu.iam.cpr.core.service.returns.PersonReturn;
 import edu.psu.iam.cpr.core.service.returns.PhoneReturn;
 import edu.psu.iam.cpr.core.service.returns.PsuIdReturn;
 import edu.psu.iam.cpr.core.service.returns.UseridReturn;
@@ -93,6 +94,8 @@ public class GetPersonApi extends ExtendedBaseApi {
 
 		personServiceReturn.setStatusCode(ReturnType.SUCCESS.index());
 		personServiceReturn.setStatusMessage(ApiHelper.SUCCESS_MESSAGE);
+		
+		personServiceReturn.setPersonReturn(new PersonReturn(personId));
 
 		// Get the DOB.
 		final DateOfBirthTable dateOfBirthTable = new DateOfBirthTable();
