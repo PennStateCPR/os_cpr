@@ -1,5 +1,7 @@
 package edu.psu.iam.cpr.provisioner.directory;
 
+import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,6 +13,7 @@ import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
+import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.naming.Context;
@@ -30,6 +33,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -62,6 +66,39 @@ import edu.psu.iam.cpr.core.util.CprProperties;
  */
 public class DirectoryMessageProcessor {
 
+	private enum ResponseKeyword {
+		STATUS_CODE,
+		STATUS_MESSAGE,
+		JSON_MESSAGE,
+		MESSAGE_ID;
+	}
+	
+	private enum MessageProcessorStatus {
+		SUCCESS(0),
+		FAILURE(1);
+		
+		private long index;
+		private MessageProcessorStatus(long index) {
+			this.index = index;
+		}
+
+		public long index() {
+			return index;
+		}
+
+		private static final Map<Long, MessageProcessorStatus> LOOKUP = new HashMap<Long,MessageProcessorStatus>();
+		static {
+			for (MessageProcessorStatus p : EnumSet.allOf(MessageProcessorStatus.class)) {
+				LOOKUP.put(p.index(), p);
+			}
+		}
+
+		@SuppressWarnings("unused")
+		public static MessageProcessorStatus get(long index) {
+			return LOOKUP.get(index);
+		}
+	};
+	
 	private static final String USER_PASSWORD = "userPassword";
 
 	/** Directory queue name property */
@@ -92,8 +129,14 @@ public class DirectoryMessageProcessor {
 	/** JMS message consumer. */
 	private MessageConsumer messageConsumer = null;
 	
+	/** JMS message producer */
+	private MessageProducer messageProducer = null;
+	
 	/** JMS Message Map */
 	private Map<String, String> msgMap = null;
+	
+	/** JSON Object */
+	private JSONObject jsonObject = null;
 
 	private static String logClassPath = DirectoryMessageProcessor.class.getName();
 
@@ -133,12 +176,27 @@ public class DirectoryMessageProcessor {
 		jmsConnection.start();
 		jmsSession = jmsConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		messageConsumer = jmsSession.createConsumer(jmsSession.createQueue(props.getProperty(CPR_JMS_DIR_QUEUE)));
+		messageProducer = jmsSession.createProducer(jmsSession.createQueue(props.getProperty(CprPropertyName.CPR_JMS_REPLYTO.toString())));
 	}
 	
 	/**
 	 * Close Messaging...
 	 */
 	public void closeMessaging() {
+		
+		// Close the message consumer.
+		try {
+			messageConsumer.close();
+		}
+		catch (Exception e) {
+		}
+		
+		// Close the message producer.
+		try {
+			messageProducer.close();
+		}
+		catch (Exception e) {
+		}
 		
 		// Close the session and connection resources.
 		try {
@@ -206,7 +264,6 @@ public class DirectoryMessageProcessor {
 	
 		while (true) {
 			
-			@SuppressWarnings("unused")
 			String correlationId = null;
 			
 			try {
@@ -232,6 +289,7 @@ public class DirectoryMessageProcessor {
 							
 							if (serviceName != null) {
 								findMessageHandler(serviceName);
+								sendResponse(MessageProcessorStatus.SUCCESS, msgString, correlationId);
 							}
 							else {
 								log.info("Skipping message... serviceName = " + serviceName + " requested by = " + requestedBy + " userid= " + userId);
@@ -497,4 +555,70 @@ public class DirectoryMessageProcessor {
     	
     	return sb.toString();
     }
+    
+    /**
+     * Send a JMS response to the master server.
+     * @param messageProcessorStatus contains the processing status.
+     * @param jsonMessage contains the original JSON.
+     * @param correlationId contains the correlation id.
+     * @throws JSONException will be thrown if there are any JSON problems.
+     * @throws JMSException will be thrown if there are any JMS problems.
+     */
+	private void sendResponse(MessageProcessorStatus messageProcessorStatus, String jsonMessage, String correlationId) 
+			throws JSONException, JMSException {
+        
+		setJsonObject(new JSONObject());
+		setLongValue(ResponseKeyword.STATUS_CODE.toString(), messageProcessorStatus.index());
+		setStringValue(ResponseKeyword.STATUS_MESSAGE.toString(), messageProcessorStatus.toString());
+		setStringValue(ResponseKeyword.JSON_MESSAGE.toString(), jsonMessage);
+		setStringValue(ResponseKeyword.MESSAGE_ID.toString(), correlationId);
+
+		TextMessage myTextMsg = jmsSession.createTextMessage();
+		myTextMsg.setText(getJsonObject().toString());
+		myTextMsg.setJMSCorrelationID(correlationId);
+		messageProducer.send(myTextMsg);
+    }
+	
+	/**
+	 * This routine is is used to set a string value in a JSON message.
+	 * @param key contains the key to be set.
+	 * @param value contains the value to be set.
+	 * @throws JSONException will be thrown if there are JSON problems.
+	 */
+	private void setStringValue(String key, String value) throws JSONException {
+		
+		// If the value is NULL, we need to set a special JSON value to indicate NULL.
+		if (value == null) {
+			getJsonObject().put(key.toString(), JSONObject.NULL);
+		}
+		
+		// Otherwise set the value.
+		else {
+			getJsonObject().put(key.toString(), value);
+		}
+	}
+	
+	/**
+	 * This routine is used to set a key/value for a integer portion of a JSON message.
+	 * @param key contains the key.
+	 * @param value contains the value.
+	 * @throws JSONException exception will be thrown if there are any problems.
+	 */
+	private void setLongValue(String key, Long value) throws JSONException {
+		getJsonObject().put(key.toString(), Long.toString(value));
+	}
+
+	/**
+	 * @param jsonObject the jsonObject to set
+	 */
+	public void setJsonObject(JSONObject jsonObject) {
+		this.jsonObject = jsonObject;
+	}
+
+	/**
+	 * @return the jsonObject
+	 */
+	public JSONObject getJsonObject() {
+		return jsonObject;
+	}
 }
