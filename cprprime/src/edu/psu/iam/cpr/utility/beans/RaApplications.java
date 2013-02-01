@@ -52,10 +52,6 @@ public class RaApplications implements Serializable {
         @Column(name="created_on", nullable=false)
         private Date createdOn;
 
-        /** Contains the allowSsnCollectionFlag. */
-        @Column(name="allow_ssn_collection_flag", nullable=false, length=1)
-        private String allowSsnCollectionFlag;
-
         /** Contains the lastUpdateBy. */
         @Column(name="last_update_by", nullable=false, length=30)
         private String lastUpdateBy;
@@ -153,20 +149,6 @@ public class RaApplications implements Serializable {
          */
         public void setCreatedOn(Date createdOn) {
                 this.createdOn = createdOn;
-        }
-
-        /**
-         * @return the allowSsnCollectionFlag
-         */
-        public String getAllowSsnCollectionFlag() {
-                return allowSsnCollectionFlag;
-        }
-
-        /**
-         * @param allowSsnCollectionFlag the allowSsnCollectionFlag to set.
-         */
-        public void setAllowSsnCollectionFlag(String allowSsnCollectionFlag) {
-                this.allowSsnCollectionFlag = allowSsnCollectionFlag;
         }
 
         /**

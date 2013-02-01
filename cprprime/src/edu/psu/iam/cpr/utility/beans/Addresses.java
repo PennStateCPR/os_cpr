@@ -132,6 +132,10 @@ public class Addresses implements Serializable {
         /** Contains the postalCode. */
         @Column(name="postal_code", nullable=true, length=20)
         private String postalCode;
+        
+        /** Contains the do not verify flag */
+        @Column(name="do_not_verify_flag", nullable=false, length=1)
+        private String doNotVerifyFlag;
 
         /**
          * Constructor
@@ -489,5 +493,19 @@ public class Addresses implements Serializable {
         public void setPostalCode(String postalCode) {
                 this.postalCode = postalCode;
         }
+
+		/**
+		 * @param doNotVerifyFlag the doNotVerifyFlag to set
+		 */
+		public void setDoNotVerifyFlag(String doNotVerifyFlag) {
+			this.doNotVerifyFlag = doNotVerifyFlag;
+		}
+
+		/**
+		 * @return the doNotVerifyFlag
+		 */
+		public String getDoNotVerifyFlag() {
+			return doNotVerifyFlag;
+		}
 
 }

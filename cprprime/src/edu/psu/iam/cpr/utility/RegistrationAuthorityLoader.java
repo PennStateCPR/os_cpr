@@ -46,7 +46,7 @@ public class RegistrationAuthorityLoader implements BeanLoader {
 				bean.setStartDate(d);
 				bean.setEndDate(null);
 				
-				// registration_authority|registration_authority_key|ra_contact_key|registration_authority_desc|suspend_flag
+				// registration_authority|registration_authority_key|ra_contact_key|registration_authority_desc|suspend_flag|assign_psuid_flag|assign_userid_flag|collect_ssn_flag
 				for (int i = 0; i < columns.length; ++i) {
 					if (columns[i].equals("registration_authority")) {
 						bean.setRegistrationAuthority(fields[i]);
@@ -62,6 +62,15 @@ public class RegistrationAuthorityLoader implements BeanLoader {
 					}
 					else if (columns[i].equals("suspend_flag")) {
 						bean.setSuspendFlag(fields[i]);
+					}
+					else if (columns[i].equals("assign_psuid_flag")) {
+						bean.setAssignPsuidFlag(fields[i]);
+					}
+					else if (columns[i].equals("assign_userid_flag")) {
+						bean.setAssignUseridFlag(fields[i]);
+					}
+					else if (columns[i].equals("collect_ssn_flag")) {
+						bean.setCollectSsnFlag(fields[i]);
 					}
 				}
 				

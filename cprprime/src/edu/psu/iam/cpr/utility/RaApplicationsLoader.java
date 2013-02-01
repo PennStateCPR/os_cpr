@@ -33,7 +33,7 @@ public class RaApplicationsLoader implements BeanLoader {
 			String[] columns = bufferedReader.readLine().split("[|]");
 			String line;
 			
-//			ra_application_key|ui_application_key|registration_authority_key|suspend_flag|allow_ssn_collection_flag
+//			ra_application_key|ui_application_key|registration_authority_key|suspend_flag
 
 			while ((line = bufferedReader.readLine()) != null) {
 				String[] fields = line.split("[|]");
@@ -56,9 +56,6 @@ public class RaApplicationsLoader implements BeanLoader {
 					}
 					else if (columns[i].equals("suspend_flag")) {
 						bean.setSuspendFlag(fields[i]);
-					}
-					else if (columns[i].equals("allow_ssn_collection_flag")) {
-						bean.setAllowSsnCollectionFlag(fields[i]);
 					}
 				}			
 				session.save(bean);

@@ -71,6 +71,18 @@ public class RegistrationAuthority implements Serializable {
         /** Contains the suspendFlag. */
         @Column(name="suspend_flag", nullable=false, length=1)
         private String suspendFlag;
+        
+        /** Contains the assign psu id flag */
+        @Column(name="assign_psuid_flag", nullable=false, length=1)
+        private String assignPsuidFlag;
+        
+        /** Contains the assign userid flag */
+        @Column(name="assign_userid_flag", nullable=false, length=1)
+        private String assignUseridFlag;
+        
+        /** Contains the collect ssn flag */
+        @Column(name="collect_ssn_flag", nullable=false, length=1)
+        private String collectSsnFlag;
 
         /**
          * Constructor
@@ -232,5 +244,47 @@ public class RegistrationAuthority implements Serializable {
         public void setSuspendFlag(String suspendFlag) {
                 this.suspendFlag = suspendFlag;
         }
+
+		/**
+		 * @param assignPsuidFlag the assignPsuidFlag to set
+		 */
+		public void setAssignPsuidFlag(String assignPsuidFlag) {
+			this.assignPsuidFlag = assignPsuidFlag;
+		}
+
+		/**
+		 * @return the assignPsuidFlag
+		 */
+		public String getAssignPsuidFlag() {
+			return assignPsuidFlag;
+		}
+
+		/**
+		 * @param assignUseridFlag the assignUseridFlag to set
+		 */
+		public void setAssignUseridFlag(String assignUseridFlag) {
+			this.assignUseridFlag = assignUseridFlag;
+		}
+
+		/**
+		 * @return the assignUseridFlag
+		 */
+		public String getAssignUseridFlag() {
+			return assignUseridFlag;
+		}
+
+		/**
+		 * @param collectSsnFlag the collectSsnFlag to set
+		 */
+		public void setCollectSsnFlag(String collectSsnFlag) {
+			this.collectSsnFlag = collectSsnFlag;
+		}
+
+		/**
+		 * @return the collectSsnFlag
+		 */
+		public String getCollectSsnFlag() {
+			return collectSsnFlag;
+		}
 
 }
