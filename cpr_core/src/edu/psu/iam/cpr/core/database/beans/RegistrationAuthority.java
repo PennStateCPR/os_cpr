@@ -60,6 +60,10 @@ public class RegistrationAuthority implements Serializable {
         @Column(name="created_on", nullable=false)
         private Date createdOn;
 
+        /** Flag used to indicate whether RA can assign user IDs. The valid values are Y or N.  The default value is N.   */
+        @Column(name="assign_userid_flag", nullable=false, length=1)
+        private String assignUseridFlag;
+        
         /** Contains the lastUpdateBy. */
         @Column(name="last_update_by", nullable=false, length=30)
         private String lastUpdateBy;
@@ -75,10 +79,18 @@ public class RegistrationAuthority implements Serializable {
         @Column(name="end_date", nullable=true)
         private Date endDate;
 
-        /** Contains the raContactKey. */
+        /** Flag used to indicate whether RA can assign PSU IDs.  The valid values are Y or N.  The default value is N. */
+        @Column(name="assign_psuid_flag", nullable=false, length=1)
+        private String assignPsuidFlag;
+
+       /** Contains the raContactKey. */
         @Column(name="ra_contact_key", nullable=false)
         private Long raContactKey;
 
+        /** Flag used to indicate whether RA can perform SSN collection.  The valid values are Y or N.  The default value is N.   */
+        @Column(name="collect_ssn_flag", nullable=false, length=1)
+        private String collectSsnFlag;
+        
         /** Contains the registrationAuthorityDesc. */
         @Column(name="registration_authority_desc", nullable=false, length=100)
         private String registrationAuthorityDesc;
@@ -247,5 +259,47 @@ public class RegistrationAuthority implements Serializable {
         public void setSuspendFlag(String suspendFlag) {
                 this.suspendFlag = suspendFlag;
         }
+
+		/**
+		 * @param assignUseridFlag the assignUseridFlag to set
+		 */
+		public void setAssignUseridFlag(String assignUseridFlag) {
+			this.assignUseridFlag = assignUseridFlag;
+		}
+
+		/**
+		 * @return the assignUseridFlag
+		 */
+		public String getAssignUseridFlag() {
+			return assignUseridFlag;
+		}
+
+		/**
+		 * @param assignPsuidFlag the assignPsuidFlag to set
+		 */
+		public void setAssignPsuidFlag(String assignPsuidFlag) {
+			this.assignPsuidFlag = assignPsuidFlag;
+		}
+
+		/**
+		 * @return the assignPsuidFlag
+		 */
+		public String getAssignPsuidFlag() {
+			return assignPsuidFlag;
+		}
+
+		/**
+		 * @param collectSsnFlag the collectSsnFlag to set
+		 */
+		public void setCollectSsnFlag(String collectSsnFlag) {
+			this.collectSsnFlag = collectSsnFlag;
+		}
+
+		/**
+		 * @return the collectSsnFlag
+		 */
+		public String getCollectSsnFlag() {
+			return collectSsnFlag;
+		}
 
 }

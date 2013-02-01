@@ -236,6 +236,7 @@ use cpr;
         state varchar(2),
         validate_attempted_on datetime,
         verified_flag varchar(1) not null,
+        do_not_verify_flag varchar(1) not null,
         primary key (address_key)
     ) ENGINE=INNODB;
 

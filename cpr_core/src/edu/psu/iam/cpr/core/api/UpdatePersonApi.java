@@ -86,15 +86,16 @@ public class UpdatePersonApi extends ExtendedBaseApi {
 	private static final int POSTAL_CODE 			= 18;
 	private static final int COUNTRY_CODE 			= 19;
 	private static final int CAMPUS_CODE 			= 20;
-	private static final int PHONE_TYPE 			= 21;
-	private static final int PHONE_GROUP_ID 		= 22;
-	private static final int PHONE_NUMBER 			= 23;
-	private static final int EXTENSION 				= 24;
-	private static final int INTERNATIONAL_NUMBER 	= 25;
-	private static final int EMAIL_TYPE 			= 26;
-	private static final int EMAIL_ADDRESS 			= 27;
-	private static final int AFFILIATION 			= 28;
-	private static final int SSN 					= 29;
+	private static final int VERIFY_ADDRESS_FLAG  	= 21;
+	private static final int PHONE_TYPE 			= 22;
+	private static final int PHONE_GROUP_ID 		= 23;
+	private static final int PHONE_NUMBER 			= 24;
+	private static final int EXTENSION 				= 25;
+	private static final int INTERNATIONAL_NUMBER 	= 26;
+	private static final int EMAIL_TYPE 			= 27;
+	private static final int EMAIL_ADDRESS 			= 28;
+	private static final int AFFILIATION 			= 29;
+	private static final int SSN 					= 30;
 
 	private PersonGenderTable personGenderTable 	= null;
 	private DateOfBirthTable dateOfBirthTable 		= null;
@@ -148,6 +149,7 @@ public class UpdatePersonApi extends ExtendedBaseApi {
 		String postalCode 			= (String) otherParameters[POSTAL_CODE];
 		String countryCode 			= (String) otherParameters[COUNTRY_CODE];
 		String campusCode 			= (String) otherParameters[CAMPUS_CODE];
+		String verifyAddressFlag    = (String) otherParameters[VERIFY_ADDRESS_FLAG];
 		String phoneType 			= (String) otherParameters[PHONE_TYPE];
 		Long phoneGroupId			= Utility.safeConvertStringToLong((String) otherParameters[PHONE_GROUP_ID]);
 		String phoneNumber 			= (String) otherParameters[PHONE_NUMBER];
@@ -159,15 +161,14 @@ public class UpdatePersonApi extends ExtendedBaseApi {
 		String ssn 					= (String) otherParameters[SSN];
 		final long personId			= serviceCoreReturn.getPersonId();
 
-		// Validate the inputs.
-		validateServiceInput(db, personId, updatedBy,
-				assignPsuIdFlag, assignUseridFlag, gender, dob, nameType,
-				nameDocumentType, firstName, middleNames, lastName, suffix,
-				addressType, addressDocumentType, addressGroupId, address1,
-				address2, address3, city, stateOrProvince, postalCode,
-				countryCode, campusCode, phoneType, phoneGroupId, phoneNumber,
-				extension, internationalNumber, emailType, emailAddress,
-				affiliation, ssn);
+		// Validate the inputs to the service.
+		validateServiceInput(db, serviceCoreReturn, updatedBy, assignPsuIdFlag,
+				assignUseridFlag, gender, dob, nameType, nameDocumentType,
+				firstName, middleNames, lastName, suffix, addressType,
+				addressDocumentType, addressGroupId, address1, address2,
+				address3, city, stateOrProvince, postalCode, countryCode,
+				campusCode,verifyAddressFlag, phoneType, phoneGroupId, phoneNumber, extension,
+				internationalNumber, emailType, emailAddress, affiliation, ssn);
 
 		// Update the database.
 		updatePersonInformation(db, updatedBy, ssn);
@@ -319,7 +320,7 @@ public class UpdatePersonApi extends ExtendedBaseApi {
 	/**
 	 * This routine is used to validate information that is passed into the service.
 	 * @param db contains the database connection.
-	 * @param personId contains the person identifier.
+	 * @param serviceCoreReturn contains the service core information.
 	 * @param updatedBy contains the user that is updating the record.
 	 * @param assignPsuIdFlag contains the assign psu id flag.
 	 * @param assignUseridFlag contains the assign userid flag.
@@ -342,6 +343,7 @@ public class UpdatePersonApi extends ExtendedBaseApi {
 	 * @param postalCode contains the postal code.
 	 * @param countryCode contains the country code.
 	 * @param campusCode contains the campus code.
+	 * @param verifyAddressCode contains indication of whether address should be verified
 	 * @param phoneType contains the phone type.
 	 * @param phoneGroupId contains the phone group id within the type to be updated.
 	 * @param phoneNumber contains the phone number.
@@ -355,65 +357,68 @@ public class UpdatePersonApi extends ExtendedBaseApi {
 	 * @throws ParseException will be thrown if there are any parsing problems.
 	 */
 	private void validateServiceInput(Database db,
-			long personId, String updatedBy,
+			ServiceCoreReturn serviceCoreReturn, String updatedBy,
 			String assignPsuIdFlag, String assignUseridFlag, String gender,
 			String dob, String nameType, String nameDocumentType,
 			String firstName, String middleNames, String lastName,
 			String suffix, String addressType, String addressDocumentType,
 			Long addressGroupId, String address1, String address2,
 			String address3, String city, String stateOrProvince,
-			String postalCode, String countryCode, String campusCode,
+			String postalCode, String countryCode, String campusCode, String verifyAddressFlag,
 			String phoneType, Long phoneGroupId, String phoneNumber,
 			String extension, String internationalNumber, String emailType,
 			String emailAddress, String affiliation, String ssn)
 			throws CprException, ParseException {
 		
 		// Validate all of the input parameters to the service.
-		personTable = ValidatePerson.validatePersonParameters(db, personId, updatedBy);
+		personTable = ValidatePerson.validatePersonParameters(db, serviceCoreReturn.getPersonId(), updatedBy);
 
-		// Validate the assign psu id flag.
 		assignPsuId = Validate.isValidYesNo(assignPsuIdFlag);
 		if (assignPsuId == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Assign psu id flag");
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, 
+					"Assign psu id flag");
 		}
-		
-		// Validate the assign userid flag.
+
 		assignUserid = Validate.isValidYesNo(assignUseridFlag);
 		if (assignUserid == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Assign userid flag");
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, 
+					"Assign userid flag");
 		}
 
 		if (gender != null) {
-			personGenderTable = ValidatePerGenderRel.validateAddGenderParameters(personId, gender, updatedBy);
+			personGenderTable = ValidatePerGenderRel.validateAddGenderParameters(serviceCoreReturn.getPersonId(), gender, updatedBy);
 		}
 
 		if (dob != null) {
-			dateOfBirthTable = ValidateDateOfBirth.validateAddDateOfBirthParameters(personId, dob, updatedBy);
+			dateOfBirthTable = ValidateDateOfBirth.validateAddDateOfBirthParameters(serviceCoreReturn.getPersonId(), dob, updatedBy);
 		}
 
 		if (lastName != null) {
-			namesTable = ValidateName.validateAddNameParameters(db, personId, nameType, nameDocumentType, 
+			namesTable = ValidateName.validateAddNameParameters(db, serviceCoreReturn.getPersonId(), nameType, nameDocumentType, 
 					firstName, middleNames, lastName, suffix, updatedBy);
 		}
 
 		if (address1 != null) {
-			addressesTable = ValidateAddress.validateUpdateAddressParameters(db, personId, addressType, 
-					addressDocumentType, addressGroupId, updatedBy, address1, address2, address3, city, stateOrProvince, postalCode,  
-					countryCode, campusCode);
+			addressesTable = ValidateAddress.validateUpdateAddressParameters(db, serviceCoreReturn.getPersonId(), addressType, 
+					addressDocumentType, addressGroupId, updatedBy, address1, address2, address3, city, stateOrProvince, postalCode,  countryCode, campusCode);
+			String doAddressTransform = Validate.isValidYesNo(verifyAddressFlag);
+			if (doAddressTransform == null) {
+				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "verify address flag");
+			}
 		}
 
 		if (phoneNumber != null) {
-			phonesTable = ValidatePhone.validateUpdatePhonesParameters(db, personId, phoneType, phoneGroupId, 
+			phonesTable = ValidatePhone.validateUpdatePhonesParameters(db, serviceCoreReturn.getPersonId(), phoneType, phoneGroupId, 
 					phoneNumber, extension, internationalNumber, updatedBy);
 		}
 
 		if (emailAddress != null) {
-			emailAddressTable = ValidateEmail.validateEmailAddressParameters(db, personId, emailType, 
+			emailAddressTable = ValidateEmail.validateEmailAddressParameters(db, serviceCoreReturn.getPersonId(), emailType, 
 					emailAddress, updatedBy);
 		}
 
 		if (affiliation != null) {
-			affiliationsTable = ValidatePersonAffiliation.validateAddAffiliationParameters(db,personId, 
+			affiliationsTable = ValidatePersonAffiliation.validateAddAffiliationParameters(db,serviceCoreReturn.getPersonId(), 
 					affiliation, updatedBy);
 		}
 

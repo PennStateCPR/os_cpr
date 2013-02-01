@@ -9,8 +9,10 @@ import edu.psu.iam.cpr.core.database.tables.AddressesTable;
 import edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress;
 import edu.psu.iam.cpr.core.database.types.AccessType;
 import edu.psu.iam.cpr.core.error.CprException;
+import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
+import edu.psu.iam.cpr.core.util.Validate;
 
 /**
  * This class provides the implementation for the Add Address API.
@@ -65,9 +67,12 @@ public class UpdateAddressApi extends BaseApi {
 	
 	/** Contains the index for the country code parameter */
 	private static final int COUNTRY_CODE = 9;
-	
+
 	/** Contains the index for the campus code parameter */
 	private static final int CAMPUS_CODE = 10;
+
+	/** Contains the index for the verify address flag parameter */
+	private static final int VERIFY_ADDRESS_FLAG = 11;
 
     /**
      * This method is used to execute the core logic for a service.
@@ -97,12 +102,17 @@ public class UpdateAddressApi extends BaseApi {
 		final String postalCode = (String) otherParameters[POSTAL_CODE];
 		final String countryCode = (String) otherParameters[COUNTRY_CODE];
 		final String campusCode = (String) otherParameters[CAMPUS_CODE];
+		final String verifyAddressFlag  = (String) otherParameters[VERIFY_ADDRESS_FLAG];
 		final long personId = serviceCoreReturn.getPersonId();
 		
 		// Validate the data passed to the service
 		final AddressesTable addressTableRecord = ValidateAddress.validateUpdateAddressParameters(db, personId, 
 				addressType, documentType, groupId,  updatedBy, address1, address2, address3, city, stateOrProvince, postalCode,  
 				countryCode, campusCode);
+		String doAddressTransform = Validate.isValidYesNo(verifyAddressFlag);
+		if (doAddressTransform == null) {
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "verify address flag");
+		}
 		
 		// Determine if the caller is authorized to make this call.
 		if (checkAuthorization) { 

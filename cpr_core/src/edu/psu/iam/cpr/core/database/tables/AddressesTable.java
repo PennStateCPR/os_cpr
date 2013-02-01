@@ -265,10 +265,7 @@ public class AddressesTable {
 		bean.setVerifiedFlag("N");
 		bean.setValidateAttemptedOn(d);
 		
-		
-		
-		
-		
+		bean.setDoNotVerifyFlag("Y");
 	}
 	
 	/**

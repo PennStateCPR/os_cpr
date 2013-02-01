@@ -83,6 +83,10 @@ public class Addresses implements Serializable {
         @Column(name="address1", nullable=true, length=60)
         private String address1;
 
+        /** Contains a flag to indicate if the address should be verified.  The valid values are Y or N.  The default value is N. */
+        @Column(name="do_not_verify_flag", nullable=false, length=1)
+        private String doNotVerifyFlag;
+
         /** Contains the campusCodeKey. */
         @Column(name="campus_code_key", nullable=true)
         private Long campusCodeKey;
@@ -499,5 +503,19 @@ public class Addresses implements Serializable {
         public void setPostalCode(String postalCode) {
                 this.postalCode = postalCode;
         }
+
+		/**
+		 * @param doNotVerifyFlag the doNotVerifyFlag to set
+		 */
+		public void setDoNotVerifyFlag(String doNotVerifyFlag) {
+			this.doNotVerifyFlag = doNotVerifyFlag;
+		}
+
+		/**
+		 * @return the doNotVerifyFlag
+		 */
+		public String getDoNotVerifyFlag() {
+			return doNotVerifyFlag;
+		}
 
 }

@@ -97,14 +97,15 @@ public class AddPersonApi extends ExtendedBaseApi {
 	private static final int POSTAL_CODE 			= 17;
 	private static final int COUNTRY_CODE 			= 18;
 	private static final int CAMPUS_CODE 			= 19;
-	private static final int PHONE_TYPE 			= 20;
-	private static final int PHONE_NUMBER 			= 21;
-	private static final int EXTENSION 				= 22;
-	private static final int INTERNATIONAL_NUMBER 	= 23;
-	private static final int EMAIL_TYPE 			= 24;
-	private static final int EMAIL_ADDRESS 			= 25;
-	private static final int AFFILIATION 			= 26;
-	private static final int SSN 					= 27;
+	private static final int VERIFY_ADDRESS_FLAG 	= 20;
+	private static final int PHONE_TYPE 			= 21;
+	private static final int PHONE_NUMBER 			= 22;
+	private static final int EXTENSION 				= 23;
+	private static final int INTERNATIONAL_NUMBER 	= 24;
+	private static final int EMAIL_TYPE 			= 25;
+	private static final int EMAIL_ADDRESS 			= 26;
+	private static final int AFFILIATION 			= 27;
+	private static final int SSN 					= 28;
 	
 	private PersonGenderTable personGenderTable 	= null;
 	private DateOfBirthTable dateOfBirthTable 		= null;
@@ -158,6 +159,7 @@ public class AddPersonApi extends ExtendedBaseApi {
 		String postalCode 			= (String) otherParameters[POSTAL_CODE];
 		String countryCode 			= (String) otherParameters[COUNTRY_CODE];
 		String campusCode 			= (String) otherParameters[CAMPUS_CODE];
+		String verifyAddressFlag    = (String) otherParameters[VERIFY_ADDRESS_FLAG];
 		String phoneType 			= (String) otherParameters[PHONE_TYPE];
 		String phoneNumber 			= (String) otherParameters[PHONE_NUMBER];
 		String extension 			= (String) otherParameters[EXTENSION];
@@ -171,14 +173,14 @@ public class AddPersonApi extends ExtendedBaseApi {
 				
 		serviceCoreReturn.setPersonId(NO_PERSON_ID);
 
-		// Validate service input.
-		validateServiceInput(db, serviceCoreReturn, updatedBy, assignPsuIdFlag, assignUseridFlag,
-				gender, dob, nameType, nameDocumentType, firstName,
-				middleNames, lastName, suffix, addressType, addressDocumentType,
-				address1, address2, address3, city, stateOrProvince,
-				postalCode, countryCode, campusCode, phoneType,
-				phoneNumber, extension, internationalNumber, emailType,
-				emailAddress, affiliation, ssn);
+		// Validate the input to the service.
+		validateServiceInput(db, serviceCoreReturn, updatedBy, assignPsuIdFlag,
+				assignUseridFlag, gender, dob, nameType, nameDocumentType,
+				firstName, middleNames, lastName, suffix, addressType,
+				addressDocumentType, address1, address2, address3, city,
+				stateOrProvince, postalCode, countryCode, campusCode,  verifyAddressFlag,
+				phoneType, phoneNumber, extension, internationalNumber,
+				emailType, emailAddress, affiliation, ssn);
 
 		// Verify that the minimum requirements for the service have been met.
 		verifyServiceDataRequirements();
@@ -466,6 +468,7 @@ public class AddPersonApi extends ExtendedBaseApi {
 	 * @param postalCode contains the postal code.
 	 * @param countryCode contains the country code.
 	 * @param campusCode contains the campus code.
+	 * @param verifyAddressFlag contains an indication of whether the address should be verified
 	 * @param phoneType contains the phone type.
 	 * @param phoneNumber contains the phone number.
 	 * @param extension contains the extension.
@@ -483,71 +486,68 @@ public class AddPersonApi extends ExtendedBaseApi {
 			String dob, String nameType, String nameDocumentType,
 			String firstName, String middleNames, String lastName,
 			String suffix, String addressType, String addressDocumentType,
-			String address1, String address2, String address3,
-			String city, String stateOrProvince, String postalCode,
-			String countryCode, String campusCode, String phoneType,
-			String phoneNumber, String extension, String internationalNumber,
-			String emailType, String emailAddress, String affiliation, String ssn) throws CprException, ParseException {
+			String address1, String address2, String address3, String city,
+			String stateOrProvince, String postalCode, String countryCode,
+			String campusCode, String verifyAddressFlag, String phoneType, String phoneNumber,
+			String extension, String internationalNumber, String emailType,
+			String emailAddress, String affiliation, String ssn)
+			throws CprException, ParseException {
 		
 		// Validate all of the input parameters to the service.
 		personTable = ValidatePerson.validatePersonParameters(db, serviceCoreReturn.getPersonId(), updatedBy);
-		
-		// Validate the assign psu id flag.
+
 		assignPsuId = Validate.isValidYesNo(assignPsuIdFlag);
 		if (assignPsuId == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Assign psu id flag");
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, 
+					"Assign psu id flag");
 		}
-		
-		// Validate the assign userid flag.
+
 		assignUserid = Validate.isValidYesNo(assignUseridFlag);
 		if (assignUserid == null) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Assign userid flag");
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, 
+					"Assign userid flag");
 		}
-		
-		// Validate gender if specified.
+
 		if (gender != null) {
 			personGenderTable = ValidatePerGenderRel.validateAddGenderParameters(serviceCoreReturn.getPersonId(), gender, updatedBy);
 		}
-		
-		// Validate date of birth if specified.
+
 		if (dob != null) {
 			dateOfBirthTable = ValidateDateOfBirth.validateAddDateOfBirthParameters(serviceCoreReturn.getPersonId(), dob, updatedBy);
 		}
-		
-		// Validate name if the last name was specified.
+
 		if (lastName != null) {
 			namesTable = ValidateName.validateAddNameParameters(db, serviceCoreReturn.getPersonId(), nameType, nameDocumentType, 
 					firstName, middleNames, lastName, suffix, updatedBy);
 		}
-		
-		// Validate the address if address1 was specified.
+
 		if (address1 != null) {
 			addressesTable = ValidateAddress.validateAddAddressParameters(db, serviceCoreReturn.getPersonId(), addressType, 
 					addressDocumentType, updatedBy, address1, address2, address3, city, stateOrProvince, postalCode,  countryCode, campusCode);
+			
+			String doAddressTransform = Validate.isValidYesNo(verifyAddressFlag);
+			if (doAddressTransform == null) {
+				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "verify address flag");
+			}
 		}
-		
-		// Validate the phone number if specified.
+
 		if (phoneNumber != null) {
 			phonesTable = ValidatePhone.validateAddPhonesParameters(db, serviceCoreReturn.getPersonId(), phoneType, 
 					phoneNumber, extension, internationalNumber, updatedBy);
 		}
-		
-		// Validate the email address if specified.
+
 		if (emailAddress != null) {
 			emailAddressTable = ValidateEmail.validateEmailAddressParameters(db, serviceCoreReturn.getPersonId(), emailType, 
 					emailAddress, updatedBy);
 		}
-		
-		// Validate the affiliation if specified.
+
 		if (affiliation != null) {
 			affiliationsTable = ValidatePersonAffiliation.validateAddAffiliationParameters(db, serviceCoreReturn.getPersonId(), 
 					affiliation, updatedBy);
 		}
-		
-		// Validate the SSN if one was specified.
-		if ((ssn != null) && (! ValidateSSN.validateSSN(ssn))) {
-			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "SSN");	
+
+		if (ssn != null && (! ValidateSSN.validateSSN(ssn))) {
+			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "SSN");
 		}
-		
 	}
 }

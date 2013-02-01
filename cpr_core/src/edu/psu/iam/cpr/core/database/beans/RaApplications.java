@@ -50,10 +50,6 @@ public class RaApplications implements Serializable {
         @Column(name="registration_authority_key", nullable=false)
         private Long registrationAuthorityKey;
 
-        /** Contains a flag to indicate if a registration authority is allowed to collect the social security number in the application.  The valid values are Y or N.  The default value is N. */
-        @Column(name="allow_ssn_collection_flag", nullable=false, length=1)
-        private String allowSsnCollectionFlag;
-
         /** Contains a flag to indicate if a registration authority access to an application has been suspended.  The valid values are Y or N.  The default value is Y. */
         @Column(name="suspend_flag", nullable=false, length=1)
         private String suspendFlag;
@@ -144,20 +140,6 @@ public class RaApplications implements Serializable {
          */
         public void setRegistrationAuthorityKey(Long registrationAuthorityKey) {
                 this.registrationAuthorityKey = registrationAuthorityKey;
-        }
-
-        /**
-         * @return the allowSsnCollectionFlag
-         */
-        public String getAllowSsnCollectionFlag() {
-                return allowSsnCollectionFlag;
-        }
-
-        /**
-         * @param allowSsnCollectionFlag the allowSsnCollectionFlag to set.
-         */
-        public void setAllowSsnCollectionFlag(String allowSsnCollectionFlag) {
-                this.allowSsnCollectionFlag = allowSsnCollectionFlag;
         }
 
         /**
