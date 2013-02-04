@@ -77,35 +77,36 @@ public class AddPersonApi extends ExtendedBaseApi {
 	/** Used by the Add Person service to indicate that there is no person identifier established yet for the user. */
 	private static final int NO_PERSON_ID = -1;
 	
-	private static final int ASSIGN_PSU_ID_FLAG 	= 0;
-	private static final int ASSIGN_USERID_FLAG 	= 1;
-	private static final int GENDER 				= 2;
-	private static final int DOB 					= 3;
-	private static final int NAME_TYPE 				= 4;
-	private static final int NAME_DOCUMENT_TYPE 	= 5;
-	private static final int FIRST_NAME 			= 6;
-	private static final int MIDDLE_NAMES 			= 7;
-	private static final int LAST_NAME 				= 8;
-	private static final int SUFFIX 				= 9;
-	private static final int ADDRESS_TYPE 			= 10;
-	private static final int ADDRESS_DOCUMENT_TYPE 	= 11;
-	private static final int ADDRESS1 				= 12;
-	private static final int ADDRESS2 				= 13;
-	private static final int ADDRESS3 				= 14;
-	private static final int CITY 					= 15;
-	private static final int STATE_OR_PROVINCE 		= 16;
-	private static final int POSTAL_CODE 			= 17;
-	private static final int COUNTRY_CODE 			= 18;
-	private static final int CAMPUS_CODE 			= 19;
-	private static final int VERIFY_ADDRESS_FLAG 	= 20;
-	private static final int PHONE_TYPE 			= 21;
-	private static final int PHONE_NUMBER 			= 22;
-	private static final int EXTENSION 				= 23;
-	private static final int INTERNATIONAL_NUMBER 	= 24;
-	private static final int EMAIL_TYPE 			= 25;
-	private static final int EMAIL_ADDRESS 			= 26;
-	private static final int AFFILIATION 			= 27;
-	private static final int SSN 					= 28;
+	private static final int DO_FIND_PERSON_FLAG	= 0;
+	private static final int ASSIGN_PSU_ID_FLAG 	= 1;
+	private static final int ASSIGN_USERID_FLAG 	= 2;
+	private static final int GENDER 				= 3;
+	private static final int DOB 					= 4;
+	private static final int NAME_TYPE 				= 5;
+	private static final int NAME_DOCUMENT_TYPE 	= 6;
+	private static final int FIRST_NAME 			= 7;
+	private static final int MIDDLE_NAMES 			= 8;
+	private static final int LAST_NAME 				= 9;
+	private static final int SUFFIX 				= 10;
+	private static final int ADDRESS_TYPE 			= 11;
+	private static final int ADDRESS_DOCUMENT_TYPE 	= 12;
+	private static final int ADDRESS1 				= 13;
+	private static final int ADDRESS2 				= 14;
+	private static final int ADDRESS3 				= 15;
+	private static final int CITY 					= 16;
+	private static final int STATE_OR_PROVINCE 		= 17;
+	private static final int POSTAL_CODE 			= 18;
+	private static final int COUNTRY_CODE 			= 19;
+	private static final int CAMPUS_CODE 			= 20;
+	private static final int VERIFY_ADDRESS_FLAG 	= 21;
+	private static final int PHONE_TYPE 			= 22;
+	private static final int PHONE_NUMBER 			= 23;
+	private static final int EXTENSION 				= 24;
+	private static final int INTERNATIONAL_NUMBER 	= 25;
+	private static final int EMAIL_TYPE 			= 26;
+	private static final int EMAIL_ADDRESS 			= 27;
+	private static final int AFFILIATION 			= 28;
+	private static final int SSN 					= 29;
 	
 	private PersonGenderTable personGenderTable 	= null;
 	private DateOfBirthTable dateOfBirthTable 		= null;
@@ -139,6 +140,7 @@ public class AddPersonApi extends ExtendedBaseApi {
 			String updatedBy, Object[] otherParameters,
 			boolean checkAuthorization) throws CprException, JSONException,
 			ParseException, JMSException {
+		String doFindPersonFlag		= (String) otherParameters[DO_FIND_PERSON_FLAG];
 		String assignPsuIdFlag 		= (String) otherParameters[ASSIGN_PSU_ID_FLAG];
 		String assignUseridFlag 	= (String) otherParameters[ASSIGN_USERID_FLAG];
 		String gender 				= (String) otherParameters[GENDER];
@@ -185,14 +187,17 @@ public class AddPersonApi extends ExtendedBaseApi {
 		// Verify that the minimum requirements for the service have been met.
 		verifyServiceDataRequirements();
 
-		// Do matching.
-		personServiceReturn = performPersonMatch(db, serviceCoreReturn, updatedBy, ssn);
+		// Do matching only if the find person flag is set to Y.  The only case that would be true
+		// would be from IAM online where the matching is already done ahead of time.
+		if (doFindPersonFlag.equals("Y")) {
+			personServiceReturn = performPersonMatch(db, serviceCoreReturn, updatedBy, ssn);
 
-		// Did we find a match?  If so, we need to return.
-		if (personServiceReturn != null) {
-			LOG4J_LOGGER.info(apiName + ": " + matchingErrorMessage);
-			serviceCoreReturn.getServiceLogTable().endLog(db, matchingErrorMessage);
-			return (Object) personServiceReturn;
+			// Did we find a match?  If so, we need to return.
+			if (personServiceReturn != null) {
+				LOG4J_LOGGER.info(apiName + ": " + matchingErrorMessage);
+				serviceCoreReturn.getServiceLogTable().endLog(db, matchingErrorMessage);
+				return (Object) personServiceReturn;
+			}
 		}
 
 		// Add a new person to the CPR (set the person identifier).
