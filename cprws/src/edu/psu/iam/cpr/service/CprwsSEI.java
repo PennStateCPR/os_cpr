@@ -76,6 +76,7 @@ public interface CprwsSEI {
 	 * @param postalCode the postal code of the address. For US address, may include plus4 code.
 	 * @param countryCode the three character country code.
 	 * @param campusCode the two character campus code.
+	 * @param verifyAddressFlag flag to control address validation
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
@@ -98,7 +99,8 @@ public interface CprwsSEI {
 			@WebParam(name = "stateOrProvince", mode = Mode.IN) String stateOrProvince,
 			@WebParam(name = "postalCode", mode = Mode.IN) String postalCode,
 			@WebParam(name = "countryCode", mode = Mode.IN) String countryCode,
-			@WebParam(name = "campusCode", mode = Mode.IN) String campusCode);
+			@WebParam(name = "campusCode", mode = Mode.IN) String campusCode,
+			@WebParam(name = "verifyAddressFlag", mode = Mode.IN) String verifyAddressFlag );
 
 	/**
 	 * This function provides the implementation for the ArchiveAddress SOAP web service.  ArchiveAddress will allow 
@@ -210,6 +212,7 @@ public interface CprwsSEI {
 	 * @param postalCode the postal code of the address. For US address, may include plus4 code.
 	 * @param countryCode the three character country code.
 	 * @param campusCode the two character campus code.
+	 * @param verifyAddressFlag flag to control address validation
 	 * 
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
@@ -234,7 +237,8 @@ public interface CprwsSEI {
 			@WebParam(name = "stateOrProvince", mode = Mode.IN) String stateOrProvince,
 			@WebParam(name = "postalCode", mode = Mode.IN) String postalCode,
 			@WebParam(name = "countryCode", mode = Mode.IN) String countryCode,
-			@WebParam(name = "campusCode", mode = Mode.IN) String campusCode);
+			@WebParam(name = "campusCode", mode = Mode.IN) String campusCode,
+			@WebParam(name = "verifyAddressFlag", mode=Mode.IN) String verifyAddressFlag);
 
 	/**
 	 * This function provides the implementation for the AddAffiliation SOAP web service.
@@ -1297,7 +1301,7 @@ public interface CprwsSEI {
 	 * @param principalId server principal identifier (will be a Kerberos principal).
 	 * @param password password for the server principal specified as the first argument.
 	 * @param updatedBy the person (userid) who is making the change, this person will be an RA agent.
-	 * @param assignPsuIdFlag  a y/n flag to indiciate whether a new PSU ID is to be created for the person.
+	 * @param assignPsuIdFlag a y/n flag to indiciate whether a new PSU ID is to be created for the person.
 	 * @param assignUseridFlag a y/n flag to indicate whether a new userid is to be created for the person.
 	 * @param gender a flag to indicate the person's gender.
 	 * @param dob the person's date of birth, it can either be a full DOB or a partial one (mm/dd).
@@ -1335,8 +1339,8 @@ public interface CprwsSEI {
 			@WebParam(name = "principalId", mode = Mode.IN) String principalId,
 			@WebParam(name = "password", mode = Mode.IN) String password,
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
-			@WebParam(name = "assignPsuIdFlag", mode=Mode.IN) String assignPsuIdFlag, 
-			@WebParam(name = "assignUseridFlag", mode=Mode.IN) String assignUseridFlag, 
+			@WebParam(name = "assignPsuIdFlag") String assignPsuIdFlag,
+			@WebParam(name = "assignUseridFlag") String assignUseridFlag,
 			@WebParam(name = "gender", mode = Mode.IN) String gender,
 			@WebParam(name = "dob", mode = Mode.IN) String dob,
 			@WebParam(name = "nameType", mode = Mode.IN) String nameType,
@@ -1355,6 +1359,7 @@ public interface CprwsSEI {
 			@WebParam(name = "postalCode", mode = Mode.IN) String postalCode,
 			@WebParam(name = "countryCode", mode = Mode.IN) String countryCode,
 			@WebParam(name = "campusCode", mode = Mode.IN) String campusCode,
+			@WebParam(name = "verifyAddressFlag", mode = Mode.IN) String verifyAddressFlag,
 			@WebParam(name = "phoneType", mode = Mode.IN) String phoneType,
 			@WebParam(name = "phoneNumber", mode = Mode.IN) String phoneNumber,
 			@WebParam(name = "extension", mode = Mode.IN) String extension,
@@ -1486,8 +1491,8 @@ public interface CprwsSEI {
 			@WebParam(name = "updatedBy", mode = Mode.IN) String updatedBy,
 			@WebParam(name = "identifierType", mode = Mode.IN) String identifierType,
 			@WebParam(name = "identifier", mode = Mode.IN) String identifier,
-			@WebParam(name = "assignPsuIdFlag", mode=Mode.IN) String assignPsuIdFlag, 
-			@WebParam(name = "assignUseridFlag", mode=Mode.IN) String assignUseridFlag, 
+			@WebParam(name = "assignPsuIdFlag") String assignPsuIdFlag,
+			@WebParam(name = "assignUseridFlag") String assignUseridFlag,
 			@WebParam(name = "gender", mode = Mode.IN) String gender,
 			@WebParam(name = "dob", mode = Mode.IN) String dob,
 			@WebParam(name = "nameType", mode = Mode.IN) String nameType,
@@ -1507,6 +1512,7 @@ public interface CprwsSEI {
 			@WebParam(name = "postalCode", mode = Mode.IN) String postalCode,
 			@WebParam(name = "countryCode", mode = Mode.IN) String countryCode,
 			@WebParam(name = "campusCode", mode = Mode.IN) String campusCode,
+			@WebParam(name = "verifyAddressFlag", mode = Mode.IN) String verifyAddressFlag,
 			@WebParam(name = "phoneType", mode = Mode.IN) String phoneType,
 			@WebParam(name = "phoneGroupId", mode = Mode.IN) Long phoneGroupId,
 			@WebParam(name = "phoneNumber", mode = Mode.IN) String phoneNumber,

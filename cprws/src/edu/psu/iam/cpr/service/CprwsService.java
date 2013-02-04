@@ -152,6 +152,7 @@ public class CprwsService implements CprwsSEI {
 	 * @param postalCode the postal code of the address. For US address, may include plus4 code.
 	 * @param countryCode the three character country code.
 	 * @param campusCode the two character campus code.
+	 * @param verifyAddressFlag flag to control address validation
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * 
@@ -174,13 +175,14 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="stateOrProvince", mode=Mode.IN) String stateOrProvince, 
 			@WebParam(name="postalCode", mode=Mode.IN) String postalCode,
 			@WebParam(name="countryCode", mode=Mode.IN) String countryCode, 
-			@WebParam(name="campusCode", mode=Mode.IN) String campusCode) {
+			@WebParam(name="campusCode", mode=Mode.IN) String campusCode,
+			@WebParam(name="verifyAddressFlag", mode=Mode.IN) String verifyAddressFlag) {
 		
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 		return (ServiceReturn) new AddAddressImpl().implementService(
 					CprServiceName.AddAddress.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
 									identifierType, identifier, new Object[]{addressType, documentType, address1, address2, address3, city,
-									stateOrProvince, postalCode, countryCode, campusCode});
+									stateOrProvince, postalCode, countryCode, campusCode, verifyAddressFlag});
 	}
 	
 	/**
@@ -318,6 +320,7 @@ public class CprwsService implements CprwsSEI {
 	 * @param postalCode the postal code of the address. For US address, may include plus4 code.
 	 * @param countryCode the three character country code.
 	 * @param campusCode the two character campus code.
+	 * @param verifyAddressFlag flag to control address validation
 	 * 
 	 * 
 	 * @return ServiceReturn object that contains the result of executing the service.
@@ -342,13 +345,14 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="stateOrProvince", mode=Mode.IN) String stateOrProvince, 
 			@WebParam(name="postalCode", mode=Mode.IN) String postalCode,
 			@WebParam(name="countryCode", mode=Mode.IN) String countryCode, 
-			@WebParam(name="campusCode", mode=Mode.IN) String campusCode)  {
+			@WebParam(name="campusCode", mode=Mode.IN) String campusCode,
+			@WebParam(name="verifyAddressFlag", mode=Mode.IN) String verifyAddressFlag)  {
 		
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 		return (ServiceReturn) new UpdateAddressImpl().implementService(
 					CprServiceName.UpdateAddress.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
 									identifierType, identifier, new Object[]{addressType, documentType, groupId, address1, address2, address3, city,
-									stateOrProvince, postalCode, countryCode, campusCode});
+									stateOrProvince, postalCode, countryCode, campusCode, verifyAddressFlag});
 	}
 	
 	/**
@@ -1758,7 +1762,7 @@ public class CprwsService implements CprwsSEI {
 	 * @param principalId server principal identifier (will be a Kerberos principal).
 	 * @param password password for the server principal specified as the first argument.
 	 * @param updatedBy the person (userid) who is making the change, this person will be an RA agent.
-	 * @param assignPsuIdFlag  a y/n flag to indiciate whether a new PSU ID is to be created for the person.
+	 * @param assignPsuIdFlag a y/n flag to indiciate whether a new PSU ID is to be created for the person.
 	 * @param assignUseridFlag a y/n flag to indicate whether a new userid is to be created for the person.
 	 * @param gender a flag to indicate the person's gender.
 	 * @param dob the person's date of birth, it can either be a full DOB or a partial one (mm/dd).
@@ -1839,6 +1843,8 @@ public class CprwsService implements CprwsSEI {
 			String countryCode, 
 			@WebParam( name="campusCode", mode=Mode.IN)
 			String campusCode,
+			@WebParam(name="verifyAddressFlag", mode = Mode.IN) 
+			String verifyAddressFlag,
 			@WebParam( name="phoneType", mode=Mode.IN)
 			String phoneType, 
 			@WebParam( name="phoneNumber", mode=Mode.IN)
@@ -1856,14 +1862,14 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="ssn", mode=Mode.IN) 
 			String ssn) {
 		
+		final String doFindPersonFlag = "Y";
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 		return (PersonServiceReturn) new AddPersonImpl().implementService(
 						CprServiceName.AddPerson.toString(), request.getRemoteAddr(), principalId, password, updatedBy, null, 
-						null, new Object[]{assignPsuIdFlag, assignUseridFlag, gender, dob, nameType, nameDocumentType, firstName, middleNames,
-							lastName, suffix, addressType, addressDocumentType, address1, address2, address3, city, stateOrProvince, 
-							postalCode, countryCode, campusCode, phoneType, phoneNumber, extension, internationalNumber, 
-							emailType, emailAddress, affiliation, ssn});
-		
+						null, new Object[]{doFindPersonFlag, assignPsuIdFlag, assignUseridFlag, gender, dob, nameType, nameDocumentType, 
+							firstName, middleNames, lastName, suffix, addressType, addressDocumentType, address1, address2, address3, 
+							city, stateOrProvince, postalCode, countryCode, campusCode,verifyAddressFlag, phoneType, phoneNumber, 
+							extension, internationalNumber, emailType, emailAddress, affiliation, ssn});
 	}
 	
 	/**
@@ -2069,6 +2075,8 @@ public class CprwsService implements CprwsSEI {
 			String countryCode, 
 			@WebParam( name="campusCode", mode=Mode.IN)
 			String campusCode,
+			@WebParam(name = "verifyAddressFlag", mode = Mode.IN) 
+			String verifyAddressFlag,
 			@WebParam( name="phoneType", mode=Mode.IN)
 			String phoneType, 
 			@WebParam( name="phoneGroupId", mode=Mode.IN)
@@ -2093,11 +2101,10 @@ public class CprwsService implements CprwsSEI {
 						CprServiceName.UpdatePerson.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
 						identifier, new Object[]{assignPsuIdFlag, assignUseridFlag, gender, dob, nameType, nameDocumentType, firstName, 
 							middleNames, lastName, suffix, addressType, addressDocumentType, Utility.safeConvertLongToString(addressGroupId), 
-							address1, address2, address3, city, stateOrProvince, postalCode, countryCode, campusCode, phoneType, 
+							address1, address2, address3, city, stateOrProvince, postalCode, countryCode, campusCode,verifyAddressFlag, phoneType, 
 							Utility.safeConvertLongToString(phoneGroupId), phoneNumber, extension, internationalNumber, emailType, 
 							emailAddress, affiliation, ssn});
-		
-}
+	}
 		
 	/**
 	 * This function provides the implementation for the AddPhone SOAP web service.
