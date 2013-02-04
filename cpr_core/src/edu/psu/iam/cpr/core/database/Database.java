@@ -160,6 +160,14 @@ public class Database {
 	}
 	
 	/**
+	 * setSession will accept a hibernate session and store it inside of the database object for use at a later time.
+	 * @param session contains the session to be stored.
+	 */
+	public void setSession(Session session) {
+		this.session = session;
+	}
+	
+	/**
 	 * This routine will determine if a particular server principal is authorized to call a service.
 	 * @param principalId contains the requestor's principal identifier.
 	 * @param serviceName contains the name of the service.
