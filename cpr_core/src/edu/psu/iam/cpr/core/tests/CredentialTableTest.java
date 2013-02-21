@@ -46,22 +46,22 @@ public class CredentialTableTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _03testCredentialTableLongStringString2() throws Exception {
-		new CredentialTable(1L, null, "jvuccolo");
+		new CredentialTable(1L, null, "cpruser");
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _04testCredentialTableLongStringString3() throws Exception {
-		new CredentialTable(1L, "secure_id", "jvuccolo");
+		new CredentialTable(1L, "secure_id", "cpruser");
 	}
 
 	@Test
 	public final void _05testCredentialTableLongStringString4() throws Exception {
-		new CredentialTable(1L, "credential_type_secureid", "jvuccolo");
+		new CredentialTable(1L, "credential_type_secureid", "cpruser");
 	}
 
 	@Test
 	public final void _06testCredentialTableLongStringStringString1() throws Exception {
-		new CredentialTable(1L, "credential_type_secureid", "abcd", "jvuccolo");
+		new CredentialTable(1L, "credential_type_secureid", "abcd", "cpruser");
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class CredentialTableTest {
 
 	@Test
 	public final void _10testAddCredential1() throws Exception {
-		CredentialTable t = new CredentialTable(100000,"credential_type_secureid", "111211", "jvuccolo");
+		CredentialTable t = new CredentialTable(100000,"credential_type_secureid", "111211", "cpruser");
 		openDbConnection();
 		t.addCredential(db);
 		db.closeSession();
@@ -90,7 +90,7 @@ public class CredentialTableTest {
 	
 	@Test
 	public final void _11testAddCredential2() throws Exception {
-		CredentialTable t = new CredentialTable(100000,"credential_type_openid", "abcd", "jvuccolo");
+		CredentialTable t = new CredentialTable(100000,"credential_type_openid", "abcd", "cpruser");
 		openDbConnection();
 		t.addCredential(db);
 		db.closeSession();
@@ -99,7 +99,7 @@ public class CredentialTableTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _12testAddCredential3() throws Exception {
-		CredentialTable t = new CredentialTable(100000,"credential_type_openid", "abcd", "jvuccolo");
+		CredentialTable t = new CredentialTable(100000,"credential_type_openid", "abcd", "cpruser");
 		openDbConnection();
 		t.addCredential(db);
 		db.closeSession();
@@ -146,21 +146,21 @@ public class CredentialTableTest {
 	
 	@Test
 	public final void _17testArchiveCredential1() throws Exception {
-		CredentialTable t = new CredentialTable(100000,"credential_type_secureid", "jvuccolo");
+		CredentialTable t = new CredentialTable(100000,"credential_type_secureid", "cpruser");
 		openDbConnection();
 		t.archiveCredential(db);
 		db.closeSession();
 	}
 	@Test
 	public final void _18testArchiveCredential2() throws Exception {
-		CredentialTable t = new CredentialTable(100000,"credential_type_openid", "jvuccolo");
+		CredentialTable t = new CredentialTable(100000,"credential_type_openid", "cpruser");
 		openDbConnection();
 		t.archiveCredential(db);
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _19testArchiveCredential3() throws Exception {
-		CredentialTable t = new CredentialTable(100000,"credential_type_secureid", "jvuccolo");
+		CredentialTable t = new CredentialTable(100000,"credential_type_secureid", "cpruser");
 		openDbConnection();
 		t.archiveCredential(db);
 		db.closeSession();

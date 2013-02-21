@@ -29,7 +29,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone;
 import edu.psu.iam.cpr.core.database.types.PhoneType;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class ValidatePhoneTest {
@@ -223,7 +223,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersInvalidTypenull() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateAddPhonesParameters(db, 0, null,  "814-278-9153", "1121", "N", "jvuccolo");
+		ValidatePhone.validateAddPhonesParameters(db, 0, null,  "814-278-9153", "1121", "N", "cpruser");
 		db.closeSession();
 	}
 
@@ -235,7 +235,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersInvalidTypeBlank() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateAddPhonesParameters(db, 0, "", "814-278-9153", "1121", "N", "jvuccolo");
+		ValidatePhone.validateAddPhonesParameters(db, 0, "", "814-278-9153", "1121", "N", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -246,7 +246,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersInvalidPhoneNumber() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateAddPhonesParameters(db, 0, "Local_phone",  "84-278-9153", "1121", "N", "jvuccolo");
+		ValidatePhone.validateAddPhonesParameters(db, 0, "Local_phone",  "84-278-9153", "1121", "N", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -257,7 +257,7 @@ public class ValidatePhoneTest {
  @Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParameterInvalidIntlPhone() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateAddPhonesParameters(db, 0, "Local_phone",  "84-278-9153", "1121", "Y", "jvuccolo");
+		ValidatePhone.validateAddPhonesParameters(db, 0, "Local_phone",  "84-278-9153", "1121", "Y", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -268,7 +268,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersValidPhoneBadIntl() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateAddPhonesParameters(db, 0, "local_phone", "814-278-9153", "1121", "F", "jvuccolo");
+		ValidatePhone.validateAddPhonesParameters(db, 0, "local_phone", "814-278-9153", "1121", "F", "cpruser");
 		db.closeSession();
 	}
 	
@@ -280,7 +280,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesBadExtension() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateAddPhonesParameters(db, 0, "home", "814-278-9153", "abcd", "N", "jvuccolo");
+		ValidatePhone.validateAddPhonesParameters(db, 0, "home", "814-278-9153", "abcd", "N", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -291,7 +291,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesBadIntlInd() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateAddPhonesParameters(db, 0, "LOCAL_PHONE",  "814-278-9153", "1121", "F", "jvuccolo");
+		ValidatePhone.validateAddPhonesParameters(db, 0, "LOCAL_PHONE",  "814-278-9153", "1121", "F", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -302,7 +302,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesNoPhoneNumber() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateAddPhonesParameters(db, 0, "Local_phone",null, "1121", "N", "jvuccolo");
+		ValidatePhone.validateAddPhonesParameters(db, 0, "Local_phone",null, "1121", "N", "cpruser");
 		db.closeSession();
 	}
 	
@@ -314,7 +314,7 @@ public class ValidatePhoneTest {
 	@Test
 	public final void testValidateAddPhonesParametersGoodRequest() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateAddPhonesParameters(db, 100000,  "permanent_phone",  "814-278-9153", "1121", "N", "jvuccolo");
+		ValidatePhone.validateAddPhonesParameters(db, 100000,  "permanent_phone",  "814-278-9153", "1121", "N", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -325,7 +325,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersPhoneTooLong() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateAddPhonesParameters(db, 100000,  "local_phone", "123456789012345678901234567890123456789012", "1121", "N", "jvuccolo");
+		ValidatePhone.validateAddPhonesParameters(db, 100000,  "local_phone", "123456789012345678901234567890123456789012", "1121", "N", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -336,7 +336,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersExtensionTooLong() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateAddPhonesParameters(db, 100000,  "permanent_phone", "814-278-9153", "123456789012345678901234567890123456789012", "N", "jvuccolo");
+		ValidatePhone.validateAddPhonesParameters(db, 100000,  "permanent_phone", "814-278-9153", "123456789012345678901234567890123456789012", "N", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -347,7 +347,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersBadType() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateAddPhonesParameters(db, 100000,  "phone", "814-278-9153", "123456789012345678901234567890123456789012", "N", "jvuccolo");
+		ValidatePhone.validateAddPhonesParameters(db, 100000,  "phone", "814-278-9153", "123456789012345678901234567890123456789012", "N", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -486,7 +486,7 @@ public class ValidatePhoneTest {
 	@Test
 	public final void testValidateGetPhonesParametersAll() throws Exception {
 		openDbConnection();
-		PhonesTable phonesTable = ValidatePhone.validateGetPhonesParameters(db, 100000, "llg5","work_phone","n");
+		PhonesTable phonesTable = ValidatePhone.validateGetPhonesParameters(db, 100000, "cpruser","work_phone","n");
 		AssertJUnit.assertFalse(phonesTable.isReturnHistoryFlag());
 		AssertJUnit.assertEquals(phonesTable.getPhoneType(),PhoneType.WORK_PHONE);
 		db.closeSession();
@@ -547,7 +547,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesBadPhone() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateUpdatePhonesParameters(db, 0, "local_phone", 1L,  "84-278-9153", "1121", "N", "jvuccolo");
+		ValidatePhone.validateUpdatePhonesParameters(db, 0, "local_phone", 1L,  "84-278-9153", "1121", "N", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -558,7 +558,7 @@ public class ValidatePhoneTest {
 	@Test
 	public final void testValidateUpdatePhonesParametersInvalidIntlNo() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateUpdatePhonesParameters(db, 0, "local_phone", 1L,  "12345842789153", "1121", "Y", "jvuccolo");
+		ValidatePhone.validateUpdatePhonesParameters(db, 0, "local_phone", 1L,  "12345842789153", "1121", "Y", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -569,7 +569,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesParameters9() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateUpdatePhonesParameters(db, 0, "permanent_phone",  null, "84-278-9153", "1121", "N", "jvuccolo");
+		ValidatePhone.validateUpdatePhonesParameters(db, 0, "permanent_phone",  null, "84-278-9153", "1121", "N", "cpruser");
 		db.closeSession();
 		
 	}
@@ -581,7 +581,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesInvalidType() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateUpdatePhonesParameters(db, 0, "home", 1L,  "814-278-9153", "1121", "N", "jvuccolo");
+		ValidatePhone.validateUpdatePhonesParameters(db, 0, "home", 1L,  "814-278-9153", "1121", "N", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -592,7 +592,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesInvalidExtension() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateUpdatePhonesParameters(db, 0, "local_phone", 1L,  "814-278-9153", "abcd", "N", "jvuccolo");
+		ValidatePhone.validateUpdatePhonesParameters(db, 0, "local_phone", 1L,  "814-278-9153", "abcd", "N", "cpruser");
 		db.closeSession();
 	}
 	
@@ -604,7 +604,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesNonPhoneNo() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateUpdatePhonesParameters(db, 0, "work_phone",1L, null, "1121", "N", "jvuccolo");
+		ValidatePhone.validateUpdatePhonesParameters(db, 0, "work_phone",1L, null, "1121", "N", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -615,7 +615,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesBadIntlInd() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateUpdatePhonesParameters(db, 0, "work_phone", 1L,  "814-278-9153", "1121", "F", "jvuccolo");
+		ValidatePhone.validateUpdatePhonesParameters(db, 0, "work_phone", 1L,  "814-278-9153", "1121", "F", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -626,7 +626,7 @@ public class ValidatePhoneTest {
 	@Test
 	public final void testValidateUpdatePhonesParameters13() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateUpdatePhonesParameters(db, 100000, "work_phone", 1L,  "814-278-9153", "1121", "N", "jvuccolo");
+		ValidatePhone.validateUpdatePhonesParameters(db, 100000, "work_phone", 1L,  "814-278-9153", "1121", "N", "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -637,7 +637,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesPhoneTooLong() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateUpdatePhonesParameters(db, 0, "employee_home", null,  "123456789012345678901234567890123456789012", "1234", "N", "jvuccolo");
+		ValidatePhone.validateUpdatePhonesParameters(db, 0, "employee_home", null,  "123456789012345678901234567890123456789012", "1234", "N", "cpruser");
 		openDbConnection();
 	}
 	/**
@@ -648,7 +648,7 @@ public class ValidatePhoneTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesExtensionTooLong() throws Exception {
 		openDbConnection();
-		ValidatePhone.validateUpdatePhonesParameters(db, 0, "permanent_phone", null,  "814-278-9153", "123456789012345678901234567890123456789012", "N", "jvuccolo");
+		ValidatePhone.validateUpdatePhonesParameters(db, 0, "permanent_phone", null,  "814-278-9153", "123456789012345678901234567890123456789012", "N", "cpruser");
 		openDbConnection();
 	}
 	

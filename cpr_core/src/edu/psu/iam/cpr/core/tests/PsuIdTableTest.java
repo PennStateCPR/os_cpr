@@ -27,7 +27,7 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.PsuIdTable;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class PsuIdTableTest {
@@ -50,7 +50,7 @@ public class PsuIdTableTest {
 	 */
 	@Test
 	public final void testPsuIdTableIntStringString() {
-		new PsuIdTable(100000, null, "jvuccolo");
+		new PsuIdTable(100000, null, "cpruser");
 	}
 
 	@Test 
@@ -87,20 +87,20 @@ public class PsuIdTableTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testAddPsuId1() throws Exception {
-		PsuIdTable p = new PsuIdTable(100000,null,"jvuccolo");
+		PsuIdTable p = new PsuIdTable(100000,null,"cpruser");
 		p.addPsuIdForPersonId(null);
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testAddPsuId2() throws Exception {
-		PsuIdTable p = new PsuIdTable(100000,null,"jvuccolo");
+		PsuIdTable p = new PsuIdTable(100000,null,"cpruser");
 		p.addPsuIdForPersonId(db);
 	}
 	
 	@Test
 	public final void testAddPsuId3() throws Exception {
 		openDbConnection();
-		PsuIdTable p = new PsuIdTable(100000,null,"jvuccolo");
+		PsuIdTable p = new PsuIdTable(100000,null,"cpruser");
 		p.addPsuIdForPersonId(db);
 		db.closeSession();
 	}

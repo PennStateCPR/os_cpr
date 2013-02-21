@@ -31,7 +31,7 @@ public class FindPersonTest {
 	@Test(expectedExceptions=Exception.class)
 	public void _01testFindPerson() throws Exception {
 		FindPersonServiceReturn findPersonServiceReturn = port.searchForPerson(
-				ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", null, 
+				ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, null, 
 				null, // userid 
 				null, // ssn
 				null, // first name 
@@ -56,7 +56,7 @@ public class FindPersonTest {
 	@Test
 	public void _02testFindPerson() throws Exception {
 		FindPersonServiceReturn findPersonServiceReturn = port.searchForPerson(
-				ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", null, 
+				ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, null, 
 				"testuser", // userid 
 				null, // ssn
 				"test", // first name 
@@ -82,7 +82,7 @@ public class FindPersonTest {
 	@Test
 	public void _03testFindPerson() throws Exception {
 		FindPersonServiceReturn findPersonServiceReturn = port.searchForPerson(
-				ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", null, 
+				ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, null, 
 				null, // userid 
 				"888-88-8888", // ssn
 				"test", // first name 
@@ -108,7 +108,7 @@ public class FindPersonTest {
 	@Test(expectedExceptions=Exception.class)
 	public void _04testFindPerson() throws Exception {
 		FindPersonServiceReturn findPersonServiceReturn = port.searchForPerson(
-				ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", null, 
+				ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, null, 
 				null, // userid 
 				"888-88-8887", // ssn
 				"test", // first name 

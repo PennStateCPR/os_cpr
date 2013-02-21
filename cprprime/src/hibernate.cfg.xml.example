@@ -23,6 +23,7 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.Confidentiality" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Country" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.CountryMap" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.CprAccessGroups" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.CprComponentStatus" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Credential" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.DataElementDocTypes" />
@@ -39,11 +40,9 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.ExternalIap" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Federation" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.GeneratedIdentity" />
-		<mapping class="edu.psu.iam.cpr.utility.beans.GroupAccess" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.GroupDataTypeAccess" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.GroupMemberComments" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.GroupMembers" />
-		<mapping class="edu.psu.iam.cpr.utility.beans.IamGroups" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Iap" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.IapDataElement" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.IapDocument" />
@@ -77,7 +76,6 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.RaApplicationProperties" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.RaApplications" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.RaComments" />
-		<mapping class="edu.psu.iam.cpr.utility.beans.RaGroups" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.RaIapAssign" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.RaScreenFields" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.RaScreens" />
@@ -86,6 +84,7 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.RegistrationAuthority" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.SecurityQuestionAnswers" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.SecurityQuestions" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.ServerPrincipalIp" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.ServiceActions" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.ServiceLog" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.ServiceProvisioner" />
@@ -108,5 +107,6 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.UspsStates" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.VSpNotification" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.WebService" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.WebServiceAccess" />
 	</session-factory>
 </hibernate-configuration>

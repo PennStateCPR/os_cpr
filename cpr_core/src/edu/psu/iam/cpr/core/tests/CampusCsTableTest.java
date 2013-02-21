@@ -38,7 +38,7 @@ public class CampusCsTableTest {
 //	public final void _1testGetCampusInfoNoDB() throws Exception {
 //		
 //		CampusCsTable cTable = new CampusCsTable();
-//		cTable.getCampusInfo(db, "UP", "llg5");
+//		cTable.getCampusInfo(db, "UP", "cpruser");
 //	}
 	
 	/**
@@ -49,7 +49,7 @@ public class CampusCsTableTest {
 	public final void _2testGetCampusInfoName() throws Exception {
 		openDbConnection();
 		CampusCsTable cTable = new CampusCsTable();
-		cTable.getCampusInfo(db, "UP", "llg5");
+		cTable.getCampusInfo(db, "UP", "cpruser");
 		AssertJUnit.assertEquals( cTable.getCampusCsBean().getCampus(), "UNIVERSITY PARK CAMPUS");
 		db.closeSession();
 	}
@@ -61,7 +61,7 @@ public class CampusCsTableTest {
 	public final void _3testGetCampusInfoCode() throws Exception {
 		openDbConnection();
 		CampusCsTable cTable = new CampusCsTable();
-		cTable.getCampusInfo(db, "UP", "llg5");
+		cTable.getCampusInfo(db, "UP", "cpruser");
 		AssertJUnit.assertEquals( cTable.getCampusCsBean().getCampusCode(), "UP");
 		db.closeSession();
 	}
@@ -73,7 +73,7 @@ public class CampusCsTableTest {
 	public final void _4testGetCampusInfoCodeKey() throws Exception {
 		openDbConnection();
 		CampusCsTable cTable = new CampusCsTable();
-		cTable.getCampusInfo(db, "UP", "llg5");
+		cTable.getCampusInfo(db, "UP", "cpruser");
 		AssertJUnit.assertEquals( cTable.getCampusCsBean().getCampusCodeKey(), new Long(100048));
 		db.closeSession();
 	}
@@ -87,7 +87,7 @@ public class CampusCsTableTest {
 	public final void _5testGetCampusInfoBad() throws Exception {
 		openDbConnection();
 		CampusCsTable cTable = new CampusCsTable();
-		cTable.getCampusInfo(db, "U1", "llg5");
+		cTable.getCampusInfo(db, "U1", "cpruser");
 		AssertJUnit.assertEquals( cTable.getCampusCsBean().getCampusCodeKey(), new Long(-1));
 		db.closeSession();
 	}
@@ -99,7 +99,7 @@ public class CampusCsTableTest {
 	public final void _6testGetCampusInfoBadTestCodeKey() throws Exception {
 		openDbConnection();
 		CampusCsTable cTable = new CampusCsTable();
-		cTable.getCampusInfo(db, null, "llg5");
+		cTable.getCampusInfo(db, null, "cpruser");
 		AssertJUnit.assertEquals( cTable.getCampusCsBean().getCampusCodeKey(), null);
 		db.closeSession();
 	}
@@ -112,7 +112,7 @@ public class CampusCsTableTest {
 	public final void _7testGetCampusInfoBadTestCodeKeyBlank() throws Exception {
 		openDbConnection();
 		CampusCsTable cTable = new CampusCsTable();
-		cTable.getCampusInfo(db, "", "llg5");
+		cTable.getCampusInfo(db, "", "cpruser");
 		AssertJUnit.assertEquals( cTable.getCampusCsBean().getCampusCodeKey(), null);
 		db.closeSession();
 	}

@@ -33,7 +33,7 @@ import edu.psu.iam.cpr.core.database.types.NameType;
 import edu.psu.iam.cpr.core.service.returns.NameReturn;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class NamesTableTest {
@@ -57,11 +57,11 @@ public class NamesTableTest {
 	 */
 	@Test
 	public final void _02testNamesTableIntStringStringStringStringStringString() throws Exception {
-		new NamesTable(1, "legal_name", "", "jeff", "", "jones", "", "jvuccolo" );
+		new NamesTable(1, "legal_name", "", "jeff", "", "jones", "", "cpruser" );
 	}
 	@Test
 	public final void _03testNamesTableIntStringStringStringStringStringString1() throws Exception {
-		new NamesTable(1, "legal_name", "", "jvuccolo" );
+		new NamesTable(1, "legal_name", "", "cpruser" );
 	}
 	@Test
 	public final void _04testGetNamesBean() {
@@ -167,7 +167,7 @@ public class NamesTableTest {
 	
 //	@Test
 //	public final void _15testSetMatchName() throws Exception {
-//		NamesTable n = new NamesTable(10000, "LEGAL_NAME", "", "Jimmy", "", "Vuccolo", "","jvuccolo");
+//		NamesTable n = new NamesTable(10000, "LEGAL_NAME", "", "Jimmy", "", "Vuccolo", "","cpruser");
 //		
 //		AssertJUnit.assertEquals(n.getMatchName(),"Jimmy Vuccolo");
 //	}
@@ -176,7 +176,7 @@ public class NamesTableTest {
 	public final void _16testDeleteName5() throws Exception {
 		openDbConnection();
 		NamesTable n =null;
-		n = new NamesTable(10000, "LEGAL_NAME", "", "jvuccolo");
+		n = new NamesTable(10000, "LEGAL_NAME", "", "cpruser");
 		n.archiveName(db);
 		db.closeSession();
 	}
@@ -184,7 +184,7 @@ public class NamesTableTest {
 //	@Test(expected=Exception.class)
 //	public final void _17testDeleteName2() throws Exception {
 //		openDbConnection();
-//		NamesTable n = new NamesTable(100000, "LEGAL_NAME", "", "jvuccolo");
+//		NamesTable n = new NamesTable(100000, "LEGAL_NAME", "", "cpruser");
 //		n.archiveName(db);
 //		db.closeSession();
 //	}
@@ -194,7 +194,7 @@ public class NamesTableTest {
 		NamesTable n = null;
 		try {
 			openDbConnection();
-			n = new NamesTable(100000, "LEGAL_NAME", "", "ted", "eff", "vuccolo", "", "jvuccolo");
+			n = new NamesTable(100000, "LEGAL_NAME", "", "ted", "eff", "vuccolo", "", "cpruser");
 			n.addName(db);
 			db.closeSession();
 		}
@@ -215,7 +215,7 @@ public class NamesTableTest {
 	@Test
 	public final void _20testAddName() throws Exception {
 		openDbConnection();
-		NamesTable n = new NamesTable(100002, "LEGAL_NAME", "", "ted", "", UUID.randomUUID().toString() + "jeff", "", "jvuccolo");
+		NamesTable n = new NamesTable(100002, "LEGAL_NAME", "", "ted", "", UUID.randomUUID().toString() + "jeff", "", "cpruser");
 		n.addName(db);
 		db.closeSession();
 	}
@@ -223,7 +223,7 @@ public class NamesTableTest {
 	@Test
 	public final void _21testAddName2() throws Exception {
 		openDbConnection();
-		NamesTable n = new NamesTable(100002, "DOCUMENTED_NAME", "PASSPORT", "ted", "", UUID.randomUUID().toString() + "jeff", "", "jvuccolo");
+		NamesTable n = new NamesTable(100002, "DOCUMENTED_NAME", "PASSPORT", "ted", "", UUID.randomUUID().toString() + "jeff", "", "cpruser");
 		n.addName(db);
 		db.closeSession();
 	}

@@ -7,7 +7,7 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.ui.EmailMsgUI;
 
 /**
- * @author slk24
+ * @author cpruser
  *
  */
 public class EmailMsgUITest {

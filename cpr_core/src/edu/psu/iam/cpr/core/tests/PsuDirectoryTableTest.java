@@ -28,7 +28,7 @@ import edu.psu.iam.cpr.core.database.beans.PsuDirectory;
 import edu.psu.iam.cpr.core.database.tables.PsuDirectoryTable;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class PsuDirectoryTableTest {
@@ -49,7 +49,7 @@ public class PsuDirectoryTableTest {
 	
 	@Test
 	public final void testPsuDirectoryTable1() {
-		new PsuDirectoryTable(1L, "jvuccolo", "jvuccolo");
+		new PsuDirectoryTable(1L, "cpruser", "cpruser");
 	}
 	
 	@Test
@@ -76,14 +76,14 @@ public class PsuDirectoryTableTest {
 
 	@Test(expectedExceptions=Exception.class)
 	public final void testAddDirectoryTable1() throws Exception {
-		PsuDirectoryTable t = new PsuDirectoryTable(100000,"dummy","jvuccolo");
+		PsuDirectoryTable t = new PsuDirectoryTable(100000,"dummy","cpruser");
 		t.addDirectoryTable(db);
 		
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testAddDirectoryTable2() throws Exception {
 		openDbConnection();
-		PsuDirectoryTable t = new PsuDirectoryTable(100000,"dummy","jvuccolo");
+		PsuDirectoryTable t = new PsuDirectoryTable(100000,"dummy","cpruser");
 		t.addDirectoryTable(db);
 		db.closeSession();
 	}
@@ -100,7 +100,7 @@ public class PsuDirectoryTableTest {
 	@Test
 	public final void testAddDirectoryTable3() throws Exception {
 		openDbConnection();
-		PsuDirectoryTable t = new PsuDirectoryTable(100000,"dummy","jvuccolo");
+		PsuDirectoryTable t = new PsuDirectoryTable(100000,"dummy","cpruser");
 		t.junitCleanUp(db);
 		db.closeSession();
 		
@@ -112,7 +112,7 @@ public class PsuDirectoryTableTest {
 	@Test
 	public final void testAddDirectoryTable4() throws Exception {
 		openDbConnection();
-		PsuDirectoryTable t = new PsuDirectoryTable(100002,"jvuccolo");
+		PsuDirectoryTable t = new PsuDirectoryTable(100002,"cpruser");
 		t.junitCleanUp(db);
 		db.closeSession();
 		
@@ -124,7 +124,7 @@ public class PsuDirectoryTableTest {
 	@Test
 	public final void testAddDirectoryTable5() throws Exception {
 		openDbConnection();
-		PsuDirectoryTable t = new PsuDirectoryTable(100002,"tuj20", "jvuccolo");
+		PsuDirectoryTable t = new PsuDirectoryTable(100002,"tuj20", "cpruser");
 		t.addDirectoryTable(db);
 		db.closeSession();
 	}

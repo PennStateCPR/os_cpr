@@ -74,20 +74,20 @@ public class PersonAffiliationTableTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _03testAffiliationsTableBadAff() throws Exception {
-		new PersonAffiliationTable(100000, "STUF_UNDERGRAD_PROSPECT",  "jvuccolo");
+		new PersonAffiliationTable(100000, "STUF_UNDERGRAD_PROSPECT",  "cpruser");
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _04testAffiliationsTableBadAffiliation() throws Exception {
-		new PersonAffiliationTable(100000, "STUF_UNDERGRAD_PROSPECT",  "jvuccolo","","");
+		new PersonAffiliationTable(100000, "STUF_UNDERGRAD_PROSPECT",  "cpruser","","");
 	}
 	
 	@Test
 	public final void _05testAffiliationsTableGoodAffExceptionData() throws Exception {
-		new PersonAffiliationTable(100000, "EMPLOYEE_STAFF_ACTIVE",  "jvuccolo","x","x");
+		new PersonAffiliationTable(100000, "EMPLOYEE_STAFF_ACTIVE",  "cpruser","x","x");
 	}
 	@Test
 	public final void _06testAffiliationsTableGoodAddNoExceptionData() throws Exception {
-		new PersonAffiliationTable(100000, "EMPLOYEE_STAFF_ACTIVE",  "jvuccolo");
+		new PersonAffiliationTable(100000, "EMPLOYEE_STAFF_ACTIVE",  "cpruser");
 	}
 	@Test 
 	public final void _07testGetAffilationsBean() {
@@ -117,7 +117,7 @@ public class PersonAffiliationTableTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _11testAddAffiliationExceptionNoDb() throws Exception {
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_PROSPECT", "jvuccolo","N", "")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_PROSPECT", "cpruser","N", "")	;
 		pATable.addAffiliation(db);
 	}
 	
@@ -128,7 +128,7 @@ public class PersonAffiliationTableTest {
 	@Test
 	public final void _12testAddAffiliationNoExistingAffiliations() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_PROSPECT",  "llg5", "N", "")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_PROSPECT",  "cpruser", "N", "")	;
 		pATable.addAffiliation(db);
 		db.closeSession();
 	}
@@ -139,7 +139,7 @@ public class PersonAffiliationTableTest {
 	@Test
 	public final void _13testAddAffiliationNewTypeAffiliation() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "EMPLOYEE_STAFF_ACTIVE",  "llg5", "N", "")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "EMPLOYEE_STAFF_ACTIVE",  "cpruser", "N", "")	;
 		pATable.addAffiliation(db);
 		db.closeSession();
 	}
@@ -151,7 +151,7 @@ public class PersonAffiliationTableTest {
 	@Test
 	public final void _14testAddAffiliationValidTransition() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_APPLICANT",  "llg5", "N", "")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_APPLICANT",  "cpruser", "N", "")	;
 		pATable.addAffiliation(db);
 		db.closeSession();
 	}
@@ -163,7 +163,7 @@ public class PersonAffiliationTableTest {
 	@Test
 	public final void _15testUpdateAffiliationValidTransition() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_CURRENT",   "llg5","N", "")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_CURRENT",   "cpruser","N", "")	;
 		pATable.updateAffiliation(db);
 		db.closeSession();
 
@@ -175,7 +175,7 @@ public class PersonAffiliationTableTest {
 //	@Test(expected=CprException.class)
 //	public final void _16testAddAffiliationInValidTransition() throws Exception {
 //		openDbConnection();
-//		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_APPLICANT",  "llg5", "N", "")	;
+//		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_APPLICANT",  "cpruser", "N", "")	;
 //		pATable.addAffiliation(db);
 //		db.closeSession();
 //	}
@@ -186,7 +186,7 @@ public class PersonAffiliationTableTest {
 	@Test
 	public final void _17testUpdateAffiliationTreatedAsAdd() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_GRADUATE_CURRENT",   "llg5","N", "")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_GRADUATE_CURRENT",   "cpruser","N", "")	;
 		pATable.updateAffiliation(db);
 		db.closeSession();
 
@@ -198,7 +198,7 @@ public class PersonAffiliationTableTest {
 	@Test
 	public final void _18testAddAffiliationNoExceptionData() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_UNDERGRADUATE_PROSPECT",  "llg5")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_UNDERGRADUATE_PROSPECT",  "cpruser")	;
 		pATable.addAffiliation(db);
 		db.closeSession();
 	}
@@ -209,7 +209,7 @@ public class PersonAffiliationTableTest {
 	@Test
 	public final void _19testAddAffiliationAddTreatAsUpdate() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_UNDERGRADUATE_PROSPECT",  "llg5","N", "")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_UNDERGRADUATE_PROSPECT",  "cpruser","N", "")	;
 		pATable.addAffiliation(db);
 		db.closeSession();
 	}
@@ -220,7 +220,7 @@ public class PersonAffiliationTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _20testArchiveAffiliationNoDb() throws Exception {
 	
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_UNDERGRADUATE_PROSPECT",  "llg5")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_UNDERGRADUATE_PROSPECT",  "cpruser")	;
 		pATable.archiveAffiliation(db);
 		
 
@@ -232,7 +232,7 @@ public class PersonAffiliationTableTest {
 	@Test
 	public final void _21testArchiveAffiliation() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_UNDERGRADUATE_PROSPECT",  "llg5")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_UNDERGRADUATE_PROSPECT",  "cpruser")	;
 		pATable.archiveAffiliation(db);
 		db.closeSession();
 
@@ -245,7 +245,7 @@ public class PersonAffiliationTableTest {
 	public final void _22testDeleteAffiliationNoAffiliation() throws Exception {
 
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_GRADUATE_PROSPECT",  "llg5")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_GRADUATE_PROSPECT",  "cpruser")	;
 		pATable.archiveAffiliation(db);
 		db.closeSession();
 
@@ -259,7 +259,7 @@ public class PersonAffiliationTableTest {
 	public final void _23testDeleteAffiliationAlreadyArchived() throws Exception {
 
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_UNDERGRADUATE_PROSPECT",  "llg5")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_UNDERGRADUATE_PROSPECT",  "cpruser")	;
 		pATable.archiveAffiliation(db);
 		db.closeSession();
 
@@ -271,7 +271,7 @@ public class PersonAffiliationTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _24testDeleteAffiliationGoodSetup() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100000 , "STUDENT_UNDERGRADUATE_STUDENT",  "llg5","N","")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100000 , "STUDENT_UNDERGRADUATE_STUDENT",  "cpruser","N","")	;
 		pATable.archiveAffiliation(db);
 		db.closeSession();
 
@@ -285,7 +285,7 @@ public class PersonAffiliationTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _25testAddAffiliationTreatAsAddBadModifier() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_UNDERGRADUATE_STUDENT",   "llg5")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "STUDENT_UNDERGRADUATE_STUDENT",   "cpruser")	;
 		pATable.addAffiliation(db);
 		db.closeSession();
 
@@ -395,7 +395,7 @@ public class PersonAffiliationTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _37testSetPrimaryAffiliationBadAffiliation() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_STUDENT",  "llg5")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_STUDENT",  "cpruser")	;
 		pATable.setPrimaryAffiliation(db);
 		db.closeSession();
 
@@ -403,7 +403,7 @@ public class PersonAffiliationTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _38testSetPrimaryAffiliationNoAff() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "EMPLOYEE_STAFF_ACTIVE",  "llg5")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100002, "EMPLOYEE_STAFF_ACTIVE",  "cpruser")	;
 		pATable.setPrimaryAffiliation(db);
 		db.closeSession();
 
@@ -412,7 +412,7 @@ public class PersonAffiliationTableTest {
 	@Test
 	public final void _39testSetPrimaryAffiliationGood() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "EMPLOYEE_STAFF_ACTIVE",  "llg5","N","")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "EMPLOYEE_STAFF_ACTIVE",  "cpruser","N","")	;
 		pATable.setPrimaryAffiliation(db);
 		db.closeSession();
 
@@ -420,7 +420,7 @@ public class PersonAffiliationTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _40testSetPrimaryAffiliationAlreadyPrimary() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "EMPLOYEE_STAFF_ACTIVE",  "llg5","N","")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "EMPLOYEE_STAFF_ACTIVE",  "cpruser","N","")	;
 		pATable.setPrimaryAffiliation(db);
 		db.closeSession();
 
@@ -430,7 +430,7 @@ public class PersonAffiliationTableTest {
 	
 	public final void _41testSetPrimaryAffiliationNewPrimary() throws Exception {
 		openDbConnection();
-		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_CURRENT",  "llg5","N","")	;
+		PersonAffiliationTable pATable = new PersonAffiliationTable(100000, "STUDENT_UNDERGRADUATE_CURRENT",  "cpruser","N","")	;
 		pATable.setPrimaryAffiliation(db);
 		db.closeSession();
 

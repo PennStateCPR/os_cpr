@@ -77,7 +77,7 @@ public class ServiceHelper {
 		ServiceCoreReturn serviceCoreReturn;
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 		serviceCoreReturn = serviceCore.initializeLogging(db, serviceName, ipAddress, parameters.toString(), updatedBy);
-		serviceCore.initializeService(db, principalId, password, identifierType, identifier, serviceName, serviceCoreReturn);
+		serviceCore.initializeService(db, principalId, password, identifierType, identifier, serviceName, ipAddress, serviceCoreReturn);
 		return serviceCoreReturn;
 	}	
 

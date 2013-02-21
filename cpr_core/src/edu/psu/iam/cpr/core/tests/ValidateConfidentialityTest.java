@@ -30,7 +30,7 @@ import edu.psu.iam.cpr.core.database.tables.ConfidentialityTable;
 import edu.psu.iam.cpr.core.database.tables.validate.ValidateConfidentiality;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class ValidateConfidentialityTest {
@@ -78,7 +78,7 @@ public class ValidateConfidentialityTest {
 	@Test
 	public final void testValidateAddConfidentialityParameters7() throws Exception {
 		openDbConnection();
-		ValidateConfidentiality.validateAddConfidentialityParameters(db, 0, "ALL_CONFIDENTIALITY", "jvuccolo");
+		ValidateConfidentiality.validateAddConfidentialityParameters(db, 0, "ALL_CONFIDENTIALITY", "cpruser");
 		db.closeSession();
 	}
 
@@ -116,7 +116,7 @@ public class ValidateConfidentialityTest {
 	@Test
 	public final void testValidateArchiveConfidentialityParameters6() throws Exception {
 		openDbConnection();
-		ValidateConfidentiality.validateArchiveConfidentialityParameters(db, 0, "ALL_CONFIDENTIALITY", "jvuccolo");
+		ValidateConfidentiality.validateArchiveConfidentialityParameters(db, 0, "ALL_CONFIDENTIALITY", "cpruser");
 		db.closeSession();
 	}
 
@@ -142,20 +142,20 @@ public class ValidateConfidentialityTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateGetConfidentialityParameters4() throws Exception {
 		openDbConnection();
-		ValidateConfidentiality.validateGetConfidentialityParameters(db, 0, "jvuccolo","x");
+		ValidateConfidentiality.validateGetConfidentialityParameters(db, 0, "cpruser","x");
 		db.closeSession();
 	}
 	@Test
 	public final void testValidateGetConfidentialityParameters5() throws Exception {
 		openDbConnection();
-		ConfidentialityTable confidentialityTable = ValidateConfidentiality.validateGetConfidentialityParameters(db, 0, "jvuccolo","Y");
+		ConfidentialityTable confidentialityTable = ValidateConfidentiality.validateGetConfidentialityParameters(db, 0, "cpruser","Y");
 		assertTrue(confidentialityTable.isReturnHistoryFlag());
 		db.closeSession();
 	}
 	@Test
 	public final void testValidateGetConfidentialityParameters6() throws Exception {
 		openDbConnection();
-		ConfidentialityTable confidentialityTable = ValidateConfidentiality.validateGetConfidentialityParameters(db, 0, "jvuccolo","n");
+		ConfidentialityTable confidentialityTable = ValidateConfidentiality.validateGetConfidentialityParameters(db, 0, "cpruser","n");
 		assertFalse(confidentialityTable.isReturnHistoryFlag());
 		db.closeSession();
 	}

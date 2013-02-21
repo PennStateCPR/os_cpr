@@ -37,7 +37,7 @@ public class PhoneTest {
 	public void cleanUpAll(String person_id) throws Exception {
 		PhoneServiceReturn getPhoneReturn = null;
 		ServiceReturn archivePhoneReturn = null;
-		getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", person_id, null, "N");
 		if (getPhoneReturn.getStatusCode() != 0) {
 			throw new Exception(getPhoneReturn.getStatusMessage());
@@ -48,7 +48,7 @@ public class PhoneTest {
 				for (final Iterator<PhoneReturn> it = getPhoneReturn.getPhoneReturnRecord().iterator(); it.hasNext();) {
 					PhoneReturn phone = it.next();
 					archivePhoneReturn = port.archivePhone(ServiceAuthentication.GOOD_USERID,
-							ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", person_id,
+							ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", person_id,
 							phone.getPhoneType(), phone.getGroupId());
 					if (archivePhoneReturn.getStatusCode() != 0) {
 						throw new Exception(
@@ -61,7 +61,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _01testPhoneBadPassword() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-					 ServiceAuthentication.BAD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",
+					 ServiceAuthentication.BAD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",
 					"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -71,7 +71,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _02testPhoneBadPrincipal() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone("portal",
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",
 					"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -80,7 +80,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _03testPhoneNullPassword() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-				null, "llg5", "person_id", "100003", "permanent_phone",
+				null, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",
 				"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -116,7 +116,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _07testPhoneBadPersonIdType() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person", "100003", "permanent_phone",
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person", "100003", "permanent_phone",
 				"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -125,7 +125,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _08testPhoneBadPersonId() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", null, "permanent_phone",
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", null, "permanent_phone",
 				"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -134,7 +134,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _09testPhoneNoPersonId() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "1", "permanent_phone",
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1", "permanent_phone",
 					"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -143,7 +143,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _10testPhoneNoPersonNoActive() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100001", "permanent_phone",
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100001", "permanent_phone",
 				"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -152,7 +152,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _11testPhoneNullPhoneType() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null,
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null,
 				"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -162,7 +162,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _12testPhoneBadPhoneType() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent",
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent",
 				"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -171,7 +171,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _13testPhoneNoPhone() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",
 					null, "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -180,7 +180,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _14testPhonePhoneNoTooLong() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",
 					"814865846412345678901234567890123456789012", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -189,7 +189,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _15testPhoneExtTooLong() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",
 				"8148658464","814865846412345678901234567890123456789012",  "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -198,7 +198,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _16testPhoneBadPhoneNO() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",
 				"a8148654864", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -207,7 +207,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _17testPhoneBadExt() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",
 			"8148654864", "aext", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -216,7 +216,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _18testPhoneIntlFlag() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",
 				"	8148654864", "123", "T");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -225,7 +225,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _19testUpdatePhoneBadPrincipal() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.updatePhone("portal",
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",1L,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",1L,
 					"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -234,7 +234,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _20testUpdatePhoneNullPassword() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID,
-					null, "llg5", "person_id", "100003", "permanent_phone",1L,
+					null, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",1L,
 					"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 			throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -270,7 +270,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _24testUpdatePhoneBadPersonIdType() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person", "100003", "permanent_phone",1L,
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person", "100003", "permanent_phone",1L,
 				"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 			throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -279,7 +279,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _25testUpdatePhoneBadPersonId() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", null, "permanent_phone",1L,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", null, "permanent_phone",1L,
 					"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 			throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -288,7 +288,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _26testUpdatePhoneNoPersonId() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "1", "permanent_phone",1L,
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1", "permanent_phone",1L,
 				"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -297,7 +297,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _27testUpdatePhoneNoPersonNoActive() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100001", "permanent_phone", 1L,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100001", "permanent_phone", 1L,
 					"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -306,7 +306,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _28testUpdatePhoneNullPhoneType() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null,1L, 
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null,1L, 
 				"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -316,7 +316,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _29testUpdatePhoneBadPhoneType() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent",1L,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent",1L,
 					"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -325,7 +325,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _30testUpdatePhoneNoPhone() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",1L,
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",1L,
 				null, "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -334,7 +334,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _31testUpdatePhonePhoneNoTooLong() throws Exception {
 		 ServiceReturn PhoneServiceReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",1L,
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",1L,
 				"814865846412345678901234567890123456789012", "123", "N");
 		if (PhoneServiceReturn.getStatusCode() != 0) {
 			throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -343,7 +343,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _32testUpdatePhoneExtTooLong() throws Exception {
 		 ServiceReturn PhoneServiceReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003","permanent_phone",1L,
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003","permanent_phone",1L,
 			"8148658464","814865846412345678901234567890123456789012",  "N");
 		if (PhoneServiceReturn.getStatusCode() != 0) {
 			throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -352,7 +352,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _33testUpdatePhoneBadPhoneNO() throws Exception {
 		 ServiceReturn PhoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",
 			"a8148654864", "123", "N");
 		if (PhoneServiceReturn.getStatusCode() != 0) {
 			throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -361,7 +361,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _34testUpdatePhoneBadExt() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",1L,
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",1L,
 				"8148654864", "aext", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -370,7 +370,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _35testUpdatePhoneIntlFlag() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",1L,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",1L,
 					"	8148654864", "123", "T");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -379,7 +379,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _36testPhoneUpdateNoGroupId() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",null,
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",null,
 					"8148654864", "123", "T");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -388,7 +388,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _37testArchivePhoneBadPrincipal() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.archivePhone("portal",
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent_phone",1L);
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",1L);
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
 			}
@@ -396,7 +396,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _38testArchivePhoneNullPassword() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.archivePhone(ServiceAuthentication.GOOD_USERID,
-				null, "llg5", "person_id", "100003", "permanent_phone",1L);
+				null, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_phone",1L);
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
 			}
@@ -428,7 +428,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _42testArchivePhoneBadPersonIdType() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.archivePhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person", "100003", "permanent_phone",1L);
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person", "100003", "permanent_phone",1L);
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
 			}
@@ -436,7 +436,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _43testArvhivePhoneBadPersonId() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.archivePhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", null, "permanent_phone",1L);
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", null, "permanent_phone",1L);
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
 			}
@@ -444,7 +444,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _44testArchivePhoneNoPersonId() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.archivePhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "1", "permanent_phone",1L);
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1", "permanent_phone",1L);
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
 			}
@@ -452,7 +452,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _45testArchivePhoneNoPersonNoActive() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.archivePhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100001", "permanent_phone", 1L);
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100001", "permanent_phone", 1L);
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
 			}
@@ -460,7 +460,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _46testArchivePhoneNullPhoneType() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.archivePhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null,1L);
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null,1L);
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
 			}
@@ -469,7 +469,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _47testArchivePhoneBadPhoneType() throws Exception {
 			 ServiceReturn PhoneServiceReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "permanent",1L,
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent",1L,
 				"8148658464", "123", "N");
 			if (PhoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(PhoneServiceReturn.getStatusMessage());
@@ -478,7 +478,7 @@ public class PhoneTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _48testPhoneBadGetType() throws Exception {
 		PhoneServiceReturn phoneServiceReturn = port.getPhone(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "WORK_", "N");
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "WORK_", "N");
 		if (phoneServiceReturn.getStatusCode() != 0) {
 			throw new Exception(phoneServiceReturn.getStatusMessage());
 		}
@@ -494,7 +494,7 @@ public class PhoneTest {
 			}
 	
 			ServiceReturn phoneServiceReturn = null;
-			phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "LOCAL_Phone","8148654864", null, "N");
 			if (phoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(phoneServiceReturn.getStatusMessage());
@@ -502,7 +502,7 @@ public class PhoneTest {
 			else 
 			{
 				PhoneServiceReturn getPhoneReturn = null;
-				getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+				getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 				if (getPhoneReturn.getStatusCode() != 0) {
 					throw new Exception(getPhoneReturn.getStatusMessage());
@@ -535,7 +535,7 @@ public class PhoneTest {
 			}
 	
 			ServiceReturn phoneServiceReturn = null;
-			phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "permanent_Phone","3458148654864", null, "Y");
 			if (phoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(phoneServiceReturn.getStatusMessage());
@@ -543,7 +543,7 @@ public class PhoneTest {
 			else 
 			{
 				PhoneServiceReturn getPhoneReturn = null;
-				getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+				getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 				if (getPhoneReturn.getStatusCode() != 0) {
 					throw new Exception(getPhoneReturn.getStatusMessage());
@@ -578,7 +578,7 @@ public class PhoneTest {
 			}
 	
 			ServiceReturn phoneServiceReturn = null;
-			phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 			"person_id", "100003", "work_Phone","8148654864", null, "N");
 			if (phoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(phoneServiceReturn.getStatusMessage());
@@ -586,7 +586,7 @@ public class PhoneTest {
 			else 
 			{
 				PhoneServiceReturn getPhoneReturn = null;
-				getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+				getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 						"person_id", "100003", null, "N");
 				if (getPhoneReturn.getStatusCode() != 0) {
 					throw new Exception(getPhoneReturn.getStatusMessage());
@@ -603,7 +603,7 @@ public class PhoneTest {
 							PhoneReturn phone = it.next();
 							phoneUpdate = true;
 							saveGroupId=phone.getGroupId();
-							updatePhoneReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+							updatePhoneReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 									"person_id", "100003", "work_Phone",saveGroupId,"8148654864", "123", "N");
 							if (updatePhoneReturn.getStatusCode() != 0) {
 								throw new Exception(updatePhoneReturn.getStatusMessage());
@@ -611,7 +611,7 @@ public class PhoneTest {
 							else 
 							{
 								PhoneServiceReturn getAgainPhoneReturn = null;
-								getAgainPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+								getAgainPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 										"person_id", "100003", null, "N");
 								if (getAgainPhoneReturn.getStatusCode() != 0) {
 									throw new Exception(getAgainPhoneReturn.getStatusMessage());
@@ -655,7 +655,7 @@ public class PhoneTest {
 		}
 	
 		ServiceReturn phoneServiceReturn = null;
-		phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 		"person_id", "100003", "work_Phone","8148654864", null, "N");
 		if (phoneServiceReturn.getStatusCode() != 0) {
 			throw new Exception(phoneServiceReturn.getStatusMessage());
@@ -663,7 +663,7 @@ public class PhoneTest {
 		else 
 		{
 			PhoneServiceReturn getPhoneReturn = null;
-			getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", "work_phone", "N");
 			if (getPhoneReturn.getStatusCode() != 0) {
 				throw new Exception(getPhoneReturn.getStatusMessage());
@@ -687,7 +687,7 @@ public class PhoneTest {
 		}
 	
 		ServiceReturn phoneServiceReturn = null;
-		phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 		"person_id", "100003", "work_Phone","8148654864", null, "N");
 		if (phoneServiceReturn.getStatusCode() != 0) {
 			throw new Exception(phoneServiceReturn.getStatusMessage());
@@ -695,7 +695,7 @@ public class PhoneTest {
 		else 
 		{
 			PhoneServiceReturn getPhoneReturn = null;
-			getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", "local_phone", "N");
 			if (getPhoneReturn.getStatusCode() != 0) {
 				throw new Exception(getPhoneReturn.getStatusMessage());
@@ -719,7 +719,7 @@ public class PhoneTest {
 		}
 	
 		ServiceReturn phoneServiceReturn = null;
-		phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 		"person_id", "100003", "work_Phone","8148654864", null, "N");
 		if (phoneServiceReturn.getStatusCode() != 0) {
 			throw new Exception(phoneServiceReturn.getStatusMessage());
@@ -727,7 +727,7 @@ public class PhoneTest {
 		else 
 		{
 			PhoneServiceReturn getPhoneReturn = null;
-			getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", "local_phone", "Y");
 			if (getPhoneReturn.getStatusCode() != 0) {
 				throw new Exception(getPhoneReturn.getStatusMessage());
@@ -753,7 +753,7 @@ public class PhoneTest {
 		}
 	
 		ServiceReturn phoneServiceReturn = null;
-		phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "work_Phone","8148654864", null, "N");
 		if (phoneServiceReturn.getStatusCode() != 0) {
 			throw new Exception(phoneServiceReturn.getStatusMessage());
@@ -761,7 +761,7 @@ public class PhoneTest {
 		else 
 		{
 			PhoneServiceReturn getPhoneReturn = null;
-			getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 			if (getPhoneReturn.getStatusCode() != 0) {
 				throw new Exception(getPhoneReturn.getStatusMessage());
@@ -778,7 +778,7 @@ public class PhoneTest {
 						PhoneReturn phone = it.next();
 						phoneUpdate = true;
 						saveGroupId=phone.getGroupId();
-						updatePhoneReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+						updatePhoneReturn = port.updatePhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 								"person_id", "100003", "work_Phone",saveGroupId,"8148654864", "123", "N");
 						if (updatePhoneReturn.getStatusCode() != 0) {
 							throw new Exception(updatePhoneReturn.getStatusMessage());
@@ -786,7 +786,7 @@ public class PhoneTest {
 						else 
 						{
 							PhoneServiceReturn getAgainPhoneReturn = null;
-							getAgainPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+							getAgainPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 									"person_id", "100003", null, "N");
 							if (getAgainPhoneReturn.getStatusCode() != 0) {
 								throw new Exception(getAgainPhoneReturn.getStatusMessage());
@@ -835,14 +835,14 @@ public class PhoneTest {
 			}
 	
 			ServiceReturn phoneServiceReturn = null;
-			phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", "work_Phone","8148654864", null, "N");
 			if (phoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(phoneServiceReturn.getStatusMessage());
 			} 
 			else 
 			{
-				phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+				phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 						"person_id", "100003", "work_Phone","8149495256", null, "N");
 				if (phoneServiceReturn.getStatusCode() != 0) {
 					throw new Exception(phoneServiceReturn.getStatusMessage());
@@ -850,7 +850,7 @@ public class PhoneTest {
 				else 
 				{
 					PhoneServiceReturn getPhoneReturn = null;
-					getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+					getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 							"person_id", "100003", null, "N");
 					if (getPhoneReturn.getStatusCode() != 0) {
 						throw new Exception(getPhoneReturn.getStatusMessage());
@@ -867,7 +867,7 @@ public class PhoneTest {
 								PhoneReturn phone = it.next();
 								phoneUpdate = true;
 								saveGroupId=phone.getGroupId();
-								setPrimaryPhoneReturn = port.setPrimaryPhoneByType(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+								setPrimaryPhoneReturn = port.setPrimaryPhoneByType(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 										"person_id", "100003", "work_Phone",saveGroupId);
 								if (setPrimaryPhoneReturn.getStatusCode() != 0) {
 									throw new Exception(setPrimaryPhoneReturn.getStatusMessage());
@@ -875,7 +875,7 @@ public class PhoneTest {
 								else 
 							{
 									PhoneServiceReturn getAgainPhoneReturn = null;
-									getAgainPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+									getAgainPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 											"person_id", "100003", null, "N");
 									if (getAgainPhoneReturn.getStatusCode() != 0) {
 										throw new Exception(getAgainPhoneReturn.getStatusMessage());
@@ -924,7 +924,7 @@ public class PhoneTest {
 			 * 
 			 */
 			ServiceReturn phoneServiceReturn = null;
-			phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", "work_Phone","8148654864", null, "N");
 			if (phoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(phoneServiceReturn.getStatusMessage());
@@ -934,7 +934,7 @@ public class PhoneTest {
 				/** 
 				 * add a second work address
 				 */
-				phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+				phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", "work_Phone","8149495256", null, "N");
 				if (phoneServiceReturn.getStatusCode() != 0) {
 					throw new Exception(phoneServiceReturn.getStatusMessage());
@@ -946,7 +946,7 @@ public class PhoneTest {
 					 * 
 					 */
 					PhoneServiceReturn getPhoneReturn = null;
-					getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+					getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 						"person_id", "100003", null, "N");
 					if (getPhoneReturn.getStatusCode() != 0) {
 						throw new Exception(getPhoneReturn.getStatusMessage());
@@ -966,7 +966,7 @@ public class PhoneTest {
 								PhoneReturn phone = it.next();
 								phoneUpdate = true;
 								saveGroupId=phone.getGroupId();
-								setPrimaryPhoneReturn = port.setPrimaryPhoneByType(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+								setPrimaryPhoneReturn = port.setPrimaryPhoneByType(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 									"person_id", "100003", "work_Phone",saveGroupId);
 								if (setPrimaryPhoneReturn.getStatusCode() != 0) {
 									throw new Exception(setPrimaryPhoneReturn.getStatusMessage());
@@ -978,7 +978,7 @@ public class PhoneTest {
 									 * verify that the primary flag was set
 									 */
 									PhoneServiceReturn getAgainPhoneReturn = null;
-									getAgainPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+									getAgainPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 										"person_id", "100003", null, "N");
 									if (getAgainPhoneReturn.getStatusCode() != 0) {
 										throw new Exception(getAgainPhoneReturn.getStatusMessage());
@@ -1012,7 +1012,7 @@ public class PhoneTest {
 													 * 
 													 */
 													saveGroupId2 = phone1.getGroupId();
-													setPrimaryPhoneReturn = port.setPrimaryPhoneByType(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+													setPrimaryPhoneReturn = port.setPrimaryPhoneByType(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 														"person_id", "100003", "work_Phone",saveGroupId2);
 													if (setPrimaryPhoneReturn.getStatusCode() != 0) {
 														throw new Exception(setPrimaryPhoneReturn.getStatusMessage());
@@ -1023,7 +1023,7 @@ public class PhoneTest {
 														 * get phone records
 														 */
 														PhoneServiceReturn getOneMorePhoneReturn = null;
-														getOneMorePhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+														getOneMorePhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 															"person_id", "100003", null, "N");
 														if (getOneMorePhoneReturn.getStatusCode() != 0) {
 															throw new Exception(getOneMorePhoneReturn.getStatusMessage());
@@ -1090,7 +1090,7 @@ public class PhoneTest {
 			 * 
 			 */
 			ServiceReturn phoneServiceReturn = null;
-			phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "work_Phone","8148654864", null, "N");
 			if (phoneServiceReturn.getStatusCode() != 0) {
 				throw new Exception(phoneServiceReturn.getStatusMessage());
@@ -1100,7 +1100,7 @@ public class PhoneTest {
 				/** 
 				 * add a second work address
 				 */
-				phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+				phoneServiceReturn = port.addPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 						"person_id", "100003", "work_Phone","8149495256", null, "N");
 				if (phoneServiceReturn.getStatusCode() != 0) {
 					throw new Exception(phoneServiceReturn.getStatusMessage());
@@ -1112,7 +1112,7 @@ public class PhoneTest {
 					 * 
 					 */
 					PhoneServiceReturn getPhoneReturn = null;
-					getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+					getPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 							"person_id", "100003", null, "N");
 					if (getPhoneReturn.getStatusCode() != 0) {
 						throw new Exception(getPhoneReturn.getStatusMessage());
@@ -1132,7 +1132,7 @@ public class PhoneTest {
 								PhoneReturn phone = it.next();
 								phoneUpdate = true;
 								saveGroupId=phone.getGroupId();
-								archivePhoneReturn = port.archivePhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+								archivePhoneReturn = port.archivePhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 								"person_id", "100003", "work_Phone",saveGroupId);
 								if (archivePhoneReturn.getStatusCode() != 0) {
 									throw new Exception(archivePhoneReturn.getStatusMessage());
@@ -1144,7 +1144,7 @@ public class PhoneTest {
 								 * 
 								 */
 								PhoneServiceReturn getAgainPhoneReturn = null;
-									getAgainPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+									getAgainPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 											"person_id", "100003", null, "N");
 									if (getAgainPhoneReturn.getStatusCode() != 0) {
 										throw new Exception(getAgainPhoneReturn.getStatusMessage());
@@ -1177,7 +1177,7 @@ public class PhoneTest {
 										}
 									}
 									PhoneServiceReturn getHistoryPhoneReturn = null;
-									getHistoryPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+									getHistoryPhoneReturn = port.getPhone(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 											"person_id", "100003", null, "Y");
 									if (getHistoryPhoneReturn.getStatusCode() != 0) {
 										throw new Exception(getAgainPhoneReturn.getStatusMessage());

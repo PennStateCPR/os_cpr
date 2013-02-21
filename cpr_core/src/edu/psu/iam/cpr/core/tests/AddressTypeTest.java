@@ -25,7 +25,7 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.types.AddressType;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class AddressTypeTest {

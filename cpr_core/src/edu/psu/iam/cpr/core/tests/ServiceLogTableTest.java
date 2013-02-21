@@ -29,7 +29,7 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.ServiceLog;
 import edu.psu.iam.cpr.core.database.tables.ServiceLogTable;
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class ServiceLogTableTest {
@@ -98,7 +98,7 @@ public class ServiceLogTableTest {
 		bean.setRequestEnd(null);
 		bean.setRequestStart(new Date());
 		bean.setRequestString("This is the request string from a junit test");
-		bean.setRequestUserid("jvuccolo");
+		bean.setRequestUserid("cpruser");
 		bean.setResultString(null);
 		bean.setWebServiceKey(100068L);
 		

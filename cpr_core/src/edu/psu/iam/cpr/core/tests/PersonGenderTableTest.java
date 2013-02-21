@@ -28,7 +28,7 @@ import edu.psu.iam.cpr.core.database.tables.PersonGenderTable;
 import edu.psu.iam.cpr.core.database.types.GenderType;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class PersonGenderTableTest {
@@ -43,19 +43,19 @@ public class PersonGenderTableTest {
 	}
 	@Test
 	public final void testPerGenderRelTableIntStringString1() throws Exception {
-		new PersonGenderTable(100000, "GENDER_MALE", "jvuccolo");
+		new PersonGenderTable(100000, "GENDER_MALE", "cpruser");
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testPerGenderRelTableIntStringString2() throws Exception {
-		new PersonGenderTable(100000, "", "jvuccolo");
+		new PersonGenderTable(100000, "", "cpruser");
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testPerGenderRelTableIntStringString3() throws Exception {
-		new PersonGenderTable(100000, null, "jvuccolo");
+		new PersonGenderTable(100000, null, "cpruser");
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testPerGenderRelTableIntStringString4() throws Exception {
-		new PersonGenderTable(100000, "x", "jvuccolo");
+		new PersonGenderTable(100000, "x", "cpruser");
 	}
 	@Test
 	public final void testGetGenderType() {
@@ -77,13 +77,13 @@ public class PersonGenderTableTest {
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testAddGender1() throws Exception {
-		PersonGenderTable t = new PersonGenderTable(100000, "GENDER_MALE", "jvuccolo");
+		PersonGenderTable t = new PersonGenderTable(100000, "GENDER_MALE", "cpruser");
 		t.addGender(db);
 	}	
 	@Test
 	public final void testAddGender2() throws Exception {
 		openDbConnection();
-		PersonGenderTable t = new PersonGenderTable(100000, "GENDER_MALE", "jvuccolo");
+		PersonGenderTable t = new PersonGenderTable(100000, "GENDER_MALE", "cpruser");
 		t.addGender(db);
 		db.closeSession();
 	}

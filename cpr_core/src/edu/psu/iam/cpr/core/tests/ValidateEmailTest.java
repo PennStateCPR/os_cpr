@@ -1,8 +1,8 @@
-/* SVN FILE: $Id: ValidateEmailTest.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
+/* SVN FILE: $Id: ValidateEmailTest.java 5340 2012-09-27 14:48:52Z cpruser $ */
 /**
  * 
  * @package edu.psu.iam.cpr.core.tests
- * @author $Author: jvuccolo $
+ * @author $Author: cpruser $
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
@@ -32,7 +32,7 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.validate.ValidateEmail;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class ValidateEmailTest {
@@ -75,7 +75,7 @@ public class ValidateEmailTest {
 	}
 	@Test
 	public final void testIsValidEmail7() {
-		boolean retVal = ValidateEmail.isValidEmail("a.jvuccolo@psu.edu");
+		boolean retVal = ValidateEmail.isValidEmail("a.cpruser@psu.edu");
 		AssertJUnit.assertEquals(retVal, true);
 	}
 	@Test(expectedExceptions=Exception.class)
@@ -99,14 +99,14 @@ public class ValidateEmailTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateEmailAddressParameters4() throws Exception {
 		openDbConnection();
-		ValidateEmail.validateEmailAddressParameters(db, 0, "home", "xyz123@psu.edu", "jvuccolo");
+		ValidateEmail.validateEmailAddressParameters(db, 0, "home", "xyz123@psu.edu", "cpruser");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateEmailAddressParameters5() throws Exception {
 		try {
 			openDbConnection();
-			ValidateEmail.validateEmailAddressParameters(db, 0, "home_email", "xyz123psu.edu", "jvuccolo");
+			ValidateEmail.validateEmailAddressParameters(db, 0, "home_email", "xyz123psu.edu", "cpruser");
 		}
 		catch (Exception e) {
 			throw new Exception(e);
@@ -123,7 +123,7 @@ public class ValidateEmailTest {
 	@Test
 	public final void testValidateEmailAddressParameters6() throws Exception {
 		openDbConnection();
-		ValidateEmail.validateEmailAddressParameters(db, 0, "UNIVERSITY_EMAIL", "xyz123@psu.edu", "jvuccolo");
+		ValidateEmail.validateEmailAddressParameters(db, 0, "UNIVERSITY_EMAIL", "xyz123@psu.edu", "cpruser");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
@@ -135,7 +135,7 @@ public class ValidateEmailTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateEmailAddressParameters8() throws Exception {
 		openDbConnection();
-		ValidateEmail.validateEmailAddressParameters(db, 0, "student_email_home", "xyz123@psu.", "jvuccolo");
+		ValidateEmail.validateEmailAddressParameters(db, 0, "student_email_home", "xyz123@psu.", "cpruser");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
@@ -166,7 +166,7 @@ public class ValidateEmailTest {
 	public final void testValidatePrimaryEmailParameters5() throws Exception {
 		try {
 			openDbConnection();
-			ValidateEmail.validatePrimaryEmailParameters(db, 0, "home", "jvuccolo");
+			ValidateEmail.validatePrimaryEmailParameters(db, 0, "home", "cpruser");
 		}
 		catch (Exception e) {
 			throw new Exception(e);
@@ -181,7 +181,7 @@ public class ValidateEmailTest {
 	@Test
 	public final void testValidatePrimaryEmailParameters6() throws Exception {
 		openDbConnection();
-		ValidateEmail.validatePrimaryEmailParameters(db, 0, "UNIVERSITY_EMAIL", "jvuccolo");
+		ValidateEmail.validatePrimaryEmailParameters(db, 0, "UNIVERSITY_EMAIL", "cpruser");
 		db.closeSession();
 	}
 
@@ -195,7 +195,7 @@ public class ValidateEmailTest {
 	@Test
 	public final void testValidateGetEmailAddress2() throws Exception {
 		openDbConnection();
-		ValidateEmail.validateGetEmailAddressParameters(db, 0, "jvuccolo","N");
+		ValidateEmail.validateGetEmailAddressParameters(db, 0, "cpruser","N");
 		db.closeSession();
 	}
 	

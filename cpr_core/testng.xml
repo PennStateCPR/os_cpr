@@ -11,6 +11,7 @@
       <class name="edu.psu.iam.cpr.core.tests.AffiliationReturnTest"/>
       <class name="edu.psu.iam.cpr.core.tests.AffiliationsTest"/>
       <class name="edu.psu.iam.cpr.core.tests.AuthenticateServiceTest"/>
+      <class name="edu.psu.iam.cpr.core.tests.AuthorizationServiceTest"/>
       <class name="edu.psu.iam.cpr.core.tests.BadPrefixesTest"/>
       <class name="edu.psu.iam.cpr.core.tests.CampusCsTest"/>
       <class name="edu.psu.iam.cpr.core.tests.ConfidentialityReturnTest"/>

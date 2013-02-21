@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: GroupDataTypeAccess.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
+/* SVN FILE: $Id: BuildBean.java 5970 2013-01-04 15:50:31Z jvuccolo $ */
 package edu.psu.iam.cpr.core.database.beans;
 
 import java.io.Serializable;
@@ -13,24 +13,14 @@ import javax.persistence.Table;
 
 /**
  *
- * Copyright 2012 The Pennsylvania State University
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To
+ * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative
+ * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
  * @package edu.psu.iam.cpr.core.database.beans
  * @author $Author: jvuccolo $
- * @version $Rev: 5340 $
- * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
+ * @version $Rev: 5970 $
+ * @lastrevision $Date: 2013-01-04 10:50:31 -0500 (Fri, 04 Jan 2013) $
  */
 
 @Entity
@@ -44,13 +34,16 @@ public class GroupDataTypeAccess implements Serializable {
         @Column(name="created_by", nullable=false, length=30)
         private String createdBy;
 
-        /** Contains the lastUpdateOn. */
-        @Column(name="last_update_on", nullable=false)
-        private Date lastUpdateOn;
+        /** Contains the groupDataTypeAccessKey. */
+        @Id
+        @Column(name="group_data_type_access_key", nullable=false)
+        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_group_data_type_access")
+        @SequenceGenerator(name="seq_group_data_type_access", sequenceName="seq_group_data_type_access", allocationSize = 1, initialValue= 1)
+        private Long groupDataTypeAccessKey;
 
-        /** Contains the readFlag. */
-        @Column(name="read_flag", nullable=false, length=1)
-        private String readFlag;
+        /** Contains the cprAccessGroupsKey. */
+        @Column(name="cpr_access_groups_key", nullable=false)
+        private Long cprAccessGroupsKey;
 
         /** Contains the createdOn. */
         @Column(name="created_on", nullable=false)
@@ -60,28 +53,25 @@ public class GroupDataTypeAccess implements Serializable {
         @Column(name="last_update_by", nullable=false, length=30)
         private String lastUpdateBy;
 
-        /** Contains the dataTypeKey. */
-        @Column(name="data_type_key", nullable=false)
-        private Long dataTypeKey;
-
         /** Contains the archiveFlag. */
         @Column(name="archive_flag", nullable=false, length=1)
         private String archiveFlag;
 
-        /** Contains the iamGroupKey. */
-        @Column(name="iam_group_key", nullable=false)
-        private Long iamGroupKey;
+        /** Contains the dataTypeKey. */
+        @Column(name="data_type_key", nullable=false)
+        private Long dataTypeKey;
 
-        /** Contains the groupDataTypeAccessKey. */
-        @Id
-        @Column(name="group_data_type_access_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_group_data_type_access")
-        @SequenceGenerator(name="seq_group_data_type_access", sequenceName="seq_group_data_type_access", allocationSize = 1, initialValue= 1)
-        private Long groupDataTypeAccessKey;
+        /** Contains the lastUpdateOn. */
+        @Column(name="last_update_on", nullable=false)
+        private Date lastUpdateOn;
 
         /** Contains the writeFlag. */
         @Column(name="write_flag", nullable=false, length=1)
         private String writeFlag;
+
+        /** Contains the readFlag. */
+        @Column(name="read_flag", nullable=false, length=1)
+        private String readFlag;
 
         /**
          * Constructor
@@ -105,31 +95,31 @@ public class GroupDataTypeAccess implements Serializable {
         }
 
         /**
-         * @return the lastUpdateOn
+         * @return the groupDataTypeAccessKey
          */
-        public Date getLastUpdateOn() {
-                return lastUpdateOn;
+        public Long getGroupDataTypeAccessKey() {
+                return groupDataTypeAccessKey;
         }
 
         /**
-         * @param lastUpdateOn the lastUpdateOn to set.
+         * @param groupDataTypeAccessKey the groupDataTypeAccessKey to set.
          */
-        public void setLastUpdateOn(Date lastUpdateOn) {
-                this.lastUpdateOn = lastUpdateOn;
+        public void setGroupDataTypeAccessKey(Long groupDataTypeAccessKey) {
+                this.groupDataTypeAccessKey = groupDataTypeAccessKey;
         }
 
         /**
-         * @return the readFlag
+         * @return the cprAccessGroupsKey
          */
-        public String getReadFlag() {
-                return readFlag;
+        public Long getCprAccessGroupsKey() {
+                return cprAccessGroupsKey;
         }
 
         /**
-         * @param readFlag the readFlag to set.
+         * @param cprAccessGroupsKey the cprAccessGroupsKey to set.
          */
-        public void setReadFlag(String readFlag) {
-                this.readFlag = readFlag;
+        public void setCprAccessGroupsKey(Long cprAccessGroupsKey) {
+                this.cprAccessGroupsKey = cprAccessGroupsKey;
         }
 
         /**
@@ -161,20 +151,6 @@ public class GroupDataTypeAccess implements Serializable {
         }
 
         /**
-         * @return the dataTypeKey
-         */
-        public Long getDataTypeKey() {
-                return dataTypeKey;
-        }
-
-        /**
-         * @param dataTypeKey the dataTypeKey to set.
-         */
-        public void setDataTypeKey(Long dataTypeKey) {
-                this.dataTypeKey = dataTypeKey;
-        }
-
-        /**
          * @return the archiveFlag
          */
         public String getArchiveFlag() {
@@ -189,31 +165,31 @@ public class GroupDataTypeAccess implements Serializable {
         }
 
         /**
-         * @return the iamGroupKey
+         * @return the dataTypeKey
          */
-        public Long getIamGroupKey() {
-                return iamGroupKey;
+        public Long getDataTypeKey() {
+                return dataTypeKey;
         }
 
         /**
-         * @param iamGroupKey the iamGroupKey to set.
+         * @param dataTypeKey the dataTypeKey to set.
          */
-        public void setIamGroupKey(Long iamGroupKey) {
-                this.iamGroupKey = iamGroupKey;
+        public void setDataTypeKey(Long dataTypeKey) {
+                this.dataTypeKey = dataTypeKey;
         }
 
         /**
-         * @return the groupDataTypeAccessKey
+         * @return the lastUpdateOn
          */
-        public Long getGroupDataTypeAccessKey() {
-                return groupDataTypeAccessKey;
+        public Date getLastUpdateOn() {
+                return lastUpdateOn;
         }
 
         /**
-         * @param groupDataTypeAccessKey the groupDataTypeAccessKey to set.
+         * @param lastUpdateOn the lastUpdateOn to set.
          */
-        public void setGroupDataTypeAccessKey(Long groupDataTypeAccessKey) {
-                this.groupDataTypeAccessKey = groupDataTypeAccessKey;
+        public void setLastUpdateOn(Date lastUpdateOn) {
+                this.lastUpdateOn = lastUpdateOn;
         }
 
         /**
@@ -228,6 +204,20 @@ public class GroupDataTypeAccess implements Serializable {
          */
         public void setWriteFlag(String writeFlag) {
                 this.writeFlag = writeFlag;
+        }
+
+        /**
+         * @return the readFlag
+         */
+        public String getReadFlag() {
+                return readFlag;
+        }
+
+        /**
+         * @param readFlag the readFlag to set.
+         */
+        public void setReadFlag(String readFlag) {
+                this.readFlag = readFlag;
         }
 
 }

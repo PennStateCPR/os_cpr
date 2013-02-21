@@ -66,13 +66,14 @@ public class ServiceCore {
 	 * @param identifierType contains the type of identifier that is used to find the user.
 	 * @param identifier contains the value of the identifier.
 	 * @param serviceName contains the name of the service that was being called.
+	 * @param clientIpAddress contains the ip address of the caller.
 	 * @param serviceCoreReturn contains the service core return class, a number of its values will be set as the result of 
 	 *        initializing the service.
 	 * @throws CprException 
 	 * @throws NamingException 
 	 */
 	public void initializeService(Database db, String principalId, String password, String identifierType, String identifier, String serviceName, 
-			ServiceCoreReturn serviceCoreReturn) throws CprException, NamingException {
+			String clientIpAddress, ServiceCoreReturn serviceCoreReturn) throws CprException, NamingException {
 		
 		LOG4J_LOGGER.info("initalizeService: start of function.");
 		
@@ -85,7 +86,7 @@ public class ServiceCore {
 		AuthorizationService authorizationService = new AuthorizationService();
 		serviceCoreReturn.setAuthorizationService(authorizationService);
 		authorizationService.serviceAuthorized(db, principalId, 
-				serviceCoreReturn.getServiceLogTable().getServiceLogBean().getRequestUserid(), serviceName);
+				serviceCoreReturn.getServiceLogTable().getServiceLogBean().getRequestUserid(), serviceName, clientIpAddress);
 	
 		// Only want to find the person id if the service is NOT Add Person and NOT Find Person.
 		if ((! serviceName.equals(CprServiceName.AddPerson.toString())) &&

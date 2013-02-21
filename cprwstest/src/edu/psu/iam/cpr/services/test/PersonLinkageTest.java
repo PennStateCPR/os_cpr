@@ -89,7 +89,7 @@ public class PersonLinkageTest {
 	// Invalid identifier type.
 	@Test(expectedExceptions=Exception.class)
 	public void _07testGetPersonLinkage7() throws Exception   {
-		PersonLinkageServiceReturn personLinkageReturn = port.getPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "personid", "100000", "N");
+		PersonLinkageServiceReturn personLinkageReturn = port.getPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "personid", "100000", "N");
 		if (personLinkageReturn.getStatusCode() != 0) {
 			throw new Exception(personLinkageReturn.getStatusMessage());
 		}	
@@ -98,7 +98,7 @@ public class PersonLinkageTest {
 	// Inactive person.
 	@Test(expectedExceptions=Exception.class)
 	public void _08testGetPersonLinkage8() throws Exception   {
-		PersonLinkageServiceReturn personLinkageReturn = port.getPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100001", "N");
+		PersonLinkageServiceReturn personLinkageReturn = port.getPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100001", "N");
 		if (personLinkageReturn.getStatusCode() != 0) {
 			throw new Exception(personLinkageReturn.getStatusMessage());
 		}	
@@ -107,7 +107,7 @@ public class PersonLinkageTest {
 	// Person with no linkages.
 	@Test
 	public void _09testGetPersonLinkage9() throws Exception   {
-		PersonLinkageServiceReturn personLinkageReturn = port.getPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100003", "N");
+		PersonLinkageServiceReturn personLinkageReturn = port.getPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "N");
 		if (personLinkageReturn.getStatusCode() != 0) {
 			throw new Exception(personLinkageReturn.getStatusMessage());
 		}	
@@ -117,11 +117,11 @@ public class PersonLinkageTest {
 	// Person with linkages.
 	@Test
 	public void _10testGetPersonLinkage10() throws Exception   {
-		ServiceReturn serviceReturn = port.addPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "LINKAGE_TYPE_DEPENDANT", "person_id", "100002");
+		ServiceReturn serviceReturn = port.addPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "LINKAGE_TYPE_DEPENDANT", "person_id", "100002");
 		if ( serviceReturn.getStatusCode() != 0) {
 			throw new Exception( serviceReturn.getStatusMessage());
 		}
-		PersonLinkageServiceReturn personLinkageReturn = port.getPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000" ,"N");
+		PersonLinkageServiceReturn personLinkageReturn = port.getPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000" ,"N");
 		if (personLinkageReturn.getStatusCode() != 0) {
 			throw new Exception(personLinkageReturn.getStatusMessage());
 		}		
@@ -131,7 +131,7 @@ public class PersonLinkageTest {
 	// Get history.
 	@Test
 	public void _11testGetPersonLinkageHistory() throws Exception {
-		PersonLinkageServiceReturn personLinkageReturn = port.getPersonLinkage (ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "Y");
+		PersonLinkageServiceReturn personLinkageReturn = port.getPersonLinkage (ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "Y");
 		if (personLinkageReturn.getStatusCode() != 0) {
 			throw new Exception(personLinkageReturn.getStatusMessage());
 		}
@@ -141,7 +141,7 @@ public class PersonLinkageTest {
 	// Add Exception.  Invalid linkage type.
 	@Test(expectedExceptions=Exception.class)
 	public void _12testAddPersonLinkage1() throws Exception {
-		 ServiceReturn personLinkageReturn = port.addPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "who cares", "person_id", "100000");
+		 ServiceReturn personLinkageReturn = port.addPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "who cares", "person_id", "100000");
 		if (personLinkageReturn.getStatusCode() != 0 ) {
 			throw new Exception(personLinkageReturn.getStatusMessage());
 		}
@@ -150,7 +150,7 @@ public class PersonLinkageTest {
 	// Add Exception.  Attempting to link a person to him or herslef. 
 	@Test(expectedExceptions=Exception.class)
 	public void _13testAddPersonLinkage2() throws Exception {
-		 ServiceReturn personLinkageReturn = port.addPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "LINKAGE_TYPE_DEPENDANT", "person_id", "100000");
+		 ServiceReturn personLinkageReturn = port.addPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "LINKAGE_TYPE_DEPENDANT", "person_id", "100000");
 		if (personLinkageReturn.getStatusCode() != 0 ) {
 			throw new Exception(personLinkageReturn.getStatusMessage());
 		}
@@ -159,11 +159,11 @@ public class PersonLinkageTest {
 	// Add working OK.
 	@Test
 	public void _14testAddPersonLinkage3() throws Exception {
-		ServiceReturn serviceReturn = port.addPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "LINKAGE_TYPE_DEPENDANT", "person_id", "100003");
+		ServiceReturn serviceReturn = port.addPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "LINKAGE_TYPE_DEPENDANT", "person_id", "100003");
 		if (serviceReturn.getStatusCode() != 0 ) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
-		PersonLinkageServiceReturn personLinkageReturn = port.getPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "N");
+		PersonLinkageServiceReturn personLinkageReturn = port.getPersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "N");
 		if (personLinkageReturn.getStatusCode() != 0) {
 			throw new Exception(personLinkageReturn.getStatusMessage());
 		}	
@@ -182,7 +182,7 @@ public class PersonLinkageTest {
 	// Archive Person Linkage.
 	@Test
 	public void _15testArchivePersonLinkage1() throws Exception {
-		ServiceReturn personLinkageReturn = port.archivePersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "LINKAGE_TYPE_DEPENDANT", "person_id", "100003");
+		ServiceReturn personLinkageReturn = port.archivePersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "LINKAGE_TYPE_DEPENDANT", "person_id", "100003");
 		if (personLinkageReturn.getStatusCode() != 0) {
 			throw new Exception(personLinkageReturn.getStatusMessage());
 		}
@@ -191,7 +191,7 @@ public class PersonLinkageTest {
 	// Already archived.
 	@Test(expectedExceptions=Exception.class)
 	public void _16testArchivePersonLinkage2() throws Exception {
-		ServiceReturn personLinkageReturn = port.archivePersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "LINKAGE_TYPE_DEPENDANT", "person_id", "100003");
+		ServiceReturn personLinkageReturn = port.archivePersonLinkage(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "LINKAGE_TYPE_DEPENDANT", "person_id", "100003");
 		if (personLinkageReturn.getStatusCode() != 0) {
 			throw new Exception(personLinkageReturn.getStatusMessage());
 		}

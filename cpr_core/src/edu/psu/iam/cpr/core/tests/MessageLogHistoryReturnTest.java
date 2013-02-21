@@ -31,7 +31,7 @@ import edu.psu.iam.cpr.core.service.returns.MessageLogHistoryReturn;
  * The class <code>MessageHistoryLogReturnTest</code> contains tests for the class <code>{@link MessageLogHistoryReturn}</code>.
  *
  * @generatedBy CodePro at 1/16/12 11:33 AM
- * @author slk24
+ * @author cpruser
  * @version $Revision: 1.0 $
  */
 public class MessageLogHistoryReturnTest {

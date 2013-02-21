@@ -9,13 +9,12 @@ import org.hibernate.Session;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.utility.beans.IamGroups;
+import edu.psu.iam.cpr.utility.beans.CprAccessGroups;
 
-public class IamGroupsLoader implements BeanLoader {
+public class CprAccessGroupsLoader implements BeanLoader {
 
 	@Override
-	public void loadTable(Database db, String primeDirectory,
-			String tableName) {
+	public void loadTable(Database db, String primeDirectory, String tableName) {
 		BufferedReader bufferedReader = null;
 		try {
 			Date d = new Date();
@@ -38,29 +37,25 @@ public class IamGroupsLoader implements BeanLoader {
 			while ((line = bufferedReader.readLine()) != null) {
 				String[] fields = line.split("[|]");
 				
-				IamGroups bean = new IamGroups();
+				CprAccessGroups bean = new CprAccessGroups();
 				bean.setCreatedBy(requestor);
 				bean.setCreatedOn(d);
 				bean.setLastUpdateBy(requestor);
 				bean.setLastUpdateOn(d);
+				bean.setStartDate(d);
+				bean.setEndDate(null);
 				
-				// parent_iam_group_key|iam_group_desc|active_flag|iam_group_key|iam_group|suspend_flag
+				// cpr_access_groups_key|ra_server_principal_key|access_group|suspend_flag
 
 				for (int i = 0; i < columns.length; ++i) {
-					if (columns[i].equals("parent_iam_group_key")) {
-						bean.setParentIamGroupKey(new Long(fields[i]));
+					if (columns[i].equals("cpr_access_groups_key")) {
+						bean.setCprAccessGroupsKey(new Long(fields[i]));
 					}
-					else if (columns[i].equals("iam_group_desc")) {
-						bean.setIamGroupDesc(fields[i]);
+					else if (columns[i].equals("ra_server_principal_key")) {
+						bean.setRaServerPrincipalKey(new Long(fields[i]));
 					}
-					else if (columns[i].equals("active_flag")) {
-						bean.setActiveFlag(fields[i]);
-					}
-					else if (columns[i].equals("iam_group_key")) {
-						bean.setIamGroupKey(new Long(fields[i]));
-					}
-					else if (columns[i].equals("iam_group")) {
-						bean.setIamGroup(fields[i]);
+					else if (columns[i].equals("access_group")) {
+						bean.setAccessGroup(fields[i]);
 					}
 					else if (columns[i].equals("suspend_flag")) {
 						bean.setSuspendFlag(fields[i]);
@@ -69,7 +64,6 @@ public class IamGroupsLoader implements BeanLoader {
 				
 				session.save(bean);
 			}
-			
 			db.closeSession();
 		}
 		catch (Exception e) {
@@ -83,6 +77,7 @@ public class IamGroupsLoader implements BeanLoader {
 			catch (Exception e) {
 			}
 		}
+
 	}
 
 }

@@ -9,13 +9,12 @@ import org.hibernate.Session;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.utility.beans.GroupAccess;
+import edu.psu.iam.cpr.utility.beans.WebServiceAccess;
 
-public class GroupAccessLoader implements BeanLoader {
+public class WebServiceAccessLoader implements BeanLoader {
 
 	@Override
-	public void loadTable(Database db, String primeDirectory,
-			String tableName) {
+	public void loadTable(Database db, String primeDirectory, String tableName) {
 		BufferedReader bufferedReader = null;
 		try {
 			Date d = new Date();
@@ -38,7 +37,7 @@ public class GroupAccessLoader implements BeanLoader {
 			while ((line = bufferedReader.readLine()) != null) {
 				String[] fields = line.split("[|]");
 				
-				GroupAccess bean = new GroupAccess();
+				WebServiceAccess bean = new WebServiceAccess();
 				bean.setCreatedBy(requestor);
 				bean.setCreatedOn(d);
 				bean.setLastUpdateBy(requestor);
@@ -46,26 +45,25 @@ public class GroupAccessLoader implements BeanLoader {
 				bean.setStartDate(d);
 				bean.setEndDate(null);
 				
-				// web_service_key|group_access_key|suspend_flag|ra_group_key
+				// web_service_access_key|web_service_key|cpr_access_groups_key|suspend_flag
 
 				for (int i = 0; i < columns.length; ++i) {
-					if (columns[i].equals("web_service_key")) {
+					if (columns[i].equals("web_service_access_key")) {
+						bean.setWebServiceAccessKey(new Long(fields[i]));
+					}
+					else if (columns[i].equals("web_service_key")) {
 						bean.setWebServiceKey(new Long(fields[i]));
 					}
-					else if (columns[i].equals("group_access_key")) {
-						bean.setGroupAccessKey(new Long(fields[i]));
+					else if (columns[i].equals("cpr_access_groups_key")) {
+						bean.setCprAccessGroupsKey(new Long(fields[i]));
 					}
 					else if (columns[i].equals("suspend_flag")) {
 						bean.setSuspendFlag(fields[i]);
-					}
-					else if (columns[i].equals("ra_group_key")) {
-						bean.setRaGroupKey(new Long(fields[i]));
 					}
 				}
 				
 				session.save(bean);
 			}
-			
 			db.closeSession();
 		}
 		catch (Exception e) {
@@ -79,6 +77,7 @@ public class GroupAccessLoader implements BeanLoader {
 			catch (Exception e) {
 			}
 		}
+
 	}
 
 }

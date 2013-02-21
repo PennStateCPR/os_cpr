@@ -28,7 +28,7 @@ import edu.psu.iam.cpr.core.database.tables.UseridTable;
 import edu.psu.iam.cpr.core.database.tables.validate.ValidateUserid;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class ValidateUseridTest {
@@ -76,14 +76,14 @@ public class ValidateUseridTest {
 	@Test
 	public final void _04testValidateUseridParameters3() throws Exception {
 		openDbConnection();
-		ValidateUserid.validateUseridParameters(db, 100000, "jvuccolo");
+		ValidateUserid.validateUseridParameters(db, 100000, "cpruser");
 		db.closeSession();
 	}
 	
 	@Test
 	public final void _05testValidateUseridParameters20() throws Exception {
 		openDbConnection();
-		UseridTable useridTable = ValidateUserid.validateGetUseridParameters(db, 100000, "jvuccolo","Y");
+		UseridTable useridTable = ValidateUserid.validateGetUseridParameters(db, 100000, "cpruser","Y");
 		assertTrue(useridTable.isReturnHistoryFlag());
 		db.closeSession();
 	}
@@ -102,24 +102,24 @@ public class ValidateUseridTest {
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _09testValidateUseridParameters8() throws Exception {
-		ValidateUserid.validateUseridParameters(db, 0, "xyz", "jvuccolo");
+		ValidateUserid.validateUseridParameters(db, 0, "xyz", "cpruser");
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _10testValidateUseridParameters9() throws Exception {
 		openDbConnection();
-		ValidateUserid.validateUseridParameters(db, 0, null, "jvuccolo");
+		ValidateUserid.validateUseridParameters(db, 0, null, "cpruser");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _11testValidateUseridParameters10() throws Exception {
 		openDbConnection();
-		ValidateUserid.validateUseridParameters(db, 0, "1234567890123456789012345678901234567890", "jvuccolo");
+		ValidateUserid.validateUseridParameters(db, 0, "1234567890123456789012345678901234567890", "cpruser");
 		db.closeSession();
 	}
 	@Test
 	public final void _12testValidateUseridParameters11() throws Exception {
 		openDbConnection();
-		ValidateUserid.validateUseridParameters(db, 0, "jvuccolo", "jvuccolo");
+		ValidateUserid.validateUseridParameters(db, 0, "cpruser", "cpruser");
 		db.closeSession();
 	}
 }

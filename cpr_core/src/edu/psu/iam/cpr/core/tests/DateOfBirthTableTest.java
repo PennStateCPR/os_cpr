@@ -31,7 +31,7 @@ import edu.psu.iam.cpr.core.database.tables.DateOfBirthTable;
 import edu.psu.iam.cpr.core.service.returns.DateOfBirthReturn;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class DateOfBirthTableTest {
@@ -48,12 +48,12 @@ public class DateOfBirthTableTest {
 	 */
 	@Test
 	public final void testDateOfBirthTableIntStringString() throws Exception {
-		new DateOfBirthTable(1, "11/11/2010", "jvuccolo");
+		new DateOfBirthTable(1, "11/11/2010", "cpruser");
 	}
 	
 	@Test
 	public final void testDateOfBirthTableIntStringString1() throws Exception {
-		new DateOfBirthTable(1, "11/11", "jvuccolo");
+		new DateOfBirthTable(1, "11/11", "cpruser");
 	}
 	
 	
@@ -112,7 +112,7 @@ public class DateOfBirthTableTest {
 
 	@Test(expectedExceptions=Exception.class)
 	public final void testAddDateOfBirth1() throws Exception {
-		DateOfBirthTable d = new DateOfBirthTable(100000, "1/1/2010", "jvuccolo");
+		DateOfBirthTable d = new DateOfBirthTable(100000, "1/1/2010", "cpruser");
 		d.addDateOfBirth(db);
 	}
 	
@@ -120,7 +120,7 @@ public class DateOfBirthTableTest {
 	@Test
 	public final void testAddDateOfBirth4() throws Exception {
 		openDbConnection();
-		DateOfBirthTable d = new DateOfBirthTable(100000, "1/1", "jvuccolo");
+		DateOfBirthTable d = new DateOfBirthTable(100000, "1/1", "cpruser");
 		d.addDateOfBirth(db);
 		db.closeSession();
 	}
@@ -128,7 +128,7 @@ public class DateOfBirthTableTest {
 	@Test
 	public final void testAddDateOfBirth3() throws Exception {
 		openDbConnection();
-		DateOfBirthTable d = new DateOfBirthTable(100000,"12/1/2010", "jvuccolo");
+		DateOfBirthTable d = new DateOfBirthTable(100000,"12/1/2010", "cpruser");
 		d.addDateOfBirth(db);
 		db.closeSession();
 	}
@@ -143,7 +143,7 @@ public class DateOfBirthTableTest {
 	@Test
 	public final void testGetDateOfBirth2() throws Exception {
 		openDbConnection();
-		DateOfBirthTable d = new DateOfBirthTable(100000, "1/1", "jvuccolo");
+		DateOfBirthTable d = new DateOfBirthTable(100000, "1/1", "cpruser");
 		d.addDateOfBirth(db);
 		d.setReturnHistoryFlag(false);
 		DateOfBirthReturn dobReturn[] = d.getDateOfBirthForPersonId(db,100000);
@@ -154,7 +154,7 @@ public class DateOfBirthTableTest {
 	@Test
 	public final void testGetDateOfBirth3() throws Exception {
 		openDbConnection();
-		DateOfBirthTable d = new DateOfBirthTable(100000,"12/1/2010", "jvuccolo");
+		DateOfBirthTable d = new DateOfBirthTable(100000,"12/1/2010", "cpruser");
 		d.addDateOfBirth(db);
 		d.setReturnHistoryFlag(false);
 		DateOfBirthReturn dobReturn[] = d.getDateOfBirthForPersonId(db,100000);

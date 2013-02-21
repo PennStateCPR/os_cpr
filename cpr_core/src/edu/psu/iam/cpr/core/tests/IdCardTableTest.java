@@ -36,7 +36,7 @@ import edu.psu.iam.cpr.core.database.types.IdCardType;
 import edu.psu.iam.cpr.core.error.CprException;
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class IdCardTableTest {
@@ -157,7 +157,7 @@ public class IdCardTableTest {
 	 */
 	@Test
 	public final void _07testIdCardTableLongStringString() throws Exception {
-		IdCardTable aPICTable = new IdCardTable(1L, "ID_CARD_ID_PLUS_CARD_STUDENT", "llg5");
+		IdCardTable aPICTable = new IdCardTable(1L, "ID_CARD_ID_PLUS_CARD_STUDENT", "cpruser");
 		AssertJUnit.assertNotNull(aPICTable);
 	}
 
@@ -167,7 +167,7 @@ public class IdCardTableTest {
 	 */
 	@Test
 	public final void _08testIdCardTableLongStringStringStringString() throws Exception {
-		IdCardTable aPICTable = new IdCardTable(1L, "ID_CARD_ID_PLUS_CARD_STUDENT", "llg5", "1234567890123456","12345");
+		IdCardTable aPICTable = new IdCardTable(1L, "ID_CARD_ID_PLUS_CARD_STUDENT", "cpruser", "1234567890123456","12345");
 		AssertJUnit.assertNotNull(aPICTable);
 	}
 	
@@ -192,7 +192,7 @@ public class IdCardTableTest {
 	@Test
 	public final void _10testIdCardTableAddIdNoPhoto() throws Exception {
 		openDbConnection();
-		IdCardTable aPICTable = new IdCardTable(100004, "ID_CARD_ID_PLUS_CARD_STUDENT", "llg5", "1234567890123456","12345");
+		IdCardTable aPICTable = new IdCardTable(100004, "ID_CARD_ID_PLUS_CARD_STUDENT", "cpruser", "1234567890123456","12345");
 		aPICTable.addIdCard(db);
 		db.closeSession();
 	}
@@ -205,7 +205,7 @@ public class IdCardTableTest {
 //	@Test
 //	public final void _11testIdCardTableAddIdNoPhotoAgain() throws Exception {
 //		openDbConnection();
-//		IdCardTable aPICTable = new IdCardTable(100004, "ID_CARD_STUDENT", "llg5", "1234567890123456","12345");
+//		IdCardTable aPICTable = new IdCardTable(100004, "ID_CARD_STUDENT", "cpruser", "1234567890123456","12345");
 //		aPICTable.addIdCard(db);
 //		db.closeSession();
 //	}
@@ -218,7 +218,7 @@ public class IdCardTableTest {
 	@Test
 	public final void _12testIdCardTableAddIdWithPhoto() throws Exception {
 		openDbConnection();
-		IdCardTable aPICTable = new IdCardTable(100004, "ID_CARD_ID_PLUS_CARD_STUDENT", "llg5", "0123456789012345","12345", new byte [1], new Date());
+		IdCardTable aPICTable = new IdCardTable(100004, "ID_CARD_ID_PLUS_CARD_STUDENT", "cpruser", "0123456789012345","12345", new byte [1], new Date());
 		aPICTable.addIdCard(db);
 		db.closeSession();
 	}
@@ -281,7 +281,7 @@ public class IdCardTableTest {
 	@Test
 	public final void _17testIdCardTableArchiveIdCard() throws Exception {
 		openDbConnection();
-		IdCardTable aPICTable = new IdCardTable(100004, "ID_CARD_ID_PLUS_CARD_STUDENT", "llg5", "0123456789012345","12345");
+		IdCardTable aPICTable = new IdCardTable(100004, "ID_CARD_ID_PLUS_CARD_STUDENT", "cpruser", "0123456789012345","12345");
 		aPICTable.archiveIdCard(db);
 		db.closeSession();
 	}

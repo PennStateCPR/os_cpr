@@ -67,48 +67,48 @@ public class DatabaseTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _05testIsRequestorAuthorizedWebClientNotFoundException1() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized(null, null, "AddPerson");
+		db.requestorAuthorized(null, null, "AddPerson", null);
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _06testIsRequestorAuthorizedWebClientNotFoundException2() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("abcd1234", "jvuccolo", "AddPerson");
+		db.requestorAuthorized("abcd1234", "cpruser", "AddPerson", null);
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
 	public final void _07testIsRequestorAuthorizedWebServiceNotFoundException1() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("portal1", "jvuccolo", null);
+		db.requestorAuthorized("portal1", "cpruser", null, null);
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _08testIsRequestorAuthorizedWebServiceNotFoundException2() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("portal1", "jvuccolo", "some_service_goes_here");
+		db.requestorAuthorized("portal1", "cpruser", "some_service_goes_here", null);
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _09testIsRequestorAuthorizedCprException() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("portal2", "jvuccolo", "AddPerson");
+		db.requestorAuthorized("portal2", "cpruser", "AddPerson", null);
 		db.closeSession();
 	}
 	
 	@Test
 	public final void _10testIsRequestorAuthorizedSuccess() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
+		db.requestorAuthorized("cpruser", "cpruser", "AddPerson", "*");
 		db.closeSession();
 	}
 	@Test
 	public final void _11testIsRequestorAuthorizedSuccessCreds() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddCredential");
+		db.requestorAuthorized("cpruser", "cpruser", "AddCredential", "*");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
@@ -451,22 +451,22 @@ public class DatabaseTest {
 	@Test
 	public final void _58testisDataActionAuthorized3() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		db.isDataActionAuthorized(AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_ARCHIVE.toString(), "jvuccolo");
+		db.requestorAuthorized("cpruser", "cpruser", "AddPerson", "*");
+		db.isDataActionAuthorized(AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_ARCHIVE.toString(), "cpruser");
 		db.closeSession();
 	}
 	@Test
 	public final void _59testisDataActionAuthorized4() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		db.isDataActionAuthorized(AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_READ.toString(), "jvuccolo");
+		db.requestorAuthorized("cpruser", "cpruser", "AddPerson", "*");
+		db.isDataActionAuthorized(AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_READ.toString(), "cpruser");
 		db.closeSession();
 	}
 	@Test
 	public final void _60testisDataActionAuthorized5() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		db.isDataActionAuthorized(AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), "jvuccolo");
+		db.requestorAuthorized("cpruser", "cpruser", "AddPerson", "*");
+		db.isDataActionAuthorized(AccessType.LEGAL_NAME.toString(), AccessType.ACCESS_OPERATION_WRITE.toString(), "cpruser");
 		db.closeSession();
 	}
 	
@@ -479,28 +479,28 @@ public class DatabaseTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _62testIsRequestorAuthorizedGrouperWebServiceNotFoundException1() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("portal1", "jvuccolo",null);
+		db.requestorAuthorized("portal1", "cpruser",null, null);
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _63testIsRequestorAuthorizedWebServiceNotFoundExceptionAgain() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("portal1", "jvuccolo", "some_service_goes_here");
+		db.requestorAuthorized("portal1", "cpruser", "some_service_goes_here", null);
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _64testIsRequestorAuthorizedGrouperCprException() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("portal2", "jvuccolo", "AddPerson");
+		db.requestorAuthorized("portal2", "cpruser", "AddPerson", null);
 		db.closeSession();
 	}
 	
 	@Test
 	public final void _65testIsRequestorAuthorizedSuccessportal1() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
+		db.requestorAuthorized("cpruser", "cpruser", "AddPerson", "*");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
@@ -514,43 +514,43 @@ public class DatabaseTest {
 	@Test
 	public final void _68testisDataActionAuthorizedGrouper3() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		db.isDataActionAuthorized("PERMANENT_PHONE", "ACCESS_OPERATION_ARCHIVE".toLowerCase(), "jvuccolo");
+		db.requestorAuthorized("cpruser", "cpruser", "AddPerson", "*");
+		db.isDataActionAuthorized("PERMANENT_PHONE", "ACCESS_OPERATION_ARCHIVE".toLowerCase(), "cpruser");
 		db.closeSession();
 	}
 	@Test
 	public final void _69testisDataActionAuthorized() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		db.isDataActionAuthorized("PERMANENT_PHONE", "ACCESS_OPERATION_READ", "jvuccolo" );
+		db.requestorAuthorized("cpruser", "cpruser", "AddPerson", "*");
+		db.isDataActionAuthorized("PERMANENT_PHONE", "ACCESS_OPERATION_READ", "cpruser" );
 		db.closeSession();
 	}
 	@Test
 	public final void _70testisDataActionAuthorizedGrouper5() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		db.isDataActionAuthorized("PERMANENT_PHONE", "ACCESS_OPERATION_WRITE", "jvuccolo");
+		db.requestorAuthorized("cpruser", "cpruser", "AddPerson", "*");
+		db.isDataActionAuthorized("PERMANENT_PHONE", "ACCESS_OPERATION_WRITE", "cpruser");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _71testisDataActionAuthorized6() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		db.isDataActionAuthorized("EMPLOYEE_PHONE_", "ACCESS_OPERATION_ARCHIVE", "jvuccolo" );
+		db.requestorAuthorized("cpruser", "cpruser", "AddPerson", null);
+		db.isDataActionAuthorized("EMPLOYEE_PHONE_", "ACCESS_OPERATION_ARCHIVE", "cpruser" );
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _72testisDataActionAuthorized7() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		db.isDataActionAuthorized("EMPLOYEE_PHONE_", "ARCE", "jvuccolo" );
+		db.requestorAuthorized("cpruser", "cpruser", "AddPerson", null);
+		db.isDataActionAuthorized("EMPLOYEE_PHONE_", "ARCE", "cpruser" );
 		db.closeSession();
 	}
 	@Test
 	public final void _73testisDataActionAuthorized8() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("cpruser", "jvuccolo", "AddPerson");
-		db.isDataActionAuthorized("LOCAL_ADDRESS", "ACCESS_OPERATION_WRITE", "llg5" );
+		db.requestorAuthorized("cpruser", "cpruser", "AddPerson", "*");
+		db.isDataActionAuthorized("LOCAL_ADDRESS", "ACCESS_OPERATION_WRITE", "cpruser" );
 		db.closeSession();
 	}
 	@Test
@@ -597,14 +597,14 @@ public class DatabaseTest {
 	@Test
 	public final void _82testIsValidUserid1() throws Exception {
 		openDbConnection();
-		AssertJUnit.assertFalse(db.isValidUserid(2L, "jvuccolo"));
+		AssertJUnit.assertFalse(db.isValidUserid(2L, "cpruser"));
 		db.closeSession();
 	}
 		
 	@Test(expectedExceptions=Exception.class)
 	public final void _83testIsAffiliationRANotAuthorized() throws Exception {
 	openDbConnection();
-		db.requestorAuthorized("cpruser", "vlt", "AddAffiliation");
+		db.requestorAuthorized("cpruser", "vlt", "AddAffiliation", null);
 		boolean bTest =db.isAffiliationAccessAuthorized("EMPLOYEE_WAGE_ACTIVE", "vlt");
 		AssertJUnit.assertTrue(bTest);
 		db.closeSession();
@@ -613,7 +613,7 @@ public class DatabaseTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _84testIsAffiliationNotAuthorized() throws Exception {
 		openDbConnection();
-		db.requestorAuthorized("portal5", "vlt", "AddAffiliation");
+		db.requestorAuthorized("portal5", "vlt", "AddAffiliation", null);
 		boolean bTest =db.isAffiliationAccessAuthorized("EMPLOYEE_STAFF_ACTIVE",  "vlt");
 		AssertJUnit.assertFalse(bTest);
 		db.closeSession();
@@ -622,8 +622,8 @@ public class DatabaseTest {
 	@Test
 	public final void _85testIsAffiliationAuthorized() throws Exception {
 		openDbConnection();
-		 db.requestorAuthorized("cpruser", "llg5", "AddAffiliation");
-		boolean bTest =db.isAffiliationAccessAuthorized("EMPLOYEE_STAFF_ACTIVE",  "llg5");
+		 db.requestorAuthorized("cpruser", "cpruser", "AddAffiliation", "*");
+		boolean bTest =db.isAffiliationAccessAuthorized("EMPLOYEE_STAFF_ACTIVE",  "cpruser");
 		AssertJUnit.assertTrue(bTest);
 		db.closeSession();
 	}

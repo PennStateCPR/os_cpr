@@ -1,8 +1,8 @@
-/* SVN FILE: $Id: UserCommentTableTest.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
+/* SVN FILE: $Id: UserCommentTableTest.java 5340 2012-09-27 14:48:52Z cpruser $ */
 /**
  * 
  * @package edu.psu.iam.cpr.core.tests
- * @author $Author: jvuccolo $
+ * @author $Author: cpruser $
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
@@ -35,7 +35,7 @@ import edu.psu.iam.cpr.core.database.types.UserCommentType;
 import edu.psu.iam.cpr.core.service.returns.UserCommentReturn;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class UserCommentTableTest {
@@ -66,7 +66,7 @@ public class UserCommentTableTest {
 	 */
 	@Test
 	public final void _03testUserCommentTableIntStringStringStringString() throws Exception {
-		new UserCommentTable(1, "xyz123", "USER_COMMENT_MISUSE", "TEST", "raw121" );
+		new UserCommentTable(1, "xyz123", "USER_COMMENT_MISUSE", "TEST", "cpruser" );
 	}
 
 
@@ -130,7 +130,7 @@ public class UserCommentTableTest {
 	@Test
 	public final void _10testAddUserComment2() throws Exception {
 		openDbConnection();
-		UserCommentTable n = new UserCommentTable(100000,"dummy1","USER_COMMENT_MISUSE", "bad", "jvuccolo" );
+		UserCommentTable n = new UserCommentTable(100000,"dummy1","USER_COMMENT_MISUSE", "bad", "cpruser" );
 		n.addUserComment(db);
 		db.closeSession();
 	}
@@ -198,7 +198,7 @@ public class UserCommentTableTest {
 	@Test
 	public final void _18testArchiveUserComment3() throws Exception {
 		openDbConnection();
-		UserCommentTable n = new UserCommentTable(100000,"dummy2","USER_COMMENT_MISUSE", "test comment", "raw121" );
+		UserCommentTable n = new UserCommentTable(100000,"dummy2","USER_COMMENT_MISUSE", "test comment", "cpruser" );
 		n.addUserComment(db);
 		n.archiveUserComment(db);
 		db.closeSession();
@@ -207,7 +207,7 @@ public class UserCommentTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _19testArchiveUserComment4() throws Exception {
 		openDbConnection();
-		UserCommentTable n = new UserCommentTable(100000,"dummy2","USER_COMMENT_MISUSE",  "raw121" );
+		UserCommentTable n = new UserCommentTable(100000,"dummy2","USER_COMMENT_MISUSE",  "cpruser" );
 		n.archiveUserComment(db);
 		db.closeSession();
 	}
@@ -221,7 +221,7 @@ public class UserCommentTableTest {
 //	@Test(expected=Exception.class)
 //	public final void _21testUpdateUserComment1() throws Exception {
 //		openDbConnection();
-//		UserCommentTable n = new UserCommentTable(100000,"dummy1","USER_COMMENT_MISUSE", "bad", "jvuccolo" );
+//		UserCommentTable n = new UserCommentTable(100000,"dummy1","USER_COMMENT_MISUSE", "bad", "cpruser" );
 //		n.updateUserComment(db);
 //		db.closeSession();
 //	}
@@ -229,7 +229,7 @@ public class UserCommentTableTest {
 	@Test
 	public final void _22testUpdateUserComment2() throws Exception {
 		openDbConnection();
-		UserCommentTable n = new UserCommentTable(100000,"dummy1","USER_COMMENT_MISUSE", "very bad", "jvuccolo" );
+		UserCommentTable n = new UserCommentTable(100000,"dummy1","USER_COMMENT_MISUSE", "very bad", "cpruser" );
 		n.updateUserComment(db);
 		db.closeSession();
 	}
@@ -237,7 +237,7 @@ public class UserCommentTableTest {
 	@Test
 	public final void _23testAddUserComment2CleanUp() throws Exception {
 		openDbConnection();
-		UserCommentTable n = new UserCommentTable(100000,"dummy1","USER_COMMENT_MISUSE",  "jvuccolo" );
+		UserCommentTable n = new UserCommentTable(100000,"dummy1","USER_COMMENT_MISUSE",  "cpruser" );
 		n.archiveUserComment(db);
 		db.closeSession();
 	}

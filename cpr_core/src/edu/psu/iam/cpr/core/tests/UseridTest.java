@@ -27,7 +27,7 @@ import java.util.Date;
 import edu.psu.iam.cpr.core.database.beans.Userid;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class UseridTest {

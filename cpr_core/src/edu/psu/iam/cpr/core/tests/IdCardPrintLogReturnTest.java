@@ -28,7 +28,7 @@ import edu.psu.iam.cpr.core.service.returns.IdCardPrintLogReturn;
 import edu.psu.iam.cpr.core.util.Utility;
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class IdCardPrintLogReturnTest {
@@ -38,7 +38,7 @@ public class IdCardPrintLogReturnTest {
 	String dConverted = Utility.convertTimestampToString((Date) d);
 	String wsName= "myWorkStation";
 	String ipAddr = "128.118.88.3";
-	String thePrinter = "llg5";
+	String thePrinter = "cpruser";
 	String idCardNo = "1234567890123456";
 	Long personId = new Long(123576546);
 	IdCardPrintLogReturn icplr = new IdCardPrintLogReturn ();

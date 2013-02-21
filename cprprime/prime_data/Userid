@@ -1,5 +1,6 @@
 person_id|userid|primary_flag|char_part|num_part|psu_id_letter|display_name_flag
 100000|dummy|Y|dummy|NULL|NULL|Y
+100000|cpruser|N|cpruser|NULL|NULL|Y
 100020|testuser|Y|testuser|NULL|NULL|Y
 100000|dummy1|N|dummy|1|NULL|Y
 100000|dummy2|N|dummy|2|NULL|Y

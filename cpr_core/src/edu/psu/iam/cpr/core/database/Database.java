@@ -4,8 +4,10 @@ package edu.psu.iam.cpr.core.database;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.SQLQuery;
@@ -64,16 +66,16 @@ public class Database {
 	/** Instance of logger */
 	private static final Logger LOG4J_LOGGER = Logger.getLogger(Database.class);
 
-	/** IAM Group Key. */
-	private long iamGroupKey = 0;
+	/** Cpr Access Groups Key */
+	private long cprAccessGroupsKey = 0;
 	
 	/** Registration Authority Key. */
 	private long registrationAuthorityKey = 0;
 	
-	private static final int IAM_GROUP_KEY = 0;
+	private static final int CPR_ACCESS_GROUPS_KEY = 0;
 	private static final int GRP_MBRS_SUSPEND_FLAG = 1;
-	private static final int IAM_GRPS_SUSPEND_FLAG = 2;
-	private static final int GRP_ACC_SUSPEND_FLAG = 3;
+	private static final int CPR_GRPS_SUSPEND_FLAG = 2;
+	private static final int WEB_SRV_SUSPEND_FLAG = 3;
 
 	private static final int BUFFER_SIZE = 512;
 	
@@ -168,27 +170,26 @@ public class Database {
 	}
 	
 	/**
-	 * This routine will determine if a particular server principal is authorized to call a service.
-	 * @param principalId contains the requestor's principal identifier.
-	 * @param serviceName contains the name of the service.
-	 * @param requestor contains the userid of the person requesting access.
-	 * @throws CprException 
+	 * This method is used to find a registration authority based on a server principal.
+	 * @param principalId contains the ra server principal.
+	 * @param serviceName contains the name of the calling service.
+	 * @return will return a list of longs contains the registration authority key and the ra server principal key.
+	 * @throws CprException will be thrown if there are any CPR Related problems.
 	 */
-	public void requestorAuthorized(String principalId, String requestor, String serviceName) throws CprException  {
-
-		Long localRegistrationAuthorityKey = NOT_FOUND_VALUE;
-		Long localIamGroupKey = NOT_FOUND_VALUE;
+	private List<Long> findRegistrationAuthority(String principalId, String serviceName) throws CprException {
 		
-		String suspendFlag = "Y";
-		String grpmbrsSuspendFlag = "Y";
-		String iamgrpsSuspendFlag = "Y";
-		String grpaccSuspendFlag = "Y";
-
-		// Determine what RA a person is associated with.
+		Long registrationAuthoritykey 			= NOT_FOUND_VALUE;
+		Long raServerPrincipalKey 				= NOT_FOUND_VALUE;
+		
+		final int RA_KEY_INDEX 					= 0;
+		final int RA_SUSPEND_FLAG 				= 1;
+		final int RA_SERVER_PRINCIPAL_KEY_INDEX = 2;
+		
+		String suspendFlag 						= "Y";
 
 		// Build the query.
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-		sb.append("SELECT ra.registration_authority_key, ra.suspend_flag ");
+		sb.append("SELECT ra.registration_authority_key, ra.suspend_flag, rasrvrprinc.ra_server_principal_key ");
 		sb.append("FROM registration_authority ra JOIN ra_server_principals rasrvrprinc ");
 		sb.append("ON ra.registration_authority_key = rasrvrprinc.registration_authority_key ");
 		sb.append("WHERE rasrvrprinc.ra_server_principal = :ra_server_principal_in ");
@@ -200,67 +201,131 @@ public class Database {
 		query.setParameter("ra_server_principal_in", principalId);
 		query.addScalar("registration_authority_key", StandardBasicTypes.LONG);
 		query.addScalar("suspend_flag", StandardBasicTypes.STRING);
+		query.addScalar("ra_server_principal_key", StandardBasicTypes.LONG);
 
 		// See if a record is found, if so get its data.
 		Iterator<?> it = query.list().iterator();
 		if (it.hasNext()) {
 			Object res[] = (Object []) it.next();
-			localRegistrationAuthorityKey = (Long) res[0];
-			suspendFlag = (String) res[1];
+			registrationAuthoritykey= (Long) res[RA_KEY_INDEX];
+			suspendFlag 			= (String) res[RA_SUSPEND_FLAG];
+			raServerPrincipalKey 	= (Long) res[RA_SERVER_PRINCIPAL_KEY_INDEX];
 		}
 		
 	
 		// Is the RA suspended?
-		if (localRegistrationAuthorityKey.equals(NOT_FOUND_VALUE) ||
+		if (registrationAuthoritykey.equals(NOT_FOUND_VALUE) ||
+				raServerPrincipalKey.equals(NOT_FOUND_VALUE) ||
 				suspendFlag.equals("Y")) {
 			throw new CprException(ReturnType.NOT_AUTHORIZED_EXCEPTION, serviceName);
 		}
+		
+		List<Long> methodReturn = new ArrayList<Long>();
+		methodReturn.add(registrationAuthoritykey);
+		methodReturn.add(raServerPrincipalKey);
+		return methodReturn;
+		
+	}
+	
+	/**
+	 * This method is used to verify that the client's IP address is authorized to call the service for the particular RA.
+	 * @param raServerPrincipalKey contains the ra server principal key associated with the RA.
+	 * @param serviceName contains the name of the service that is being called.
+	 * @param clientIpAddress contains the ip address of the caller.
+	 * @throws CprException will be thrown if there are any CPR related problems.
+	 */
+	private void verifyClientIpAddress(Long raServerPrincipalKey, String serviceName, String clientIpAddress) throws CprException {
+		
+		Long localRaServerPrincipalKey = NOT_FOUND_VALUE;
+		final String WILD_CARD_IP = "*";
+		
+		final StringBuffer sb = new StringBuffer();
+		sb.append("select ra_server_principal_key from server_principal_ip ");
+		sb.append("where ra_server_principal_key = :ra_server_principal_key AND ");
+		sb.append("(ip_address = :wildcard or ip_address = :client_ip_address)");
+		
+		SQLQuery query = session.createSQLQuery(sb.toString());
+		query.addScalar("ra_server_principal_key", StandardBasicTypes.LONG);
+		query.setParameter("ra_server_principal_key", raServerPrincipalKey);
+		query.setParameter("wildcard", WILD_CARD_IP);
+		query.setParameter("client_ip_address", clientIpAddress);
+		
+		for (Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			localRaServerPrincipalKey = (Long) it.next();
+		}
+		
+		if (localRaServerPrincipalKey.equals(NOT_FOUND_VALUE)) {
+			throw new CprException(ReturnType.NOT_AUTHORIZED_EXCEPTION, serviceName);
+		}
+	}
+	
+	/**
+	 * This routine will determine if a particular server principal is authorized to call a service.
+	 * @param principalId contains the requestor's principal identifier.
+	 * @param requestor contains the userid of the person requesting access.
+	 * @param serviceName contains the name of the service.
+	 * @param clientIpAddress contains the client ip address.
+	 * @throws CprException 
+	 */
+	public void requestorAuthorized(String principalId, String requestor, String serviceName, String clientIpAddress) throws CprException  {
+
+		String grpMbrsSuspendFlag = "Y";
+		String cprAccGrpsSuspendFlag = "Y";
+		String webSrvAccSuspendFlag = "Y";
+		Long cprAccessGroupsKey = NOT_FOUND_VALUE;
+		
+		// Get the RA information.
+		List<Long> methodReturn = findRegistrationAuthority(principalId, serviceName);
+		Long registrationAuthorityKey = methodReturn.get(0);
+		Long raServerPrincipalKey = methodReturn.get(1);
+		
+		// Determine if the client ip address is valid for the particular RA.
+		verifyClientIpAddress(raServerPrincipalKey, serviceName, clientIpAddress);
 
 		// Determine the user's status and group for the particular RA.
 			
 		// Build the query.
-		sb.setLength(0);
-		sb.append("SELECT iam_group_key, grpmbrs_suspend_flag, iamgrps_suspend_flag, grpacc_suspend_flag ");
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT cpr_access_groups_key, grpmbrs_suspend_flag, cpraccgprs_suspend_flag, websrvacc_suspend_flag ");
 		sb.append("FROM v_ra_group_web_service ");
 		sb.append("WHERE registration_authority_key = :l_ra_key ");
+		sb.append("AND ra_server_principal_key = :ra_sp_key ");
 		sb.append("AND web_service = :web_service_in ");
 		sb.append("AND userid = :requested_by_in");
 
 		// Create the query, bind the parameters and determine the returns.
-		query = session.createSQLQuery(sb.toString());
-		query.setParameter("l_ra_key", localRegistrationAuthorityKey);
+		SQLQuery query = session.createSQLQuery(sb.toString());
+		query.setParameter("l_ra_key", registrationAuthorityKey);
+		query.setParameter("ra_sp_key", raServerPrincipalKey);
 		query.setParameter("web_service_in", serviceName);
 		query.setParameter("requested_by_in", requestor);
-		query.addScalar("iam_group_key", StandardBasicTypes.LONG);
+		query.addScalar("cpr_access_groups_key", StandardBasicTypes.LONG);
 		query.addScalar("grpmbrs_suspend_flag", StandardBasicTypes.STRING);
-		query.addScalar("iamgrps_suspend_flag", StandardBasicTypes.STRING);
-		query.addScalar("grpacc_suspend_flag", StandardBasicTypes.STRING);
+		query.addScalar("cpraccgprs_suspend_flag", StandardBasicTypes.STRING);
+		query.addScalar("websrvacc_suspend_flag", StandardBasicTypes.STRING);
 
 		// Perform the query.
-		it = query.list().iterator();
-		if (it.hasNext()) {
+		for (Iterator<?> it = query.list().iterator(); it.hasNext();) {
 			Object res[] = (Object []) it.next();
-			localIamGroupKey = (Long) res[IAM_GROUP_KEY];
-			grpmbrsSuspendFlag = (String) res[GRP_MBRS_SUSPEND_FLAG];
-			iamgrpsSuspendFlag = (String) res[IAM_GRPS_SUSPEND_FLAG];
-			grpaccSuspendFlag = (String) res[GRP_ACC_SUSPEND_FLAG];
+			cprAccessGroupsKey = (Long) res[CPR_ACCESS_GROUPS_KEY];
+			grpMbrsSuspendFlag = (String) res[GRP_MBRS_SUSPEND_FLAG];
+			cprAccGrpsSuspendFlag = (String) res[CPR_GRPS_SUSPEND_FLAG];
+			webSrvAccSuspendFlag = (String) res[WEB_SRV_SUSPEND_FLAG];
 		}
 
 
 		// If any of the suspend flags is set to Yes, we need to throw an exception.
-		if (localIamGroupKey.equals(NOT_FOUND_VALUE) ||
-				grpmbrsSuspendFlag.equals("Y") ||
-				iamgrpsSuspendFlag.equals("Y") ||
-				grpaccSuspendFlag.equals("Y")) {
+		if (cprAccessGroupsKey.equals(NOT_FOUND_VALUE) ||
+				grpMbrsSuspendFlag.equals("Y") ||
+				cprAccGrpsSuspendFlag.equals("Y") ||
+				webSrvAccSuspendFlag.equals("Y")) {
 			throw new CprException(ReturnType.NOT_AUTHORIZED_EXCEPTION, serviceName);
 		}
 
-		setIamGroupKey(localIamGroupKey);
-		setRegistrationAuthorityKey(localRegistrationAuthorityKey);
+		setCprAccessGroupsKey(cprAccessGroupsKey);
+		setRegistrationAuthorityKey(registrationAuthorityKey);
 				
 	}
-
-
 
 	/**
 	 * This routine is used to verify that the requester is allowed to perform an operation on a particular data type.
@@ -292,8 +357,8 @@ public class Database {
 	        query.setParameter("data_type_key_in", dataTypeKey);
 			query.addScalar("data_type_key", StandardBasicTypes.LONG);
 			
-			final Iterator<?> it = query.list().iterator();
-			if (it.hasNext()) {
+			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+				it.next();
 				dataKeyValid = true;
 			}
 		}
@@ -311,19 +376,18 @@ public class Database {
 		sb.append("SELECT v_group_data_type_access.read_flag, v_group_data_type_access.write_flag, ");
 		sb.append("v_group_data_type_access.archive_flag ");
 		sb.append("FROM v_group_data_type_access ");
-		sb.append("WHERE v_group_data_type_access.iam_group_key = :iam_group_key_in ");
+		sb.append("WHERE v_group_data_type_access.cpr_access_groups_key = :cpr_access_groups_key_in ");
 		sb.append("AND v_group_data_type_access.data_type_key = :data_type_key_in");
 
 		// Create the query, bind the parameters and set the return type.
 		final SQLQuery query = session.createSQLQuery(sb.toString());
-		query.setParameter("iam_group_key_in", getIamGroupKey());
+		query.setParameter("cpr_access_groups_key_in", getCprAccessGroupsKey());
 		query.setParameter("data_type_key_in", dataTypeKey);
 		query.addScalar("read_flag", StandardBasicTypes.STRING);
 		query.addScalar("write_flag", StandardBasicTypes.STRING);
 		query.addScalar("archive_flag", StandardBasicTypes.STRING);
 
-		final Iterator<?> it = query.list().iterator();
-		if (it.hasNext()) {
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 			Object res[] = (Object []) it.next();
 			readFlag = (String) res[0];
 			writeFlag = (String) res[1];
@@ -347,6 +411,7 @@ public class Database {
 		
 		return hasAccess;
 	}
+	
 	/**
 	 * This routine is used to verify that the requester is allowed to perform an operation on a particular data type.
 	 * This routine will return true if the operation is allowed, otherwise it will throw an exception.
@@ -914,17 +979,17 @@ public class Database {
 	}
 
 	/**
-	 * @param iamGroupKey the iamGroupKey to set
+	 * @param cprAccessGroupsKey the cprAccessGroupsKey to set
 	 */
-	public void setIamGroupKey(long iamGroupKey) {
-		this.iamGroupKey = iamGroupKey;
+	public void setCprAccessGroupsKey(long cprAccessGroupsKey) {
+		this.cprAccessGroupsKey = cprAccessGroupsKey;
 	}
 
 	/**
-	 * @return the iamGroupKey
+	 * @return the cprAccessGroupsKey
 	 */
-	public long getIamGroupKey() {
-		return iamGroupKey;
+	public long getCprAccessGroupsKey() {
+		return cprAccessGroupsKey;
 	}
 
 	/**

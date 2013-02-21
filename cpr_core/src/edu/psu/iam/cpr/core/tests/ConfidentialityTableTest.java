@@ -29,7 +29,7 @@ import edu.psu.iam.cpr.core.database.tables.ConfidentialityTable;
 import edu.psu.iam.cpr.core.database.types.ConfidentialityType;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class ConfidentialityTableTest {
@@ -88,28 +88,28 @@ public class ConfidentialityTableTest {
 
 	@Test(expectedExceptions=Exception.class)
 	public final void _08testAddConfidentiality1() throws Exception {
-		ConfidentialityTable t = new ConfidentialityTable(100000,"ALL_CONFIDENTIALITY","jvuccolo");
+		ConfidentialityTable t = new ConfidentialityTable(100000,"ALL_CONFIDENTIALITY","cpruser");
 		t.addConfidentiality(db);
 	}
 	
 	@Test
 	public final void _09testAddConfidentiality2() throws Exception {
 		openDbConnection();
-		ConfidentialityTable t = new ConfidentialityTable(100000,"ALL_CONFIDENTIALITY","jvuccolo");
+		ConfidentialityTable t = new ConfidentialityTable(100000,"ALL_CONFIDENTIALITY","cpruser");
 		t.addConfidentiality(db);
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
 	public final void _10testArchiveConfidentiality1() throws Exception {
-		ConfidentialityTable t = new ConfidentialityTable(100000,"ALL_CONFIDENTIALITY","jvuccolo");
+		ConfidentialityTable t = new ConfidentialityTable(100000,"ALL_CONFIDENTIALITY","cpruser");
 		t.archiveConfidentiality(db);
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _11testArchiveConfidentiality2() throws Exception {
 		openDbConnection();
-		ConfidentialityTable t = new ConfidentialityTable(100002,"ALL_CONFIDENTIALITY","jvuccolo");
+		ConfidentialityTable t = new ConfidentialityTable(100002,"ALL_CONFIDENTIALITY","cpruser");
 		t.archiveConfidentiality(db);
 		db.closeSession();
 	}
@@ -124,7 +124,7 @@ public class ConfidentialityTableTest {
 	@Test
 	public final void _13testAddConfidentiality3() throws Exception {
 		openDbConnection();
-		ConfidentialityTable t = new ConfidentialityTable(100000,"ALL_CONFIDENTIALITY","jvuccolo");
+		ConfidentialityTable t = new ConfidentialityTable(100000,"ALL_CONFIDENTIALITY","cpruser");
 		t.archiveConfidentiality(db);
 		t.setReturnHistoryFlag(false);
 		t.getConfidentiality(db,100000);

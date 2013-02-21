@@ -46,7 +46,7 @@ public class GroupMembersLoader implements BeanLoader {
 				bean.setStartDate(d);
 				bean.setEndDate(null);
 				
-				// group_member_key|person_id|iam_group_key|suspend_flag|userid
+				// group_member_key|person_id|cpr_access_groups_key|suspend_flag|userid
 
 				for (int i = 0; i < columns.length; ++i) {
 					if (columns[i].equals("group_member_key")) {
@@ -55,8 +55,8 @@ public class GroupMembersLoader implements BeanLoader {
 					else if (columns[i].equals("person_id")) {
 						bean.setPersonId(new Long(fields[i]));
 					}
-					else if (columns[i].equals("iam_group_key")) {
-						bean.setIamGroupKey(new Long(fields[i]));
+					else if (columns[i].equals("cpr_access_groups_key")) {
+						bean.setCprAccessGroupsKey(new Long(fields[i]));
 					}
 					else if (columns[i].equals("suspend_flag")) {
 						bean.setSuspendFlag(fields[i]);

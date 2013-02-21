@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: RegistrationAuthority.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
+/* SVN FILE: $Id: BuildBean.java 5970 2013-01-04 15:50:31Z jvuccolo $ */
 package edu.psu.iam.cpr.core.database.beans;
 
 import java.io.Serializable;
@@ -13,24 +13,14 @@ import javax.persistence.Table;
 
 /**
  *
- * Copyright 2012 The Pennsylvania State University
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To
+ * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative
+ * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
  * @package edu.psu.iam.cpr.core.database.beans
  * @author $Author: jvuccolo $
- * @version $Rev: 5340 $
- * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
+ * @version $Rev: 5970 $
+ * @lastrevision $Date: 2013-01-04 10:50:31 -0500 (Fri, 04 Jan 2013) $
  */
 
 @Entity
@@ -40,33 +30,9 @@ public class RegistrationAuthority implements Serializable {
         /** Contains the serialized UID */
         private static final long serialVersionUID = 1L;
 
-        /** Contains the registrationAuthority. */
-        @Column(name="registration_authority", nullable=false, length=60)
-        private String registrationAuthority;
-
-        /** Contains the startDate. */
-        @Column(name="start_date", nullable=false)
-        private Date startDate;
-
         /** Contains the createdBy. */
         @Column(name="created_by", nullable=false, length=30)
         private String createdBy;
-
-        /** Contains the lastUpdateOn. */
-        @Column(name="last_update_on", nullable=false)
-        private Date lastUpdateOn;
-
-        /** Contains the createdOn. */
-        @Column(name="created_on", nullable=false)
-        private Date createdOn;
-
-        /** Flag used to indicate whether RA can assign user IDs. The valid values are Y or N.  The default value is N.   */
-        @Column(name="assign_userid_flag", nullable=false, length=1)
-        private String assignUseridFlag;
-        
-        /** Contains the lastUpdateBy. */
-        @Column(name="last_update_by", nullable=false, length=30)
-        private String lastUpdateBy;
 
         /** Contains the registrationAuthorityKey. */
         @Id
@@ -75,63 +41,59 @@ public class RegistrationAuthority implements Serializable {
         @SequenceGenerator(name="seq_registration_authority", sequenceName="seq_registration_authority", allocationSize = 1, initialValue= 1)
         private Long registrationAuthorityKey;
 
+        /** Contains the createdOn. */
+        @Column(name="created_on", nullable=false)
+        private Date createdOn;
+
+        /** Contains the assignPsuidFlag. */
+        @Column(name="assign_psuid_flag", nullable=false, length=1)
+        private String assignPsuidFlag;
+
+        /** Contains the lastUpdateOn. */
+        @Column(name="last_update_on", nullable=false)
+        private Date lastUpdateOn;
+
         /** Contains the endDate. */
         @Column(name="end_date", nullable=true)
         private Date endDate;
 
-        /** Flag used to indicate whether RA can assign PSU IDs.  The valid values are Y or N.  The default value is N. */
-        @Column(name="assign_psuid_flag", nullable=false, length=1)
-        private String assignPsuidFlag;
-
-       /** Contains the raContactKey. */
-        @Column(name="ra_contact_key", nullable=false)
-        private Long raContactKey;
-
-        /** Flag used to indicate whether RA can perform SSN collection.  The valid values are Y or N.  The default value is N.   */
-        @Column(name="collect_ssn_flag", nullable=false, length=1)
-        private String collectSsnFlag;
-        
         /** Contains the registrationAuthorityDesc. */
         @Column(name="registration_authority_desc", nullable=false, length=100)
         private String registrationAuthorityDesc;
 
+        /** Contains the registrationAuthority. */
+        @Column(name="registration_authority", nullable=false, length=60)
+        private String registrationAuthority;
+
         /** Contains the suspendFlag. */
         @Column(name="suspend_flag", nullable=false, length=1)
         private String suspendFlag;
+
+        /** Contains the raContactKey. */
+        @Column(name="ra_contact_key", nullable=false)
+        private Long raContactKey;
+
+        /** Contains the assignUseridFlag. */
+        @Column(name="assign_userid_flag", nullable=false, length=1)
+        private String assignUseridFlag;
+
+        /** Contains the collectSsnFlag. */
+        @Column(name="collect_ssn_flag", nullable=false, length=1)
+        private String collectSsnFlag;
+
+        /** Contains the lastUpdateBy. */
+        @Column(name="last_update_by", nullable=false, length=30)
+        private String lastUpdateBy;
+
+        /** Contains the startDate. */
+        @Column(name="start_date", nullable=false)
+        private Date startDate;
 
         /**
          * Constructor
          */
         public RegistrationAuthority() {
             super();
-        }
-
-        /**
-         * @return the registrationAuthority
-         */
-        public String getRegistrationAuthority() {
-                return registrationAuthority;
-        }
-
-        /**
-         * @param registrationAuthority the registrationAuthority to set.
-         */
-        public void setRegistrationAuthority(String registrationAuthority) {
-                this.registrationAuthority = registrationAuthority;
-        }
-
-        /**
-         * @return the startDate
-         */
-        public Date getStartDate() {
-                return startDate;
-        }
-
-        /**
-         * @param startDate the startDate to set.
-         */
-        public void setStartDate(Date startDate) {
-                this.startDate = startDate;
         }
 
         /**
@@ -149,17 +111,17 @@ public class RegistrationAuthority implements Serializable {
         }
 
         /**
-         * @return the lastUpdateOn
+         * @return the registrationAuthorityKey
          */
-        public Date getLastUpdateOn() {
-                return lastUpdateOn;
+        public Long getRegistrationAuthorityKey() {
+                return registrationAuthorityKey;
         }
 
         /**
-         * @param lastUpdateOn the lastUpdateOn to set.
+         * @param registrationAuthorityKey the registrationAuthorityKey to set.
          */
-        public void setLastUpdateOn(Date lastUpdateOn) {
-                this.lastUpdateOn = lastUpdateOn;
+        public void setRegistrationAuthorityKey(Long registrationAuthorityKey) {
+                this.registrationAuthorityKey = registrationAuthorityKey;
         }
 
         /**
@@ -177,31 +139,31 @@ public class RegistrationAuthority implements Serializable {
         }
 
         /**
-         * @return the lastUpdateBy
+         * @return the assignPsuidFlag
          */
-        public String getLastUpdateBy() {
-                return lastUpdateBy;
+        public String getAssignPsuidFlag() {
+                return assignPsuidFlag;
         }
 
         /**
-         * @param lastUpdateBy the lastUpdateBy to set.
+         * @param assignPsuidFlag the assignPsuidFlag to set.
          */
-        public void setLastUpdateBy(String lastUpdateBy) {
-                this.lastUpdateBy = lastUpdateBy;
+        public void setAssignPsuidFlag(String assignPsuidFlag) {
+                this.assignPsuidFlag = assignPsuidFlag;
         }
 
         /**
-         * @return the registrationAuthorityKey
+         * @return the lastUpdateOn
          */
-        public Long getRegistrationAuthorityKey() {
-                return registrationAuthorityKey;
+        public Date getLastUpdateOn() {
+                return lastUpdateOn;
         }
 
         /**
-         * @param registrationAuthorityKey the registrationAuthorityKey to set.
+         * @param lastUpdateOn the lastUpdateOn to set.
          */
-        public void setRegistrationAuthorityKey(Long registrationAuthorityKey) {
-                this.registrationAuthorityKey = registrationAuthorityKey;
+        public void setLastUpdateOn(Date lastUpdateOn) {
+                this.lastUpdateOn = lastUpdateOn;
         }
 
         /**
@@ -219,20 +181,6 @@ public class RegistrationAuthority implements Serializable {
         }
 
         /**
-         * @return the raContactKey
-         */
-        public Long getRaContactKey() {
-                return raContactKey;
-        }
-
-        /**
-         * @param raContactKey the raContactKey to set.
-         */
-        public void setRaContactKey(Long raContactKey) {
-                this.raContactKey = raContactKey;
-        }
-
-        /**
          * @return the registrationAuthorityDesc
          */
         public String getRegistrationAuthorityDesc() {
@@ -244,6 +192,20 @@ public class RegistrationAuthority implements Serializable {
          */
         public void setRegistrationAuthorityDesc(String registrationAuthorityDesc) {
                 this.registrationAuthorityDesc = registrationAuthorityDesc;
+        }
+
+        /**
+         * @return the registrationAuthority
+         */
+        public String getRegistrationAuthority() {
+                return registrationAuthority;
+        }
+
+        /**
+         * @param registrationAuthority the registrationAuthority to set.
+         */
+        public void setRegistrationAuthority(String registrationAuthority) {
+                this.registrationAuthority = registrationAuthority;
         }
 
         /**
@@ -260,46 +222,74 @@ public class RegistrationAuthority implements Serializable {
                 this.suspendFlag = suspendFlag;
         }
 
-		/**
-		 * @param assignUseridFlag the assignUseridFlag to set
-		 */
-		public void setAssignUseridFlag(String assignUseridFlag) {
-			this.assignUseridFlag = assignUseridFlag;
-		}
+        /**
+         * @return the raContactKey
+         */
+        public Long getRaContactKey() {
+                return raContactKey;
+        }
 
-		/**
-		 * @return the assignUseridFlag
-		 */
-		public String getAssignUseridFlag() {
-			return assignUseridFlag;
-		}
+        /**
+         * @param raContactKey the raContactKey to set.
+         */
+        public void setRaContactKey(Long raContactKey) {
+                this.raContactKey = raContactKey;
+        }
 
-		/**
-		 * @param assignPsuidFlag the assignPsuidFlag to set
-		 */
-		public void setAssignPsuidFlag(String assignPsuidFlag) {
-			this.assignPsuidFlag = assignPsuidFlag;
-		}
+        /**
+         * @return the assignUseridFlag
+         */
+        public String getAssignUseridFlag() {
+                return assignUseridFlag;
+        }
 
-		/**
-		 * @return the assignPsuidFlag
-		 */
-		public String getAssignPsuidFlag() {
-			return assignPsuidFlag;
-		}
+        /**
+         * @param assignUseridFlag the assignUseridFlag to set.
+         */
+        public void setAssignUseridFlag(String assignUseridFlag) {
+                this.assignUseridFlag = assignUseridFlag;
+        }
 
-		/**
-		 * @param collectSsnFlag the collectSsnFlag to set
-		 */
-		public void setCollectSsnFlag(String collectSsnFlag) {
-			this.collectSsnFlag = collectSsnFlag;
-		}
+        /**
+         * @return the collectSsnFlag
+         */
+        public String getCollectSsnFlag() {
+                return collectSsnFlag;
+        }
 
-		/**
-		 * @return the collectSsnFlag
-		 */
-		public String getCollectSsnFlag() {
-			return collectSsnFlag;
-		}
+        /**
+         * @param collectSsnFlag the collectSsnFlag to set.
+         */
+        public void setCollectSsnFlag(String collectSsnFlag) {
+                this.collectSsnFlag = collectSsnFlag;
+        }
+
+        /**
+         * @return the lastUpdateBy
+         */
+        public String getLastUpdateBy() {
+                return lastUpdateBy;
+        }
+
+        /**
+         * @param lastUpdateBy the lastUpdateBy to set.
+         */
+        public void setLastUpdateBy(String lastUpdateBy) {
+                this.lastUpdateBy = lastUpdateBy;
+        }
+
+        /**
+         * @return the startDate
+         */
+        public Date getStartDate() {
+                return startDate;
+        }
+
+        /**
+         * @param startDate the startDate to set.
+         */
+        public void setStartDate(Date startDate) {
+                this.startDate = startDate;
+        }
 
 }

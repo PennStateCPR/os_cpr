@@ -28,7 +28,7 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.util.Validate;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class ValidateTest {

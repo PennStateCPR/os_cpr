@@ -51,7 +51,7 @@ import edu.psu.iam.cpr.core.grouper.RAGroupData;
 	@Test
 		public final void testIsSubjectMemberOfGroupTrue() throws CprException {
 			GrouperPermissions gPerm = new GrouperPermissions();
-			AssertJUnit.assertTrue(gPerm.isSubjectMemberOfMasterGroup( "IAMTAG", "llg5"));
+			AssertJUnit.assertTrue(gPerm.isSubjectMemberOfMasterGroup( "IAMTAG", "cpruser"));
 		}
 	@Test
 		public final void testIsSubjectMemberOfGroupFalse() throws CprException {
@@ -61,7 +61,7 @@ import edu.psu.iam.cpr.core.grouper.RAGroupData;
 	@Test
 		public final void testIsRequestAuthorizedTrue() throws CprException {
 			GrouperPermissions gPerm = new GrouperPermissions();
-			AssertJUnit.assertTrue(gPerm.isRequestAuthorized("AddAddress", "llg5"));
+			AssertJUnit.assertTrue(gPerm.isRequestAuthorized("AddAddress", "cpruser"));
 		}
 	@Test
 		public final void testIsRequestAuthorizedFalse() throws CprException {
@@ -71,7 +71,7 @@ import edu.psu.iam.cpr.core.grouper.RAGroupData;
 	@Test
 		public final void testIsDataAccessAuthorizedTrue() throws CprException {
 			GrouperPermissions gPerm = new GrouperPermissions();
-			AssertJUnit.assertTrue(gPerm.isDataActionAuthorized(AccessType.PERMANENT_PHONE.toString(), "access_operation_read", "llg5"));
+			AssertJUnit.assertTrue(gPerm.isDataActionAuthorized(AccessType.PERMANENT_PHONE.toString(), "access_operation_read", "cpruser"));
 		}
 	@Test
 		public final void testIsDataAccessAuthorizedFalse() throws CprException {
@@ -81,17 +81,17 @@ import edu.psu.iam.cpr.core.grouper.RAGroupData;
 	@Test(expectedExceptions=Exception.class)
 		public final void testIsDataAccessAuthorizedBadDataResource() throws CprException {
 			GrouperPermissions gPerm = new GrouperPermissions();
-			AssertJUnit.assertTrue(gPerm.isRequestAuthorized("PHONE", "llg5"));
+			AssertJUnit.assertTrue(gPerm.isRequestAuthorized("PHONE", "cpruser"));
 		}
 	@Test(expectedExceptions=Exception.class)
 		public final void testIsRequestAuthorizedBadWebService() throws CprException {
 			GrouperPermissions gPerm = new GrouperPermissions();
-			AssertJUnit.assertTrue(gPerm.isRequestAuthorized("address", "llg5"));
+			AssertJUnit.assertTrue(gPerm.isRequestAuthorized("address", "cpruser"));
 		}
 	@Test
 	public final void testIsAffiliationAccessAuthorized() throws CprException {
 		GrouperPermissions gPerm = new GrouperPermissions();
-		AssertJUnit.assertTrue(gPerm.isAfiliationAccessAuthorized("STUDENT_UNDERGRADUATE_CURRENT", "llg5"));
+		AssertJUnit.assertTrue(gPerm.isAfiliationAccessAuthorized("STUDENT_UNDERGRADUATE_CURRENT", "cpruser"));
 	}
 	@Test
 	public final void testIsAffiliationAccessAuthorizedFalse() throws CprException {

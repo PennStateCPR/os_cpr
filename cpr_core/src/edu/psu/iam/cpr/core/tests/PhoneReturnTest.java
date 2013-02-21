@@ -26,7 +26,7 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.service.returns.PhoneReturn;
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class PhoneReturnTest {

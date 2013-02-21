@@ -25,7 +25,7 @@ import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.messaging.MessagingCore;
 
 /**
- * @author slk24
+ * @author cpruser
  *
  */
 
@@ -78,7 +78,7 @@ public class MessagingCoreTest {
 		openDbConnection();
 		MessagingCore msging = new MessagingCore(db, webService);
 		msging.initializeMessaging();
-		JsonMessage testMsg = new JsonMessage(db, 100000, webService, "slk24");
+		JsonMessage testMsg = new JsonMessage(db, 100000, webService, "cpruser");
 		msging.sendMessage(db, testMsg);
 		msging.closeMessaging();
 		db.closeSession();

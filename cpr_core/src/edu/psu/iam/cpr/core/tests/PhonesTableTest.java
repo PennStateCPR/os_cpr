@@ -136,7 +136,7 @@ public class PhonesTableTest {
 	@Test
 	public final void _14testPhoneLocalPhone() throws Exception {
 
-		PhonesTable phonesTable = new PhonesTable(1, "LOCAL_phone", null, "llg5");
+		PhonesTable phonesTable = new PhonesTable(1, "LOCAL_phone", null, "cpruser");
 		AssertJUnit.assertEquals(phonesTable.getPhoneType(), PhoneType.LOCAL_PHONE);
 	} 
 	/*
@@ -254,7 +254,7 @@ public class PhonesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _25testAddPhoneDbNullNoDbOpen()  throws Exception  {
 		
-		PhonesTable phonesTable = new PhonesTable(1 , "LOCAL_PHONE",null, "8148651818", (String)null, "N", "llg5");
+		PhonesTable phonesTable = new PhonesTable(1 , "LOCAL_PHONE",null, "8148651818", (String)null, "N", "cpruser");
 		phonesTable.addPhone(null);
 	
 	}
@@ -264,7 +264,7 @@ public class PhonesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _26testAddPhoneNoPersonNoDbOpen()  throws Exception  {
 		
-		PhonesTable phonesTable = new PhonesTable(1 , "LOCAL_PHONE", "8148651818", (String)null, "N", "llg5");
+		PhonesTable phonesTable = new PhonesTable(1 , "LOCAL_PHONE", "8148651818", (String)null, "N", "cpruser");
 		phonesTable.addPhone(db  );
 		
 	}
@@ -275,7 +275,7 @@ public class PhonesTableTest {
 //	@Test(expected=Exception.class)
 //	public final void _27testAddPhoneDbNullDbOpen()  throws Exception  {
 //		openDbConnection();
-//		PhonesTable phonesTable = new PhonesTable(1 , "LOCAL_PHONE", "8148651818", (String)null, "N", "llg5");
+//		PhonesTable phonesTable = new PhonesTable(1 , "LOCAL_PHONE", "8148651818", (String)null, "N", "cpruser");
 //		phonesTable.addPhone(null);
 //		db.closeSession();
 //	}
@@ -285,7 +285,7 @@ public class PhonesTableTest {
 //	@Test(expected=Exception.class)
 //	public final void _28testAddPhoneNoPersonDbOpen()  throws Exception  {
 //		openDbConnection();
-//		PhonesTable phonesTable = new PhonesTable(1 , "LOCAL_PHONE", "8148651818", (String)null, "N", "llg5");
+//		PhonesTable phonesTable = new PhonesTable(1 , "LOCAL_PHONE", "8148651818", (String)null, "N", "cpruser");
 //		phonesTable.addPhone(db  );
 //		db.closeSession();
 //	}
@@ -294,7 +294,7 @@ public class PhonesTableTest {
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void _29testArchivePhoneNullDbNoDbOpen()  throws Exception  {
-		PhonesTable phonesTable = new PhonesTable(1, "LOCAL_PHONE", 1L, "llg5");
+		PhonesTable phonesTable = new PhonesTable(1, "LOCAL_PHONE", 1L, "cpruser");
 		phonesTable.archivePhone(null  );
 	}
 	/*
@@ -302,7 +302,7 @@ public class PhonesTableTest {
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void _30testArchivePhoneNoPersonNoDbOPen()  throws Exception  {
-		PhonesTable phonesTable = new PhonesTable(1, "LOCAL_PHONE", 1L, "llg5");
+		PhonesTable phonesTable = new PhonesTable(1, "LOCAL_PHONE", 1L, "cpruser");
 		phonesTable.archivePhone(db  );
 	}
 	/*
@@ -310,7 +310,7 @@ public class PhonesTableTest {
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void _31testUpdatePhoneNullDbNoDbOPen()  throws Exception  {
-		PhonesTable phonesTable = new PhonesTable(1, "LOCAL_PHONE", 1L, "8148651818", (String)null, "N", "llg5");
+		PhonesTable phonesTable = new PhonesTable(1, "LOCAL_PHONE", 1L, "8148651818", (String)null, "N", "cpruser");
 		phonesTable.updatePhone(null  );
 	}
 	/*
@@ -319,7 +319,7 @@ public class PhonesTableTest {
 	@Test
 	public final void _32testAddPhoneAddGoodPhone()  throws Exception  {
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100004 , "LOCAL_PHONE",null,  "8148651818", (String)null, "N", "llg5");
+		PhonesTable phonesTable = new PhonesTable(100004 , "LOCAL_PHONE",null,  "8148651818", (String)null, "N", "cpruser");
 		phonesTable.addPhone( db );
 		db.closeSession();
 	}
@@ -329,7 +329,7 @@ public class PhonesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _33testAddPhoneAddDupPhone()  throws Exception  {
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100004 , "LOCAL_PHONE",null,  "8148651818", (String)null, "N", "llg5");
+		PhonesTable phonesTable = new PhonesTable(100004 , "LOCAL_PHONE",null,  "8148651818", (String)null, "N", "cpruser");
 		phonesTable.addPhone( db );
 		db.closeSession();
 	}
@@ -340,7 +340,7 @@ public class PhonesTableTest {
 	@Test
 	public final void _34testAddPhoneAddDupTypeNewPhone()  throws Exception  {
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100004 , "LOCAL_PHONE",null,  "8148654864", (String)null, "N", "llg5");
+		PhonesTable phonesTable = new PhonesTable(100004 , "LOCAL_PHONE",null,  "8148654864", (String)null, "N", "cpruser");
 		phonesTable.addPhone( db );
 		db.closeSession();
 	}
@@ -351,7 +351,7 @@ public class PhonesTableTest {
 	@Test
 	public final void _35testAddPhoneAddDupPhoneDiffType()  throws Exception  {
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100004 , "WORK_PHONE",null,  "8148654864", (String)null, "N", "llg5");
+		PhonesTable phonesTable = new PhonesTable(100004 , "WORK_PHONE",null,  "8148654864", (String)null, "N", "cpruser");
 		phonesTable.addPhone( db );
 		db.closeSession();
 	}
@@ -361,7 +361,7 @@ public class PhonesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _36testUpdatePhoneAddDupPhoneSameType()  throws Exception  {
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100004 , "WORK_PHONE",1L,  "8148654864", (String)null, "N", "llg5");
+		PhonesTable phonesTable = new PhonesTable(100004 , "WORK_PHONE",1L,  "8148654864", (String)null, "N", "cpruser");
 		phonesTable.addPhone( db );
 		db.closeSession();
 	}
@@ -371,7 +371,7 @@ public class PhonesTableTest {
 	@Test
 	public final void _37testUpdatePhoneNonDupPhone()  throws Exception  {
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100004 , "WORK_PHONE",1L,   "8148651234", (String)null, "N", "llg5");
+		PhonesTable phonesTable = new PhonesTable(100004 , "WORK_PHONE",1L,   "8148651234", (String)null, "N", "cpruser");
 		phonesTable.updatePhone( db );
 		db.closeSession();
 	}
@@ -381,7 +381,7 @@ public class PhonesTableTest {
 	@Test
 	public final void _38testArchivePhoneGoodGroupId()  throws Exception  {
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100004, "LOCAL_PHONE", 2L, "llg5");
+		PhonesTable phonesTable = new PhonesTable(100004, "LOCAL_PHONE", 2L, "cpruser");
 		phonesTable.archivePhone(db  );
 		db.closeSession();
 	}
@@ -391,7 +391,7 @@ public class PhonesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _39testArchivePhoneAlreadyArchived()  throws Exception  {
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100004, "LOCAL_PHONE", 2L,  "llg5");
+		PhonesTable phonesTable = new PhonesTable(100004, "LOCAL_PHONE", 2L,  "cpruser");
 		phonesTable.archivePhone(db  );
 		db.closeSession();
 	}
@@ -448,7 +448,7 @@ public class PhonesTableTest {
 	@Test
 	public final void _44testAddSomePhoneData()  throws Exception  {
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", "8148651817", (String)null, "N", "llg5");
+		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", "8148651817", (String)null, "N", "cpruser");
 		phonesTable.addPhone(db  );
 		db.closeSession();
 	}
@@ -458,7 +458,7 @@ public class PhonesTableTest {
 	@Test
 	public final void _45testUpdatePhoneData()  throws Exception  {
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE",1L, "8148651818", (String)null, "N", "llg5");
+		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE",1L, "8148651818", (String)null, "N", "cpruser");
 		phonesTable.updatePhone(db  );
 		db.closeSession();
 	}
@@ -468,7 +468,7 @@ public class PhonesTableTest {
 	@Test
 	public final void _46testAddSomeMorePhoneData()  throws Exception  {
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", "8148651234", (String)null, "N", "llg5");
+		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", "8148651234", (String)null, "N", "cpruser");
 		phonesTable.addPhone(db  );
 		db.closeSession();
 	}
@@ -524,7 +524,7 @@ public class PhonesTableTest {
 	@Test
 	public final void _51testPhoneSetPrimary()  throws Exception  {
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", 1L, "llg5");
+		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", 1L, "cpruser");
 		phonesTable.setPrimaryByType(db  );
 		db.closeSession();
 	}
@@ -535,7 +535,7 @@ public class PhonesTableTest {
 	public final void _52testSetPrimaryAlreadyPrimary()  throws Exception  {
 		_51testPhoneSetPrimary();
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", 1L, "llg5");
+		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", 1L, "cpruser");
 		phonesTable.setPrimaryByType(db  );
 		db.closeSession();
 	}
@@ -545,7 +545,7 @@ public class PhonesTableTest {
 	@Test
 	public final void _53testSetPrimaryNewPrimary()  throws Exception  {
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", 2L, "llg5");
+		PhonesTable phonesTable = new PhonesTable(100003 , "LOCAL_PHONE", 2L, "cpruser");
 		phonesTable.setPrimaryByType(db  );
 		db.closeSession();
 	}
@@ -555,7 +555,7 @@ public class PhonesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _54testSetPrimaryNoRecord()  throws Exception  {
 		openDbConnection();
-		PhonesTable phonesTable = new PhonesTable(100003 , "PERMANENT_PHONE", 1L, "llg5");
+		PhonesTable phonesTable = new PhonesTable(100003 , "PERMANENT_PHONE", 1L, "cpruser");
 		phonesTable.setPrimaryByType(db  );
 		db.closeSession();
 	}
@@ -566,7 +566,7 @@ public class PhonesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _55testSetPrimaryNoDB()  throws Exception  {
 		
-		PhonesTable phonesTable = new PhonesTable(100003 , "PERMANENT_PHONE", 1L, "llg5");
+		PhonesTable phonesTable = new PhonesTable(100003 , "PERMANENT_PHONE", 1L, "cpruser");
 		phonesTable.setPrimaryByType(db  );
 	
 	}

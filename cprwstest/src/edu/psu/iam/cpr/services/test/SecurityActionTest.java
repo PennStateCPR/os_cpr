@@ -66,7 +66,7 @@ public class SecurityActionTest {
 	// Invalid identifier Type
 	@Test(expectedExceptions=Exception.class)
 	public void _05testBlockUser5() throws Exception {
-		ServiceReturn securityReturn = port.blockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, "jvuccolo", "person_", "100000", "xyz");
+		ServiceReturn securityReturn = port.blockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_", "100000", "xyz");
 		if (securityReturn.getStatusCode() != 0) {
 			throw new Exception(securityReturn.getStatusMessage());
 		}
@@ -75,7 +75,7 @@ public class SecurityActionTest {
 	// Invalid identifier Type
 	@Test(expectedExceptions=Exception.class)
 	public void _06testBlockUser6() throws Exception {
-		ServiceReturn securityReturn = port.blockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, "jvuccolo", null, "100000", "xyz");
+		ServiceReturn securityReturn = port.blockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, ServiceAuthentication.GOOD_USERID, null, "100000", "xyz");
 		if (securityReturn.getStatusCode() != 0) {
 			throw new Exception(securityReturn.getStatusMessage());
 		}
@@ -84,7 +84,7 @@ public class SecurityActionTest {
 	// Invalid identifier
 	@Test(expectedExceptions=Exception.class)
 	public void _07testBlockUser7() throws Exception {
-		ServiceReturn securityReturn = port.blockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, "jvuccolo", "person_id", null, "xyz");
+		ServiceReturn securityReturn = port.blockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", null, "xyz");
 		if (securityReturn.getStatusCode() != 0) {
 			throw new Exception(securityReturn.getStatusMessage());
 		}
@@ -93,7 +93,7 @@ public class SecurityActionTest {
 	// Invalid identifier
 	@Test(expectedExceptions=Exception.class)
 	public void _08testBlockUser8() throws Exception {
-		ServiceReturn securityReturn = port.blockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, "jvuccolo", "person_id", "1", "xyz");
+		ServiceReturn securityReturn = port.blockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1", "xyz");
 		if (securityReturn.getStatusCode() != 0) {
 			throw new Exception(securityReturn.getStatusMessage());
 		}
@@ -102,7 +102,7 @@ public class SecurityActionTest {
 	// Invalid userid
 	@Test(expectedExceptions=Exception.class)
 	public void _09testBlockUser9() throws Exception {
-		ServiceReturn securityReturn = port.blockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, "jvuccolo", "person_id", "1", null);
+		ServiceReturn securityReturn = port.blockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1", null);
 		if (securityReturn.getStatusCode() != 0) {
 			throw new Exception(securityReturn.getStatusMessage());
 		}
@@ -111,11 +111,11 @@ public class SecurityActionTest {
 	// Valid Userid for doing a block.
 	@Test
 	public void _10testBlockUser10() throws Exception {
-		ServiceReturn securityReturn = port.blockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "smj368");
+		ServiceReturn securityReturn = port.blockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "smj368");
 		if (securityReturn.getStatusCode() != 0) {
 			throw new Exception(securityReturn.getStatusMessage());
 		}
-		securityReturn = port.unblockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "smj368");
+		securityReturn = port.unblockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "smj368");
 		if (securityReturn.getStatusCode() != 0) {
 			throw new Exception(securityReturn.getStatusMessage());
 		}
@@ -124,7 +124,7 @@ public class SecurityActionTest {
 	// Unblock a user.
 	@Test
 	public void _11testUnblockUser1() throws Exception {
-		ServiceReturn securityReturn = port.unblockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "smj368");
+		ServiceReturn securityReturn = port.unblockUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "smj368");
 		if (securityReturn.getStatusCode() != 0) {
 			throw new Exception(securityReturn.getStatusMessage());
 		}		
@@ -133,7 +133,7 @@ public class SecurityActionTest {
 	// Disable a user.
 	@Test
 	public void _12testDisableUser1() throws Exception {
-		ServiceReturn securityReturn = port.disableUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "smj368");
+		ServiceReturn securityReturn = port.disableUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "smj368");
 		if (securityReturn.getStatusCode() != 0) {
 			throw new Exception(securityReturn.getStatusMessage());
 		}		
@@ -142,7 +142,7 @@ public class SecurityActionTest {
 	// Enable a user.
 	@Test
 	public void _13testEnableUser1() throws Exception {
-		ServiceReturn securityReturn = port.enableUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "smj368");
+		ServiceReturn securityReturn = port.enableUser(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "smj368");
 		if (securityReturn.getStatusCode() != 0) {
 			throw new Exception(securityReturn.getStatusMessage());
 		}		

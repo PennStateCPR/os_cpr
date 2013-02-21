@@ -31,7 +31,7 @@ public class IAPTest {
 
 	public void _01testIAPBadPassword() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getPSUIAP(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.BAD_PASSWORD, "llg5", "person_id", "1000000", "tuj139", "N");
+				ServiceAuthentication.BAD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1000000", "tuj139", "N");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 		}
@@ -39,7 +39,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _02testIAPNullPassword() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getPSUIAP(ServiceAuthentication.GOOD_USERID,
-			null, "llg5", "person_id", "1000000", "tuj139", "N");
+			null, ServiceAuthentication.GOOD_USERID, "person_id", "1000000", "tuj139", "N");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 		}
@@ -79,7 +79,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _07testIAPNoPersonIdType() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getPSUIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", null, "1000000", "tuj139", "N");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, null, "1000000", "tuj139", "N");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 		}
@@ -87,7 +87,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _08testIAPBadPersonIdType() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getPSUIAP(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person", "1000000", "tuj139", "N");
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person", "1000000", "tuj139", "N");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -95,7 +95,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _09testIAPNullPersonIdType() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getPSUIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", " ", "1000000", "tuj139", "N");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, " ", "1000000", "tuj139", "N");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -103,7 +103,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _10testIAPNullPersonId() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getPSUIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id ", null, "tuj139", "N");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id ", null, "tuj139", "N");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -111,7 +111,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _11testIAPBadPersonId() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getPSUIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id ", "aa", "tuj139", "N");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id ", "aa", "tuj139", "N");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -119,7 +119,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _12testIAPNoPersonId() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getPSUIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id ", "1", "tuj139", "N");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id ", "1", "tuj139", "N");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -128,7 +128,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _13testIAPBlankUserId() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getPSUIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id ", "1000000", " ", "N");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id ", "1000000", " ", "N");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -136,7 +136,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _14testIAPNullUserId() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getPSUIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id ", "1000000", null, "N");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id ", "1000000", null, "N");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -144,7 +144,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _15testIAPWrongUserId() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getPSUIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id ", "1000000", "tuj13", "N");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id ", "1000000", "tuj13", "N");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -152,7 +152,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _16testExtIAPBadPassword() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-			"notme", "llg5", "person_id", "1000000", "tuj139", "Incommon");
+			"notme", ServiceAuthentication.GOOD_USERID, "person_id", "1000000", "tuj139", "Incommon");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 		}
@@ -160,7 +160,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _17testExtIAPNullPassword() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-			null, "llg5", "person_id", "1000000", "tuj139", "Incommon");
+			null, ServiceAuthentication.GOOD_USERID, "person_id", "1000000", "tuj139", "Incommon");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 		}
@@ -200,7 +200,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _22testExtIAPBlankPersonIdType() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "", "1000000", "tuj139", "Incommon");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "", "1000000", "tuj139", "Incommon");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 		}
@@ -208,7 +208,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _23testExtIAPBadPersonIdType() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person", "1000000", "tuj139", "Incommon");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person", "1000000", "tuj139", "Incommon");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -216,7 +216,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _24testExtIAPNullPersonIdType() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", null, "1000000", "tuj139", "Incommon");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, null, "1000000", "tuj139", "Incommon");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -224,7 +224,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _25testExtIAPNullPersonId() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", null, "tuj139", "Incommon");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", null, "tuj139", "Incommon");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -232,7 +232,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _26testExtIAPBadPersonId() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "a1000000", "tuj139", "Incommon");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "a1000000", "tuj139", "Incommon");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -240,7 +240,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _27testExtIAPNoPersonId() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "1", "tuj139", "Incommon");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1", "tuj139", "Incommon");
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -249,7 +249,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)	
 	public void _28testExtIAPBlankUserId() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "1000000", " ", "Incommon");		
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1000000", " ", "Incommon");		
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -257,7 +257,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _29testExtIAPNullUserId() throws Exception {
 	IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "1000000", null, "Incommon");	
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1000000", null, "Incommon");	
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -265,7 +265,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _30testExtIAPWrongUserId() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "1000000", "tuj13", "Incommon");	
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1000000", "tuj13", "Incommon");	
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -273,7 +273,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _31testIAPNullFederation() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "1000000", "tuj139", null);	
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1000000", "tuj139", null);	
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -281,7 +281,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _32testIAPBlankFederation() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "1000000", "tuj139", " ");	
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1000000", "tuj139", " ");	
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -289,7 +289,7 @@ public class IAPTest {
 @Test(expectedExceptions = Exception.class)
 	public void _33testIAPBadFederation() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-				"dunrIAM", "llg5", "person_id", "1000000", "tuj139", "Inc ");	
+				"dunrIAM", ServiceAuthentication.GOOD_USERID, "person_id", "1000000", "tuj139", "Inc ");	
 		if (iapServiceReturn.getStatusCode() != 0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 			}
@@ -297,7 +297,7 @@ public class IAPTest {
 @Test
 	public void _34testIAPGet() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getPSUIAP(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100000", "dummy","N");
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "dummy","N");
 		if (iapServiceReturn.getStatusCode() !=0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 		}
@@ -306,7 +306,7 @@ public class IAPTest {
 @Test
 	public void _35testIAPGetHistory() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getPSUIAP(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100000", "dummy", "Y");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "dummy", "Y");
 		if (iapServiceReturn.getStatusCode() !=0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 		}
@@ -314,7 +314,7 @@ public class IAPTest {
 @Test
 	public void _36testIAPGetNoIaps() throws Exception {
 		IapServiceReturn iapServiceReturn = port.getPSUIAP(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100000", "dummy", "N");
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "dummy", "N");
 		if (iapServiceReturn.getStatusCode() !=0) {
 			throw new Exception(iapServiceReturn.getStatusMessage());
 		}
@@ -328,7 +328,7 @@ public class IAPTest {
 //@Test
 //	public void _37testExtIAPGetNone() throws Exception {
 //		IapServiceReturn iapServiceReturn = port.getExternalIAP(ServiceAuthentication.GOOD_USERID,
-//			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "751116", "llg5", "Incommon");
+//			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "751116", ServiceAuthentication.GOOD_USERID, "Incommon");
 //		if (iapServiceReturn.getStatusCode() !=0) {
 //			throw new Exception(iapServiceReturn.getStatusMessage());
 //		}

@@ -27,13 +27,13 @@ import java.util.Date;
 import edu.psu.iam.cpr.core.database.beans.PhotoIdIssuerDataType;
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class PhotoIdIssuerDataTypeTest {
 
 	Date d = new Date();
-	String userId = "llg5";
+	String userId = "cpruser";
 	
 	PhotoIdIssuerDataType pidt = new PhotoIdIssuerDataType();
 	/**

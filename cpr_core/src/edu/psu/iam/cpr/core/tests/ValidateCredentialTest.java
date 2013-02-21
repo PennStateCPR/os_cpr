@@ -57,7 +57,7 @@ public class ValidateCredentialTest {
 	@Test
 	public final void testValidateGetCredentialParameters4() throws Exception {
 		openDbConnection();
-		CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, 1L, "jvuccolo",null,"Y");
+		CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, 1L, "cpruser",null,"Y");
 		assertTrue(credentialTable.isReturnHistoryFlag());
 		db.closeSession();
 	}
@@ -65,7 +65,7 @@ public class ValidateCredentialTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateGetCredentialParameters5() throws Exception {
 		openDbConnection();
-		CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, 1L, "jvuccolo","abcd","Y");
+		CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, 1L, "cpruser","abcd","Y");
 		assertTrue(credentialTable.isReturnHistoryFlag());
 		db.closeSession();
 	}
@@ -73,7 +73,7 @@ public class ValidateCredentialTest {
 	@Test
 	public final void testValidateGetCredentialParameters6() throws Exception {
 		openDbConnection();
-		CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, 1L, "jvuccolo","CREDENTIAL_TYPE_OPENID","N");
+		CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, 1L, "cpruser","CREDENTIAL_TYPE_OPENID","N");
 		assertFalse(credentialTable.isReturnHistoryFlag());
 		assertEquals(credentialTable.getCredentialType(),CredentialType.CREDENTIAL_TYPE_OPENID);
 		db.closeSession();
@@ -88,28 +88,28 @@ public class ValidateCredentialTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddCredentialParameters2() throws Exception {
 		openDbConnection();
-		ValidateCredential.validateAddCredentialParameters(db, 1L, null, null, "jvuccolo");
+		ValidateCredential.validateAddCredentialParameters(db, 1L, null, null, "cpruser");
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddCredentialParameters3() throws Exception {
 		openDbConnection();
-		ValidateCredential.validateAddCredentialParameters(db, 1L, "secure_id", "abcd", "jvuccolo");
+		ValidateCredential.validateAddCredentialParameters(db, 1L, "secure_id", "abcd", "cpruser");
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddCredentialParameters4() throws Exception {
 		openDbConnection();
-		ValidateCredential.validateAddCredentialParameters(db, 1L, "credential_type_secureid", "", "jvuccolo");
+		ValidateCredential.validateAddCredentialParameters(db, 1L, "credential_type_secureid", "", "cpruser");
 		db.closeSession();
 	}
 	
 	@Test
 	public final void testValidateAddCredentialParameters5() throws Exception {
 		openDbConnection();
-		ValidateCredential.validateAddCredentialParameters(db, 1L, "credential_type_secureid", "11231", "jvuccolo");
+		ValidateCredential.validateAddCredentialParameters(db, 1L, "credential_type_secureid", "11231", "cpruser");
 		db.closeSession();
 	}
 
@@ -121,21 +121,21 @@ public class ValidateCredentialTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchiveCredentialParameters2() throws Exception {
 		openDbConnection();
-		ValidateCredential.validateArchiveCredentialParameters(db, 1L, null, "jvuccolo");
+		ValidateCredential.validateArchiveCredentialParameters(db, 1L, null, "cpruser");
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchiveCredentialParameters3() throws Exception {
 		openDbConnection();
-		ValidateCredential.validateArchiveCredentialParameters(db, 1L, "secureid", "jvuccolo");
+		ValidateCredential.validateArchiveCredentialParameters(db, 1L, "secureid", "cpruser");
 		db.closeSession();
 	}
 	
 	@Test
 	public final void testValidateArchiveCredentialParameters4() throws Exception {
 		openDbConnection();
-		ValidateCredential.validateArchiveCredentialParameters(db, 1L, "credential_type_secureid", "jvuccolo");
+		ValidateCredential.validateArchiveCredentialParameters(db, 1L, "credential_type_secureid", "cpruser");
 		db.closeSession();
 	}
 

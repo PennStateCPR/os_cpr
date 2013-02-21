@@ -87,7 +87,7 @@ public class PersonTest {
 	// Invalid identifier type.
 	@Test(expectedExceptions=Exception.class)
 	public void _05testGetPerson5() throws Exception {
-		PersonServiceReturn personReturn = port.getPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", null, "100000", "N");
+		PersonServiceReturn personReturn = port.getPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, null, "100000", "N");
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
@@ -96,7 +96,7 @@ public class PersonTest {
 	// Invalid identifier type.
 	@Test(expectedExceptions=Exception.class)
 	public void _06testGetPerson6() throws Exception {
-		PersonServiceReturn personReturn = port.getPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_", "100000", "N");
+		PersonServiceReturn personReturn = port.getPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_", "100000", "N");
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
@@ -105,7 +105,7 @@ public class PersonTest {
 	// Invalid identifier.
 	@Test(expectedExceptions=Exception.class)
 	public void _07testGetPerson7() throws Exception {
-		PersonServiceReturn personReturn = port.getPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", null, "N");
+		PersonServiceReturn personReturn = port.getPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", null, "N");
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
@@ -114,7 +114,7 @@ public class PersonTest {
 	// Invalid identifier.
 	@Test(expectedExceptions=Exception.class)
 	public void _08testGetPerson8() throws Exception {
-		PersonServiceReturn personReturn = port.getPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "1", "N");
+		PersonServiceReturn personReturn = port.getPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1", "N");
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
@@ -123,7 +123,7 @@ public class PersonTest {
 	// Inactive person identifier.
 	@Test(expectedExceptions=Exception.class)
 	public void _09testGetPerson9() throws Exception {
-		PersonServiceReturn personReturn = port.getPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100001", "N");
+		PersonServiceReturn personReturn = port.getPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100001", "N");
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
@@ -132,7 +132,7 @@ public class PersonTest {
 	// Successful.
 	@Test
 	public void _10testGetPerson10() throws Exception {
-		PersonServiceReturn personReturn = port.getPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "N");
+		PersonServiceReturn personReturn = port.getPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "N");
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
@@ -141,7 +141,7 @@ public class PersonTest {
 	// Successful.
 	@Test
 	public void _11testGetPersonHistory1() throws Exception {
-		PersonServiceReturn personReturn = port.getPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "Y");
+		PersonServiceReturn personReturn = port.getPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "Y");
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
@@ -150,189 +150,189 @@ public class PersonTest {
 	// Invalid parameters.
 	@Test(expectedExceptions=Exception.class)
 	public void _12testAddPerson1() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", null,null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, null,null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _13testAddPerson2() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "", "", null, null, null, null,null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "", "", null, null, null, null,null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _14testAddPerson3() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "X", "X", null, null, null, null,null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "X", "X", null, null, null, null,null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _15testAddPerson4() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "z", null, null, null, null, null,null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "z", null, null, null, null, null,null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _16testAddPerson5() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "", null, null, null, null, null, null, null, null,null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "", null, null, null, null, null, null, null, null,null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _17testAddPerson6() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "111", null, null, null, null, null,null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "111", null, null, null, null, null,null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _18testAddPerson7() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _19testAddPerson8() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/34/2011", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/34/2011", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _20testAddPerson9() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/34", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/34", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _21testAddPerson10() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _22testAddPerson11() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "name", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "name", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _23testAddPerson12() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _24testAddPerson13() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _25testAddPerson14() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "ADDRESS", null, "STREET", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "ADDRESS", null, "STREET", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _26testAddPerson15() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _27testAddPerson16() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, null, null, null, "US", null, null, "PHONE", null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, null, null, null, "US", null, null, "PHONE", null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _28testAddPerson17() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, null, null, null, "USA", null, null, "PHONE", null, null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, null, null, null, "USA", null, null, "PHONE", null, null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _29testAddPerson18() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA", null, null, "PHONE", "814", null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA", null, null, "PHONE", "814", null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _30testAddPerson19() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA", null, null, "PHONE", "8142789153", null, null, null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA", null, null, "PHONE", "8142789153", null, null, null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _31testAddPerson20() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA", null, null, "LOCAL_PHONE", "8142789153", null, "Z", null, null, null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA", null, null, "LOCAL_PHONE", "8142789153", null, "Z", null, null, null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _32testAddPerson21() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA", null, null, "LOCAL_PHONE", "8142789153", null, "N", "email", "yya", null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA", null, null, "LOCAL_PHONE", "8142789153", null, "N", "email", "yya", null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _33testAddPerson22() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA", null, null, "LOCAL_PHONE", "8142789153", null, "N", "OTHER_EMAIL", "yya", null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA", null, null, "LOCAL_PHONE", "8142789153", null, "N", "OTHER_EMAIL", "yya", null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _34testAddPerson23() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA", null, null, "LOCAL_PHONE", "8142789153", null, "N", "OTHER_EMAIL", "yya@", null, null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA", null, null, "LOCAL_PHONE", "8142789153", null, "N", "OTHER_EMAIL", "yya@", null, null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _35testAddPerson24() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA",null, null, "LOCAL_PHONE", "8142789153", null, "N", "OTHER_EMAIL", "yya@blah.com", "", null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA",null, null, "LOCAL_PHONE", "8142789153", null, "N", "OTHER_EMAIL", "yya@blah.com", "", null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _36testAddPerson25() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA",null, null, "LOCAL_PHONE", "8142789153", null, "N", "OTHER_EMAIL", "yya@blah.com", "zzz", null);
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA",null, null, "LOCAL_PHONE", "8142789153", null, "N", "OTHER_EMAIL", "yya@blah.com", "zzz", null);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _37testAddPerson26() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA", null, null, "LOCAL_PHONE", "8142789153", null, "N", "OTHER_EMAIL", "yya@blah.com", "STUDENT_GRADUATE_APPLICANT", "");
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA", null, null, "LOCAL_PHONE", "8142789153", null, "N", "OTHER_EMAIL", "yya@blah.com", "STUDENT_GRADUATE_APPLICANT", "");
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
 	}
 	@Test(expectedExceptions=Exception.class)
 	public void _38testAddPerson27() throws Exception {
-		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA",null, null, "LOCAL_PHONE", "8142789153", null, "N", "OTHER_EMAIL", "yya@blah.com", "STUDENT_GRADUATE_APPLICANT", "abcd12345");
+		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, null, null, "LAST_NAME", null, "LOCAL_ADDRESS", null, "STREET", null, null, "State College", null, null, "USA",null, null, "LOCAL_PHONE", "8142789153", null, "N", "OTHER_EMAIL", "yya@blah.com", "STUDENT_GRADUATE_APPLICANT", "abcd12345");
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
@@ -358,7 +358,7 @@ public class PersonTest {
 		String ssn = fmt3.format(pA) + fmt2.format(pB) + fmt4.format(pC);
 		
 		PersonServiceReturn personReturn = port.addPerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, 
-				"jvuccolo", "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, firstNames[firstNameIndex]+s, null, 
+				ServiceAuthentication.GOOD_USERID, "Y", "Y", "GENDER_MALE", "1/31", "legal_name", null, firstNames[firstNameIndex]+s, null, 
 				lastNames[lastNameIndex]+s, null, "LOCAL_ADDRESS", null, streets[streetsIndex], null, null, 
 				cities[citiesIndex]+s, states[statesIndex], postalCodes[postalCodesIndex], "USA", null, null, "LOCAL_PHONE", 
 				"8142789153", null, "N", "OTHER_EMAIL", "yya@blah.com", "STUDENT_GRADUATE_APPLICANT", ssn);
@@ -372,7 +372,7 @@ public class PersonTest {
 	
 	@Test
 	public void _40testArchivePerson1() throws Exception {
-		ServiceReturn personReturn = port.archivePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "userid", userid);
+		ServiceReturn personReturn = port.archivePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "userid", userid);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
@@ -380,7 +380,7 @@ public class PersonTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public void _41testArchivePerson2() throws Exception {
-		ServiceReturn personReturn = port.archivePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "userid", userid);
+		ServiceReturn personReturn = port.archivePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "userid", userid);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
@@ -388,7 +388,7 @@ public class PersonTest {
 	
 	@Test
 	public void _42testUnarchivePerson1() throws Exception {
-		ServiceReturn personReturn = port.unarchivePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "userid", userid);
+		ServiceReturn personReturn = port.unarchivePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "userid", userid);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
@@ -396,7 +396,7 @@ public class PersonTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public void _43testUnarchivePerson2() throws Exception {
-		ServiceReturn personReturn = port.unarchivePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "userid", userid);
+		ServiceReturn personReturn = port.unarchivePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "userid", userid);
 		if (personReturn.getStatusCode() != 0) {
 			throw new Exception(personReturn.getStatusMessage());
 		}
@@ -434,7 +434,7 @@ public class PersonTest {
 		String emailAddress = null;
 		String affiliation = null;
 		String ssn = null;
-		PersonServiceReturn personReturn = port.updatePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 
+		PersonServiceReturn personReturn = port.updatePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, 
 				"person_id", "100000", assignPsuId, assignUserid, gender, dob, nameType, nameDocumentType, firstName, middleNames, lastName, 
 				suffix, 
 				addressType, addressDocumentType, addressGroupId, address1, address2, address3, city, stateOrProvince, postalCode, 
@@ -477,7 +477,7 @@ public class PersonTest {
 		String emailAddress = null;
 		String affiliation = null;
 		String ssn = null;
-		PersonServiceReturn personReturn = port.updatePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 
+		PersonServiceReturn personReturn = port.updatePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, 
 				"person_id", "100000", assignPsuId, assignUserid, gender, dob, nameType, nameDocumentType, firstName, middleNames, lastName, 
 				suffix, 
 				addressType, addressDocumentType, addressGroupId, address1, address2, address3, city, stateOrProvince, postalCode, 
@@ -523,7 +523,7 @@ public class PersonTest {
 		String emailAddress = "abcd" + fmt2.format(pA) + "@gmail.com";
 		String affiliation = null;
 		String ssn = null;
-		PersonServiceReturn personReturn = port.updatePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 
+		PersonServiceReturn personReturn = port.updatePerson(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, 
 				"person_id", "100000", assignPsuId, assignUserid, gender, dob, nameType, nameDocumentType, firstName, middleNames, lastName, 
 				suffix, 
 				addressType, addressDocumentType, addressGroupId, address1, address2, address3, city, stateOrProvince, postalCode, 

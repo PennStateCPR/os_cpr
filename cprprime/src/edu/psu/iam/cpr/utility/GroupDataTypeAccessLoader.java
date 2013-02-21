@@ -44,8 +44,7 @@ public class GroupDataTypeAccessLoader implements BeanLoader {
 				bean.setLastUpdateBy(requestor);
 				bean.setLastUpdateOn(d);
 
-				// read_flag|data_type_key|archive_flag|iam_group_key|group_data_type_access_key|write_flag
-
+				// read_flag|data_type_key|archive_flag|cpr_access_groups_key|group_data_type_access_key|write_flag
 				
 				for (int i = 0; i < columns.length; ++i) {
 					if (columns[i].equals("read_flag")) {
@@ -57,8 +56,8 @@ public class GroupDataTypeAccessLoader implements BeanLoader {
 					else if (columns[i].equals("archive_flag")) {
 						bean.setArchiveFlag(fields[i]);
 					}
-					else if (columns[i].equals("iam_group_key")) {
-						bean.setIamGroupKey(new Long(fields[i]));
+					else if (columns[i].equals("cpr_access_groups_key")) {
+						bean.setCprAccessGroupsKey(new Long(fields[i]));
 					}
 					else if (columns[i].equals("group_data_type_access_key")) {
 						bean.setGroupDataTypeAccessKey(new Long(fields[i]));

@@ -240,7 +240,7 @@ public class PhotoTest {
 
 	@Test
 	public void _01testAddPhoto() throws Exception {
-		ServiceReturn photoServiceReturn = port.addPhoto(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", testImage, "6/7/2012");
+		ServiceReturn photoServiceReturn = port.addPhoto(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", testImage, "6/7/2012");
 		if (photoServiceReturn.getStatusCode() != 0) {
 			throw new Exception(photoServiceReturn.getStatusMessage());
 		}
@@ -248,7 +248,7 @@ public class PhotoTest {
 	
 	@Test
 	public void _02testGetPhoto() throws Exception {
-		PhotoServiceReturn photoServiceReturn = port.getPhoto(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000");
+		PhotoServiceReturn photoServiceReturn = port.getPhoto(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000");
 		if (photoServiceReturn.getStatusCode() != 0) {
 			throw new Exception(photoServiceReturn.getStatusMessage());			
 		}

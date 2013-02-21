@@ -40,21 +40,21 @@ public class ValidatePersonIdentifierTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateGetPersonIdentifierParameters3() throws Exception {
 		openDbConnection();
-		ValidatePersonIdentifier.validateGetPersonIdentifierParameters(db, 1L, null, "jvuccolo", "X");
+		ValidatePersonIdentifier.validateGetPersonIdentifierParameters(db, 1L, null, "cpruser", "X");
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateGetPersonIdentifierParameters4() throws Exception {
 		openDbConnection();
-		ValidatePersonIdentifier.validateGetPersonIdentifierParameters(db, 1L, "abcd", "jvuccolo", "Y");
+		ValidatePersonIdentifier.validateGetPersonIdentifierParameters(db, 1L, "abcd", "cpruser", "Y");
 		db.closeSession();
 	}
 
 	@Test
 	public final void testValidateGetPersonIdentifierParameters5() throws Exception {
 		openDbConnection();
-		ValidatePersonIdentifier.validateGetPersonIdentifierParameters(db, 1L, null, "jvuccolo", "n");
+		ValidatePersonIdentifier.validateGetPersonIdentifierParameters(db, 1L, null, "cpruser", "n");
 		db.closeSession();
 	}
 
@@ -79,28 +79,28 @@ public class ValidatePersonIdentifierTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchivePersonIdentifierParameters4() throws Exception {
 		openDbConnection();
-		ValidatePersonIdentifier.validateArchivePersonIdentifierParameters(db, 1L, "userid", "jvuccolo");
+		ValidatePersonIdentifier.validateArchivePersonIdentifierParameters(db, 1L, "userid", "cpruser");
 		db.closeSession();
 	}
 	
 	@Test
 	public final void testValidateArchivePersonIdentifierParameters5() throws Exception {
 		openDbConnection();
-		ValidatePersonIdentifier.validateArchivePersonIdentifierParameters(db, 1L, "unit_test_identifier", "jvuccolo");
+		ValidatePersonIdentifier.validateArchivePersonIdentifierParameters(db, 1L, "unit_test_identifier", "cpruser");
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPersonIdentifierParameters1() throws Exception {
 		openDbConnection();
-		ValidatePersonIdentifier.validateAddPersonIdentifierParameters(db, 1L, "unit_test_identifier", null, "jvuccolo");
+		ValidatePersonIdentifier.validateAddPersonIdentifierParameters(db, 1L, "unit_test_identifier", null, "cpruser");
 		db.closeSession();
 	}
 	
 	@Test
 	public final void testValidateAddPersonIdentifierParameters2() throws Exception {
 		openDbConnection();
-		ValidatePersonIdentifier.validateAddPersonIdentifierParameters(db, 1L, "unit_test_identifier", "abcd", "jvuccolo");
+		ValidatePersonIdentifier.validateAddPersonIdentifierParameters(db, 1L, "unit_test_identifier", "abcd", "cpruser");
 		db.closeSession();
 	}
 

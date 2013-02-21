@@ -1,8 +1,8 @@
-/* SVN FILE: $Id: EmailAddressReturnTest.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
+/* SVN FILE: $Id: EmailAddressReturnTest.java 5340 2012-09-27 14:48:52Z cpruser $ */
 /**
  * 
  * @package edu.psu.iam.cpr.core.tests
- * @author $Author: jvuccolo $
+ * @author $Author: cpruser $
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
@@ -31,7 +31,7 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.service.returns.EmailAddressReturn;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class EmailAddressReturnTest {

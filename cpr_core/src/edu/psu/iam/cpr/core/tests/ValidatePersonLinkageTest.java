@@ -49,7 +49,7 @@ public class ValidatePersonLinkageTest {
 	@Test
 	public final void testValidateGetPersonLinkageParameters4() throws Exception {
 		openDbConnection();
-		PersonLinkageTable personLinkageTable = ValidatePersonLinkage.validateGetPersonLinkageParameters(db, 100000L, "jvuccolo","Y");
+		PersonLinkageTable personLinkageTable = ValidatePersonLinkage.validateGetPersonLinkageParameters(db, 100000L, "cpruser","Y");
 		assertTrue(personLinkageTable.isReturnHistoryFlag());
 		db.closeSession();
 	}
@@ -57,28 +57,28 @@ public class ValidatePersonLinkageTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidatePersonLinkageParameters1() throws Exception {
 		openDbConnection();
-		ValidatePersonLinkage.validatePersonLinkageParameters(db, 100000L, "person_id", "1", null, "jvuccolo");
+		ValidatePersonLinkage.validatePersonLinkageParameters(db, 100000L, "person_id", "1", null, "cpruser");
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidatePersonLinkageParameters2() throws Exception {
 		openDbConnection();
-		ValidatePersonLinkage.validatePersonLinkageParameters(db, 100000L, "person_id", "100001", null, "jvuccolo");
+		ValidatePersonLinkage.validatePersonLinkageParameters(db, 100000L, "person_id", "100001", null, "cpruser");
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidatePersonLinkageParameters3() throws Exception {
 		openDbConnection();
-		ValidatePersonLinkage.validatePersonLinkageParameters(db, 100000L, "person_id", "100002", null, "jvuccolo");
+		ValidatePersonLinkage.validatePersonLinkageParameters(db, 100000L, "person_id", "100002", null, "cpruser");
 		db.closeSession();
 	}
 	
 	@Test
 	public final void testValidatePersonLinkageParameters4() throws Exception {
 		openDbConnection();
-		ValidatePersonLinkage.validatePersonLinkageParameters(db, 100000L, "person_id", "100002", "LINKAGE_TYPE_DEPENDANT", "jvuccolo");
+		ValidatePersonLinkage.validatePersonLinkageParameters(db, 100000L, "person_id", "100002", "LINKAGE_TYPE_DEPENDANT", "cpruser");
 		db.closeSession();
 	}
 

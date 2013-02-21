@@ -77,7 +77,7 @@ public class ConfidentialityTest {
 	// Invalid identifier type.
 	@Test(expectedExceptions=Exception.class)
 	public void _06testGetConfidentiality6() throws Exception {
-		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_", "100000", "N");
+		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_", "100000", "N");
 		if (csReturn.getStatusCode() != 0) {
 			throw new Exception(csReturn.getStatusMessage());
 		}
@@ -86,7 +86,7 @@ public class ConfidentialityTest {
 	// Invalid person identifier.
 	@Test(expectedExceptions=Exception.class)
 	public void _07testGetConfidentiality7() throws Exception {
-		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "1", "N");
+		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1", "N");
 		if (csReturn.getStatusCode() != 0) {
 			throw new Exception(csReturn.getStatusMessage());
 		}
@@ -95,10 +95,10 @@ public class ConfidentialityTest {
 	// Test no active holds.
 	@Test
 	public void _08testGetConfidentiality8() throws Exception {
-		port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "ALL_CONFIDENTIALITY");
-		port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "ADDRESS_CONFIDENTIALITY");
-		port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "PHONE_CONFIDENTIALITY");
-		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "N");
+		port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "ALL_CONFIDENTIALITY");
+		port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "ADDRESS_CONFIDENTIALITY");
+		port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "PHONE_CONFIDENTIALITY");
+		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "N");
 		if (csReturn.getStatusCode() != 0) {
 			throw new Exception(csReturn.getStatusMessage());
 		}
@@ -108,20 +108,20 @@ public class ConfidentialityTest {
 	// Test active hold.
 	@Test
 	public void _09testGetConfidentiality9() throws Exception {
-		port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "ALL_CONFIDENTIALITY");
-		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "N");
+		port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "ALL_CONFIDENTIALITY");
+		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "N");
 		if (csReturn.getStatusCode() != 0) {
 			throw new Exception(csReturn.getStatusMessage());
 		}
 		AssertJUnit.assertEquals(csReturn.getNumberElements(),1);
 		AssertJUnit.assertEquals(csReturn.getConfidentialityReturn().get(0).getConfidentialityType(),"ALL_CONFIDENTIALITY");
-		port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "ALL_CONFIDENTIALITY");
+		port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "ALL_CONFIDENTIALITY");
 	}
 	
 	// Test Add Exception.
 	@Test(expectedExceptions=Exception.class)
 	public void _10testAddConfidentiality1() throws Exception {
-		ServiceReturn csReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "ALL_");
+		ServiceReturn csReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "ALL_");
 		if (csReturn.getStatusCode() != 0) {
 			throw new Exception(csReturn.getStatusMessage());
 		}
@@ -130,7 +130,7 @@ public class ConfidentialityTest {
 	// Test Add Exception.
 	@Test(expectedExceptions=Exception.class)
 	public void _11testAddConfidentiality2() throws Exception {
-		ServiceReturn csReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "phone");
+		ServiceReturn csReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "phone");
 		if (csReturn.getStatusCode() != 0) {
 			throw new Exception(csReturn.getStatusMessage());
 		}
@@ -139,7 +139,7 @@ public class ConfidentialityTest {
 	// Test Add Exception.
 	@Test(expectedExceptions=Exception.class)
 	public void _12testAddConfidentiality3() throws Exception {
-		ServiceReturn csReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "address");
+		ServiceReturn csReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "address");
 		if (csReturn.getStatusCode() != 0) {
 			throw new Exception(csReturn.getStatusMessage());
 		}
@@ -148,116 +148,116 @@ public class ConfidentialityTest {
 	// Test Add Address.
 	@Test
 	public void _13testAddConfidentiality4() throws Exception {
-		ServiceReturn serviceReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "ADDRESS_CONFIDENTIALITY");
+		ServiceReturn serviceReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "ADDRESS_CONFIDENTIALITY");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
-		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "N");
+		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "N");
 		AssertJUnit.assertEquals(csReturn.getNumberElements(),1);
 		AssertJUnit.assertEquals(csReturn.getConfidentialityReturn().get(0).getConfidentialityType(),"ADDRESS_CONFIDENTIALITY");
-		serviceReturn = port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "ADDRESS_CONFIDENTIALITY");
+		serviceReturn = port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "ADDRESS_CONFIDENTIALITY");
 	}
 	
 	// Test Add Phone.
 	@Test
 	public void _14testAddConfidentiality5() throws Exception {
-		ServiceReturn serviceReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "PHONE_CONFIDENTIALITY");
+		ServiceReturn serviceReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "PHONE_CONFIDENTIALITY");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
-		ConfidentialityServiceReturn  csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "N");
+		ConfidentialityServiceReturn  csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "N");
 		AssertJUnit.assertEquals(csReturn.getNumberElements(),1);
 		AssertJUnit.assertEquals(csReturn.getConfidentialityReturn().get(0).getConfidentialityType(),"PHONE_CONFIDENTIALITY");
-		port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "PHONE_CONFIDENTIALITY");
+		port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "PHONE_CONFIDENTIALITY");
 	}
 	
 	// Test Add All.
 	@Test
 	public void _15testAddConfidentiality6() throws Exception {
-		ServiceReturn serviceReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "ALL_CONFIDENTIALITY");
+		ServiceReturn serviceReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "ALL_CONFIDENTIALITY");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
-		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "N");
+		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "N");
 		AssertJUnit.assertEquals(csReturn.getNumberElements(),1);
 		AssertJUnit.assertEquals(csReturn.getConfidentialityReturn().get(0).getConfidentialityType(),"ALL_CONFIDENTIALITY");
-		port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "ALL_CONFIDENTIALITY");
+		port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "ALL_CONFIDENTIALITY");
 	}
 	
 	// Test Update All.
 	@Test
 	public void _16testUpdateConfidentiality1() throws Exception {
-		ServiceReturn serviceReturn = port.updateConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "ALL_CONFIDENTIALITY");
+		ServiceReturn serviceReturn = port.updateConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "ALL_CONFIDENTIALITY");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
-		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000","N");
+		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000","N");
 		AssertJUnit.assertEquals(csReturn.getNumberElements(),1);
 		AssertJUnit.assertEquals(csReturn.getConfidentialityReturn().get(0).getConfidentialityType(),"ALL_CONFIDENTIALITY");
-		port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "ALL_CONFIDENTIALITY");
+		port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "ALL_CONFIDENTIALITY");
 	}
 	
 	// Test archive All exception..
 	@Test(expectedExceptions=Exception.class)
 	public void _17testArchiveConfidentiality1() throws Exception {
-		ServiceReturn serviceReturn = port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "ALL_CONFIDENTIALITY");
+		ServiceReturn serviceReturn = port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "ALL_CONFIDENTIALITY");
 
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
-		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "N");
+		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "N");
 		AssertJUnit.assertEquals(csReturn.getNumberElements(),0);
 	}
 	
 	// Test archive Address exception..
 	@Test(expectedExceptions=Exception.class)
 	public void _18testArchiveConfidentiality2() throws Exception {
-		 ServiceReturn serviceReturn = port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "address_CONFIDENTIALITY");
+		 ServiceReturn serviceReturn = port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "address_CONFIDENTIALITY");
 
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
-		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "N");
+		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "N");
 		AssertJUnit.assertEquals(csReturn.getNumberElements(),0);
 	}
 	
 	// Test archive Phone exception..
 	@Test(expectedExceptions=Exception.class)
 	public void _19testArchiveConfidentiality3() throws Exception {
-		ServiceReturn serviceReturn = port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "phone_CONFIDENTIALITY");
+		ServiceReturn serviceReturn = port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "phone_CONFIDENTIALITY");
 
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
-		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "N");
+		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "N");
 		AssertJUnit.assertEquals(csReturn.getNumberElements(),0);
 	}
 	
 	// Test archive Phone exception..
 	@Test(expectedExceptions=Exception.class)
 	public void _20testArchiveConfidentiality4() throws Exception {
-		ServiceReturn serviceReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "phone_CONFIDENTIALITY");
+		ServiceReturn serviceReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "phone_CONFIDENTIALITY");
 
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
-		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "N");
+		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "N");
 		if (csReturn.getStatusCode() != 0) {
 			throw new Exception(csReturn.getStatusMessage());
 		}
 		AssertJUnit.assertEquals(csReturn.getNumberElements(),1);
 		AssertJUnit.assertEquals(csReturn.getConfidentialityReturn().get(0).getConfidentialityType(),"PHONE_CONFIDENTIALITY");
-		serviceReturn = port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "phone_CONFIDENTIALITY");
+		serviceReturn = port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "phone_CONFIDENTIALITY");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(csReturn.getStatusMessage());
 		}
 		
-		csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "N");
+		csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "N");
 		if (csReturn.getStatusCode() != 0) {
 			throw new Exception(csReturn.getStatusMessage());
 		}
 		AssertJUnit.assertEquals(csReturn.getNumberElements(),0);
-		serviceReturn = port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "phone_CONFIDENTIALITY");
+		serviceReturn = port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "phone_CONFIDENTIALITY");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
@@ -266,18 +266,18 @@ public class ConfidentialityTest {
 	// Test archive Phone exception..
 	@Test
 	public void _21testArchiveConfidentiality5() throws Exception {
-		ServiceReturn serviceReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "phone_CONFIDENTIALITY");
+		ServiceReturn serviceReturn = port.addConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "phone_CONFIDENTIALITY");
 
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
-		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "N");
+		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "N");
 		if (csReturn.getStatusCode() != 0) {
 			throw new Exception(csReturn.getStatusMessage());
 		}
 		AssertJUnit.assertEquals(csReturn.getNumberElements(),1);
 		AssertJUnit.assertEquals(csReturn.getConfidentialityReturn().get(0).getConfidentialityType(),"PHONE_CONFIDENTIALITY");
-		serviceReturn = port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "phone_CONFIDENTIALITY");
+		serviceReturn = port.archiveConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "phone_CONFIDENTIALITY");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
@@ -286,7 +286,7 @@ public class ConfidentialityTest {
 	// Test Get history.
 	@Test
 	public void _22testGetConfidentialityHistory1() throws Exception {
-		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "Y");
+		ConfidentialityServiceReturn csReturn = port.getConfidentialityHold(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "Y");
 		if (csReturn.getStatusCode() != 0) {
 			throw new Exception(csReturn.getStatusMessage());
 		}

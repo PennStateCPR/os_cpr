@@ -34,7 +34,7 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
  * The class <code>MessageLogTableTest</code> contains tests for the class <code>{@link MessageLogTable}</code>.
  *
  * @generatedBy CodePro at 1/5/12 3:46 PM
- * @author slk24
+ * @author cpruser
  * @version $Revision: 5340 $
  */
 
@@ -120,7 +120,7 @@ public class MessageLogTableTest {
 		MessageLogTable fixture = new MessageLogTable();
 		MessageLog bean = new MessageLog();
 		bean.setMessageSent("Test");
-		bean.setRequestUserid("slk24");
+		bean.setRequestUserid("cpruser");
 		bean.setServiceProvisionerKey(100002L);
 		bean.setWebServiceKey(100126L);
 		bean.setNumberOfTries(0L);
@@ -146,7 +146,7 @@ public class MessageLogTableTest {
 	public final void testAddMessageLog_3()
 		throws Exception {
 		openDbConnection();
-		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, "Test Add", "slk24");
+		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, "Test Add", "cpruser");
 		fixture.addMessageLog(db);
 		db.closeSession();
 		// add additional test code here
@@ -181,7 +181,7 @@ public class MessageLogTableTest {
 	public final void testGetMessageLog_2()
 		throws Exception {
 		openDbConnection();
-		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, "Test Get", "slk24");
+		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, "Test Get", "cpruser");
 		fixture.addMessageLog(db);
 		MessageLogReturn[] result = fixture.getMessageLog(db, fixture.getMessageLogBean().getMessageLogKey());
 		// add additional test code here
@@ -251,7 +251,7 @@ public class MessageLogTableTest {
 	@Test(expectedExceptions = Exception.class)
 	public final void testUpdateMessageLog_1()
 		throws Exception {
-		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, "Test update", "slk24");
+		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, "Test update", "cpruser");
 		fixture.updateMessageLog(db,"Y",1L);
 
 		// add additional test code here
@@ -268,7 +268,7 @@ public class MessageLogTableTest {
 	public final void testUpdateMessageLog_2()
 		throws Exception {
 		openDbConnection();
-		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, "Test update", "slk24");
+		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, "Test update", "cpruser");
 		fixture.addMessageLog(db);
 		fixture.updateMessageLog(db,"Y",1L);
 		db.closeSession();

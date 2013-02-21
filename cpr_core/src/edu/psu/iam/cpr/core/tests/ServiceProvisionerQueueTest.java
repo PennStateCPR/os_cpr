@@ -28,7 +28,7 @@ import edu.psu.iam.cpr.core.database.beans.VSpNotification;
 import edu.psu.iam.cpr.core.messaging.ServiceProvisionerQueue;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class ServiceProvisionerQueueTest {

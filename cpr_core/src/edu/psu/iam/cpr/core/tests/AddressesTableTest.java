@@ -30,7 +30,7 @@ import edu.psu.iam.cpr.core.database.tables.AddressesTable;
 import edu.psu.iam.cpr.core.database.types.AddressType;
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class AddressesTableTest {
@@ -191,7 +191,7 @@ public class AddressesTableTest {
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void _15testAddAddressDbNullNoDbOpen() throws Exception {
-		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345","USA", null, 100048L,"","up","USA" );
+		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345","USA", null, 100048L,"","up","USA" );
 		aTable.addAddress( null );		
 	}
 	/*
@@ -200,7 +200,7 @@ public class AddressesTableTest {
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void _16testAddAddressNoPersonNoDbOpen() throws Exception {
-		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
+		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
 		aTable.addAddress( db );		
 	}
 	
@@ -225,7 +225,7 @@ public class AddressesTableTest {
 //	@Test(expected=Exception.class)
 //	public final void _18testAddAddressDbNullDbOpen() throws Exception {
 //		openDbConnection();
-//		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up","USA");
+//		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up","USA");
 //		aTable.addAddress( null );	
 //		db.closeSession();
 //		
@@ -238,7 +238,7 @@ public class AddressesTableTest {
 //	public final void _19testAddAddressNoPersonDbOpen() throws Exception {
 //		try {
 //			openDbConnection();
-//			AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
+//			AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
 //			aTable.addAddress( db );
 //		}
 //		catch (Exception e) {
@@ -259,7 +259,7 @@ public class AddressesTableTest {
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void _20testArchiveAddressDbNullDbNotOpen() throws Exception {
-		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up","USA");
+		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up","USA");
 		aTable.archiveAddress( null );		
 	}
 	/*
@@ -268,7 +268,7 @@ public class AddressesTableTest {
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void _21testArchiveAddressNoPersonDbNotOpen() throws Exception {
-		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
+		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
 		aTable.archiveAddress( db );		
 	}
 	/*
@@ -279,7 +279,7 @@ public class AddressesTableTest {
 //	public final void _22testArchiveAddressNoDbDbOpen() throws Exception {
 //		try {
 //			openDbConnection();
-//			AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up","USA");
+//			AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up","USA");
 //			aTable.archiveAddress( null );	
 //		} catch (Exception e) {
 //			throw new Exception(e);
@@ -301,7 +301,7 @@ public class AddressesTableTest {
 //	public final void _23testArchiveAddressNoPersonDbOpen() throws Exception {
 //		try {
 //			openDbConnection();
-//			AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
+//			AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
 //			aTable.archiveAddress( db );
 //		} 
 //		catch (Exception e) {
@@ -320,7 +320,7 @@ public class AddressesTableTest {
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void _24testGetAddressDbNullDbNotOpen() throws Exception {
-		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
+		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
 		aTable.setReturnHistoryFlag(false);
 		aTable.getAddress( null, 1);		
 	}
@@ -330,7 +330,7 @@ public class AddressesTableTest {
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void _25testGetAddressNoPersonDbNotOpen() throws Exception {
-		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up","USA");
+		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up","USA");
 		aTable.setReturnHistoryFlag(false);
 		aTable.getAddress( db, 1);		
 	}
@@ -342,7 +342,7 @@ public class AddressesTableTest {
 //	public final void _26testGetAddressNoDbDbOpen() throws Exception {
 //		try {
 //			openDbConnection();
-//			AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
+//			AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
 //			aTable.setReturnHistoryFlag(false);
 //			aTable.getAddress( null, 1);
 //		}
@@ -366,7 +366,7 @@ public class AddressesTableTest {
 //	@Test
 //	public final void _27testGetAddressNoPersonDbOpen() throws Exception {
 //		openDbConnection();
-//		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
+//		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
 //		aTable.setReturnHistoryFlag(false);
 //		aTable.getAddress( db, 1 );
 //		db.closeSession();
@@ -377,7 +377,7 @@ public class AddressesTableTest {
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void _28testUpdateAddressDbNullDbNotOpen() throws Exception {
-		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up","USA");
+		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up","USA");
 		aTable.updateAddress( null );		
 	}
 	/*
@@ -386,7 +386,7 @@ public class AddressesTableTest {
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void _29testUpdateAddressNoPersonDbNotOpen() throws Exception {
-		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
+		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
 		aTable.updateAddress( db );		
 	}
 	/*
@@ -396,7 +396,7 @@ public class AddressesTableTest {
 //	@Test(expected=Exception.class)
 //	public final void _30testUpdateAddressNoDbDbOpen() throws Exception {
 //		openDbConnection();
-//		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
+//		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
 //		aTable.updateAddress( null );	
 //		db.closeSession();
 //		
@@ -408,7 +408,7 @@ public class AddressesTableTest {
 //	@Test(expected=Exception.class)
 //	public final void _31testUpdateAddressNoPersonDbOpen() throws Exception {
 //		openDbConnection();
-//		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "llg5", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
+//		AddressesTable aTable = new AddressesTable( 1 , "LOCAL_ADDRESS", null, null,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null, null, 100048L,"","up", "USA");
 //		aTable.updateAddress( db );
 //		db.closeSession();
 //	}
@@ -418,7 +418,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _32testAddAddressNewType()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",  null, null, "llg5", "123 Church St", null, null, "Boalsburg", "PA", "16827",null,100069L, null,"usa", null,"USA");
+		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",  null, null, "cpruser", "123 Church St", null, null, "Boalsburg", "PA", "16827",null,100069L, null,"usa", null,"USA");
 		aTable.addAddress( db );
 		db.closeSession();
 	}
@@ -428,7 +428,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _33testAddAddressDupExceptPostal()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",  null, null, "llg5", "123 Church St", null, null, "Boalsburg", "PA", "16828",null, 100069L, null,"usa", null,"USA");
+		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",  null, null, "cpruser", "123 Church St", null, null, "Boalsburg", "PA", "16828",null, 100069L, null,"usa", null,"USA");
 		aTable.addAddress( db );
 		db.closeSession();
 	}
@@ -438,7 +438,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)	
 	public final void _34testAddAddressDup()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",  null, null, "llg5", "123 Church St", null, null, "Boalsburg", "PA", "16827",null,100069L, null,"usa", null,"USA");
+		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",  null, null, "cpruser", "123 Church St", null, null, "Boalsburg", "PA", "16827",null,100069L, null,"usa", null,"USA");
 		aTable.addAddress( db );
 		db.closeSession();
 	}
@@ -448,7 +448,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _35testAddAddressGood()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "PASSPORT", null,"llg5", "address1", "address2", "address3", "city", "PA", "12345",null,100069L, 100048L,"usa", "university park","USA");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "PASSPORT", null,"cpruser", "address1", "address2", "address3", "city", "PA", "12345",null,100069L, 100048L,"usa", "university park","USA");
 		aTable.addAddress( db );
 		db.closeSession();
 	}
@@ -458,7 +458,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _36testAddAddressGoodNONUSA()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",  null, null,"llg5", "canaddress1", "can address2", "can address3", "Toronto", null, "1234522","Ontario",100040L, null,"can", null, "USA");
+		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",  null, null,"cpruser", "canaddress1", "can address2", "can address3", "Toronto", null, "1234522","Ontario",100040L, null,"can", null, "USA");
 		aTable.addAddress( db );
 		db.closeSession();
 	}
@@ -468,7 +468,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _37testAddAddressGoodNoStateNoProvinve() throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",  null, null,"llg5", "canaddress1", "fra address2", "fra address3", "Nice", null, "1234522",null,100075L, null,"fra", null, "FRA");
+		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",  null, null,"cpruser", "canaddress1", "fra address2", "fra address3", "Nice", null, "1234522",null,100075L, null,"fra", null, "FRA");
 		aTable.addAddress( db );
 		db.closeSession();
 	}
@@ -486,7 +486,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _39testGetByTypeAfterAdd() throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "WORK_ADDRESS",  null, null,"llg5", "canaddress1", "fra address2", "fra address3", "Nice", null, "1234522",null,100075L, null,"fra", null, "FRA");
+		AddressesTable aTable = new AddressesTable(100004 , "WORK_ADDRESS",  null, null,"cpruser", "canaddress1", "fra address2", "fra address3", "Nice", null, "1234522",null,100075L, null,"fra", null, "FRA");
 		aTable.addAddress(db);
 		aTable.setReturnHistoryFlag(false);
 		aTable.setAddressType(aTable.findAddressTypeEnum("work_address"));
@@ -511,7 +511,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _41testAddAddressDuplicateType()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "PASSPORT", null, "llg5", "address1", null, null, "My Town", "PA", "12345",null,100069L, 100048L,"usa", "university park", "USA");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "PASSPORT", null, "cpruser", "address1", null, null, "My Town", "PA", "12345",null,100069L, 100048L,"usa", "university park", "USA");
 		aTable.addAddress( db );
 		db.closeSession();
 	}
@@ -521,7 +521,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _42testAddAddressDuplicateAddressDataWithinType()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "STATE_DRIVERS_LICENCE", null, "llg5", "address1", "address2", "address3", "city", "PA", "12345",null,100069L, 100048L,"usa","USA", "university park");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "STATE_DRIVERS_LICENCE", null, "cpruser", "address1", "address2", "address3", "city", "PA", "12345",null,100069L, 100048L,"usa","USA", "university park");
 		aTable.addAddress( db );
 		db.closeSession();
 	}
@@ -531,7 +531,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _43testAddAddressDuplicateAddressDataDifferentType()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ACADEMIC_ADDRESS",  null, null,"llg5", "address1", "address2", "address3", "city", "PA", "12345",null,100069L, 100048L,"usa", "university park", "USA");
+		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ACADEMIC_ADDRESS",  null, null,"cpruser", "address1", "address2", "address3", "city", "PA", "12345",null,100069L, 100048L,"usa", "university park", "USA");
 		aTable.addAddress( db );
 		db.closeSession();
 	}
@@ -541,7 +541,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _44testUpdateAddressDuplicateAddressData()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ACADEMIC_ADDRESS",  null, 1L,"llg5", "address1", "address2", "address3", "city", "PA", "12345",null,100069L, 100048L,"usa", "university park", "USA");
+		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ACADEMIC_ADDRESS",  null, 1L,"cpruser", "address1", "address2", "address3", "city", "PA", "12345",null,100069L, 100048L,"usa", "university park", "USA");
 		aTable.updateAddress( db );
 		db.closeSession();
 	}
@@ -551,7 +551,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _45testUpdateAddressNewAddress()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ACADEMIC_ADDRESS", null, 1L, "llg5", "a bill address1", "address2", "address3", "city", "PA", "12345",null,100069L, 100048L,"usa", "university park", "USA");
+		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ACADEMIC_ADDRESS", null, 1L, "cpruser", "a bill address1", "address2", "address3", "city", "PA", "12345",null,100069L, 100048L,"usa", "university park", "USA");
 		aTable.updateAddress( db );
 		db.closeSession();
 	}
@@ -561,7 +561,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _46testUpdateAddressGood()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "PASSPORT", 1L, "llg5", "New address1", " New address21", "address31", "city", "PA", "12345",null, 100069L, 100048L,"usa", "university park", "USA");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "PASSPORT", 1L, "cpruser", "New address1", " New address21", "address31", "city", "PA", "12345",null, 100069L, 100048L,"usa", "university park", "USA");
 		aTable.updateAddress(db  );
 		db.closeSession();
 	}
@@ -571,7 +571,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _47testUpdateAddressGoodAgain()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "PASSPORT", 1L,  "llg5", "New address1", " New address21", "address31", "city", "PA", "12345",null, 100069L, 100048L,"usa", "university park","USA");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "PASSPORT", 1L,  "cpruser", "New address1", " New address21", "address31", "city", "PA", "12345",null, 100069L, 100048L,"usa", "university park","USA");
 		aTable.updateAddress(db  );
 		db.closeSession();
 	}
@@ -582,7 +582,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _48testUpdateAddressDupAddrDiffDocTyep()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "STATE_DRIVERS_LICENSE", 1L,  "llg5", "New address1", " New address21", "address31", "city", "PA", "12345",null, 100069L, 100048L,"usa", "university park", "USA");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "STATE_DRIVERS_LICENSE", 1L,  "cpruser", "New address1", " New address21", "address31", "city", "PA", "12345",null, 100069L, 100048L,"usa", "university park", "USA");
 		aTable.updateAddress(db  );
 		db.closeSession();
 	}
@@ -593,7 +593,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _49testUpdateAddressDiffAddrDiffDocType()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "STATE_DRIVERS_LICENSE", 1L,  "llg5", "New address1 again", " New address21", "address31", "city", "PA", "12345",null, 100069L, 100048L,"usa", "university park", "USA");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "STATE_DRIVERS_LICENSE", 1L,  "cpruser", "New address1 again", " New address21", "address31", "city", "PA", "12345",null, 100069L, 100048L,"usa", "university park", "USA");
 		aTable.updateAddress(db  );
 		db.closeSession();
 	}
@@ -603,7 +603,7 @@ public class AddressesTableTest {
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void _50testArchiveNoAddressOfType() throws Exception {
-		AddressesTable aTable = new AddressesTable(100004 , "LOCAL_ADDRESS", null, 1L, "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "LOCAL_ADDRESS", null, 1L, "cpruser");
 		aTable.archiveAddress(db);
 	}
 	/*
@@ -613,7 +613,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _51testArchiveAddressGoodTypeInvalidGroupId()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS", null, 10L,  "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS", null, 10L,  "cpruser");
 		aTable.archiveAddress(db  );
 		db.closeSession();
 	}
@@ -624,7 +624,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _52testArchiveAddressNoType()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ADMINISTRATIVE_ADDRESS", null, 10L,  "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ADMINISTRATIVE_ADDRESS", null, 10L,  "cpruser");
 		aTable.archiveAddress(db  );
 		db.closeSession();
 	}
@@ -635,7 +635,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _53testArchiveAddressNotDocumented()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ACADEMIC_ADDRESS", null, 1L,  "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ACADEMIC_ADDRESS", null, 1L,  "cpruser");
 		aTable.archiveAddress(db  );
 		db.closeSession();
 	}
@@ -646,7 +646,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _54testArchiveAddressAlreadyNotDocumented()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ACADEMIC__ADDRESS", null, 1L,  "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "BILLING_ACADEMIC__ADDRESS", null, 1L,  "cpruser");
 		aTable.archiveAddress(db  );
 		db.closeSession();
 	}
@@ -657,7 +657,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _55testArchiveAddressGoodTypeGroupId()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS", "PASSPORT", 1L,  "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS", "PASSPORT", 1L,  "cpruser");
 		aTable.archiveAddress(db  );
 		db.closeSession();
 	}
@@ -668,7 +668,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _56testArchiveAddressAlreadyArchived()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS","PASSPORT", 1L,   "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS","PASSPORT", 1L,   "cpruser");
 		aTable.archiveAddress(db  );
 		db.closeSession();
 	}
@@ -681,7 +681,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _57testSetPrimaryAddressByTypeNoType()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "LOCAL_ADDRESS",null, 1L,   "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "LOCAL_ADDRESS",null, 1L,   "cpruser");
 		aTable.setPrimaryByType(db  );
 		db.closeSession();
 	}
@@ -692,7 +692,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _58testSetPrimaryAddressByTypeNoGroupID()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",null, 5L,   "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",null, 5L,   "cpruser");
 		aTable.setPrimaryByType(db  );
 		db.closeSession();
 	}
@@ -703,7 +703,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _59testSetPrimaryAddressByTypeValid()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",null, 1L,   "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",null, 1L,   "cpruser");
 		aTable.setPrimaryByType(db  );
 		db.closeSession();
 	}
@@ -714,7 +714,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _60testSetPrimaryAddressByTypeAlreadyPrimary()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",null, 1L,   "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",null, 1L,   "cpruser");
 		aTable.setPrimaryByType(db  );
 		db.closeSession();
 	}
@@ -725,7 +725,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _61testSetPrimaryAddressByTypeNewPrimary()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",null, 2L,   "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "PERMANENT_ADDRESS",null, 2L,   "cpruser");
 		aTable.setPrimaryByType(db  );
 		db.closeSession();
 	}
@@ -735,7 +735,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _62testSetup1ForSetPrimary()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "PASSPORT", null, "llg5", "123 Church St", null, null, "Boalsburg", "PA", "16827",null,100069L, null,"usa", null, "USA");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "PASSPORT", null, "cpruser", "123 Church St", null, null, "Boalsburg", "PA", "16827",null,100069L, null,"usa", null, "USA");
 		aTable.addAddress( db );
 		db.closeSession();
 	}
@@ -745,7 +745,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _63testSetup2ForSetPrimary()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "MILITARY_ID", null,"llg5", "canaddress1", "can address2", "can address3", "Toronto", null, "1234522","Ontario",100040L, null,"can", null, "can");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS",  "MILITARY_ID", null,"cpruser", "canaddress1", "can address2", "can address3", "Toronto", null, "1234522","Ontario",100040L, null,"can", null, "can");
 		aTable.addAddress( db );
 		db.closeSession();
 	}
@@ -756,7 +756,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _64testSetPrimaryAddressByTypeNewPrimaryDocumented()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS", "PASSPORT" , 2L, "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS", "PASSPORT" , 2L, "cpruser");
 		aTable.setPrimaryByType(db  );
 		db.closeSession();
 	}
@@ -767,7 +767,7 @@ public class AddressesTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _65testSetPrimaryAddressByTypeNewPrimaryDocumentedAlreadyPrimary()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS","PASSPORT",  2L,   "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS","PASSPORT",  2L,   "cpruser");
 		aTable.setPrimaryByType(db  );
 		db.closeSession();
 	}
@@ -778,7 +778,7 @@ public class AddressesTableTest {
 	@Test
 	public final void _66testSetPrimaryAddressByTypeNewPrimaryDocumentedNew()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS", "MILITARY_ID", 3L,   "llg5");
+		AddressesTable aTable = new AddressesTable(100004 , "DOCUMENTED_ADDRESS", "MILITARY_ID", 3L,   "cpruser");
 		aTable.setPrimaryByType(db  );
 		db.closeSession();
 	}
@@ -813,7 +813,7 @@ public class AddressesTableTest {
 //	@Test
 //	public final void _70testgetMatchAddress()  throws Exception  {
 //		openDbConnection();
-//		AddressesTable aTable = new AddressesTable(100004 , "LOCAL_ADDRESS",  null,1L,  "llg5", "address1", "address2", "address3", "city", "PA", "12345", null,null, 100057L,"","yk","USA");
+//		AddressesTable aTable = new AddressesTable(100004 , "LOCAL_ADDRESS",  null,1L,  "cpruser", "address1", "address2", "address3", "city", "PA", "12345", null,null, 100057L,"","yk","USA");
 //		AssertJUnit.assertEquals(aTable.getMatchAddress(), "address1 address2 address3");
 //		db.closeSession();
 //	}
@@ -823,7 +823,7 @@ public class AddressesTableTest {
 //	@Test
 //	public final void _71testgetMatchCity()  throws Exception  {
 //		openDbConnection();
-//		AddressesTable aTable = new AddressesTable(100004 , "LOCAL_ADDRESS",  null, 1L, "llg5", "address1", "address21", "address31", "city", "PA", "12345", null,null, 100056L,"","xw", "USA");
+//		AddressesTable aTable = new AddressesTable(100004 , "LOCAL_ADDRESS",  null, 1L, "cpruser", "address1", "address21", "address31", "city", "PA", "12345", null,null, 100056L,"","xw", "USA");
 //		AssertJUnit.assertEquals(aTable.getMatchCity(), "city");
 //		db.closeSession();
 //	}
@@ -834,9 +834,9 @@ public class AddressesTableTest {
 	@Test
 	public final void _72testAddAddress()  throws Exception  {
 		openDbConnection();
-		AddressesTable aTable = new AddressesTable(100004 , "WORK_ADDRESS",   null,  "llg5", "215D Computer Bldg", null, null, "University Park", "PA", "16802", null,100069L, null,"United States", null, "USA");
+		AddressesTable aTable = new AddressesTable(100004 , "WORK_ADDRESS",   null,  "cpruser", "215D Computer Bldg", null, null, "University Park", "PA", "16802", null,100069L, null,"United States", null, "USA");
 		aTable.addAddress(db);
-		AddressesTable updateTable = new AddressesTable(100004 , "WORK_ADDRESS",   null,  1L, "llg5", "Computer Bldg, 215D", null, null, "University Park", "PA", "16802", null,100069L, 100048L,"United States", "University Park", "USA");
+		AddressesTable updateTable = new AddressesTable(100004 , "WORK_ADDRESS",   null,  1L, "cpruser", "Computer Bldg, 215D", null, null, "University Park", "PA", "16802", null,100069L, 100048L,"United States", "University Park", "USA");
 		updateTable.updateAddress(db);
 		db.closeSession();
 	}

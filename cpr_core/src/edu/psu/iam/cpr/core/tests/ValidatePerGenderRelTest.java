@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 import edu.psu.iam.cpr.core.database.tables.validate.ValidatePerGenderRel;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class ValidatePerGenderRelTest {
@@ -48,11 +48,11 @@ public class ValidatePerGenderRelTest {
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddGenderParameters5() throws Exception {
-		ValidatePerGenderRel.validateAddGenderParameters(0, "a", "jvuccolo");
+		ValidatePerGenderRel.validateAddGenderParameters(0, "a", "cpruser");
 	}
 	@Test
 	public final void testValidateAddGenderParameters6() throws Exception {
-		ValidatePerGenderRel.validateAddGenderParameters(0, "GENDER_MALE", "jvuccolo");
+		ValidatePerGenderRel.validateAddGenderParameters(0, "GENDER_MALE", "cpruser");
 	}
 
 }

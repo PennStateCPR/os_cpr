@@ -26,7 +26,7 @@ import edu.psu.iam.cpr.core.database.types.IdCardType;
 
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class IdCardTypeTest {

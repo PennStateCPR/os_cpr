@@ -26,7 +26,7 @@ import edu.psu.iam.cpr.core.database.types.TransformStatusType;
 
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class TranformStatusTypeTest {

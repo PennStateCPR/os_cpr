@@ -26,7 +26,7 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.validate.ValidatePersonUseridIap;
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class ValidatePersonUseridIapTest {

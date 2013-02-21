@@ -36,7 +36,7 @@ public class IdCardTest {
 	public void cleanUpAll(String person_id) throws Exception {
 		IdCardServiceReturn getIdCardReturn = null;
 		ServiceReturn archiveIdCardReturn = null;
-		getIdCardReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		getIdCardReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", person_id, null, "N");
 		if (getIdCardReturn.getStatusCode() != 0) {
 			throw new Exception(getIdCardReturn.getStatusMessage());
@@ -47,7 +47,7 @@ public class IdCardTest {
 				for (final Iterator<PersonIdCardReturn> it = getIdCardReturn.getPersonIdCardsReturnRecord().iterator(); it.hasNext();) {
 					PersonIdCardReturn IdCard = it.next();
 					archiveIdCardReturn = port.archiveIdCard(ServiceAuthentication.GOOD_USERID,
-							ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", person_id,
+							ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", person_id,
 							IdCard.getIdCardType());
 					if (archiveIdCardReturn.getStatusCode() != 0) {
 						throw new Exception(
@@ -71,7 +71,7 @@ public class IdCardTest {
 @Test(expectedExceptions = Exception.class)
 	public void _02testIdCardBadPassword() throws Exception {
 		ServiceReturn IdCardServiceReturn = port.addIdCard(ServiceAuthentication.GOOD_USERID,
-				"notme", "llg5", "person_id", "100003", "ID_CARD_ID_CARD_PLUS_STUDENT",
+				"notme", ServiceAuthentication.GOOD_USERID, "person_id", "100003", "ID_CARD_ID_CARD_PLUS_STUDENT",
 				"1234567890123456", null, null, null);
 		if (IdCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(IdCardServiceReturn.getStatusMessage());
@@ -80,7 +80,7 @@ public class IdCardTest {
 @Test(expectedExceptions = Exception.class)
 	public void _03testIdCardBadPersonIdentifier() throws Exception {
 		ServiceReturn IdCardServiceReturn = port.addIdCard(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", " ", "100003", "ID_CARD_ID_CARD_PLUS_STUDENT",
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, " ", "100003", "ID_CARD_ID_CARD_PLUS_STUDENT",
 				"1234567890123456", null, null, null);
 		if (IdCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(IdCardServiceReturn.getStatusMessage());
@@ -143,7 +143,7 @@ public class IdCardTest {
 @Test
 	public void _10testGetIdCard() throws Exception {
 		IdCardServiceReturn IdCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null, "N");
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null, "N");
 		if (IdCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(IdCardServiceReturn.getStatusMessage());
 		}
@@ -153,7 +153,7 @@ public class IdCardTest {
 @Test
 	public void _11testGetIdCardHistory() throws Exception {
 		IdCardServiceReturn IdCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null, "Y");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null, "Y");
 		if (IdCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(IdCardServiceReturn.getStatusMessage());
 		}
@@ -162,7 +162,7 @@ public class IdCardTest {
 @Test
 	public void _12testGetIdCardByType() throws Exception {
 		IdCardServiceReturn IdCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null, "N");
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null, "N");
 		if (IdCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(IdCardServiceReturn.getStatusMessage());
 		}
@@ -172,7 +172,7 @@ public class IdCardTest {
 @Test
 	public void _13testGetIdCardByTypeHistory() throws Exception {
 		IdCardServiceReturn IdCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "ID_CARD_ID_PLUS_CARD_STUDENT", "Y");
+			ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "ID_CARD_ID_PLUS_CARD_STUDENT", "Y");
 		if (IdCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(IdCardServiceReturn.getStatusMessage());
 		}
@@ -181,7 +181,7 @@ public class IdCardTest {
 @Test
 	public void _14testGetIdCardNumber() throws Exception {
 	PersonIdCardNumberServiceReturn IdCardNumberServiceReturn = port.getIdCardNumber(ServiceAuthentication.GOOD_USERID,
-		ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003");
+		ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003");
 	if (IdCardNumberServiceReturn.getStatusCode() != 0) {
 		throw new Exception(IdCardNumberServiceReturn.getStatusMessage());
 	}
@@ -190,7 +190,7 @@ public class IdCardTest {
 @Test(expectedExceptions = Exception.class)
 	public void _15testGetIdCardNumberBadRA() throws Exception {
 	PersonIdCardNumberServiceReturn IdCardNumberServiceReturn = port.getIdCardNumber("portal3",
-		ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003");
+		ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003");
 	if (IdCardNumberServiceReturn.getStatusCode() != 0) {
 		throw new Exception(IdCardNumberServiceReturn.getStatusMessage());
 	}
@@ -205,14 +205,14 @@ public class IdCardTest {
 			throw new Exception("cleanup failed");
 		}
 		ServiceReturn  idCardServiceReturn = null;
-		idCardServiceReturn = port.addIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5","person_id", "100003", "ID_CARD_ID_PLUS_CARD_STUDENT", "6543210987654321", null, null, null);
+		idCardServiceReturn = port.addIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,"person_id", "100003", "ID_CARD_ID_PLUS_CARD_STUDENT", "6543210987654321", null, null, null);
 		if (idCardServiceReturn.getStatusCode()!=0) {
 			throw new Exception(idCardServiceReturn.getStatusMessage());
 		}
 		else 
 		{
 			IdCardServiceReturn  getIdCardServiceReturn = null;
-			getIdCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5","person_id", "100003",  null, "N");
+			getIdCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,"person_id", "100003",  null, "N");
 			if (getIdCardServiceReturn.getStatusCode() !=0) {
 				throw new Exception(getIdCardServiceReturn.getStatusMessage());
 			}
@@ -234,14 +234,14 @@ public class IdCardTest {
 //			throw new Exception("cleanup failed");
 //		}
 //		IdCardServiceReturn  idCardServiceReturn = null;
-//		idCardServiceReturn = port.addIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5","person_id", "100003", "ID_CARD_ID_CARD_PLUS_STUDENT", "6543210987654321", null, null, null);
+//		idCardServiceReturn = port.addIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,"person_id", "100003", "ID_CARD_ID_CARD_PLUS_STUDENT", "6543210987654321", null, null, null);
 //		if (idCardServiceReturn.getStatusCode()!=0) {
 //			throw new Exception(idCardServiceReturn.getStatusMessage());
 //		}
 //		else 
 //		{
 //			IdCardServiceReturn  getIdCardServiceReturn = null;
-//			getIdCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5","person_id", "100003");
+//			getIdCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,"person_id", "100003");
 //			if (getIdCardServiceReturn.getStatusCode() !=0) {
 //				throw new Exception(getIdCardServiceReturn.getStatusMessage());
 //			}
@@ -251,7 +251,7 @@ public class IdCardTest {
 //					throw new Exception("number of id card elements is greater than one");
 //				}
 //				else {
-//					idCardServiceReturn = port.addIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5","person_id", "100003", "ID_CARD_ID_CARD_PLUS_STUDENT", "6543210987654321", null, null, null);
+//					idCardServiceReturn = port.addIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,"person_id", "100003", "ID_CARD_ID_CARD_PLUS_STUDENT", "6543210987654321", null, null, null);
 //					if (idCardServiceReturn.getStatusCode()!=0) {
 //						throw new Exception(idCardServiceReturn.getStatusMessage());
 //					}
@@ -268,14 +268,14 @@ public class IdCardTest {
 			throw new Exception("cleanup failed");
 		}
 		ServiceReturn  idCardServiceReturn = null;
-		idCardServiceReturn = port.addIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5","person_id", "100003", "ID_CARD_ID_PLUS_CARD_FACULTY_STAFF", "6643210987654321", "12", new byte[1], "1/1/2012");
+		idCardServiceReturn = port.addIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,"person_id", "100003", "ID_CARD_ID_PLUS_CARD_FACULTY_STAFF", "6643210987654321", "12", new byte[1], "1/1/2012");
 		if (idCardServiceReturn.getStatusCode()!=0) {
 			throw new Exception(idCardServiceReturn.getStatusMessage());
 		}
 		else 
 		{
 			IdCardServiceReturn  getIdCardServiceReturn = null;
-			getIdCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5","person_id", "100003", null, "N");
+			getIdCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,"person_id", "100003", null, "N");
 			if (getIdCardServiceReturn.getStatusCode() !=0) {
 				throw new Exception(getIdCardServiceReturn.getStatusMessage());
 			}
@@ -297,14 +297,14 @@ public class IdCardTest {
 			throw new Exception("cleanup failed");
 		}
 		ServiceReturn  idCardServiceReturn = null;
-		idCardServiceReturn = port.updateIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5","person_id", "100003", "ID_CARD_ID_PLUS_CARD_STUDENT", "6543210987654321", null, null, null);
+		idCardServiceReturn = port.updateIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,"person_id", "100003", "ID_CARD_ID_PLUS_CARD_STUDENT", "6543210987654321", null, null, null);
 		if (idCardServiceReturn.getStatusCode()!=0) {
 			throw new Exception(idCardServiceReturn.getStatusMessage());
 		}
 		else 
 		{
 			IdCardServiceReturn  getIdCardServiceReturn = null;
-			getIdCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5","person_id", "100003", null, "N");
+			getIdCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,"person_id", "100003", null, "N");
 			if (getIdCardServiceReturn.getStatusCode() !=0) {
 				throw new Exception(getIdCardServiceReturn.getStatusMessage());
 			}
@@ -326,14 +326,14 @@ public void _20testUpdateIdCardNoPhotoBad() throws Exception {
 		throw new Exception("cleanup failed");
 	}
 	ServiceReturn  idCardServiceReturn = null;
-	idCardServiceReturn = port.updateIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5","person_id", "100003", "ID_CARD_STUDENT", "6543210987654321", null, null, null);
+	idCardServiceReturn = port.updateIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,"person_id", "100003", "ID_CARD_STUDENT", "6543210987654321", null, null, null);
 	if (idCardServiceReturn.getStatusCode()!=0) {
 		throw new Exception(idCardServiceReturn.getStatusMessage());
 	}
 	else 
 	{
 		IdCardServiceReturn  getIdCardServiceReturn = null;
-		getIdCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5","person_id", "100003", null, "N");
+		getIdCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,"person_id", "100003", null, "N");
 		if (getIdCardServiceReturn.getStatusCode() !=0) {
 			throw new Exception(getIdCardServiceReturn.getStatusMessage());
 		}

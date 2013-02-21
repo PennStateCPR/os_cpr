@@ -26,7 +26,7 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.service.returns.PsuIdReturn;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class PsuIdReturnTest {

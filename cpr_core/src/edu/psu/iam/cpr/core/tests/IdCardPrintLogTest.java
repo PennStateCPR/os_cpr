@@ -27,7 +27,7 @@ import java.util.Date;
 import edu.psu.iam.cpr.core.database.beans.IdCardPrintLog;
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class IdCardPrintLogTest {
@@ -35,7 +35,7 @@ public class IdCardPrintLogTest {
 	Date d = new Date();
 	String wsName= "myWorkStation";
 	String ipAddr = "128.118.88.3";
-	String thePrinter = "llg5";
+	String thePrinter = "cpruser";
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.beans.IdCardPrintLog#IdCardPrintLog()}.
 	 */

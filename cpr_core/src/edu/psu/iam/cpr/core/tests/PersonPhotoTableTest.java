@@ -249,7 +249,7 @@ public class PersonPhotoTableTest {
 
 	@Test
 	public final void testPersonPhotoTableLongByteArrayDateString() {
-		new PersonPhotoTable(1L,testImage,new Date(),"jvuccolo");
+		new PersonPhotoTable(1L,testImage,new Date(),"cpruser");
 	}
 
 	@Test
@@ -262,7 +262,7 @@ public class PersonPhotoTableTest {
 
 	@Test
 	public final void testAddPhoto() throws Exception {
-		PersonPhotoTable p = new PersonPhotoTable(100000L, testImage, new Date(), "jvuccolo");
+		PersonPhotoTable p = new PersonPhotoTable(100000L, testImage, new Date(), "cpruser");
 		openDbConnection();
 		p.addPhoto(db);
 		db.closeSession();

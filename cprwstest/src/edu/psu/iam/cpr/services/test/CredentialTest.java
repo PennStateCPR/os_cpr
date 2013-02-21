@@ -32,9 +32,9 @@ public class CredentialTest {
 	@Test
 	public void _00setUp() {
 
-		port.archiveCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000",  "CREDENTIAL_TYPE_OPENID");
-		port.archiveCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000",  "CREDENTIAL_TYPE_FACEBOOK");
-		port.archiveCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000",  "CREDENTIAL_TYPE_SECUREID");
+		port.archiveCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000",  "CREDENTIAL_TYPE_OPENID");
+		port.archiveCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000",  "CREDENTIAL_TYPE_FACEBOOK");
+		port.archiveCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000",  "CREDENTIAL_TYPE_SECUREID");
 	}
 	
 	@Test
@@ -49,7 +49,7 @@ public class CredentialTest {
 	@Test
 	(expectedExceptions=Exception.class)
 	public void _02testAddCredential2() throws Exception {
-		ServiceReturn credentialServiceReturn = port.addCredential("portal", ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "740221", "credential_type_facebook", "xxx");
+		ServiceReturn credentialServiceReturn = port.addCredential("portal", ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "740221", "credential_type_facebook", "xxx");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}
@@ -57,7 +57,7 @@ public class CredentialTest {
 	@Test
 	(expectedExceptions=Exception.class)
 	public void _03testAddCredential3() throws Exception {
-		ServiceReturn credentialServiceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, "jvuccolo", "person_id", "740221", "credential_type_facebook", "xxx");
+		ServiceReturn credentialServiceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "740221", "credential_type_facebook", "xxx");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}
@@ -65,7 +65,7 @@ public class CredentialTest {
 	@Test
 	(expectedExceptions=Exception.class)
 	public void _04testAddCredential4() throws Exception {
-		ServiceReturn credentialServiceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_", "740221", "credential_type_facebook", "xxx");
+		ServiceReturn credentialServiceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_", "740221", "credential_type_facebook", "xxx");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}
@@ -73,7 +73,7 @@ public class CredentialTest {
 	@Test
 	(expectedExceptions=Exception.class)
 	public void _05testAddCredential5() throws Exception {
-		ServiceReturn credentialServiceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "-1", "credential_type_facebook", "xxx");
+		ServiceReturn credentialServiceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "-1", "credential_type_facebook", "xxx");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}
@@ -89,7 +89,7 @@ public class CredentialTest {
 	@Test
 	(expectedExceptions=Exception.class)
 	public void _07testAddCredential7() throws Exception {
-		ServiceReturn credentialServiceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "credential_type_", "xxx");
+		ServiceReturn credentialServiceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "credential_type_", "xxx");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}
@@ -97,14 +97,14 @@ public class CredentialTest {
 	@Test
 	(expectedExceptions=Exception.class)
 	public void _08testAddCredential8() throws Exception {
-		ServiceReturn credentialServiceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "credential_type_facebook", null);
+		ServiceReturn credentialServiceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "credential_type_facebook", null);
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}
 	}
 	@Test
 	public void _09testAddCredential9() throws Exception {
-		ServiceReturn credentialServiceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "credential_type_facebook", "abcd");
+		ServiceReturn credentialServiceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "credential_type_facebook", "abcd");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}
@@ -112,7 +112,7 @@ public class CredentialTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public void _10testAddCredential10() throws Exception {
-		ServiceReturn credentialServiceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "credential_type_facebook", "abcd");
+		ServiceReturn credentialServiceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "credential_type_facebook", "abcd");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}
@@ -120,7 +120,7 @@ public class CredentialTest {
 	
 	@Test
 	public void _11testGetCredential1() throws Exception {
-		CredentialServiceReturn credentialServiceReturn = port.getCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", null, "N");
+		CredentialServiceReturn credentialServiceReturn = port.getCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", null, "N");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());			
 		}
@@ -131,15 +131,15 @@ public class CredentialTest {
 	
 	@Test
 	public void _12testGetCredential2() throws Exception {
-		port.archiveCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD,"jvuccolo", "person_id", "100000",  "credential_type_facebook");
-		CredentialServiceReturn credentialServiceReturn = port.getCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", null, "N");
+		port.archiveCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD,ServiceAuthentication.GOOD_USERID, "person_id", "100000",  "credential_type_facebook");
+		CredentialServiceReturn credentialServiceReturn = port.getCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", null, "N");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());			
 		}
 		if (credentialServiceReturn.getNumberElements() != 0) {
 			throw new Exception("No records were returned!");
 		}
-		ServiceReturn serviceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "credential_type_facebook", "abcd");
+		ServiceReturn serviceReturn = port.addCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "credential_type_facebook", "abcd");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
@@ -147,7 +147,7 @@ public class CredentialTest {
 	
 	@Test
 	public void _13testCredentialByType1() throws Exception {
-		CredentialServiceReturn credentialServiceReturn = port.getCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "credential_type_facebook", "N");
+		CredentialServiceReturn credentialServiceReturn = port.getCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "credential_type_facebook", "N");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}
@@ -158,7 +158,7 @@ public class CredentialTest {
 	
 	@Test
 	public void _14testCredentialByType2() throws Exception {
-		CredentialServiceReturn credentialServiceReturn = port.getCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "credential_type_secureid", "N");
+		CredentialServiceReturn credentialServiceReturn = port.getCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "credential_type_secureid", "N");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}
@@ -169,7 +169,7 @@ public class CredentialTest {
 	
 	@Test
 	public void _15testCredentialHistory() throws Exception {
-		CredentialServiceReturn credentialServiceReturn = port.getCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", null, "N");
+		CredentialServiceReturn credentialServiceReturn = port.getCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", null, "N");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}		
@@ -177,7 +177,7 @@ public class CredentialTest {
 	
 	@Test
 	public void _16testCredentialByTypeHistory() throws Exception {
-		CredentialServiceReturn credentialServiceReturn = port.getCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "credential_type_facebook", "Y");
+		CredentialServiceReturn credentialServiceReturn = port.getCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "credential_type_facebook", "Y");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}				
@@ -185,7 +185,7 @@ public class CredentialTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public void _17testCredentialArchive1() throws Exception {
-		ServiceReturn credentialServiceReturn = port.archiveCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "credential_type_secureid");
+		ServiceReturn credentialServiceReturn = port.archiveCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "credential_type_secureid");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}				
@@ -194,7 +194,7 @@ public class CredentialTest {
 	
 	@Test
 	public void _18testCredentialArchive2() throws Exception {
-		ServiceReturn credentialServiceReturn = port.archiveCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "credential_type_facebook");
+		ServiceReturn credentialServiceReturn = port.archiveCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "credential_type_facebook");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}				
@@ -203,7 +203,7 @@ public class CredentialTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public void _19testCredentialArchive3() throws Exception {
-		ServiceReturn credentialServiceReturn = port.archiveCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "credential_type_facebook");
+		ServiceReturn credentialServiceReturn = port.archiveCredential(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "credential_type_facebook");
 		if (credentialServiceReturn.getStatusCode() != 0) {
 			throw new Exception(credentialServiceReturn.getStatusMessage());
 		}				

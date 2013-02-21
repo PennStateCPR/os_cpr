@@ -42,7 +42,7 @@ public class ValidatePersonAffiliationTest {
 	public final void testValidateAddAffiliationParameters()
 	throws Exception {
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
-				"STUDENT_UNDERGRAD_PROSPECT", "llg5");
+				"STUDENT_UNDERGRAD_PROSPECT", "cpruser");
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class ValidatePersonAffiliationTest {
 	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
-				"STU_UNDERGRAD_PROSPECT",  "llg5");
+				"STU_UNDERGRAD_PROSPECT",  "cpruser");
 		db.closeSession();
 	}
 
@@ -74,7 +74,7 @@ public class ValidatePersonAffiliationTest {
 	public final void testValidateAddAffiliationParametersNullParm2()
 	throws Exception {
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
-				null,  "llg5");
+				null,  "cpruser");
 	}
 
 	
@@ -91,7 +91,7 @@ public class ValidatePersonAffiliationTest {
 	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
-				"STUDENT_UNDERGRAD PROSPECT",  "llg5");
+				"STUDENT_UNDERGRAD PROSPECT",  "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -107,7 +107,7 @@ public class ValidatePersonAffiliationTest {
 	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
-				"STUDENT",  "llg5");
+				"STUDENT",  "cpruser");
 		db.closeSession();
 	}
 	
@@ -173,14 +173,14 @@ public class ValidatePersonAffiliationTest {
 	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
-				"STUDENT_UNDERGRADUATE_PROSPECT", "llg5");
+				"STUDENT_UNDERGRADUATE_PROSPECT", "cpruser");
 		db.closeSession();
 	}
 	@Test(expectedExceptions = Exception.class)
 	public final void testValidateGetAffiliationForPersonIdParameters()
 	throws Exception {
 		ValidatePersonAffiliation.validateGetAffiliationsForPersonIdParameters(db, 100001,
-		"llg5","N");
+		"cpruser","N");
 	}
 	@Test(expectedExceptions = Exception.class)
 	public final void testValidatevalidateGetAffiliationForPersonIdParameterseParm2Null()
@@ -195,14 +195,14 @@ public class ValidatePersonAffiliationTest {
 	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateGetAffiliationsForPersonIdParameters(db, 100001,
-		"llg5","N");
+		"cpruser","N");
 		db.closeSession();
 	}
 	@Test(expectedExceptions = Exception.class)
 	public final void testValidateDeleteAffiliationParameters()
 	throws Exception {
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
-				100001, "STUDENT_UNDERGRADUATE_PROSPECT", "llg5");
+				100001, "STUDENT_UNDERGRADUATE_PROSPECT", "cpruser");
 	}
 
 	/**
@@ -218,7 +218,7 @@ public class ValidatePersonAffiliationTest {
 	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
-				100001, "STU", "llg5");
+				100001, "STU", "cpruser");
 		db.closeSession();
 	}
 
@@ -234,7 +234,7 @@ public class ValidatePersonAffiliationTest {
 	public final void testValidateDeleteAffiliationParametersNullParm2()
 	throws Exception {
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
-				100001, null, "llg5");
+				100001, null, "cpruser");
 	}
 
 	/**
@@ -249,7 +249,7 @@ public class ValidatePersonAffiliationTest {
 	public final void testValidateDeleteAffiliationParametersBadParm2Blank()
 	throws Exception {
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
-				100001, "", "llg5");
+				100001, "", "cpruser");
 	}
 	/**
 	 * Test method for
@@ -264,7 +264,7 @@ public class ValidatePersonAffiliationTest {
 	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
-				100001, "STUDENT_UNDERGRAD PROSPECT", "llg5");
+				100001, "STUDENT_UNDERGRAD PROSPECT", "cpruser");
 		db.closeSession();
 	}
 
@@ -315,7 +315,7 @@ public class ValidatePersonAffiliationTest {
 	throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateArchiveAffiliationParameters(db, 
-				100001, "STUDENT_UNDERGRADUATE_PROSPECT","llg5");
+				100001, "STUDENT_UNDERGRADUATE_PROSPECT","cpruser");
 		db.closeSession();
 	}
 

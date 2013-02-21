@@ -42,8 +42,8 @@ public class PersonUseridIapTest {
 	
 	@Test
 	public final void testGetUserid() {
-		p.setUserid("llg5");
-		assertEquals(p.getUserid(),"llg5");
+		p.setUserid("cpruser");
+		assertEquals(p.getUserid(),"cpruser");
 	}
 	@Test
 	public final void testGetIapKey() {
@@ -66,8 +66,8 @@ public class PersonUseridIapTest {
 
 	@Test 
 	public final void testSetCreatedBy() {
-		p.setCreatedBy("llg5");
-		assertEquals(p.getCreatedBy(), "llg5");
+		p.setCreatedBy("cpruser");
+		assertEquals(p.getCreatedBy(), "cpruser");
 	}	
 	@Test 
 	public final void testSetCreatedOn() {
@@ -77,8 +77,8 @@ public class PersonUseridIapTest {
 
 	@Test
 	public final void testLastUpdateBy( ){
-		p.setLastUpdateBy("llg5");
-		assertEquals(p.getLastUpdateBy(), "llg5");
+		p.setLastUpdateBy("cpruser");
+		assertEquals(p.getLastUpdateBy(), "cpruser");
 	}
 	@Test 
 	public final void testLastUpdateOn() {

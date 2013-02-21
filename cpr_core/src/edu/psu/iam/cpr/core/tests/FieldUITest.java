@@ -6,7 +6,7 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.ui.FieldUI;
 
 /**
- * @author slk24
+ * @author cpruser
  *
  */
 public class FieldUITest {

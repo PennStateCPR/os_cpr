@@ -28,7 +28,7 @@ import edu.psu.iam.cpr.core.database.beans.Person;
 import edu.psu.iam.cpr.core.database.tables.PersonTable;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class PersonTableTest {
@@ -44,7 +44,7 @@ public class PersonTableTest {
 	}
 	@Test
 	public final void testPersonTable1() {
-		new PersonTable("jvuccolo");
+		new PersonTable("cpruser");
 	}
 	@Test 
 	public final void testGetPersonBean() {
@@ -56,33 +56,33 @@ public class PersonTableTest {
 	}
 	@Test
 	public final void testPersonTableInt() {
-		new PersonTable(12345, "jvuccolo");
+		new PersonTable(12345, "cpruser");
 	}
 
 	@Test(expectedExceptions=Exception.class)
 	public final void testAddPerson1() throws Exception {
-		PersonTable p = new PersonTable("jvuccolo");
+		PersonTable p = new PersonTable("cpruser");
 		p.addPerson(db);
 	}
 	
 	@Test
 	public final void testAddPerson2() throws Exception {
 		openDbConnection();
-		PersonTable p = new PersonTable("jvuccolo");
+		PersonTable p = new PersonTable("cpruser");
 		p.addPerson(db);
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testDeletePerson1() throws Exception {
-		PersonTable p = new PersonTable(1000,"jvuccolo");
+		PersonTable p = new PersonTable(1000,"cpruser");
 		p.archivePerson(db);
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testDeletePerson2() throws Exception {
 		openDbConnection();
-		PersonTable p = new PersonTable(1000,"jvuccolo");
+		PersonTable p = new PersonTable(1000,"cpruser");
 		p.archivePerson(db);
 		db.closeSession();
 	}
@@ -90,7 +90,7 @@ public class PersonTableTest {
 	@Test
 	public final void testDeletePerson3() throws Exception {
 		openDbConnection();
-		PersonTable p = new PersonTable(100000,"jvuccolo");
+		PersonTable p = new PersonTable(100000,"cpruser");
 		p.archivePerson(db);
 		db.closeSession();
 	}
@@ -98,7 +98,7 @@ public class PersonTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testDeletePerson4() throws Exception {
 		openDbConnection();
-		PersonTable p = new PersonTable(100000,"jvuccolo");
+		PersonTable p = new PersonTable(100000,"cpruser");
 		p.archivePerson(db);
 		db.closeSession();
 	}
@@ -113,7 +113,7 @@ public class PersonTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testUnarchivePerson4() throws Exception {
 		openDbConnection();
-		PersonTable p = new PersonTable(1000,"jvuccolo");
+		PersonTable p = new PersonTable(1000,"cpruser");
 		p.unarchivePerson(db);
 		db.closeSession();
 	}
@@ -121,7 +121,7 @@ public class PersonTableTest {
 	@Test
 	public final void testUnarchivePerson2() throws Exception {
 		openDbConnection();
-		PersonTable p = new PersonTable(100000,"jvuccolo");
+		PersonTable p = new PersonTable(100000,"cpruser");
 		p.unarchivePerson(db);
 		db.closeSession();
 	}
@@ -129,7 +129,7 @@ public class PersonTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testUnarchivePerson3() throws Exception {
 		openDbConnection();
-		PersonTable p = new PersonTable(100000,"jvuccolo");
+		PersonTable p = new PersonTable(100000,"cpruser");
 		p.unarchivePerson(db);
 		db.closeSession();
 	}
@@ -137,7 +137,7 @@ public class PersonTableTest {
 	@Test
 	public final void testAddPerson3() throws Exception {
 		openDbConnection();
-		PersonTable p = new PersonTable("jvuccolo");
+		PersonTable p = new PersonTable("cpruser");
 		p.addPerson(db);
 		db.closeSession();
 	}

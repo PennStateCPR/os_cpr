@@ -29,7 +29,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress;
 import edu.psu.iam.cpr.core.database.types.AddressType;
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class ValidateAddressTest {
@@ -46,7 +46,7 @@ public class ValidateAddressTest {
 	 */
 	@Test
 	public final void testvalidCampusCodeBlank() throws Exception {
-		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "",null, "llg5"), null);
+		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "",null, "cpruser"), null);
 	}
 	@Test
 	public final void testIsValidAddress() throws Exception {
@@ -68,7 +68,7 @@ public class ValidateAddressTest {
 	public final void testvalidCampusCodeLower() throws Exception {
 		openDbConnection();
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "up",s, "llg5"), new Long(100048));
+		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "up",s, "cpruser"), new Long(100048));
 		AssertJUnit.assertEquals(s.toString(), "UNIVERSITY PARK CAMPUS");
 		db.closeSession();
 	}
@@ -80,7 +80,7 @@ public class ValidateAddressTest {
 	public final void testvalidCampusCodeMixed() throws Exception {
 		openDbConnection();
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "Up", s,"llg5"), new Long(100048));
+		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "Up", s,"cpruser"), new Long(100048));
 		db.closeSession();
 	}
 	/**
@@ -89,7 +89,7 @@ public class ValidateAddressTest {
 	 */
 	@Test
 	public final void testvalidCampusCodeNull() throws Exception{
-		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, null,null, "llg5"), null);
+		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, null,null, "cpruser"), null);
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
@@ -99,7 +99,7 @@ public class ValidateAddressTest {
 	public final void testvalidCampusCodeSpaceUP() throws Exception {
 		openDbConnection();
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, " UP",s, "llg5"),new Long(100048));
+		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, " UP",s, "cpruser"),new Long(100048));
 		db.closeSession();
 	}
 	/**
@@ -110,7 +110,7 @@ public class ValidateAddressTest {
 	public final void testvalidCampusCodeUP() throws Exception {
 		openDbConnection();
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "UP",s, "llg5"), new Long(100048));
+		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "UP",s, "cpruser"), new Long(100048));
 		db.closeSession();
 	}
 	/**
@@ -121,7 +121,7 @@ public class ValidateAddressTest {
 	public final void testvalidCampusCodeUPSpace() throws Exception {
 		openDbConnection();
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "UP ", s, "llg5"), new Long(100048));
+		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "UP ", s, "cpruser"), new Long(100048));
 		db.closeSession();
 	}
 	/**
@@ -131,7 +131,7 @@ public class ValidateAddressTest {
 	@Test (expectedExceptions=Exception.class)
 	public final void testvalidCampusCodeUPNoDB() throws Exception {
 		StringBuffer s = new StringBuffer();
-		ValidateAddress.validCampusCode(db, "UP", s, "llg5");
+		ValidateAddress.validCampusCode(db, "UP", s, "cpruser");
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
@@ -140,7 +140,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testvalidCampusCodeUp123() throws Exception {
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "UP123",s, "llg5"), new Long(-1));
+		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "UP123",s, "cpruser"), new Long(-1));
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
@@ -149,7 +149,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testvalidCampusCodeUpa() throws Exception {
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "UPa",s, "llg5"), new Long(-1));
+		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "UPa",s, "cpruser"), new Long(-1));
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
@@ -159,7 +159,7 @@ public class ValidateAddressTest {
 	public final void testvalidCampusCodeUz() throws Exception {
 		openDbConnection();
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "Uz",s, "llg5"), new Long(-1));
+		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "Uz",s, "cpruser"), new Long(-1));
 		db.closeSession();
 	}
 	/**
@@ -169,7 +169,7 @@ public class ValidateAddressTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testIsValidCampusDBProblem() throws Exception {
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "Uz", s , "llg5"), new Long(-1));
+		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "Uz", s , "cpruser"), new Long(-1));
 
 	}
 	/**
@@ -178,7 +178,7 @@ public class ValidateAddressTest {
 	 */
 	@Test
 	public final void testvalidCountryCodeBlank() throws Exception {
-		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "", null, "llg5"), -1);
+		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "", null, "cpruser"), -1);
 	}
 
 	/**
@@ -189,7 +189,7 @@ public class ValidateAddressTest {
 	public final void testvalidCountryCodeLower() throws Exception {
 		openDbConnection();
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "usa",s, "llg5"),100069);
+		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "usa",s, "cpruser"),100069);
 		db.closeSession();
 	}
 	/**
@@ -200,7 +200,7 @@ public class ValidateAddressTest {
 	public final void testvalidCountryCodeMixed() throws Exception {
 		openDbConnection();
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "UsA",s, "llg5"), 100069);
+		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "UsA",s, "cpruser"), 100069);
 		db.closeSession();
 	}
 	/**
@@ -210,7 +210,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testvalidCountryCodeNull() throws Exception{
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, null,s, "llg5"), -1);
+		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, null,s, "cpruser"), -1);
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
@@ -220,7 +220,7 @@ public class ValidateAddressTest {
 	public final void testvalidCountryCodeSpaceUSA() throws Exception {
 		openDbConnection();
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, " USA",s, "llg5"), 100069);
+		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, " USA",s, "cpruser"), 100069);
 		db.closeSession();
 	}
 	/**
@@ -231,7 +231,7 @@ public class ValidateAddressTest {
 	public final void testvalidCountryCodeUSA() throws Exception {
 		openDbConnection();
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "USA",s, "llg5"), 100069);
+		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "USA",s, "cpruser"), 100069);
 		db.closeSession();
 	}
 	/**
@@ -242,7 +242,7 @@ public class ValidateAddressTest {
 	public final void testvalidCountryCodeUSASpace() throws Exception {
 		openDbConnection();
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "USA ",s, "llg5"), 100069);
+		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "USA ",s, "cpruser"), 100069);
 		db.closeSession();
 	}
 
@@ -253,7 +253,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testvalidCountryCodeUsa123() throws Exception {
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "Usa123",s, "llg5"), -1);
+		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "Usa123",s, "cpruser"), -1);
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
@@ -262,7 +262,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testvalidCountryCodeUsaa() throws Exception {
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "Usaa",s, "llg5"),-1);
+		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "Usaa",s, "cpruser"),-1);
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
@@ -271,7 +271,7 @@ public class ValidateAddressTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testvalidCountryCodeUSANoDB() throws Exception {
 		StringBuffer s = new StringBuffer();
-		ValidateAddress.validCountryCode(db, "USA",s, "llg5");
+		ValidateAddress.validCountryCode(db, "USA",s, "cpruser");
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCountryCode(Database, java.lang.String, java.lang.String)}.
@@ -281,7 +281,7 @@ public class ValidateAddressTest {
 	public final void testvalidCountryCodeUz() throws Exception {
 		openDbConnection();
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "UPA",s, "llg5"), -1);
+		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "UPA",s, "cpruser"), -1);
 		db.closeSession();
 	}
 	/**
@@ -292,7 +292,7 @@ public class ValidateAddressTest {
 	public final void testvalidCountryCodeUSADB() throws Exception {
 		openDbConnection();
 		StringBuffer s = new StringBuffer();
-		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "USA",s, "llg5"), 100069);
+		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "USA",s, "cpruser"), 100069);
 		db.closeSession();
 	}
 	
@@ -446,7 +446,7 @@ public class ValidateAddressTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersNullType() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0,null, null,  "llg5","address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0,null, null,  "cpruser","address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
 	}
 	/**
@@ -458,7 +458,7 @@ public class ValidateAddressTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersInvalidType() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "STUDENT",null,  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "STUDENT",null,  "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
 	}
 	/**
@@ -470,7 +470,7 @@ public class ValidateAddressTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersDocumentTypeNull() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS",null,  "llg5","address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS",null,  "cpruser","address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
 	}
 	/**
@@ -482,7 +482,7 @@ public class ValidateAddressTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersDocumentTypeBlank() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS"," ", "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS"," ", "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
 	}
 	/**
@@ -494,7 +494,7 @@ public class ValidateAddressTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersDocumentBadCombo() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","LEGAL_NAME",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","LEGAL_NAME",  "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
 		db.closeSession();
 	}
@@ -520,7 +520,7 @@ public class ValidateAddressTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersDocumentBadDocumentType() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","Fred",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","Fred",  "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
 		db.closeSession();
 	}
@@ -533,7 +533,7 @@ public class ValidateAddressTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersBadAddressTypeWithDocument() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS","PASSPORT",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null );
+		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS","PASSPORT",  "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null );
 		
 		db.closeSession();
 	}
@@ -546,7 +546,7 @@ public class ValidateAddressTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersBadDocumentTypeNameWithDocument() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_NAME","PASSPORT",  "llg5", "address1", null, null, "nowhere", null,  null,  "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_NAME","PASSPORT",  "cpruser", "address1", null, null, "nowhere", null,  null,  "usa", null);
 		
 		db.closeSession();
 	}
@@ -559,7 +559,7 @@ public class ValidateAddressTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersTypeBlank() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, " ",null, "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, " ",null, "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
 		db.closeSession();
 	}
@@ -572,7 +572,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testValidateAddAddressParametersTypeRightTrim() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS   ",null,  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS   ",null,  "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
 		db.closeSession();
 	}
@@ -585,7 +585,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testValidateAddAddressParametersTypeLeftTrim() throws Exception {
 		openDbConnection(); 
-		ValidateAddress.validateAddAddressParameters(db, 0, "   PERMANENT_ADDRESS",null,  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "   PERMANENT_ADDRESS",null,  "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
 		db.closeSession();
 	}
@@ -598,7 +598,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testValidateAddAddressParametersTypeBothTrim() throws Exception {
 		openDbConnection(); 
-		ValidateAddress.validateAddAddressParameters(db, 0, "   PERMANENT_ADDRESS    ",null,  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "   PERMANENT_ADDRESS    ",null,  "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
 		db.closeSession();
 	}
@@ -610,7 +610,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testValidateAddAddressParametersDocumentAddressTrimRight() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS  ","PASSPORT",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS  ","PASSPORT",  "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
 		db.closeSession();
 	}
@@ -622,7 +622,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testValidateAddAddressParametersDocumentAddressTrimLeft() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "   DOCUMENTED_ADDRESS","PASSPORT",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "   DOCUMENTED_ADDRESS","PASSPORT",  "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
 		db.closeSession();
 	}
@@ -634,7 +634,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testValidateAddAddressParametersDocumentAddressTrimBoth() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "   DOCUMENTED_ADDRESS   ","PASSPORT",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "   DOCUMENTED_ADDRESS   ","PASSPORT",  "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
 		db.closeSession();
 	}
@@ -646,7 +646,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testValidateAddAddressParametersDocumentAddressTypeTrimRight() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","PASSPORT  ",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","PASSPORT  ",  "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
 		db.closeSession();
 	}
@@ -658,7 +658,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testValidateAddAddressParametersDocumentAddressTypeTrimLeft() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","    PASSPORT",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","    PASSPORT",  "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
 		db.closeSession();
 	}
@@ -670,7 +670,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testValidateAddAddressParametersDocumentAddressTypeTrimBoth() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","    PASSPORT    ",  "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","    PASSPORT    ",  "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		
 		db.closeSession();
 	}
@@ -682,7 +682,7 @@ public class ValidateAddressTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersInvalidCampusCode() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "Local_address", null,"llg5", "address1", null, null,"nowhere", "PA", null,  null, "ub");
+		ValidateAddress.validateAddAddressParameters(db, 0, "Local_address", null,"cpruser", "address1", null, null,"nowhere", "PA", null,  null, "ub");
 		
 		db.closeSession();
 	}
@@ -694,7 +694,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testValidateAddAddressParametersInvalidCampusCodeBlank() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "Local_address",null,  "llg5", "address1", null, null, "nowhere", "PA", null,  "usa", " ");
+		ValidateAddress.validateAddAddressParameters(db, 0, "Local_address",null,  "cpruser", "address1", null, null, "nowhere", "PA", null,  "usa", " ");
 		
 		db.closeSession();
 	}
@@ -743,7 +743,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersAddress1TooLong() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS", null, "llg5", "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl",  null, null, "nowhere", "PA", null,  "usa", " ");
+		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS", null, "cpruser", "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl",  null, null, "nowhere", "PA", null,  "usa", " ");
 		db.closeSession();
 	}
 	/**
@@ -755,7 +755,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersAddress2TooLong() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "LOCAL_ADDRESS", null,  "llg5","address1",  "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl",   null, "nowhere", "PA", null,  "usa", " ");
+		ValidateAddress.validateAddAddressParameters(db, 0, "LOCAL_ADDRESS", null,  "cpruser","address1",  "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl",   null, "nowhere", "PA", null,  "usa", " ");
 		db.closeSession();
 	}
 	/**
@@ -767,7 +767,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersAddress3TooLong() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "local_address", null,  "llg5",null,  null, "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl", "nowhere", "PA", null,  "usa", " ");
+		ValidateAddress.validateAddAddressParameters(db, 0, "local_address", null,  "cpruser",null,  null, "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl", "nowhere", "PA", null,  "usa", " ");
 		db.closeSession();
 	}
 	/**
@@ -779,7 +779,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersAddresss123Null() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "local_address", null,  "llg5",null,  null, null, "nowhere", "PA", null,  "usa", " ");
+		ValidateAddress.validateAddAddressParameters(db, 0, "local_address", null,  "cpruser",null,  null, null, "nowhere", "PA", null,  "usa", " ");
 		db.closeSession();
 	}
 	/**
@@ -791,7 +791,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersAddresss123Blank() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "local_address", null,  "llg5"," ", " ", " ", "nowhere", "PA", null,  "usa", " ");
+		ValidateAddress.validateAddAddressParameters(db, 0, "local_address", null,  "cpruser"," ", " ", " ", "nowhere", "PA", null,  "usa", " ");
 		db.closeSession();
 	}
 	/**
@@ -803,7 +803,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersCityNull() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,   "llg5","address1",  null, null, null, "PA", null,  "usa", " ");
+		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,   "cpruser","address1",  null, null, null, "PA", null,  "usa", " ");
 		db.closeSession();
 	}
 	/**
@@ -815,7 +815,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParametersCityTooLong() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,   "llg5","address1",  null, null, "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm", "PA", null,  "usa", " ");
+		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,   "cpruser","address1",  null, null, "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm", "PA", null,  "usa", " ");
 		db.closeSession();
 	}
 	/**
@@ -827,7 +827,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParameterBadState() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "local_address", null,  "llg5","address1",  null, null, "nowhere", "PEN", null, "usa",null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "local_address", null,  "cpruser","address1",  null, null, "nowhere", "PEN", null, "usa",null);
 		db.closeSession();
 	}
 	/**
@@ -839,7 +839,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParameterBadPostalCode() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,  "llg5","address1",  null, null,"nowhere", null, "Absr1", "usa",null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,  "cpruser","address1",  null, null,"nowhere", null, "Absr1", "usa",null);
 		db.closeSession();
 	}
 	/**
@@ -851,7 +851,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParameterBadPostalCodeNoDigits() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,   "llg5","address1",  null, null, "nowhere", null,  "ABCE",  "usa", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,   "cpruser","address1",  null, null, "nowhere", null,  "ABCE",  "usa", null);
 		db.closeSession();
 	}
 	/**
@@ -863,7 +863,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParameterBadCountryCode() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,  "llg5","address1",  null, null, "nowhere", null, null,   "BADone", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,  "cpruser","address1",  null, null, "nowhere", null, null,   "BADone", null);
 		db.closeSession();
 	}
 	/**
@@ -875,7 +875,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParameterAddress123NullNotUSA() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,   "llg5",null,  null, null, null, null, null,"CAN",  null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,   "cpruser",null,  null, null, null, null, null,"CAN",  null);
 		db.closeSession();
 	}
 	/**
@@ -887,7 +887,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddAddressParameterBadCampusCode() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,  "llg5","address1",  null, null, "nowhere", null, null, "usa",  "Uj");
+		ValidateAddress.validateAddAddressParameters(db, 0, "local_address",null,  "cpruser","address1",  null, null, "nowhere", null, null, "usa",  "Uj");
 		db.closeSession();
 	}
 	/**
@@ -899,7 +899,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchiveAndSetPrimaryAddressParameterBadGroupId() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Local_address", null, null, "llg5");
+		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Local_address", null, null, "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -946,7 +946,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test()
 	public final void testValidateArchiveAndSetPrimaryAddressParametersGoodData() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"PERMANENT_ADDRESS", null, 1L, "llg5");
+		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"PERMANENT_ADDRESS", null, 1L, "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -958,7 +958,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchiveAndSetPrimaryAddressParametersAddressDocTypeNull() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Documented_ADDRESS", null, 1L, "llg5");
+		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Documented_ADDRESS", null, 1L, "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -970,7 +970,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchiveAndSetPrimaryAddressParametersAddressDocTypeBlank() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Documented_ADDRESS", " ", 1L, "llg5");
+		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Documented_ADDRESS", " ", 1L, "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -982,7 +982,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchiveAndSetPrimaryAddressParametersAddressDocBadType() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Documented_ADDRESS", "Legal_Name ", 1L, "llg5");
+		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Documented_ADDRESS", "Legal_Name ", 1L, "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -994,7 +994,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test()
 	public final void testValidateArchiveAndSetPrimaryAddressParametersAddressDocGoodTypeTrim() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Documented_ADDRESS", " PASSPORT ", 1L, "llg5");
+		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"Documented_ADDRESS", " PASSPORT ", 1L, "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -1006,7 +1006,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchiveAndSetPrimaryAddressParametersBadType() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"STUDENT", null,1L,  "llg5");
+		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"STUDENT", null,1L,  "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -1018,7 +1018,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchiveAndSetPrimaryAddressParametersBadTypeTrim() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"STUDENT   ", null,1L,  "llg5");
+		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"STUDENT   ", null,1L,  "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -1030,7 +1030,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchiveAndSetPrimaryAddressParametersNoType() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"", null, 1L,"llg5");
+		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0,"", null, 1L,"cpruser");
 		db.closeSession();
 	}
 	/**
@@ -1042,7 +1042,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchiveAndSetPrimaryAddressParametersNullType() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0, null, null, 1L, "llg5");
+		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0, null, null, 1L, "cpruser");
 		db.closeSession();
 	}
 	/**
@@ -1054,7 +1054,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test
 	public final void testValidateArchiveAndSetPrimaryAddressParametersTrimType() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0, "LOCAL_ADDRESS ", null, 1L, "llg5");
+		ValidateAddress.validateArchiveAndSetPrimaryAddressParameters(db, 0, "LOCAL_ADDRESS ", null, 1L, "cpruser");
 		db.closeSession();
 	}
 	
@@ -1091,7 +1091,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test()
 	public final void testValidateGetAddressParametersGoodData() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateGetAddressParameters(db, 100010, "llg5",null,"Y");
+		ValidateAddress.validateGetAddressParameters(db, 100010, "cpruser",null,"Y");
 		db.closeSession();
 	}
 	/**
@@ -1117,7 +1117,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateGetAddressByTypeParametersNullRequestBy() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateGetAddressParameters(db, 0,"jvuccolo", "abc","n");
+		ValidateAddress.validateGetAddressParameters(db, 0,"cpruser", "abc","n");
 		db.closeSession();
 	}
 	/**
@@ -1129,7 +1129,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParametersNullGroupId() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null, null, "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null, null, "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
 	}
 	/**
@@ -1141,7 +1141,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParametersTypeNull() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, null, null, 1L, "llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, null, null, 1L, "cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
 	}
 	/**
@@ -1153,7 +1153,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParametersTypeBlank() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, " ", null, 1L,"llg5", "address1", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, " ", null, 1L,"cpruser", "address1", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
 	}
 	/**
@@ -1165,7 +1165,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParametersInvalidType() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "STUDENT", null,1L,"llg5", "address1", null, null, "nowhere", null, null,   "usa", null );
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "STUDENT", null,1L,"cpruser", "address1", null, null, "nowhere", null, null,   "usa", null );
 		db.closeSession();
 	}
 	/**
@@ -1213,7 +1213,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParametersAddress1TooLong() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "llg5", "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl", null, null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "cpruser", "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl", null, null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
 	}
 	/**
@@ -1225,7 +1225,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParametersAddress2TooLong() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "llg5",null,  "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl",  null, "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "cpruser",null,  "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl",  null, "nowhere", null, null,   "usa", null);
 		db.closeSession();
 	}
 	/**
@@ -1237,7 +1237,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParametersAddress3TooLong() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "llg5",null,  null, "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl", "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "cpruser",null,  null, "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl", "nowhere", null, null,   "usa", null);
 		db.closeSession();
 	}
 	/**
@@ -1249,7 +1249,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParametersAddress123Null() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "llg5",null,  null, null,  "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "cpruser",null,  null, null,  "nowhere", null, null,   "usa", null);
 		db.closeSession();
 	}
 	/**
@@ -1261,7 +1261,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParametersAddress123Blank() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "llg5"," ",  "", " ", "nowhere", null, null,   "usa", null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address", null, 1L, "cpruser"," ",  "", " ", "nowhere", null, null,   "usa", null);
 		db.closeSession();
 	}
 	/**
@@ -1273,7 +1273,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParametersCityTooLong() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS", null,1L, "llg5","address1",  null, null, "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm",null, null,   "usa", null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS", null,1L, "cpruser","address1",  null, null, "asdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm",null, null,   "usa", null);
 			
 		db.closeSession();
 	}
@@ -1286,7 +1286,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParameterBadState() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS", null,1L, "llg5","address1",  null, null, "nowhere", "PEN",  null,"USA",null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS", null,1L, "cpruser","address1",  null, null, "nowhere", "PEN",  null,"USA",null);
 		db.closeSession();
 	}
 	/**
@@ -1298,7 +1298,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test
 	public final void testValidateUpdateAddressParameterGoodProvince() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "PERMANENT_ADDRESS", null,1L, "llg5","address1",  null, null, "Toronto", "Ontario",null,"CAN",null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "PERMANENT_ADDRESS", null,1L, "cpruser","address1",  null, null, "Toronto", "Ontario",null,"CAN",null);
 		db.closeSession();
 	}
 	/**
@@ -1310,7 +1310,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParameterBadStateTest() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null, 1L, "llg5","address1",  null, null, "Toronto", "Ontario",  null,"USA",null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null, 1L, "cpruser","address1",  null, null, "Toronto", "Ontario",  null,"USA",null);
 		db.closeSession();
 	}
 	/**
@@ -1322,7 +1322,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParameterAddress123NullNonUsa() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address",null, 1L, "llg5",null,  null, null, "Toronto", "Ontario",  null,"CAN",null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address",null, 1L, "cpruser",null,  null, null, "Toronto", "Ontario",  null,"CAN",null);
 		db.closeSession();
 	}
 	/**
@@ -1334,7 +1334,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParameterBadPostalCode() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null,1L, "llg5","address1",  null, null, "nowhere", null, "Absr1",  null,null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null,1L, "cpruser","address1",  null, null, "nowhere", null, "Absr1",  null,null);
 		db.closeSession();
 	}
 	/**
@@ -1346,7 +1346,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParameterBadPlus4() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null,1L, "llg5","address1",  null, null, "nowhere", null, "ABDG","usa", null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null,1L, "cpruser","address1",  null, null, "nowhere", null, "ABDG","usa", null);
 		db.closeSession();
 	}
 	/**
@@ -1358,7 +1358,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParameterBadCountryCode() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address",null, 1L,"llg5","address1",  null, null, "nowhere", null, null,  "BADone", null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address",null, 1L,"cpruser","address1",  null, null, "nowhere", null, null,  "BADone", null);
 		db.closeSession();
 	}
 	/**
@@ -1370,7 +1370,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParameterBadCountryCodeNodb() throws Exception {
 		
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address",null, 1L, "llg5","address1",  null, null, "nowhere", null, null,  "BADone", null);
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "local_address",null, 1L, "cpruser","address1",  null, null, "nowhere", null, null,  "BADone", null);
 	
 	}
 	/**
@@ -1382,7 +1382,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParameterBadCampusCode() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null,1L, "llg5","address1",  null, null, "nowhere", null,  null, "USA", "Uj");
+		ValidateAddress.validateUpdateAddressParameters(db, 0, "LOCAL_ADDRESS",null,1L, "cpruser","address1",  null, null, "nowhere", null,  null, "USA", "Uj");
 		db.closeSession();
 	}
 	
@@ -1395,7 +1395,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParametersDocumentBadDocument() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","FRED",  "llg5", "address1",  null, null, "nowhere", null,  null, "USA", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "DOCUMENTED_ADDRESS","FRED",  "cpruser", "address1",  null, null, "nowhere", null,  null, "USA", null);
 		
 		db.closeSession();
 	}
@@ -1408,7 +1408,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParametersBadDocumentTypeBadAddressType() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS","PASSPORT", "llg5", "address1",  null, null, "nowhere", null,  null, "USA", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS","PASSPORT", "cpruser", "address1",  null, null, "nowhere", null,  null, "USA", null);
 		
 		db.closeSession();
 	}
@@ -1423,7 +1423,7 @@ public final void testValidateAddAddressParametersNullUpdateBy() throws Exceptio
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdateAddressParametersNoCityState() throws Exception {
 		openDbConnection();
-		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS", null, "llg5", "address1",  null, null, null, null, "16801", "USA", null);
+		ValidateAddress.validateAddAddressParameters(db, 0, "PERMANENT_ADDRESS", null, "cpruser", "address1",  null, null, null, null, "16801", "USA", null);
 		
 		db.closeSession();
 	}

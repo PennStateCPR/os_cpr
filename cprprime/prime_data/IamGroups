@@ -1,8 +1,0 @@
-parent_iam_group_key|iam_group_desc|active_flag|iam_group_key|iam_group|suspend_flag
-0|IAM TAG members|Y|1|IAMTAG|N
-0|Undergraduate Admissions Office|Y|2|UAO|N
-0|Graduate School Office|Y|3|GSO|N
-0|Hershey IAM Team|Y|4|HYIAM|N
-0|Test RA Group|Y|6|TESTRA|N
-0|Suspend RA Group|Y|7|SUSPENDRA|N
-0|AIS|Y|5|AIS|N

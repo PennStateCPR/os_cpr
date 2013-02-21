@@ -52,13 +52,13 @@ public class ValidatePersonPhotoTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhotoParameters5() throws Exception {
-		ValidatePersonPhoto.validateAddPhotoParameters(db, 1L, new byte[1], "1/1/", "jvuccolo");
+		ValidatePersonPhoto.validateAddPhotoParameters(db, 1L, new byte[1], "1/1/", "cpruser");
 	}
 	
 	@Test
 	public final void testValidateAddPhotoParameters6() throws Exception {
 		openDbConnection();
-		ValidatePersonPhoto.validateAddPhotoParameters(db, 1L, new byte[1], "1/1/2011", "jvuccolo");
+		ValidatePersonPhoto.validateAddPhotoParameters(db, 1L, new byte[1], "1/1/2011", "cpruser");
 		db.closeSession();
 	}
 
@@ -80,7 +80,7 @@ public class ValidatePersonPhotoTest {
 	@Test
 	public final void testValidateGetPhotoParameters4() throws Exception {
 		openDbConnection();
-		ValidatePersonPhoto.validateGetPhotoParameters(db, 1L, "jvuccolo");
+		ValidatePersonPhoto.validateGetPhotoParameters(db, 1L, "cpruser");
 		db.closeSession();
 	}
 

@@ -27,7 +27,7 @@ import java.util.Date;
 import edu.psu.iam.cpr.core.database.beans.Addresses;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class AddressesTest {
@@ -100,8 +100,8 @@ public class AddressesTest {
 	@Test
 	public final void testGetLastUpdateBy() {
 		Addresses t = new Addresses();
-		t.setLastUpdateBy("jvuccolo");
-		AssertJUnit.assertEquals(t.getLastUpdateBy(), "jvuccolo");
+		t.setLastUpdateBy("cpruser");
+		AssertJUnit.assertEquals(t.getLastUpdateBy(), "cpruser");
 	}
 
 	/**
@@ -162,8 +162,8 @@ public class AddressesTest {
 	@Test
 	public final void testGetCreatedBy() {
 		Addresses t = new Addresses();
-		t.setCreatedBy("jvuccolo");
-		AssertJUnit.assertEquals(t.getCreatedBy(), "jvuccolo");
+		t.setCreatedBy("cpruser");
+		AssertJUnit.assertEquals(t.getCreatedBy(), "cpruser");
 	}
 
 	/**

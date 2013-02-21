@@ -54,14 +54,14 @@ public class PersonLinkageTableTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testAddPersonLinkage1() throws Exception {
-		PersonLinkageTable p = new PersonLinkageTable(1L, 2L, "LINKAGE_TYPE_DEPENDANT","jvuccolo");
+		PersonLinkageTable p = new PersonLinkageTable(1L, 2L, "LINKAGE_TYPE_DEPENDANT","cpruser");
 		p.addPersonLinkage(db);
 	}
 	
 //	@Test(expected=Exception.class)
 //	public final void testAddPersonLinkage2() throws Exception {
 //		openDbConnection();
-//		PersonLinkageTable p = new PersonLinkageTable(1L, 2L, "LINKAGE_TYPE_DEPENDANT","jvuccolo");
+//		PersonLinkageTable p = new PersonLinkageTable(1L, 2L, "LINKAGE_TYPE_DEPENDANT","cpruser");
 //		p.addPersonLinkage(db);
 //		db.closeSession();
 //	}
@@ -69,14 +69,14 @@ public class PersonLinkageTableTest {
 	@Test
 	public final void testAddPersonLinkage3() throws Exception {
 		openDbConnection();
-		PersonLinkageTable p = new PersonLinkageTable(100000L, 100002L, "LINKAGE_TYPE_DEPENDANT","jvuccolo");
+		PersonLinkageTable p = new PersonLinkageTable(100000L, 100002L, "LINKAGE_TYPE_DEPENDANT","cpruser");
 		p.addPersonLinkage(db);
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
 	public final void testArchivePersonLinkage1() throws Exception {
-		PersonLinkageTable p = new PersonLinkageTable(100000L, 100002L, "LINKAGE_TYPE_DEPENDANT","jvuccolo");
+		PersonLinkageTable p = new PersonLinkageTable(100000L, 100002L, "LINKAGE_TYPE_DEPENDANT","cpruser");
 		p.archivePersonLinkage(db);
 
 	}
@@ -84,7 +84,7 @@ public class PersonLinkageTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testArchivePersonLinkage2() throws Exception {
 		openDbConnection();
-		PersonLinkageTable p = new PersonLinkageTable(100001L, 100002L, "LINKAGE_TYPE_DEPENDANT","jvuccolo");
+		PersonLinkageTable p = new PersonLinkageTable(100001L, 100002L, "LINKAGE_TYPE_DEPENDANT","cpruser");
 		p.archivePersonLinkage(db);
 		db.closeSession();
 	}
@@ -92,7 +92,7 @@ public class PersonLinkageTableTest {
 	@Test
 	public final void testArchivePersonLinkage3() throws Exception {
 		openDbConnection();
-		PersonLinkageTable p = new PersonLinkageTable(100000L, 100002L, "LINKAGE_TYPE_DEPENDANT","jvuccolo");
+		PersonLinkageTable p = new PersonLinkageTable(100000L, 100002L, "LINKAGE_TYPE_DEPENDANT","cpruser");
 		p.archivePersonLinkage(db);
 		db.closeSession();
 	}
@@ -101,7 +101,7 @@ public class PersonLinkageTableTest {
 	public final void testArchivePersonLinkage4() throws Exception {
 		try {
 		openDbConnection();
-		PersonLinkageTable p = new PersonLinkageTable(100000L, 100002L, "LINKAGE_TYPE_DEPENDANT","jvuccolo");
+		PersonLinkageTable p = new PersonLinkageTable(100000L, 100002L, "LINKAGE_TYPE_DEPENDANT","cpruser");
 		p.archivePersonLinkage(db);
 		}
 		catch (Exception e) {

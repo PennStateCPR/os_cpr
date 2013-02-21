@@ -26,7 +26,7 @@ import edu.psu.iam.cpr.core.database.tables.ServiceLogTable;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class ServiceCoreReturnTest {

@@ -27,7 +27,7 @@ import edu.psu.iam.cpr.core.service.returns.AffiliationReturn;
 
 /**
  * Test for the PsuAffiliationReturn class
- * @author llg5
+ * @author cpruser
  *
  */
 public class AffiliationReturnTest {

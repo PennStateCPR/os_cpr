@@ -36,7 +36,7 @@ public class ValidatePersonTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPersonParameters2() throws Exception {
-		ValidatePerson.validatePersonParameters(db, 1, "jvuccolo");
+		ValidatePerson.validatePersonParameters(db, 1, "cpruser");
 	}
 	
 	@Test(expectedExceptions=Exception.class)
@@ -48,7 +48,7 @@ public class ValidatePersonTest {
 	@Test
 	public final void testValidateAddPersonParameters4() throws Exception {
 		openDbConnection();
-		ValidatePerson.validatePersonParameters(db, 1, "jvuccolo");
+		ValidatePerson.validatePersonParameters(db, 1, "cpruser");
 		db.closeSession();
 	}
 

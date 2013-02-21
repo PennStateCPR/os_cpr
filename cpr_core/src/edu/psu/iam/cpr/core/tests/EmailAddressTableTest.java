@@ -1,8 +1,8 @@
-/* SVN FILE: $Id: EmailAddressTableTest.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
+/* SVN FILE: $Id: EmailAddressTableTest.java 5340 2012-09-27 14:48:52Z cpruser $ */
 /**
  * 
  * @package edu.psu.iam.cpr.core.tests
- * @author $Author: jvuccolo $
+ * @author $Author: cpruser $
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
@@ -34,7 +34,7 @@ import edu.psu.iam.cpr.core.database.tables.EmailAddressTable;
 import edu.psu.iam.cpr.core.database.types.EmailAddressType;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class EmailAddressTableTest {
@@ -129,7 +129,7 @@ public class EmailAddressTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testAddAddress1() throws Exception {
 		openDbConnection();
-		EmailAddressTable t = new EmailAddressTable(0,"home_email","zy1@psu.edu","jvuccolo");
+		EmailAddressTable t = new EmailAddressTable(0,"home_email","zy1@psu.edu","cpruser");
 		t.addAddress(db);
 		db.closeSession();
 	}
@@ -141,7 +141,7 @@ public class EmailAddressTableTest {
 //	@Test(expected=Exception.class)
 //	public final void testAddAddress2() throws Exception {
 //		openDbConnection();
-//		EmailAddressTable t = new EmailAddressTable(100000,"OTHER_EMAIL","zy123@psu.edu","jvuccolo");
+//		EmailAddressTable t = new EmailAddressTable(100000,"OTHER_EMAIL","zy123@psu.edu","cpruser");
 //		t.addAddress(db);
 //		db.closeSession();
 //	}
@@ -153,7 +153,7 @@ public class EmailAddressTableTest {
 	@Test
 	public final void testAddAddress3() throws Exception {
 		openDbConnection();
-		EmailAddressTable t = new EmailAddressTable(100020,"OTHER_EMAIL","zy1234@psu.edu","jvuccolo");
+		EmailAddressTable t = new EmailAddressTable(100020,"OTHER_EMAIL","zy1234@psu.edu","cpruser");
 		t.addAddress(db);
 		db.closeSession();
 	}
@@ -172,7 +172,7 @@ public class EmailAddressTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testUpdateAddress1() throws Exception {
 		openDbConnection();
-		EmailAddressTable t = new EmailAddressTable(0,"home_email","zy1@psu.edu","jvuccolo");
+		EmailAddressTable t = new EmailAddressTable(0,"home_email","zy1@psu.edu","cpruser");
 		t.updateAddress(db);
 		db.closeSession();
 
@@ -184,7 +184,7 @@ public class EmailAddressTableTest {
 	@Test
 	public final void testUpdateAddress2() throws Exception {
 		openDbConnection();
-		EmailAddressTable t = new EmailAddressTable(100020,"other_email","zy12@psu.edu","jvuccolo");
+		EmailAddressTable t = new EmailAddressTable(100020,"other_email","zy12@psu.edu","cpruser");
 		t.updateAddress(db);
 		db.closeSession();
 
@@ -246,7 +246,7 @@ public class EmailAddressTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testDeleteEmailAddress2() throws Exception {
 		openDbConnection();
-		EmailAddressTable t = new EmailAddressTable(100002,"home_email","jvuccolo");
+		EmailAddressTable t = new EmailAddressTable(100002,"home_email","cpruser");
 		t.archiveEmailAddress(db);
 		db.closeSession();
 	}

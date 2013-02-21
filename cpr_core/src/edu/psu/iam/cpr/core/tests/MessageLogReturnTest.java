@@ -28,7 +28,7 @@ import edu.psu.iam.cpr.core.service.returns.MessageLogReturn;
  * The class <code>MessageLogReturnTest</code> contains tests for the class <code>{@link MessageLogReturn}</code>.
  *
  * @generatedBy CodePro at 1/16/12 11:32 AM
- * @author slk24
+ * @author cpruser
  * @version $Revision: 1.0 $
  */
 public class MessageLogReturnTest {

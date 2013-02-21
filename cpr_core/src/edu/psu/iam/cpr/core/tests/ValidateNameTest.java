@@ -29,7 +29,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidateName;
 import edu.psu.iam.cpr.core.database.types.NameType;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class ValidateNameTest {
@@ -107,7 +107,7 @@ public class ValidateNameTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _11testValidateDeleteNameParameters3() throws Exception {
 		openDbConnection();
-		ValidateName.validateArchiveNameParameters(db, 100000, "home", "", "jvuccolo");
+		ValidateName.validateArchiveNameParameters(db, 100000, "home", "", "cpruser");
 		db.closeSession();
 
 	}
@@ -115,7 +115,7 @@ public class ValidateNameTest {
 	@Test
 	public final void _12testValidateDeleteNameParameters4() throws Exception {
 		openDbConnection();
-		ValidateName.validateArchiveNameParameters(db, 100000, "legal_name", "", "jvuccolo");
+		ValidateName.validateArchiveNameParameters(db, 100000, "legal_name", "", "cpruser");
 		db.closeSession();
 	}
 
@@ -154,20 +154,20 @@ public class ValidateNameTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _18testValidateAddNameParameters4() throws Exception {
 		openDbConnection();
-		ValidateName.validateAddNameParameters(db, 0, "name_type", null, null, null, "last", null, "jvuccolo");
+		ValidateName.validateAddNameParameters(db, 0, "name_type", null, null, null, "last", null, "cpruser");
 		db.closeSession();
 	}
 	@Test
 	public final void _19testValidateAddNameParameters5() throws Exception {
 		openDbConnection();
-		ValidateName.validateAddNameParameters(db, 0, "legal_name", null, null, null, "last", null, "jvuccolo");
+		ValidateName.validateAddNameParameters(db, 0, "legal_name", null, null, null, "last", null, "cpruser");
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
 	public final void _20testValidateAddNameParameters6() throws Exception {
 		openDbConnection();
-		ValidateName.validateAddNameParameters(db, 0, "common_name", null, "1234567890123456789012345678901", null, null, null, "jvuccolo");
+		ValidateName.validateAddNameParameters(db, 0, "common_name", null, "1234567890123456789012345678901", null, null, null, "cpruser");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)

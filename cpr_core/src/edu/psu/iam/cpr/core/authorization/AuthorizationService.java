@@ -84,10 +84,10 @@ public class AuthorizationService {
 	 * @param principalId contains the requestor's principal identifier.
 	 * @param requestor contains the userid of the person requesting access.
 	 * @param serviceName contains the service name
-     *	 
+	 * @param clientIpAddress contains the client ip address of the caller.
 	 * @throws CprException exception indicates a cpr specific java exception.
 	 */
-	public void serviceAuthorized(Database db, String principalId, String requestor, String serviceName) throws CprException  {
+	public void serviceAuthorized(Database db, String principalId, String requestor, String serviceName, String clientIpAddress) throws CprException  {
 		RAGroupData localGroupData = null;
 		CprComponentStatusTable cprComponentStatusTable = new CprComponentStatusTable();
 		String authzModel = CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_AUTHZ_MODEL.toString());
@@ -111,12 +111,12 @@ public class AuthorizationService {
 			}
 			else 
 			{
-				 db.requestorAuthorized(principalId, requestor, serviceName);
+				 db.requestorAuthorized(principalId, requestor, serviceName, clientIpAddress);
 			}
 		}
 		else 
 		{
-			db.requestorAuthorized(principalId, requestor, serviceName);	
+			db.requestorAuthorized(principalId, requestor, serviceName, clientIpAddress);	
 		}
 	}
 

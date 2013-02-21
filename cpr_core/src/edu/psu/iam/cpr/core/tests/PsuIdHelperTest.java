@@ -35,8 +35,8 @@ public class PsuIdHelperTest {
 		PsuIdHelper p = new PsuIdHelper();
 		PsuId bean = new PsuId();
 		bean.setPersonId(100000L);
-		bean.setLastUpdateBy("jvuccolo");
-		bean.setCreatedBy("jvuccolo");
+		bean.setLastUpdateBy("cpruser");
+		bean.setCreatedBy("cpruser");
 		openDbConnection();
 		p.generatePSUIdNumber(db.getSession(), bean);
 		db.closeSession();

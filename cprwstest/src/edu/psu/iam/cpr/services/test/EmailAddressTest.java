@@ -38,7 +38,7 @@ public class EmailAddressTest {
 	// invalid password.
 	@Test(expectedExceptions=Exception.class)
 	public void _01testGetEmailAddress1() throws Exception {
-		EmailAddressServiceReturn emailAddressServiceReturn = port.getEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, "jvuccolo", "person_id", "100010", "N");
+		EmailAddressServiceReturn emailAddressServiceReturn = port.getEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", "N");
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}
@@ -56,7 +56,7 @@ public class EmailAddressTest {
 	// Invalid person id.
 	@Test(expectedExceptions=Exception.class)
 	public void _03testGetEmailAddress3() throws Exception {
-		EmailAddressServiceReturn emailAddressServiceReturn = port.getEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "1", "N");
+		EmailAddressServiceReturn emailAddressServiceReturn = port.getEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1", "N");
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}
@@ -65,7 +65,7 @@ public class EmailAddressTest {
 	// Missing email address type.
 	@Test(expectedExceptions=Exception.class)
 	public void _04testAddEmailAddress1() throws Exception {
-		ServiceReturn emailAddressServiceReturn = port.addEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010", null, "inter@gration.test");
+		ServiceReturn emailAddressServiceReturn = port.addEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", null, "inter@gration.test");
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}
@@ -74,7 +74,7 @@ public class EmailAddressTest {
 	// Missing email address.
 	@Test(expectedExceptions=Exception.class)
 	public void _05testAddEmailAddress2() throws Exception {
-		ServiceReturn emailAddressServiceReturn = port.addEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010", "OTHER_EMAIL", null);
+		ServiceReturn emailAddressServiceReturn = port.addEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", "OTHER_EMAIL", null);
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}
@@ -83,7 +83,7 @@ public class EmailAddressTest {
 	// Invalid email address.
 	@Test(expectedExceptions=Exception.class)
 	public void _06testAddEmailAddress3() throws Exception {
-		ServiceReturn emailAddressServiceReturn = port.addEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010", "OTHER_EMAIL", "1@2.3");
+		ServiceReturn emailAddressServiceReturn = port.addEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", "OTHER_EMAIL", "1@2.3");
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}
@@ -92,11 +92,11 @@ public class EmailAddressTest {
 	// Success add email address.
 	@Test
 	public void _07testAddEmailAddress4() throws Exception {
-		ServiceReturn serviceReturn = port.addEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010", "OTHER_EMAIL", "inter@gration.test");
+		ServiceReturn serviceReturn = port.addEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", "OTHER_EMAIL", "inter@gration.test");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
-		EmailAddressServiceReturn emailAddressServiceReturn = port.getEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010", "N");
+		EmailAddressServiceReturn emailAddressServiceReturn = port.getEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", "N");
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}
@@ -113,7 +113,7 @@ public class EmailAddressTest {
 	// Success without history.
 	@Test
 	public void _08testGetEmailAddress4() throws Exception {
-		EmailAddressServiceReturn emailAddressServiceReturn = port.getEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010",  "N");
+		EmailAddressServiceReturn emailAddressServiceReturn = port.getEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010",  "N");
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}
@@ -122,7 +122,7 @@ public class EmailAddressTest {
 	// Success with history.
 	@Test
 	public void _09testGetEmailAddressHistory1() throws Exception {
-		EmailAddressServiceReturn emailAddressServiceReturn = port.getEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010",  "Y");
+		EmailAddressServiceReturn emailAddressServiceReturn = port.getEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010",  "Y");
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}
@@ -133,7 +133,7 @@ public class EmailAddressTest {
 	// Missing email address type.
 	@Test(expectedExceptions=Exception.class)
 	public void _10testUpdateEmailAddress1() throws Exception {
-		ServiceReturn emailAddressServiceReturn = port.updateEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010", null, "inter@gration.test");
+		ServiceReturn emailAddressServiceReturn = port.updateEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", null, "inter@gration.test");
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}
@@ -142,7 +142,7 @@ public class EmailAddressTest {
 	// Missing email address.
 	@Test(expectedExceptions=Exception.class)
 	public void _11testUpdateEmailAddress2() throws Exception {
-		ServiceReturn emailAddressServiceReturn = port.updateEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010", "OTHER_EMAIL", null);
+		ServiceReturn emailAddressServiceReturn = port.updateEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", "OTHER_EMAIL", null);
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}
@@ -151,7 +151,7 @@ public class EmailAddressTest {
 	// Invalid email address.
 	@Test(expectedExceptions=Exception.class)
 	public void _12testUpdateEmailAddress3() throws Exception {
-		ServiceReturn emailAddressServiceReturn = port.updateEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010", "OTHER_EMAIL", "1@2.3");
+		ServiceReturn emailAddressServiceReturn = port.updateEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", "OTHER_EMAIL", "1@2.3");
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}
@@ -160,11 +160,11 @@ public class EmailAddressTest {
 	// Success update email address.
 	@Test
 	public void _13testUpdateEmailAddress4() throws Exception {
-		ServiceReturn serviceReturn = port.updateEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010", "OTHER_EMAIL", "inter2@gration.test");
+		ServiceReturn serviceReturn = port.updateEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", "OTHER_EMAIL", "inter2@gration.test");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
-		EmailAddressServiceReturn emailAddressServiceReturn = port.getEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010", "N");
+		EmailAddressServiceReturn emailAddressServiceReturn = port.getEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", "N");
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}
@@ -181,7 +181,7 @@ public class EmailAddressTest {
 	// Missing email address type.
 	@Test(expectedExceptions=Exception.class)
 	public void _14testArchiveEmailAddress1() throws Exception {
-		ServiceReturn emailAddressServiceReturn = port.archiveEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010", null);
+		ServiceReturn emailAddressServiceReturn = port.archiveEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", null);
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}
@@ -190,7 +190,7 @@ public class EmailAddressTest {
 	// Invalid email address type.
 	@Test(expectedExceptions=Exception.class)
 	public void _15testArchiveEmailAddress2() throws Exception {
-		ServiceReturn emailAddressServiceReturn = port.archiveEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010", "AOL_MAIL");
+		ServiceReturn emailAddressServiceReturn = port.archiveEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", "AOL_MAIL");
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}
@@ -200,11 +200,11 @@ public class EmailAddressTest {
 	@Test
 	public void _16testArchiveEmailAddress3() throws Exception {
 		int hasOtherEmail = 0;
-		ServiceReturn serviceReturn = port.archiveEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010", "OTHER_EMAIL");
+		ServiceReturn serviceReturn = port.archiveEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", "OTHER_EMAIL");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
-		EmailAddressServiceReturn emailAddressServiceReturn = port.getEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100010", "N");
+		EmailAddressServiceReturn emailAddressServiceReturn = port.getEmailAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100010", "N");
 		if (emailAddressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(emailAddressServiceReturn.getStatusMessage());
 		}

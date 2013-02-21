@@ -7,6 +7,12 @@ use cpr;
 
 	SET FOREIGN_KEY_CHECKS=0;
 	
+    drop table if exists cpr_access_groups;
+
+    drop table if exists server_principal_ip;
+
+    drop table if exists web_service_access;
+
     drop table if exists identifier_type;
 
     drop table if exists person_identifier;
@@ -61,15 +67,11 @@ use cpr;
 
     drop table if exists generated_identity;
 
-    drop table if exists group_access;
-
     drop table if exists group_data_type_access;
 
     drop table if exists group_member_comments;
 
     drop table if exists group_members;
-
-    drop table if exists iam_groups;
 
     drop table if exists iap;
 
@@ -128,8 +130,6 @@ use cpr;
     drop table if exists ra_affiliation;
 
     drop table if exists ra_comments;
-
-    drop table if exists ra_groups;
 
     drop table if exists ra_iap_assign;
 
@@ -544,32 +544,19 @@ use cpr;
         primary key (generated_identity_key)
     ) ENGINE=INNODB;
 
-    create table group_access (
-        group_access_key bigint not null auto_increment,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        end_date datetime,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        ra_group_key bigint not null,
-        start_date datetime not null,
-        suspend_flag varchar(1) not null,
-        web_service_key bigint not null,
-        primary key (group_access_key)
-    ) ENGINE=INNODB;
-
-    create table group_data_type_access (
-        group_data_type_access_key bigint not null auto_increment,
-        archive_flag varchar(1) not null,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        data_type_key bigint not null,
-        iam_group_key bigint not null,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        read_flag varchar(1) not null,
-        write_flag varchar(1) not null,
-        primary key (group_data_type_access_key)
+    create table group_data_type_access
+    (
+     group_data_type_access_key bigint not null auto_increment,
+     cpr_access_groups_key bigint not null,
+     data_type_key bigint not null,
+     read_flag varchar(1) default 'N' not null check ( read_flag in ('N', 'Y')), 
+     write_flag varchar(1) default 'N' not null check ( write_flag in ('N', 'Y')), 
+     archive_flag varchar(1) default 'N' not null check ( archive_flag in ('N', 'Y')), 
+     last_update_by varchar(30) not null, 
+     last_update_on datetime not null, 
+     created_by varchar(30) not null, 
+     created_on datetime not null,
+     primary key (group_data_type_access_key)
     ) ENGINE=INNODB;
 
     create table group_member_comments (
@@ -583,33 +570,20 @@ use cpr;
         primary key (group_member_comment_key)
     ) ENGINE=INNODB;
 
-    create table group_members (
-        group_member_key bigint not null auto_increment,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        end_date datetime,
-        iam_group_key bigint not null,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        person_id bigint,
-        start_date datetime not null,
-        suspend_flag varchar(1) not null,
-        userid varchar(30),
-        primary key (group_member_key)
-    ) ENGINE=INNODB;
-
-    create table iam_groups (
-        iam_group_key bigint not null auto_increment,
-        active_flag varchar(1) not null,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        iam_group varchar(60) not null,
-        iam_group_desc varchar(100) not null,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        parent_iam_group_key bigint,
-        suspend_flag varchar(1) not null,
-        primary key (iam_group_key)
+    create table group_members
+    (
+     group_member_key bigint not null auto_increment,
+     person_id bigint not null,
+     userid varchar(30) not null,
+     cpr_access_groups_key bigint not null,
+     suspend_flag varchar(1) default 'Y' not null check ( suspend_flag in ('N', 'Y')),
+     start_date datetime not null,
+     end_date datetime,
+     last_update_by varchar(30) not null,
+     last_update_on datetime not null,
+     created_by varchar(30) not null,
+     created_on datetime not null,
+     primary key (group_member_key)
     ) ENGINE=INNODB;
 
     create table iap (
@@ -985,19 +959,6 @@ use cpr;
         primary key (ra_comment_key)
     ) ENGINE=INNODB;
 
-    create table ra_groups (
-        ra_group_key bigint not null auto_increment,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        end_date datetime,
-        iam_group_key bigint not null,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        registration_authority_key bigint not null,
-        start_date datetime,
-        primary key (ra_group_key)
-    ) ENGINE=INNODB;
-
     create table ra_iap_assign (
         ra_iap_assign_key bigint not null auto_increment,
         created_by varchar(30) not null,
@@ -1049,6 +1010,9 @@ use cpr;
         registration_authority_desc varchar(100) not null,
         start_date datetime not null,
         suspend_flag varchar(1) not null,
+        assign_psuid_flag varchar(1) not null,
+        assign_userid_flag varchar(1) not null,
+        collect_ssn_flag varchar(1) not null,
         primary key (registration_authority_key)
     ) ENGINE=INNODB;
 
@@ -1300,8 +1264,8 @@ use cpr;
      ra_application_key bigint not null auto_increment,
      ui_application_key bigint not null, 
      registration_authority_key bigint not null, 
-     suspend_flag varchar(1) default 'y'  not null check ( suspend_flag in ('n', 'y')), 
-     allow_ssn_collection_flag varchar(1) default 'n'  not null check ( allow_ssn_collection_flag in ('n', 'y')), 
+     suspend_flag varchar(1) default 'Y'  not null check ( suspend_flag in ('N', 'Y')), 
+     allow_ssn_collection_flag varchar(1) default 'N'  not null check ( allow_ssn_collection_flag in ('N', 'Y')), 
      last_update_by varchar(30) not null, 
      last_update_on datetime not null, 
      created_by varchar(30) not null, 
@@ -1342,8 +1306,8 @@ use cpr;
      ra_screen_key bigint not null, 
      ui_screen_name varchar(30) not null, 
      ui_field_name varchar(30) not null, 
-     required_flag varchar(1) default 'y'  not null check ( required_flag in ('n', 'y')), 
-     display_flag varchar(1) default 'y'  not null check ( display_flag in ('n', 'y')), 
+     required_flag varchar(1) default 'Y'  not null check ( required_flag in ('N', 'Y')), 
+     display_flag varchar(1) default 'Y'  not null check ( display_flag in ('N', 'Y')), 
      last_update_by varchar(30) not null, 
      last_update_on datetime not null, 
      created_by varchar(30) not null, 
@@ -1383,7 +1347,7 @@ use cpr;
      ui_application_key bigint not null auto_increment,
      application_name varchar(200) not null, 
      application_desc varchar(1000) not null, 
-     suspend_flag varchar(1) default 'y'  not null check ( suspend_flag in ('n', 'y')), 
+     suspend_flag varchar(1) default 'Y'  not null check ( suspend_flag in ('N', 'Y')), 
      last_update_by varchar(30) not null, 
      last_update_on datetime not null, 
      created_by varchar(30) not null, 
@@ -1412,7 +1376,7 @@ use cpr;
      ip_address varchar(50), 
      request_userid varchar(30), 
      browser_type varchar(200), 
-     error_flag varchar(1) default 'n'  not null check ( error_flag in ('n', 'y')),
+     error_flag varchar(1) default 'N'  not null check ( error_flag in ('N', 'Y')),
      primary key (ui_log_key)
     ) ENGINE=INNODB;
 
@@ -1420,7 +1384,7 @@ use cpr;
     ( 
      ui_screen_name varchar(30) not null default ' ', 
      ui_application_key bigint not null,
-     required_flag varchar(1) default 'y'  not null check ( required_flag in ('n', 'y')), 
+     required_flag varchar(1) default 'Y'  not null check ( required_flag in ('N', 'Y')), 
      active_flag varchar(1) not null, 
      last_update_by varchar(30) not null, 
      last_update_on datetime not null, 
@@ -1437,14 +1401,61 @@ use cpr;
      max_length bigint , 
      field_width bigint , 
      field_height bigint , 
-     required_flag varchar(1) default 'y'  not null check ( required_flag in ('n', 'y')), 
-     display_flag varchar(1) default 'y'  not null check ( display_flag in ('n', 'y')), 
+     required_flag varchar(1) default 'Y'  not null check ( required_flag in ('N', 'Y')), 
+     display_flag varchar(1) default 'Y'  not null check ( display_flag in ('N', 'Y')), 
      active_flag varchar(1) not null, 
      last_update_by varchar(30) not null, 
      last_update_on datetime not null, 
      created_by varchar(30) not null, 
      created_on datetime not null 
     ) ENGINE=INNODB;
+
+    create table cpr_access_groups
+    (
+     cpr_access_groups_key bigint  not null auto_increment, 
+     ra_server_principal_key bigint  not null, 
+     access_group varchar(60)  not null, 
+     suspend_flag varchar(1) default 'Y'  not null check ( suspend_flag in ('N', 'Y')), 
+     start_date datetime  not null, 
+     end_date datetime, 
+     last_update_by varchar(30)  not null, 
+     last_update_on datetime  not null, 
+     created_by varchar(30)  not null, 
+     created_on datetime  not null,
+     primary key (cpr_access_groups_key)
+    ) ENGINE=INNODB;
+
+    create table web_service_access
+    (
+     web_service_access_key bigint not null auto_increment,
+     cpr_access_groups_key bigint not null,
+     web_service_key bigint  not null,
+     suspend_flag varchar(1) default 'Y'  not null check ( suspend_flag in ('N', 'Y')),
+     start_date datetime  not null,
+     end_date datetime,
+     last_update_by varchar(30)  not null,
+     last_update_on datetime  not null,
+     created_by varchar(30)  not null,
+     created_on datetime  not null,
+     primary key (web_service_access_key)
+    ) ENGINE=INNODB;
+
+    create table server_principal_ip
+    (
+     server_principal_ip_key bigint not null auto_increment, 
+     ra_server_principal_key bigint not null, 
+     ip_address varchar(15)  not null,  
+     start_date datetime not null,  
+     end_date datetime,  
+     last_update_by varchar(30) not null,  
+     last_update_on datetime not null,  
+     created_by varchar(30) not null,  
+     created_on datetime not null,
+     primary key (server_principal_ip_key)
+    ) ENGINE=INNODB;
+
+-- end of tables --
+
     
 alter table addresses add foreign key (person_id) references person(person_id);
 alter table addresses add foreign key (data_type_key) references data_types(data_type_key);
@@ -1461,12 +1472,11 @@ alter table ext_affiliation_mapping add foreign key (affiliation_key) references
 alter table ext_affiliation_mapping add foreign key (ext_affiliation_key) references ext_affiliation(ext_affiliation_key);
 alter table external_iap add foreign key (federation_key) references federation(federation_key);
 alter table generated_identity add foreign key (person_id) references person(person_id);
-alter table group_access add foreign key (web_service_key) references web_service(web_service_key);
-alter table group_access add foreign key (ra_group_key) references ra_groups(ra_group_key);
-alter table group_data_type_access add foreign key (data_type_key) references data_types(data_type_key);
-alter table group_data_type_access add foreign key (iam_group_key) references iam_groups(iam_group_key);
+alter table group_data_type_access add constraint gda_cag_fk foreign key ( cpr_access_groups_key) references cpr_access_groups ( cpr_access_groups_key);
+alter table group_data_type_access add constraint gda_data_types_fk foreign key ( data_type_key) references data_types ( data_type_key);
 alter table group_member_comments add foreign key (group_member_key) references group_members(group_member_key);
-alter table group_members add foreign key (iam_group_key) references iam_groups(iam_group_key);
+alter table group_members add constraint grpmbrs_cag_fk foreign key ( cpr_access_groups_key) references cpr_access_groups ( cpr_access_groups_key);
+alter table group_members add constraint grpmbrs_userid_fk foreign key ( userid, person_id) references userid ( userid, person_id);
 alter table id_card_print_log add foreign key (person_id_card_key) references person_id_card(person_id_card_key);
 alter table match_results add foreign key (person_id) references person(person_id);
 alter table message_log add foreign key (web_service_key) references web_service(web_service_key);
@@ -1500,7 +1510,6 @@ alter table psu_directory add foreign key (person_id) references person(person_i
 alter table psu_id add foreign key (person_id) references person(person_id);
 alter table ra_affiliation add foreign key (registration_authority_key) references registration_authority(registration_authority_key);
 alter table ra_comments add foreign key (registration_authority_key) references registration_authority(registration_authority_key);
-alter table ra_groups add foreign key (registration_authority_key) references registration_authority(registration_authority_key);
 alter table ra_iap_assign add foreign key (registration_authority_key) references registration_authority(registration_authority_key);
 alter table ra_server_principals add foreign key (registration_authority_key) references registration_authority(registration_authority_key);
 alter table ra_ui_application add foreign key (registration_authority_key) references registration_authority(registration_authority_key);
@@ -1529,6 +1538,12 @@ alter table security_question_answers add foreign key ( userid, person_id) refer
 alter table ui_log add foreign key ( ui_application_key) references ui_applications ( ui_application_key);
 alter table ui_screen_fields add foreign key ( ui_field_type) references ui_field_types ( ui_field_type);
 alter table ui_screens add foreign key ( ui_application_key) references ui_applications ( ui_application_key);
+alter table cpr_access_groups add constraint cag_spkey_group_uk unique ( ra_server_principal_key , access_group );
+alter table cpr_access_groups add constraint cag_rasrvrprinc_fk foreign key ( ra_server_principal_key) references ra_server_principals ( ra_server_principal_key);
+alter table web_service_access add constraint wsa_cag_fk foreign key ( cpr_access_groups_key) references cpr_access_groups ( cpr_access_groups_key);
+alter table web_service_access add constraint wsa_websrvc_fk foreign key ( web_service_key) references web_service ( web_service_key);
+alter table server_principal_ip add constraint spi_raserverprinc_fk foreign key ( ra_server_principal_key ) references ra_server_principals ( ra_server_principal_key);
+-- end of alter tables --
 
 
 CREATE or replace VIEW v_database_log (number_tries, entry_timestamp, request_duration) AS 
@@ -1572,13 +1587,11 @@ WHERE person_userid_iap.end_date IS NULL
   AND external_iap.active_flag = 'Y'
   AND federation.active_flag = 'Y';
 
-  CREATE OR REPLACE VIEW v_group_data_type_access (iam_group_key, parent_iam_group_key, iam_group, iamgrp_suspend_flag, iamgrp_active_flag, group_data_type_access_key, data_type_key, read_flag, write_flag, archive_flag, parent_data_type_key, data_type, datatype_enum_string, datatype_can_assign_flag, datatype_active_flag) AS 
+  CREATE OR REPLACE VIEW v_group_data_type_access (cpr_access_groups_key, access_group, cpraccgrp_susped_flag, group_data_type_access_key, data_type_key, read_flag, write_flag, archive_flag, parent_data_type_key, data_type, datatype_enum_string, datatype_can_assign_flag, datatype_active_flag) AS 
   SELECT
-	iam_groups.iam_group_key,
-	iam_groups.parent_iam_group_key,
-	iam_groups.iam_group,
-	iam_groups.suspend_flag AS iamgrp_suspend_flag,
-	iam_groups.active_flag AS iamgrp_active_flag,
+	cpr_access_groups.cpr_access_groups_key,
+	cpr_access_groups.access_group,
+	cpr_access_groups.suspend_flag AS cpraccgrp_suspend_flag,
 	group_data_type_access.group_data_type_access_key,
 	data_types.data_type_key,
 	group_data_type_access.read_flag,
@@ -1589,8 +1602,8 @@ WHERE person_userid_iap.end_date IS NULL
 	data_types.enum_string AS datatype_enum_string,
 	data_types.can_assign_flag AS datatype_can_assign_flag,
 	data_types.active_flag AS datatype_active_flag
-FROM iam_groups
-	JOIN group_data_type_access ON iam_groups.iam_group_key = group_data_type_access.iam_group_key
+ FROM cpr_access_groups
+	JOIN group_data_type_access ON cpr_access_groups.cpr_access_groups_key = group_data_type_access.cpr_access_groups_key
 	JOIN data_types ON group_data_type_access.data_type_key = data_types.data_type_key;
 
   CREATE OR REPLACE VIEW v_internal_affiliations (person_id, primary_flag, peraff_end_date, affiliation_key, affiliation, enum_string, aff_active_flag, can_assign_flag) AS 
@@ -1631,26 +1644,27 @@ FROM person_affiliation JOIN affiliations
 FROM person_id_card JOIN id_card_print_log
 		ON person_id_card.person_id_card_key = id_card_print_log.person_id_card_key;
 
-  CREATE OR REPLACE VIEW v_ra_group_web_service (group_member_key, iam_group_key, registration_authority_key, userid, grpmbrs_suspend_flag, iamgrps_suspend_flag, grpacc_suspend_flag, web_service) AS 
+  CREATE OR REPLACE VIEW v_ra_group_web_service (group_member_key, cpr_access_groups_key, registration_authority_key, ra_server_principal_key, userid, grpmbrs_suspend_flag, cpraccgprs_suspend_flag, websrvacc_suspend_flag, web_service) AS 
   SELECT group_members.group_member_key,
-	   iam_groups.iam_group_key,
-	   ra_groups.registration_authority_key,
+	   cpr_access_groups.cpr_access_groups_key,
+	   ra_server_principals.registration_authority_key,
+	   ra_server_principals.ra_server_principal_key,
        group_members.userid,
        group_members.suspend_flag AS grpmbrs_suspend_flag,
-       iam_groups.suspend_flag AS iamgrps_suspend_flag,
-       group_access.suspend_flag AS grpacc_suspend_flag,
+       cpr_access_groups.suspend_flag AS cpraccgprs_suspend_flag,
+       web_service_access.suspend_flag AS websrvacc_suspend_flag,
        web_service.web_service
-FROM registration_authority ra JOIN ra_groups
-      	ON ra.registration_authority_key = ra_groups.registration_authority_key
-    JOIN iam_groups ON ra_groups.iam_group_key = iam_groups.iam_group_key
-    JOIN group_members ON iam_groups.iam_group_key = group_members.iam_group_key
-    JOIN group_access ON ra_groups.ra_group_key = group_access.ra_group_key
-    JOIN web_service ON group_access.web_service_key = web_service.web_service_key
-WHERE group_members.end_date IS NULL
-AND iam_groups.active_flag = 'Y'
-AND ra_groups.end_date IS NULL
-AND group_access.end_date IS NULL
-AND web_service.end_date IS NULL;
+ FROM registration_authority ra JOIN ra_server_principals
+      	ON ra.registration_authority_key = ra_server_principals.registration_authority_key
+    JOIN cpr_access_groups ON ra_server_principals.ra_server_principal_key = cpr_access_groups.ra_server_principal_key
+    JOIN group_members ON cpr_access_groups.cpr_access_groups_key = group_members.cpr_access_groups_key
+    JOIN web_service_access ON cpr_access_groups.cpr_access_groups_key = web_service_access.cpr_access_groups_key
+    JOIN web_service ON web_service_access.web_service_key = web_service.web_service_key
+ WHERE group_members.end_date IS NULL
+ AND cpr_access_groups.end_date IS NULL
+ AND ra_server_principals.end_date IS NULL
+ AND web_service_access.end_date IS NULL
+ AND web_service.end_date IS NULL;
 
   CREATE OR REPLACE VIEW v_sp_notification (service_provisioner_key, service_provisioner, service_provisioner_queue, web_service, web_service_key) AS 
   SELECT service_provisioner.service_provisioner_key,
@@ -1757,20 +1771,15 @@ create index generated_identity_02_idx on generated_identity ( char_part asc, nu
 create index generated_identity_10_idx on generated_identity ( person_id asc);
 create index generated_identity_pk on generated_identity ( generated_identity_key asc);
 create index generated_identity_set_id_idx on generated_identity ( set_id asc); 
-create index group_access_01_idx on group_access ( ra_group_key asc, end_date asc, web_service_key asc);
-create index group_access_10_idx on group_access ( web_service_key asc);
-create index group_access_20_idx on group_access ( ra_group_key asc);
-create index group_access_pk on group_access ( group_access_key asc);
-create index group_data_type_access_01_idx on group_data_type_access ( data_type_key asc, iam_group_key asc);
-create index group_data_type_access_pk on group_data_type_access ( group_data_type_access_key asc);
-create index group_members_01_idx on group_members ( iam_group_key asc, userid asc, end_date asc);
-create index group_members_02_idx on group_members ( userid asc, end_date asc);
-create index group_members_20_idx on group_members ( userid asc, person_id asc);
+create index group_data_type_access_01_idx on group_data_type_access ( data_type_key asc , cpr_access_groups_key asc);
+create index group_data_type_access_pkx on group_data_type_access ( group_data_type_access_key asc);
+create index gda_data_types_fkx on group_data_type_access ( data_type_key asc); 
+create index gda_cag_fkx on group_data_type_access ( cpr_access_groups_key asc);
+create index group_members_01_idx on group_members ( cpr_access_groups_key asc , userid asc , end_date asc);
+create index group_members_20_idx on group_members ( userid asc , person_id asc);
+create index group_members_02_idx on group_members ( userid asc , end_date asc);
 create index group_members_pk on group_members ( group_member_key asc);
 create index group_member_comments_pk on group_member_comments ( group_member_comment_key asc);
-create index groups_pk on iam_groups ( iam_group_key asc);
-create index iam_groups_01_idx on iam_groups ( active_flag asc, iam_group_key asc);
-create index iam_groups_02_idx on iam_groups ( iam_group asc);
 create index iap_pk on iap ( iap_key asc);
 create index iap_data_element_pk on iap_data_element ( iap_data_element_key asc);
 create index iap_document_pk on iap_document ( iap_document_key asc);
@@ -1842,8 +1851,6 @@ create index ra_affiliation_pk on ra_affiliation ( ra_affiliation_key asc);
 create index ra_applications_pk on ra_applications ( ra_application_key asc);
 create index ra_application_properites_pk on ra_application_properties ( ra_application_properties_key asc);
 create index ra_comments_pk on ra_comments ( ra_comment_key asc);
-create index ra_groups_01_idx on ra_groups ( registration_authority_key asc, end_date asc, iam_group_key asc);
-create index ra_groups_pk on ra_groups ( ra_group_key asc);
 create index ra_iap_assign_pk on ra_iap_assign ( ra_iap_assign_key asc);
 create index ra_screens_pk on ra_screens ( ra_screen_key asc);
 create index ra_screen_fields_pk on ra_screen_fields ( ra_screen_field_key asc);
@@ -1884,3 +1891,12 @@ create index user_comments_pk on user_comments ( user_comment_key asc);
 create index user_service_status_pk on user_service_status ( user_service_status_key asc);
 create index web_service_01_idx on web_service ( web_service asc, end_date asc, web_service_key asc);
 create index web_service_pk on web_service ( web_service_key asc);
+create index web_service_access_pkx on web_service_access ( web_service_access_key asc);
+create index wsa_websrvc_fkx on web_service_access ( web_service_key asc);
+create index wsa_cag_fkx on web_service_access ( cpr_access_groups_key asc);
+create index server_principal_ip_pkx on server_principal_ip ( server_principal_ip_key asc);
+create index spi_raserverprinc_fkx on server_principal_ip ( ra_server_principal_key asc);
+create unique index cpr_access_groups_pkx on cpr_access_groups ( cpr_access_groups_key asc);
+create unique index cag_spkey_group_ukx on cpr_access_groups ( ra_server_principal_key asc , access_group asc);
+create index cag_rasrvrprinc_fkx on cpr_access_groups ( ra_server_principal_key asc);
+-- end of indexes --

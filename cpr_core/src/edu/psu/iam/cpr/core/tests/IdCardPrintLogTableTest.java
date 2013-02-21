@@ -31,7 +31,7 @@ import edu.psu.iam.cpr.core.database.tables.IdCardTable;
 import edu.psu.iam.cpr.core.util.Utility;
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class IdCardPrintLogTableTest {
@@ -39,7 +39,7 @@ public class IdCardPrintLogTableTest {
 	String dConverted = Utility.convertTimestampToString((Date) d);
 	String wsName= "myWorkStation";
 	String ipAddr = "128.118.88.3";
-	String thePrinter = "llg5";
+	String thePrinter = "cpruser";
 	String idCardNo = "1234567890123456";
 	IdCardPrintLogTable icpt = new IdCardPrintLogTable();
 	
@@ -103,7 +103,7 @@ public class IdCardPrintLogTableTest {
 	public final void testAddIdCardPrintLog() throws Exception {
 		openDbConnection();
 		IdCardTable aPICTable = new IdCardTable();
-		aPICTable = new IdCardTable(100003, "ID_CARD_ID_PLUS_CARD_STUDENT", "llg5", "6543210987654321","12345", new byte [1], new Date());
+		aPICTable = new IdCardTable(100003, "ID_CARD_ID_PLUS_CARD_STUDENT", "cpruser", "6543210987654321","12345", new byte [1], new Date());
 		try {
 			aPICTable.archiveIdCard(db);
 		}

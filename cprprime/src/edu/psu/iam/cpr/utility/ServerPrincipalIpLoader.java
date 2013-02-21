@@ -9,13 +9,12 @@ import org.hibernate.Session;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.utility.beans.RaGroups;
+import edu.psu.iam.cpr.utility.beans.ServerPrincipalIp;
 
-public class RaGroupsLoader implements BeanLoader {
+public class ServerPrincipalIpLoader implements BeanLoader {
 
 	@Override
-	public void loadTable(Database db, String primeDirectory,
-			String tableName) {
+	public void loadTable(Database db, String primeDirectory, String tableName) {
 		BufferedReader bufferedReader = null;
 		try {
 			Date d = new Date();
@@ -38,7 +37,7 @@ public class RaGroupsLoader implements BeanLoader {
 			while ((line = bufferedReader.readLine()) != null) {
 				String[] fields = line.split("[|]");
 				
-				RaGroups bean = new RaGroups();
+				ServerPrincipalIp bean = new ServerPrincipalIp();
 				bean.setCreatedBy(requestor);
 				bean.setCreatedOn(d);
 				bean.setLastUpdateBy(requestor);
@@ -46,17 +45,17 @@ public class RaGroupsLoader implements BeanLoader {
 				bean.setStartDate(d);
 				bean.setEndDate(null);
 				
-				// registration_authority_key|iam_group_key|ra_group_key
+				// server_principal_ip_key|ra_server_principal_key|ip_address
 
 				for (int i = 0; i < columns.length; ++i) {
-					if (columns[i].equals("registration_authority_key")) {
-						bean.setRegistrationAuthorityKey(new Long(fields[i]));
+					if (columns[i].equals("server_principal_ip_key")) {
+						bean.setServerPrincipalIpKey(new Long(fields[i]));
 					}
-					else if (columns[i].equals("iam_group_key")) {
-						bean.setIamGroupKey(new Long(fields[i]));
+					else if (columns[i].equals("ra_server_principal_key")) {
+						bean.setRaServerPrincipalKey(new Long(fields[i]));
 					}
-					else if (columns[i].equals("ra_group_key")) {
-						bean.setRaGroupKey(new Long(fields[i]));
+					else if (columns[i].equals("ip_address")) {
+						bean.setIpAddress(fields[i]);
 					}
 				}
 				
@@ -75,6 +74,7 @@ public class RaGroupsLoader implements BeanLoader {
 			catch (Exception e) {
 			}
 		}
+
 	}
 
 }

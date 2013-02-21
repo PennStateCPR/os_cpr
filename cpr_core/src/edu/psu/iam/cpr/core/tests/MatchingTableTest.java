@@ -27,7 +27,7 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.MatchingTable;
 
 /**
- * @author jvuccolo
+ * @author cpruser
  *
  */
 public class MatchingTableTest {

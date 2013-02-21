@@ -29,7 +29,7 @@ import edu.psu.iam.cpr.core.database.types.IapType;
 import edu.psu.iam.cpr.core.service.returns.IAPReturn;
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class PersonUseridIapTableTest {
@@ -52,7 +52,7 @@ public class PersonUseridIapTableTest {
 	
 	@Test
 	public final void testPersonUseridIapTableArgs() throws Exception {
-		new PersonUseridIapTable(1000000, "dummy",  "BRONZE", "llg5");
+		new PersonUseridIapTable(1000000, "dummy",  "BRONZE", "cpruser");
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonUseridIapTable#PersonUseridIapTable(int, java.lang.String,  java.lang.String, java.lang.String)}.
@@ -61,7 +61,7 @@ public class PersonUseridIapTableTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testPersonUseridIapTableArgsBadIap() throws Exception {
-		new PersonUseridIapTable(1000000, "dummy", "PURPLE", "llg5");
+		new PersonUseridIapTable(1000000, "dummy", "PURPLE", "cpruser");
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonUseridIapTable#PersonUseridIapTable(int, java.lang.String, java.lang.String, java.lang.String)}.
@@ -70,7 +70,7 @@ public class PersonUseridIapTableTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testPersonUseridIapTableArgsNullIap() throws Exception {
-		new PersonUseridIapTable(1000000,  "dummy",null, "llg5");
+		new PersonUseridIapTable(1000000,  "dummy",null, "cpruser");
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonUseridIapTable#PersonUseridIapTable(int,  java.lang.String,java.lang.String, java.lang.String)}.
@@ -79,7 +79,7 @@ public class PersonUseridIapTableTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testPersonUseridIapTableArgsBlankIap() throws Exception {
-		new PersonUseridIapTable(1000000, "dummy", "", "llg5");
+		new PersonUseridIapTable(1000000, "dummy", "", "cpruser");
 	}
 	
 	/**
@@ -89,7 +89,7 @@ public class PersonUseridIapTableTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testPersonUseridIapTableArgsBadUserId() throws Exception {
-		new PersonUseridIapTable(1000000, "abcdesfyths", "PURPLE", "llg5");
+		new PersonUseridIapTable(1000000, "abcdesfyths", "PURPLE", "cpruser");
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonUseridIapTable#PersonUseridIapTable(int, java.lang.String, java.lang.String, java.lang.String)}.
@@ -98,7 +98,7 @@ public class PersonUseridIapTableTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testPersonUseridIapTableArgsNullUserId() throws Exception {
-		new PersonUseridIapTable(1000000,  null,null, "llg5");
+		new PersonUseridIapTable(1000000,  null,null, "cpruser");
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.PersonUseridIapTable#PersonUseridIapTable(int,  java.lang.String,java.lang.String, java.lang.String)}.
@@ -107,7 +107,7 @@ public class PersonUseridIapTableTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testPersonUseridIapTableArgsBlankUserId() throws Exception {
-		new PersonUseridIapTable(1000000, "", "", "llg5");
+		new PersonUseridIapTable(1000000, "", "", "cpruser");
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class PersonUseridIapTableTest {
 	
 	@Test
 	public final void testPersonUseridIapTableArgsCheckIAP() throws Exception {
-		PersonUseridIapTable PersonUseridIapTable = new PersonUseridIapTable(1000000,  "tuj139","BRONZE", "llg5");
+		PersonUseridIapTable PersonUseridIapTable = new PersonUseridIapTable(1000000,  "tuj139","BRONZE", "cpruser");
 		AssertJUnit.assertEquals(PersonUseridIapTable.getIapType(), IapType.BRONZE);
 	}
 	
@@ -150,7 +150,7 @@ public class PersonUseridIapTableTest {
 	 */
 	@Test
 	public final void testGetIapType() throws Exception {
-		PersonUseridIapTable  PersonUseridIapTable = new PersonUseridIapTable(1000000,  "tuj139","SILVER", "llg5");
+		PersonUseridIapTable  PersonUseridIapTable = new PersonUseridIapTable(1000000,  "tuj139","SILVER", "cpruser");
 		AssertJUnit.assertEquals(PersonUseridIapTable.getIapType(), IapType.SILVER);
 	}
 
@@ -181,7 +181,7 @@ public class PersonUseridIapTableTest {
 	 */
 	@Test
 	public final void testGetIapTypeId() throws Exception {
-		PersonUseridIapTable  PersonUseridIapTable = new PersonUseridIapTable(1000000, "tuj139", "BRONZE", "llg5");
+		PersonUseridIapTable  PersonUseridIapTable = new PersonUseridIapTable(1000000, "tuj139", "BRONZE", "cpruser");
 		AssertJUnit.assertEquals(PersonUseridIapTable.getIapType(), IapType.BRONZE);
 		
 	}
@@ -252,7 +252,7 @@ public class PersonUseridIapTableTest {
 	public final void testGetExternalValidFedNoDb()  throws Exception  {
 		openDbConnection();
 		PersonUseridIapTable pATable = new PersonUseridIapTable();
-		IAPReturn[] iapReturn = pATable.getExternalIAP(null, 751116,  "llg5", "InCommon");
+		IAPReturn[] iapReturn = pATable.getExternalIAP(null, 751116,  "cpruser", "InCommon");
 		db.closeSession();
 	}
 	/*

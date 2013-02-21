@@ -35,7 +35,7 @@ public class AddressTest {
 	public void cleanUpAll(String person_id) throws Exception {
 		AddressServiceReturn getAddressReturn = null;
 		ServiceReturn archiveAddressReturn = null;
-		getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", person_id, null, "N");
 		if (getAddressReturn.getStatusCode() != 0) {
 			throw new Exception(getAddressReturn.getStatusMessage());
@@ -46,7 +46,7 @@ public class AddressTest {
 				for (final Iterator<AddressReturn> it = getAddressReturn.getAddressReturnRecord().iterator(); it.hasNext();) {
 					AddressReturn address = it.next();
 					archiveAddressReturn = port.archiveAddress(ServiceAuthentication.GOOD_USERID,
-							ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", person_id,
+							ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", person_id,
 							address.getAddressType(),
 							address.getDocumentType(), address.getGroupId());
 					if (archiveAddressReturn.getStatusCode() != 0) {
@@ -61,7 +61,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _01testAddressBadPassword() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.BAD_PASSWORD, "llg5", "person_id", "100003", "permanent_address",
+					ServiceAuthentication.BAD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "permanent_address",
 					null, "3820 Oak Street", null, null, "Vancouver", "BC",
 					"V6H2M5", "CAN", null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -94,7 +94,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _04testAddressPersonTypeBad() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person", "100003", "local_address", null,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person", "100003", "local_address", null,
 					"109 Town Centre Dr.", null, null, "Johnstown", "PA", "15904",
 					"USA", null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -104,7 +104,7 @@ public class AddressTest {
 	
 	@Test(expectedExceptions = Exception.class)
 		public void _05testAddressPersonIdBad() throws Exception {
-			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "1",
+			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1",
 							"local_address", null, "746 Tussey Lane", null, null,
 							null, "PA", "16801", "USA", null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -115,7 +115,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _06testAddressBadAddressType() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "local", null,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "local", null,
 					"1415 Chestnut", null, null, "Berwick", null, "18603", "USA",
 					null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -126,7 +126,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _07testAddressNullAddressType() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null, null,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null, null,
 					"1415 Chestnut", null, null, "Berwick", null, "18603", "USA",
 					null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -137,7 +137,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _08testAddressBadDocumentType() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "DOCUMENTED_ADDRESS",
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "DOCUMENTED_ADDRESS",
 					"Military", "1415 Chestnut", null, null, "Berwick", null,
 					"18603", "USA", null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -148,7 +148,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _09testAddressBadComboAddressDocumentType() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "LOCAL_ADDRESS",
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "LOCAL_ADDRESS",
 					"MILITARY_ID", "1415 Chestnut", null, null, "Berwick", null,
 					"18603", "USA", null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -159,7 +159,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _10testAddressBadComboAddressDocumentTypeNull() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "DOCUMENTED_ADDRESS",
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "DOCUMENTED_ADDRESS",
 					null, "1415 Chestnut", null, null, "Berwick", null, "18603",
 					"USA", null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -170,7 +170,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _11testAddressBadComboAddressTypeNullDocumentType() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null, "MILITARY_ID",
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null, "MILITARY_ID",
 					"1415 Chestnut", null, null, "Berwick", null, "18603", "USA",
 					null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -181,7 +181,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _12testAddressNoCountryCode() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "WORK_ADDRESS", null,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "WORK_ADDRESS", null,
 					"1415 Chestnut", null, null, "Berwick", null, "18603", null,
 					null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -192,7 +192,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _13testAddressBlankCountryCode() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "WORK_ADDRESS", null,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "WORK_ADDRESS", null,
 					"1415 Chestnut", null, null, "Berwick", null, "18603", " ",
 					null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -203,7 +203,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _14testAddressBadCountryCode() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "WORK_ADDRESS", null,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "WORK_ADDRESS", null,
 					"1415 Chestnut", null, null, "Berwick", null, "18603", "xxx",
 					null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -214,7 +214,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _15testAddressBadState() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "WORK_ADDRESS", null,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "WORK_ADDRESS", null,
 					"1415 Chestnut", null, null, "Berwick", "PENNSYLVANIA",
 					"18603", "USA", null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -225,7 +225,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _16testAddressBadPostalCode() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "WORK_ADDRESS", null,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "WORK_ADDRESS", null,
 					"1415 Chestnut", null, null, "Berwick", "PA", "abcde", "USA",
 					null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -236,7 +236,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _17testAddressNoAddresses() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "WORK_ADDRESS", null,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "WORK_ADDRESS", null,
 					null, null, null, "Berwick", "PA", "18603", "USA", null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
 				throw new Exception(addressServiceReturn.getStatusMessage());
@@ -246,7 +246,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _18testAddressBadCampus() throws Exception {
 			ServiceReturn addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "WORK_ADDRESS", null,
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "WORK_ADDRESS", null,
 					"215A Computer Building", null, null, "University Park", "PA",
 					"16802", "USA", "ik", "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -257,7 +257,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 		public void _19testAddressNoGroupId() throws Exception {
 			ServiceReturn addressServiceReturn = port.updateAddress(
-					ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003",
+					ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003",
 					"WORK_ADDRESS", null, null, "215A Computer Building", null,
 					null, "University Park", "PA", "16802", "USA", "ik", "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
@@ -267,7 +267,7 @@ public class AddressTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _20testAddressBadGetType() throws Exception {
 		AddressServiceReturn addressServiceReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "WORK_", "N");
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "WORK_", "N");
 		if (addressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(addressServiceReturn.getStatusMessage());
 		}
@@ -282,7 +282,7 @@ public class AddressTest {
 			}
 	
 			ServiceReturn addressServiceReturn = null;
-			addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", "WORK_ADDRESS", null,
 					"215A Computer Building", null, null, "University Park", "PA",
 					"16802", "USA", null, "N");
@@ -293,7 +293,7 @@ public class AddressTest {
 			{
 				AddressServiceReturn getAddressReturn = null;
 				ServiceReturn updateAddressReturn = null;
-				getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+				getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 						"person_id", "100003", null, "N");
 				if (getAddressReturn.getStatusCode() != 0) {
 					throw new Exception(getAddressReturn.getStatusMessage());
@@ -306,7 +306,7 @@ public class AddressTest {
 						for (Iterator<AddressReturn> it = getAddressReturn.getAddressReturnRecord().iterator(); it.hasNext();) {
 							AddressReturn address = it.next();
 							updateAddressReturn = port.updateAddress(ServiceAuthentication.GOOD_USERID,
-									ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003",
+									ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003",
 									"WORK_ADDRESS", null, address.getGroupId()+ 1,
 									address.getAddress1(), address.getAddress2(),
 									address.getAddress3(), address.getCity(),
@@ -317,7 +317,7 @@ public class AddressTest {
 										updateAddressReturn.getStatusMessage());
 							} else {
 								getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,
-										ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null, "N");
+										ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null, "N");
 								if (getAddressReturn.getStatusCode() != 0) {
 									throw new Exception(
 											getAddressReturn.getStatusMessage());
@@ -344,7 +344,7 @@ public class AddressTest {
 	@Test
 		public void _22testGetAddress() throws Exception {
 			AddressServiceReturn addressServiceReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,
-					ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null, "N");
+					ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
 				throw new Exception(addressServiceReturn.getStatusMessage());
 			}
@@ -353,7 +353,7 @@ public class AddressTest {
 			} catch (Exception e) {
 				throw new Exception("GetAddressAll failed");
 			}
-			addressServiceReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			addressServiceReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 			if (addressServiceReturn.getStatusCode() != 0) {
 	
@@ -376,7 +376,7 @@ public class AddressTest {
 	
 		ServiceReturn addressServiceReturn = null;
 		AddressServiceReturn getAddressServiceReturn = null;
-		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "WORK_ADDRESS", null,
 				"215A Computer Building", null, null, "University Park", "PA",
 				"16802", "USA", null, "N");
@@ -386,7 +386,7 @@ public class AddressTest {
 		else 
 		{
 			getAddressServiceReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "WORK_ADDRESS", "N");
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "WORK_ADDRESS", "N");
 
 			if (getAddressServiceReturn.getStatusCode() != 0) {
 				throw new Exception(addressServiceReturn.getStatusMessage());
@@ -396,7 +396,7 @@ public class AddressTest {
 			} catch (Exception e) {
 			throw new Exception("cleanup all failed");
 			}
-			getAddressServiceReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getAddressServiceReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", null, null);
 			if (getAddressServiceReturn.getStatusCode() != 0) {
 	
@@ -420,7 +420,7 @@ public class AddressTest {
 	
 		ServiceReturn addressServiceReturn = null;
 		AddressServiceReturn getAddressServiceReturn = null;
-		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "WORK_ADDRESS", null,
 				"215A Computer Building", null, null, "University Park", "PA",
 				"16802", "USA", null, "N");
@@ -430,7 +430,7 @@ public class AddressTest {
 		else 
 		{
 			getAddressServiceReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", "WORK_ADDRESS", "Y");
+				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", "WORK_ADDRESS", "Y");
 
 			if (getAddressServiceReturn.getStatusCode() != 0) {
 				throw new Exception(addressServiceReturn.getStatusMessage());
@@ -441,7 +441,7 @@ public class AddressTest {
 			catch (Exception e) {
 				throw new Exception("Cleanup failed");
 				}
-			getAddressServiceReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getAddressServiceReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", null, "N");
 			if (getAddressServiceReturn.getStatusCode() != 0) {
 	
@@ -465,14 +465,14 @@ public class AddressTest {
 		}
 
 		ServiceReturn addressServiceReturn = null;
-		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "LOCAL_ADDRESS", null, "1415 Chestnut",
 				null, null, "Berwick", "PA", "18603", "USA", null, "N");
 		if (addressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(addressServiceReturn.getStatusMessage());
 		} else {
 			AddressServiceReturn getAddressReturn = null;
-			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 			if (getAddressReturn.getStatusCode() != 0) {
 				throw new Exception(getAddressReturn.getStatusMessage());
@@ -505,7 +505,7 @@ public class AddressTest {
 		}
 
 		ServiceReturn addressServiceReturn = null;
-		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "permanent_address", null,
 				"3820 Oak Street", null, null, "Vancouver", "BC", "V6H2M5",
 				"CAN", null, "N");
@@ -513,7 +513,7 @@ public class AddressTest {
 			throw new Exception(addressServiceReturn.getStatusMessage());
 		} else {
 			AddressServiceReturn getAddressReturn = null;
-			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 			if (getAddressReturn.getStatusCode() != 0) {
 				throw new Exception(getAddressReturn.getStatusMessage());
@@ -546,7 +546,7 @@ public class AddressTest {
 		}
 
 		ServiceReturn addressServiceReturn = null;
-		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "work_address", null,
 				"57 Cornmarket St", null, null, "Oxford", null, "OX1 3HB",
 				"CAN", null, "N");
@@ -554,7 +554,7 @@ public class AddressTest {
 			throw new Exception(addressServiceReturn.getStatusMessage());
 		} else {
 			AddressServiceReturn getAddressReturn = null;
-			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 			if (getAddressReturn.getStatusCode() != 0) {
 				throw new Exception(getAddressReturn.getStatusMessage());
@@ -586,7 +586,7 @@ public class AddressTest {
 	}
 
 	ServiceReturn addressServiceReturn = null;
-	addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+	addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 			"person_id", "100003", "BILLING_ACADEMIC_ADDRESS", null, "1415 Chestnut",
 			null, null, "Berwick", null, "18603", "USA", null, "N");
 	if (addressServiceReturn.getStatusCode() != 0) {
@@ -594,7 +594,7 @@ public class AddressTest {
 	} 
 	else {
 		AddressServiceReturn getAddressReturn = null;
-		getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", null, "N");
 		if (getAddressReturn.getStatusCode() != 0) {
 			throw new Exception(getAddressReturn.getStatusMessage());
@@ -636,14 +636,14 @@ public class AddressTest {
 		}
 
 		ServiceReturn addressServiceReturn = null;
-		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "DOCUMENTED_ADDRESS", "STATE_DRIVERS_LICENSE", "1415 Chestnut",
 				null, null, null,"PA", "18603", "USA", null, "N");
 		if (addressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(addressServiceReturn.getStatusMessage());
 		} else {
 			AddressServiceReturn getAddressReturn = null;
-			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 			if (getAddressReturn.getStatusCode() != 0) {
 				throw new Exception(getAddressReturn.getStatusMessage());
@@ -683,14 +683,14 @@ public class AddressTest {
 		}
 
 		ServiceReturn addressServiceReturn = null;
-		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "DOCUMENTED_ADDRESS","STATE_ID_CARD", "1415 Chestnut",
 				null, null, null, null, "18603", "USA", null, "N");
 		if (addressServiceReturn.getStatusCode() != 0) {
 			throw new Exception(addressServiceReturn.getStatusMessage());
 		} else {
 			AddressServiceReturn getAddressReturn = null;
-			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 			if (getAddressReturn.getStatusCode() != 0) {
 				throw new Exception(getAddressReturn.getStatusMessage());
@@ -739,7 +739,7 @@ public class AddressTest {
 		}
 
 		ServiceReturn addressServiceReturn = null;
-		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "DOCUMENTED_ADDRESS", "PASSPORT",
 				null, "1415 Chestnut", null, "Berwick", "PA", "18603", "USA",
 				null, "N");
@@ -747,7 +747,7 @@ public class AddressTest {
 			throw new Exception(addressServiceReturn.getStatusMessage());
 		} else {
 			AddressServiceReturn getAddressReturn = null;
-			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 			if (getAddressReturn.getStatusCode() != 0) {
 				throw new Exception(getAddressReturn.getStatusMessage());
@@ -787,7 +787,7 @@ public class AddressTest {
 		}
 
 		ServiceReturn addressServiceReturn = null;
-		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "DOCUMENTED_ADDRESS", "MILITARY_ID",
 				null, null, "1415 Chestnut", "Berwick", "PA", "18603", "USA",
 				null, "N");
@@ -795,7 +795,7 @@ public class AddressTest {
 			throw new Exception(addressServiceReturn.getStatusMessage());
 		} else {
 			AddressServiceReturn getAddressReturn = null;
-			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 			if (getAddressReturn.getStatusCode() != 0) {
 				throw new Exception(getAddressReturn.getStatusMessage());
@@ -834,7 +834,7 @@ public class AddressTest {
 		}
 
 		ServiceReturn addressServiceReturn = null;
-		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "WORK_ADDRESS", null,  "215A Computer Building", null,
 				null, "University Park", "PA", "16802", "USA", null, "N");
 		if (addressServiceReturn.getStatusCode() != 0) {
@@ -843,7 +843,7 @@ public class AddressTest {
 		else {
 			AddressServiceReturn getAddressReturn = null;
 			ServiceReturn updateAddressReturn = null;
-			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 			if (getAddressReturn.getStatusCode() != 0) {
 				throw new Exception(getAddressReturn.getStatusMessage());
@@ -853,14 +853,14 @@ public class AddressTest {
 				} else {
 					for ( Iterator<AddressReturn> it = getAddressReturn.getAddressReturnRecord().iterator(); it.hasNext();) {
 						AddressReturn address = it.next();
-						updateAddressReturn = port.updateAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5","person_id", "100003", "WORK_ADDRESS", null, address.getGroupId(), 
+						updateAddressReturn = port.updateAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,"person_id", "100003", "WORK_ADDRESS", null, address.getGroupId(), 
 								address.getAddress1(), address.getAddress2(), address.getAddress3(),  address.getCity(), 
 								 address.getStateOrProvince(),  address.getPostalCode(), "USA", "UP", "N");
 						if (updateAddressReturn.getStatusCode() != 0) {
 							throw new Exception(updateAddressReturn.getStatusMessage());
 						}
 						else {
-							getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+							getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 									"person_id", "100003", null, "N");
 							if (getAddressReturn.getStatusCode() != 0) {
 								throw new Exception(getAddressReturn.getStatusMessage());
@@ -894,7 +894,7 @@ public class AddressTest {
 		}
 
 		ServiceReturn addressServiceReturn = null;
-		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "PERMANENT_ADDRESS", null,
 				"1415 Chestnut Street", null, null, "Berwick", "PA", "18603",
 				"CAN", null, "N");
@@ -903,7 +903,7 @@ public class AddressTest {
 		} else {
 			AddressServiceReturn getAddressReturn = null;
 			ServiceReturn updateAddressReturn = null;
-			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 			if (getAddressReturn.getStatusCode() != 0) {
 				throw new Exception(getAddressReturn.getStatusMessage());
@@ -915,7 +915,7 @@ public class AddressTest {
 							.getAddressReturnRecord().iterator(); it.hasNext();) {
 						AddressReturn address = it.next();
 						updateAddressReturn = port.updateAddress(ServiceAuthentication.GOOD_USERID,
-								ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003",
+								ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003",
 								"PERMANENT_ADDRESS", null,
 								address.getGroupId(), address.getAddress1(),
 								address.getAddress2(), address.getAddress3(),
@@ -927,7 +927,7 @@ public class AddressTest {
 									updateAddressReturn.getStatusMessage());
 						} else {
 							getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,
-									ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null, "N");
+									ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null, "N");
 							if (getAddressReturn.getStatusCode() != 0) {
 								throw new Exception(
 										getAddressReturn.getStatusMessage());
@@ -971,7 +971,7 @@ public class AddressTest {
 		}
 
 		ServiceReturn addressServiceReturn = null;
-		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "Work_ADDRESS", null,
 				"215 Computer Building", null, null, "University Park", "PA", "16802",
 				"USA", "UP", "N");
@@ -980,7 +980,7 @@ public class AddressTest {
 		} 
 		else 
 		{
-			addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", "Work_ADDRESS", null,
 					"3000 Ivyside Park", null, null, "Altoona", "PA", "16601",
 					"USA", "AA", "N");
@@ -991,7 +991,7 @@ public class AddressTest {
 			{
 				AddressServiceReturn getAddressReturn = null;
 				ServiceReturn setPrimaryAddressReturn = null;
-				getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+				getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 				if (getAddressReturn.getStatusCode() != 0) {
 					throw new Exception(getAddressReturn.getStatusMessage());
@@ -1006,7 +1006,7 @@ public class AddressTest {
 						for (Iterator<AddressReturn> it = getAddressReturn.getAddressReturnRecord().iterator(); it.hasNext() && (! primarySet);) {
 							AddressReturn address = it.next();
 							setPrimaryAddressReturn = port.setPrimaryAddressByType(ServiceAuthentication.GOOD_USERID,
-								ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003",
+								ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003",
 								address.getAddressType(), null, address.getGroupId());
 							if (setPrimaryAddressReturn.getStatusCode() != 0) {
 								throw new Exception(
@@ -1016,7 +1016,7 @@ public class AddressTest {
 							{	primarySet = true;
 						
 								AddressServiceReturn getAnotherAddressReturn = null;
-								getAnotherAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null, "N");
+								getAnotherAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null, "N");
 								if (getAnotherAddressReturn.getStatusCode() != 0) {
 									throw new Exception(getAnotherAddressReturn.getStatusMessage());
 								}
@@ -1063,7 +1063,7 @@ public class AddressTest {
 		AddressServiceReturn getOneMoreAddressReturn = null;
 		ServiceReturn setPrimaryAddressReturn = null;
 		ServiceReturn setPrimaryAgainAddressReturn = null;
-		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 			"person_id", "100003", "Work_ADDRESS", null,
 			"215 Computer Building", null, null, "University Park", "PA", "16802",
 			"USA", "UP", "N");
@@ -1075,7 +1075,7 @@ public class AddressTest {
 			/**
 			 * add another work address
 			 */
-			addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "Work_ADDRESS", null,
 				"3000 Ivyside Park", null, null, "Altoona", "PA", "16601",
 				"USA", "AA", "N");
@@ -1089,7 +1089,7 @@ public class AddressTest {
 				 */
 				
 				
-				getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+				getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 						"person_id", "100003", null, "N");
 				if (getAddressReturn.getStatusCode() != 0) {
 					throw new Exception(getAddressReturn.getStatusMessage());
@@ -1107,7 +1107,7 @@ public class AddressTest {
 						for (Iterator<AddressReturn> it = getAddressReturn.getAddressReturnRecord().iterator(); it.hasNext() && (! primarySet);) {
 							AddressReturn address = it.next();
 							setPrimaryAddressReturn = port.setPrimaryAddressByType(ServiceAuthentication.GOOD_USERID,
-									ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003",
+									ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003",
 									address.getAddressType(), null, address.getGroupId());
 							if (setPrimaryAddressReturn.getStatusCode() != 0) {
 								throw new Exception(
@@ -1120,7 +1120,7 @@ public class AddressTest {
 							 * set correctly
 							 */
 								
-								getAnotherAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null, "N");
+								getAnotherAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null, "N");
 								if (getAnotherAddressReturn.getStatusCode() != 0) {
 									throw new Exception(getAnotherAddressReturn.getStatusMessage());
 								}
@@ -1139,14 +1139,14 @@ public class AddressTest {
 										if (address1.getPrimaryFlag().equals("N")) {
 											groupFound = true;
 											setPrimaryAgainAddressReturn = port.setPrimaryAddressByType(ServiceAuthentication.GOOD_USERID,
-													ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003",
+													ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003",
 													address.getAddressType(), null, address1.getGroupId());
 											if (setPrimaryAgainAddressReturn.getStatusCode() != 0) {
 												throw new Exception(setPrimaryAgainAddressReturn.getStatusMessage());
 											} 
 											else 
 											{
-												getOneMoreAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null, "N");
+												getOneMoreAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null, "N");
 												if (getOneMoreAddressReturn.getStatusCode() != 0) {
 													throw new Exception(getAnotherAddressReturn.getStatusMessage());
 												}
@@ -1197,7 +1197,7 @@ public class AddressTest {
 		AddressServiceReturn getAnotherAddressReturn = null;
 		AddressServiceReturn getHistoryAddressReturn = null;
 		ServiceReturn archiveAddressReturn = null;
-		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+		addressServiceReturn = port.addAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 				"person_id", "100003", "Work_ADDRESS", null,
 		"215 Computer Building", null, null, "University Park", "PA", "16802",
 		"USA", "UP", "N");
@@ -1212,7 +1212,7 @@ public class AddressTest {
 			 */
 			
 			
-			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "llg5",
+			getAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID,
 					"person_id", "100003", null, "N");
 			if (getAddressReturn.getStatusCode() != 0) {
 				throw new Exception(getAddressReturn.getStatusMessage());
@@ -1230,7 +1230,7 @@ public class AddressTest {
 					for (Iterator<AddressReturn> it = getAddressReturn.getAddressReturnRecord().iterator(); it.hasNext() ;) {
 						AddressReturn address = it.next();
 						archiveAddressReturn = port.archiveAddress(ServiceAuthentication.GOOD_USERID,
-								ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003",
+								ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003",
 								address.getAddressType(), null, address.getGroupId());
 						if (archiveAddressReturn.getStatusCode() != 0) {
 							throw new Exception(archiveAddressReturn.getStatusMessage());
@@ -1242,7 +1242,7 @@ public class AddressTest {
 						 * all archived
 						 */
 							
-							getAnotherAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null, "N");
+							getAnotherAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null, "N");
 							if (getAnotherAddressReturn.getStatusCode() != 0) {
 								throw new Exception(getAnotherAddressReturn.getStatusMessage());
 							}
@@ -1251,7 +1251,7 @@ public class AddressTest {
 							} 
 							else 
 							{
-								getHistoryAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,ServiceAuthentication.GOOD_PASSWORD, "llg5", "person_id", "100003", null, "Y");
+								getHistoryAddressReturn = port.getAddress(ServiceAuthentication.GOOD_USERID,ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100003", null, "Y");
 								if (getHistoryAddressReturn.getStatusCode() != 0) {
 									throw new Exception(getAnotherAddressReturn.getStatusMessage());
 								}

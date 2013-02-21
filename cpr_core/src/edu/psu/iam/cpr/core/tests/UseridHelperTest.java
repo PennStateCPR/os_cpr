@@ -34,8 +34,8 @@ public class UseridHelperTest {
 	public final void testGenerateUserid() throws Exception {
 		Userid bean = new Userid();
 		bean.setPersonId(100000L);
-		bean.setLastUpdateBy("jvuccolo");
-		bean.setCreatedBy("jvuccolo");
+		bean.setLastUpdateBy("cpruser");
+		bean.setCreatedBy("cpruser");
 		UseridHelper u = new UseridHelper();
 		openDbConnection();
 		u.generateUserid(db.getSession(), bean);

@@ -40,17 +40,11 @@ public class BeanLoaderFactory {
 		else if (tableName.equals("Federation")) { 
 			return new FederationLoader();
 		}
-		else if (tableName.equals("GroupAccess")) { 
-			return new GroupAccessLoader();
-		}
 		else if (tableName.equals("GroupDataTypeAccess")) { 
 			return new GroupDataTypeAccessLoader();
 		}
 		else if (tableName.equals("GroupMembers")) { 
 			return new GroupMembersLoader();
-		}
-		else if (tableName.equals("IamGroups")) { 
-			return new IamGroupsLoader();
 		}
 		else if (tableName.equals("Iap")) { 
 			return new IapLoader();
@@ -87,9 +81,6 @@ public class BeanLoaderFactory {
 		}
 		else if (tableName.equals("RaAffiliation")) { 
 			return new RaAffiliationLoader();
-		}
-		else if (tableName.equals("RaGroups")) { 
-			return new RaGroupsLoader();
 		}
 		else if (tableName.equals("RaIapAssign")) { 
 			return new RaIapAssignLoader();
@@ -153,6 +144,15 @@ public class BeanLoaderFactory {
 		}
 		else if (tableName.equals("UspsStateTypes")) {
 			return new UspsStateTypesLoader();
+		}
+		else if (tableName.equals("WebServiceAccess")) {
+			return new WebServiceAccessLoader();
+		}
+		else if (tableName.equals("ServerPrincipalIp")) {
+			return new ServerPrincipalIpLoader();
+		}
+		else if (tableName.equals("CprAccessGroups")) {
+			return new CprAccessGroupsLoader();
 		}
 		return null;
 	}

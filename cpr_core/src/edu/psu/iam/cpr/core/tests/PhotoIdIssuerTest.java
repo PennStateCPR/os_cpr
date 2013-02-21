@@ -26,7 +26,7 @@ import edu.psu.iam.cpr.core.database.beans.PhotoIdIssuer;
 public class PhotoIdIssuerTest {
 
 	Date d = new Date();
-	String userId = "llg5";
+	String userId = "cpruser";
 	String aString = "thestring";
 	PhotoIdIssuer pi = new PhotoIdIssuer();
 	@Test

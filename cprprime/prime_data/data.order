@@ -8,7 +8,6 @@ PsuDirectory
 PsuId
 Federation
 RegistrationAuthority
-RaGroups
 Affiliations
 WebService
 BadPrefixes
@@ -19,11 +18,8 @@ ExtAffiliationTypes
 ExtAffiliation
 ExtAffiliationMapping
 ExternalIap
-IamGroups
 IdentifierType
 PersonIdentifier
-GroupAccess
-GroupDataTypeAccess
 Iap
 IapExtMapping
 JavaExceptions
@@ -31,10 +27,14 @@ PsuIdExceptions
 RaAffiliation
 RaIapAssign
 RaServerPrincipals
+ServerPrincipalIp
+CprAccessGroups
+GroupDataTypeAccess
 ServiceProvisioner
 Services
 SpNotification
 GroupMembers
+WebServiceAccess
 UiApplications
 UiFieldTypes
 UiScreens

@@ -32,7 +32,7 @@ public class PersonIdentifierTest {
 	// invalid password test.
 	@Test(expectedExceptions=Exception.class)
 	public void _01testGetPersonIdentifier1() throws Exception {
-		PersonIdentifierServiceReturn personIdentifierServiceReturn = port.getPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, "jvuccolo", 
+		PersonIdentifierServiceReturn personIdentifierServiceReturn = port.getPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.BAD_PASSWORD, ServiceAuthentication.GOOD_USERID, 
 				"person_id", "100000", null, "N");
 		if (personIdentifierServiceReturn.getStatusCode() != 0) {
 			throw new Exception(personIdentifierServiceReturn.getStatusMessage());
@@ -42,7 +42,7 @@ public class PersonIdentifierTest {
 	// invalid identifier type test.
 	@Test(expectedExceptions=Exception.class)
 	public void _02testGetPersonIdentifier2() throws Exception {
-		PersonIdentifierServiceReturn personIdentifierServiceReturn = port.getPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 
+		PersonIdentifierServiceReturn personIdentifierServiceReturn = port.getPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, 
 				"person", "100000", null, "N");
 		if (personIdentifierServiceReturn.getStatusCode() != 0) {
 			throw new Exception(personIdentifierServiceReturn.getStatusMessage());
@@ -52,7 +52,7 @@ public class PersonIdentifierTest {
 	// invalid identifier value test.
 	@Test(expectedExceptions=Exception.class)
 	public void _03testGetPersonIdentifier3() throws Exception {
-		PersonIdentifierServiceReturn personIdentifierServiceReturn = port.getPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 
+		PersonIdentifierServiceReturn personIdentifierServiceReturn = port.getPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, 
 				"person_id", "0", null, "N");
 		if (personIdentifierServiceReturn.getStatusCode() != 0) {
 			throw new Exception(personIdentifierServiceReturn.getStatusMessage());
@@ -62,7 +62,7 @@ public class PersonIdentifierTest {
 	// invalid identifier type test.
 	@Test(expectedExceptions=Exception.class)
 	public void _04testGetPersonIdentifier4() throws Exception {
-		PersonIdentifierServiceReturn personIdentifierServiceReturn = port.getPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 
+		PersonIdentifierServiceReturn personIdentifierServiceReturn = port.getPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, 
 				"person_id", "100000", "abcd", "N");
 		if (personIdentifierServiceReturn.getStatusCode() != 0) {
 			throw new Exception(personIdentifierServiceReturn.getStatusMessage());
@@ -72,7 +72,7 @@ public class PersonIdentifierTest {
 	// invalid return history test.
 	@Test(expectedExceptions=Exception.class)
 	public void _05testGetPersonIdentifier5() throws Exception {
-		PersonIdentifierServiceReturn personIdentifierServiceReturn = port.getPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 
+		PersonIdentifierServiceReturn personIdentifierServiceReturn = port.getPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, 
 				"person_id", "100000", null, "Z");
 		if (personIdentifierServiceReturn.getStatusCode() != 0) {
 			throw new Exception(personIdentifierServiceReturn.getStatusMessage());
@@ -82,7 +82,7 @@ public class PersonIdentifierTest {
 	// Successful Get.
 	@Test
 	public void _06testGetPersonIdentifier6() throws Exception {
-		PersonIdentifierServiceReturn personIdentifierServiceReturn = port.getPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 
+		PersonIdentifierServiceReturn personIdentifierServiceReturn = port.getPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, 
 				"person_id", "100000", null, "N");
 		if (personIdentifierServiceReturn.getStatusCode() != 0) {
 			throw new Exception(personIdentifierServiceReturn.getStatusMessage());
@@ -93,7 +93,7 @@ public class PersonIdentifierTest {
 	@Test
 	public void _07testAddPersonIdentifier1() throws Exception {
 		ServiceReturn serviceReturn = port.addPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, 
-				"jvuccolo", "person_id", "100000", "unit_test_identifier", "abcd1234");
+				ServiceAuthentication.GOOD_USERID, "person_id", "100000", "unit_test_identifier", "abcd1234");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
@@ -103,7 +103,7 @@ public class PersonIdentifierTest {
 	@Test(expectedExceptions=Exception.class)
 	public void _08testAddPersonIdentifier1() throws Exception {
 		ServiceReturn serviceReturn = port.addPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, 
-				"jvuccolo", "person_id", "100000", "unit_test_identifier", "abcd1234");
+				ServiceAuthentication.GOOD_USERID, "person_id", "100000", "unit_test_identifier", "abcd1234");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
@@ -112,7 +112,7 @@ public class PersonIdentifierTest {
 	// Successful Archive.
 	@Test
 	public void _09testArchivePersonIdentifier() throws Exception {
-		ServiceReturn serviceReturn = port.archivePersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "unit_test_identifier");
+		ServiceReturn serviceReturn = port.archivePersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "unit_test_identifier");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
@@ -121,7 +121,7 @@ public class PersonIdentifierTest {
 	//Unsuccessful Archive
 	@Test(expectedExceptions=Exception.class)
 	public void _10testArchivePersonIdentifier() throws Exception {
-		ServiceReturn serviceReturn = port.archivePersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "unit_test_identifier");
+		ServiceReturn serviceReturn = port.archivePersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "unit_test_identifier");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
@@ -130,7 +130,7 @@ public class PersonIdentifierTest {
 	//Restore things.
 	@Test
 	public void _11restoreSetup() throws Exception {
-		ServiceReturn serviceReturn = port.addPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 
+		ServiceReturn serviceReturn = port.addPersonIdentifier(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, 
 					"person_id", "100000", "unit_test_identifier","TEST_VALUE");
 		if (serviceReturn.getStatusCode() != 0) {
 			System.out.println("Status message is " + serviceReturn.getStatusMessage());

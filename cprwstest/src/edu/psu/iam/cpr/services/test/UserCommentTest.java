@@ -36,7 +36,7 @@ public class UserCommentTest {
 	// No comments found.
 	@Test
 	public void _01testGetUserComment4() throws Exception {
-		UserCommentServiceReturn userCommentServiceReturn = port.getUserComments(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "raw121", "person_id", "100000", "tuj420", null, "N");
+		UserCommentServiceReturn userCommentServiceReturn = port.getUserComments(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "tuj420", null, "N");
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}
@@ -44,7 +44,7 @@ public class UserCommentTest {
 	// Success.
 	@Test
 	public void _02testAddUserComment() throws Exception {
-		ServiceReturn userCommentServiceReturn = port.addUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "raw121", "person_id", "100000", "dummy1", "USER_COMMENT_MISUSE", "test comment");
+		ServiceReturn userCommentServiceReturn = port.addUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "dummy1", "USER_COMMENT_MISUSE", "test comment");
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}
@@ -53,7 +53,7 @@ public class UserCommentTest {
 	// Success without history.
 	@Test
 	public void _03testGetUserComment5() throws Exception {
-		UserCommentServiceReturn userCommentServiceReturn = port.getUserComments(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "raw121", "person_id", "100000", "dummy1", null,  "N");
+		UserCommentServiceReturn userCommentServiceReturn = port.getUserComments(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "dummy1", null,  "N");
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}
@@ -61,7 +61,7 @@ public class UserCommentTest {
 	// Success.
 	@Test
 	public void _04testUpdateUserComment() throws Exception {
-		ServiceReturn userCommentServiceReturn = port.updateUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "raw121", "person_id", "100000", "dummy1", "USER_COMMENT_MISUSE", "second comment");
+		ServiceReturn userCommentServiceReturn = port.updateUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "dummy1", "USER_COMMENT_MISUSE", "second comment");
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}
@@ -69,7 +69,7 @@ public class UserCommentTest {
 	// Success with history.
 	@Test
 	public void _05testGetUserCommentHistory1() throws Exception {
-		UserCommentServiceReturn userCommentServiceReturn = port.getUserComments(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "raw121", "person_id", "100000", "tuj420", null ,"Y");
+		UserCommentServiceReturn userCommentServiceReturn = port.getUserComments(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "tuj420", null ,"Y");
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}
@@ -77,7 +77,7 @@ public class UserCommentTest {
 	// Success with history.
 	@Test
 	public void _06testGetUserCommentByType1() throws Exception {
-		UserCommentServiceReturn userCommentServiceReturn = port.getUserComments(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "raw121", "person_id", "100000", "tuj420", "USER_COMMENT_MISUSE", "N");
+		UserCommentServiceReturn userCommentServiceReturn = port.getUserComments(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "tuj420", "USER_COMMENT_MISUSE", "N");
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}
@@ -85,7 +85,7 @@ public class UserCommentTest {
 	// Success.
 	@Test
 	public void _07testArchiveUserComment5() throws Exception {
-		ServiceReturn userCommentServiceReturn = port.archiveUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "raw121", "person_id", "100000", "dummy1", "USER_COMMENT_MISUSE" );
+		ServiceReturn userCommentServiceReturn = port.archiveUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "dummy1", "USER_COMMENT_MISUSE" );
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}
@@ -93,7 +93,7 @@ public class UserCommentTest {
 	// Invalid password.
 	@Test(expectedExceptions=Exception.class)
 	public void _08testGetUserComment1() throws Exception {
-		UserCommentServiceReturn userCommentServiceReturn = port.getUserComments(ServiceAuthentication.GOOD_USERID, "blah", "raw121", "person_id", "100000", "", null, "N");
+		UserCommentServiceReturn userCommentServiceReturn = port.getUserComments(ServiceAuthentication.GOOD_USERID, "blah", ServiceAuthentication.GOOD_USERID, "person_id", "100000", "", null, "N");
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}
@@ -117,7 +117,7 @@ public class UserCommentTest {
 	// Invalid password.
 	@Test(expectedExceptions=Exception.class)
 	public void _11testAddUserComment1() throws Exception {
-		ServiceReturn userCommentServiceReturn = port.addUserComment(ServiceAuthentication.GOOD_USERID, "blah", "raw121", "person_id", "100000", "", "", "");
+		ServiceReturn userCommentServiceReturn = port.addUserComment(ServiceAuthentication.GOOD_USERID, "blah", ServiceAuthentication.GOOD_USERID, "person_id", "100000", "", "", "");
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}
@@ -141,7 +141,7 @@ public class UserCommentTest {
 	// Invalid userid.
 	@Test(expectedExceptions=Exception.class)
 	public void _14testAddUserComment4() throws Exception {
-		ServiceReturn userCommentServiceReturn = port.addUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "raw121", "person_id", "100000", "", "USER_COMMENT_MISUSE", "test comment");
+		ServiceReturn userCommentServiceReturn = port.addUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "", "USER_COMMENT_MISUSE", "test comment");
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}
@@ -157,7 +157,7 @@ public class UserCommentTest {
 	// No comment.
 	@Test(expectedExceptions=Exception.class)
 	public void _16testAddUserComment6() throws Exception {
-		ServiceReturn userCommentServiceReturn = port.addUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "raw121", "person_id", "100000", "tuj420", "USER_COMMENT_MISUSE", "");
+		ServiceReturn userCommentServiceReturn = port.addUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "tuj420", "USER_COMMENT_MISUSE", "");
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}
@@ -165,7 +165,7 @@ public class UserCommentTest {
 	// Missing user comment type.
 	@Test(expectedExceptions=Exception.class)
 	public void _17testArchiveUserComment1() throws Exception {
-		ServiceReturn userCommentServiceReturn = port.archiveUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "raw121", "person_id", "100000", "", "tuj420");
+		ServiceReturn userCommentServiceReturn = port.archiveUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "", "tuj420");
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}
@@ -174,7 +174,7 @@ public class UserCommentTest {
 	// Invalid user comment type.
 	@Test(expectedExceptions=Exception.class)
 	public void _18testArchiveUserComment2() throws Exception {
-		ServiceReturn userCommentServiceReturn = port.archiveUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "raw121", "person_id", "100000", "tuj420", "USER_COMMENT_BAD");
+		ServiceReturn userCommentServiceReturn = port.archiveUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "tuj420", "USER_COMMENT_BAD");
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}
@@ -182,7 +182,7 @@ public class UserCommentTest {
 	// Missing userid.
 	@Test(expectedExceptions=Exception.class)
 	public void _19testArchiveUserComment3() throws Exception {
-		ServiceReturn userCommentServiceReturn = port.archiveUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "raw121", "person_id", "100000", "", "USER_COMMENT_MISUSE");
+		ServiceReturn userCommentServiceReturn = port.archiveUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "", "USER_COMMENT_MISUSE");
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}
@@ -190,7 +190,7 @@ public class UserCommentTest {
 	// Invalid userid.
 	@Test(expectedExceptions=Exception.class)
 	public void _20testArchiveUserComment4() throws Exception {
-		ServiceReturn userCommentServiceReturn = port.archiveUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "raw121", "person_id", "100000", "ux105", "USER_COMMENT_MISUSE");
+		ServiceReturn userCommentServiceReturn = port.archiveUserComment(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "ux105", "USER_COMMENT_MISUSE");
 		if (userCommentServiceReturn.getStatusCode() != 0) {
 			throw new Exception(userCommentServiceReturn.getStatusMessage());
 		}

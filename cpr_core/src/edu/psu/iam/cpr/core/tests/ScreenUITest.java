@@ -9,7 +9,7 @@ import edu.psu.iam.cpr.core.ui.FieldUI;
 import edu.psu.iam.cpr.core.ui.ScreenUI;
 
 /**
- * @author slk24
+ * @author cpruser
  *
  */
 public class ScreenUITest {

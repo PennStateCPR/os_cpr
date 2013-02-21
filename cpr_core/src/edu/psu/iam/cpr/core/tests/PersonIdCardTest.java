@@ -27,7 +27,7 @@ import java.util.Date;
 import edu.psu.iam.cpr.core.database.beans.PersonIdCard;
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class PersonIdCardTest {

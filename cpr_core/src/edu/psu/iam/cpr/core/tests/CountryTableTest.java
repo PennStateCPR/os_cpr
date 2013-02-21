@@ -27,7 +27,7 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.CountryTable;
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class CountryTableTest {
@@ -46,7 +46,7 @@ public class CountryTableTest {
 	public final void testGetCountryInfoCodeBadDB() throws Exception {
 	
 		CountryTable cTable = new CountryTable();
-		cTable.getCountryInfo(db, "TR2", "llg5");	
+		cTable.getCountryInfo(db, "TR2", "cpruser");	
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class CountryTableTest {
 	public final void testGetCountryInfoCodeNull() throws Exception {
 		openDbConnection();
 		CountryTable cTable = new CountryTable();
-		cTable.getCountryInfo(db, null, "llg5");
+		cTable.getCountryInfo(db, null, "cpruser");
 		AssertJUnit.assertEquals( cTable.getCountryBean().getCountryKey(), null);
 		db.closeSession();
 	}
@@ -71,7 +71,7 @@ public class CountryTableTest {
 	public final void testGetCountryInfoCodeBlank() throws Exception {
 		openDbConnection();
 		CountryTable cTable = new CountryTable();
-		cTable.getCountryInfo(db, "" , "llg5");
+		cTable.getCountryInfo(db, "" , "cpruser");
 		AssertJUnit.assertEquals( cTable.getCountryBean().getCountryKey(), null);
 		db.closeSession();
 	}
@@ -85,7 +85,7 @@ public class CountryTableTest {
 	public final void testGetCountryInfoCodeBad() throws Exception {
 		openDbConnection();
 		CountryTable cTable = new CountryTable();
-		cTable.getCountryInfo(db, "TR2", "llg5");
+		cTable.getCountryInfo(db, "TR2", "cpruser");
 		AssertJUnit.assertEquals( cTable.getCountryBean().getCountryKey(), new Long(-1));
 		db.closeSession();
 	}
@@ -99,7 +99,7 @@ public class CountryTableTest {
 	public final void testGetCountryInfoCodeGood() throws Exception {
 		openDbConnection();
 		CountryTable cTable = new CountryTable();
-		cTable.getCountryInfo(db, "USA", "llg5");
+		cTable.getCountryInfo(db, "USA", "cpruser");
 		db.closeSession();
 	}
 	

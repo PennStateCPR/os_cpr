@@ -240,7 +240,7 @@ public class IdCardPrintEventTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _01testAddIdCardPrintEventBadPrincipal() throws Exception {
 		ServiceReturn idCardServiceReturn = port.addIdCardPrintEvent(null,
-				ServiceAuthentication.GOOD_PASSWORD,  "llg5", "person_id", "100003","llg5",
+				ServiceAuthentication.GOOD_PASSWORD,  ServiceAuthentication.GOOD_USERID, "person_id", "100003",ServiceAuthentication.GOOD_USERID,
 				"128.118.88.4", "myWorkState");
 		if (idCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(idCardServiceReturn.getStatusMessage());
@@ -249,7 +249,7 @@ public class IdCardPrintEventTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _02testAddIdCardPrintEventBadPassword() throws Exception {
 		ServiceReturn idCardServiceReturn = port.addIdCardPrintEvent(ServiceAuthentication.GOOD_USERID,
-				"",  "llg5", "person_id", "100003","llg5",
+				"",  ServiceAuthentication.GOOD_USERID, "person_id", "100003",ServiceAuthentication.GOOD_USERID,
 				"128.118.88.4", "myWorkState");
 		if (idCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(idCardServiceReturn.getStatusMessage());
@@ -258,7 +258,7 @@ public class IdCardPrintEventTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _03testAddIdCardPrintEventBadRequestedBy() throws Exception {
 		ServiceReturn idCardServiceReturn = port.addIdCardPrintEvent(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD,  " ", "person_id", "100003","llg5",
+				ServiceAuthentication.GOOD_PASSWORD,  " ", "person_id", "100003",ServiceAuthentication.GOOD_USERID,
 				"128.118.88.4", "myWorkState");
 		if (idCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(idCardServiceReturn.getStatusMessage());
@@ -267,7 +267,7 @@ public class IdCardPrintEventTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _04testAddIdCardPrintEventIdentifierType() throws Exception {
 		ServiceReturn idCardServiceReturn = port.addIdCardPrintEvent(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD,  " llg5", "", "100003","llg5",
+				ServiceAuthentication.GOOD_PASSWORD,  " llg5", "", "100003",ServiceAuthentication.GOOD_USERID,
 				"128.118.88.4", "myWorkState");
 		if (idCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(idCardServiceReturn.getStatusMessage());
@@ -276,7 +276,7 @@ public class IdCardPrintEventTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _05testAddIdCardPrintEventIdentifier() throws Exception {
 		ServiceReturn idCardServiceReturn = port.addIdCardPrintEvent(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD,  "llg5", "id_card", "","llg5",
+				ServiceAuthentication.GOOD_PASSWORD,  ServiceAuthentication.GOOD_USERID, "id_card", "",ServiceAuthentication.GOOD_USERID,
 				"128.118.88.4", "myWorkState");
 		if (idCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(idCardServiceReturn.getStatusMessage());
@@ -285,7 +285,7 @@ public class IdCardPrintEventTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _06testAddIdCardPrintEventNotIdCardType() throws Exception {
 		ServiceReturn idCardServiceReturn = port.addIdCardPrintEvent(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD,  "llg5", "person_id", "100004","llg5",
+				ServiceAuthentication.GOOD_PASSWORD,  ServiceAuthentication.GOOD_USERID, "person_id", "100004",ServiceAuthentication.GOOD_USERID,
 				"128.118.88.4", "myWorkState");
 		if (idCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(idCardServiceReturn.getStatusMessage());
@@ -295,17 +295,17 @@ public class IdCardPrintEventTest {
 	public void _07() throws Exception {
 		/* if no id card record exist add it */
 		IdCardServiceReturn idCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD,  "llg5", "id_card", "1234567890123456", null, null);
+				ServiceAuthentication.GOOD_PASSWORD,  ServiceAuthentication.GOOD_USERID, "id_card", "1234567890123456", null, null);
 		if (idCardServiceReturn.getStatusCode() != 0) {
 			ServiceReturn addIdCardServiceReturn = port.addIdCard(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD,  "llg5", "person_id", "100004", "ID_CARD_ID_PLUS_CARD_STUDENT","1234567890123456",null, testImage,
+			ServiceAuthentication.GOOD_PASSWORD,  ServiceAuthentication.GOOD_USERID, "person_id", "100004", "ID_CARD_ID_PLUS_CARD_STUDENT","1234567890123456",null, testImage,
 			"7/3/2012");
 			if (addIdCardServiceReturn.getStatusCode() !=0) {
 				throw new Exception("No IdCard number");
 			}
 		}
 		ServiceReturn IdCardServiceReturn = port.addIdCardPrintEvent(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD,  "llg5", "id_card", "1234567890123456","llg5",
+				ServiceAuthentication.GOOD_PASSWORD,  ServiceAuthentication.GOOD_USERID, "id_card", "1234567890123456",ServiceAuthentication.GOOD_USERID,
 				"128.118.88.4", "myWorkState");
 		if (IdCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(IdCardServiceReturn.getStatusMessage());
@@ -316,7 +316,7 @@ public class IdCardPrintEventTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _08() throws Exception {
 		IdCardPrintEventServiceReturn IdCardServiceReturn = port.getIdCardPrintEvent(null,
-				ServiceAuthentication.GOOD_PASSWORD,  "llg5", "person_id", "100003");
+				ServiceAuthentication.GOOD_PASSWORD,  ServiceAuthentication.GOOD_USERID, "person_id", "100003");
 		if (IdCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(IdCardServiceReturn.getStatusMessage());
 		}
@@ -324,7 +324,7 @@ public class IdCardPrintEventTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _081() throws Exception {
 		IdCardPrintEventServiceReturn IdCardServiceReturn = port.getIdCardPrintEvent(ServiceAuthentication.GOOD_USERID,
-				"",  "llg5", "person_id", "100003");
+				"",  ServiceAuthentication.GOOD_USERID, "person_id", "100003");
 		if (IdCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(IdCardServiceReturn.getStatusMessage());
 		}
@@ -348,7 +348,7 @@ public class IdCardPrintEventTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _11testGetIdCardPrintEventIdentifier() throws Exception {
 		IdCardPrintEventServiceReturn idCardServiceReturn = port.getIdCardPrintEvent(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD,  "llg5", "id_card", "");
+				ServiceAuthentication.GOOD_PASSWORD,  ServiceAuthentication.GOOD_USERID, "id_card", "");
 		if (idCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(idCardServiceReturn.getStatusMessage());
 		}
@@ -356,7 +356,7 @@ public class IdCardPrintEventTest {
 	@Test(expectedExceptions = Exception.class)
 	public void _12testGetIdCardPrintEventNotIdCardType() throws Exception {
 		IdCardPrintEventServiceReturn idCardServiceReturn = port.getIdCardPrintEvent(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD,  "llg5", "person_id", "100004");
+				ServiceAuthentication.GOOD_PASSWORD,  ServiceAuthentication.GOOD_USERID, "person_id", "100004");
 		if (idCardServiceReturn.getStatusCode() != 0) {
 			throw new Exception(idCardServiceReturn.getStatusMessage());
 		}
@@ -365,17 +365,17 @@ public class IdCardPrintEventTest {
 	public void _13testGetIdCardPrintEventIdentfierMustBeIdCard() throws Exception {
 		/* if no id card record exist add it */
 		IdCardServiceReturn idCardServiceReturn = port.getIdCard(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD,  "llg5", "id_card", "1234567890123456", null, null);
+				ServiceAuthentication.GOOD_PASSWORD,  ServiceAuthentication.GOOD_USERID, "id_card", "1234567890123456", null, null);
 		if (idCardServiceReturn.getStatusCode() != 0) {
 			ServiceReturn addIdCardServiceReturn = port.addIdCard(ServiceAuthentication.GOOD_USERID,
-			ServiceAuthentication.GOOD_PASSWORD,  "llg5", "person_id", "100004", "Id_card_student","1234567890123456",null, testImage,
+			ServiceAuthentication.GOOD_PASSWORD,  ServiceAuthentication.GOOD_USERID, "person_id", "100004", "Id_card_student","1234567890123456",null, testImage,
 			"7/3/2012");
 			if (addIdCardServiceReturn.getStatusCode() !=0) {
 				throw new Exception("No IdCard number");
 			}
 		}
 		IdCardPrintEventServiceReturn IdCardPrintEventServiceReturn = port.getIdCardPrintEvent(ServiceAuthentication.GOOD_USERID,
-				ServiceAuthentication.GOOD_PASSWORD,  "llg5", "id_card", "1234567890123456");
+				ServiceAuthentication.GOOD_PASSWORD,  ServiceAuthentication.GOOD_USERID, "id_card", "1234567890123456");
 		if (IdCardPrintEventServiceReturn.getStatusCode() != 0) {
 			throw new Exception(IdCardPrintEventServiceReturn.getStatusMessage());
 		}

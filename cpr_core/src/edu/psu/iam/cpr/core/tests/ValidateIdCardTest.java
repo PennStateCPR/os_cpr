@@ -27,7 +27,7 @@ import edu.psu.iam.cpr.core.database.tables.validate.ValidateIdCard;
 
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class ValidateIdCardTest {

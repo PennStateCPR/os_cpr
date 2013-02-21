@@ -28,7 +28,7 @@ import edu.psu.iam.cpr.core.service.returns.PersonIdCardReturn;
 import edu.psu.iam.cpr.core.service.returns.PhotoReturn;
 
 /**
- * @author llg5
+ * @author cpruser
  *
  */
 public class IdCardReturnTest {

@@ -43,12 +43,12 @@ public class PersonIdentifierTableTest {
 
 	@Test
 	public final void _01testPersonIdentifierTableLongStringString() {
-		new PersonIdentifierTable(1L,"abcd","jvuccolo");
+		new PersonIdentifierTable(1L,"abcd","cpruser");
 	}
 
 	@Test
 	public final void _02testPersonIdentifierTableLongString() {
-		new PersonIdentifierTable(1L,"jvuccolo");
+		new PersonIdentifierTable(1L,"cpruser");
 	}
 
 	@Test
@@ -130,7 +130,7 @@ public class PersonIdentifierTableTest {
 				break;
 			}
 		}
-		PersonIdentifierTable p = new PersonIdentifierTable(100000L, "GHIJK", "jvuccolo");
+		PersonIdentifierTable p = new PersonIdentifierTable(100000L, "GHIJK", "cpruser");
 		p.setIdentifierType(identifierType);
 		p.addPersonIdentifier(db);
 		db.closeSession();
@@ -147,7 +147,7 @@ public class PersonIdentifierTableTest {
 				break;
 			}
 		}
-		PersonIdentifierTable p = new PersonIdentifierTable(100000L, "GHIJK", "jvuccolo");
+		PersonIdentifierTable p = new PersonIdentifierTable(100000L, "GHIJK", "cpruser");
 		p.setIdentifierType(identifierType);
 		p.addPersonIdentifier(db);
 		db.closeSession();
@@ -164,7 +164,7 @@ public class PersonIdentifierTableTest {
 				break;
 			}
 		}
-		PersonIdentifierTable p = new PersonIdentifierTable(100000L, "jvuccolo");
+		PersonIdentifierTable p = new PersonIdentifierTable(100000L, "cpruser");
 		p.setIdentifierType(identifierType);
 		p.archivePersonIdentifier(db);
 		db.closeSession();
@@ -181,7 +181,7 @@ public class PersonIdentifierTableTest {
 				break;
 			}
 		}
-		PersonIdentifierTable p = new PersonIdentifierTable(100000L, "jvuccolo");
+		PersonIdentifierTable p = new PersonIdentifierTable(100000L, "cpruser");
 		p.setIdentifierType(identifierType);
 		p.archivePersonIdentifier(db);
 		db.closeSession();
@@ -198,7 +198,7 @@ public class PersonIdentifierTableTest {
 				break;
 			}
 		}
-		PersonIdentifierTable p = new PersonIdentifierTable(100000L, "jvuccolo");
+		PersonIdentifierTable p = new PersonIdentifierTable(100000L, "cpruser");
 		p.setIdentifierType(identifierType);
 		p.archivePersonIdentifier(db);
 		db.closeSession();
@@ -225,7 +225,7 @@ public class PersonIdentifierTableTest {
 		DecimalFormat fmt4 = new DecimalFormat("0000");
 		String ssn = fmt3.format(pA) + fmt2.format(pB) + fmt4.format(pC);
 		
-		PersonIdentifierTable p = new PersonIdentifierTable(100000L, ssn, "jvuccolo");
+		PersonIdentifierTable p = new PersonIdentifierTable(100000L, ssn, "cpruser");
 		p.setIdentifierType(identifierType);
 		p.addPersonIdentifier(db);
 		p.archivePersonIdentifier(db);
@@ -244,7 +244,7 @@ public class PersonIdentifierTableTest {
 				break;
 			}
 		}
-		PersonIdentifierTable p = new PersonIdentifierTable(100000L, "TEST_VALUE", "jvuccolo");
+		PersonIdentifierTable p = new PersonIdentifierTable(100000L, "TEST_VALUE", "cpruser");
 		p.setIdentifierType(identifierType);
 		p.addPersonIdentifier(db);
 		db.closeSession();

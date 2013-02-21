@@ -67,7 +67,7 @@ public class UseridTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public void _05testGetUserid5() throws Exception {
-		UseridServiceReturn useridReturn = port.getUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id1", "100000", "N");
+		UseridServiceReturn useridReturn = port.getUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id1", "100000", "N");
 		if (useridReturn.getStatusCode() != 0) {
 			throw new Exception(useridReturn.getStatusMessage());
 		}
@@ -75,7 +75,7 @@ public class UseridTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public void _06testGetUserid6() throws Exception {
-		UseridServiceReturn useridReturn = port.getUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "1", "N");
+		UseridServiceReturn useridReturn = port.getUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "1", "N");
 		if (useridReturn.getStatusCode() != 0) {
 			throw new Exception(useridReturn.getStatusMessage());
 		}
@@ -83,7 +83,7 @@ public class UseridTest {
 	
 	@Test
 	public void _07testGetUserid7() throws Exception {
-		UseridServiceReturn useridReturn = port.getUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "N");
+		UseridServiceReturn useridReturn = port.getUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "N");
 		if (useridReturn.getStatusCode() != 0) {
 			throw new Exception(useridReturn.getStatusMessage());
 		}
@@ -91,7 +91,7 @@ public class UseridTest {
 	
 	@Test
 	public void _08testGetUseridHistory() throws Exception {
-		UseridServiceReturn useridReturn = port.getUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100000", "Y");
+		UseridServiceReturn useridReturn = port.getUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "Y");
 		if (useridReturn.getStatusCode() != 0) {
 			throw new Exception(useridReturn.getStatusMessage());
 		}	
@@ -99,7 +99,7 @@ public class UseridTest {
 	
 	@Test
 	public void _09testAddUserid() throws Exception {
-		UseridServiceReturn useridReturn = port.addUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 100002);
+		UseridServiceReturn useridReturn = port.addUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, 100002);
 		if (useridReturn.getStatusCode() != 0) {
 			throw new Exception(useridReturn.getStatusMessage());
 		}
@@ -113,7 +113,7 @@ public class UseridTest {
 	
 	@Test
 	public void _10testSetPrimaryUserid() throws Exception {
-		 ServiceReturn useridReturn = port.setPrimaryUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100002", newUserid);
+		 ServiceReturn useridReturn = port.setPrimaryUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100002", newUserid);
 		if (useridReturn.getStatusCode() != 0) {
 			throw new Exception(useridReturn.getStatusMessage());
 		}
@@ -122,7 +122,7 @@ public class UseridTest {
 	// Cannot archive the primary.
 	@Test(expectedExceptions=Exception.class)
 	public void _11testArchiveUserid1() throws Exception {
-		 ServiceReturn useridReturn = port.archiveUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100002", newUserid);
+		 ServiceReturn useridReturn = port.archiveUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100002", newUserid);
 		if (useridReturn.getStatusCode() != 0) {
 			throw new Exception(useridReturn.getStatusMessage());
 		}
@@ -132,7 +132,7 @@ public class UseridTest {
 	@Test
 	public void _12testArchiveUserid2() throws Exception {
 		UseridServiceReturn useridServiceReturn = null;
-		useridServiceReturn = port.getUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100002", "N");
+		useridServiceReturn = port.getUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100002", "N");
 		for (final Iterator<UseridReturn> it = useridServiceReturn.getUseridReturnRecord().iterator(); it.hasNext();) {
 			UseridReturn ur = it.next();
 			if (ur.getPrimary().equals("N")) {
@@ -140,7 +140,7 @@ public class UseridTest {
 				break;
 			}
 		}
-		ServiceReturn serviceReturn = port.archiveUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100002", newUserid);
+		ServiceReturn serviceReturn = port.archiveUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100002", newUserid);
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
@@ -149,7 +149,7 @@ public class UseridTest {
 	// Unsuccessful archive of an already exist archived userid.
 	@Test(expectedExceptions=Exception.class)
 	public void _13testArchiveUserid3() throws Exception {
-		 ServiceReturn useridReturn = port.archiveUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100002", newUserid);
+		 ServiceReturn useridReturn = port.archiveUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100002", newUserid);
 		if (useridReturn.getStatusCode() != 0) {
 			throw new Exception(useridReturn.getStatusMessage());
 		}
@@ -159,7 +159,7 @@ public class UseridTest {
 	@Test(expectedExceptions=Exception.class) 
 	public void _14testUnarchiveUserid1() throws Exception {
 		UseridServiceReturn useridReturn = null;
-		useridReturn = port.getUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100002", "N");
+		useridReturn = port.getUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100002", "N");
 		newUserid = null;
 		for (final Iterator<UseridReturn> it = useridReturn.getUseridReturnRecord().iterator(); it.hasNext(); ) {
 			UseridReturn ur = it.next();
@@ -168,7 +168,7 @@ public class UseridTest {
 				break;
 			}
 		}
-		ServiceReturn serviceReturn = port.unarchiveUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100002", newUserid);
+		ServiceReturn serviceReturn = port.unarchiveUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100002", newUserid);
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
@@ -177,7 +177,7 @@ public class UseridTest {
 	// Unsuccessful, userid not found.
 	@Test(expectedExceptions=Exception.class)
 	public void _15testUnarchiveUserid2() throws Exception {
-		 ServiceReturn useridReturn = port.unarchiveUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100002", "xyz123");
+		 ServiceReturn useridReturn = port.unarchiveUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100002", "xyz123");
 		if (useridReturn.getStatusCode() != 0) {
 			throw new Exception(useridReturn.getStatusMessage());
 		}
@@ -188,7 +188,7 @@ public class UseridTest {
 	@Test
 	public void _16testUnarchiveUserid3() throws Exception {
 		UseridServiceReturn useridReturn = null;
-		useridReturn = port.getUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100002", "Y");
+		useridReturn = port.getUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100002", "Y");
 		newUserid = null;
 		for (final Iterator<UseridReturn> it = useridReturn.getUseridReturnRecord().iterator(); it.hasNext(); ) {
 			UseridReturn ur = it.next();
@@ -198,7 +198,7 @@ public class UseridTest {
 			}
 		}
 		
-		ServiceReturn serviceReturn = port.unarchiveUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", "person_id", "100002", newUserid);
+		ServiceReturn serviceReturn = port.unarchiveUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100002", newUserid);
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
@@ -209,7 +209,7 @@ public class UseridTest {
 		
 		Random r = new Random();
 		newUserid = "iamdemo" + Math.abs(r.nextInt());
-		ServiceReturn useridReturn = port.addSpecialUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, "jvuccolo", 100002, newUserid);
+		ServiceReturn useridReturn = port.addSpecialUserid(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, 100002, newUserid);
 		if (useridReturn.getStatusCode() != 0) {
 			throw new Exception(useridReturn.getStatusMessage());
 		}
