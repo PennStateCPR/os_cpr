@@ -1,9 +1,0 @@
-type_key|type_name|can_assign_flag
-1|UNIT_TEST_IDENTIFIER|Y
-2|PSU_ID|N
-3|PERSON_ID|N
-4|USERID|N
-5|SSN|Y
-6|ID_CARD|N
-7|HR_SYSTEM|Y
-8|STUDENT_SYSTEM|Y

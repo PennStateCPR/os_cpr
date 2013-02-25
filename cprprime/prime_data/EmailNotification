@@ -1,3 +1,0 @@
-mail_notification_key|email_subject|text_body|html_body|notification_process
-1|Your %gbl.name.familiar% Identity Has Been Created|This is a test text message for new account creation.|<b>Hello %lna.firstName% %lna.lastName%,</b><br/><br/>Congratulations!<br/><br/><i>Your %gbl.name.familiar% Identity has been created.<br/><br/>Your user id is '%suc.userId%'.</i><br/><br/><br/<br/>Your 9-digit Penn State Id Number is '%formatted.university.id%'|Account Creation
-2|Your %gbl.name.familiar% Identity Password Has Been Reset|This is a test text message for password reset.|<b>Hello %lna.firstName% %lna.lastName%,</b><br/><br/>Your %gbl.name.familiar% Identity password has been reset.<br/><br/>If you did not reset it, please contact the help desk.<br/><br/>|Password Reset
