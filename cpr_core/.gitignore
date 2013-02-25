@@ -4,7 +4,6 @@
 /dist
 /logs
 /.classpath
-/.project
 /test-output
 /src/cpr.properties
 /src/grouper.client.properties

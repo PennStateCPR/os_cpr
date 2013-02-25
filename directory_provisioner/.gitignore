@@ -4,7 +4,6 @@
 /dist
 /logs
 /.classpath
-/.project
 /.DS_Store
 /src/cpr.properties
 /.sonar
