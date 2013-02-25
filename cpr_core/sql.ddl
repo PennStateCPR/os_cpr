@@ -1664,7 +1664,8 @@ FROM person_id_card JOIN id_card_print_log
  AND cpr_access_groups.end_date IS NULL
  AND ra_server_principals.end_date IS NULL
  AND web_service_access.end_date IS NULL
- AND web_service.end_date IS NULL;
+ AND web_service.end_date IS NULL
+ AND ra.end_date IS NULL;
 
   CREATE OR REPLACE VIEW v_sp_notification (service_provisioner_key, service_provisioner, service_provisioner_queue, web_service, web_service_key) AS 
   SELECT service_provisioner.service_provisioner_key,
