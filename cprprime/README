@@ -12,5 +12,5 @@ What follows are the steps you need to perform to prime the CPR database:
 	need to fill in values related to the database connection.  Make sure you
 	save the file as hibernate.cfg.xml.  
 4)	From the top level folder, just type "ant".  The build script will take
-	care of downloading dependencies, building the source code and running the
+	care of down-loading dependencies, building the source code and running the
 	prime program
