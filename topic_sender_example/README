@@ -1,0 +1,8 @@
+This application provides an example of using ActiveMQ JMS to send a 
+JSON formatted message to a topic.  The topic can then be read using 
+either JMS or XMPP.  To utilize this code, you will need to have an
+ActiveMQ installation set up with a topic which needs to be protected
+by a userid/password.  Penn State can provide more information about this
+if needed.
+
+To build the example program, just execute ant.

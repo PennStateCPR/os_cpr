@@ -1,0 +1,99 @@
+The instructions contained in this file will aid you in the building and
+installing the Penn State CPR.
+
+Requirements:
+-------------
+
+1) Java JDK version 1.6.x
+2) Apache Ant (latest). - http://ant.apache.org/
+3) Apache Tomcat 7.x. - http://tomcat.apache.org/
+4) Apache ActiveMQ 5.5.x - http://activemq.apache.org/
+5) JBoss Drools 5.x - http://www.jboss.org/drools/
+6) Internet2 Grouper - http://www.internet2.edu/grouper/
+7) A relational database that is supported by hibernate - 
+http://docs.jboss.org/hibernate/orm/3.5/api/org/hibernate/dialect/package-summary.html
+   By default, the CPR source code ships with the JDBC driver for 
+   MySQL and Oracle.  The default configuration is for MySQL.
+   
+NOTE: You can obtain most of these components that are already set up
+for you, but obtaining a copy of the CPR QuickStart.  Refer to the
+QuickStart_Instructions for more information.  NOTE: you will still
+need a copy of Java JDK, Apache Ant and a database.
+   
+First Steps:
+------------
+
+1)	Obtain the CPR code from GitHub: git://github.com/PennStateCPR/os_cpr.git
+2) 	Make sure your Java is set up correctly, JAVA_HOME is set to the location
+	of where Java is installed and $JAVA_HOME/bin is in your path.
+3) 	Install Apache Ant, make sure you set ANT_HOME to the location where you
+	installed Ant, and also add $ANT_HOME/bin to your $PATH.
+4) 	Install Tomcat (refer to Apache's instructions on how to configure it).
+5) 	Install ActiveMQ (refer to Apache's instructions on how to configure it).
+6) 	Extract JBoss Drools into a directory.
+7) 	Extract and install Internet2's grouper.  You need to find the grouperClient.jar
+   	file and place it somewhere in Tomcat's classpath.  A recommended approach is
+   	to create a directory hold all of the extra jars like this and then place
+   	the location in the shared.loader configuration item in the Catalina.properties
+   	file.
+8) 	Add the Drools jars to the shared.loader path, just like you did for the
+   	Grouper jars.
+9) 	Create a properties directory and also add it to the shared.loader line.
+10)	In the cpr_core directory of the GitHub distribution, you will find an
+	sql.dll file.  By default this file is set up for MySQL, you will need to
+	change it for your database platform.
+11)	Create a database, database user, password and load the sql.dll file.
+12)	In the src folder of the cpr_core folder, you will see two example
+	files, hibernate.cfg.example and cpr.properties.example.
+13)	Copy the hibernate.cfg.example file to hibernate.cfg.xml, and update
+	the file in all of the places that say, "Put your...".
+14)	Copy the cpr.properties.example to cpr.properties.
+15)	The important line to change is the cpr.database.name, make sure that
+	matches name of the database you created in step #11.
+16)	Prime the CPR with data (see Prime_The_CPR) for more information.
+	
+Build CPR Core
+--------------
+
+The CPR Core contains the core code that is shared amoung the various services that
+make up the CPR.  At the end of the build process, you will have a cpr_core.jar file
+created for you.  Assuming that ant is installed as detailed above, all you need to do is:
+
+1)	cd cpr_core folder.
+2)	ant (Ant using Ivy will go out and find the necessary dependencies and download them).
+
+If you have installed ActiveMQ and updated the cpr.properties file with the proper information,
+you will need to create two queues, Queue.CPR and Queue.UnitTest.  If you want to run the unit
+tests enter: "ant -Drun.unit.tests=1"
+
+Prime the CPR
+-------------
+
+Priming the CPR is necessary for ensuring it contains data values for the various types
+that are using by the CPR.
+
+1)	cd cpr_prime folder.
+2)	ant
+
+Build The CPR Web Services
+--------------------------
+
+The CPR Web Services are SOAP-based and utilitize the cpr_core.jar that was built in the
+previous step.  To build the services:
+
+1) cd cprws
+2) ant (Ant using Ivy will go out and find the necessary dependencies and download them).
+
+In the dist/lib directory, you will find cprws.war, deploy that to your server.
+
+Running The Integration Tests
+-----------------------------
+
+The CPR comes with a set of tests that will exercise its various components to ensure
+everything is running correctly.  To run the integration tests,
+
+1)	cd cprwstest
+2)	ant -Dapp.hostname=http://server.edu:port or https://server.edu:port, where the 
+	server.edu is the FQDN of the server running the CPR.  And port is the port the
+	application server is using.
+	

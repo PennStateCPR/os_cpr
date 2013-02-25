@@ -1,0 +1,2 @@
+active_flag|ext_affiliation_type_key|ext_affiliation_type|ext_affiliation_type_desc
+Y|1|eduPerson|eduPerson is an LDAP schema designed to include widely-used person attributes in higher education. It was developed and maintained by the Internet2 MACE-Directories Working Group (MACE-dir) a project of the Internet2 Middleware Initiative.

@@ -1,0 +1,3 @@
+person_id|id_card_number|id_serial_number|data_type_key
+100004|1234567890123456|12345|327
+100003|6543210987654321|NULL|327

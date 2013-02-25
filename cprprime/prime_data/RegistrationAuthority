@@ -1,0 +1,8 @@
+registration_authority|registration_authority_key|ra_contact_key|registration_authority_desc|suspend_flag|assign_psuid_flag|assign_userid_flag|collect_ssn_flag
+IAMTAG|1|740221|IAMTAG|N|Y|Y|Y
+UAO|2|709158|Undergraduate Admissions|N|Y|Y|Y
+GSO|3|706620|Graduate School Office|N|Y|Y|Y
+HYIAM|4|1919728|Hershey IAM Team|N|Y|Y|Y
+AIS|101|768156|AIS|N|Y|Y|Y
+TESTRA|102|751116|Test Registration Authority|N|Y|Y|Y
+SUSPENDRA|103|731179|Suspend Registration Authority|Y|Y|Y|Y

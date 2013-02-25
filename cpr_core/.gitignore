@@ -1,0 +1,11 @@
+/bin
+/build
+/dist
+/logs
+/test-output
+/src/cpr.properties
+/src/grouper.client.properties
+/src/hibernate.cfg.xml
+/src/jndi.properties
+/.sonar
+/sonar-project.properties

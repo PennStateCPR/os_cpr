@@ -1,0 +1,5 @@
+/build
+/sonar-project.properties
+/.sonar
+/ivy
+/javadoc

@@ -1,0 +1,5 @@
+cpr_component_desc|active_flag|cpr_component_status_key|cpr_component
+MESSAGING|Y|1|MESSAGING
+MATCHING|Y|2|MATCHING
+ADDRESS_VALIDATION|Y|3|ADDRESS_VALIDATION
+GROUPER|Y|4|GROUPER

@@ -1,0 +1,174 @@
+/* SVN FILE: $Id: AccessType.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
+package edu.psu.iam.cpr.core.database.types;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Access Type.
+ * 
+ * Copyright 2012 The Pennsylvania State University
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * @package edu.psu.iam.cpr.core.database.types
+ * @author $Author: jvuccolo $
+ * @version $Rev: 5340 $
+ * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
+ */
+
+public enum AccessType {
+	LINKAGE_TYPE_DEPENDANT(101),
+	LINKAGE_DEPENDANT(127),
+	CREDENTIAL_TYPE(128),
+	CREDENTIAL_TYPE_OPENID(129),
+	CREDENTIAL_TYPE_FACEBOOK(130),
+	CREDENTIAL_TYPE_SECUREID(131),
+	ID_CARD(151),
+	ID_CARD_ID_PLUS_CARD(152),
+	ID_CARD_ID_PLUS_CARD_FACULTY_STAFF(153),
+	ID_CARD_ID_PLUS_CARD_FACULTY_STAFF_PEMA(154),
+	ID_CARD_ID_PLUS_CARD_FACULTY_STAFF_PROX(155),
+	ID_CARD_ID_PLUS_CARD_FACULTY_STAFF_STUDENT(156),
+	ID_CARD_ID_PLUS_CARD_AFFILIATE(157),
+	ID_CARD_ID_PLUS_CARD_RETIREE(158),
+	ID_CARD_ID_PLUS_CARD_EMERITUS(159),
+	ID_CARD_ID_PLUS_CARD_CONTRACTOR(160),
+	ID_CARD_ID_PLUS_CARD_WORLD_CAMPUS(161),
+	ID_CARD_ID_CARD_HEALTH_SERVICES(163),
+	ID_CARD_ID_CARD_RESCOM(164),
+	ID_CARD_ID_CARD_VILLAGE(165),
+	ID_CARD_ID_PLUS_CARD_HERSHEY(166),
+	ID_CARD_ID_CARD_ARL(167),
+	ID_CARD_ID_PLUS_CARD_STUDENT(327),
+	ID_CARD_ID_PLUS_CARD_HERSHEY_STUDENT(328),
+	ID_CARD_ID_PLUS_CARD_HERSHEY_FACULTY_STAFF(329),
+	ID_CARD_ID_PLUS_CARD_HERSHEY_FACULTY_STAFF_STUDENT(330),
+	ID_CARD_ID_PLUS_CARD_HERSHEY_RETIREE(331),
+	ID_CARD_ID_PLUS_CARD_HERSHEY_EMERITUS(332),
+	ID_CARD_ID_PLUS_CARD_HERSHEY_EXTERNAL(333),
+	ID_CARD_ID_CARD_HEALTH_SERVICES_PHOTO_ID(334),
+	ID_CARD_ID_CARD_RESCOM_PHOTO_ID(335),
+	ID_CARD_ID_CARD_VILLAGE_PHOTO_ID(336),
+	ID_CARD_ID_CARD_ARL_PHOTO_ID(337),
+	ID_CARD_STUDENT(152),
+	ID_CARD_FACULTY_STAFF(153),
+	ID_CARD_FACULTY_STAFF_PEMA(154),
+	ID_CARD_FACULTY_STAFF_PROX(155),
+	ID_CARD_FACULTY_STAFF_STUDENT(156),
+	ID_CARD_AFFILIATE(157),
+	ID_CARD_RETIREE(158),
+	ID_CARD_EMERITUS(159),
+	ID_CARD_CONTRACTOR(160),
+	ID_CARD_WORLD_CAMPUS(161),
+	ID_CARD_HEALTH_SERVICES(163),
+	ID_CARD_RESCOM(164),
+	ID_CARD_VILLAGE_RESIDENT(165),
+	ID_CARD_HERSHEY_MEDICAL(166),
+	NAME(251),
+	LEGAL_NAME(252),
+	PREFERRED_NAME(253),
+	DOCUMENTED_NAME(254),
+	PROFESSIONAL_NAME(255),
+	BILLING_NAME(256),
+	ADDRESS(257),
+	PERMANENT_ADDRESS(258),
+	LOCAL_ADDRESS(259),
+	DOCUMENTED_ADDRESS(260),
+	WORK_ADDRESS(261),
+	BILLING_ACADEMIC_ADDRESS(262),
+	BILLING_ADMINISTRATIVE_ADDRESS(263),
+	PHONE(264),
+	PERMANENT_PHONE(265),
+	LOCAL_PHONE(266),
+	WORK_PHONE(267),
+	EMAIL(268),
+	UNIVERSITY_EMAIL(269),
+	OTHER_EMAIL(270),
+	CONFIDENTIALITY(271),
+	ALL_CONFIDENTIALITY(272),
+	ADDRESS_CONFIDENTIALITY(273),
+	PHONE_CONFIDENTIALITY(274),
+	GENDER(275),
+	GENDER_FEMALE(276),
+	GENDER_MALE(277),
+	GENDER_OTHER(278),
+	DATE_OF_BIRTH(279),
+	SSN(280),
+	USER_ID(281),
+	PSU_ID(282),
+	USER_COMMENT(283),
+	USER_COMMENT_MISUSE(284),
+	USER_COMMENT_DELETED(285),
+	USER_COMMENT_OTHER(286),
+	USER_COMMENT_EXTENSION(287),
+	USER_COMMENT_CREATION(288),
+	USER_COMMENT_CHANGE(289),
+	ACCESS_OPERATION(290),
+	ACCESS_OPERATION_READ(291),
+	ACCESS_OPERATION_WRITE(292),
+	ACCESS_OPERATION_ARCHIVE(293),
+	DOCUMENT_TYPE(294),
+	PASSPORT(295),
+	STATE_DRIVERS_LICENSE(296),
+	STATE_ID_CARD(297),
+	MILITARY_ID(298),
+	LINKAGE_TYPE(299),
+	LINKAGE_TYPE_PARENT_OR_GUARDIAN(300),
+	LINKAGE_TYPE_SPOUSE_OR_PARTNER(301);
+ 
+   /**
+     * Contains the index
+   */
+	private long index;
+
+   /**
+    * @param index
+    */
+
+    	private AccessType(long index) {
+
+		this.index = index;
+	}
+	
+
+   /**
+    * Return the value of the enum
+    * @return index
+    */
+
+	public long index() {
+		return index;
+	}
+	
+   /**
+    *
+    */
+
+	private static final Map<Long, AccessType> LOOKUP = new HashMap<Long,AccessType>();
+	static {
+		for (AccessType p : EnumSet.allOf(AccessType.class)) {
+			LOOKUP.put(p.index(), p);
+		}
+	}
+	
+   /**
+    * @param index
+    * @return enum
+    */
+
+	public static AccessType get(long index) {
+		return LOOKUP.get(index);
+	}
+}
+
