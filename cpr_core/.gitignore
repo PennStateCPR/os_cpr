@@ -11,3 +11,4 @@
 /src/jndi.properties
 /.sonar
 /sonar-project.properties
+/.project

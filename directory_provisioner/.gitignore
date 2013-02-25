@@ -8,3 +8,5 @@
 /src/cpr.properties
 /.sonar
 /sonar-project.properties
+/.project
+./build-jars
