@@ -1644,12 +1644,13 @@ FROM person_affiliation JOIN affiliations
 FROM person_id_card JOIN id_card_print_log
 		ON person_id_card.person_id_card_key = id_card_print_log.person_id_card_key;
 
-  CREATE OR REPLACE VIEW v_ra_group_web_service (group_member_key, cpr_access_groups_key, registration_authority_key, ra_server_principal_key, userid, grpmbrs_suspend_flag, cpraccgprs_suspend_flag, websrvacc_suspend_flag, web_service) AS 
+  CREATE OR REPLACE VIEW v_ra_group_web_service (group_member_key, cpr_access_groups_key, registration_authority_key, ra_server_principal_key, userid, ra_suspend_flag, grpmbrs_suspend_flag, cpraccgprs_suspend_flag, websrvacc_suspend_flag, web_service) AS 
   SELECT group_members.group_member_key,
 	   cpr_access_groups.cpr_access_groups_key,
 	   ra_server_principals.registration_authority_key,
 	   ra_server_principals.ra_server_principal_key,
        group_members.userid,
+       ra.suspend_flag as ra_suspend_flag,
        group_members.suspend_flag AS grpmbrs_suspend_flag,
        cpr_access_groups.suspend_flag AS cpraccgprs_suspend_flag,
        web_service_access.suspend_flag AS websrvacc_suspend_flag,
