@@ -1,0 +1,24 @@
+This README details the steps necessary to build the Open Source version
+of the Identity Provisioning software.  The Identity Provisioning software is
+graphical user interface designed for allowing entities to self-service
+create an identity in the Central Person Registry.  The interface with the
+registry is accessed via APIs.  In addition to the interface, cpr_core,
+and cpr web services the UI requires a messaging infrastructure set up to 
+process requests to create identities.  This is accomplished using ActiveMQ
+messages.
+
+Prior to building this UI, the cpr_core, CPR web services and the CPR 
+database must be primed.  What follows are steps to build the software:
+
+1)	In the src directory, you need to copy cpr.properties.examples to
+cpr.properties.  Then you need to fill values for the ActiveMQ broker.
+
+2)	In the src directory, you need to copy the hibernate.cfg.xml.example
+file to the hibernate.cfg.xml file.  You will need to fill in the 
+appropriate values for the database information.
+
+3)	Assuming Apache ant is installed correctly, you just need to type
+"ant" to build the software.
+
+4)	Copy dist/lib/IdentityProvisioning.war to the webapps folder of your
+tomcat instance.
