@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="build-jars"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Volumes/services/iam/jars/json_simple-1.1.jar"/>
-	<classpathentry kind="lib" path="/Volumes/services/iam/jars/json.jar"/>
-	<classpathentry kind="lib" path="/Volumes/services/iam/jars/activemq-all-5.5.1.jar"/>
-	<classpathentry kind="lib" path="/Volumes/services/iam/jars/slf4j-log4j12-1.5.11.jar"/>
-	<classpathentry kind="lib" path="/Volumes/services/iam/jars/cpr_jars_TEST/log4j-1.2.14.jar"/>
-	<classpathentry kind="lib" path="/Volumes/services/iam/jars/cpr_jars_OS/cpr_core.jar"/>
+	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/json.jar"/>
+	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/activemq-all-5.5.1.jar"/>
+	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/slf4j-log4j12-1.5.11.jar"/>
+	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars_OS/cpr_core.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
