@@ -13,7 +13,7 @@
 	<property name="web.dir" value="WebContent/WEB-INF/lib" />
 	<property name="core.file" value="cpr_core.jar"/>
 	<property name="wsdl.dir" value="WebContent/wsdl"/>
-    <property name="ivy.install.version" value="2.3.0-rc1"/>
+    <property name="ivy.install.version" value="2.3.0"/>
     <property name="ivy.jar.dir" value="${basedir}/ivy"/>
     <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
 
