@@ -10,7 +10,7 @@
 	<property name="test.reports" value="${build.dir}/reports" />
 	<property name="dependent.service" value="cprws"/>
 	<property name="app.server" value="${app.hostname}"/>
-	<property name="ivy.install.version" value="2.3.0-rc1"/>
+	<property name="ivy.install.version" value="2.3.0"/>
     <property name="ivy.jar.dir" value="${basedir}/ivy"/>
     <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
 

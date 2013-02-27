@@ -3,3 +3,7 @@
 /sonar-project.properties
 /.sonar
 /javadoc
+/ivy
+/build-jars
+/dist
+/lib
