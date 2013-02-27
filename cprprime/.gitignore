@@ -1,1 +1,8 @@
 /bin
+/build
+/dist
+/logs
+/build-jars
+/ivy
+/javadoc
+/lib
