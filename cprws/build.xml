@@ -14,7 +14,7 @@
 	<property name="wsdl.dir" value="WebContent/wsdl"/>
 	<property name="package.dir" value="edu.psu.iam.cpr.service"/>
 	<property name="wsdl.file" value="cprwsservice.wsdl"/>
-    <property name="ivy.install.version" value="2.3.0-rc1"/>
+    <property name="ivy.install.version" value="2.3.0"/>
     <property name="ivy.jar.dir" value="${basedir}/ivy"/>
     <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
 
