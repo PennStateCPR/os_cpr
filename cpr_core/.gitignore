@@ -2,6 +2,10 @@
 /build
 /dist
 /logs
+/build-jars
+/ivy
+/javadoc
+/lib
 /test-output
 /src/cpr.properties
 /src/grouper.client.properties
