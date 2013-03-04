@@ -178,7 +178,7 @@ public class Database {
 	 */
 	private List<Long> findRegistrationAuthority(String principalId, String serviceName) throws CprException {
 		
-		Long registrationAuthoritykey 			= NOT_FOUND_VALUE;
+		Long localRegistrationAuthoritykey 		= NOT_FOUND_VALUE;
 		Long raServerPrincipalKey 				= NOT_FOUND_VALUE;
 		
 		final int RA_KEY_INDEX 					= 0;
@@ -207,21 +207,21 @@ public class Database {
 		Iterator<?> it = query.list().iterator();
 		if (it.hasNext()) {
 			Object res[] = (Object []) it.next();
-			registrationAuthoritykey= (Long) res[RA_KEY_INDEX];
+			localRegistrationAuthoritykey= (Long) res[RA_KEY_INDEX];
 			suspendFlag 			= (String) res[RA_SUSPEND_FLAG];
 			raServerPrincipalKey 	= (Long) res[RA_SERVER_PRINCIPAL_KEY_INDEX];
 		}
 		
 	
 		// Is the RA suspended?
-		if (registrationAuthoritykey.equals(NOT_FOUND_VALUE) ||
+		if (localRegistrationAuthoritykey.equals(NOT_FOUND_VALUE) ||
 				raServerPrincipalKey.equals(NOT_FOUND_VALUE) ||
 				suspendFlag.equals("Y")) {
 			throw new CprException(ReturnType.NOT_AUTHORIZED_EXCEPTION, serviceName);
 		}
 		
 		List<Long> methodReturn = new ArrayList<Long>();
-		methodReturn.add(registrationAuthoritykey);
+		methodReturn.add(localRegistrationAuthoritykey);
 		methodReturn.add(raServerPrincipalKey);
 		return methodReturn;
 		
@@ -272,11 +272,11 @@ public class Database {
 		String grpMbrsSuspendFlag = "Y";
 		String cprAccGrpsSuspendFlag = "Y";
 		String webSrvAccSuspendFlag = "Y";
-		Long cprAccessGroupsKey = NOT_FOUND_VALUE;
+		Long localCprAccessGroupsKey = NOT_FOUND_VALUE;
 		
 		// Get the RA information.
 		List<Long> methodReturn = findRegistrationAuthority(principalId, serviceName);
-		Long registrationAuthorityKey = methodReturn.get(0);
+		Long localRegistrationAuthorityKey = methodReturn.get(0);
 		Long raServerPrincipalKey = methodReturn.get(1);
 		
 		// Determine if the client ip address is valid for the particular RA.
@@ -295,7 +295,7 @@ public class Database {
 
 		// Create the query, bind the parameters and determine the returns.
 		SQLQuery query = session.createSQLQuery(sb.toString());
-		query.setParameter("l_ra_key", registrationAuthorityKey);
+		query.setParameter("l_ra_key", localRegistrationAuthorityKey);
 		query.setParameter("ra_sp_key", raServerPrincipalKey);
 		query.setParameter("web_service_in", serviceName);
 		query.setParameter("requested_by_in", requestor);
@@ -307,7 +307,7 @@ public class Database {
 		// Perform the query.
 		for (Iterator<?> it = query.list().iterator(); it.hasNext();) {
 			Object res[] = (Object []) it.next();
-			cprAccessGroupsKey = (Long) res[CPR_ACCESS_GROUPS_KEY];
+			localCprAccessGroupsKey = (Long) res[CPR_ACCESS_GROUPS_KEY];
 			grpMbrsSuspendFlag = (String) res[GRP_MBRS_SUSPEND_FLAG];
 			cprAccGrpsSuspendFlag = (String) res[CPR_GRPS_SUSPEND_FLAG];
 			webSrvAccSuspendFlag = (String) res[WEB_SRV_SUSPEND_FLAG];
@@ -315,15 +315,15 @@ public class Database {
 
 
 		// If any of the suspend flags is set to Yes, we need to throw an exception.
-		if (cprAccessGroupsKey.equals(NOT_FOUND_VALUE) ||
+		if (localCprAccessGroupsKey.equals(NOT_FOUND_VALUE) ||
 				grpMbrsSuspendFlag.equals("Y") ||
 				cprAccGrpsSuspendFlag.equals("Y") ||
 				webSrvAccSuspendFlag.equals("Y")) {
 			throw new CprException(ReturnType.NOT_AUTHORIZED_EXCEPTION, serviceName);
 		}
 
-		setCprAccessGroupsKey(cprAccessGroupsKey);
-		setRegistrationAuthorityKey(registrationAuthorityKey);
+		setCprAccessGroupsKey(localCprAccessGroupsKey);
+		setRegistrationAuthorityKey(localRegistrationAuthorityKey);
 				
 	}
 
