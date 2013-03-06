@@ -1,7 +1,6 @@
 /* SVN FILE: $Id: ServiceLogTable.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
 package edu.psu.iam.cpr.core.database.tables;
 
-import java.util.Date;
 import java.util.Iterator;
 
 import org.hibernate.SQLQuery;
@@ -9,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.type.StandardBasicTypes;
 
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.beans.ServiceLog;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
@@ -103,29 +101,29 @@ public class ServiceLogTable {
 	 */
 	public void endLog(Database db, String results)  {
 		
-		Session logSession = null;
-		try {
-			
-			logSession = SessionFactoryUtil.getSessionFactory().openSession();
-			logSession.getTransaction().begin();
-			final ServiceLog bean = getServiceLogBean();
-			
-			final Date end = new Date();
-			bean.setRequestEnd(end);
-			bean.setRequestDuration(end.getTime() - bean.getRequestStart().getTime());
-			bean.setResultString(results);
-			
-			logSession.save(bean);
-			logSession.getTransaction().commit();
-		}
-		catch (Exception e) {
-			try {
-				logSession.getTransaction().rollback();
-			}
-			catch (Exception e1) {}
-		}
-		finally {
-			logSession.close();
-		}
+//		Session logSession = null;
+//		try {
+//			
+//			logSession = SessionFactoryUtil.getSessionFactory().openSession();
+//			logSession.getTransaction().begin();
+//			final ServiceLog bean = getServiceLogBean();
+//			
+//			final Date end = new Date();
+//			bean.setRequestEnd(end);
+//			bean.setRequestDuration(end.getTime() - bean.getRequestStart().getTime());
+//			bean.setResultString(results);
+//			
+//			logSession.save(bean);
+//			logSession.getTransaction().commit();
+//		}
+//		catch (Exception e) {
+//			try {
+//				logSession.getTransaction().rollback();
+//			}
+//			catch (Exception e1) {}
+//		}
+//		finally {
+//			logSession.close();
+//		}
 	}
 }
