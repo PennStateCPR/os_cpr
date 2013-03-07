@@ -22,7 +22,6 @@ package edu.psu.iam.cpr.core.tests;
 
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
-import edu.psu.iam.cpr.core.database.tables.ServiceLogTable;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 
 /**
@@ -58,18 +57,4 @@ public class ServiceCoreReturnTest {
 		s.setPersonId(-1);
 		AssertJUnit.assertEquals(s.getPersonId(), -1);
 	}
-	
-	@Test
-	public final void testSetWebServiceId() {
-		ServiceCoreReturn s = new ServiceCoreReturn();
-		s.setServiceLogTable(new ServiceLogTable());
-	}
-	
-	@Test
-	public final void testGetWebServiceId() {
-		ServiceCoreReturn s = new ServiceCoreReturn();
-		s.setServiceLogTable(new ServiceLogTable());
-		s.getServiceLogTable();
-	}
-	
 }

@@ -20,7 +20,6 @@ import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
-import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 
 public class ServiceCoreTest {
 
@@ -47,7 +46,7 @@ public class ServiceCoreTest {
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testInitalizeService6() throws Exception {
-		new ServiceCore().initializeService(new Database(), "cprblah", "dun4IAM", "AddPerson", null, null, null, new ServiceCoreReturn());
+		new ServiceCore().initializeService(new Database(), "cprblah", "dun4IAM", "AddPerson", null, null, null, null);
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void testIntializeService7() throws Exception {

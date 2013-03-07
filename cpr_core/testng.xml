@@ -109,7 +109,6 @@
       <class name="edu.psu.iam.cpr.core.tests.ScreenUITest"/>
       <class name="edu.psu.iam.cpr.core.tests.ServiceCoreReturnTest"/>
       <class name="edu.psu.iam.cpr.core.tests.ServiceCoreTest"/>
-      <class name="edu.psu.iam.cpr.core.tests.ServiceLogTableTest"/>
       <class name="edu.psu.iam.cpr.core.tests.ServiceLogTest"/>
       <class name="edu.psu.iam.cpr.core.tests.ServiceProvisionerQueueTest"/>
       <class name="edu.psu.iam.cpr.core.tests.ServiceProvisionerTest"/>

@@ -16,8 +16,6 @@ import edu.psu.iam.cpr.core.authentication.SessionCache;
 import edu.psu.iam.cpr.core.authentication.SessionCookie;
 import edu.psu.iam.cpr.core.authorization.AuthorizationService;
 import edu.psu.iam.cpr.core.database.Database;
-import edu.psu.iam.cpr.core.database.beans.ServiceLog;
-import edu.psu.iam.cpr.core.database.tables.ServiceLogTable;
 import edu.psu.iam.cpr.core.database.types.CprServiceName;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
@@ -63,17 +61,20 @@ public class ServiceCore {
 	 * @param db contains the database instance.
 	 * @param principalId contains the principal identifier that is accessing the service.
 	 * @param password contains the password for the principal identifier.
+	 * @param requestor contains the userid of the requestor.
 	 * @param identifierType contains the type of identifier that is used to find the user.
 	 * @param identifier contains the value of the identifier.
 	 * @param serviceName contains the name of the service that was being called.
 	 * @param clientIpAddress contains the ip address of the caller.
-	 * @param serviceCoreReturn contains the service core return class, a number of its values will be set as the result of 
-	 *        initializing the service.
+	 * @return ServiceCoreReturn will be returned to caller.
 	 * @throws CprException 
 	 * @throws NamingException 
 	 */
-	public void initializeService(Database db, String principalId, String password, String identifierType, String identifier, String serviceName, 
-			String clientIpAddress, ServiceCoreReturn serviceCoreReturn) throws CprException, NamingException {
+	public ServiceCoreReturn initializeService(Database db, String principalId, String password, 
+			String requestor, String identifierType, String identifier, String serviceName, 
+			String clientIpAddress) throws CprException, NamingException {
+		
+		final ServiceCoreReturn serviceCoreReturn = new ServiceCoreReturn();
 		
 		LOG4J_LOGGER.info("initalizeService: start of function.");
 		
@@ -86,7 +87,7 @@ public class ServiceCore {
 		AuthorizationService authorizationService = new AuthorizationService();
 		serviceCoreReturn.setAuthorizationService(authorizationService);
 		authorizationService.serviceAuthorized(db, principalId, 
-				serviceCoreReturn.getServiceLogTable().getServiceLogBean().getRequestUserid(), serviceName, clientIpAddress);
+				requestor, serviceName, clientIpAddress);
 	
 		// Only want to find the person id if the service is NOT Add Person and NOT Find Person.
 		if ((! serviceName.equals(CprServiceName.AddPerson.toString())) &&
@@ -103,6 +104,8 @@ public class ServiceCore {
 		}
 
 		LOG4J_LOGGER.info("initalizeService: end of function.");
+		
+		return serviceCoreReturn;
 			
 	}	
 	
@@ -156,47 +159,6 @@ public class ServiceCore {
 		LOG4J_LOGGER.info("authenticateService: end of function.");
 	}
 	
-	/**
-	 * This routine is used to initialize logging for a service.  It will establish a connection to the database and do
-	 * the initial log record.
-	 * @param db contains the database connection.
-	 * @param serviceName contains the name of the service which is calling this routine.
-	 * @param clientIpAddress contains the client ip address that called the service.
-	 * @param serviceInputParameters contains the input parameters for the service.
-	 * @param requestor contains the requester who is calling the service.
-	 * @return will return a ServiceCoreReturn object upon successful initialization.
-	 */
-	public ServiceCoreReturn initializeLogging(Database db, String serviceName, String clientIpAddress, String serviceInputParameters, 
-			String requestor) {
-		
-		LOG4J_LOGGER.info("initalizeLogging: start of function.");
-		final ServiceCoreReturn s = new ServiceCoreReturn();
-		// Set up the service log table and start logging.  NOTE: if we cannot log a start record, we do not stop the service, we
-		// just dump a stack trace.
-		try {
-			final ServiceLogTable serviceLogTable = new ServiceLogTable();
-
-			// Init the bean.
-			final ServiceLog bean = new ServiceLog();
-			bean.setIpAddress(clientIpAddress);
-			bean.setRequestStart(new Date());
-			bean.setRequestString(serviceInputParameters);
-			bean.setRequestUserid(requestor);
-			bean.setRequestDuration(0L);
-			bean.setWebServiceKey(serviceLogTable.getWebServiceKey(db, serviceName));
-			serviceLogTable.setServiceLogBean(bean);
-
-			// Save off the service log.
-			s.setServiceLogTable(serviceLogTable);
-		}
-		catch (Exception e) {
-		}
-		LOG4J_LOGGER.info("initalizeLogging: end of function.");
-	
-		return s;
-		
-	}
-
 	/**
 	 * This routine is used to dump a service parameter.  It will either return the parameter's value or NOT SPECIFIED if the 
 	 * parameter is null.

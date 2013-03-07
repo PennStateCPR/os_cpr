@@ -2,7 +2,6 @@
 package edu.psu.iam.cpr.core.service.helper;
 
 import edu.psu.iam.cpr.core.authorization.AuthorizationService;
-import edu.psu.iam.cpr.core.database.tables.ServiceLogTable;
 
 /**
  * This class provides an implementation of functions that represent the results of initializing a service,
@@ -32,9 +31,6 @@ public class ServiceCoreReturn {
 	/** Contains the person identifier. */
 	private long personId = -1;
 	
-	/** Contains the service log table. */
-	private ServiceLogTable serviceLogTable;
-	
 	/** Authorization Service */
 	private AuthorizationService authorizationService;
 	
@@ -57,20 +53,6 @@ public class ServiceCoreReturn {
 	 */
 	public void setPersonId(long personId) {
 		this.personId = personId;
-	}
-
-	/**
-	 * @param serviceLogTable the serviceLogTable to set
-	 */
-	public void setServiceLogTable(ServiceLogTable serviceLogTable) {
-		this.serviceLogTable = serviceLogTable;
-	}
-
-	/**
-	 * @return the serviceLogTable
-	 */
-	public ServiceLogTable getServiceLogTable() {
-		return serviceLogTable;
 	}
 
 	/**

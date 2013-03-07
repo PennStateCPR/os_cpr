@@ -195,7 +195,6 @@ public class AddPersonApi extends ExtendedBaseApi {
 			// Did we find a match?  If so, we need to return.
 			if (personServiceReturn != null) {
 				LOG4J_LOGGER.info(apiName + ": " + matchingErrorMessage);
-				serviceCoreReturn.getServiceLogTable().endLog(db, matchingErrorMessage);
 				return (Object) personServiceReturn;
 			}
 		}
@@ -214,7 +213,6 @@ public class AddPersonApi extends ExtendedBaseApi {
 		buildAndSendMessages(db, apiName, serviceCoreReturn, updatedBy); 
 		
 		LOG4J_LOGGER.info(apiName + ": Success!");
-		serviceCoreReturn.getServiceLogTable().endLog(db, ApiHelper.SUCCESS_MESSAGE);
 
 		return (Object) personServiceReturn;
 	}
