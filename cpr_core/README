@@ -70,5 +70,5 @@ for more information.
 7)	To run unit tests (assumes the database exists and is populated).
 	ant -Drun.unit.tests=1
 
-8)	When you build the code, the javadoc will be placed in the javadoc folder and
+8)	When you build the code, the JavaDoc will be placed in the javadoc folder and
 	the cpr_core.jar will be placed in the dist/lib folder.
