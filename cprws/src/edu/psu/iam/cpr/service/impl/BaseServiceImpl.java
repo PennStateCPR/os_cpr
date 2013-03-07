@@ -88,8 +88,6 @@ public abstract class BaseServiceImpl {
 			runService(serviceName, db, serviceCoreReturn, updatedBy, otherParameters);
 			
 			// Log a success!
-			serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
-			
 			LOG4J_LOGGER.info(serviceName + ": SUCCESS!");
 			
 			// Commit

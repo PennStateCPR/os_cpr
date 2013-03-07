@@ -118,7 +118,6 @@ public abstract class ExtendedBaseServiceImpl {
 
 			// Log a success!  Add Person is special because it can return a failure due to matching and a success.
 			if ((! serviceName.equals(CprServiceName.AddPerson.toString()))) { 
-				serviceCoreReturn.getServiceLogTable().endLog(db, ServiceHelper.SUCCESS_MESSAGE);
 				LOG4J_LOGGER.info(serviceName + ": Success!");
 			}
 

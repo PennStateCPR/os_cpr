@@ -74,11 +74,8 @@ public class ServiceHelper {
 			Database db,
 			StringBuilder parameters) throws CprException, NamingException {
 		
-		ServiceCoreReturn serviceCoreReturn;
 		db.openSession(SessionFactoryUtil.getSessionFactory());
-		serviceCoreReturn = serviceCore.initializeLogging(db, serviceName, ipAddress, parameters.toString(), updatedBy);
-		serviceCore.initializeService(db, principalId, password, identifierType, identifier, serviceName, ipAddress, serviceCoreReturn);
-		return serviceCoreReturn;
+		return serviceCore.initializeService(db, principalId, password, updatedBy, identifierType, identifier, serviceName, ipAddress);
 	}	
 
 	/**
@@ -92,11 +89,6 @@ public class ServiceHelper {
 			ServiceCoreReturn serviceCoreReturn,
 			Database db, 
 			Exception e) {
-		try {
-			serviceCoreReturn.getServiceLogTable().endLog(db, "Exception: " + e.getMessage());
-		}
-		catch (Exception e1) {
-		}
 		log4jLogger.info("Exception: " + e.getMessage());
 		db.rollbackSession();
 	}
@@ -130,11 +122,6 @@ public class ServiceHelper {
 		sb.append(sqlState);
 		
 		String formattedException = sb.toString();
-		try {
-			serviceCoreReturn.getServiceLogTable().endLog(db, formattedException);
-		}
-		catch (Exception e1) {
-		}
 		log4jLogger.info(formattedException);
 		db.rollbackSession();
 		return formattedException;
@@ -155,11 +142,6 @@ public class ServiceHelper {
 		String errorMessage = e.getReturnType().message();
 		if (e.getParameterValue() != null) {
 			errorMessage = String.format(errorMessage, e.getParameterValue());
-		}
-		try {
-			serviceCoreReturn.getServiceLogTable().endLog(db, "CPR Exception: " + errorMessage);
-		}
-		catch (Exception e1) {
 		}
 		log4jLogger.info("CPR Exception: " + e.getReturnType().toString() + ", Message: " + errorMessage);
 		db.rollbackSession();
