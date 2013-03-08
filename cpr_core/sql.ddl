@@ -1,13 +1,29 @@
 
-drop database cpr;
+drop database if exists cpr;
 
 create database cpr;
 
 use cpr;
 
 	SET FOREIGN_KEY_CHECKS=0;
+
+	drop table if exists message_consumer;
 	
-    drop table if exists cpr_access_groups;
+	drop table if exists message_consumer_mapping;
+	
+	drop table if exists user_service_status;
+	
+	drop table if exists mc_warning_notifications;
+	
+	drop table if exists change_notification_types;
+	
+	drop table if exists change_notifications;
+	
+	drop table if exists message_log;
+	
+	drop table if exists message_log_history;
+	
+	drop table if exists cpr_access_groups;
 
     drop table if exists server_principal_ip;
 
@@ -89,10 +105,6 @@ use cpr;
 
     drop table if exists match_results;
 
-    drop table if exists message_log;
-
-    drop table if exists message_log_history;
-
     drop table if exists names;
 
     drop table if exists person;
@@ -139,25 +151,11 @@ use cpr;
 
     drop table if exists registration_authority;
 
-    drop table if exists service_actions;
-
     drop table if exists service_log;
-
-    drop table if exists service_provisioner;
 
     drop table if exists services;
 
-    drop table if exists sp_notification;
-
-    drop table if exists sp_response;
-
-    drop table if exists sp_services;
-
-    drop table if exists sp_warning_notifications;
-
     drop table if exists user_comments;
-
-    drop table if exists user_service_status;
 
     drop table if exists userid;
 
@@ -678,34 +676,6 @@ use cpr;
         primary key (match_set_key)
     ) ENGINE=INNODB;
 
-    create table message_log (
-        message_log_key bigint not null auto_increment,
-        created_on datetime not null,
-        last_update_on datetime not null,
-        message_sent varchar(1000),
-        number_of_tries bigint not null,
-        request_userid varchar(30) not null,
-        service_provisioner_key bigint not null,
-        success_flag varchar(1),
-        web_service_key bigint not null,
-        primary key (message_log_key)
-    ) ENGINE=INNODB;
-
-    create table message_log_history (
-        message_log_history_key bigint not null auto_increment,
-        created_on datetime not null,
-        error_code varchar(100),
-        error_message varchar(1000),
-        last_update_on datetime not null,
-        message_id varchar(100),
-        message_log_key bigint not null,
-        message_received varchar(1000),
-        message_received_timestamp datetime,
-        message_sent_timestamp datetime not null,
-        try_number bigint,
-        primary key (message_log_history_key)
-    ) ENGINE=INNODB;
-
     create table names (
         name_key bigint not null auto_increment,
         created_by varchar(30) not null,
@@ -1016,18 +986,6 @@ use cpr;
         primary key (registration_authority_key)
     ) ENGINE=INNODB;
 
-    create table service_actions (
-        service_action_key bigint not null auto_increment,
-        active_flag varchar(1) not null,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        enum_string varchar(30) not null,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        service_action varchar(30) not null,
-        primary key (service_action_key)
-    ) ENGINE=INNODB;
-
     create table service_log (
         service_log_key bigint not null auto_increment,
         ip_address varchar(50),
@@ -1041,26 +999,6 @@ use cpr;
         primary key (service_log_key)
     ) ENGINE=INNODB;
 
-    create table service_provisioner (
-        service_provisioner_key bigint not null auto_increment,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        end_date datetime,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        maximum_failure bigint,
-        maximum_queue_size bigint,
-        maximum_retries bigint,
-        retry_interval bigint,
-        service_provisioner varchar(50) not null,
-        service_provisioner_email varchar(256),
-        service_provisioner_queue varchar(128),
-        service_provisioner_reg_date datetime not null,
-        start_date datetime not null,
-        suspend_flag varchar(1) not null,
-        primary key (service_provisioner_key)
-    ) ENGINE=INNODB;
-
     create table services (
         service_key bigint not null auto_increment,
         active_flag varchar(1) not null,
@@ -1071,55 +1009,6 @@ use cpr;
         last_update_on datetime not null,
         service_name varchar(100) not null,
         primary key (service_key)
-    ) ENGINE=INNODB;
-
-    create table sp_notification (
-        sp_notification_key bigint not null auto_increment,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        end_date datetime,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        service_provisioner_key bigint not null,
-        start_date datetime not null,
-        web_service_key bigint not null,
-        primary key (sp_notification_key)
-    ) ENGINE=INNODB;
-
-    create table sp_response (
-        sp_response_key bigint not null auto_increment,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        service_action_key bigint not null,
-        service_key bigint not null,
-        web_service_key bigint not null,
-        primary key (sp_response_key)
-    ) ENGINE=INNODB;
-
-    create table sp_services (
-        sp_service_key bigint not null auto_increment,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        end_date datetime,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        max_days_provisioned bigint,
-        service_key bigint not null,
-        service_provisioner_key bigint not null,
-        start_date datetime not null,
-        primary key (sp_service_key)
-    ) ENGINE=INNODB;
-
-    create table sp_warning_notifications (
-        sp_warning_notification_key bigint not null,
-        end_date datetime,
-        entry_timestamp datetime not null,
-        event_trigger_key bigint not null,
-        service_provisioner_key bigint not null,
-        start_date datetime not null,
-        primary key (sp_warning_notification_key)
     ) ENGINE=INNODB;
 
      create table user_comments (
@@ -1135,22 +1024,6 @@ use cpr;
         start_date datetime not null,
         userid varchar(30) not null,
         primary key (user_comment_key)
-    ) ENGINE=INNODB;
-
-    create table user_service_status (
-        user_service_status_key bigint not null auto_increment,
-        created_by varchar(30) not null,
-        created_on datetime not null,
-        deprovision_date datetime,
-        expiration_date datetime,
-        last_update_by varchar(30) not null,
-        last_update_on datetime not null,
-        person_id bigint not null,
-        provision_date datetime not null,
-        service_key bigint not null,
-        service_provisioner_key bigint not null,
-        userid varchar(30) not null,
-        primary key (user_service_status_key)
     ) ENGINE=INNODB;
 
     create table userid (
@@ -1454,6 +1327,128 @@ use cpr;
      primary key (server_principal_ip_key)
     ) ENGINE=INNODB;
 
+    create table message_consumer
+    (
+     message_consumer_key bigint not null auto_increment,
+     consumer varchar(50) not null,
+     consumer_reg_date datetime not null,
+     consumer_email varchar(256),
+     suspend_flag varchar(1) default 'Y' not null check (suspend_flag in ('N', 'Y')),
+     consumer_destination varchar(128),
+     destination_type varchar(30),
+     maximum_retries bigint,
+     retry_interval bigint,
+     maximum_failure bigint,
+     maximum_destination_size bigint,
+     start_date datetime not null,
+     end_date datetime,
+     last_update_by varchar(30) not null,
+     last_update_on datetime  not null,
+     created_by varchar(30)  not null,
+     created_on datetime  not null,
+     primary key(message_consumer_key)
+    )  ENGINE=INNODB;
+    
+    create table message_consumer_mapping
+    (
+     msg_con_mapping_key bigint not null auto_increment,
+     message_consumer_key bigint not null,
+     service_key bigint not null,
+     web_service_key bigint  not null,
+     max_days_provisioned bigint ,
+     start_date datetime not null,
+     end_date datetime,
+     last_update_by varchar(30) not null,
+     last_update_on datetime not null,
+     created_by varchar(30) not null,
+     created_on datetime not null,
+     primary key(msg_con_mapping_key)
+    ) ENGINE=INNODB;
+    
+    create table user_service_status
+    (
+     user_service_status_key bigint not null auto_increment,
+     person_id bigint  not null,
+     userid varchar(30)  not null,
+     service_key bigint  not null,
+     message_consumer_key bigint  not null,
+     expiration_date datetime,
+     provision_date datetime not null,
+     deprovision_date datetime,
+     last_update_by varchar(30) not null,
+     last_update_on datetime not null,
+     created_by varchar(30) not null,
+     created_on datetime not null,
+     primary key(user_service_status_key)
+    ) ENGINE=INNODB;
+    
+    create table mc_warning_notifications
+    (
+     mc_warning_notification_key bigint not null auto_increment,
+     message_consumer_key bigint  not null,
+     event_trigger_key bigint not null,
+     entry_timestamp datetime not null,
+     start_date datetime not null,
+     end_date datetime,
+     primary key (mc_warning_notification_key)
+    ) ENGINE=INNODB;
+    
+    create table change_notification_types
+    (
+     change_notification_types_key bigint not null auto_increment,
+     notification_type varchar(60) not null,
+     notification_desc varchar(100) not null,
+     active_flag varchar(1) default 'N' not null check ( active_flag in ('N', 'Y')) ,
+     last_update_by varchar(30) not null,
+     last_update_on datetime not null,
+     created_by varchar(30) not null,
+     created_on datetime not null,
+     primary key (change_notification_types_key)
+    ) ENGINE=INNODB;
+    
+    create table change_notifications
+    (
+     change_notifications_key bigint not null auto_increment,
+     message_consumer_key bigint not null,
+     change_notification_types_key bigint not null,
+     start_date datetime not null,
+     end_date datetime,
+     last_update_by varchar(30) not null,
+     last_update_on datetime not null,
+     created_by varchar(30) not null,
+     created_on datetime not null,
+     primary key(change_notifications_key)
+    ) ENGINE=INNODB;
+    
+    create table message_log
+    (
+     message_log_key bigint not null auto_increment,
+     web_service_key bigint not null,
+     message_consumer_key bigint not null,
+     message_sent varchar(1000),
+     number_of_tries bigint not null,
+     success_flag varchar(1) default 'N' check ( success_flag in ('N', 'Y')),
+     request_userid varchar(30) not null,
+     last_update_on datetime not null,
+     created_on datetime not null,
+     primary key (message_log_key)
+    ) ENGINE=INNODB;
+    
+    create table message_log_history
+    (
+     message_log_history_key bigint not null auto_increment,
+     message_log_key bigint not null,
+     message_sent_datetime datetime not null,
+     message_id varchar(100),
+     message_received_timestamp datetime,
+     message_received varchar(1000),
+     error_code varchar(100),
+     error_message varchar(1000),
+     try_number bigint,
+     last_update_on datetime not null,
+     created_on datetime not null,
+     primary key(message_log_history_key)
+    ) ENGINE=INNODB;
 -- end of tables --
 
     
@@ -1479,9 +1474,6 @@ alter table group_members add constraint grpmbrs_cag_fk foreign key ( cpr_access
 alter table group_members add constraint grpmbrs_userid_fk foreign key ( userid, person_id) references userid ( userid, person_id);
 alter table id_card_print_log add foreign key (person_id_card_key) references person_id_card(person_id_card_key);
 alter table match_results add foreign key (person_id) references person(person_id);
-alter table message_log add foreign key (web_service_key) references web_service(web_service_key);
-alter table message_log add foreign key (service_provisioner_key) references service_provisioner(service_provisioner_key);
-alter table message_log_history add foreign key (message_log_key) references message_log(message_log_key);
 alter table names add foreign key (person_id) references person(person_id);
 alter table names add foreign key (data_type_key) references data_types(data_type_key);
 alter table person_affiliation add foreign key (person_id) references person(person_id);
@@ -1516,12 +1508,9 @@ alter table ra_ui_application add foreign key (registration_authority_key) refer
 alter table security_question_answers add foreign key (person_id) references person(person_id);
 alter table security_question_answers add foreign key (userid) references userid(userid);
 alter table service_log add foreign key (web_service_key) references web_service(web_service_key);
-alter table sp_notification add foreign key (web_service_key) references web_service(web_service_key);
-alter table sp_response add foreign key (web_service_key) references web_service(web_service_key);
 alter table user_comments add foreign key (person_id) references person(person_id);
 alter table user_comments add foreign key (userid) references userid(userid);
 alter table user_comments add foreign key (data_type_key) references data_types(data_type_key);
-alter table user_service_status add foreign key (person_id) references person(person_id);
 alter table userid add foreign key (person_id) references person(person_id);
 alter table userid_policy_status add foreign key (person_id) references person(person_id);
 alter table userid_policy_status add foreign key (userid) references userid(userid);
@@ -1543,6 +1532,22 @@ alter table cpr_access_groups add constraint cag_rasrvrprinc_fk foreign key ( ra
 alter table web_service_access add constraint wsa_cag_fk foreign key ( cpr_access_groups_key) references cpr_access_groups ( cpr_access_groups_key);
 alter table web_service_access add constraint wsa_websrvc_fk foreign key ( web_service_key) references web_service ( web_service_key);
 alter table server_principal_ip add constraint spi_raserverprinc_fk foreign key ( ra_server_principal_key ) references ra_server_principals ( ra_server_principal_key);
+alter table message_consumer add constraint mec_consumer_UK unique (consumer);
+alter table message_consumer_mapping add constraint mcm_mec_fk foreign key ( message_consumer_key) references message_consumer ( message_consumer_key);
+alter table message_consumer_mapping add constraint mcm_services_fk foreign key ( service_key) references services ( service_key);
+alter table message_consumer_mapping add constraint mcm_websrvc_fk foreign key ( web_service_key) references web_service ( web_service_key);
+alter table user_service_status add constraint USERSRVCSTAT_SERVICES_FK foreign key ( service_key) references services ( service_key);
+alter table user_service_status add constraint USERSRVCSTAT_userid_FK foreign key ( userid, person_id) references userid ( userid, person_id);
+alter table user_service_status add constraint usersrvcstat_mec_fk foreign key ( message_consumer_key) references message_consumer ( message_consumer_key);
+alter table mc_warning_notifications add constraint mcw_eventtrig_fk foreign key ( event_trigger_key) references event_triggers ( event_trigger_key);
+alter table mc_warning_notifications add constraint mcw_mec_fk foreign key ( message_consumer_key) references message_consumer ( message_consumer_key);
+alter table change_notifications
+    add constraint cno_consumer_chngnottype_UK UNIQUE ( message_consumer_key , change_notification_types_key ) ;
+alter table change_notifications add constraint cno_cnt_fk foreign key ( change_notification_types_key) references change_notification_types ( change_notification_types_key);
+alter table change_notifications add constraint cno_mec_fk foreign key ( message_consumer_key) references message_consumer ( message_consumer_key);
+alter table message_log add constraint msglog_mec_fk foreign key ( message_consumer_key) references message_consumer ( message_consumer_key);
+alter table message_log add constraint msglog_websrvc_fk foreign key ( web_service_key) references web_service ( web_service_key);
+alter table message_log_history add constraint msghistlog_message_log_FK foreign key ( message_log_key) references message_log ( message_log_key);
 -- end of alter tables --
 
 
@@ -1668,53 +1673,19 @@ FROM person_id_card JOIN id_card_print_log
  AND web_service.end_date IS NULL
  AND ra.end_date IS NULL;
 
-  CREATE OR REPLACE VIEW v_sp_notification (service_provisioner_key, service_provisioner, service_provisioner_queue, web_service, web_service_key) AS 
-  SELECT service_provisioner.service_provisioner_key,
-       service_provisioner.service_provisioner,
-       service_provisioner.service_provisioner_queue,
+  CREATE OR REPLACE VIEW v_sp_notification (message_consumer_key, consumer, consumer_destination, web_service, web_service_key) AS 
+  SELECT message_consumer.message_consumer_key,
+       message_consumer.consumer,
+       message_consumer.consumer_destination,
        web_service.web_service,
        web_service.web_service_key
-FROM service_provisioner
-  JOIN sp_notification ON service_provisioner.service_provisioner_key = sp_notification.service_provisioner_key
-    AND service_provisioner.end_date IS NULL
-    AND service_provisioner.suspend_flag = 'N'
-    AND sp_notification.end_date IS NULL
-  JOIN web_service ON sp_notification.web_service_key = web_service.web_service_key
+  FROM message_consumer
+  JOIN message_consumer_mapping ON message_consumer.message_consumer_key = message_consumer_mapping.message_consumer_key
+    AND message_consumer.end_date IS NULL
+    AND message_consumer.suspend_flag = 'N'
+    AND message_consumer_mapping.end_date IS NULL
+  JOIN web_service ON message_consumer_mapping.web_service_key = web_service.web_service_key
     AND web_service.end_date IS NULL;
-
-  CREATE OR REPLACE VIEW v_sp_response (sp_response_key, web_service_key, web_service, service_key, service_name, service_action_key, service_action, srvcaction_enum_string) AS 
-  SELECT sp_response.sp_response_key,
-       sp_response.web_service_key,
-       web_service.web_service,
-       sp_response.service_key,
-       services.service_name,
-       sp_response.service_action_key,
-       service_actions.service_action,
-       service_actions.enum_string AS srvcaction_enum_string
-FROM sp_response
-  JOIN web_service ON sp_response.web_service_key = web_service.web_service_key
-    AND web_service.end_date IS NULL
-  JOIN services ON sp_response.service_key = services.service_key
-  	AND services.active_flag = 'Y'
-  JOIN service_actions ON sp_response.service_action_key = service_actions.service_action_key
-  	AND service_actions.active_flag = 'Y';
-
-  CREATE OR REPLACE VIEW v_web_service (sp_response_key, web_service_key, web_service, service_key, service_name, service_action_key, service_action, srvcaction_enum_string) AS 
-  SELECT sp_response.sp_response_key,
-       sp_response.web_service_key,
-       web_service.web_service,
-       sp_response.service_key,
-       services.service_name,
-       sp_response.service_action_key,
-       service_actions.service_action,
-       service_actions.enum_string AS srvcaction_enum_string
-FROM sp_response
-  JOIN web_service ON sp_response.web_service_key = web_service.web_service_key
-    AND web_service.end_date IS NULL
-  JOIN services ON sp_response.service_key = services.service_key
-  	AND services.active_flag = 'Y'
-  JOIN service_actions ON sp_response.service_action_key = service_actions.service_action_key
-  	AND service_actions.active_flag = 'Y';
 
 create index email_notification_01_idx on email_notification (notification_process asc);
 create index ra_applications_10_idx on ra_applications ( registration_authority_key asc );
@@ -1793,10 +1764,6 @@ create index id_card_print_log_20_idx on id_card_print_log ( person_id_card_key 
 create index java_exceptions_pk on java_exceptions ( java_exception_key asc);
 create index match_results_10_idx on match_results ( person_id asc);
 create index match_results_idx on match_results ( match_set_key asc, score asc, person_id asc);
-create index message_log_01_idx on message_log ( created_on asc);
-create index message_log_pk on message_log ( message_log_key asc);
-create index message_history_log_pk on message_log_history ( message_log_history_key asc);
-create index message_log_history_01_idx on message_log_history ( message_id asc);
 create index names_10_idx on names ( person_id asc);
 create index names_21_idx on names ( data_type_key asc);
 create index names_match_idx on names ( name_match_code asc, person_id asc);
@@ -1865,16 +1832,9 @@ create index registration_authority_pk on registration_authority ( registration_
 create index security_questions_pk on security_questions ( sec_quest_key asc);
 create index security_question_answers_pk on security_question_answers ( sec_quest_answer_key asc);
 create index services_pk on services ( service_key asc);
-create index service_actions_pk on service_actions ( service_action_key asc);
 create index service_log_01_idx on service_log ( request_userid asc);
 create index service_log_pk on service_log ( service_log_key asc);
 create index srvclog_request_start_idx on service_log ( request_start asc);
-create index service_provisioner_01_idx on service_provisioner ( suspend_flag asc, end_date asc, service_provisioner_key asc);
-create index service_provisioner_pk on service_provisioner ( service_provisioner_key asc);
-create index sp_notification_01_idx on sp_notification ( service_provisioner_key asc, web_service_key asc, end_date asc);
-create index sp_notification_pk on sp_notification ( sp_notification_key asc);
-create index sp_response_pk on sp_response ( sp_response_key asc);
-create index sp_services_pk on sp_services ( sp_service_key asc);
 create index uiapp_pk on ui_applications ( ui_application_key asc);
 create index ui_field_types_pk on ui_field_types ( ui_field_type asc);
 create index ui_log_pk on ui_log ( ui_log_key asc);
@@ -1890,7 +1850,6 @@ create index user_comments_01_idx on user_comments ( end_date asc, userid asc);
 create index user_comments_20_idx on user_comments ( userid asc, person_id asc);
 create index user_comments_21_idx on user_comments ( data_type_key asc);
 create index user_comments_pk on user_comments ( user_comment_key asc);
-create index user_service_status_pk on user_service_status ( user_service_status_key asc);
 create index web_service_01_idx on web_service ( web_service asc, end_date asc, web_service_key asc);
 create index web_service_pk on web_service ( web_service_key asc);
 create index web_service_access_pkx on web_service_access ( web_service_access_key asc);
@@ -1901,5 +1860,29 @@ create index spi_raserverprinc_fkx on server_principal_ip ( ra_server_principal_
 create unique index cpr_access_groups_pkx on cpr_access_groups ( cpr_access_groups_key asc);
 create unique index cag_spkey_group_ukx on cpr_access_groups ( ra_server_principal_key asc , access_group asc);
 create index cag_rasrvrprinc_fkx on cpr_access_groups ( ra_server_principal_key asc);
+create unique index message_consumer_pkX on message_consumer ( message_consumer_key asc );
+create unique index mec_consumer_UKX on message_consumer ( consumer asc );
+create unique index msg_con_mapping_pkX on message_consumer_mapping ( msg_con_mapping_key asc );
+create index mcm_mec_fkX on message_consumer_mapping ( message_consumer_key asc );
+create index mcm_services_fkX on message_consumer_mapping ( service_key asc );
+create index mcm_websrvc_fkX on message_consumer_mapping ( web_service_key asc );
+create unique index user_service_status_pkX on user_service_status ( user_service_status_key asc );
+create index usersrvcstat_userid_fkX on user_service_status ( userid asc , person_id asc );
+create index usersrvcstat_services_fkX on user_service_status ( service_key asc );
+create index usersrvcstat_mec_fkX on user_service_status ( message_consumer_key asc );
+create unique index mc_warning_notifications_pkX on mc_warning_notifications ( mc_warning_notification_key asc );
+create index mcw_mec_fkX on mc_warning_notifications ( message_consumer_key asc );
+create index mcw_eventtrig_fkX on mc_warning_notifications ( event_trigger_key asc );
+create unique index change_notification_types_pkX on change_notification_types ( change_notification_types_key asc );
+create unique index cnt_notification_type_UKX on change_notification_types ( notification_type asc );
+create unique index change_notifications_pkX on change_notifications ( change_notifications_key asc );
+create unique index cno_consumer_chngnottype_UKX on change_notifications ( message_consumer_key asc , change_notification_types_key asc );
+create index cno_mec_fkX on change_notifications ( message_consumer_key asc );
+create index cno_cnt_fkX on change_notifications ( change_notification_types_key asc );
+create unique index message_log_pkX on message_log ( message_log_key asc );
+create index msglog_websrvc_fkX on message_log ( web_service_key asc );
+create index msglog_mec_fkX on message_log ( message_consumer_key asc );
+create index MESSAGE_LOG_01_IDX on message_log ( created_on asc );
+create index message_log_history_01_IDX on message_log_history ( message_id asc );
 -- end of indexes --
 
