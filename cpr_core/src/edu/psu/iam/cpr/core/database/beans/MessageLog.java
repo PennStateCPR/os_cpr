@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: MessageLog.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
+/* SVN FILE: $Id: BuildBean.java 5970 2013-01-04 15:50:31Z jvuccolo $ */
 package edu.psu.iam.cpr.core.database.beans;
 
 import java.io.Serializable;
@@ -13,24 +13,14 @@ import javax.persistence.Table;
 
 /**
  *
- * Copyright 2012 The Pennsylvania State University
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To
+ * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative
+ * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
  * @package edu.psu.iam.cpr.core.database.beans
  * @author $Author: jvuccolo $
- * @version $Rev: 5340 $
- * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
+ * @version $Rev: 5970 $
+ * @lastrevision $Date: 2013-01-04 10:50:31 -0500 (Fri, 04 Jan 2013) $
  */
 
 @Entity
@@ -44,13 +34,20 @@ public class MessageLog implements Serializable {
         @Column(name="success_flag", nullable=true, length=1)
         private String successFlag;
 
-        /** Contains the lastUpdateOn. */
-        @Column(name="last_update_on", nullable=false)
-        private Date lastUpdateOn;
+        /** Contains the messageConsumerKey. */
+        @Column(name="message_consumer_key", nullable=false)
+        private Long messageConsumerKey;
 
-        /** Contains the serviceProvisionerKey. */
-        @Column(name="service_provisioner_key", nullable=false)
-        private Long serviceProvisionerKey;
+        /** Contains the messageLogKey. */
+        @Id
+        @Column(name="message_log_key", nullable=false)
+        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_message_log")
+        @SequenceGenerator(name="seq_message_log", sequenceName="seq_message_log", allocationSize = 1, initialValue= 1)
+        private Long messageLogKey;
+
+        /** Contains the webServiceKey. */
+        @Column(name="web_service_key", nullable=false)
+        private Long webServiceKey;
 
         /** Contains the createdOn. */
         @Column(name="created_on", nullable=false)
@@ -60,24 +57,17 @@ public class MessageLog implements Serializable {
         @Column(name="request_userid", nullable=false, length=30)
         private String requestUserid;
 
-        /** Contains the webServiceKey. */
-        @Column(name="web_service_key", nullable=false)
-        private Long webServiceKey;
-
         /** Contains the numberOfTries. */
         @Column(name="number_of_tries", nullable=false)
         private Long numberOfTries;
 
+        /** Contains the lastUpdateOn. */
+        @Column(name="last_update_on", nullable=false)
+        private Date lastUpdateOn;
+
         /** Contains the messageSent. */
         @Column(name="message_sent", nullable=true, length=1000)
         private String messageSent;
-
-        /** Contains the messageLogKey. */
-        @Id
-        @Column(name="message_log_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_message_log")
-        @SequenceGenerator(name="seq_message_log", sequenceName="seq_message_log", allocationSize = 1, initialValue= 1)
-        private Long messageLogKey;
 
         /**
          * Constructor
@@ -101,31 +91,45 @@ public class MessageLog implements Serializable {
         }
 
         /**
-         * @return the lastUpdateOn
+         * @return the messageConsumerKey
          */
-        public Date getLastUpdateOn() {
-                return lastUpdateOn;
+        public Long getMessageConsumerKey() {
+                return messageConsumerKey;
         }
 
         /**
-         * @param lastUpdateOn the lastUpdateOn to set.
+         * @param messageConsumerKey the messageConsumerKey to set.
          */
-        public void setLastUpdateOn(Date lastUpdateOn) {
-                this.lastUpdateOn = lastUpdateOn;
+        public void setMessageConsumerKey(Long messageConsumerKey) {
+                this.messageConsumerKey = messageConsumerKey;
         }
 
         /**
-         * @return the serviceProvisionerKey
+         * @return the messageLogKey
          */
-        public Long getServiceProvisionerKey() {
-                return serviceProvisionerKey;
+        public Long getMessageLogKey() {
+                return messageLogKey;
         }
 
         /**
-         * @param serviceProvisionerKey the serviceProvisionerKey to set.
+         * @param messageLogKey the messageLogKey to set.
          */
-        public void setServiceProvisionerKey(Long serviceProvisionerKey) {
-                this.serviceProvisionerKey = serviceProvisionerKey;
+        public void setMessageLogKey(Long messageLogKey) {
+                this.messageLogKey = messageLogKey;
+        }
+
+        /**
+         * @return the webServiceKey
+         */
+        public Long getWebServiceKey() {
+                return webServiceKey;
+        }
+
+        /**
+         * @param webServiceKey the webServiceKey to set.
+         */
+        public void setWebServiceKey(Long webServiceKey) {
+                this.webServiceKey = webServiceKey;
         }
 
         /**
@@ -157,20 +161,6 @@ public class MessageLog implements Serializable {
         }
 
         /**
-         * @return the webServiceKey
-         */
-        public Long getWebServiceKey() {
-                return webServiceKey;
-        }
-
-        /**
-         * @param webServiceKey the webServiceKey to set.
-         */
-        public void setWebServiceKey(Long webServiceKey) {
-                this.webServiceKey = webServiceKey;
-        }
-
-        /**
          * @return the numberOfTries
          */
         public Long getNumberOfTries() {
@@ -185,6 +175,20 @@ public class MessageLog implements Serializable {
         }
 
         /**
+         * @return the lastUpdateOn
+         */
+        public Date getLastUpdateOn() {
+                return lastUpdateOn;
+        }
+
+        /**
+         * @param lastUpdateOn the lastUpdateOn to set.
+         */
+        public void setLastUpdateOn(Date lastUpdateOn) {
+                this.lastUpdateOn = lastUpdateOn;
+        }
+
+        /**
          * @return the messageSent
          */
         public String getMessageSent() {
@@ -196,20 +200,6 @@ public class MessageLog implements Serializable {
          */
         public void setMessageSent(String messageSent) {
                 this.messageSent = messageSent;
-        }
-
-        /**
-         * @return the messageLogKey
-         */
-        public Long getMessageLogKey() {
-                return messageLogKey;
-        }
-
-        /**
-         * @param messageLogKey the messageLogKey to set.
-         */
-        public void setMessageLogKey(Long messageLogKey) {
-                this.messageLogKey = messageLogKey;
         }
 
 }

@@ -20,6 +20,8 @@
 		<mapping class="edu.psu.iam.cpr.core.database.beans.ApplicationProperties" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.BadPrefixes" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.CampusCs" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.ChangeNotificationTypes" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.ChangeNotifications" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.Confidentiality" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.Country" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.CountryMap" />
@@ -52,6 +54,9 @@
 		<mapping class="edu.psu.iam.cpr.core.database.beans.IdentifierType" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.JavaExceptions" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.MatchResults" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.McWarningNotifications" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.MessageConsumer" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.MessageConsumerMapping" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.MessageLog" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.MessageLogHistory" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.Names" />
@@ -85,14 +90,8 @@
 		<mapping class="edu.psu.iam.cpr.core.database.beans.SecurityQuestionAnswers" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.SecurityQuestions" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.ServerPrincipalIp" />
-		<mapping class="edu.psu.iam.cpr.core.database.beans.ServiceActions" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.ServiceLog" />
-		<mapping class="edu.psu.iam.cpr.core.database.beans.ServiceProvisioner" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.Services" />
-		<mapping class="edu.psu.iam.cpr.core.database.beans.SpNotification" />
-		<mapping class="edu.psu.iam.cpr.core.database.beans.SpResponse" />
-		<mapping class="edu.psu.iam.cpr.core.database.beans.SpServices" />
-		<mapping class="edu.psu.iam.cpr.core.database.beans.SpWarningNotifications" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UiApplications" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UiFieldTypes" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UiLog" />
@@ -105,7 +104,6 @@
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UseridPool" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UspsStateTypes" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UspsStates" />
-		<mapping class="edu.psu.iam.cpr.core.database.beans.VSpNotification" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.WebService" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.WebServiceAccess" />	
 	</session-factory>

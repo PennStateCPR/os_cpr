@@ -48,8 +48,8 @@ public class MessageLogTest {
 
 	@Test
 	public final void testGetServiceProvisionerKey() {
-		m.setServiceProvisionerKey(1L);
-		AssertJUnit.assertEquals(m.getServiceProvisionerKey(), new Long(1));
+		m.setMessageConsumerKey(1L);
+		AssertJUnit.assertEquals(m.getMessageConsumerKey(), new Long(1));
 	}
 
 	@Test

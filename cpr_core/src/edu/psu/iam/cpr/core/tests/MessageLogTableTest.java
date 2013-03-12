@@ -121,7 +121,7 @@ public class MessageLogTableTest {
 		MessageLog bean = new MessageLog();
 		bean.setMessageSent("Test");
 		bean.setRequestUserid("cpruser");
-		bean.setServiceProvisionerKey(100002L);
+		bean.setMessageConsumerKey(100002L);
 		bean.setWebServiceKey(100126L);
 		bean.setNumberOfTries(0L);
 		bean.setSuccessFlag("N");
@@ -213,7 +213,7 @@ public class MessageLogTableTest {
 		AssertJUnit.assertEquals(result, bean);
 		AssertJUnit.assertEquals(null, result.getSuccessFlag());
 		AssertJUnit.assertEquals(null, result.getLastUpdateOn());
-		AssertJUnit.assertEquals(null, result.getServiceProvisionerKey());
+		AssertJUnit.assertEquals(null, result.getMessageConsumerKey());
 		AssertJUnit.assertEquals(null, result.getCreatedOn());
 		AssertJUnit.assertEquals(null, result.getRequestUserid());
 		AssertJUnit.assertEquals(null, result.getWebServiceKey());

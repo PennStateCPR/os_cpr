@@ -71,7 +71,7 @@ public class MessageLogTable {
 		setMessageLogBean(bean);
 		
 		bean.setWebServiceKey(webServiceId);
-		bean.setServiceProvisionerKey(serviceProviderId);
+		bean.setMessageConsumerKey(serviceProviderId);
 		bean.setMessageSent(messageSent);
 		bean.setRequestUserid(requestUserid);
 		

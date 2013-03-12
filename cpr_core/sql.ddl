@@ -1438,7 +1438,7 @@ use cpr;
     (
      message_log_history_key bigint not null auto_increment,
      message_log_key bigint not null,
-     message_sent_datetime datetime not null,
+     message_sent_timestamp datetime not null,
      message_id varchar(100),
      message_received_timestamp datetime,
      message_received varchar(1000),

@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: UserServiceStatus.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
+/* SVN FILE: $Id: BuildBean.java 5970 2013-01-04 15:50:31Z jvuccolo $ */
 package edu.psu.iam.cpr.core.database.beans;
 
 import java.io.Serializable;
@@ -13,24 +13,14 @@ import javax.persistence.Table;
 
 /**
  *
- * Copyright 2012 The Pennsylvania State University
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To
+ * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative
+ * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
  * @package edu.psu.iam.cpr.core.database.beans
  * @author $Author: jvuccolo $
- * @version $Rev: 5340 $
- * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
+ * @version $Rev: 5970 $
+ * @lastrevision $Date: 2013-01-04 10:50:31 -0500 (Fri, 04 Jan 2013) $
  */
 
 @Entity
@@ -40,29 +30,41 @@ public class UserServiceStatus implements Serializable {
         /** Contains the serialized UID */
         private static final long serialVersionUID = 1L;
 
+        /** Contains the createdBy. */
+        @Column(name="created_by", nullable=false, length=30)
+        private String createdBy;
+
         /** Contains the provisionDate. */
         @Column(name="provision_date", nullable=false)
         private Date provisionDate;
+
+        /** Contains the messageConsumerKey. */
+        @Column(name="message_consumer_key", nullable=false)
+        private Long messageConsumerKey;
+
+        /** Contains the serviceKey. */
+        @Column(name="service_key", nullable=false)
+        private Long serviceKey;
+
+        /** Contains the personId. */
+        @Column(name="person_id", nullable=false)
+        private Long personId;
+
+        /** Contains the deprovisionDate. */
+        @Column(name="deprovision_date", nullable=true)
+        private Date deprovisionDate;
+
+        /** Contains the createdOn. */
+        @Column(name="created_on", nullable=false)
+        private Date createdOn;
 
         /** Contains the expirationDate. */
         @Column(name="expiration_date", nullable=true)
         private Date expirationDate;
 
-        /** Contains the createdBy. */
-        @Column(name="created_by", nullable=false, length=30)
-        private String createdBy;
-
-        /** Contains the lastUpdateOn. */
-        @Column(name="last_update_on", nullable=false)
-        private Date lastUpdateOn;
-
-        /** Contains the serviceProvisionerKey. */
-        @Column(name="service_provisioner_key", nullable=false)
-        private Long serviceProvisionerKey;
-
-        /** Contains the createdOn. */
-        @Column(name="created_on", nullable=false)
-        private Date createdOn;
+        /** Contains the userid. */
+        @Column(name="userid", nullable=false, length=30)
+        private String userid;
 
         /** Contains the userServiceStatusKey. */
         @Id
@@ -75,55 +77,15 @@ public class UserServiceStatus implements Serializable {
         @Column(name="last_update_by", nullable=false, length=30)
         private String lastUpdateBy;
 
-        /** Contains the personId. */
-        @Column(name="person_id", nullable=false)
-        private Long personId;
-
-        /** Contains the serviceKey. */
-        @Column(name="service_key", nullable=false)
-        private Long serviceKey;
-
-        /** Contains the deprovisionDate. */
-        @Column(name="deprovision_date", nullable=true)
-        private Date deprovisionDate;
-
-        /** Contains the userid. */
-        @Column(name="userid", nullable=false, length=30)
-        private String userid;
+        /** Contains the lastUpdateOn. */
+        @Column(name="last_update_on", nullable=false)
+        private Date lastUpdateOn;
 
         /**
          * Constructor
          */
         public UserServiceStatus() {
             super();
-        }
-
-        /**
-         * @return the provisionDate
-         */
-        public Date getProvisionDate() {
-                return provisionDate;
-        }
-
-        /**
-         * @param provisionDate the provisionDate to set.
-         */
-        public void setProvisionDate(Date provisionDate) {
-                this.provisionDate = provisionDate;
-        }
-
-        /**
-         * @return the expirationDate
-         */
-        public Date getExpirationDate() {
-                return expirationDate;
-        }
-
-        /**
-         * @param expirationDate the expirationDate to set.
-         */
-        public void setExpirationDate(Date expirationDate) {
-                this.expirationDate = expirationDate;
         }
 
         /**
@@ -141,31 +103,73 @@ public class UserServiceStatus implements Serializable {
         }
 
         /**
-         * @return the lastUpdateOn
+         * @return the provisionDate
          */
-        public Date getLastUpdateOn() {
-                return lastUpdateOn;
+        public Date getProvisionDate() {
+                return provisionDate;
         }
 
         /**
-         * @param lastUpdateOn the lastUpdateOn to set.
+         * @param provisionDate the provisionDate to set.
          */
-        public void setLastUpdateOn(Date lastUpdateOn) {
-                this.lastUpdateOn = lastUpdateOn;
+        public void setProvisionDate(Date provisionDate) {
+                this.provisionDate = provisionDate;
         }
 
         /**
-         * @return the serviceProvisionerKey
+         * @return the messageConsumerKey
          */
-        public Long getServiceProvisionerKey() {
-                return serviceProvisionerKey;
+        public Long getMessageConsumerKey() {
+                return messageConsumerKey;
         }
 
         /**
-         * @param serviceProvisionerKey the serviceProvisionerKey to set.
+         * @param messageConsumerKey the messageConsumerKey to set.
          */
-        public void setServiceProvisionerKey(Long serviceProvisionerKey) {
-                this.serviceProvisionerKey = serviceProvisionerKey;
+        public void setMessageConsumerKey(Long messageConsumerKey) {
+                this.messageConsumerKey = messageConsumerKey;
+        }
+
+        /**
+         * @return the serviceKey
+         */
+        public Long getServiceKey() {
+                return serviceKey;
+        }
+
+        /**
+         * @param serviceKey the serviceKey to set.
+         */
+        public void setServiceKey(Long serviceKey) {
+                this.serviceKey = serviceKey;
+        }
+
+        /**
+         * @return the personId
+         */
+        public Long getPersonId() {
+                return personId;
+        }
+
+        /**
+         * @param personId the personId to set.
+         */
+        public void setPersonId(Long personId) {
+                this.personId = personId;
+        }
+
+        /**
+         * @return the deprovisionDate
+         */
+        public Date getDeprovisionDate() {
+                return deprovisionDate;
+        }
+
+        /**
+         * @param deprovisionDate the deprovisionDate to set.
+         */
+        public void setDeprovisionDate(Date deprovisionDate) {
+                this.deprovisionDate = deprovisionDate;
         }
 
         /**
@@ -180,6 +184,34 @@ public class UserServiceStatus implements Serializable {
          */
         public void setCreatedOn(Date createdOn) {
                 this.createdOn = createdOn;
+        }
+
+        /**
+         * @return the expirationDate
+         */
+        public Date getExpirationDate() {
+                return expirationDate;
+        }
+
+        /**
+         * @param expirationDate the expirationDate to set.
+         */
+        public void setExpirationDate(Date expirationDate) {
+                this.expirationDate = expirationDate;
+        }
+
+        /**
+         * @return the userid
+         */
+        public String getUserid() {
+                return userid;
+        }
+
+        /**
+         * @param userid the userid to set.
+         */
+        public void setUserid(String userid) {
+                this.userid = userid;
         }
 
         /**
@@ -211,59 +243,17 @@ public class UserServiceStatus implements Serializable {
         }
 
         /**
-         * @return the personId
+         * @return the lastUpdateOn
          */
-        public Long getPersonId() {
-                return personId;
+        public Date getLastUpdateOn() {
+                return lastUpdateOn;
         }
 
         /**
-         * @param personId the personId to set.
+         * @param lastUpdateOn the lastUpdateOn to set.
          */
-        public void setPersonId(Long personId) {
-                this.personId = personId;
-        }
-
-        /**
-         * @return the serviceKey
-         */
-        public Long getServiceKey() {
-                return serviceKey;
-        }
-
-        /**
-         * @param serviceKey the serviceKey to set.
-         */
-        public void setServiceKey(Long serviceKey) {
-                this.serviceKey = serviceKey;
-        }
-
-        /**
-         * @return the deprovisionDate
-         */
-        public Date getDeprovisionDate() {
-                return deprovisionDate;
-        }
-
-        /**
-         * @param deprovisionDate the deprovisionDate to set.
-         */
-        public void setDeprovisionDate(Date deprovisionDate) {
-                this.deprovisionDate = deprovisionDate;
-        }
-
-        /**
-         * @return the userid
-         */
-        public String getUserid() {
-                return userid;
-        }
-
-        /**
-         * @param userid the userid to set.
-         */
-        public void setUserid(String userid) {
-                this.userid = userid;
+        public void setLastUpdateOn(Date lastUpdateOn) {
+                this.lastUpdateOn = lastUpdateOn;
         }
 
 }

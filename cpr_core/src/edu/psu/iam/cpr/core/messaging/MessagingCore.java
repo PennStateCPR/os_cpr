@@ -351,7 +351,7 @@ public class MessagingCore {
     	sb.append(": Web Service Key=");
     	sb.append(bean.getWebServiceKey());
     	sb.append(", Service Provisioner Key=");
-    	sb.append(bean.getServiceProvisionerKey());
+    	sb.append(bean.getMessageConsumerKey());
     	sb.append(", JSON Message Text=");
     	sb.append(bean.getMessageSent());
 
