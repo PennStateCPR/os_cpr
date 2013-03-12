@@ -9,13 +9,12 @@ import org.hibernate.Session;
 
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
-import edu.psu.iam.cpr.utility.beans.SpNotification;
+import edu.psu.iam.cpr.utility.beans.MessageConsumerMapping;
 
-public class SpNotificationLoader implements BeanLoader {
+public class MessageConsumerMappingLoader implements BeanLoader {
 
 	@Override
-	public void loadTable(Database db, String primeDirectory,
-			String tableName) {
+	public void loadTable(Database db, String primeDirectory, String tableName) {
 		BufferedReader bufferedReader = null;
 		try {
 			Date d = new Date();
@@ -38,21 +37,22 @@ public class SpNotificationLoader implements BeanLoader {
 			while ((line = bufferedReader.readLine()) != null) {
 				String[] fields = line.split("[|]");
 				
-				SpNotification bean = new SpNotification();
+				MessageConsumerMapping bean = new MessageConsumerMapping();
+				bean.setStartDate(d);
+				bean.setEndDate(null);
 				bean.setCreatedBy(requestor);
 				bean.setCreatedOn(d);
 				bean.setLastUpdateBy(requestor);
 				bean.setLastUpdateOn(d);
-				bean.setStartDate(d);
-				bean.setEndDate(null);
 				
-				// sp_notification_key|service_provisioner_key|web_service_key
+				// message_consumer_key|service_key|web_service_key
+
 				for (int i = 0; i < columns.length; ++i) {
-					if (columns[i].equals("sp_notification_key")) {
-						bean.setSpNotificationKey(new Long(fields[i]));
+					if (columns[i].equals("message_consumer_key")) {
+						bean.setMessageConsumerKey(new Long(fields[i]));
 					}
-					else if (columns[i].equals("service_provisioner_key")) {
-						bean.setServiceProvisionerKey(new Long(fields[i]));
+					else if (columns[i].equals("service_key")) {
+						bean.setServiceKey(new Long(fields[i]));
 					}
 					else if (columns[i].equals("web_service_key")) {
 						bean.setWebServiceKey(new Long(fields[i]));
@@ -61,6 +61,7 @@ public class SpNotificationLoader implements BeanLoader {
 				
 				session.save(bean);
 			}
+			
 			db.closeSession();
 		}
 		catch (Exception e) {

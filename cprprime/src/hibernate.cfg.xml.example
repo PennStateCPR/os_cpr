@@ -52,6 +52,8 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.IdentifierType" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.JavaExceptions" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.MatchResults" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.MessageConsumer" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.MessageConsumerMapping" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.MessageLog" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.MessageLogHistory" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Names" />
@@ -85,14 +87,8 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.SecurityQuestionAnswers" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.SecurityQuestions" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.ServerPrincipalIp" />
-		<mapping class="edu.psu.iam.cpr.utility.beans.ServiceActions" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.ServiceLog" />
-		<mapping class="edu.psu.iam.cpr.utility.beans.ServiceProvisioner" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Services" />
-		<mapping class="edu.psu.iam.cpr.utility.beans.SpNotification" />
-		<mapping class="edu.psu.iam.cpr.utility.beans.SpResponse" />
-		<mapping class="edu.psu.iam.cpr.utility.beans.SpServices" />
-		<mapping class="edu.psu.iam.cpr.utility.beans.SpWarningNotifications" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.UiApplications" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.UiFieldTypes" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.UiLog" />

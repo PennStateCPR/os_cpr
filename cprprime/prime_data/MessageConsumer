@@ -1,0 +1,6 @@
+message_consumer_key|consumer|consumer_destination|destination_type|maximum_retries|retry_interval|maximum_failure|maximum_destination_size
+1|CPR|Queue.CPR|Queue|5|60|100|500
+2|CPR|Queue.UnitTest|Queue|5|60|100|500
+3|CPR|Queue.Directory|Queue|5|60|100|500
+4|CPR|Queue.Authentication|Queue|5|60|100|500
+5|CPR|Queue.Test|Queue|5|60|100|500

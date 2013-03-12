@@ -1,6 +1,0 @@
-service_provisioner_email|service_provisioner_key|service_provisioner_queue|retry_interval|maximum_failure|service_provisioner|suspend_flag|maximum_retries|maximum_queue_size
-NULL|2|Queue.CPR|15|100|CPR|N|3|10000
-NULL|5|Queue.UnitTest|15|100|Unit Test|N|3|10000
-NULL|100000|Queue.Authentication|0|0|Authentication|N|0|0
-NULL|100001|Queue.Directory|0|0|Directory|N|0|0
-NULL|100002|Queue.Test|0|0|Test|N|0|0

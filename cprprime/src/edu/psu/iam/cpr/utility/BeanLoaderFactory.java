@@ -91,14 +91,8 @@ public class BeanLoaderFactory {
 		else if (tableName.equals("RegistrationAuthority")) { 
 			return new RegistrationAuthorityLoader();
 		}
-		else if (tableName.equals("ServiceProvisioner")) { 
-			return new ServiceProvisionerLoader();
-		}
 		else if (tableName.equals("Services")) { 
 			return new ServicesLoader();
-		}
-		else if (tableName.equals("SpNotification")) { 
-			return new SpNotificationLoader();
 		}
 		else if (tableName.equals("Userid")) { 
 			return new UseridLoader();
@@ -153,6 +147,12 @@ public class BeanLoaderFactory {
 		}
 		else if (tableName.equals("CprAccessGroups")) {
 			return new CprAccessGroupsLoader();
+		}
+		else if (tableName.equals("MessageConsumer")) {
+			return new MessageConsumerLoader();
+		}
+		else if (tableName.equals("MessageConsumerMapping")) {
+			return new MessageConsumerMappingLoader();
 		}
 		return null;
 	}
