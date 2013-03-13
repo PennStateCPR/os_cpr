@@ -1673,19 +1673,22 @@ FROM person_id_card JOIN id_card_print_log
  AND web_service.end_date IS NULL
  AND ra.end_date IS NULL;
 
-  CREATE OR REPLACE VIEW v_sp_notification (message_consumer_key, consumer, consumer_destination, web_service, web_service_key) AS 
+  CREATE OR REPLACE VIEW v_sp_notification (message_consumer_key, consumer, consumer_destination, web_service, web_service_key, service_name, service_key) AS 
   SELECT message_consumer.message_consumer_key,
        message_consumer.consumer,
        message_consumer.consumer_destination,
        web_service.web_service,
-       web_service.web_service_key
+       web_service.web_service_key,
+       services.service_name,
+       services.service_key
   FROM message_consumer
   JOIN message_consumer_mapping ON message_consumer.message_consumer_key = message_consumer_mapping.message_consumer_key
     AND message_consumer.end_date IS NULL
     AND message_consumer.suspend_flag = 'N'
     AND message_consumer_mapping.end_date IS NULL
   JOIN web_service ON message_consumer_mapping.web_service_key = web_service.web_service_key
-    AND web_service.end_date IS NULL;
+    AND web_service.end_date IS NULL
+  JOIN services ON message_consumer_mapping.service_key = services.service_key;
 
 create index email_notification_01_idx on email_notification (notification_process asc);
 create index ra_applications_10_idx on ra_applications ( registration_authority_key asc );
