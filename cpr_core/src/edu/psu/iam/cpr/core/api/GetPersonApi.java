@@ -64,7 +64,7 @@ public class GetPersonApi extends ExtendedBaseApi {
      * This method is used to execute the core logic for a service.
      * @param apiName contains the name of the api.
      * @param db contains a open database session.
-     * @param personId contains the person identifier value.
+     * @param serviceCoreReturn contains the person identifier value.
      * @param updatedBy contains the userid requesting this information.
      * @param otherParameters contains an array of Java objects that are additional parameters for the service.
      * @return will return an object if successful.

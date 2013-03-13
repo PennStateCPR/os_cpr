@@ -190,7 +190,7 @@ public class MessageLogHistory implements Serializable {
         }
 
         /**
-         * @param messageSentDatetime the messageSentDatetime to set.
+         * @param messageSentTimestamp the messageSentTimestamp to set.
          */
         public void setMessageSentTimestamp(Date messageSentTimestamp) {
                 this.messageSentTimestamp = messageSentTimestamp;

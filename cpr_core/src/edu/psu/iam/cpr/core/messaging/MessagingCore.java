@@ -299,6 +299,13 @@ public class MessagingCore {
 
     			VSpNotification currentDestination = queueIter.next();
 
+    			// Update the JSON message with the message consumer key, service name, service key and message type.
+    			msg.setValue(MessageKeyName.MESSAGE_CONSUMER_KEY, currentDestination.getMessageConsumerKey());
+    			msg.setValue(MessageKeyName.SERVICE, currentDestination.getServiceName());
+    			msg.setValue(MessageKeyName.SERVICE_KEY, currentDestination.getServiceKey());
+    			msg.setValue(MessageKeyName.MESSAGE_TYPE, CprMessageType.SERVICE_REQUEST.toString());
+
+    			// Store an entry in the message log.
     			MessageLogTable messageLogTable = new MessageLogTable(currentDestination.getWebServiceKey(), 
     					currentDestination.getMessageConsumerKey(),
     					currentDestination.getServiceKey(),
@@ -306,15 +313,12 @@ public class MessagingCore {
     					msg.getRequestedBy());
     			messageLogTable.addMessageLog(db);
 
+    			// Store an entry in the message log history.
     			MessageLogHistoryTable messageLogHistoryTable = new MessageLogHistoryTable(messageLogTable.getMessageLogBean());
     			messageLogHistoryTable.addMessageLogHistory(db);
 
     			// once the log is started, the messageLogId is set, add it to the msg to be sent
     			msg.setValue(MessageKeyName.MESSAGE_LOG_ID, messageLogTable.getMessageLogBean().getMessageLogKey());
-    			msg.setValue(MessageKeyName.MESSAGE_CONSUMER_KEY, currentDestination.getMessageConsumerKey());
-    			msg.setValue(MessageKeyName.SERVICE, currentDestination.getServiceName());
-    			msg.setValue(MessageKeyName.SERVICE_KEY, currentDestination.getServiceKey());
-    			msg.setValue(MessageKeyName.MESSAGE_TYPE, CprMessageType.SERVICE_REQUEST.toString());
 
     			// Add in the JSON information.
     			myTextMsg.setText(msg.getJsonObject().toString());
