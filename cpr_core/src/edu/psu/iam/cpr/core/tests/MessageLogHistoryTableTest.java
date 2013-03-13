@@ -95,7 +95,7 @@ public class MessageLogHistoryTableTest {
 	public void testMessageLogHistoryTable_3()
 		throws Exception {
 		openDbConnection();
-		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, 1L, "Log History Test", "cpruser");
+		MessageLogTable fixture = new MessageLogTable(100126L, 1L, 1L, "Log History Test", "cpruser");
 		fixture.addMessageLog(db);
 
 		MessageLogHistoryTable result = new MessageLogHistoryTable(fixture.getMessageLogBean());
@@ -134,7 +134,7 @@ public class MessageLogHistoryTableTest {
 	public void testAddMessageLogHistory_2()
 		throws Exception {
 		openDbConnection();
-		MessageLogTable msgLog = new MessageLogTable(100126L, 100002L, 1L, "Log History Add Test", "cpruser");
+		MessageLogTable msgLog = new MessageLogTable(100126L, 1L, 1L, "Log History Add Test", "cpruser");
 		msgLog.addMessageLog(db);
 		MessageLogHistoryTable fixture = new MessageLogHistoryTable(msgLog.getMessageLogBean());
 		fixture.addMessageLogHistory(db);
@@ -173,7 +173,7 @@ public class MessageLogHistoryTableTest {
 	public void testGetMessageLogHistory_2()
 		throws Exception {
 		openDbConnection();
-		MessageLogTable msgLog = new MessageLogTable(100126L, 100002L, 1L, "Log History Get Test", "cpruser");
+		MessageLogTable msgLog = new MessageLogTable(100126L, 1L, 1L, "Log History Get Test", "cpruser");
 		msgLog.addMessageLog(db);
 		String messageId = "LogHistoryGetTest2A";
 		MessageLogHistoryTable msgLogHistory = new MessageLogHistoryTable(msgLog.getMessageLogBean());
@@ -251,7 +251,7 @@ public class MessageLogHistoryTableTest {
 	@Test(expectedExceptions = Exception.class)
 	public final void testUpdateMessageLogHistory_1()
 		throws Exception {
-		MessageLogTable msgLog = new MessageLogTable(100126L, 100002L, 1L, "Log History Update Test", "cpruser");
+		MessageLogTable msgLog = new MessageLogTable(100126L, 1L, 1L, "Log History Update Test", "cpruser");
 		msgLog.addMessageLog(db);
 		String messageId = "LogHistoryUpdateTest1";
 		MessageLogHistoryTable fixture = new MessageLogHistoryTable(msgLog.getMessageLogBean());
@@ -277,7 +277,7 @@ public class MessageLogHistoryTableTest {
 		throws Exception {
 		Date d = new Date();
 		openDbConnection();
-		MessageLogTable msgLog = new MessageLogTable(100126L, 100002L, 1L, "Log History Update Test", "cpruser");
+		MessageLogTable msgLog = new MessageLogTable(100126L, 1L, 1L, "Log History Update Test", "cpruser");
 		msgLog.addMessageLog(db);
 		String messageId = "LogHistoryUpdateTest2";
 		MessageLogHistoryTable fixture = new MessageLogHistoryTable(msgLog.getMessageLogBean());

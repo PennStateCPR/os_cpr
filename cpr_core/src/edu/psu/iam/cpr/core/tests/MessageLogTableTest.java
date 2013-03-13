@@ -121,7 +121,8 @@ public class MessageLogTableTest {
 		MessageLog bean = new MessageLog();
 		bean.setMessageSent("Test");
 		bean.setRequestUserid("cpruser");
-		bean.setMessageConsumerKey(100002L);
+		bean.setMessageConsumerKey(1L);
+		bean.setServiceKey(1L);
 		bean.setWebServiceKey(100126L);
 		bean.setNumberOfTries(0L);
 		bean.setSuccessFlag("N");
@@ -146,7 +147,7 @@ public class MessageLogTableTest {
 	public final void testAddMessageLog_3()
 		throws Exception {
 		openDbConnection();
-		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, 1L, "Test Add", "cpruser");
+		MessageLogTable fixture = new MessageLogTable(100126L, 1L, 1L, "Test Add", "cpruser");
 		fixture.addMessageLog(db);
 		db.closeSession();
 		// add additional test code here
@@ -181,7 +182,7 @@ public class MessageLogTableTest {
 	public final void testGetMessageLog_2()
 		throws Exception {
 		openDbConnection();
-		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, 1L, "Test Get", "cpruser");
+		MessageLogTable fixture = new MessageLogTable(100126L, 1L, 1L, "Test Get", "cpruser");
 		fixture.addMessageLog(db);
 		MessageLogReturn[] result = fixture.getMessageLog(db, fixture.getMessageLogBean().getMessageLogKey());
 		// add additional test code here
@@ -268,7 +269,7 @@ public class MessageLogTableTest {
 	public final void testUpdateMessageLog_2()
 		throws Exception {
 		openDbConnection();
-		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, 1L, "Test update", "cpruser");
+		MessageLogTable fixture = new MessageLogTable(100126L, 1L, 1L, "Test update", "cpruser");
 		fixture.addMessageLog(db);
 		fixture.updateMessageLog(db,"Y",1L);
 		db.closeSession();
