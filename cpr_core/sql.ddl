@@ -1673,10 +1673,11 @@ FROM person_id_card JOIN id_card_print_log
  AND web_service.end_date IS NULL
  AND ra.end_date IS NULL;
 
-  CREATE OR REPLACE VIEW v_sp_notification (message_consumer_key, consumer, consumer_destination, web_service, web_service_key, service_name, service_key) AS 
+  CREATE OR REPLACE VIEW v_sp_notification (message_consumer_key, consumer, consumer_destination, destination_type, web_service, web_service_key, service_name, service_key) AS 
   SELECT message_consumer.message_consumer_key,
        message_consumer.consumer,
        message_consumer.consumer_destination,
+       message_consumer.destination_type,
        web_service.web_service,
        web_service.web_service_key,
        services.service_name,
