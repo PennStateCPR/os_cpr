@@ -22,6 +22,7 @@
 */
 package edu.psu.iam.cpr.core.messaging;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -39,6 +40,7 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.database.Database;
@@ -46,6 +48,7 @@ import edu.psu.iam.cpr.core.database.beans.MessageLog;
 import edu.psu.iam.cpr.core.database.beans.VSpNotification;
 import edu.psu.iam.cpr.core.database.tables.MessageLogHistoryTable;
 import edu.psu.iam.cpr.core.database.tables.MessageLogTable;
+import edu.psu.iam.cpr.core.database.types.CprMessageType;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.database.types.MessageKeyName;
 import edu.psu.iam.cpr.core.error.CprException;
@@ -87,7 +90,7 @@ public class MessagingCore {
 	private static final int BUFFER_SIZE = 2048;
 	
 	/** Array of message queues */
-	private List<ServiceProvisionerQueue> msgQueues = null;
+	private List<VSpNotification> msgQueues = null;
 
 	/** Connection factory */
 	private ConnectionFactory jmsConnectionFactory = null;
@@ -114,7 +117,14 @@ public class MessagingCore {
 	public MessagingCore(Database db, String serviceName) {
 		
 	    // Get the list of queues for the service.  If no queues were found, then just return.
-		msgQueues = ServiceProvisionerQueue.getServiceProvisionerQueues(db, serviceName);
+		msgQueues = new ArrayList<VSpNotification>();
+		org.hibernate.Session session = db.getSession();
+		
+		Query query = session.createQuery("from VSpNotification where webService = :service_name");
+		query.setParameter("service_name", serviceName);
+		for (Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			msgQueues.add((VSpNotification) it.next());
+		}
 	}
 	
 	
@@ -136,14 +146,14 @@ public class MessagingCore {
 	/**
 	 * @return the msgQueues
 	 */
-	public List<ServiceProvisionerQueue> getMsgQueues() {
+	public List<VSpNotification> getMsgQueues() {
 		return msgQueues;
 	}
 
 	/**
 	 * @param msgQueues the msgQueues to set
 	 */
-	public void setMsgQueues(List<ServiceProvisionerQueue> msgQueues) {
+	public void setMsgQueues(List<VSpNotification> msgQueues) {
 		this.msgQueues = msgQueues;
 	}
 
@@ -236,18 +246,20 @@ public class MessagingCore {
     public void recordFailures(Database db, JsonMessage msg) {
 
     	// Loop through queue list
-    	final Iterator<ServiceProvisionerQueue> queueIter = msgQueues.iterator();
+    	final Iterator<VSpNotification> queueIter = msgQueues.iterator();
     	while (queueIter.hasNext()) {
 
     		try {
 
-    			ServiceProvisionerQueue currentQueue = queueIter.next();
-    			VSpNotification view = currentQueue.getSpNotificationView();
-    			if (view != null) {
+    			VSpNotification currentQueue = queueIter.next();
+    			if (currentQueue != null) {
     				
     				// Create a message log to indicate that there has been a failure.
-    				MessageLogTable messageLogTable = new MessageLogTable(view.getWebServiceKey(), view.getServiceProvisionerKey(), 
-    						msg.getJsonObject().toString(), msg.getRequestedBy());
+    				MessageLogTable messageLogTable = new MessageLogTable(currentQueue.getWebServiceKey(), 
+    						currentQueue.getMessageConsumerKey(), 
+    						currentQueue.getServiceKey(),
+    						msg.getJsonObject().toString(), 
+    						msg.getRequestedBy());
     				logMessageDelivery(messageLogTable, "FAILURE");
     				messageLogTable.addMessageLog(db);
     			}
@@ -282,19 +294,16 @@ public class MessagingCore {
     		myTextMsg = jmsSession.createTextMessage();
 
     		// Loop through queue list
-    		final Iterator<ServiceProvisionerQueue> queueIter = msgQueues.iterator();
+    		final Iterator<VSpNotification> queueIter = msgQueues.iterator();
     		while (queueIter.hasNext()) {
 
-    			ServiceProvisionerQueue currentQueue = queueIter.next();
+    			VSpNotification currentDestination = queueIter.next();
 
-    			MessageLogTable messageLogTable = null;
-    			VSpNotification view = currentQueue.getSpNotificationView();
-    			if (view == null) {
-    				throw new CprException(ReturnType.NOT_AUTHORIZED_EXCEPTION, currentQueue.toString());
-    			}
-
-    			messageLogTable = new MessageLogTable(view.getWebServiceKey(), view.getServiceProvisionerKey(), 
-    					msg.getJsonObject().toString(), msg.getRequestedBy());
+    			MessageLogTable messageLogTable = new MessageLogTable(currentDestination.getWebServiceKey(), 
+    					currentDestination.getMessageConsumerKey(),
+    					currentDestination.getServiceKey(),
+    					msg.getJsonObject().toString(), 
+    					msg.getRequestedBy());
     			messageLogTable.addMessageLog(db);
 
     			MessageLogHistoryTable messageLogHistoryTable = new MessageLogHistoryTable(messageLogTable.getMessageLogBean());
@@ -302,6 +311,10 @@ public class MessagingCore {
 
     			// once the log is started, the messageLogId is set, add it to the msg to be sent
     			msg.setValue(MessageKeyName.MESSAGE_LOG_ID, messageLogTable.getMessageLogBean().getMessageLogKey());
+    			msg.setValue(MessageKeyName.MESSAGE_CONSUMER_KEY, currentDestination.getMessageConsumerKey());
+    			msg.setValue(MessageKeyName.SERVICE, currentDestination.getServiceName());
+    			msg.setValue(MessageKeyName.SERVICE_KEY, currentDestination.getServiceKey());
+    			msg.setValue(MessageKeyName.MESSAGE_TYPE, CprMessageType.SERVICE_REQUEST.toString());
 
     			// Add in the JSON information.
     			myTextMsg.setText(msg.getJsonObject().toString());
@@ -309,7 +322,7 @@ public class MessagingCore {
     			myTextMsg.setJMSCorrelationID(messageLogHistoryTable.getMessageLogHistoryBean().getMessageLogHistoryKey().toString());
 
     			// Send the message.
-    			Destination destination = jmsSession.createQueue(currentQueue.getSpNotificationView().getServiceProvisionerQueue());
+    			Destination destination = jmsSession.createQueue(currentDestination.getConsumerDestination());
     			msgSender = jmsSession.createProducer(destination);
     			msgSender.setDeliveryMode(DeliveryMode.PERSISTENT);
     			msgSender.send(myTextMsg);

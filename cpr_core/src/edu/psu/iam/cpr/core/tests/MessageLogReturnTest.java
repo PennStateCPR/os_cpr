@@ -49,7 +49,7 @@ public class MessageLogReturnTest {
 		AssertJUnit.assertNotNull(result);
 		AssertJUnit.assertEquals(null, result.getMessageLogKey());
 		AssertJUnit.assertEquals(null, result.getSuccessFlag());
-		AssertJUnit.assertEquals(null, result.getServiceProvisionerKey());
+		AssertJUnit.assertEquals(null, result.getMessageConsumerKey());
 		AssertJUnit.assertEquals(null, result.getRequestUserid());
 		AssertJUnit.assertEquals(null, result.getWebServiceKey());
 		AssertJUnit.assertEquals(null, result.getNumberOfTries());
@@ -74,13 +74,13 @@ public class MessageLogReturnTest {
 		String successFlag = "";
 		String requestUserid = "";
 
-		MessageLogReturn result = new MessageLogReturn(messageLogKey, webServiceKey, serviceProvisionerKey, messageSent, numberOfTries, successFlag, requestUserid);
+		MessageLogReturn result = new MessageLogReturn(1L, messageLogKey, webServiceKey, serviceProvisionerKey, messageSent, numberOfTries, successFlag, requestUserid);
 
 		// add additional test code here
 		AssertJUnit.assertNotNull(result);
 		AssertJUnit.assertEquals(new Long(1L), result.getMessageLogKey());
 		AssertJUnit.assertEquals("", result.getSuccessFlag());
-		AssertJUnit.assertEquals(new Long(1L), result.getServiceProvisionerKey());
+		AssertJUnit.assertEquals(new Long(1L), result.getMessageConsumerKey());
 		AssertJUnit.assertEquals("", result.getRequestUserid());
 		AssertJUnit.assertEquals(new Long(1L), result.getWebServiceKey());
 		AssertJUnit.assertEquals(new Long(1L), result.getNumberOfTries());
@@ -97,7 +97,7 @@ public class MessageLogReturnTest {
 	@Test
 	public void testGetMessageLogKey_1()
 		throws Exception {
-		MessageLogReturn fixture = new MessageLogReturn(new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
+		MessageLogReturn fixture = new MessageLogReturn(1L, new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
 		fixture.setMessageLogKey(new Long(1L));
 
 		Long result = fixture.getMessageLogKey();
@@ -123,7 +123,7 @@ public class MessageLogReturnTest {
 	@Test
 	public void testGetMessageSent_1()
 		throws Exception {
-		MessageLogReturn fixture = new MessageLogReturn(new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
+		MessageLogReturn fixture = new MessageLogReturn(1L, new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
 		fixture.setMessageLogKey(new Long(1L));
 
 		String result = fixture.getMessageSent();
@@ -142,7 +142,7 @@ public class MessageLogReturnTest {
 	@Test
 	public void testGetNumberOfTries_1()
 		throws Exception {
-		MessageLogReturn fixture = new MessageLogReturn(new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
+		MessageLogReturn fixture = new MessageLogReturn(1L, new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
 		fixture.setMessageLogKey(new Long(1L));
 
 		Long result = fixture.getNumberOfTries();
@@ -168,7 +168,7 @@ public class MessageLogReturnTest {
 	@Test
 	public void testGetRequestUserid_1()
 		throws Exception {
-		MessageLogReturn fixture = new MessageLogReturn(new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
+		MessageLogReturn fixture = new MessageLogReturn(1L, new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
 		fixture.setMessageLogKey(new Long(1L));
 
 		String result = fixture.getRequestUserid();
@@ -178,7 +178,7 @@ public class MessageLogReturnTest {
 	}
 
 	/**
-	 * Run the Long getServiceProvisionerKey() method test.
+	 * Run the Long getMessageConsumerKey() method test.
 	 *
 	 * @throws Exception
 	 *
@@ -187,10 +187,10 @@ public class MessageLogReturnTest {
 	@Test
 	public void testGetServiceProvisionerKey_1()
 		throws Exception {
-		MessageLogReturn fixture = new MessageLogReturn(new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
+		MessageLogReturn fixture = new MessageLogReturn(new Long(1), new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
 		fixture.setMessageLogKey(new Long(1L));
 
-		Long result = fixture.getServiceProvisionerKey();
+		Long result = fixture.getMessageConsumerKey();
 
 		// add additional test code here
 		AssertJUnit.assertNotNull(result);
@@ -213,7 +213,7 @@ public class MessageLogReturnTest {
 	@Test
 	public void testGetSuccessFlag_1()
 		throws Exception {
-		MessageLogReturn fixture = new MessageLogReturn(new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
+		MessageLogReturn fixture = new MessageLogReturn(new Long(1), new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
 		fixture.setMessageLogKey(new Long(1L));
 
 		String result = fixture.getSuccessFlag();
@@ -232,7 +232,7 @@ public class MessageLogReturnTest {
 	@Test
 	public void testGetWebServiceKey_1()
 		throws Exception {
-		MessageLogReturn fixture = new MessageLogReturn(new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
+		MessageLogReturn fixture = new MessageLogReturn(1L, new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
 		fixture.setMessageLogKey(new Long(1L));
 
 		Long result = fixture.getWebServiceKey();
@@ -258,7 +258,7 @@ public class MessageLogReturnTest {
 	@Test
 	public void testSetMessageLogKey_1()
 		throws Exception {
-		MessageLogReturn fixture = new MessageLogReturn(new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
+		MessageLogReturn fixture = new MessageLogReturn(1L, new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
 		fixture.setMessageLogKey(new Long(1L));
 		Long messageLogKey = new Long(1L);
 
@@ -277,7 +277,7 @@ public class MessageLogReturnTest {
 	@Test
 	public void testSetMessageSent_1()
 		throws Exception {
-		MessageLogReturn fixture = new MessageLogReturn(new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
+		MessageLogReturn fixture = new MessageLogReturn(1L, new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
 		fixture.setMessageLogKey(new Long(1L));
 		String messageSent = "";
 
@@ -296,7 +296,7 @@ public class MessageLogReturnTest {
 	@Test
 	public void testSetNumberOfTries_1()
 		throws Exception {
-		MessageLogReturn fixture = new MessageLogReturn(new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
+		MessageLogReturn fixture = new MessageLogReturn(1L, new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
 		fixture.setMessageLogKey(new Long(1L));
 		Long numberOfTries = new Long(1L);
 
@@ -315,7 +315,7 @@ public class MessageLogReturnTest {
 	@Test
 	public void testSetRequestUserid_1()
 		throws Exception {
-		MessageLogReturn fixture = new MessageLogReturn(new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
+		MessageLogReturn fixture = new MessageLogReturn(1L, new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
 		fixture.setMessageLogKey(new Long(1L));
 		String requestUserid = "";
 
@@ -325,7 +325,7 @@ public class MessageLogReturnTest {
 	}
 
 	/**
-	 * Run the void setServiceProvisionerKey(Long) method test.
+	 * Run the void setMessageConsumerKey(Long) method test.
 	 *
 	 * @throws Exception
 	 *
@@ -334,11 +334,11 @@ public class MessageLogReturnTest {
 	@Test
 	public void testSetServiceProvisionerKey_1()
 		throws Exception {
-		MessageLogReturn fixture = new MessageLogReturn(new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
+		MessageLogReturn fixture = new MessageLogReturn(1L, new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
 		fixture.setMessageLogKey(new Long(1L));
 		Long serviceProvisionerKey = new Long(1L);
 
-		fixture.setServiceProvisionerKey(serviceProvisionerKey);
+		fixture.setMessageConsumerKey(serviceProvisionerKey);
 
 		// add additional test code here
 	}
@@ -353,7 +353,7 @@ public class MessageLogReturnTest {
 	@Test
 	public void testSetSuccessFlag_1()
 		throws Exception {
-		MessageLogReturn fixture = new MessageLogReturn(new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
+		MessageLogReturn fixture = new MessageLogReturn(1L, new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
 		fixture.setMessageLogKey(new Long(1L));
 		String successFlag = "";
 
@@ -372,7 +372,7 @@ public class MessageLogReturnTest {
 	@Test
 	public void testSetWebServiceKey_1()
 		throws Exception {
-		MessageLogReturn fixture = new MessageLogReturn(new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
+		MessageLogReturn fixture = new MessageLogReturn(1L, new Long(1L), new Long(1L), new Long(1L), "", new Long(1L), "", "");
 		fixture.setMessageLogKey(new Long(1L));
 		Long webServiceKey = new Long(1L);
 

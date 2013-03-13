@@ -19,8 +19,8 @@ import javax.persistence.Table;
  *
  * @package edu.psu.iam.cpr.core.database.beans
  * @author $Author: jvuccolo $
- * @version $Rev: 5970 $
- * @lastrevision $Date: 2013-01-04 10:50:31 -0500 (Fri, 04 Jan 2013) $
+ * @version $Rev: 6451 $
+ * @lastrevision $Date: 2013-03-08 11:49:27 -0500 (Fri, 08 Mar 2013) $
  */
 
 @Entity
@@ -33,6 +33,10 @@ public class MessageLog implements Serializable {
         /** Contains the successFlag. */
         @Column(name="success_flag", nullable=true, length=1)
         private String successFlag;
+
+        /** Contains the serviceKey. */
+        @Column(name="service_key", nullable=false)
+        private Long serviceKey;
 
         /** Contains the messageConsumerKey. */
         @Column(name="message_consumer_key", nullable=false)
@@ -88,6 +92,20 @@ public class MessageLog implements Serializable {
          */
         public void setSuccessFlag(String successFlag) {
                 this.successFlag = successFlag;
+        }
+
+        /**
+         * @return the serviceKey
+         */
+        public Long getServiceKey() {
+                return serviceKey;
+        }
+
+        /**
+         * @param serviceKey the serviceKey to set.
+         */
+        public void setServiceKey(Long serviceKey) {
+                this.serviceKey = serviceKey;
         }
 
         /**

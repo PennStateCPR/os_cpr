@@ -36,8 +36,12 @@ public enum MessageKeyName {
 	DIRECTORY_ID,
 	USERID,
 	REQUESTED_BY,
-	MESSAGE_LOG_ID,
 	PSU_ID,
+	MESSAGE_LOG_ID,
+	MESSAGE_CONSUMER_KEY,
+	SERVICE_KEY,
+	SERVICE,
+	MESSAGE_TYPE,
 	
 	//   Information that most messages may need
 	PRIMARY,

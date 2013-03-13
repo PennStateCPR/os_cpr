@@ -81,7 +81,7 @@ public class MessageLogTableTest {
 		String messageSent = "";
 		String requestUserid = "";
 
-		MessageLogTable result = new MessageLogTable(webServiceId, serviceProviderId, messageSent, requestUserid);
+		MessageLogTable result = new MessageLogTable(1L, webServiceId, serviceProviderId, messageSent, requestUserid);
 
 		// add additional test code here
 		AssertJUnit.assertNotNull(result);
@@ -146,7 +146,7 @@ public class MessageLogTableTest {
 	public final void testAddMessageLog_3()
 		throws Exception {
 		openDbConnection();
-		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, "Test Add", "cpruser");
+		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, 1L, "Test Add", "cpruser");
 		fixture.addMessageLog(db);
 		db.closeSession();
 		// add additional test code here
@@ -181,7 +181,7 @@ public class MessageLogTableTest {
 	public final void testGetMessageLog_2()
 		throws Exception {
 		openDbConnection();
-		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, "Test Get", "cpruser");
+		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, 1L, "Test Get", "cpruser");
 		fixture.addMessageLog(db);
 		MessageLogReturn[] result = fixture.getMessageLog(db, fixture.getMessageLogBean().getMessageLogKey());
 		// add additional test code here
@@ -251,7 +251,7 @@ public class MessageLogTableTest {
 	@Test(expectedExceptions = Exception.class)
 	public final void testUpdateMessageLog_1()
 		throws Exception {
-		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, "Test update", "cpruser");
+		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, 1L, "Test update", "cpruser");
 		fixture.updateMessageLog(db,"Y",1L);
 
 		// add additional test code here
@@ -268,7 +268,7 @@ public class MessageLogTableTest {
 	public final void testUpdateMessageLog_2()
 		throws Exception {
 		openDbConnection();
-		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, "Test update", "cpruser");
+		MessageLogTable fixture = new MessageLogTable(100126L, 100002L, 1L, "Test update", "cpruser");
 		fixture.addMessageLog(db);
 		fixture.updateMessageLog(db,"Y",1L);
 		db.closeSession();

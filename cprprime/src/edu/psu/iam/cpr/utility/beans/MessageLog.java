@@ -19,8 +19,8 @@ import javax.persistence.Table;
  *
  * @package edu.psu.iam.cpr.core.database.beans
  * @author $Author: jvuccolo $
- * @version $Rev: 5084 $
- * @lastrevision $Date: 2012-09-13 10:49:56 -0400 (Thu, 13 Sep 2012) $
+ * @version $Rev: 6451 $
+ * @lastrevision $Date: 2013-03-08 11:49:27 -0500 (Fri, 08 Mar 2013) $
  */
 
 @Entity
@@ -34,13 +34,24 @@ public class MessageLog implements Serializable {
         @Column(name="success_flag", nullable=true, length=1)
         private String successFlag;
 
-        /** Contains the lastUpdateOn. */
-        @Column(name="last_update_on", nullable=false)
-        private Date lastUpdateOn;
+        /** Contains the serviceKey. */
+        @Column(name="service_key", nullable=false)
+        private Long serviceKey;
 
-        /** Contains the serviceProvisionerKey. */
-        @Column(name="service_provisioner_key", nullable=false)
-        private Long serviceProvisionerKey;
+        /** Contains the messageConsumerKey. */
+        @Column(name="message_consumer_key", nullable=false)
+        private Long messageConsumerKey;
+
+        /** Contains the messageLogKey. */
+        @Id
+        @Column(name="message_log_key", nullable=false)
+        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_message_log")
+        @SequenceGenerator(name="seq_message_log", sequenceName="seq_message_log", allocationSize = 1, initialValue= 1)
+        private Long messageLogKey;
+
+        /** Contains the webServiceKey. */
+        @Column(name="web_service_key", nullable=false)
+        private Long webServiceKey;
 
         /** Contains the createdOn. */
         @Column(name="created_on", nullable=false)
@@ -50,24 +61,17 @@ public class MessageLog implements Serializable {
         @Column(name="request_userid", nullable=false, length=30)
         private String requestUserid;
 
-        /** Contains the webServiceKey. */
-        @Column(name="web_service_key", nullable=false)
-        private Long webServiceKey;
-
         /** Contains the numberOfTries. */
         @Column(name="number_of_tries", nullable=false)
         private Long numberOfTries;
 
+        /** Contains the lastUpdateOn. */
+        @Column(name="last_update_on", nullable=false)
+        private Date lastUpdateOn;
+
         /** Contains the messageSent. */
         @Column(name="message_sent", nullable=true, length=1000)
         private String messageSent;
-
-        /** Contains the messageLogKey. */
-        @Id
-        @Column(name="message_log_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_message_log")
-        @SequenceGenerator(name="seq_message_log", sequenceName="seq_message_log", allocationSize = 1, initialValue= 1)
-        private Long messageLogKey;
 
         /**
          * Constructor
@@ -91,31 +95,59 @@ public class MessageLog implements Serializable {
         }
 
         /**
-         * @return the lastUpdateOn
+         * @return the serviceKey
          */
-        public Date getLastUpdateOn() {
-                return lastUpdateOn;
+        public Long getServiceKey() {
+                return serviceKey;
         }
 
         /**
-         * @param lastUpdateOn the lastUpdateOn to set.
+         * @param serviceKey the serviceKey to set.
          */
-        public void setLastUpdateOn(Date lastUpdateOn) {
-                this.lastUpdateOn = lastUpdateOn;
+        public void setServiceKey(Long serviceKey) {
+                this.serviceKey = serviceKey;
         }
 
         /**
-         * @return the serviceProvisionerKey
+         * @return the messageConsumerKey
          */
-        public Long getServiceProvisionerKey() {
-                return serviceProvisionerKey;
+        public Long getMessageConsumerKey() {
+                return messageConsumerKey;
         }
 
         /**
-         * @param serviceProvisionerKey the serviceProvisionerKey to set.
+         * @param messageConsumerKey the messageConsumerKey to set.
          */
-        public void setServiceProvisionerKey(Long serviceProvisionerKey) {
-                this.serviceProvisionerKey = serviceProvisionerKey;
+        public void setMessageConsumerKey(Long messageConsumerKey) {
+                this.messageConsumerKey = messageConsumerKey;
+        }
+
+        /**
+         * @return the messageLogKey
+         */
+        public Long getMessageLogKey() {
+                return messageLogKey;
+        }
+
+        /**
+         * @param messageLogKey the messageLogKey to set.
+         */
+        public void setMessageLogKey(Long messageLogKey) {
+                this.messageLogKey = messageLogKey;
+        }
+
+        /**
+         * @return the webServiceKey
+         */
+        public Long getWebServiceKey() {
+                return webServiceKey;
+        }
+
+        /**
+         * @param webServiceKey the webServiceKey to set.
+         */
+        public void setWebServiceKey(Long webServiceKey) {
+                this.webServiceKey = webServiceKey;
         }
 
         /**
@@ -147,20 +179,6 @@ public class MessageLog implements Serializable {
         }
 
         /**
-         * @return the webServiceKey
-         */
-        public Long getWebServiceKey() {
-                return webServiceKey;
-        }
-
-        /**
-         * @param webServiceKey the webServiceKey to set.
-         */
-        public void setWebServiceKey(Long webServiceKey) {
-                this.webServiceKey = webServiceKey;
-        }
-
-        /**
          * @return the numberOfTries
          */
         public Long getNumberOfTries() {
@@ -175,6 +193,20 @@ public class MessageLog implements Serializable {
         }
 
         /**
+         * @return the lastUpdateOn
+         */
+        public Date getLastUpdateOn() {
+                return lastUpdateOn;
+        }
+
+        /**
+         * @param lastUpdateOn the lastUpdateOn to set.
+         */
+        public void setLastUpdateOn(Date lastUpdateOn) {
+                this.lastUpdateOn = lastUpdateOn;
+        }
+
+        /**
          * @return the messageSent
          */
         public String getMessageSent() {
@@ -186,20 +218,6 @@ public class MessageLog implements Serializable {
          */
         public void setMessageSent(String messageSent) {
                 this.messageSent = messageSent;
-        }
-
-        /**
-         * @return the messageLogKey
-         */
-        public Long getMessageLogKey() {
-                return messageLogKey;
-        }
-
-        /**
-         * @param messageLogKey the messageLogKey to set.
-         */
-        public void setMessageLogKey(Long messageLogKey) {
-                this.messageLogKey = messageLogKey;
         }
 
 }

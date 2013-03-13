@@ -38,10 +38,15 @@ public class MessageLogReturn {
 	private Long webServiceKey;
 
 	/**
-	 * Contains the service provisioner key.
+	 * Contains the message consumer key.
 	 */
 	
-	private Long serviceProvisionerKey;
+	private Long messageConsumerKey;
+	
+	/**
+	 * Contains the service key.
+	 */
+	private Long serviceKey;
 	
 	/**
 	 * Contains the string representation of the message sent.
@@ -76,21 +81,24 @@ public class MessageLogReturn {
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 * @param messageLogKey
 	 * @param webServiceKey
-	 * @param serviceProvisionerKey
+	 * @param messageConsumerKey
+	 * @param serviceKey
 	 * @param messageSent
 	 * @param numberOfTries
 	 * @param successFlag
 	 * @param requestUserid
 	 */
-	public MessageLogReturn(Long messageLogKey, Long webServiceKey, Long serviceProvisionerKey,
+	public MessageLogReturn(Long messageLogKey, Long webServiceKey, Long messageConsumerKey, Long serviceKey,
 			String messageSent, Long numberOfTries, String successFlag,
 			String requestUserid) {
 		super();
 		this.setMessageLogKey(messageLogKey);
 		this.webServiceKey = webServiceKey;
-		this.serviceProvisionerKey = serviceProvisionerKey;
+		this.messageConsumerKey = messageConsumerKey;
+		this.serviceKey = serviceKey;
 		this.messageSent = messageSent;
 		this.numberOfTries = numberOfTries;
 		this.successFlag = successFlag;
@@ -124,16 +132,16 @@ public class MessageLogReturn {
 		this.webServiceKey = webServiceKey;
 	}
 	/**
-	 * @return the serviceProvisionerKey
+	 * @return the messageConsumerKey
 	 */
-	public Long getServiceProvisionerKey() {
-		return serviceProvisionerKey;
+	public Long getMessageConsumerKey() {
+		return messageConsumerKey;
 	}
 	/**
-	 * @param serviceProvisionerKey the serviceProvisionerKey to set
+	 * @param messageConsumerKey the messageConsumerKey to set
 	 */
-	public void setServiceProvisionerKey(Long serviceProvisionerKey) {
-		this.serviceProvisionerKey = serviceProvisionerKey;
+	public void setMessageConsumerKey(Long messageConsumerKey) {
+		this.messageConsumerKey = messageConsumerKey;
 	}
 	/**
 	 * @return the messageSent
@@ -182,6 +190,20 @@ public class MessageLogReturn {
 	 */
 	public void setRequestUserid(String requestUserid) {
 		this.requestUserid = requestUserid;
+	}
+
+	/**
+	 * @param serviceKey the serviceKey to set
+	 */
+	public void setServiceKey(Long serviceKey) {
+		this.serviceKey = serviceKey;
+	}
+
+	/**
+	 * @return the serviceKey
+	 */
+	public Long getServiceKey() {
+		return serviceKey;
 	}
 
 }

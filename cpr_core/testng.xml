@@ -110,8 +110,6 @@
       <class name="edu.psu.iam.cpr.core.tests.ServiceCoreReturnTest"/>
       <class name="edu.psu.iam.cpr.core.tests.ServiceCoreTest"/>
       <class name="edu.psu.iam.cpr.core.tests.ServiceLogTest"/>
-      <class name="edu.psu.iam.cpr.core.tests.ServiceProvisionerQueueTest"/>
-      <class name="edu.psu.iam.cpr.core.tests.ServiceProvisionerTest"/>
       <class name="edu.psu.iam.cpr.core.tests.TableColumnTest"/>
       <class name="edu.psu.iam.cpr.core.tests.TranformStatusTypeTest"/>
       <class name="edu.psu.iam.cpr.core.tests.UserCommentReturnTest"/>
@@ -124,7 +122,6 @@
       <class name="edu.psu.iam.cpr.core.tests.UseridTableTest"/>
       <class name="edu.psu.iam.cpr.core.tests.UseridTest"/>
       <class name="edu.psu.iam.cpr.core.tests.UtilityTest"/>
-      <class name="edu.psu.iam.cpr.core.tests.VSpNotificationTest"/>
       <class name="edu.psu.iam.cpr.core.tests.ValidateAddressTest"/>
       <class name="edu.psu.iam.cpr.core.tests.ValidateConfidentialityTest"/>
       <class name="edu.psu.iam.cpr.core.tests.ValidateCredentialTest"/>

@@ -104,6 +104,7 @@
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UseridPool" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UspsStateTypes" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UspsStates" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.VSpNotification" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.WebService" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.WebServiceAccess" />	
 	</session-factory>

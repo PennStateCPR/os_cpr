@@ -4,11 +4,10 @@ package edu.psu.iam.cpr.core.database.tables;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
-import org.hibernate.SQLQuery;
+import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.type.StandardBasicTypes;
-
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.MessageLog;
 import edu.psu.iam.cpr.core.service.returns.MessageLogReturn;
@@ -36,14 +35,6 @@ import edu.psu.iam.cpr.core.service.returns.MessageLogReturn;
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
 public class MessageLogTable {
-
-	private static final int WEB_SERVICE_KEY = 0;
-	private static final int SERVICE_PROVISIONER_KEY = 1;
-	private static final int MESSAGE_SENT = 2;
-	private static final int NUMBER_OF_TRIES = 3;
-	private static final int SUCCESS_FLAG = 4;
-	private static final int REQUEST_USERID = 5;
-	private static final int BUFFER_SIZE = 300;
 	
 	/** Contains a reference to the message log database bean */
 	private MessageLog messageLogBean;
@@ -58,12 +49,13 @@ public class MessageLogTable {
 	/**
 	 * Constructor for adding a new message log
 	 * @param webServiceId contains the web service identifier.
-	 * @param serviceProviderId contains the service provider identifier.
+	 * @param messageConsumerKey contains the service provider identifier.
+	 * @param serviceKey contains the service key.
 	 * @param messageSent contains the json message that was sent.
 	 * @param requestUserid contains the user requesting this message be sent.
 	 */
 	
-	public MessageLogTable(long webServiceId, long serviceProviderId,
+	public MessageLogTable(long webServiceId, long messageConsumerKey, long serviceKey,
 			String messageSent, String requestUserid) {
 		super();
 		final MessageLog bean = new MessageLog();
@@ -71,7 +63,8 @@ public class MessageLogTable {
 		setMessageLogBean(bean);
 		
 		bean.setWebServiceKey(webServiceId);
-		bean.setMessageConsumerKey(serviceProviderId);
+		bean.setMessageConsumerKey(messageConsumerKey);
+		bean.setServiceKey(serviceKey);
 		bean.setMessageSent(messageSent);
 		bean.setRequestUserid(requestUserid);
 		
@@ -141,48 +134,26 @@ public class MessageLogTable {
 	public MessageLogReturn[] getMessageLog(Database db, long messageLogKey) {
 		
 		// Init some variables.
-		final ArrayList<MessageLogReturn> results = new ArrayList<MessageLogReturn>();
+		final List<MessageLogReturn> results = new ArrayList<MessageLogReturn>();
 		final Session session = db.getSession();
-		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-
-		// Build the select statement as a string.
-		sb.append("SELECT ");
-		sb.append("web_service_key, ");
-		sb.append("service_provisioner_key, ");
-		sb.append("message_sent, ");
-		sb.append("number_of_tries, ");
-		sb.append("success_flag, ");
-		sb.append("request_userid ");
-		sb.append("FROM message_log ");
-		sb.append("WHERE message_log_key = :message_log_key_in ");
 
 		// Create the hibernate select statement.
-		final SQLQuery query = session.createSQLQuery(sb.toString());
+		final Query query = session.createQuery("from MessageLog where messageLogKey = :message_log_key_in");
 		query.setParameter("message_log_key_in", messageLogKey);
-		query.addScalar("web_service_key", StandardBasicTypes.LONG);
-		query.addScalar("service_provisioner_key", StandardBasicTypes.LONG);
-		query.addScalar("message_sent", StandardBasicTypes.STRING);
-		query.addScalar("number_of_tries", StandardBasicTypes.LONG);
-		query.addScalar("success_flag", StandardBasicTypes.STRING);
-		query.addScalar("request_userid", StandardBasicTypes.STRING);
 
-		final Iterator<?> it = query.list().iterator();
-
-		// Loop for the results.
-		while (it.hasNext()) {
+		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 
 			// For each result, store its value in the return class.
-			Object res[] = (Object []) it.next();
+			MessageLog messageLog = (MessageLog) it.next();
 
-			MessageLogReturn msgLog = new MessageLogReturn();
-			msgLog.setMessageLogKey(messageLogKey);
-			msgLog.setWebServiceKey((Long) res[WEB_SERVICE_KEY]);
-			msgLog.setServiceProvisionerKey((Long) res[SERVICE_PROVISIONER_KEY]);
-			msgLog.setMessageSent((String) res[MESSAGE_SENT]);
-			msgLog.setNumberOfTries((Long) res[NUMBER_OF_TRIES]);
-			msgLog.setSuccessFlag((String) res[SUCCESS_FLAG]);
-			msgLog.setRequestUserid((String) res[REQUEST_USERID]);
-			results.add(msgLog);
+			results.add(new MessageLogReturn(messageLog.getMessageLogKey(),
+					messageLog.getWebServiceKey(),
+					messageLog.getMessageConsumerKey(),
+					messageLog.getServiceKey(),
+					messageLog.getMessageSent(),
+					messageLog.getNumberOfTries(),
+					messageLog.getSuccessFlag(),
+					messageLog.getRequestUserid()));
 		}
 
 		return results.toArray(new MessageLogReturn[results.size()]);

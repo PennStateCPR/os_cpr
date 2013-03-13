@@ -1425,6 +1425,7 @@ use cpr;
      message_log_key bigint not null auto_increment,
      web_service_key bigint not null,
      message_consumer_key bigint not null,
+     service_key bigint not null,
      message_sent varchar(1000),
      number_of_tries bigint not null,
      success_flag varchar(1) default 'N' check ( success_flag in ('N', 'Y')),
@@ -1547,6 +1548,7 @@ alter table change_notifications add constraint cno_cnt_fk foreign key ( change_
 alter table change_notifications add constraint cno_mec_fk foreign key ( message_consumer_key) references message_consumer ( message_consumer_key);
 alter table message_log add constraint msglog_mec_fk foreign key ( message_consumer_key) references message_consumer ( message_consumer_key);
 alter table message_log add constraint msglog_websrvc_fk foreign key ( web_service_key) references web_service ( web_service_key);
+alter table message_log add constraint msglog_srv_fk foreign key ( service_key ) references services (service_key);
 alter table message_log_history add constraint msghistlog_message_log_FK foreign key ( message_log_key) references message_log ( message_log_key);
 -- end of alter tables --
 
