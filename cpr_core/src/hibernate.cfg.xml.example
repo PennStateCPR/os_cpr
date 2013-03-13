@@ -106,6 +106,6 @@
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UspsStates" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.VSpNotification" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.WebService" />
-		<mapping class="edu.psu.iam.cpr.core.database.beans.WebServiceAccess" />	
+		<mapping class="edu.psu.iam.cpr.core.database.beans.WebServiceAccess" />
 	</session-factory>
 </hibernate-configuration>
