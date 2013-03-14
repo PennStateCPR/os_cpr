@@ -3,7 +3,6 @@ package edu.psu.iam.cpr.core.database.tables;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -320,7 +319,7 @@ public class PersonIdentifierTable {
 		query.addScalar("created_by", StandardBasicTypes.STRING);
 		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
 
-		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
+		Map<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 
 		// Perform the query.
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {

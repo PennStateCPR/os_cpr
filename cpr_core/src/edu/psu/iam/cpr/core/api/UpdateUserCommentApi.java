@@ -1,6 +1,7 @@
 package edu.psu.iam.cpr.core.api;
 
 import java.text.ParseException;
+import java.util.Map;
 
 import org.json.JSONException;
 
@@ -36,36 +37,27 @@ import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
  */
 public class UpdateUserCommentApi extends BaseApi {
 
-	/** Contains the index of the userid parameter */
-	private static final int USERID = 0;
-	
-	/** Contains the index for the user comment type parameter */
-	private static final int USER_COMMENT_TYPE = 1;
-	
-	/** Contains the index for the comment parameter */
-	private static final int COMMENT = 2;
-
     /**
      * This method is used to execute the core logic for a service.
      * @param apiName contains the name of the api.
      * @param db contains a open database session.
      * @param serviceCoreReturn contains the person identifier value.
      * @param updatedBy contains the userid requesting this information.
-     * @param otherParameters contains an array of Java objects that are additional parameters for the service.
+     * @param otherParameters contains an map of Java objects that are additional parameters for the service.
      * @return will return an JsonMessage object if successful.
      * @throws CprException will be thrown if there are any problems.
      * @throws JSONException will be thrown if there are any issues creating a JSON message.
      * @throws ParseException will be thrown if there are any issues related to parsing a data value.
      */	
 	@Override
-	public JsonMessage runApi(String apiName, Database db, ServiceCoreReturn serviceCoreReturn,
-			String updatedBy, Object[] otherParameters,
-			boolean checkAuthorization) throws CprException, JSONException,
+	public JsonMessage runApi(final String apiName, final Database db, final ServiceCoreReturn serviceCoreReturn,
+			final String updatedBy, final Map<String, Object> otherParameters,
+			final boolean checkAuthorization) throws CprException, JSONException,
 			ParseException {
 		
-		final String userId = (String) otherParameters[USERID];
-		final String userCommentType = (String) otherParameters[USER_COMMENT_TYPE];
-		final String comment = (String) otherParameters[COMMENT];
+		final String userId = (String) otherParameters.get(USERID_KEY);
+		final String userCommentType = (String) otherParameters.get(USER_COMMENT_TYPE_KEY);
+		final String comment = (String) otherParameters.get(USER_COMMENT_KEY);
 		final long personId = serviceCoreReturn.getPersonId();
 		
 		// Validate the data passed into the service.

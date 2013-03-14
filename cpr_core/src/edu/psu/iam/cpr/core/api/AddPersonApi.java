@@ -1,6 +1,8 @@
 package edu.psu.iam.cpr.core.api;
 
+import static edu.psu.iam.cpr.core.api.BaseApi.*;
 import java.text.ParseException;
+import java.util.Map;
 
 import javax.jms.JMSException;
 
@@ -77,37 +79,6 @@ public class AddPersonApi extends ExtendedBaseApi {
 	/** Used by the Add Person service to indicate that there is no person identifier established yet for the user. */
 	private static final int NO_PERSON_ID = -1;
 	
-	private static final int DO_FIND_PERSON_FLAG	= 0;
-	private static final int ASSIGN_PSU_ID_FLAG 	= 1;
-	private static final int ASSIGN_USERID_FLAG 	= 2;
-	private static final int GENDER 				= 3;
-	private static final int DOB 					= 4;
-	private static final int NAME_TYPE 				= 5;
-	private static final int NAME_DOCUMENT_TYPE 	= 6;
-	private static final int FIRST_NAME 			= 7;
-	private static final int MIDDLE_NAMES 			= 8;
-	private static final int LAST_NAME 				= 9;
-	private static final int SUFFIX 				= 10;
-	private static final int ADDRESS_TYPE 			= 11;
-	private static final int ADDRESS_DOCUMENT_TYPE 	= 12;
-	private static final int ADDRESS1 				= 13;
-	private static final int ADDRESS2 				= 14;
-	private static final int ADDRESS3 				= 15;
-	private static final int CITY 					= 16;
-	private static final int STATE_OR_PROVINCE 		= 17;
-	private static final int POSTAL_CODE 			= 18;
-	private static final int COUNTRY_CODE 			= 19;
-	private static final int CAMPUS_CODE 			= 20;
-	private static final int VERIFY_ADDRESS_FLAG 	= 21;
-	private static final int PHONE_TYPE 			= 22;
-	private static final int PHONE_NUMBER 			= 23;
-	private static final int EXTENSION 				= 24;
-	private static final int INTERNATIONAL_NUMBER 	= 25;
-	private static final int EMAIL_TYPE 			= 26;
-	private static final int EMAIL_ADDRESS 			= 27;
-	private static final int AFFILIATION 			= 28;
-	private static final int SSN 					= 29;
-	
 	private PersonGenderTable personGenderTable 	= null;
 	private DateOfBirthTable dateOfBirthTable 		= null;
 	private NamesTable namesTable 					= null;
@@ -122,55 +93,54 @@ public class AddPersonApi extends ExtendedBaseApi {
 	private String assignPsuId 						= null;
 	private String matchingErrorMessage 			= null;
 
-   /**
+	/**
      * This method is used to execute the core logic for a service.
      * @param apiName contains the name of the api.
      * @param db contains a open database session.
      * @param serviceCoreReturn contains the person identifier value.
      * @param updatedBy contains the userid requesting this information.
-     * @param otherParameters contains an array of Java objects that are additional parameters for the service.
+     * @param otherParameters contains a Map of Java objects that are additional parameters for the service.
      * @return will return an object if successful.
      * @throws CprException will be thrown if there are any problems.
      * @throws JSONException will be thrown if there are any issues creating a JSON message.
      * @throws ParseException will be thrown if there are any issues related to parsing a data value.
      * @throws JMSException will be thown if there are any JMS issues.
-     */	
+     */
 	@Override
-	public Object runApi(String apiName, Database db, ServiceCoreReturn serviceCoreReturn,
-			String updatedBy, Object[] otherParameters,
-			boolean checkAuthorization) throws CprException, JSONException,
+	public Object runApi(final String apiName, final Database db, final ServiceCoreReturn serviceCoreReturn,
+			final String updatedBy, final Map<String, Object> otherParameters,
+			final boolean checkAuthorization) throws CprException, JSONException,
 			ParseException, JMSException {
-		String doFindPersonFlag		= (String) otherParameters[DO_FIND_PERSON_FLAG];
-		String assignPsuIdFlag 		= (String) otherParameters[ASSIGN_PSU_ID_FLAG];
-		String assignUseridFlag 	= (String) otherParameters[ASSIGN_USERID_FLAG];
-		String gender 				= (String) otherParameters[GENDER];
-		String dob 					= (String) otherParameters[DOB];
-		String nameType 			= (String) otherParameters[NAME_TYPE];
-		String nameDocumentType 	= (String) otherParameters[NAME_DOCUMENT_TYPE];
-		String firstName 			= (String) otherParameters[FIRST_NAME];
-		String middleNames 			= (String) otherParameters[MIDDLE_NAMES];
-		String lastName 			= (String) otherParameters[LAST_NAME];
-		String suffix 				= (String) otherParameters[SUFFIX];
-		String addressType 			= (String) otherParameters[ADDRESS_TYPE];
-		String addressDocumentType 	= (String) otherParameters[ADDRESS_DOCUMENT_TYPE];
-		String address1 			= (String) otherParameters[ADDRESS1];
-		String address2 			= (String) otherParameters[ADDRESS2];
-		String address3 			= (String) otherParameters[ADDRESS3];
-		String city 				= (String) otherParameters[CITY];
-		String stateOrProvince 		= (String) otherParameters[STATE_OR_PROVINCE];
-		String postalCode 			= (String) otherParameters[POSTAL_CODE];
-		String countryCode 			= (String) otherParameters[COUNTRY_CODE];
-		String campusCode 			= (String) otherParameters[CAMPUS_CODE];
-		String verifyAddressFlag    = (String) otherParameters[VERIFY_ADDRESS_FLAG];
-		String phoneType 			= (String) otherParameters[PHONE_TYPE];
-		String phoneNumber 			= (String) otherParameters[PHONE_NUMBER];
-		String extension 			= (String) otherParameters[EXTENSION];
-		String internationalNumber 	= (String) otherParameters[INTERNATIONAL_NUMBER];
-		String emailType 			= (String) otherParameters[EMAIL_TYPE];
-		String emailAddress 		= (String) otherParameters[EMAIL_ADDRESS];
-		String affiliation 			= (String) otherParameters[AFFILIATION];
-		String ssn 					= (String) otherParameters[SSN];
-		
+		String doFindPersonFlag			= (String) otherParameters.get(DO_FIND_PERSON_KEY);
+        final String assignPsuIdFlag	= (String) otherParameters.get(ASSIGN_PSU_ID_FLAG_KEY);
+        final String assignUseridFlag	= (String) otherParameters.get(ASSIGN_USERID_FLAG_KEY);
+        final String gender				= (String) otherParameters.get(GENDER_KEY);
+        final String dob				= (String) otherParameters.get(DOB_KEY);
+        final String nameType			= (String) otherParameters.get(NAME_TYPE_KEY);
+        final String nameDocumentType	= (String) otherParameters.get(NAME_DOCUMENT_TYPE_KEY);
+        final String firstName			= (String) otherParameters.get(FIRST_NAME_KEY);
+        final String middleNames		= (String) otherParameters.get(MIDDLE_NAMES_KEY);
+        final String lastName			= (String) otherParameters.get(LAST_NAME_KEY);
+        final String suffix				= (String) otherParameters.get(SUFFIX_KEY);
+        final String addressType		= (String) otherParameters.get(ADDRESS_TYPE_KEY);
+        final String addressDocumentType= (String) otherParameters.get(ADDRESS_DOCUMENT_TYPE_KEY);
+        final String address1			= (String) otherParameters.get(ADDRESS1_KEY);
+        final String address2			= (String) otherParameters.get(ADDRESS2_KEY);
+        final String address3			= (String) otherParameters.get(ADDRESS3_KEY);
+        final String city				= (String) otherParameters.get(CITY_KEY);
+        final String stateOrProvince	= (String) otherParameters.get(STATE_KEY);
+        final String postalCode			= (String) otherParameters.get(POSTALCODE_KEY);
+        final String countryCode		= (String) otherParameters.get(COUNTRY_KEY);
+        final String campusCode			= (String) otherParameters.get(CAMPUS_KEY);
+        final String verifyAddressFlag	= (String) otherParameters.get(VERIFY_ADDRESS_FLAG_KEY);
+        final String phoneType			= (String) otherParameters.get(PHONE_TYPE_KEY);
+        final String phoneNumber		= (String) otherParameters.get(PHONE_NUMBER_KEY);
+        final String extension			= (String) otherParameters.get(PHONE_EXTENSION_KEY);
+        final String internationalNumber= (String) otherParameters.get(PHONE_INTERNATIONAL_NUMBER_KEY);
+        final String emailType			= (String) otherParameters.get(EMAIL_ADDRESS_TYPE_KEY);
+        final String emailAddress		= (String) otherParameters.get(EMAIL_ADDRESS_KEY);
+        final String affiliation		= (String) otherParameters.get(AFFILIATION_KEY);
+        final String ssn				= (String) otherParameters.get(SSN_KEY);		
 		PersonServiceReturn personServiceReturn = null;
 				
 		serviceCoreReturn.setPersonId(NO_PERSON_ID);
@@ -214,7 +184,7 @@ public class AddPersonApi extends ExtendedBaseApi {
 		
 		LOG4J_LOGGER.info(apiName + ": Success!");
 
-		return (Object) personServiceReturn;
+		return personServiceReturn;
 	}
 
 	/**

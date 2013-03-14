@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -237,7 +236,7 @@ public class FindPersonHelper {
 		if (localSSN != null) {
 			
 			// Need to find the key that is associated with the SSN person identifier.
-			HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
+			Map<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 			IdentifierType identifierType = null;
 			for (Map.Entry<String,Object> entry : map.entrySet()) {
 				identifierType = (IdentifierType) entry.getValue();

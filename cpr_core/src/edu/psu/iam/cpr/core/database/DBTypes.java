@@ -4,6 +4,8 @@ package edu.psu.iam.cpr.core.database;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -45,14 +47,14 @@ public enum DBTypes {
 	public static final int IDENTIFIER_TYPE = 0;
 	
 	/** Contains the array of hash maps of database types */
-	private final ArrayList<HashMap<String,Object>> typeMaps = new ArrayList<HashMap<String,Object>>();
+	private final List<Map<String,Object>> typeMaps = new ArrayList<Map<String,Object>>();
 	
 	/**
 	 * This method will return a particular hashmap.
 	 * @param index contains the index of the map to be returned.
 	 * @return will contain the returned hash map.
 	 */
-	public HashMap<String,Object> getTypeMaps(int index) {
+	public Map<String,Object> getTypeMaps(int index) {
 		return typeMaps.get(index);
 	}
 	

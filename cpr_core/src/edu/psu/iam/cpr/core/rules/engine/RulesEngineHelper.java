@@ -1,7 +1,7 @@
 /* SVN FILE: $Id: RulesEngineHelper.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
 package edu.psu.iam.cpr.core.rules.engine;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import edu.psu.iam.cpr.core.error.ReturnType;
 
@@ -65,7 +65,7 @@ public class RulesEngineHelper {
 				rulesReturn.setStatusMessage("A rule processing error was encountered!");
 			}
 			
-			ArrayList<String> results = rulesEngine.getRuleExecutionResults();
+			List<String> results = rulesEngine.getRuleExecutionResults();
 			rulesReturn.setNumberOfFacts(results.size());
 			rulesReturn.setFacts(results.toArray(new String[results.size()]));
 		}

@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: DatabaseUI.java 5712 2012-11-28 20:01:38Z jvuccolo $ */
+/* SVN FILE: $Id: DatabaseUI.java 6495 2013-03-13 17:40:30Z dvm105 $ */
 package edu.psu.iam.cpr.core.ui;
 
 import java.util.ArrayList;
@@ -37,9 +37,9 @@ import edu.psu.iam.cpr.core.error.ReturnType;
  * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
  * @package edu.psu.iam.cpr.core.database
- * @author $Author: jvuccolo $
- * @version $Rev: 5712 $
- * @lastrevision $Date: 2012-11-28 15:01:38 -0500 (Wed, 28 Nov 2012) $
+ * @author $Author: dvm105 $
+ * @version $Rev: 6495 $
+ * @lastrevision $Date: 2013-03-13 13:40:30 -0400 (Wed, 13 Mar 2013) $
  */
 
 public class DatabaseUI extends Database {
@@ -58,11 +58,11 @@ public class DatabaseUI extends Database {
 	
 	/**
 	 * This routine will fetch the list of states from the database
-	 * @return ArrayList of key-value pairs for the two digit state code and the state name
+	 * @return List of key-value pairs for the two digit state code and the state name
 	 */
-	public ArrayList<Pair<String, String>> getStateList()  {
+	public List<Pair<String, String>> getStateList()  {
 
-		ArrayList<Pair<String, String>> stateList = new ArrayList<Pair<String, String>>();
+		final List<Pair<String, String>> stateList = new ArrayList<Pair<String, String>>();
 
 		// Pull all the states from the database
 		final String sqlQuery = "from UspsStates ORDER BY stateName";
@@ -77,11 +77,11 @@ public class DatabaseUI extends Database {
 	
 	/**
 	 * This routine will fetch the list of countries from the database
-	 * @return ArrayList of key-value pairs for the three digit country code and the country na
+	 * @return List of key-value pairs for the three digit country code and the country na
 	 */
-	public ArrayList<Pair<String, String>> getCountryList() {
+	public List<Pair<String, String>> getCountryList() {
 
-		ArrayList<Pair<String, String>> countryList = new ArrayList<Pair<String, String>>();
+		List<Pair<String, String>> countryList = new ArrayList<Pair<String, String>>();
 
 		// Pull all the countries from the database
 		final String sqlQuery = "from Country where usTerritoryFlag = 'N' AND endDate IS NULL ORDER BY country";
@@ -96,11 +96,11 @@ public class DatabaseUI extends Database {
 	
 	/**
 	 * This routine will fetch the list of genders from the database
-	 * @return ArrayList of key-value pairs for the gender enum string and the gender description
+	 * @return List of key-value pairs for the gender enum string and the gender description
 	 */
-	public ArrayList<Pair<String, String>> getGenderList()  {
+	public List<Pair<String, String>> getGenderList()  {
 
-		ArrayList<Pair<String, String>> genderList = new ArrayList<Pair<String, String>>();
+		final List<Pair<String, String>> genderList = new ArrayList<Pair<String, String>>();
 
 		// Pull all the genders from the dataTypes table in the database
 		final String sqlQuery = "from DataTypes where parentDataTypeKey = :gender AND canAssignFlag = 'Y' AND activeFlag = 'Y' ORDER BY dataTypeDesc";
@@ -118,16 +118,16 @@ public class DatabaseUI extends Database {
 	/**
 	 * This routine will fetch the list of types from the database for the specified parent type
 	 * @param parentTypeIndex contains the index of the parent type
-	 * @return HashMap of key-value pairs for the type enum key and the type enum string
+	 * @return Map of key-value pairs for the type enum key and the type enum string
 	 * @throws CprException 
 	 
 	 */
-	public HashMap<Long, String> getTypeList(long parentTypeIndex) throws CprException {
+	public Map<Long, String> getTypeList(long parentTypeIndex) throws CprException {
 
 		if (AccessType.get(parentTypeIndex) == null) {
 			throw new CprException(ReturnType.GENERAL_DATABASE_EXCEPTION ,"No type exists for the index " + parentTypeIndex);
 		}
-		HashMap<Long, String> typeList = new HashMap<Long, String>();
+		final Map<Long, String> typeList = new HashMap<Long, String>();
 
 		// Pull all the email types from the dataTypes table in the database
 		final String sqlQuery = "from DataTypes where parentDataTypeKey = :parentTypeIndex AND canAssignFlag = 'Y' AND activeFlag = 'Y'";
@@ -143,11 +143,11 @@ public class DatabaseUI extends Database {
 	/**
 	 * This routine will fetch a specific group of security questions from the database
 	 * @param groupNum contains the list number for the group to be fetched
-	 * @return ArrayList of key-value pairs for the security question key and the question text
+	 * @return List of key-value pairs for the security question key and the question text
 	 */
-	public ArrayList<Pair<String, String>> getSecurityQuestionList(long groupNum) {
+	public List<Pair<String, String>> getSecurityQuestionList(long groupNum) {
 
-		ArrayList<Pair<String, String>> securityQuestList = new ArrayList<Pair<String, String>>();
+		final List<Pair<String, String>> securityQuestList = new ArrayList<Pair<String, String>>();
 
 		// Pull all the security questions associated with the given group from the securityQuestions table in the database
 		final String sqlQuery = "from SecurityQuestions where secQuestGroupKey = :groupNum AND endDate IS NULL";
@@ -165,11 +165,11 @@ public class DatabaseUI extends Database {
 	 * This routine will fetch a specific user's set of security questions and answers from the database
 	 * @param personId contains the identifier for the person to be fetched
 	 * @param userId contains the identifier for the person's user to be fetched
-	 * @return ArrayList of key-value pairs for the security question key and the question text
+	 * @return List of key-value pairs for the security question key and the question text
 	 */
-	public ArrayList<SecurityQuestionAnswers> getUserSecurityQuestionAnswerList(long personId, String userId) {
+	public List<SecurityQuestionAnswers> getUserSecurityQuestionAnswerList(long personId, String userId) {
 
-		ArrayList<SecurityQuestionAnswers> securityQuestList = new ArrayList<SecurityQuestionAnswers>();
+		final List<SecurityQuestionAnswers> securityQuestList = new ArrayList<SecurityQuestionAnswers>();
 
 		// Pull all the security questions associated with the given user from the securityQuestionAnswers table in the database
 		final String sqlQuery = "from SecurityQuestionAnswers where personId = :personId AND userId = :userId";
@@ -189,29 +189,32 @@ public class DatabaseUI extends Database {
 	 * @param securityQuestList contains the list of securityQuestionAnswers objects to store
 	 * @throws CprException 
 	 */
-	public void setUserSecurityQuestionAnswers(ArrayList<SecurityQuestionAnswers> securityQuestList) throws CprException  {
+	public void setUserSecurityQuestionAnswers(final List<SecurityQuestionAnswers> securityQuestList) throws CprException  {
 
 
 		// Make sure there are 3 objects in the list
 		if (securityQuestList.size() != NUMBER_OF_SECURITY_QUESTIONS) {
 			throw new CprException(ReturnType.GENERAL_DATABASE_EXCEPTION, "Must have 3 security question answers to store in database. Was given " + securityQuestList.size());
 		}
+		
 		// Make sure personId and userId match for all 3 answers
-		long personId = securityQuestList.get(SECURITY_QUESTION_0).getPersonId();
+		final long personId = securityQuestList.get(SECURITY_QUESTION_0).getPersonId();
 		if (personId != securityQuestList.get(SECURITY_QUESTION_1).getPersonId() || personId != securityQuestList.get(SECURITY_QUESTION_2).getPersonId()) {
 			throw new CprException(ReturnType.GENERAL_DATABASE_EXCEPTION,"PersonId is not equal for all security question answers.");
 		}
-		String userId = securityQuestList.get(SECURITY_QUESTION_0).getUserid();
-		if (userId != securityQuestList.get(SECURITY_QUESTION_1).getUserid() || userId != securityQuestList.get(SECURITY_QUESTION_2).getUserid()) {
+		
+		final String userId = securityQuestList.get(SECURITY_QUESTION_0).getUserid();
+		if (!userId.equals(securityQuestList.get(SECURITY_QUESTION_1).getUserid()) || !userId.equals(securityQuestList.get(SECURITY_QUESTION_2).getUserid())) {
 			throw new CprException(ReturnType.GENERAL_DATABASE_EXCEPTION,"userId is not equal for all security question answers.");
 		}
 
 		// Delete any existing questions stored in the database
-		ArrayList<SecurityQuestionAnswers> existingSecurityQuestList = getUserSecurityQuestionAnswerList(personId, userId);
+		final List<SecurityQuestionAnswers> existingSecurityQuestList = getUserSecurityQuestionAnswerList(personId, userId);
 		for (final Iterator<?> it = existingSecurityQuestList.iterator(); it.hasNext(); ) {
 			SecurityQuestionAnswers dbBean = (SecurityQuestionAnswers) it.next();
 			getSession().delete(dbBean);
 		}
+		
 		// Save all the security questions associated with the given user to the securityQuestionAnswers table in the database
 		for (final Iterator<?> it = securityQuestList.iterator(); it.hasNext(); ) {
 			SecurityQuestionAnswers dbBean = (SecurityQuestionAnswers) it.next();
@@ -223,17 +226,17 @@ public class DatabaseUI extends Database {
 	 * This routine will fetch from the database the list of RA application properties associated with a specific UI application
 	 * @param uiApplicationName contains the identifier for the application to be fetched
 	 * @param principalId contains the identifier for the principal to be fetched
-	 * @return HashMap of key-value pairs of application properties for the RA
+	 * @return Map of key-value pairs of application properties for the RA
 	 * @throws CprException 
 	 */
-	public HashMap<String, String> getRaApplicationProperties(String uiApplicationName, String principalId) throws CprException {
+	public Map<String, String> getRaApplicationProperties(final String uiApplicationName, final String principalId) throws CprException {
 		
 		// Look-up the Application key
-		long uiApplicationKey = getAppKey(uiApplicationName);
+		final long uiApplicationKey = getAppKey(uiApplicationName);
 		
-		long raApplicationKey = getRaAppKey(uiApplicationKey, principalId);
+		final long raApplicationKey = getRaAppKey(uiApplicationKey, principalId);
 		
-		HashMap<String, String> raPropertiesHash = new HashMap<String, String>();
+		final Map<String, String> raPropertiesHash = new HashMap<String, String>();
 
 		// Pull all the screens associated with the given RA from the ra screens table in the database
 		final String appPropertiesSqlQuery = "from RaApplicationProperties where raApplicationKey = :raApplicationKey AND uiApplicationKey = :uiApplicationKey";
@@ -303,11 +306,11 @@ public class DatabaseUI extends Database {
 	/**
 	 * This routine will fetch from the database the list of screens to display for a specific RA
 	 * @param raApplicationKey contains the identifier for the ra application to be fetched
-	 * @return ArrayList of sequenced screen names in the order they should appear
+	 * @return List of sequenced screen names in the order they should appear
 	 */
-	private ArrayList<RaScreens> getRaScreenBeanList(long raApplicationKey) {
+	private List<RaScreens> getRaScreenBeanList(long raApplicationKey) {
 
-		ArrayList<RaScreens> raScreenBeanList = new ArrayList<RaScreens>();
+		final List<RaScreens> raScreenBeanList = new ArrayList<RaScreens>();
 		
 		// Pull all the screens associated with the given RA from the ra screens table in the database
 		final String screenSqlQuery = "from RaScreens where raApplicationKey = :raApplicationKey ORDER BY raScreenOrder";
@@ -324,11 +327,11 @@ public class DatabaseUI extends Database {
 	/**
 	 * This routine will fetch from the database the list of screens to display for a specific RA
 	 * @param raApplicationKey contains the identifier for the ra application to be fetched
-	 * @return ArrayList of sequenced screen names in the order they should appear
+	 * @return List of sequenced screen names in the order they should appear
 	 */
-	private ArrayList<String> getScreensForRa(long raApplicationKey) {
+	private List<String> getScreensForRa(long raApplicationKey) {
 		
-		ArrayList<String> raScreenList = new ArrayList<String>();
+		final List<String> raScreenList = new ArrayList<String>();
 
 		// Pull all the screens associated with the given RA from the ra screens table in the database
 		final String screenSqlQuery = "from RaScreens where raApplicationKey = :raApplicationKey ORDER BY raScreenOrder";
@@ -346,10 +349,10 @@ public class DatabaseUI extends Database {
 	 * This routine will fetch from the database the list of screens to display for a specific RA
 	 * @param uiApplicationName contains the identifier for the application to be fetched
 	 * @param principalId contains the identifier for the principal to be fetched
-	 * @return ArrayList of sequenced screen names in the order they should appear
+	 * @return List of sequenced screen names in the order they should appear
 	 * @throws CprException
 	 */
-	public ArrayList<String> getRaScreenList(String uiApplicationName, String principalId) throws CprException {
+	public List<String> getRaScreenList(String uiApplicationName, String principalId) throws CprException {
 		
 		long raApplicationKey = getRaAppKey(uiApplicationName, principalId);
 		
@@ -359,15 +362,15 @@ public class DatabaseUI extends Database {
 	/**
 	 * This routine will fetch from the database the list of screens to display per RA for a specific UI application
 	 * @param uiApplicationName contains the identifier for the application to be fetched
-	 * @return HashMap of RA to ordered screen names list
+	 * @return Map of RA to ordered screen names list
 	 * @throws CprException
 	 */
-	public Map<String, ArrayList<String>> getAllScreenLists(String uiApplicationName) throws CprException {
+	public Map<String, List<String>> getAllScreenLists(String uiApplicationName) throws CprException {
 		
 		// fetch ui_applications with name for key
 		long uiApplicationKey = getAppKey(uiApplicationName);
 		
-		Map<String, ArrayList<String>> screenHashByRa = new HashMap<String, ArrayList<String>>();
+		final Map<String, List<String>> screenHashByRa = new HashMap<String, List<String>>();
 		createRaMap();
 		
 		// use ui_application_key to get ra_app_keys
@@ -381,7 +384,7 @@ public class DatabaseUI extends Database {
 			// get the ra name from the map
 			String raName = raMap.get(appDbBean.getRegistrationAuthorityKey());
 			// get the ra screens
-			ArrayList<String> raScreens = getScreensForRa(appDbBean.getRaApplicationKey());
+			List<String> raScreens = getScreensForRa(appDbBean.getRaApplicationKey());
 			screenHashByRa.put(raName, raScreens);
 			raScreenMap.put(appDbBean.getRaApplicationKey(), raScreens);
 		}
@@ -391,15 +394,15 @@ public class DatabaseUI extends Database {
 	/**
 	 * This routine will fetch from the database the list of fields per screen to display per RA for a specific UI application
 	 * @param uiApplicationName contains the identifier for the application to be fetched
-	 * @return HashMap of RA to ordered ScreenUI objects
+	 * @return Map of RA to ordered ScreenUI objects
 	 * @throws CprException
 	 */
-	public Map<String, ArrayList<ScreenUI>> getAllScreenAndFieldLists(String uiApplicationName) throws CprException {
+	public Map<String, List<ScreenUI>> getAllScreenAndFieldLists(String uiApplicationName) throws CprException {
 		
 		// fetch ui_applications with name for key
 		long uiApplicationKey = getAppKey(uiApplicationName);
 		
-		Map<String, ArrayList<ScreenUI>> screenHashByRa = new HashMap<String, ArrayList<ScreenUI>>();
+		final Map<String, List<ScreenUI>> screenHashByRa = new HashMap<String, List<ScreenUI>>();
 		createRaMap();
 		
 		// use ui_application_key to get ra_app_keys
@@ -413,8 +416,8 @@ public class DatabaseUI extends Database {
 			// get the ra name from the map
 			String raName = raMap.get(appDbBean.getRegistrationAuthorityKey());
 			// get the ra screens
-			ArrayList<RaScreens> raScreens = getRaScreenBeanList(appDbBean.getRaApplicationKey());
-			ArrayList<ScreenUI> screenList = new ArrayList<ScreenUI>();
+			List<RaScreens> raScreens = getRaScreenBeanList(appDbBean.getRaApplicationKey());
+			List<ScreenUI> screenList = new ArrayList<ScreenUI>();
 			// loop through all ra screens and add fields to map
 			for (final Iterator<?> iter = raScreens.iterator(); iter.hasNext(); ) {
 				RaScreens screenDbBean = (RaScreens) iter.next();
@@ -433,13 +436,13 @@ public class DatabaseUI extends Database {
 	 * This routine will fetch from the database the list of fields to display for a specific RA screen
 	 * @param raScreenKey contains the identifier for the RA screen to be fetched
 	 * @param uiScreenName contains the name for the screen to be fetched
-	 * @return ArrayList of FieldUI objects
+	 * @return List of FieldUI objects
 	 */
-	private ArrayList<FieldUI> getFieldsForRa(long raScreenKey, String uiScreenName) {
+	private List<FieldUI> getFieldsForRa(long raScreenKey, String uiScreenName) {
 		
 		String flagYesValue = "Y";
 		
-		ArrayList<FieldUI> raScreenFieldList = new ArrayList<FieldUI>();
+		final List<FieldUI> raScreenFieldList = new ArrayList<FieldUI>();
 
 		// Pull all the fields associated with the given RA screen from the RA screens fields table in the database
 		final String screenSqlQuery = "from RaScreenFields where raScreenKey = :raScreenKey ORDER BY uiFieldName";
@@ -466,15 +469,14 @@ public class DatabaseUI extends Database {
 	 * @param uiApplicationName contains the identifier for the application to be fetched
 	 * @param principalId contains the identifier for the principal to be fetched
 	 * @param uiScreenName contains the name of the screen
-	 * @return ArrayList of FieldUI objects
+	 * @return List of FieldUI objects
 	 * @throws CprException
 	 */
-	public ArrayList<FieldUI> getRaFieldList(String uiApplicationName, String principalId, String uiScreenName) throws CprException {
+	public List<FieldUI> getRaFieldList(String uiApplicationName, String principalId, String uiScreenName) throws CprException {
 		
 		long raScreenKey = getRaScreenKey(uiApplicationName, principalId, uiScreenName);
 		
 		return getFieldsForRa(raScreenKey, uiScreenName);
-
 	}
 	
 	/**
@@ -491,9 +493,10 @@ public class DatabaseUI extends Database {
 		if (emailQuery.list().isEmpty()) {
 			throw new CprException(ReturnType.GENERAL_DATABASE_EXCEPTION,"No email notification found for " + process);
 		}
+		
 		EmailNotification emailDbBean = (EmailNotification)emailQuery.list().get(GET_ITEM_0);
-		EmailMsgUI emailMsg = new EmailMsgUI(emailDbBean.getEmailSubject(), emailDbBean.getTextBody(), emailDbBean.getHtmlBody(), emailDbBean.getNotificationProcess());
-		return emailMsg;
+
+		return new EmailMsgUI(emailDbBean.getEmailSubject(), emailDbBean.getTextBody(), emailDbBean.getHtmlBody(), emailDbBean.getNotificationProcess());
 	}
 	
 	/**

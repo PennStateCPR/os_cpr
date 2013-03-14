@@ -1,6 +1,7 @@
 package edu.psu.iam.cpr.core.api;
 
 import java.text.ParseException;
+import java.util.Map;
 
 import javax.jms.JMSException;
 
@@ -45,7 +46,7 @@ public abstract class ExtendedBaseApi {
 	 * @param db contains the database connection.
 	 * @param updatedBy contains the entity that is updating the record.
 	 * @param serviceCoreReturn contains the person identifier.
- 	 * @param otherParameters contain the array of parameters to the API.
+ 	 * @param otherParameters contain the map of parameters to the API.
 	 * @param checkAuthorization contains a flag that determines if AuthZ is to be checked or not.
 	 * @return will return a service return object.
 	 * @throws CprException will be thrown if there are any CPR related problems.
@@ -53,8 +54,9 @@ public abstract class ExtendedBaseApi {
 	 * @throws ParseException will be thrown if there are any parsing problems.
 	 * @throws JMSException will be thrown if there are any JMS problems.
 	 */
-	public Object implementApi(String apiName, Database db, String updatedBy, ServiceCoreReturn serviceCoreReturn, Object otherParameters[], 
-			boolean checkAuthorization) throws CprException, JSONException, ParseException, JMSException {
+	public Object implementApi(final String apiName, final Database db, final String updatedBy, 
+			final ServiceCoreReturn serviceCoreReturn, final Map<String, Object> otherParameters, 
+			final boolean checkAuthorization) throws CprException, JSONException, ParseException, JMSException {
 		
 		LOG4J_LOGGER.info(apiName + ": Start of api.");
 
@@ -70,8 +72,8 @@ public abstract class ExtendedBaseApi {
 		
 	}
 	
-	public abstract Object runApi(String apiName, Database db, ServiceCoreReturn serviceCoreReturn, 
-			String updatedBy, Object[] otherParameters, boolean checkAuthorization) 
+	public abstract Object runApi(final String apiName, final Database db, final ServiceCoreReturn serviceCoreReturn, 
+			final String updatedBy, final Map<String, Object> otherParameters, final boolean checkAuthorization) 
 				throws CprException, JSONException, ParseException, JMSException;
 
 

@@ -1,7 +1,7 @@
-/* SVN FILE: $Id: ScreenUI.java 5659 2012-11-19 17:24:59Z slk24 $ */
+/* SVN FILE: $Id: ScreenUI.java 6489 2013-03-13 16:16:03Z dvm105 $ */
 package edu.psu.iam.cpr.core.ui;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Iterator;
 
 /**
@@ -12,13 +12,13 @@ import java.util.Iterator;
  * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
  * @package edu.psu.iam.cpr.core.database
- * @author $Author: slk24 $
- * @version $Rev: 5659 $
- * @lastrevision $Date: 2012-11-19 12:24:59 -0500 (Mon, 19 Nov 2012) $
+ * @author $Author: dvm105 $
+ * @version $Rev: 6489 $
+ * @lastrevision $Date: 2013-03-13 12:16:03 -0400 (Wed, 13 Mar 2013) $
  */
 public class ScreenUI {
 	
-	public ScreenUI(String screenName, ArrayList<FieldUI> fieldList) {
+	public ScreenUI(final String screenName, final List<FieldUI> fieldList) {
 		super();
 		this.screenName = screenName;
 		this.fieldList = fieldList;
@@ -26,13 +26,12 @@ public class ScreenUI {
 
 	public ScreenUI() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	private String screenName;
-	private ArrayList<FieldUI> fieldList;
+	private List<FieldUI> fieldList;
 
-	public void setScreenName(String screenName) {
+	public void setScreenName(final String screenName) {
 		this.screenName = screenName;
 	}
 
@@ -40,27 +39,28 @@ public class ScreenUI {
 		return screenName;
 	}
 
-	public void setFieldList(ArrayList<FieldUI> fieldList) {
+	public void setFieldList(final List<FieldUI> fieldList) {
 		this.fieldList = fieldList;
 	}
 
-	public ArrayList<FieldUI> getFieldList() {
+	public List<FieldUI> getFieldList() {
 		return fieldList;
 	}
 	
 	public String toString() {
-		StringBuilder resultString = new StringBuilder(screenName + "[");
+		final StringBuilder resultString = new StringBuilder(screenName);
+		resultString.append('[');
 		// loop through field list and add individual
-		Iterator<FieldUI> it = fieldList.iterator();
+		final Iterator<FieldUI> it = fieldList.iterator();
 		while (it.hasNext()) {
-			FieldUI currentField = (FieldUI)it.next();
+			FieldUI currentField = it.next();
 			resultString.append(currentField.toString() + ",");
 		}
-		int i = resultString.lastIndexOf(",");
+		final int i = resultString.lastIndexOf(",");
 		if (i > 0) {
 			resultString.setCharAt(i, ']');
 		} else {
-			resultString.append("]");
+			resultString.append(']');
 		}
 		return resultString.toString();
 	}

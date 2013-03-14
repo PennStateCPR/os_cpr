@@ -1,6 +1,7 @@
 package edu.psu.iam.cpr.core.api;
 
 import java.text.ParseException;
+import java.util.Map;
 
 import org.json.JSONException;
 
@@ -35,37 +36,28 @@ import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
  */
 public class ArchivePersonLinkageApi extends BaseApi {
 
-	/** Contains the index for the linkage type parameter */
-	private static final int LINKAGE_TYPE = 0;
-	
-	/** Contains the index for the identifier type parameter */
-	private static final int IDENTIFIER_TYPE = 1;
-	
-	/** Contains the index for the identifier parameter */
-	private static final int IDENTIFIER = 2;
-	
     /**
      * This method is used to execute the core logic for a service.
      * @param apiName contains the name of the api.
      * @param db contains a open database session.
      * @param serviceCoreReturn contains the person identifier value.
      * @param updatedBy contains the userid requesting this information.
-     * @param otherParameters contains an array of Java objects that are additional parameters for the service.
+     * @param otherParameters contains an map of Java objects that are additional parameters for the service.
      * @return will return an JsonMessage object if successful.
      * @throws CprException will be thrown if there are any problems.
      * @throws JSONException will be thrown if there are any issues creating a JSON message.
      * @throws ParseException will be thrown if there are any issues related to parsing a data value.
      */	
 	@Override
-	public JsonMessage runApi(String apiName, Database db, ServiceCoreReturn serviceCoreReturn,
-			String updatedBy, Object[] otherParameters,
-			boolean checkAuthorization) throws CprException, JSONException,
+	public JsonMessage runApi(final String apiName, final Database db, final ServiceCoreReturn serviceCoreReturn,
+			final String updatedBy, final Map<String, Object> otherParameters,
+			final boolean checkAuthorization) throws CprException, JSONException,
 			ParseException {
 		
-		final String linkageType 			= (String) otherParameters[LINKAGE_TYPE];
-		final String linkedIdentifierType 	= (String) otherParameters[IDENTIFIER_TYPE];
-		final String linkedIdentifier 		= (String) otherParameters[IDENTIFIER];
-
+        final String linkageType			= (String) otherParameters.get(LINKAGE_TYPE_KEY);
+        final String linkedIdentifierType	= (String) otherParameters.get(LINKAGE_IDENTIFIER_TYPE_KEY);
+        final String linkedIdentifier		= (String) otherParameters.get(LINKAGE_IDENTIFIER_KEY);
+        
 		// Validate the parameters.
 		final PersonLinkageTable personLinkageTable = ValidatePersonLinkage.validatePersonLinkageParameters(db, 
 				serviceCoreReturn.getPersonId(), linkedIdentifierType, linkedIdentifier, linkageType, updatedBy);

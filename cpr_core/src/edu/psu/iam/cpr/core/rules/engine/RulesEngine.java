@@ -4,6 +4,7 @@ package edu.psu.iam.cpr.core.rules.engine;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
@@ -45,7 +46,7 @@ public class RulesEngine {
 	private String rulesetName;
 	
 	/** Contains the list of known facts */
-	private ArrayList<KnownFact> knownFacts = new ArrayList<KnownFact>();
+	private List<KnownFact> knownFacts = new ArrayList<KnownFact>();
 	
 	/** Contains the new input fact */
 	private InputFact inputFact;
@@ -54,7 +55,7 @@ public class RulesEngine {
 	private KnowledgeBase knowledgeBase;
 	
 	/** Contains the results of the rules engine */
-	private ArrayList<String> ruleExecutionResults  = new ArrayList<String>();
+	private List<String> ruleExecutionResults  = new ArrayList<String>();
 	
 	private static final String RULES_ERROR_STRING = "ERROR";
 	
@@ -120,14 +121,14 @@ public class RulesEngine {
 	/**
 	 * @return the ruleExecutionResults
 	 */
-	public ArrayList<String> getRuleExecutionResults() {
+	public List<String> getRuleExecutionResults() {
 		return ruleExecutionResults;
 	}
 
 	/**
 	 * @return the knownFacts
 	 */
-	public ArrayList<KnownFact> getKnownFacts() {
+	public List<KnownFact> getKnownFacts() {
 		return knownFacts;
 	}
 
@@ -193,7 +194,7 @@ public class RulesEngine {
 
 		// Get the results from working memory.
 		final Collection<Object> facts = session.getObjects();
-		final ArrayList<String> results = getRuleExecutionResults();
+		final List<String> results = getRuleExecutionResults();
 		for (final Iterator<Object> it = facts.iterator(); it.hasNext(); ) {
 			Object obj = it.next();
 			if (obj instanceof KnownFact) {

@@ -1,6 +1,7 @@
 package edu.psu.iam.cpr.core.api;
 
 import java.text.ParseException;
+import java.util.Map;
 
 import org.json.JSONException;
 
@@ -36,50 +37,32 @@ import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
  */
 public class AddNameApi extends BaseApi {
 
-	/** Contains the index for the name type parameter */
-	private static final int NAME_TYPE = 0;
-	
-	/** Contains the index for the document type parameter */
-	private static final int DOCUMENT_TYPE = 1;
-	
-	/** Contains the index for the first name parameter */
-	private static final int FIRST_NAME = 2;
-	
-	/** Contains the index for the middle name parameter */
-	private static final int MIDDLE_NAMES = 3;
-	
-	/** Contains the index for the last name parameter */
-	private static final int LAST_NAME = 4;
-	
-	/** Contains index for the suffix parameter */
-	private static final int SUFFIX = 5;
-	
     /**
      * This method is used to execute the core logic for a service.
      * @param apiName contains the name of the api.
      * @param db contains a open database session.
      * @param serviceCoreReturn contains the person identifier value.
      * @param updatedBy contains the userid requesting this information.
-     * @param otherParameters contains an array of Java objects that are additional parameters for the service.
+     * @param otherParameters contains an map of Java objects that are additional parameters for the service.
      * @return will return an JsonMessage object if successful.
      * @throws CprException will be thrown if there are any problems.
      * @throws JSONException will be thrown if there are any issues creating a JSON message.
      * @throws ParseException will be thrown if there are any issues related to parsing a data value.
      */	
 	@Override
-	public JsonMessage runApi(String apiName, Database db, ServiceCoreReturn serviceCoreReturn,
-			String updatedBy, Object[] otherParameters,
-			boolean checkAuthorization) throws CprException, JSONException,
+	public JsonMessage runApi(final String apiName, final Database db, final ServiceCoreReturn serviceCoreReturn,
+			final String updatedBy, final Map<String, Object> otherParameters,
+			final boolean checkAuthorization) throws CprException, JSONException,
 			ParseException {
 		
 		// Obtain the parameters.
-		final String nameType = (String) otherParameters[NAME_TYPE];
-		final String documentType = (String) otherParameters[DOCUMENT_TYPE];
-		final String firstName = (String) otherParameters[FIRST_NAME];
-		final String middleNames = (String) otherParameters[MIDDLE_NAMES];
-		final String lastName = (String) otherParameters[LAST_NAME];
-		final String suffix = (String) otherParameters[SUFFIX];
-		final long personId = serviceCoreReturn.getPersonId();
+        final String nameType = (String) otherParameters.get(NAME_TYPE_KEY);
+        final String documentType = (String) otherParameters.get(DOCUMENT_TYPE_KEY);
+        final String firstName = (String) otherParameters.get(FIRST_NAME_KEY);
+        final String middleNames = (String) otherParameters.get(MIDDLE_NAMES_KEY);
+        final String lastName = (String) otherParameters.get(LAST_NAME_KEY);
+        final String suffix = (String) otherParameters.get(SUFFIX_KEY);
+        final long personId = serviceCoreReturn.getPersonId();
 		
 		// Validate the service parameters.
 		final NamesTable namesTable = ValidateName.validateAddNameParameters(db, personId, nameType, 

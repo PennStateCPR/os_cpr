@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.hibernate.SQLQuery;
@@ -87,7 +88,7 @@ public class Database {
 	/** 
 	 * Contains a table's columns.
 	 */
-	private HashMap<String, TableColumn> tableColumns = null;
+	private Map<String, TableColumn> tableColumns = null;
 	
 	/**
 	 * Contains an open hibernate session.
@@ -862,7 +863,7 @@ public class Database {
 	 * This is a private routine that is used to obtain the tableColumns hashmap
 	 * @return will return the hashmap.
 	 */
-	public  HashMap<String, TableColumn> getTableColumns() {
+	public  Map<String, TableColumn> getTableColumns() {
 		return tableColumns;
 	}
 	

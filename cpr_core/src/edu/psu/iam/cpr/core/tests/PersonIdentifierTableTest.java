@@ -22,7 +22,6 @@ import org.testng.AssertJUnit;
 
 import java.text.DecimalFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -93,7 +92,7 @@ public class PersonIdentifierTableTest {
 	@Test
 	public final void _08testGetPersonIdentifiersForPersonId1() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
+		Map<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -122,7 +121,7 @@ public class PersonIdentifierTableTest {
 	@Test
 	public final void _10testAddPersonIdentifier1() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
+		Map<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -139,7 +138,7 @@ public class PersonIdentifierTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _11testAddPersonIdentifier2() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
+		Map<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -156,7 +155,7 @@ public class PersonIdentifierTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _12testArchivePersonIdentifier1() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
+		Map<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -173,7 +172,7 @@ public class PersonIdentifierTableTest {
 	@Test
 	public final void _13testArchivePersonIdentifier2() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
+		Map<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -190,7 +189,7 @@ public class PersonIdentifierTableTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _14testArchivePersonIdentifier3() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
+		Map<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -207,7 +206,7 @@ public class PersonIdentifierTableTest {
 	@Test 
 	public final void _15testSSNStorage() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
+		Map<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();
@@ -236,7 +235,7 @@ public class PersonIdentifierTableTest {
 	@Test
 	public final void restoreThings() throws Exception {
 		openDbConnection();
-		HashMap<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
+		Map<String,Object> map = DBTypes.INSTANCE.getTypeMaps(DBTypes.IDENTIFIER_TYPE);
 		IdentifierType identifierType = null;
 		for (Map.Entry<String,Object> entry : map.entrySet()) {
 			identifierType = (IdentifierType) entry.getValue();

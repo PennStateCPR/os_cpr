@@ -1,6 +1,7 @@
 package edu.psu.iam.cpr.core.api;
 
 import java.text.ParseException;
+import java.util.Map;
 
 import org.json.JSONException;
 
@@ -38,70 +39,36 @@ import edu.psu.iam.cpr.core.util.Validate;
  */
 public class AddAddressApi extends BaseApi {
 
-	/** Contains the index for the address type */
-	private static final int ADDRESS_TYPE = 0;
-	
-	/** Contains the index for the document type parameter */
-	private static final int DOCUMENT_TYPE = 1;
-	
-	/** Contains the index for the address line 1 parameter */
-	private static final int ADDRESS1 = 2;
-	
-	/** Contains the index for the address line 2 parameter */
-	private static final int ADDRESS2 = 3;
-	
-	/** Contains the index for the address line 3 parameter */
-	private static final int ADDRESS3 = 4;
-	
-	/** Contains the index for the city parameter */
-	private static final int CITY = 5;
-	
-	/** Contains the index for the state parameter */
-	private static final int STATE = 6;
-	
-	/** Contains the index for postal code parameter */
-	private static final int POSTAL_CODE = 7;
-	
-	/** Contains the index for the country code parameter */
-	private static final int COUNTRY_CODE = 8;
-	
-	/** Contains the index for the campus code parameter */
-	private static final int CAMPUS_CODE = 9;
-
-	/** Contains the index for the verify address flag parameter */
-    private static final int VERIFY_ADDRESS_FLAG = 10;
-
     /**
      * This method is used to execute the core logic for a service.
      * @param apiName contains the name of the api.
      * @param db contains a open database session.
      * @param serviceCoreReturn contains the person identifier value.
      * @param updatedBy contains the userid requesting this information.
-     * @param otherParameters contains an array of Java objects that are additional parameters for the service.
+     * @param otherParameters contains an map of Java objects that are additional parameters for the service.
      * @return will return an JsonMessage object if successful.
      * @throws CprException will be thrown if there are any problems.
      * @throws JSONException will be thrown if there are any issues creating a JSON message.
      * @throws ParseException will be thrown if there are any issues related to parsing a data value.
      */	
 	@Override
-	public JsonMessage runApi(String apiName, Database db, ServiceCoreReturn serviceCoreReturn,
-			String updatedBy, Object[] otherParameters,
-			boolean checkAuthorization) throws CprException, JSONException,
+	public JsonMessage runApi(final String apiName, final Database db, final ServiceCoreReturn serviceCoreReturn,
+			final String updatedBy, final Map<String, Object> otherParameters,
+			final boolean checkAuthorization) throws CprException, JSONException,
 			ParseException {
 		
-		final String addressType 	= (String) otherParameters[ADDRESS_TYPE];
-		final String documentType 	= (String) otherParameters[DOCUMENT_TYPE];
-		final String address1 		= (String) otherParameters[ADDRESS1];
-		final String address2 		= (String) otherParameters[ADDRESS2];
-		final String address3 		= (String) otherParameters[ADDRESS3];
-		final String city 			= (String) otherParameters[CITY];
-		final String stateOrProvince= (String) otherParameters[STATE];
-		final String postalCode 	= (String) otherParameters[POSTAL_CODE];
-		final String countryCode 	= (String) otherParameters[COUNTRY_CODE];
-		final String campusCode 	= (String) otherParameters[CAMPUS_CODE];
-		final String verifyAddressFlag =
-									  (String) otherParameters[VERIFY_ADDRESS_FLAG];
-		final long personId 		= serviceCoreReturn.getPersonId();
+        final String addressType        = (String) otherParameters.get(ADDRESS_TYPE_KEY);
+        final String documentType       = (String) otherParameters.get(DOCUMENT_TYPE_KEY);
+        final String address1           = (String) otherParameters.get(ADDRESS1_KEY);
+        final String address2           = (String) otherParameters.get(ADDRESS2_KEY);
+        final String address3           = (String) otherParameters.get(ADDRESS3_KEY);
+        final String city               = (String) otherParameters.get(CITY_KEY);
+        final String stateOrProvince	= (String) otherParameters.get(STATE_KEY);
+        final String postalCode         = (String) otherParameters.get(POSTALCODE_KEY);
+        final String countryCode        = (String) otherParameters.get(COUNTRY_KEY);
+        final String campusCode         = (String) otherParameters.get(CAMPUS_KEY);
+        final String verifyAddressFlag  = (String) otherParameters.get(VERIFY_ADDRESS_FLAG_KEY);
+        final long personId 			= serviceCoreReturn.getPersonId();
 		
 		final AddressesTable addressTableRecord = ValidateAddress.validateAddAddressParameters(db, personId, 
 				addressType, documentType,  updatedBy, 

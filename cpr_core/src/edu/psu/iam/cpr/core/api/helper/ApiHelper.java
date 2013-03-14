@@ -1,5 +1,13 @@
 package edu.psu.iam.cpr.core.api.helper;
 
+import static edu.psu.iam.cpr.core.api.BaseApi.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import javax.jms.JMSException;
 
 import org.json.JSONException;
@@ -10,6 +18,7 @@ import edu.psu.iam.cpr.core.database.types.CprComponent;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.messaging.JsonMessage;
 import edu.psu.iam.cpr.core.messaging.MessagingCore;
+import edu.psu.iam.cpr.core.util.Validate;
 import edu.psu.iam.cpr.core.util.ValidateSSN;
 
 /**
@@ -49,6 +58,10 @@ public final class ApiHelper {
 	/** Buffer size */
 	private static final int BUFFER_SIZE = 4096;
 	
+	/** array of keys for sensitive parameters that should not be logged */
+	protected static final Set<String> PROTECTED_KEYS = Collections.unmodifiableSet(new TreeSet<String>(Arrays.asList(
+			SSN_KEY, PSUID_KEY, DOB_KEY)));
+	
 	/**
 	 * No constructor!
 	 */
@@ -65,8 +78,8 @@ public final class ApiHelper {
 	 * @throws CprException will be thrown if there are any CPR problems.
 	 * @throws JSONException will be thrown if there are any json issues.
 	 */
-	public static void sendMessagesToServiceProviders(String serviceName,
-			Database db, JsonMessage jsonMessage) throws JMSException, CprException, JSONException {
+	public static void sendMessagesToServiceProviders(final String serviceName,
+			final Database db, final JsonMessage jsonMessage) throws JMSException, CprException, JSONException {
 
 		MessagingCore mCore = null;
 		try {
@@ -96,32 +109,40 @@ public final class ApiHelper {
 	
 	/**
 	 * This routine is used to dump the parameters to an API.
-	 * @param otherParameters contains the list of parameters to be dumped.
+	 * @param otherParameters contains the map of parameters to be dumped.
 	 * @return will return a string object.
 	 */
-	public static String dumpParameters(Object otherParameters[]) {
+	public static String dumpParameters(final Map<String, Object> otherParameters) {
 		
-		StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
-		if (otherParameters != null) {
-			for (int i = 0; i < otherParameters.length; ++i) {
-				parameters.append("parameter");
-				parameters.append((i+1));
-				parameters.append("=[");
-				try {
-					String s = (String) otherParameters[i];
-					if (ValidateSSN.validateSSN(s)) {
-						parameters.append("Sensitive Value Cannot Output");
-					}
-					else {
-						parameters.append(s);
-					}
-				}
-				catch (ClassCastException e) {
-					parameters.append("Non-String Argument");
-				}
-				parameters.append("] ");
-			}
+		if (otherParameters == null || otherParameters.size() == 0) {
+			return "";
 		}
+
+		final StringBuilder parameters = new StringBuilder(BUFFER_SIZE);
+
+		final SortedSet<String> sortedKeys = new TreeSet<String>(otherParameters.keySet());
+		for (String key : sortedKeys) {
+			parameters.append(key);
+			parameters.append("=[");
+		
+			final Object o = otherParameters.get(key);
+			String value;
+			if (o != null) {
+				value = o.toString();
+			} 
+			else {
+				value = "null";
+			}
+			
+			if (PROTECTED_KEYS.contains(key) || ValidateSSN.validateSSN(value) || Validate.isValidPsuId(value)) {
+				parameters.append("Sensitive Value Cannot Output");
+			} 
+			else {
+				parameters.append(value);
+			}
+			parameters.append("] ");
+		}
+		
 		return parameters.toString();
 	}
 

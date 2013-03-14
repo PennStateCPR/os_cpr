@@ -1,6 +1,7 @@
 package edu.psu.iam.cpr.core.api;
 
 import java.text.ParseException;
+import java.util.Map;
 
 import org.json.JSONException;
 
@@ -36,43 +37,28 @@ import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
  */
 public class AddIdCardApi extends BaseApi {
 
-	/** Contains the index of the id card type parameter */
-	private static final int ID_CARD_TYPE = 0;
-	
-	/** Contains the index for the id card number parameter */
-	private static final int ID_CARD_NUMBER = 1;
-	
-	/** Contains the index for the id serial number parameter */
-	private static final int ID_SERIAL_NUMBER = 2;
-	
-	/** Contains the index for the photo parameter */
-	private static final int PHOTO = 3;
-	
-	/** Contains the index for the photo date taken parameter */
-	private static final int PHOTO_DATE_TAKEN = 4;
-	
     /**
      * This method is used to execute the core logic for a service.
      * @param apiName contains the name of the api.
      * @param db contains a open database session.
      * @param serviceCoreReturn contains the person identifier value.
      * @param updatedBy contains the userid requesting this information.
-     * @param otherParameters contains an array of Java objects that are additional parameters for the service.
+     * @param otherParameters contains an map of Java objects that are additional parameters for the service.
      * @return will return an JsonMessage object if successful.
      * @throws CprException will be thrown if there are any problems.
      * @throws JSONException will be thrown if there are any issues creating a JSON message.
      * @throws ParseException will be thrown if there are any issues related to parsing a data value.
      */	
 	@Override
-	public JsonMessage runApi(String apiName, Database db, ServiceCoreReturn serviceCoreReturn,
-			String updatedBy, Object[] otherParameters,
-			boolean checkAuthorization) throws CprException, JSONException,
+	public JsonMessage runApi(final String apiName, final Database db, final ServiceCoreReturn serviceCoreReturn,
+			final String updatedBy, final Map<String, Object> otherParameters,
+			final boolean checkAuthorization) throws CprException, JSONException,
 			ParseException {
-		final String idCardType = (String) otherParameters[ID_CARD_TYPE];
-		final String idCardNumber = (String) otherParameters[ID_CARD_NUMBER];
-		final String idSerialNumber = (String) otherParameters[ID_SERIAL_NUMBER];
-		final byte[] photo = (byte[]) otherParameters[PHOTO];
-		final String photoDateTaken = (String) otherParameters[PHOTO_DATE_TAKEN];
+		final String idCardType = (String) otherParameters.get(ID_CARD_TYPE_KEY);
+		final String idCardNumber = (String) otherParameters.get(ID_CARD_NUMBER_KEY);
+		final String idSerialNumber = (String) otherParameters.get(ID_SERIAL_NUMBER_KEY);
+		final byte[] photo = (byte[]) otherParameters.get(PHOTO_KEY);
+		final String photoDateTaken = (String) otherParameters.get(PHOTO_DATE_TAKEN_KEY);
 		final long personId = serviceCoreReturn.getPersonId();
 
 		// Validate the parameters.
