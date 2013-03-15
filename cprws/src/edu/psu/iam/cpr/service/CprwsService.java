@@ -1145,7 +1145,7 @@ public class CprwsService implements CprwsSEI {
         final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 
         final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
-        otherParameters.put(EMAIL_ADDRESS_KEY, emailAddressType);
+        otherParameters.put(EMAIL_ADDRESS_TYPE_KEY, emailAddressType);
 
         return (ServiceReturn) new ArchiveEmailAddressImpl().implementService(
                                         CprServiceName.ArchiveEmailAddress.toString(), request.getRemoteAddr(), principalId, 
