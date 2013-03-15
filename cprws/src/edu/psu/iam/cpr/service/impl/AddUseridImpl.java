@@ -2,6 +2,7 @@
 package edu.psu.iam.cpr.service.impl;
 
 import java.text.ParseException;
+import java.util.Map;
 
 import javax.jms.JMSException;
 import org.apache.log4j.Logger;
@@ -58,7 +59,7 @@ public class AddUseridImpl extends ExtendedBaseServiceImpl {
 	public Object runService(Database db, String serviceName,
 			Logger log4jLogger, ServiceHelper serviceHelper,
 			ServiceCoreReturn serviceCoreReturn, String updatedBy, 
-			Object[] otherParameters) throws CprException, JSONException, JMSException, ParseException {
+			Map<String,Object> otherParameters) throws CprException, JSONException, JMSException, ParseException {
 		
 		return (Object) new AddUseridApi().implementApi(serviceName, db, updatedBy, 
 				serviceCoreReturn, 

@@ -9,6 +9,7 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import java.text.ParseException;
+import java.util.Map;
 
 import javax.jms.JMSException;
 
@@ -51,7 +52,7 @@ public class AddAddressImpl extends BaseServiceImpl {
 	@Override
 	public void runService(String serviceName, Database db,
 			ServiceCoreReturn serviceCoreReturn, String updatedBy,
-			Object[] otherParameters) throws CprException, JSONException, ParseException, JMSException {
+			Map<String,Object> otherParameters) throws CprException, JSONException, ParseException, JMSException {
 
 		new AddAddressApi().implementApi(serviceName, db, updatedBy, serviceCoreReturn, otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}

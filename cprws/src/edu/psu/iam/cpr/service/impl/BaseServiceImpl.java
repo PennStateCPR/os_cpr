@@ -1,6 +1,7 @@
 package edu.psu.iam.cpr.service.impl;
 
 import java.text.ParseException;
+import java.util.Map;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
@@ -15,6 +16,7 @@ import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.service.helper.ServiceHelper;
+import edu.psu.iam.cpr.core.api.helper.ApiHelper;
 import edu.psu.iam.cpr.core.api.returns.ServiceReturn;
 
 public abstract class BaseServiceImpl {
@@ -39,7 +41,7 @@ public abstract class BaseServiceImpl {
 	 */
 	public Object implementService(String serviceName, String ipAddress,
 			String principalId, String password, String updatedBy,
-			String identifierType, String identifier, Object[] otherParameters) {
+			String identifierType, String identifier, Map<String,Object> otherParameters) {
 		
 		ServiceCoreReturn serviceCoreReturn = null;
 		final ServiceCore serviceCore = new ServiceCore();
@@ -54,22 +56,9 @@ public abstract class BaseServiceImpl {
 			parameters.append("updatedBy=[").append(updatedBy).append("] ");
 			parameters.append("identifierType=[").append(identifierType).append("] ");
 			parameters.append("identifier=[").append(identifier).append("] ");
-			
-			if (otherParameters != null) {
-				for (int i = 0; i < otherParameters.length; ++i) {
-					parameters.append("parameter");
-					parameters.append((i+1));
-					parameters.append("=[");
-					try {
-						parameters.append((String) otherParameters[i]);
-					}
-					catch (ClassCastException e) {
-						parameters.append("Non-String Argument");
-					}
-					parameters.append("] ");
-				}
-			}
-			LOG4J_LOGGER.info(serviceName + ": Input Parameters = " + parameters.toString());
+            parameters.append(ApiHelper.dumpParameters(otherParameters));
+
+            LOG4J_LOGGER.info(serviceName + ": Input Parameters = " + parameters.toString());
 			
 			// Init the service.
 			serviceCoreReturn = serviceHelper.initializeService(serviceName, 
@@ -130,7 +119,7 @@ public abstract class BaseServiceImpl {
 	}
 	
 	public abstract void runService(String serviceName, Database db, ServiceCoreReturn serviceCoreReturn, 
-					String updatedBy, Object[] otherParameters) throws CprException, JSONException, JMSException, ParseException;
+					String updatedBy, Map<String,Object> otherParameters) throws CprException, JSONException, JMSException, ParseException;
 
 	
 }

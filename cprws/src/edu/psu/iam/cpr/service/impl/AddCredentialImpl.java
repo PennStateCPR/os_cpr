@@ -2,6 +2,7 @@
 package edu.psu.iam.cpr.service.impl;
 
 import java.text.ParseException;
+import java.util.Map;
 
 import javax.jms.JMSException;
 
@@ -52,7 +53,7 @@ public class AddCredentialImpl extends BaseServiceImpl {
 	@Override
 	public void runService(String serviceName, Database db,
 			ServiceCoreReturn serviceCoreReturn, String updatedBy,
-			Object[] otherParameters) throws CprException, JSONException, ParseException, JMSException {
+			Map<String,Object> otherParameters) throws CprException, JSONException, ParseException, JMSException {
 		
 		new AddCredentialApi().implementApi(serviceName, db, updatedBy, serviceCoreReturn, otherParameters, 
 				ApiHelper.DO_AUTHZ_CHECK);

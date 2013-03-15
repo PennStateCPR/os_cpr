@@ -2,6 +2,7 @@
 package edu.psu.iam.cpr.service.impl;
 
 import java.text.ParseException;
+import java.util.Map;
 
 import javax.jms.JMSException;
 
@@ -57,7 +58,7 @@ public class GetConfidentialityImpl extends ExtendedBaseServiceImpl {
 	@Override
 	public Object runService(Database db, String serviceName,
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
-			Object[] otherParameters) throws CprException, JMSException, JSONException, ParseException {
+			Map<String,Object> otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
 		return (Object) new GetConfidentialityApi().implementApi(serviceName, db, updatedBy, 
 				serviceCoreReturn, 

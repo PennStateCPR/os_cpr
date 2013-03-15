@@ -1,6 +1,11 @@
 /* SVN FILE: $Id: CprwsService.java 5343 2012-09-27 14:56:40Z jvuccolo $ */
 package edu.psu.iam.cpr.service;
 
+import static edu.psu.iam.cpr.core.api.BaseApi.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -178,11 +183,24 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="campusCode", mode=Mode.IN) String campusCode,
 			@WebParam(name="verifyAddressFlag", mode=Mode.IN) String verifyAddressFlag) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new AddAddressImpl().implementService(
-					CprServiceName.AddAddress.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{addressType, documentType, address1, address2, address3, city,
-									stateOrProvince, postalCode, countryCode, campusCode, verifyAddressFlag});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String,Object>(11);
+        otherParameters.put(ADDRESS_TYPE_KEY, addressType);
+        otherParameters.put(DOCUMENT_TYPE_KEY, documentType);
+        otherParameters.put(ADDRESS1_KEY, address1);
+        otherParameters.put(ADDRESS2_KEY, address2);
+        otherParameters.put(ADDRESS3_KEY, address3);
+        otherParameters.put(CITY_KEY, city);
+        otherParameters.put(STATE_KEY, stateOrProvince);
+        otherParameters.put(POSTALCODE_KEY, postalCode);
+        otherParameters.put(COUNTRY_KEY, countryCode);
+        otherParameters.put(CAMPUS_KEY, campusCode);
+        otherParameters.put(VERIFY_ADDRESS_FLAG_KEY, verifyAddressFlag);
+
+        return (ServiceReturn) new AddAddressImpl().implementService(
+                                CprServiceName.AddAddress.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);	
 	}
 	
 	/**
@@ -215,10 +233,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="documentType", mode=Mode.IN) String documentType,
 			@WebParam(name="groupId", mode=Mode.IN) Long groupId) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new ArchiveAddressImpl().implementService(
-						CprServiceName.ArchiveAddress.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{addressType, documentType, groupId});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(3);
+        otherParameters.put(ADDRESS_TYPE_KEY, addressType);
+        otherParameters.put(DOCUMENT_TYPE_KEY, documentType);
+        otherParameters.put(GROUP_ID_KEY, groupId);
+
+        return (ServiceReturn) new ArchiveAddressImpl().implementService(
+                                        CprServiceName.ArchiveAddress.toString(), request.getRemoteAddr(), principalId, password, 
+                                        updatedBy, identifierType, identifier, otherParameters);	
 	}
 	
 	/**
@@ -256,16 +280,22 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="returnHistory", mode=Mode.IN)
 			String returnHistory) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (AddressServiceReturn) new GetAddressImpl().implementService(
-						CprServiceName.GetAddress.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{addressType, returnHistory});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(ADDRESS_TYPE_KEY, addressType);
+        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
+        return (AddressServiceReturn) new GetAddressImpl().implementService(
+                                        CprServiceName.GetAddress.toString(), request.getRemoteAddr(), principalId, password, 
+                                        requestedBy, identifierType, identifier, otherParameters);
 	}
 
 	/**
 	 * This function provides the implementation for the SetPrimaryAddressByType SOAP web service.  SetPrimaryAddressByType will allow 
 	 * authorized registration authorities to specify a primary address within a type for a person in the Central Person Registry.  
-	 * The RA must specify the type of the address, document type if necessary and groupId to be primary. Authorization checks are made to determine if the RA agent is 
+	 * The RA must specify the type of the address, document type if necessary and groupId to be primary. Authorization checks 
+	 * are made to determine if the RA agent is 
 	 * allowed to call the service and to set the primary for the particular address type.
 	 *  
 	 * @param principalId service principal identifier.
@@ -292,10 +322,17 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="documentType", mode=Mode.IN) String documentType,
 			@WebParam(name="groupId", mode=Mode.IN) Long groupId) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new SetPrimaryAddressByTypeImpl().implementService(
-						CprServiceName.SetPrimaryAddressByType.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{addressType, documentType, groupId});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(3);
+        otherParameters.put(ADDRESS_TYPE_KEY, addressType);
+        otherParameters.put(DOCUMENT_TYPE_KEY, documentType);
+        otherParameters.put(GROUP_ID_KEY, groupId);
+
+        return (ServiceReturn) new SetPrimaryAddressByTypeImpl().implementService(
+                                        CprServiceName.SetPrimaryAddressByType.toString(), request.getRemoteAddr(), principalId, 
+                                        password, updatedBy, identifierType,
+                                        identifier, otherParameters);		
 	}
 	
 	/**
@@ -348,11 +385,25 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="campusCode", mode=Mode.IN) String campusCode,
 			@WebParam(name="verifyAddressFlag", mode=Mode.IN) String verifyAddressFlag)  {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new UpdateAddressImpl().implementService(
-					CprServiceName.UpdateAddress.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{addressType, documentType, groupId, address1, address2, address3, city,
-									stateOrProvince, postalCode, countryCode, campusCode, verifyAddressFlag});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(12);
+        otherParameters.put(ADDRESS_TYPE_KEY, addressType);
+        otherParameters.put(DOCUMENT_TYPE_KEY, documentType);
+        otherParameters.put(GROUP_ID_KEY, groupId);
+        otherParameters.put(ADDRESS1_KEY, address1);
+        otherParameters.put(ADDRESS2_KEY, address2);
+        otherParameters.put(ADDRESS3_KEY, address3);
+        otherParameters.put(CITY_KEY, city);
+        otherParameters.put(STATE_KEY, stateOrProvince);
+        otherParameters.put(POSTALCODE_KEY, postalCode);
+        otherParameters.put(COUNTRY_KEY, countryCode);
+        otherParameters.put(CAMPUS_KEY, campusCode);
+        otherParameters.put(VERIFY_ADDRESS_FLAG_KEY, verifyAddressFlag);
+
+        return (ServiceReturn) new UpdateAddressImpl().implementService(
+                                CprServiceName.UpdateAddress.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);		
 	}
 	
 	/**
@@ -381,12 +432,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="identifierType", mode=Mode.IN) String identifierType, 
 			@WebParam(name="identifier", mode=Mode.IN) String identifier, 
 			@WebParam(name="affiliation", mode=Mode.IN) String affiliation) {
-			
-		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new AddAffiliationImpl().implementService(
-					CprServiceName.AddAffiliation.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{affiliation});
+
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(AFFILIATION_KEY, affiliation);
+
+        return (ServiceReturn) new AddAffiliationImpl().implementService(
+                                CprServiceName.AddAffiliation.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);		
 	}
 
 	/**
@@ -417,10 +471,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="identifier", mode=Mode.IN) String identifier, 
 			@WebParam(name="affiliation", mode=Mode.IN) String affiliation) {
 			
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new ArchiveAffiliationImpl().implementService(
-						CprServiceName.ArchiveAffiliation.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{affiliation});
+
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(AFFILIATION_KEY, affiliation);
+
+        return (ServiceReturn) new ArchiveAffiliationImpl().implementService(
+                                        CprServiceName.ArchiveAffiliation.toString(), request.getRemoteAddr(), principalId, password, 
+                                        updatedBy, identifierType,
+                                        identifier, otherParameters);		
 	}
 	/**
 	 * This function provides the implementation for the GetAffiliations SOAP web service.
@@ -510,10 +570,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="identifier", mode=Mode.IN) String identifier,
 			@WebParam(name="returnHistory", mode=Mode.IN) String returnHistory) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (AffiliationServiceReturn) new GetInternalAffiliationsImpl().implementService(
-						CprServiceName.GetInternalAffiliations.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{returnHistory});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
+        return (AffiliationServiceReturn) new GetInternalAffiliationsImpl().implementService(
+                                        CprServiceName.GetInternalAffiliations.toString(), request.getRemoteAddr(), principalId, 
+                                        password, requestedBy, identifierType,
+                                        identifier, otherParameters);		
 	}
 	
 	/**
@@ -543,10 +608,14 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="identifier", mode=Mode.IN) String identifier, 
 			@WebParam(name="affiliation", mode=Mode.IN) String affiliation) {
 			
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new UpdateAffiliationImpl().implementService(
-					CprServiceName.UpdateAffiliation.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{affiliation});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(AFFILIATION_KEY, affiliation);
+
+        return (ServiceReturn) new UpdateAffiliationImpl().implementService(
+                                CprServiceName.UpdateAffiliation.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);		
 	}
 	/**
 	 * This function provides the implementation for the SetPrimaryAffiliation SOAP web service.
@@ -576,10 +645,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="identifier", mode=Mode.IN) String identifier, 
 			@WebParam(name="affiliation", mode=Mode.IN) String affiliation) {
 			
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new SetPrimaryAffiliationImpl().implementService(
-						CprServiceName.SetPrimaryAffiliation.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{affiliation});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(AFFILIATION_KEY, affiliation);
+
+        return (ServiceReturn) new SetPrimaryAffiliationImpl().implementService(
+                                        CprServiceName.SetPrimaryAffiliation.toString(), request.getRemoteAddr(), principalId, 
+                                        password, updatedBy, identifierType,
+                                        identifier, otherParameters);		
 	}
 	
 	/**
@@ -613,10 +687,14 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="confidentialityType", mode=Mode.IN)
 			String confidentialityType) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new AddConfidentialityHoldImpl().implementService(
-					CprServiceName.AddConfidentialityHold.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{confidentialityType});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(CONFIDENTIALITY_TYPE_KEY, confidentialityType);
+
+        return (ServiceReturn) new AddConfidentialityHoldImpl().implementService(
+                                CprServiceName.AddConfidentialityHold.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);		
 	}
 
 	/**
@@ -684,10 +762,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="confidentialityType", mode=Mode.IN)
 			String confidentialityType) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new ArchiveConfidentialityHoldImpl().implementService(
-						CprServiceName.ArchiveConfidentialityHold.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{confidentialityType});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(CONFIDENTIALITY_TYPE_KEY, confidentialityType);
+
+        return (ServiceReturn) new ArchiveConfidentialityHoldImpl().implementService(
+                                        CprServiceName.ArchiveConfidentialityHold.toString(), request.getRemoteAddr(), principalId, 
+                                        password, updatedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 
 	/**
@@ -721,10 +804,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="returnHistory", mode=Mode.IN)
 			String returnHistory) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ConfidentialityServiceReturn) new GetConfidentialityImpl().implementService(
-						CprServiceName.GetConfidentialityHold.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{returnHistory});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
+        return (ConfidentialityServiceReturn) new GetConfidentialityImpl().implementService(
+                                        CprServiceName.GetConfidentialityHold.toString(), request.getRemoteAddr(), principalId, 
+                                        password, requestedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 
 	/**
@@ -762,10 +850,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="credentialData", mode=Mode.IN)
 			String credentialData) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new AddCredentialImpl().implementService(
-					CprServiceName.AddCredential.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{credentialType, credentialData});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(CREDENTIAL_TYPE_KEY, credentialType);
+        otherParameters.put(CREDENTIAL_DATA_KEY, credentialData);
+
+        return (ServiceReturn) new AddCredentialImpl().implementService(
+                                CprServiceName.AddCredential.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);	
 	}
 
 	/**
@@ -838,11 +931,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="credentialType", mode=Mode.IN)
 			String credentialType) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new ArchiveCredentialImpl().implementService(
-						CprServiceName.ArchiveCredential.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{credentialType});
-	}
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(CREDENTIAL_TYPE_KEY, credentialType);
+
+        return (ServiceReturn) new ArchiveCredentialImpl().implementService(
+                                        CprServiceName.ArchiveCredential.toString(), request.getRemoteAddr(), principalId, 
+                                        password, updatedBy, identifierType,
+                                        identifier, otherParameters);	
+    }
 
 	/**
 	 * This function provides the implementation for the GetCredential SOAP web service.  GetCredential will allow 
@@ -877,10 +975,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="returnHistory", mode=Mode.IN)
 			String returnHistory) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (CredentialServiceReturn) new GetCredentialImpl().implementService(
-						CprServiceName.GetCredential.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{credentialType, returnHistory});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(CREDENTIAL_TYPE_KEY, credentialType);
+        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
+        return (CredentialServiceReturn) new GetCredentialImpl().implementService(
+                                        CprServiceName.GetCredential.toString(), request.getRemoteAddr(), principalId, password, 
+                                        requestedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 
 	/**
@@ -915,11 +1019,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="emailAddressType", mode=Mode.IN) String emailAddressType,
 			@WebParam(name="emailAddress", mode=Mode.IN) String emailAddress ) {
 
-		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new AddEmailAddressImpl().implementService(
-					CprServiceName.AddEmailAddress.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{emailAddressType, emailAddress});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(EMAIL_ADDRESS_TYPE_KEY, emailAddressType);
+        otherParameters.put(EMAIL_ADDRESS_KEY, emailAddress);
+
+        return (ServiceReturn) new AddEmailAddressImpl().implementService(
+                                CprServiceName.AddEmailAddress.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);	
 	}
 
 	/**
@@ -954,10 +1062,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="emailAddressType", mode=Mode.IN) String emailAddressType,
 			@WebParam(name="emailAddress", mode=Mode.IN) String emailAddress ) {
 
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new UpdateEmailAddressImpl().implementService(
-					CprServiceName.UpdateEmailAddress.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{emailAddressType, emailAddress});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(EMAIL_ADDRESS_TYPE_KEY, emailAddressType);
+        otherParameters.put(EMAIL_ADDRESS_KEY, emailAddress);
+
+        return (ServiceReturn) new UpdateEmailAddressImpl().implementService(
+                                CprServiceName.UpdateEmailAddress.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);
 	}
 
 
@@ -989,10 +1102,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="identifier", mode=Mode.IN) String identifier,
 			@WebParam(name="returnHistory", mode=Mode.IN) String returnHistory) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (EmailAddressServiceReturn) new GetEmailAddressImpl().implementService(
-						CprServiceName.GetEmailAddress.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{returnHistory});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
+        return (EmailAddressServiceReturn) new GetEmailAddressImpl().implementService(
+                                        CprServiceName.GetEmailAddress.toString(), request.getRemoteAddr(), principalId, 
+                                        password, requestedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 	
 	/**
@@ -1024,10 +1142,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="identifier", mode=Mode.IN) String identifier,
 			@WebParam(name="emailAddressType", mode=Mode.IN) String emailAddressType  ) {
 
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new ArchiveEmailAddressImpl().implementService(
-						CprServiceName.ArchiveEmailAddress.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{emailAddressType});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(EMAIL_ADDRESS_KEY, emailAddressType);
+
+        return (ServiceReturn) new ArchiveEmailAddressImpl().implementService(
+                                        CprServiceName.ArchiveEmailAddress.toString(), request.getRemoteAddr(), principalId, 
+                                        password, updatedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 	
 	/** 
@@ -1053,7 +1176,8 @@ public class CprwsService implements CprwsSEI {
 	 * @param country Country for the street address. Optional. If blank, "USA" is assumed.
 	 * @param dateOfBirth full birth date in format mm/dd/yyyy or partial birth date in format mm/dd
 	 * @param gender Gender for the user to be found. Optional.
-	 * @param rankCutOff The minimum ranking to be considered a positive match. If no value provided, then cut off score will be determined by default cutoff rankings from the standard and international criteria matrices
+	 * @param rankCutOff The minimum ranking to be considered a positive match. If no value provided, 
+	 * then cut off score will be determined by default cutoff rankings from the standard and international criteria matrices
 	 *  
 	 * @return FindPersonServiceReturn
 	 * 
@@ -1083,11 +1207,31 @@ public class CprwsService implements CprwsSEI {
 		@WebParam(name="gender", mode=Mode.IN) String gender, 
 		@WebParam(name="rankCutOff", mode=Mode.IN) String rankCutOff) {
 
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (FindPersonServiceReturn) new SearchForPersonImpl().implementService(
-						CprServiceName.FindPerson.toString(), request.getRemoteAddr(), principalId, password, requestedBy, null, 
-						null, new Object[]{psuId, userId, ssn, firstName, lastName, middleName, address1, address2, address3,
-							city, state, postalCode, plus4, country, dateOfBirth, gender, rankCutOff});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String,Object>();
+        otherParameters.put(PSUID_KEY, psuId);
+        otherParameters.put(USERID_KEY, userId);
+        otherParameters.put(SSN_KEY, ssn);
+        otherParameters.put(FIRST_NAME_KEY, firstName);
+        otherParameters.put(LAST_NAME_KEY, lastName);
+        otherParameters.put(MIDDLE_NAMES_KEY, middleName);
+        otherParameters.put(ADDRESS1_KEY, address1);
+        otherParameters.put(ADDRESS2_KEY, address2);
+        otherParameters.put(ADDRESS3_KEY, address3);
+        otherParameters.put(CITY_KEY, city);
+        otherParameters.put(STATE_KEY, state);
+        otherParameters.put(POSTALCODE_KEY, postalCode);
+        otherParameters.put(PLUS4_KEY, plus4);
+        otherParameters.put(COUNTRY_KEY, country);
+        otherParameters.put(DOB_KEY, dateOfBirth);
+        otherParameters.put(GENDER_KEY, gender);
+        otherParameters.put(RANK_CUTOFF_KEY, rankCutOff);
+
+        return (FindPersonServiceReturn) new SearchForPersonImpl().implementService(
+                                        CprServiceName.FindPerson.toString(), request.getRemoteAddr(), principalId, 
+                                        password, requestedBy, null,
+                                        null, otherParameters);
 	}
 
 	/**
@@ -1118,11 +1262,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="userId", mode=Mode.IN) String userId,
 			@WebParam(name="returnHistory", mode=Mode.IN) String returnHistory)
 	{
-	
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (IAPServiceReturn) new GetPSUIAPImpl().implementService(
-						CprServiceName.GetPSUIAP.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{userId, returnHistory});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(USERID_KEY, userId);
+        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
+        return (IAPServiceReturn) new GetPSUIAPImpl().implementService(
+                                        CprServiceName.GetPSUIAP.toString(), request.getRemoteAddr(), principalId, 
+                                        password, requestedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 
 	/**
@@ -1153,11 +1302,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="userId", mode=Mode.IN) String userId,
 			@WebParam(name="federationName", mode=Mode.IN) String federationName)
 	{
-	
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (IAPServiceReturn) new GetExternalIAPImpl().implementService(
-						CprServiceName.GetExternalIAP.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{userId, federationName});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(USERID_KEY, userId);
+        otherParameters.put(FEDERATION_NAME_KEY, federationName);
+
+        return (IAPServiceReturn) new GetExternalIAPImpl().implementService(
+                                        CprServiceName.GetExternalIAP.toString(), request.getRemoteAddr(), principalId, 
+                                        password, requestedBy, identifierType,
+                                        identifier, otherParameters);
 	}
 
 	/**
@@ -1194,9 +1348,17 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name = "photoDateTaken", mode = Mode.IN) String photoDateTaken) {
 		
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		
+		final Map<String,Object> otherParameters = new HashMap<String,Object>(5);
+		otherParameters.put(ID_CARD_TYPE_KEY, idCardType);
+		otherParameters.put(ID_CARD_NUMBER_KEY, idCardNumber);
+		otherParameters.put(ID_SERIAL_NUMBER_KEY, idSerialNumber);
+		otherParameters.put(PHOTO_KEY, photo);
+		otherParameters.put(PHOTO_DATE_TAKEN_KEY, photoDateTaken);
+		
 		return (ServiceReturn) new AddIdCardImpl().implementService(
 					CprServiceName.AddIdCard.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{idCardType, idCardNumber, idSerialNumber, photo, photoDateTaken});
+									identifierType, identifier, otherParameters);
 	}
 	
 	/**
@@ -1224,9 +1386,13 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name = "idCardType", mode = Mode.IN) String idCardType) {
 		
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		
+		final Map<String,Object> otherParameters = new HashMap<String,Object>(1);
+		otherParameters.put(ID_CARD_TYPE_KEY, idCardType);
+		
 		return (ServiceReturn) new ArchiveIdCardImpl().implementService(
 						CprServiceName.ArchiveIdCard.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{idCardType});
+						identifier, otherParameters);
 	}
 	
 	/**
@@ -1263,9 +1429,14 @@ public class CprwsService implements CprwsSEI {
 			String returnHistory) {
 		
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		
+		final Map<String,Object> otherParameters = new HashMap<String,Object>(2);
+		otherParameters.put(ID_CARD_TYPE_KEY, idCardType);
+		otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
 		return (IdCardServiceReturn) new GetIdCardImpl().implementService(
 						CprServiceName.GetIdCard.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{idCardType, returnHistory});
+						identifier, otherParameters);
 	}
 	/**
 	 * This function provides the implementation for the GetIdCardNumber SOAP web service.  GetIdCardNumber will allow 
@@ -1365,10 +1536,17 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name = "eventWorkstation", mode = Mode.IN) String eventWorkstation) {
 		
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		
+		final Map<String,Object> otherParameters = new HashMap<String,Object>(5);
+		otherParameters.put(IDENTIFIER_TYPE_KEY, identifierType);
+		otherParameters.put(IDENTIFIER_KEY, identifier);
+		otherParameters.put(EVENT_USER_ID_KEY, eventUserId);
+		otherParameters.put(EVENT_IP_ADDRESS_KEY, eventIpAddress);
+		otherParameters.put(EVENT_WORKSTATION_KEY, eventWorkstation);
+
 		return (ServiceReturn) new AddIdCardPrintEventImpl().implementService(
 					CprServiceName.AddIdCardPrintEvent.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{identifierType, identifier, 
-																		eventUserId, eventIpAddress, eventWorkstation});
+									identifierType, identifier, otherParameters);
 	}
 	/**
 	 * This function provides the implementation for the GetIdCardPrintEvent SOAP web service.  GetIdCardPrintEvent will allow 
@@ -1395,9 +1573,15 @@ public class CprwsService implements CprwsSEI {
 		
 
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		
+		final Map<String,Object> otherParameters = new HashMap<String,Object>(2);
+		otherParameters.put(IDENTIFIER_TYPE_KEY, identifierType);
+		otherParameters.put(IDENTIFIER_KEY, identifier);
+		
 		return (IdCardPrintEventServiceReturn) new GetIdCardPrintEventImpl().implementService(
-						CprServiceName.GetIdCardPrintEvent.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{identifierType, identifier});
+						CprServiceName.GetIdCardPrintEvent.toString(), request.getRemoteAddr(), principalId, password, requestedBy, 
+						identifierType, 
+						identifier, otherParameters);
 	}
 	
 	/**
@@ -1447,10 +1631,19 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="suffix", mode=Mode.IN)
 			String suffix) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new AddNameImpl().implementService(
-					CprServiceName.AddName.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{nameType, documentType, firstName, middleNames, lastName, suffix});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(6);
+        otherParameters.put(NAME_TYPE_KEY, nameType);
+        otherParameters.put(DOCUMENT_TYPE_KEY, documentType);
+        otherParameters.put(FIRST_NAME_KEY, firstName);
+        otherParameters.put(MIDDLE_NAMES_KEY, middleNames);
+        otherParameters.put(LAST_NAME_KEY, lastName);
+        otherParameters.put(SUFFIX_KEY, suffix);
+
+        return (ServiceReturn) new AddNameImpl().implementService(
+                                CprServiceName.AddName.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);	
 	}
 
 	/**
@@ -1539,10 +1732,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="documentType", mode=Mode.IN)
 			String documentType) {
 
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new ArchiveNameImpl().implementService(
-						CprServiceName.ArchiveName.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{nameType, documentType});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(NAME_TYPE_KEY, nameType);
+        otherParameters.put(DOCUMENT_TYPE_KEY, documentType);
+
+        return (ServiceReturn) new ArchiveNameImpl().implementService(
+                                        CprServiceName.ArchiveName.toString(), request.getRemoteAddr(), principalId, 
+                                        password, updatedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 
 	/**
@@ -1578,10 +1777,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="returnHistory", mode=Mode.IN)
 			String returnHistory) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (NamesServiceReturn) new GetNameImpl().implementService(
-						CprServiceName.GetName.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{nameType, returnHistory});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(NAME_TYPE_KEY, nameType);
+        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
+        return (NamesServiceReturn) new GetNameImpl().implementService(
+                                        CprServiceName.GetName.toString(), request.getRemoteAddr(), principalId, 
+                                        password, requestedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 
 	/**
@@ -1623,10 +1828,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="linkedIdentifier", mode=Mode.IN)
 			String linkedIdentifier) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new AddPersonLinkageImpl().implementService(
-					CprServiceName.AddPersonLinkage.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{linkageType, linkedIdentifierType, linkedIdentifier});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(3);
+        otherParameters.put(LINKAGE_TYPE_KEY, linkageType);
+        otherParameters.put(LINKAGE_IDENTIFIER_TYPE_KEY, linkedIdentifierType);
+        otherParameters.put(LINKAGE_IDENTIFIER_KEY, linkedIdentifier);
+
+        return (ServiceReturn) new AddPersonLinkageImpl().implementService(
+                                CprServiceName.AddPersonLinkage.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);	
 	}
 
 	
@@ -1708,11 +1919,17 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="linkedIdentifier", mode=Mode.IN)
 			String linkedIdentifier) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new ArchivePersonLinkageImpl().implementService(
-						CprServiceName.ArchivePersonLinkage.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{linkageType, linkedIdentifierType, linkedIdentifier});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(3);
+        otherParameters.put(LINKAGE_TYPE_KEY, linkageType);
+        otherParameters.put(LINKAGE_IDENTIFIER_TYPE_KEY, linkedIdentifierType);
+        otherParameters.put(LINKAGE_IDENTIFIER_KEY, linkedIdentifier);
+
+        return (ServiceReturn) new ArchivePersonLinkageImpl().implementService(
+                                        CprServiceName.ArchivePersonLinkage.toString(), request.getRemoteAddr(), 
+                                        principalId, password, updatedBy, identifierType,
+                                        identifier, otherParameters);
 	}
 
 	/**
@@ -1746,10 +1963,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="returnHistory", mode=Mode.IN)
 			String returnHistory) {
 
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (PersonLinkageServiceReturn) new GetPersonLinkageImpl().implementService(
-						CprServiceName.GetPersonLinkage.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{returnHistory});
+
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
+        return (PersonLinkageServiceReturn) new GetPersonLinkageImpl().implementService(
+                                        CprServiceName.GetPersonLinkage.toString(), request.getRemoteAddr(), 
+                                        principalId, password, requestedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 		
 	/**
@@ -1863,13 +2086,46 @@ public class CprwsService implements CprwsSEI {
 			String ssn) {
 		
 		final String doFindPersonFlag = "Y";
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (PersonServiceReturn) new AddPersonImpl().implementService(
-						CprServiceName.AddPerson.toString(), request.getRemoteAddr(), principalId, password, updatedBy, null, 
-						null, new Object[]{doFindPersonFlag, assignPsuIdFlag, assignUseridFlag, gender, dob, nameType, nameDocumentType, 
-							firstName, middleNames, lastName, suffix, addressType, addressDocumentType, address1, address2, address3, 
-							city, stateOrProvince, postalCode, countryCode, campusCode,verifyAddressFlag, phoneType, phoneNumber, 
-							extension, internationalNumber, emailType, emailAddress, affiliation, ssn});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(30);
+        otherParameters.put(DO_FIND_PERSON_KEY, doFindPersonFlag);
+        otherParameters.put(ASSIGN_PSU_ID_FLAG_KEY, assignPsuIdFlag);
+        otherParameters.put(ASSIGN_USERID_FLAG_KEY, assignUseridFlag);
+        otherParameters.put(GENDER_KEY, gender);
+        otherParameters.put(DOB_KEY, dob);
+        otherParameters.put(NAME_TYPE_KEY, nameType);
+        otherParameters.put(NAME_DOCUMENT_TYPE_KEY, nameDocumentType);
+        otherParameters.put(FIRST_NAME_KEY, firstName);
+        otherParameters.put(MIDDLE_NAMES_KEY, middleNames);
+        otherParameters.put(LAST_NAME_KEY, lastName);
+        otherParameters.put(SUFFIX_KEY, suffix);
+        otherParameters.put(ADDRESS_TYPE_KEY, addressType);
+        otherParameters.put(ADDRESS_DOCUMENT_TYPE_KEY, addressDocumentType);
+        otherParameters.put(ADDRESS1_KEY, address1);
+        otherParameters.put(ADDRESS2_KEY, address2);
+        otherParameters.put(ADDRESS3_KEY, address3);
+        otherParameters.put(CITY_KEY, city);
+        otherParameters.put(STATE_KEY, stateOrProvince);
+        otherParameters.put(POSTALCODE_KEY, postalCode);
+        otherParameters.put(COUNTRY_KEY, countryCode);
+        otherParameters.put(CAMPUS_KEY, campusCode);
+        otherParameters.put(VERIFY_ADDRESS_FLAG_KEY, verifyAddressFlag);
+        otherParameters.put(PHONE_TYPE_KEY, phoneType);
+        otherParameters.put(PHONE_NUMBER_KEY, phoneNumber);
+        otherParameters.put(PHONE_EXTENSION_KEY, extension);
+        otherParameters.put(PHONE_INTERNATIONAL_NUMBER_KEY, internationalNumber);
+        otherParameters.put(EMAIL_ADDRESS_TYPE_KEY, emailType);
+        otherParameters.put(EMAIL_ADDRESS_KEY, emailAddress);
+        otherParameters.put(AFFILIATION_KEY, affiliation);
+        otherParameters.put(SSN_KEY, ssn);
+
+        return (PersonServiceReturn) new AddPersonImpl().implementService(
+                                        CprServiceName.AddPerson.toString(), request.getRemoteAddr(), principalId, 
+                                        password, updatedBy, null,
+                                        null, otherParameters);
+		
+		
 	}
 	
 	/**
@@ -1968,10 +2224,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="returnHistory", mode=Mode.IN)
 			String returnHistory) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (PersonServiceReturn) new GetPersonImpl().implementService(
-						CprServiceName.GetPerson.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{returnHistory});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
+        return (PersonServiceReturn) new GetPersonImpl().implementService(
+                                        CprServiceName.GetPerson.toString(), request.getRemoteAddr(), principalId, 
+                                        password, requestedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 
 	/**
@@ -2096,14 +2357,46 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="ssn", mode=Mode.IN) 
 			String ssn) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (PersonServiceReturn) new UpdatePersonImpl().implementService(
-						CprServiceName.UpdatePerson.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{assignPsuIdFlag, assignUseridFlag, gender, dob, nameType, nameDocumentType, firstName, 
-							middleNames, lastName, suffix, addressType, addressDocumentType, Utility.safeConvertLongToString(addressGroupId), 
-							address1, address2, address3, city, stateOrProvince, postalCode, countryCode, campusCode,verifyAddressFlag, phoneType, 
-							Utility.safeConvertLongToString(phoneGroupId), phoneNumber, extension, internationalNumber, emailType, 
-							emailAddress, affiliation, ssn});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(29);
+        otherParameters.put(ASSIGN_PSU_ID_FLAG_KEY, assignPsuIdFlag);
+        otherParameters.put(ASSIGN_USERID_FLAG_KEY, assignUseridFlag);
+        otherParameters.put(GENDER_KEY, gender);
+        otherParameters.put(DOB_KEY, dob);
+        otherParameters.put(NAME_TYPE_KEY, nameType);
+        otherParameters.put(NAME_DOCUMENT_TYPE_KEY, nameDocumentType);
+        otherParameters.put(FIRST_NAME_KEY, firstName);
+        otherParameters.put(MIDDLE_NAMES_KEY, middleNames);
+        otherParameters.put(LAST_NAME_KEY, lastName);
+        otherParameters.put(SUFFIX_KEY, suffix);
+        otherParameters.put(ADDRESS_TYPE_KEY, addressType);
+        otherParameters.put(ADDRESS_DOCUMENT_TYPE_KEY, addressDocumentType);
+        otherParameters.put(ADDRESS_GROUP_ID_KEY, Utility.safeConvertLongToString(addressGroupId));
+        otherParameters.put(ADDRESS1_KEY, address1);
+        otherParameters.put(ADDRESS2_KEY, address2);
+        otherParameters.put(ADDRESS3_KEY, address3);
+        otherParameters.put(CITY_KEY, city);
+        otherParameters.put(STATE_KEY, stateOrProvince);
+        otherParameters.put(POSTALCODE_KEY, postalCode);
+        otherParameters.put(COUNTRY_KEY, countryCode);
+        otherParameters.put(CAMPUS_KEY, campusCode);
+        otherParameters.put(VERIFY_ADDRESS_FLAG_KEY, verifyAddressFlag);
+        otherParameters.put(PHONE_TYPE_KEY, phoneType);
+        otherParameters.put(PHONE_GROUP_ID_KEY, Utility.safeConvertLongToString(phoneGroupId));
+        otherParameters.put(PHONE_NUMBER_KEY, phoneNumber);
+        otherParameters.put(PHONE_EXTENSION_KEY, extension);
+        otherParameters.put(PHONE_INTERNATIONAL_NUMBER_KEY, internationalNumber);
+        otherParameters.put(EMAIL_ADDRESS_TYPE_KEY, emailType);
+        otherParameters.put(EMAIL_ADDRESS_KEY, emailAddress);
+        otherParameters.put(AFFILIATION_KEY, affiliation);
+        otherParameters.put(SSN_KEY, ssn);
+
+
+        return (PersonServiceReturn) new UpdatePersonImpl().implementService(
+                                        CprServiceName.UpdatePerson.toString(), request.getRemoteAddr(), principalId, password, 
+                                        updatedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 		
 	/**
@@ -2139,11 +2432,19 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="extension", mode=Mode.IN) String extension,
 			@WebParam(name="internationalNumber", mode=Mode.IN) String internationalNumber) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new AddPhoneImpl().implementService(
-					CprServiceName.AddPhone.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{phoneType, phoneNumber, extension, internationalNumber});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(4);
+        otherParameters.put(PHONE_TYPE_KEY, phoneType);
+        otherParameters.put(PHONE_NUMBER_KEY, phoneNumber);
+        otherParameters.put(PHONE_EXTENSION_KEY, extension);
+        otherParameters.put(PHONE_INTERNATIONAL_NUMBER_KEY, internationalNumber);
+
+        return (ServiceReturn) new AddPhoneImpl().implementService(
+                                CprServiceName.AddPhone.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);	
 	}
+	
 	/**
 	 * This function provides the implementation for the ArchivePhone SOAP web service.
 	 * ArchivePhone  will allow authorized registration authorities to archive phone information for a person in the
@@ -2173,10 +2474,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="phoneType", mode=Mode.IN) String phoneType ,
 			@WebParam(name="groupId", mode=Mode.IN) Long groupId) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new ArchivePhoneImpl().implementService(
-						CprServiceName.ArchivePhone.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{phoneType, groupId});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(PHONE_TYPE_KEY, phoneType);
+        otherParameters.put(GROUP_ID_KEY, groupId);
+
+        return (ServiceReturn) new ArchivePhoneImpl().implementService(
+                                        CprServiceName.ArchivePhone.toString(), request.getRemoteAddr(), principalId, 
+                                        password, updatedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 	
 	/**
@@ -2207,10 +2514,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="phoneType", mode=Mode.IN) String phoneType,
 			@WebParam(name="returnHistory", mode=Mode.IN) String returnHistory) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (PhoneServiceReturn) new GetPhoneImpl().implementService(
-						CprServiceName.GetPhone.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{phoneType, returnHistory});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(PHONE_TYPE_KEY, phoneType);
+        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
+        return (PhoneServiceReturn) new GetPhoneImpl().implementService(
+                                        CprServiceName.GetPhone.toString(), request.getRemoteAddr(), principalId, 
+                                        password, requestedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 	
 	/**
@@ -2242,11 +2555,17 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="phoneType", mode=Mode.IN) String phoneType ,
 			@WebParam(name="groupId", mode=Mode.IN) Long groupId) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new SetPrimaryPhoneByTypeImpl().implementService(
-						CprServiceName.SetPrimaryPhoneByType.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{phoneType, groupId});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(PHONE_TYPE_KEY, phoneType);
+        otherParameters.put(GROUP_ID_KEY, groupId);
+
+        return (ServiceReturn) new SetPrimaryPhoneByTypeImpl().implementService(
+                                        CprServiceName.SetPrimaryPhoneByType.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
+	
 	/**
 	 * This function provides the implementation for the UpdatePhone SOAP web service.
 	 * UpdatePhone  will allow authorized registration authorities to update phone information for a person in the
@@ -2282,10 +2601,18 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="extension", mode=Mode.IN) String extension,
 			@WebParam(name="internationalNumber", mode=Mode.IN) String internationalNumber)  {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new UpdatePhoneImpl().implementService(
-					CprServiceName.UpdatePhone.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{phoneType, groupId, phoneNumber, extension, internationalNumber});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(PHONE_TYPE_KEY, phoneType);
+        otherParameters.put(GROUP_ID_KEY, groupId);
+        otherParameters.put(PHONE_NUMBER_KEY, phoneNumber);
+        otherParameters.put(PHONE_EXTENSION_KEY, extension);
+        otherParameters.put(PHONE_INTERNATIONAL_NUMBER_KEY, internationalNumber);
+
+        return (ServiceReturn) new UpdatePhoneImpl().implementService(
+                                CprServiceName.UpdatePhone.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);	
 	}
 	
 
@@ -2325,10 +2652,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="photoDateTaken", mode=Mode.IN)
 			String photoDateTaken) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new AddPhotoImpl().implementService(
-					CprServiceName.AddPhoto.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{photo, photoDateTaken});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(PHOTO_KEY, photo);
+        otherParameters.put(PHOTO_DATE_TAKEN_KEY, photoDateTaken);
+
+        return (ServiceReturn) new AddPhotoImpl().implementService(
+                                CprServiceName.AddPhoto.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);	
 	}
 
 	/**
@@ -2359,10 +2691,10 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="identifier", mode=Mode.IN)
 			String identifier) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (PhotoServiceReturn) new GetPhotoImpl().implementService(
-						CprServiceName.GetPhoto.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, null);
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+        return (PhotoServiceReturn) new GetPhotoImpl().implementService(
+                                        CprServiceName.GetPhoto.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType,
+                                        identifier, null);	
 	}
 
 	/**
@@ -2424,10 +2756,14 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="userid", mode=Mode.IN)
 			String userid) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new SecurityImpl().implementService(
-					CprServiceName.BlockUser.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{userid});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(USERID_KEY, userid);
+
+        return (ServiceReturn) new SecurityImpl().implementService(
+                        CprServiceName.BlockUser.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                        identifierType, identifier, otherParameters);	
 	}
 
 	/**
@@ -2459,10 +2795,15 @@ public class CprwsService implements CprwsSEI {
 			String identifier,
 			@WebParam( name="userid", mode=Mode.IN)
 			String userid) {
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new SecurityImpl().implementService(
-					CprServiceName.UnblockUser.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{userid});
+		
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(USERID_KEY, userid);
+
+        return (ServiceReturn) new SecurityImpl().implementService(
+                        CprServiceName.UnblockUser.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                        identifierType, identifier, otherParameters);	
 	}
 
 	/**
@@ -2496,9 +2837,13 @@ public class CprwsService implements CprwsSEI {
 			String userid) {
 		
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+		final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+		otherParameters.put(USERID_KEY, userid);
+
 		return (ServiceReturn) new SecurityImpl().implementService(
-					CprServiceName.DisableUser.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{userid});
+				CprServiceName.DisableUser.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+				identifierType, identifier, otherParameters);	
 	}
 
 	/**
@@ -2531,10 +2876,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="userid", mode=Mode.IN)
 			String userid) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new SecurityImpl().implementService(
-					CprServiceName.EnableUser.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{userid});
+        // Init the service.
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(USERID_KEY, userid);
+
+        return (ServiceReturn) new SecurityImpl().implementService(
+                        CprServiceName.EnableUser.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                        identifierType, identifier, otherParameters);	
 	}
 		
 	/**
@@ -2635,10 +2985,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="userCommentType", mode=Mode.IN) String userCommentType,
 			@WebParam(name="comment", mode=Mode.IN) String comment ) {
 
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new AddUserCommentImpl().implementService(
-					CprServiceName.AddUserComment.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{userId, userCommentType, comment});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(3);
+        otherParameters.put(USERID_KEY, userId);
+        otherParameters.put(USER_COMMENT_TYPE_KEY, userCommentType);
+        otherParameters.put(USER_COMMENT_KEY, comment);
+
+        return (ServiceReturn) new AddUserCommentImpl().implementService(
+                                CprServiceName.AddUserComment.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);	
 	}
 
 
@@ -2676,10 +3032,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="userCommentType", mode=Mode.IN) String userCommentType,
 			@WebParam(name="comment", mode=Mode.IN) String comment ) {
 
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new UpdateUserCommentImpl().implementService(
-					CprServiceName.UpdateUserComment.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									identifierType, identifier, new Object[]{userId, userCommentType, comment});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(3);
+        otherParameters.put(USERID_KEY, userId);
+        otherParameters.put(USER_COMMENT_TYPE_KEY, userCommentType);
+        otherParameters.put(USER_COMMENT_KEY, comment);
+
+        return (ServiceReturn) new UpdateUserCommentImpl().implementService(
+                                CprServiceName.UpdateUserComment.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                identifierType, identifier, otherParameters);	
 	}
 
 
@@ -2715,10 +3077,17 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="userCommentType", mode=Mode.IN) String userCommentType,
 			@WebParam(name="returnHistory", mode=Mode.IN) String returnHistory) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (UserCommentServiceReturn) new GetUserCommentsImpl().implementService(
-						CprServiceName.GetUserComments.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{userId, userCommentType, returnHistory});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(3);
+        otherParameters.put(USERID_KEY, userId);
+        otherParameters.put(USER_COMMENT_TYPE_KEY, userCommentType);
+        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
+        return (UserCommentServiceReturn) new GetUserCommentsImpl().implementService(
+                                        CprServiceName.GetUserComments.toString(), request.getRemoteAddr(), 
+                                        principalId, password, requestedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 
 	/**
@@ -2753,10 +3122,16 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="userId", mode=Mode.IN) String userId,
 			@WebParam(name="userCommentType", mode=Mode.IN) String userCommentType) {
 
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new ArchiveUserCommentImpl().implementService(
-						CprServiceName.ArchiveUserComment.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{userId, userCommentType});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(USERID_KEY, userId);
+        otherParameters.put(USER_COMMENT_TYPE_KEY, userCommentType);
+
+        return (ServiceReturn) new ArchiveUserCommentImpl().implementService(
+                                        CprServiceName.ArchiveUserComment.toString(), request.getRemoteAddr(), principalId, 
+                                        password, updatedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 	
 	/**
@@ -2821,10 +3196,14 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="userid", mode=Mode.IN) 
 			String userid) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new AddSpecialUseridImpl().implementService(
-					CprServiceName.AddSpecialUserid.toString(), request.getRemoteAddr(), principalId, password, updatedBy, 
-									"PERSON_ID", Integer.toString(personId), new Object[]{userid});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(USERID_KEY, userid);
+
+        return (ServiceReturn) new AddSpecialUseridImpl().implementService(
+                                CprServiceName.AddSpecialUserid.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
+                                                                "PERSON_ID", Integer.toString(personId), otherParameters);	
 	}
 
 	/**
@@ -2858,10 +3237,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="returnHistory", mode=Mode.IN)
 			String returnHistory) {
 
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (UseridServiceReturn) new GetUseridImpl().implementService(
-						CprServiceName.GetUserid.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{returnHistory});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
+        return (UseridServiceReturn) new GetUseridImpl().implementService(
+                                        CprServiceName.GetUserid.toString(), request.getRemoteAddr(), principalId, password, 
+                                        requestedBy, identifierType,
+                                        identifier, otherParameters);	
 	}	
 
 	/**
@@ -2894,11 +3278,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="userid", mode=Mode.IN) 
 			String userid) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new SetPrimaryUseridImpl().implementService(
-						CprServiceName.SetPrimaryUserid.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{userid});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(USERID_KEY, userid);
+
+        return (ServiceReturn) new SetPrimaryUseridImpl().implementService(
+                                        CprServiceName.SetPrimaryUserid.toString(), request.getRemoteAddr(), principalId, 
+                                        password, updatedBy, identifierType,
+                                        identifier, otherParameters);
 	}
 	
 	/**
@@ -2931,10 +3319,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="userid", mode=Mode.IN) 
 			String userid) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new ArchiveUseridImpl().implementService(
-						CprServiceName.ArchiveUserid.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{userid});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(USERID_KEY, userid);
+
+        return (ServiceReturn) new ArchiveUseridImpl().implementService(
+                                        CprServiceName.ArchiveUserid.toString(), request.getRemoteAddr(), principalId, 
+                                        password, updatedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 	
 	/**
@@ -2967,10 +3360,15 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="userid", mode=Mode.IN) 
 			String userid) {
 		
-		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
-		return (ServiceReturn) new UnarchiveUseridImpl().implementService(
-						CprServiceName.UnarchiveUserid.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{userid});
+        final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(USERID_KEY, userid);
+
+        return (ServiceReturn) new UnarchiveUseridImpl().implementService(
+                                        CprServiceName.UnarchiveUserid.toString(), request.getRemoteAddr(), principalId, 
+                                        password, updatedBy, identifierType,
+                                        identifier, otherParameters);	
 	}
 	
 	/**
@@ -3006,9 +3404,14 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="registryIdentifierValue", mode=Mode.IN)
 			String registryIdentifierValue) {
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(IDENTIFIER_TYPE_KEY, registryIdentifierType);
+        otherParameters.put(IDENTIFIER_KEY, registryIdentifierValue);
+
 		return (ServiceReturn) new AddPersonIdentifierImpl().implementService(
 						CprServiceName.AddPersonIdentifier.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{registryIdentifierType, registryIdentifierValue});
+						identifier, otherParameters);
 	}
 
 	/**
@@ -3076,9 +3479,13 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="registryIdentifierType", mode=Mode.IN) 
 			String registryIdentifierType) {
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(IDENTIFIER_TYPE_KEY, registryIdentifierType);
 		return (ServiceReturn) new ArchivePersonIdentifierImpl().implementService(
-						CprServiceName.ArchivePersonIdentifier.toString(), request.getRemoteAddr(), principalId, password, updatedBy, identifierType, 
-						identifier, new Object[]{registryIdentifierType});
+						CprServiceName.ArchivePersonIdentifier.toString(), request.getRemoteAddr(), principalId, password, 
+						updatedBy, identifierType, 
+						identifier, otherParameters);
 	}
 	
 	/**
@@ -3113,8 +3520,14 @@ public class CprwsService implements CprwsSEI {
 			@WebParam(name="returnHistory", mode=Mode.IN)
 			String returnHistory) {
 		final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+		
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(IDENTIFIER_TYPE_KEY, registryIdentifierType);
+        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
 		return (PersonIdentifierServiceReturn) new GetPersonIdentifierImpl().implementService(
-						CprServiceName.GetPersonIdentifier.toString(), request.getRemoteAddr(), principalId, password, requestedBy, identifierType, 
-						identifier, new Object[]{registryIdentifierType, returnHistory});
+						CprServiceName.GetPersonIdentifier.toString(), request.getRemoteAddr(), principalId, password, 
+						requestedBy, identifierType, 
+						identifier, otherParameters);
 	}
 }
