@@ -85,7 +85,7 @@ public abstract class BaseApi {
 	public static final String LINKAGE_IDENTIFIER_KEY = "linkage_identifier";
 	public static final String PHOTO_KEY = "photo";
 	public static final String PHOTO_DATE_TAKEN_KEY = "photo_date_taken";
-	public static final String USER_COMMENT_TYPE_KEY = "user_comment";
+	public static final String USER_COMMENT_TYPE_KEY = "user_comment_type";
 	public static final String USER_COMMENT_KEY = "user_comment";
 	public static final String GROUP_ID_KEY = "group_id_key";
 	public static final String RANK_CUTOFF_KEY = "rank_cutoff";
