@@ -1,6 +1,8 @@
 /* SVN FILE: $Id: SoapClient.java 5992 2013-01-09 18:37:24Z slk24 $ */
 package edu.psu.iam.cpr.ip.ui.soap;
 
+import static edu.psu.iam.cpr.core.api.BaseApi.*;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -25,7 +27,6 @@ import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.types.CprServiceName;
 import edu.psu.iam.cpr.core.error.ReturnType;
-import edu.psu.iam.cpr.core.service.helper.ServiceCore;
 import edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn;
 import edu.psu.iam.cpr.core.service.returns.PhoneReturn;
 import edu.psu.iam.cpr.ip.ui.common.UIConstants;
@@ -81,13 +82,17 @@ public final class SoapClient {
 
 			db.setSession(apiSession);
 			serviceCoreReturn.setPersonId(100000L);
+			
+	        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+	        otherParameters.put(PHONE_TYPE_KEY, phoneType);
+	        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
 
 			phoneServiceReturn = (PhoneServiceReturn) new GetPhoneApi().implementApi(
 					CprServiceName.GetPhone.toString(), 
 					db, 
 					updatedBy, 
 					serviceCoreReturn, 
-					new Object[]{phoneType, returnHistory}, 
+					otherParameters, 
 					ApiHelper.SKIP_AUTHZ_CHECK);
 
 			apiSession.getTransaction().commit();
@@ -125,12 +130,15 @@ public final class SoapClient {
 			db.setSession(apiSession);
 			serviceCoreReturn.setPersonId(100000L);
 
-			personServiceReturn = (PersonServiceReturn) new GetPersonApi().implementApi(
+	        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+	        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+
+	        personServiceReturn = (PersonServiceReturn) new GetPersonApi().implementApi(
 					CprServiceName.GetPerson.toString(), 
 					db, 
 					updatedBy, 
 					serviceCoreReturn, 
-					new Object[]{returnHistory}, 
+					otherParameters, 
 					ApiHelper.SKIP_AUTHZ_CHECK);
 
 			apiSession.getTransaction().commit();
@@ -183,28 +191,31 @@ public final class SoapClient {
 
 			db.setSession(apiSession);
 
+	        final Map<String, Object> otherParameters = new HashMap<String,Object>();
+	        otherParameters.put(PSUID_KEY, findPersonData.get("pennStateId"));
+	        otherParameters.put(USERID_KEY, findPersonData.get("userId"));
+	        otherParameters.put(SSN_KEY, findPersonData.get(UIConstants.SSN));
+	        otherParameters.put(FIRST_NAME_KEY, findPersonData.get(UIConstants.FIRST_NAME));
+	        otherParameters.put(LAST_NAME_KEY, findPersonData.get(UIConstants.LAST_NAME));
+	        otherParameters.put(MIDDLE_NAMES_KEY, findPersonData.get(UIConstants.MIDDLE_NAMES));
+	        otherParameters.put(ADDRESS1_KEY, findPersonData.get(UIConstants.ADDRESS1));
+	        otherParameters.put(ADDRESS2_KEY, findPersonData.get(UIConstants.ADDRESS2));
+	        otherParameters.put(ADDRESS3_KEY, findPersonData.get(UIConstants.ADDRESS3));
+	        otherParameters.put(CITY_KEY, findPersonData.get(UIConstants.CITY));
+	        otherParameters.put(STATE_KEY, findPersonData.get(UIConstants.STATE_OR_PROV));
+	        otherParameters.put(POSTALCODE_KEY, findPersonData.get(UIConstants.POSTAL_CODE));
+	        otherParameters.put(PLUS4_KEY, findPersonData.get("plus4"));
+	        otherParameters.put(COUNTRY_KEY, findPersonData.get(UIConstants.COUNTRY));
+	        otherParameters.put(DOB_KEY, findPersonData.get(UIConstants.DOB));
+	        otherParameters.put(GENDER_KEY, findPersonData.get(UIConstants.GENDER));
+	        otherParameters.put(RANK_CUTOFF_KEY, findPersonData.get("rankCutOff"));
+	        
 			findPersonServiceReturn = (FindPersonServiceReturn) new SearchForPersonApi().implementApi(
 					CprServiceName.FindPerson.toString(), 
 					db, 
 					findPersonData.get(UIConstants.REQUESTED_BY), 
 					serviceCoreReturn, 
-					new Object[] {findPersonData.get("pennStateId"), 
-						findPersonData.get("userId"), 
-						findPersonData.get(UIConstants.SSN), 
-						findPersonData.get(UIConstants.FIRST_NAME), 
-						findPersonData.get(UIConstants.LAST_NAME), 
-						findPersonData.get(UIConstants.MIDDLE_NAMES), 
-						findPersonData.get(UIConstants.ADDRESS1), 
-						findPersonData.get(UIConstants.ADDRESS2), 
-						findPersonData.get(UIConstants.ADDRESS3), 
-						findPersonData.get(UIConstants.CITY),
-						findPersonData.get(UIConstants.STATE_OR_PROV), 
-						findPersonData.get(UIConstants.POSTAL_CODE), 
-						findPersonData.get("plus4"), 
-						findPersonData.get(UIConstants.COUNTRY), 
-						findPersonData.get(UIConstants.DOB),
-						findPersonData.get(UIConstants.GENDER), 
-						findPersonData.get("rankCutOff")}, 
+					otherParameters, 
 					ApiHelper.SKIP_AUTHZ_CHECK);
 
 			apiSession.getTransaction().commit();
@@ -253,44 +264,46 @@ public final class SoapClient {
 			apiSession.getTransaction().begin();
 
 			db.setSession(apiSession);
-			ServiceCoreReturn addPersonServiceCoreReturn = new ServiceCore().initializeLogging(db, 
-					CprServiceName.AddPerson.toString(), "tbsl", "tbsl", addPerson.get(UIConstants.REQUESTED_BY));
+			serviceCoreReturn.setPersonId(-1L);
 
-			personServiceReturn = (PersonServiceReturn) new AddPersonApi().implementApi(
+	        final Map<String, Object> otherParameters = new HashMap<String, Object>(30);
+	        otherParameters.put(DO_FIND_PERSON_KEY, UIConstants.LETTER_N);
+	        otherParameters.put(ASSIGN_PSU_ID_FLAG_KEY, addPerson.get(UIConstants.ASSIGN_PSU_ID));
+	        otherParameters.put(ASSIGN_USERID_FLAG_KEY, addPerson.get(UIConstants.ASSIGN_USER_ID));
+	        otherParameters.put(GENDER_KEY, addPerson.get(UIConstants.GENDER));
+	        otherParameters.put(DOB_KEY, addPerson.get(UIConstants.DOB));
+	        otherParameters.put(NAME_TYPE_KEY, addPerson.get(UIConstants.NAME_TYPE));
+	        otherParameters.put(NAME_DOCUMENT_TYPE_KEY, addPerson.get(UIConstants.NAME_DOCUMENT_TYPE));
+	        otherParameters.put(FIRST_NAME_KEY, addPerson.get(UIConstants.FIRST_NAME));
+	        otherParameters.put(MIDDLE_NAMES_KEY, addPerson.get(UIConstants.MIDDLE_NAMES));
+	        otherParameters.put(LAST_NAME_KEY, addPerson.get(UIConstants.LAST_NAME));
+	        otherParameters.put(SUFFIX_KEY, addPerson.get(UIConstants.SUFFIX));
+	        otherParameters.put(ADDRESS_TYPE_KEY, addPerson.get(UIConstants.ADDRESS_TYPE));
+	        otherParameters.put(ADDRESS_DOCUMENT_TYPE_KEY, addPerson.get(UIConstants.ADDRESS_DOCUMENT_TYPE));
+	        otherParameters.put(ADDRESS1_KEY, addPerson.get(UIConstants.ADDRESS1));
+	        otherParameters.put(ADDRESS2_KEY, addPerson.get(UIConstants.ADDRESS2));
+	        otherParameters.put(ADDRESS3_KEY, addPerson.get(UIConstants.ADDRESS3));
+	        otherParameters.put(CITY_KEY, addPerson.get(UIConstants.CITY));
+	        otherParameters.put(STATE_KEY, addPerson.get(UIConstants.STATE_OR_PROV));
+	        otherParameters.put(POSTALCODE_KEY, addPerson.get(UIConstants.POSTAL_CODE));
+	        otherParameters.put(COUNTRY_KEY, addPerson.get(UIConstants.COUNTRY));
+	        otherParameters.put(CAMPUS_KEY, addPerson.get(UIConstants.CAMPUS));
+	        otherParameters.put(VERIFY_ADDRESS_FLAG_KEY, UIConstants.LETTER_N);
+	        otherParameters.put(PHONE_TYPE_KEY, addPerson.get(UIConstants.PHONE_TYPE));
+	        otherParameters.put(PHONE_NUMBER_KEY, addPerson.get(UIConstants.PHONE_NUMBER));
+	        otherParameters.put(PHONE_EXTENSION_KEY, addPerson.get(UIConstants.EXTENSION));
+	        otherParameters.put(PHONE_INTERNATIONAL_NUMBER_KEY, addPerson.get(UIConstants.INTERNATIONAL_NUMBER));
+	        otherParameters.put(EMAIL_ADDRESS_TYPE_KEY, addPerson.get(UIConstants.EMAIL_TYPE));
+	        otherParameters.put(EMAIL_ADDRESS_KEY, addPerson.get(UIConstants.EMAIL));
+	        otherParameters.put(AFFILIATION_KEY, addPerson.get(UIConstants.AFFILIATION));
+	        otherParameters.put(SSN_KEY, addPerson.get(UIConstants.SSN));
+
+	        personServiceReturn = (PersonServiceReturn) new AddPersonApi().implementApi(
 					CprServiceName.AddPerson.toString(), 
 					db, 
 					addPerson.get(UIConstants.REQUESTED_BY), 
-					addPersonServiceCoreReturn, 
-					new Object[] {UIConstants.LETTER_N,
-						addPerson.get(UIConstants.ASSIGN_PSU_ID), 
-						addPerson.get(UIConstants.ASSIGN_USER_ID), 
-						addPerson.get(UIConstants.GENDER),  
-						addPerson.get(UIConstants.DOB), 
-						addPerson.get(UIConstants.NAME_TYPE), 
-						addPerson.get(UIConstants.NAME_DOCUMENT_TYPE), 
-						addPerson.get(UIConstants.FIRST_NAME), 
-						addPerson.get(UIConstants.MIDDLE_NAMES), 
-						addPerson.get(UIConstants.LAST_NAME), 
-						addPerson.get(UIConstants.SUFFIX), 
-						addPerson.get(UIConstants.ADDRESS_TYPE), 
-						addPerson.get(UIConstants.ADDRESS_DOCUMENT_TYPE), 
-						addPerson.get(UIConstants.ADDRESS1),  
-						addPerson.get(UIConstants.ADDRESS2),  
-						addPerson.get(UIConstants.ADDRESS3), 
-						addPerson.get(UIConstants.CITY), 
-						addPerson.get(UIConstants.STATE_OR_PROV),  
-						addPerson.get(UIConstants.POSTAL_CODE), 
-						addPerson.get(UIConstants.COUNTRY), 
-						addPerson.get(UIConstants.CAMPUS),
-						UIConstants.LETTER_N,
-						addPerson.get(UIConstants.PHONE_TYPE), 
-						addPerson.get(UIConstants.PHONE_NUMBER), 
-						addPerson.get(UIConstants.EXTENSION), 
-						addPerson.get(UIConstants.INTERNATIONAL_NUMBER), 
-						addPerson.get(UIConstants.EMAIL_TYPE), 
-						addPerson.get(UIConstants.EMAIL), 
-						addPerson.get(UIConstants.AFFILIATION), 
-						addPerson.get(UIConstants.SSN)}, 
+					serviceCoreReturn, 
+					otherParameters, 
 					ApiHelper.SKIP_AUTHZ_CHECK);
 
 			apiSession.getTransaction().commit();
@@ -353,42 +366,45 @@ public final class SoapClient {
 			db.setSession(apiSession);
 			serviceCoreReturn.setPersonId(Long.valueOf(updatePersonData.get(UIConstants.IDENTIFIER)));
 
+	        final Map<String, Object> otherParameters = new HashMap<String, Object>(29);
+	        otherParameters.put(ASSIGN_PSU_ID_FLAG_KEY, updatePersonData.get(UIConstants.ASSIGN_PSU_ID));
+	        otherParameters.put(ASSIGN_USERID_FLAG_KEY, updatePersonData.get(UIConstants.ASSIGN_USER_ID));
+	        otherParameters.put(GENDER_KEY, updatePersonData.get(UIConstants.GENDER));
+	        otherParameters.put(DOB_KEY, updatePersonData.get(UIConstants.DOB));
+	        otherParameters.put(NAME_TYPE_KEY, updatePersonData.get(UIConstants.NAME_TYPE));
+	        otherParameters.put(NAME_DOCUMENT_TYPE_KEY, updatePersonData.get(UIConstants.NAME_DOCUMENT_TYPE));
+	        otherParameters.put(FIRST_NAME_KEY, updatePersonData.get(UIConstants.FIRST_NAME));
+	        otherParameters.put(MIDDLE_NAMES_KEY, updatePersonData.get(UIConstants.MIDDLE_NAMES));
+	        otherParameters.put(LAST_NAME_KEY, updatePersonData.get(UIConstants.LAST_NAME));
+	        otherParameters.put(SUFFIX_KEY, updatePersonData.get(UIConstants.SUFFIX));
+	        otherParameters.put(ADDRESS_TYPE_KEY, updatePersonData.get(UIConstants.ADDRESS_TYPE));
+	        otherParameters.put(ADDRESS_DOCUMENT_TYPE_KEY, updatePersonData.get(UIConstants.ADDRESS_DOCUMENT_TYPE));
+	        otherParameters.put(ADDRESS_GROUP_ID_KEY, addressGroupId);
+	        otherParameters.put(ADDRESS1_KEY, updatePersonData.get(UIConstants.ADDRESS1));
+	        otherParameters.put(ADDRESS2_KEY, updatePersonData.get(UIConstants.ADDRESS2));
+	        otherParameters.put(ADDRESS3_KEY, updatePersonData.get(UIConstants.ADDRESS3));
+	        otherParameters.put(CITY_KEY, updatePersonData.get(UIConstants.CITY));
+	        otherParameters.put(STATE_KEY, updatePersonData.get(UIConstants.STATE_OR_PROV));
+	        otherParameters.put(POSTALCODE_KEY, updatePersonData.get(UIConstants.POSTAL_CODE));
+	        otherParameters.put(COUNTRY_KEY, updatePersonData.get(UIConstants.COUNTRY));
+	        otherParameters.put(CAMPUS_KEY, updatePersonData.get(UIConstants.CAMPUS));
+	        otherParameters.put(VERIFY_ADDRESS_FLAG_KEY, UIConstants.LETTER_N);
+	        otherParameters.put(PHONE_TYPE_KEY, updatePersonData.get(UIConstants.PHONE_TYPE));
+	        otherParameters.put(PHONE_GROUP_ID_KEY, phoneGroupId);
+	        otherParameters.put(PHONE_NUMBER_KEY, updatePersonData.get(UIConstants.PHONE_NUMBER));
+	        otherParameters.put(PHONE_EXTENSION_KEY, updatePersonData.get(UIConstants.EXTENSION));
+	        otherParameters.put(PHONE_INTERNATIONAL_NUMBER_KEY, updatePersonData.get(UIConstants.INTERNATIONAL_NUMBER));
+	        otherParameters.put(EMAIL_ADDRESS_TYPE_KEY, updatePersonData.get(UIConstants.EMAIL_TYPE));
+	        otherParameters.put(EMAIL_ADDRESS_KEY, updatePersonData.get(UIConstants.EMAIL));
+	        otherParameters.put(AFFILIATION_KEY, updatePersonData.get(UIConstants.AFFILIATION));
+	        otherParameters.put(SSN_KEY, updatePersonData.get(UIConstants.SSN));
+	        
 			personServiceReturn = (PersonServiceReturn) new UpdatePersonApi().implementApi(
 					CprServiceName.UpdatePerson.toString(), 
 					db, 
 					updatePersonData.get(UIConstants.REQUESTED_BY), 
 					serviceCoreReturn, 
-					new Object[] {updatePersonData.get(UIConstants.ASSIGN_PSU_ID), 
-						updatePersonData.get(UIConstants.ASSIGN_USER_ID), 
-						updatePersonData.get(UIConstants.GENDER),  
-						updatePersonData.get(UIConstants.DOB), 
-						updatePersonData.get(UIConstants.NAME_TYPE), 
-						updatePersonData.get(UIConstants.NAME_DOCUMENT_TYPE), 
-						updatePersonData.get(UIConstants.FIRST_NAME), 
-						updatePersonData.get(UIConstants.MIDDLE_NAMES), 
-						updatePersonData.get(UIConstants.LAST_NAME), 
-						updatePersonData.get(UIConstants.SUFFIX), 
-						updatePersonData.get(UIConstants.ADDRESS_TYPE), 
-						updatePersonData.get(UIConstants.ADDRESS_DOCUMENT_TYPE), 
-						addressGroupId, 
-						updatePersonData.get(UIConstants.ADDRESS1),  
-						updatePersonData.get(UIConstants.ADDRESS2),  
-						updatePersonData.get(UIConstants.ADDRESS3), 
-						updatePersonData.get(UIConstants.CITY), 
-						updatePersonData.get(UIConstants.STATE_OR_PROV),  
-						updatePersonData.get(UIConstants.POSTAL_CODE), 
-						updatePersonData.get(UIConstants.COUNTRY), 
-						updatePersonData.get(UIConstants.CAMPUS), 
-						UIConstants.LETTER_N,
-						updatePersonData.get(UIConstants.PHONE_TYPE), 
-						phoneGroupId, 
-						updatePersonData.get(UIConstants.PHONE_NUMBER), 
-						updatePersonData.get(UIConstants.EXTENSION), 
-						updatePersonData.get(UIConstants.INTERNATIONAL_NUMBER), 
-						updatePersonData.get(UIConstants.EMAIL_TYPE), 
-						updatePersonData.get(UIConstants.EMAIL), 
-						updatePersonData.get(UIConstants.AFFILIATION), 
-						updatePersonData.get(UIConstants.SSN)}, 
+					otherParameters, 
 					ApiHelper.SKIP_AUTHZ_CHECK);
 
 			apiSession.getTransaction().commit();
@@ -434,22 +450,25 @@ public final class SoapClient {
 			db.setSession(apiSession);
 			serviceCoreReturn.setPersonId(Long.valueOf(addAddressData.get(UIConstants.IDENTIFIER)));
 
+	        final Map<String, Object> otherParameters = new HashMap<String,Object>(11);
+	        otherParameters.put(ADDRESS_TYPE_KEY, addAddressData.get(UIConstants.ADDRESS_TYPE));
+	        otherParameters.put(DOCUMENT_TYPE_KEY, addAddressData.get(UIConstants.ADDRESS_DOCUMENT_TYPE));
+	        otherParameters.put(ADDRESS1_KEY, addAddressData.get(UIConstants.ADDRESS1));
+	        otherParameters.put(ADDRESS2_KEY, addAddressData.get(UIConstants.ADDRESS2));
+	        otherParameters.put(ADDRESS3_KEY, addAddressData.get(UIConstants.ADDRESS3));
+	        otherParameters.put(CITY_KEY, addAddressData.get(UIConstants.CITY));
+	        otherParameters.put(STATE_KEY, addAddressData.get(UIConstants.STATE_OR_PROV));
+	        otherParameters.put(POSTALCODE_KEY, addAddressData.get(UIConstants.POSTAL_CODE));
+	        otherParameters.put(COUNTRY_KEY, addAddressData.get(UIConstants.COUNTRY));
+	        otherParameters.put(CAMPUS_KEY, addAddressData.get(UIConstants.CAMPUS));
+	        otherParameters.put(VERIFY_ADDRESS_FLAG_KEY, UIConstants.LETTER_N);
+	        
 			new AddAddressApi().implementApi(
 					CprServiceName.AddAddress.toString(), 
 					db, 
 					addAddressData.get(UIConstants.REQUESTED_BY), 
 					serviceCoreReturn, 
-					new Object[] {addAddressData.get(UIConstants.ADDRESS_TYPE), 
-						addAddressData.get(UIConstants.ADDRESS_DOCUMENT_TYPE), 
-						addAddressData.get(UIConstants.ADDRESS1),  
-						addAddressData.get(UIConstants.ADDRESS2),  
-						addAddressData.get(UIConstants.ADDRESS3), 
-						addAddressData.get(UIConstants.CITY), 
-						addAddressData.get(UIConstants.STATE_OR_PROV),  
-						addAddressData.get(UIConstants.POSTAL_CODE), 
-						addAddressData.get(UIConstants.COUNTRY), 
-						addAddressData.get(UIConstants.CAMPUS), 
-						UIConstants.LETTER_N}, 
+					otherParameters, 
 					ApiHelper.SKIP_AUTHZ_CHECK);
 
 			apiSession.getTransaction().commit();
@@ -493,13 +512,19 @@ public final class SoapClient {
 			db.setSession(apiSession);
 			serviceCoreReturn.setPersonId(Long.valueOf(addPhoneData.get(UIConstants.IDENTIFIER)));
 
+	        final Map<String, Object> otherParameters = new HashMap<String, Object>(4);
+	        otherParameters.put(PHONE_TYPE_KEY, addPhoneData.get(UIConstants.PHONE_TYPE));
+	        otherParameters.put(PHONE_NUMBER_KEY, addPhoneData.get(UIConstants.PHONE_NUMBER));
+	        otherParameters.put(PHONE_EXTENSION_KEY, addPhoneData.get(UIConstants.EXTENSION));
+	        otherParameters.put(PHONE_INTERNATIONAL_NUMBER_KEY, addPhoneData.get(UIConstants.INTERNATIONAL_NUMBER));
+
+	        
 			new AddPhoneApi().implementApi(
 					CprServiceName.AddPhone.toString(), 
 					db, 
 					addPhoneData.get(UIConstants.REQUESTED_BY), 
 					serviceCoreReturn, 
-					new Object[]{addPhoneData.get(UIConstants.PHONE_TYPE), addPhoneData.get(UIConstants.PHONE_NUMBER), 
-						addPhoneData.get(UIConstants.EXTENSION),  addPhoneData.get(UIConstants.INTERNATIONAL_NUMBER)}, 
+					otherParameters, 
 					ApiHelper.SKIP_AUTHZ_CHECK);
 
 			apiSession.getTransaction().commit();

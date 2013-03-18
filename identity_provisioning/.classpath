@@ -26,8 +26,8 @@
 	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/struts2-core-2.3.1.2.jar"/>
 	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/xwork-core-2.3.1.2.jar"/>
 	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/mailapi.jar"/>
-	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars_OS/cpr_core.jar"/>
 	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/json.jar"/>
 	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/mysql-connector-java-5.1.20-bin.jar"/>
+	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars_OS/cpr_core.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
