@@ -1691,7 +1691,8 @@ FROM person_id_card JOIN id_card_print_log
     AND message_consumer_mapping.end_date IS NULL
   JOIN web_service ON message_consumer_mapping.web_service_key = web_service.web_service_key
     AND web_service.end_date IS NULL
-  JOIN services ON message_consumer_mapping.service_key = services.service_key;
+  JOIN services ON message_consumer_mapping.service_key = services.service_key AND
+  	services.active_flag = 'Y';
 
 create index email_notification_01_idx on email_notification (notification_process asc);
 create index ra_applications_10_idx on ra_applications ( registration_authority_key asc );
