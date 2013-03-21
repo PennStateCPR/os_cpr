@@ -4,10 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -36,8 +33,6 @@ public class MessageConsumer implements Serializable {
         /** Contains the messageConsumerKey. */
         @Id
         @Column(name="message_consumer_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_message_consumer")
-        @SequenceGenerator(name="seq_message_consumer", sequenceName="seq_message_consumer", allocationSize = 1, initialValue= 1)
         private Long messageConsumerKey;
 
         /** Contains the createdOn. */
