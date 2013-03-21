@@ -21,5 +21,6 @@
         <dependency org="org.slf4j" name="slf4j-api" rev="1.6.1"/>
         <dependency org="org.slf4j" name="slf4j-nop" rev="1.6.1"/>
         <dependency org="org.apache.activemq" name="activemq-all" rev="5.5.1"/>
+        <dependency org="postgresql" name="postgresql" rev="9.1-901.jdbc4"/>
     </dependencies>
 </ivy-module>
