@@ -16,6 +16,7 @@
         <dependency org="commons-collections" name="commons-collections" rev="3.1" />
         <dependency org="org.apache.ws.commons.util" name="ws-commons-util" rev="1.0.2" />
         <dependency org="mysql" name="mysql-connector-java" rev="5.1.21"/>
+        <dependency org="postgresql" name="postgresql" rev="9.1-901.jdbc4"/>
         <exclude org="com.sun.jdmk"/>
         <exclude org="com.sun.jmx"/>
         <exclude org="javax.jms"/>
