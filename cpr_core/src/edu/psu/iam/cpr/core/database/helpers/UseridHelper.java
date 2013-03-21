@@ -219,7 +219,7 @@ public class UseridHelper {
 			if (query.list().size() == 0) {
 
 				// Find a userid in the pool to be used.
-				sqlQuery = "SELECT MIN(num_part) AS min_num_part FROM cpr.userid_pool WHERE char_part = :char_part";
+				sqlQuery = "SELECT MIN(num_part) AS min_num_part FROM {h-schema}userid_pool WHERE char_part = :char_part";
 				SQLQuery query1 = session.createSQLQuery(sqlQuery);
 				query1.setParameter("char_part", charPart);
 				query1.addScalar("min_num_part", StandardBasicTypes.LONG);

@@ -249,7 +249,7 @@ public class PhonesTable {
 
 		if (! matchFound) {
 			// Find the maximum group id for the person and their phone type combination.
-			sqlQuery = "SELECT MAX(group_id) as max_group_id FROM phones WHERE person_id = :person_id AND data_type_key = :data_type_key";
+			sqlQuery = "SELECT MAX(group_id) as max_group_id FROM {h-schema}phones WHERE person_id = :person_id AND data_type_key = :data_type_key";
 			final SQLQuery query1 = session.createSQLQuery(sqlQuery);
 			query1.setParameter(PERSON_ID_STRING, bean.getPersonId());
 			query1.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
@@ -415,7 +415,7 @@ public class PhonesTable {
 		sb.append("last_update_on, ");
 		sb.append("created_by, " );
 		sb.append("created_on ");
-		sb.append("FROM phones ");
+		sb.append("FROM {h-schema}phones ");
 		sb.append("WHERE person_id = :person_id_in ");
 
 		if (getPhoneType() != null) {
@@ -485,7 +485,7 @@ public class PhonesTable {
 
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT  primary_flag ");
-		sb.append("FROM phones ");
+		sb.append("FROM {h-schema}phones ");
 		sb.append("WHERE person_id = :person_id_in ");
 		sb.append("AND data_type_key = :data_type_key ");
 		sb.append("AND group_id = :group_id ");

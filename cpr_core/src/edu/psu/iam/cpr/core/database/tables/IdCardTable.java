@@ -558,7 +558,7 @@ public class IdCardTable {
 		sb.append("last_update_on, ");
 		sb.append("created_by, ");
 		sb.append("created_on ");
-		sb.append("from person_id_card ");
+		sb.append("from {h-schema}person_id_card ");
 		sb.append("WHERE person_id=:person_id ");
 
 		if (getIdCardType() != null) {
@@ -614,7 +614,7 @@ public class IdCardTable {
 		final Session session = db.getSession();
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT data_type_key, id_card_number " );
-		sb.append("from person_id_card ");
+		sb.append("from {h-schema}person_id_card ");
 		sb.append("WHERE person_id=:person_id ");
 		sb.append("AND end_date IS NULL ");
 

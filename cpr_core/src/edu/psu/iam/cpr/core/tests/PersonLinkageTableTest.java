@@ -26,7 +26,10 @@ import edu.psu.iam.cpr.core.database.tables.PersonLinkageTable;
 public class PersonLinkageTableTest {
 
 	private static Database db= new Database();
-	public static void openDbConnection() throws Exception {
+	public static void openDbConnection()  {
+		if (db.isSessionOpen()) {
+			db.closeSession();
+		}
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 

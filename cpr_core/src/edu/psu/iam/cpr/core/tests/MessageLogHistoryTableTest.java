@@ -42,7 +42,10 @@ import edu.psu.iam.cpr.core.service.returns.MessageLogHistoryReturn;
 public class MessageLogHistoryTableTest {
 	
 	private static Database db = new Database();
-	public static void openDbConnection() throws Exception {
+	public static void openDbConnection()  {
+		if (db.isSessionOpen()) {
+			db.closeSession();
+		}
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	

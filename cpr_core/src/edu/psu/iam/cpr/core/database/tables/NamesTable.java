@@ -255,7 +255,7 @@ public class NamesTable {
 		sb.append("last_update_on, ");
 		sb.append("created_by, ");
 		sb.append("created_on ");
-		sb.append("FROM names ");
+		sb.append("FROM {h-schema}names ");
 		sb.append("WHERE person_id = :person_id_in ");
 
 		// If we are doing a query for a specific name type, we need to specify this clause.

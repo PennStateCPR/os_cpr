@@ -287,7 +287,7 @@ public class PersonIdentifierTable {
 		sb.append("last_update_on, ");
 		sb.append("created_by, ");
 		sb.append("created_on ");
-		sb.append("FROM person_identifier ");
+		sb.append("FROM {h-schema}person_identifier ");
 		sb.append("WHERE person_id = :person_id_in ");
 
 		// If we are doing a query for a specific identifier type, we need to specify this clause.

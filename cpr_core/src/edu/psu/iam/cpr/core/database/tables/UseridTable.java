@@ -190,7 +190,7 @@ public class UseridTable {
 			generatedIdentityTable.addGeneratedIdentity(session);
 
 			// Do a select to determine what primary needs to be set to.
-			final String sqlQuery = "SELECT person_id FROM userid WHERE person_id = :person_id_in AND end_date IS NULL";
+			final String sqlQuery = "SELECT person_id FROM {h-schema}userid WHERE person_id = :person_id_in AND end_date IS NULL";
 			final SQLQuery query = session.createSQLQuery(sqlQuery);
 			query.setParameter("person_id_in", bean.getPersonId());
 			query.addScalar("person_id", StandardBasicTypes.LONG);
@@ -238,7 +238,7 @@ public class UseridTable {
 		// For the selected userid, obtain the end date and their primary flag.
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT end_date, primary_flag ");
-		sb.append("FROM userid ");
+		sb.append("FROM {h-schema}userid ");
 		sb.append("WHERE person_id = :person_id_in ");
 		sb.append("AND userid = :userid_in ");
 		final SQLQuery query = session.createSQLQuery(sb.toString());
@@ -325,7 +325,7 @@ public class UseridTable {
 		final Userid bean = getUseridBean();
 
 		// Determine how many userids are active for the current user.
-		String sqlQuery = "SELECT person_id FROM userid WHERE person_id = :person_id_in AND end_date IS NULL";
+		String sqlQuery = "SELECT person_id FROM {h-schema}userid WHERE person_id = :person_id_in AND end_date IS NULL";
 		SQLQuery query = session.createSQLQuery(sqlQuery);
 		query.setParameter("person_id_in", bean.getPersonId());
 		query.addScalar("person_id", StandardBasicTypes.LONG);
@@ -338,7 +338,7 @@ public class UseridTable {
 			// For the selected userid, obtain the end date and their primary flag.
 			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT end_date, primary_flag ");
-			sb.append("FROM userid ");
+			sb.append("FROM {h-schema}userid ");
 			sb.append("WHERE person_id = :person_id_in ");
 			sb.append("AND userid = :userid_in ");
 			query = session.createSQLQuery(sb.toString());
@@ -416,7 +416,7 @@ public class UseridTable {
 		final Userid bean = getUseridBean();
 
 		// See how any userids are archived for the user, if there are none that are archived, we have an error.
-		String sqlQuery = "SELECT person_id FROM userid WHERE person_id = :person_id_in AND end_date IS NOT NULL";
+		String sqlQuery = "SELECT person_id FROM {h-schema}userid WHERE person_id = :person_id_in AND end_date IS NOT NULL";
 		SQLQuery query = session.createSQLQuery(sqlQuery);
 		query.setParameter("person_id_in", bean.getPersonId());
 		query.addScalar("person_id", StandardBasicTypes.LONG);
@@ -430,7 +430,7 @@ public class UseridTable {
 			// For the selected userid, obtain the end date and their primary flag.
 			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			sb.append("SELECT end_date, primary_flag ");
-			sb.append("FROM userid ");
+			sb.append("FROM {h-schema}userid ");
 			sb.append("WHERE person_id = :person_id_in ");
 			sb.append("AND userid = :userid_in ");
 			query = session.createSQLQuery(sb.toString());
@@ -450,7 +450,7 @@ public class UseridTable {
 				}
 				else {
 					// Determine how many userids are active for the current user.
-					sqlQuery = "SELECT person_id FROM userid WHERE person_id = :person_id_in AND end_date IS NULL";
+					sqlQuery = "SELECT person_id FROM {h-schema}userid WHERE person_id = :person_id_in AND end_date IS NULL";
 					query = session.createSQLQuery(sqlQuery);
 					query.setParameter("person_id_in", bean.getPersonId());
 					query.addScalar("person_id", StandardBasicTypes.LONG);
@@ -519,7 +519,7 @@ public class UseridTable {
 		bean.setNumPart(getNumberPart(bean.getUserid(), charPart));
 
 		// Do a select to determine what primary needs to be set to.
-		final String sqlQuery = "SELECT person_id FROM userid WHERE person_id = :person_id_in AND end_date IS NULL";
+		final String sqlQuery = "SELECT person_id FROM {h-schema}userid WHERE person_id = :person_id_in AND end_date IS NULL";
 		final SQLQuery query = session.createSQLQuery(sqlQuery);
 		query.setParameter("person_id_in", bean.getPersonId());
 		query.addScalar("person_id", StandardBasicTypes.LONG);
@@ -559,7 +559,7 @@ public class UseridTable {
 		sb.append("last_update_on, ");
 		sb.append("created_by, ");
 		sb.append("created_on ");
-		sb.append("FROM userid ");
+		sb.append("FROM {h-schema}userid ");
 		sb.append("WHERE person_id = :person_id_in ");
 		if (! isReturnHistoryFlag()) {
 			sb.append("AND end_date IS NULL ");
@@ -617,7 +617,7 @@ public class UseridTable {
 		final String charPart = getCharacterPart(userid);
 
 		// Verify that the userid does not exist in the bad prefixes table.
-		String sqlQuery = "SELECT char_part FROM bad_prefixes WHERE char_part = :char_part_in";
+		String sqlQuery = "SELECT char_part FROM {h-schema}bad_prefixes WHERE char_part = :char_part_in";
 		SQLQuery query = session.createSQLQuery(sqlQuery);
 		query.setParameter("char_part_in", charPart);
 		query.addScalar("char_part", StandardBasicTypes.STRING);
@@ -626,7 +626,7 @@ public class UseridTable {
 		}
 
 		// Verify that the userid does not already exist.
-		sqlQuery = "SELECT person_id FROM userid WHERE userid = :userid_in";
+		sqlQuery = "SELECT person_id FROM {h-schema}userid WHERE userid = :userid_in";
 		query = session.createSQLQuery(sqlQuery);
 		query.setParameter("userid_in", userid);
 		query.addScalar("person_id", StandardBasicTypes.LONG);

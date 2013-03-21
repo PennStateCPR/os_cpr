@@ -1,4 +1,4 @@
-set search_path to cpr;
+set search_path = "cpr";
 
 create sequence seq_person start 100500;
 create sequence seq_addresses start 100500;

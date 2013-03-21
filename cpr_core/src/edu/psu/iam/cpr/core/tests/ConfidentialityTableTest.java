@@ -35,7 +35,10 @@ import edu.psu.iam.cpr.core.database.types.ConfidentialityType;
 public class ConfidentialityTableTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws Exception {
+	public static void openDbConnection()  {
+		if (db.isSessionOpen()) {
+			db.closeSession();
+		}
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	

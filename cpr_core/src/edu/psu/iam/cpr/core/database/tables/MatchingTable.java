@@ -41,19 +41,19 @@ import edu.psu.iam.cpr.core.database.Database;
 public class MatchingTable {
 
 	/** the SQL to remove a match set from the database. */
-	protected static final String REMOVE_MATCH_SET_SQL = "DELETE FROM MATCH_RESULTS WHERE MATCH_SET_KEY=:match_set_key_in";
+	protected static final String REMOVE_MATCH_SET_SQL = "DELETE FROM {h-schema}MATCH_RESULTS WHERE MATCH_SET_KEY=:match_set_key_in";
 	
 	/** the SQL to find a match set in the database. */
 	protected static final String FIND_MATCH_SET_SQL = "{ call match_package.find_matches(?,?,?,?,?,?,?) }";
 	
 	/** the SQL to retrieve a match set in the database. */
-	protected static final String GET_MATCH_SET_SQL = "SELECT MATCH_SET_KEY, PERSON_ID, SCORE FROM MATCH_RESULTS WHERE MATCH_SET_KEY=:match_set_key_in ORDER BY SCORE DESC";
+	protected static final String GET_MATCH_SET_SQL = "SELECT MATCH_SET_KEY, PERSON_ID, SCORE FROM {h-schema}MATCH_RESULTS WHERE MATCH_SET_KEY=:match_set_key_in ORDER BY SCORE DESC";
 
 	/** the SQL to retrieve a match set in the database. Only retrieve N hits.*/
 	protected static final String GET_MATCH_SET_SQL_LIMIT = "SELECT * FROM (" + GET_MATCH_SET_SQL + ") WHERE ROWNUM <:rownum_in";
 	
 	/** the SQL to retrieve a match set in the database with a minimum match score. */
-	protected static final String GET_MATCH_SET_MIN_SCORE_SQL = "SELECT MATCH_SET_KEY, PERSON_ID, SCORE FROM MATCH_RESULTS WHERE MATCH_SET_KEY=:match_set_key_in AND SCORE>=:score_in ORDER BY SCORE DESC";
+	protected static final String GET_MATCH_SET_MIN_SCORE_SQL = "SELECT MATCH_SET_KEY, PERSON_ID, SCORE FROM {h-schema}MATCH_RESULTS WHERE MATCH_SET_KEY=:match_set_key_in AND SCORE>=:score_in ORDER BY SCORE DESC";
 
 	/** the SQL to retrieve a match set in the database with a minimum match score. Only retrieve N hits. */
 	protected static final String GET_MATCH_SET_MIN_SCORE_SQL_LIMIT = "SELECT * FROM (" +  GET_MATCH_SET_MIN_SCORE_SQL + ") WHERE ROWNUM <:rownum_in";

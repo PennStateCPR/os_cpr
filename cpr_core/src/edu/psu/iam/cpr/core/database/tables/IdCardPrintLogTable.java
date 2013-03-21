@@ -148,7 +148,7 @@ public class IdCardPrintLogTable {
 		boolean noPersonIdCard = false;
 		final Session session = db.getSession();
 		final IdCardPrintLog bean = getIdCardPrintLogBean();
-		final String sqlQuery = "SELECT person_id_card_key FROM person_id_card WHERE id_card_number = :idCard AND end_date IS NULL";
+		final String sqlQuery = "SELECT person_id_card_key FROM {h-schema}person_id_card WHERE id_card_number = :idCard AND end_date IS NULL";
 		final SQLQuery query = session.createSQLQuery(sqlQuery);
 		query.setParameter("idCard", eventIdCardNumber);
 		query.addScalar("person_id_card_key",  StandardBasicTypes.LONG);
@@ -180,7 +180,7 @@ public class IdCardPrintLogTable {
 		final StringBuffer sb = new StringBuffer(BUFFER_SIZE);
 		sb.append("SELECT person_id, id_card_number, work_station_ip_address, ");
 		sb.append("work_station_name, printed_by , printed_on ");
-		sb.append("FROM v_person_id_card_print_log WHERE id_card_number = :id_card_number_in ");
+		sb.append("FROM {h-schema}v_person_id_card_print_log WHERE id_card_number = :id_card_number_in ");
 		sb.append("order by printed_on ASC");
 
 		final SQLQuery query = session.createSQLQuery(sb.toString());

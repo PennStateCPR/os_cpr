@@ -462,7 +462,7 @@ public class AddressesTable {
 		// setting group id
 
 		if (! matchFound) {
-			sqlQuery =" SELECT MAX(group_id) as max_group_id FROM addresses WHERE person_id=:person_id and data_type_key=:data_type_key";
+			sqlQuery =" SELECT MAX(group_id) as max_group_id FROM {h-schema}addresses WHERE person_id=:person_id and data_type_key=:data_type_key";
 			final SQLQuery query1 = session.createSQLQuery(sqlQuery);
 			query1.setParameter(PERSON_ID_STRING, bean.getPersonId());
 			query1.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
@@ -606,9 +606,9 @@ public class AddressesTable {
 		sb.append("addresses.created_on, ");
 		sb.append("campus_cs.campus_code, campus_cs.campus, ");
 		sb.append("country.country_code_three, country.country ");
-		sb.append("FROM addresses ");
-		sb.append("LEFT JOIN campus_cs ON addresses.campus_code_key = campus_cs.campus_code_key ");
-		sb.append("LEFT JOIN country ON addresses.country_key = country.country_key ");
+		sb.append("FROM {h-schema}addresses ");
+		sb.append("LEFT JOIN {h-schema}campus_cs ON addresses.campus_code_key = campus_cs.campus_code_key ");
+		sb.append("LEFT JOIN {h-schema}country ON addresses.country_key = country.country_key ");
 		sb.append("WHERE addresses.person_id = :person_id_in ");
 
 		if (getAddressType() != null) {
@@ -718,7 +718,7 @@ public class AddressesTable {
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		if (bean.getDocumentTypeKey() == null) {
 			sb.append("SELECT  primary_flag ");
-			sb.append("FROM addresses ");
+			sb.append("FROM {h-schema}addresses ");
 			sb.append("WHERE person_id = :person_id_in ");
 			sb.append("AND data_type_key = :data_type_key ");
 			sb.append("AND group_id = :group_id ");
@@ -732,7 +732,7 @@ public class AddressesTable {
 		else {
 
 			sb.append("SELECT  primary_flag ");
-			sb.append("FROM addresses ");
+			sb.append("FROM {h-schema}addresses ");
 			sb.append("WHERE person_id = :person_id_in ");
 			sb.append("AND data_type_key = :data_type_key ");
 			sb.append("AND document_type_key = :document_type_key ");

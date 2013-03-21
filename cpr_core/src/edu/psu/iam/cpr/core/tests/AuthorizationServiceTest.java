@@ -17,9 +17,12 @@ import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
  */
 public class AuthorizationServiceTest {
 	private static Database db = new Database();
-	public static void openDbConnection() throws Exception {
+	public static void openDbConnection()  {
+		if (db.isSessionOpen()) {
+			db.closeSession();
+		}
 		db.openSession(SessionFactoryUtil.getSessionFactory());
-}
+	}
 	AuthorizationService authorizationService = new AuthorizationService();
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.authorization.AuthorizationService#serviceAuthorized(edu.psu.iam.cpr.core.database.Database, java.lang.String, java.lang.String, java.lang.String, edu.psu.iam.cpr.core.service.helper.ServiceCoreReturn)}.

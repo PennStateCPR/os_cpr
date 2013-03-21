@@ -33,9 +33,13 @@ import edu.psu.iam.cpr.core.database.tables.CountryTable;
 public class CountryTableTest {
 
 	private static Database db = new Database();
-	public static void openDbConnection() throws Exception {
+	public static void openDbConnection()  {
+		if (db.isSessionOpen()) {
+			db.closeSession();
+		}
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
+
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.CampusCsTable#getCountryInfo(Database, java.lang.String, java.lang.String)}.

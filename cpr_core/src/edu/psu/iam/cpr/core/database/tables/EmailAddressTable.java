@@ -336,7 +336,7 @@ public class EmailAddressTable {
 		sb.append("last_update_on, ");
 		sb.append("created_by, ");
 		sb.append("created_on ");
-		sb.append("FROM email_address ");
+		sb.append("FROM {h-schema}email_address ");
 		sb.append("WHERE person_id=:person_id ");
 
 		// If we are not returning all records, we need to just return the active ones.

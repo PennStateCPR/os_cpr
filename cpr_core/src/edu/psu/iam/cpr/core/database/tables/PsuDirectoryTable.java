@@ -198,7 +198,7 @@ public class PsuDirectoryTable {
 
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT userid, psu_directory_key ");
-		sb.append("FROM psu_directory ");
+		sb.append("FROM {h-schema}psu_directory ");
 		sb.append("WHERE person_id = :person_id_in ");
 		sb.append("AND end_date IS NULL ");
 

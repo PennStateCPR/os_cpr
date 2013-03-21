@@ -39,7 +39,10 @@ import edu.psu.iam.cpr.core.service.returns.NameReturn;
 public class NamesTableTest {
 
 	private static Database db= new Database();
-	public static void openDbConnection() throws Exception {
+	public static void openDbConnection()  {
+		if (db.isSessionOpen()) {
+			db.closeSession();
+		}
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 

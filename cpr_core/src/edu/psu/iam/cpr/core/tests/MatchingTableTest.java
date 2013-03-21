@@ -34,14 +34,17 @@ public class MatchingTableTest {
 	
 	
 	/** the SQL to retrieve a match set in the database with a minimum match score. */
-	protected static final String GET_MATCH_SET_MIN_SCORE_SQL = "SELECT MATCH_SET_KEY, PERSON_ID, SCORE FROM MATCH_RESULTS WHERE MATCH_SET_KEY=:match_set_id_in AND SCORE>=:score_in ORDER BY SCORE DESC";
+	protected static final String GET_MATCH_SET_MIN_SCORE_SQL = "SELECT MATCH_SET_KEY, PERSON_ID, SCORE FROM {h-schema}MATCH_RESULTS WHERE MATCH_SET_KEY=:match_set_id_in AND SCORE>=:score_in ORDER BY SCORE DESC";
 
 	/** the SQL to retrieve a match set in the database with a minimum match score. Only retrieve N hits. */
 	protected static final String GET_MATCH_SET_MIN_SCORE_SQL_LIMIT = "SELECT * FROM (" +  GET_MATCH_SET_MIN_SCORE_SQL + ") WHERE ROWNUM <:rownum_in";
 
 	private static Database db = new Database();
 	
-	public static void openDbConnection() throws Exception {
+	public static void openDbConnection()  {
+		if (db.isSessionOpen()) {
+			db.closeSession();
+		}
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 

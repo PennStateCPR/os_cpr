@@ -121,7 +121,10 @@ public class UseridTableTest {
 		AssertJUnit.assertEquals(u.getNumberPart("xyz112$","xyz"),new Long(112));
 	}
 
-	public static void openDbConnection() throws Exception {
+	public static void openDbConnection()  {
+		if (db.isSessionOpen()) {
+			db.closeSession();
+		}
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	

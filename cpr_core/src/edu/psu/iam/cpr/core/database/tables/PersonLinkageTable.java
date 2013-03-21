@@ -212,7 +212,7 @@ public class PersonLinkageTable {
 		final PersonLinkage bean = getPersonLinkageBean();
 
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-		sb.append("SELECT person_id FROM person_linkage WHERE person_id = :person_id AND ");
+		sb.append("SELECT person_id FROM {h-schema}person_linkage WHERE person_id = :person_id AND ");
 		sb.append("linked_person_id = :linked_person_id AND ");
 		sb.append("data_type_key = :data_type_key ");
 		final SQLQuery query = session.createSQLQuery(sb.toString());
@@ -272,7 +272,7 @@ public class PersonLinkageTable {
 		sb.append("last_update_on, ");
 		sb.append("created_by, ");
 		sb.append("created_on ");
-		sb.append("FROM person_linkage ");
+		sb.append("FROM {h-schema}person_linkage ");
 		sb.append("WHERE person_id = :person_id_in ");
 
 		// If we are not returning all records, we need to just return the active ones.

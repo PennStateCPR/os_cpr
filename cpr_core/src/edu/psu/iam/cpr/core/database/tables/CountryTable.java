@@ -91,7 +91,7 @@ public class CountryTable {
 
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT country_key, country ");
-		sb.append("FROM country ");
+		sb.append("FROM {h-schema}country ");
 		sb.append("WHERE country_code_three = :country_code_in ");
 		sb.append(" AND us_territory_flag='N' ");
 		sb.append("AND end_date IS NULL ");

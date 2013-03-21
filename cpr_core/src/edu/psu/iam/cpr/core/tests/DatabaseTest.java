@@ -31,6 +31,9 @@ public class DatabaseTest {
 	private static Database db = new Database();
 	
 	public static void openDbConnection()  {
+		if (db.isSessionOpen()) {
+			db.closeSession();
+		}
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	
@@ -95,8 +98,12 @@ public class DatabaseTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _09testIsRequestorAuthorizedCprException() throws Exception {
 		openDbConnection();
+		try {
 		db.requestorAuthorized("portal2", "cpruser", "AddPerson", null);
-		db.closeSession();
+		}
+		finally {
+			db.closeSession();
+		}
 	}
 	
 	@Test
@@ -120,9 +127,13 @@ public class DatabaseTest {
 
 	@Test(expectedExceptions=Exception.class)
 	public final void _13testGetPersonIdUsingPsuIdException2() throws Exception {
-		openDbConnection();
-		db.getPersonIdUsingPsuId("abcd1234");
-		db.closeSession();
+		try {
+			openDbConnection();
+			db.getPersonIdUsingPsuId("abcd1234");
+		}
+		finally {
+			db.closeSession();
+		}
 	}
 	
 	@Test
@@ -150,9 +161,13 @@ public class DatabaseTest {
 
 	@Test(expectedExceptions=Exception.class)
 	public final void _17testGetPersonIdUsingUseridException2() throws Exception {
-		openDbConnection();
-		db.getPersonIdUsingUserid("abcd");
-		db.closeSession();
+		try {
+			openDbConnection();
+			db.getPersonIdUsingUserid("abcd");
+		}
+		finally {
+			db.closeSession();
+		}
 	}
 
 	@Test
@@ -165,9 +180,13 @@ public class DatabaseTest {
 
 	@Test(expectedExceptions=Exception.class)
 	public final void _19testGetPersonIdUsingPersonIdException1() throws Exception {
-		openDbConnection();
-		db.getPersonIdUsingPersonId(0);
-		db.closeSession();
+		try {
+			openDbConnection();
+			db.getPersonIdUsingPersonId(0);
+		}
+		finally {
+			db.closeSession();
+		}
 	}
 	
 	@Test
@@ -180,20 +199,28 @@ public class DatabaseTest {
 
 	@Test(expectedExceptions=Exception.class)
 	public final void _21testGetPersonIdUsingIdentifierException1() throws Exception {
-		openDbConnection();
-		IdentifierType i = new IdentifierType();
-		i.setTypeName(Database.PERSON_ID_IDENTIFIER);
-		db.getPersonIdUsingIdentifier(i, null);
-		db.closeSession();
+		try {
+			openDbConnection();
+			IdentifierType i = new IdentifierType();
+			i.setTypeName(Database.PERSON_ID_IDENTIFIER);
+			db.getPersonIdUsingIdentifier(i, null);
+		}
+		finally {
+			db.closeSession();
+		}
 	}
 
 	@Test(expectedExceptions=Exception.class)
 	public final void _22testGetPersonIdUsingIdentifierException2() throws Exception {
-		openDbConnection();
-		IdentifierType i = new IdentifierType();
-		i.setTypeName(Database.USERID_IDENTIFIER);
-		db.getPersonIdUsingIdentifier(i, null);
-		db.closeSession();
+		try {
+			openDbConnection();
+			IdentifierType i = new IdentifierType();
+			i.setTypeName(Database.USERID_IDENTIFIER);
+			db.getPersonIdUsingIdentifier(i, null);
+		}
+		finally {
+			db.closeSession();
+		}
 	}
 
 	@Test(expectedExceptions=Exception.class)
@@ -234,11 +261,15 @@ public class DatabaseTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void _27testGetPersonIdUsingIdentifierException7() throws Exception {
-		openDbConnection();
-		IdentifierType i = new IdentifierType();
-		i.setTypeName(Database.PERSON_ID_IDENTIFIER);
-		db.getPersonIdUsingIdentifier(i, "1");
-		db.closeSession();
+		try {
+			openDbConnection();
+			IdentifierType i = new IdentifierType();
+			i.setTypeName(Database.PERSON_ID_IDENTIFIER);
+			db.getPersonIdUsingIdentifier(i, "1");
+		}
+		finally {
+			db.closeSession();
+		}
 	}
 	
 	@Test

@@ -243,7 +243,7 @@ public class PersonAffiliationTable {
 			// Create an arraylist of all existing affiliations to send to the Rules engine.
 			// Select the affiliation_ke for all active affiliations. Store the enum string in the arraylist
 			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT affiliation_key from person_affiliation where person_id = :person_id_in  AND end_date IS NULL");
+			sb.append("SELECT affiliation_key from {h-schema}person_affiliation where person_id = :person_id_in  AND end_date IS NULL");
 			final SQLQuery query1 = session.createSQLQuery(sb.toString());
 			query1.setParameter("person_id_in", bean.getPersonId());
 			query1.addScalar("affiliation_key", StandardBasicTypes.LONG);
@@ -422,8 +422,8 @@ public class PersonAffiliationTable {
 		sb.append("person_affiliation.created_by, " );
 		sb.append("person_affiliation.created_on, ");
 		sb.append("person_affiliation.affiliation_key ");
-		sb.append("FROM person_affiliation ");
-		sb.append("LEFT JOIN affiliations ");
+		sb.append("FROM {h-schema}person_affiliation ");
+		sb.append("LEFT JOIN {h-schema}affiliations ");
 		sb.append("ON person_affiliation.affiliation_key = affiliations.affiliation_key " );
 		sb.append("WHERE person_affiliation.person_id = :person_id_in ");
 		if (! isReturnHistoryFlag()) {
@@ -467,7 +467,7 @@ public class PersonAffiliationTable {
 		sb.append("person_affiliation.primary_flag, ");
 		sb.append("v_ext_affiliation_mapping.ext_affiliation_type, ");
 		sb.append("v_ext_affiliation_mapping.ext_affiliation ");
-		sb.append("FROM person_affiliation JOIN v_ext_affiliation_mapping ");
+		sb.append("FROM {h-schema}person_affiliation JOIN {h-schema}v_ext_affiliation_mapping ");
 		sb.append("ON person_affiliation.affiliation_key = v_ext_affiliation_mapping.affiliation_key ");
 		sb.append("AND v_ext_affiliation_mapping.extaff_active_flag = 'Y' ");
 		sb.append("AND v_ext_affiliation_mapping.aff_active_flag = 'Y' ");
@@ -509,7 +509,7 @@ public class PersonAffiliationTable {
 
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT affiliations.enum_string, person_affiliation.primary_flag ");
-		sb.append("FROM person_affiliation LEFT JOIN affiliations ");
+		sb.append("FROM {h-schema}person_affiliation LEFT JOIN {h-schema}affiliations ");
 		sb.append("ON person_affiliation.affiliation_key = affiliations.affiliation_key ");
 		sb.append("WHERE person_affiliation.person_id = :person_id_in ");
 		sb.append("AND person_affiliation.end_date IS NULL ");
@@ -559,8 +559,8 @@ public class PersonAffiliationTable {
 		sb.append("person_affiliation.created_by, " );
 		sb.append("person_affiliation.created_on, ");
 		sb.append("person_affiliation.affiliation_key ");
-		sb.append("FROM person_affiliation ");
-		sb.append("LEFT JOIN affiliations ");
+		sb.append("FROM {h-schema}person_affiliation ");
+		sb.append("LEFT JOIN {h-schema}affiliations ");
 		sb.append("ON person_affiliation.affiliation_key = affiliations.affiliation_key " );
 		sb.append("WHERE person_affiliation.person_id = :person_id_in ");
 
@@ -619,7 +619,7 @@ public class PersonAffiliationTable {
 
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT  primary_flag ");
-		sb.append("FROM person_affiliation ");
+		sb.append("FROM {h-schema}person_affiliation ");
 		sb.append("WHERE person_id = :person_id_in ");
 		sb.append("AND affiliation_key = :affiliation_key_in ");
 		sb.append("AND end_date IS NULL ");

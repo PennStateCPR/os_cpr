@@ -144,7 +144,7 @@ public class MessageLogHistoryTable {
 		sb.append("error_code, ");
 		sb.append("error_message, ");
 		sb.append("try_number ");
-		sb.append("FROM message_log_history ");
+		sb.append("FROM {h-schema}message_log_history ");
 		sb.append("WHERE message_id = :message_id_in ");
 
 		// Create the hibernate select statement.

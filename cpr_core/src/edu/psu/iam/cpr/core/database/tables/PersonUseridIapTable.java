@@ -182,7 +182,7 @@ public class PersonUseridIapTable {
 
 				final List<IAPReturn> results = new ArrayList<IAPReturn>();
 				sb.append("SELECT external_iap ");
-				sb.append("FROM v_external_iap_federation ");
+				sb.append("FROM {h-schema}v_external_iap_federation ");
 				sb.append("WHERE userid = :userid_in ");
 				sb.append("AND person_id = :person_id ");
 				sb.append("AND UPPER(federation)=:federation_in");
@@ -234,8 +234,8 @@ public class PersonUseridIapTable {
 				sb.append("person_userid_iap.last_update_on, ");
 				sb.append("person_userid_iap.created_by, " );
 				sb.append("person_userid_iap.created_on ");
-				sb.append("FROM iap ");
-				sb.append("LEFT JOIN person_userid_iap ON iap.iap_key = person_userid_iap.iap_key ");
+				sb.append("FROM {h-schema}iap ");
+				sb.append("LEFT JOIN {h-schema}person_userid_iap ON iap.iap_key = person_userid_iap.iap_key ");
 				sb.append("WHERE person_userid_iap.person_id = :person_id_in ");
 				sb.append("AND person_userid_iap.userid=:userid_in ");
 				

@@ -176,7 +176,7 @@ public class PsuIdTable {
 		sb.append("last_update_on, ");
 		sb.append("created_by, ");
 		sb.append("created_on ");
-		sb.append("FROM psu_id WHERE person_id=:person_id ");
+		sb.append("FROM {h-schema}psu_id WHERE person_id=:person_id ");
 
 		// If we are not returning all records, we need to just return the active ones.
 		if (! isReturnHistoryFlag()) {

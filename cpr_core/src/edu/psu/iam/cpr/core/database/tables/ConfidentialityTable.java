@@ -265,7 +265,7 @@ public class ConfidentialityTable {
 		sb.append("last_update_on, ");
 		sb.append("created_by, ");
 		sb.append("created_on ");
-		sb.append("FROM confidentiality ");
+		sb.append("FROM {h-schema}confidentiality ");
 		sb.append("WHERE person_id = :person_id_in ");
 
 		// If we are not returning all records, we need to just return the active ones.

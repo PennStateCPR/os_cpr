@@ -191,7 +191,7 @@ public class Database {
 		// Build the query.
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT ra.registration_authority_key, ra.suspend_flag, rasrvrprinc.ra_server_principal_key ");
-		sb.append("FROM registration_authority ra JOIN ra_server_principals rasrvrprinc ");
+		sb.append("FROM {h-schema}registration_authority ra JOIN {h-schema}ra_server_principals rasrvrprinc ");
 		sb.append("ON ra.registration_authority_key = rasrvrprinc.registration_authority_key ");
 		sb.append("WHERE rasrvrprinc.ra_server_principal = :ra_server_principal_in ");
 		sb.append("AND ra.end_date IS NULL ");
@@ -241,7 +241,7 @@ public class Database {
 		final String WILD_CARD_IP = "*";
 		
 		final StringBuffer sb = new StringBuffer();
-		sb.append("select ra_server_principal_key from server_principal_ip ");
+		sb.append("select ra_server_principal_key from {h-schema}server_principal_ip ");
 		sb.append("where ra_server_principal_key = :ra_server_principal_key AND ");
 		sb.append("(ip_address = :wildcard or ip_address = :client_ip_address)");
 		
@@ -288,7 +288,7 @@ public class Database {
 		// Build the query.
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT cpr_access_groups_key, grpmbrs_suspend_flag, cpraccgprs_suspend_flag, websrvacc_suspend_flag ");
-		sb.append("FROM v_ra_group_web_service ");
+		sb.append("FROM {h-schema}v_ra_group_web_service ");
 		sb.append("WHERE registration_authority_key = :l_ra_key ");
 		sb.append("AND ra_server_principal_key = :ra_sp_key ");
 		sb.append("AND web_service = :web_service_in ");
@@ -349,7 +349,7 @@ public class Database {
 			// Build the query.
 			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 	        sb.append("SELECT data_types.data_type_key ");
-	        sb.append("FROM data_types ");
+	        sb.append("FROM {h-schema}data_types ");
 	        sb.append("WHERE data_types.data_type_key = :data_type_key_in ");
 	        sb.append("AND data_types.active_flag = 'Y' ");
 
@@ -376,7 +376,7 @@ public class Database {
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT v_group_data_type_access.read_flag, v_group_data_type_access.write_flag, ");
 		sb.append("v_group_data_type_access.archive_flag ");
-		sb.append("FROM v_group_data_type_access ");
+		sb.append("FROM {h-schema}v_group_data_type_access ");
 		sb.append("WHERE v_group_data_type_access.cpr_access_groups_key = :cpr_access_groups_key_in ");
 		sb.append("AND v_group_data_type_access.data_type_key = :data_type_key_in");
 
@@ -433,7 +433,7 @@ public class Database {
 			// Build the query.
 			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 	        sb.append("SELECT data_types.data_type_key ");
-	        sb.append("FROM data_types ");
+	        sb.append("FROM {h-schema}data_types ");
 	        sb.append("WHERE data_types.data_type_key = :data_type_key_in ");
 	        sb.append("AND data_types.active_flag = 'Y' ");
 
@@ -460,7 +460,7 @@ public class Database {
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT v_group_data_type_access.read_flag, v_group_data_type_access.write_flag, ");
 		sb.append("v_group_data_type_access.archive_flag ");
-		sb.append("FROM v_group_data_type_access ");
+		sb.append("FROM {h-schema}v_group_data_type_access ");
 		sb.append("WHERE v_group_data_type_access.iam_group_key = :iam_group_key_in ");
 		sb.append("AND v_group_data_type_access.data_type_key = :data_type_key_in");
 
@@ -516,7 +516,7 @@ public class Database {
 		// Build the query.
 
 		sb.append("SELECT affiliations.affiliation_key ");
-		sb.append("FROM affiliations ");
+		sb.append("FROM {h-schema}affiliations ");
 		sb.append("WHERE affiliations.affiliation_key = :affiliation_key_in ");
 		sb.append("AND affiliations.active_flag = 'Y' ");
 
@@ -532,7 +532,7 @@ public class Database {
 			throw new CprException(ReturnType.DATA_CHANGE_EXCEPTION, AffiliationsType.get(affiliationKey).toString());
 		}
 		sb.setLength(0);
-		sb.append("select * FROM ra_affiliation ");
+		sb.append("select * FROM {h-schema}ra_affiliation ");
 		sb.append("WHERE affiliation_key = :affiliation_key_in ");
 		sb.append("AND registration_authority_key= :ra_type_key_in ");
 		sb.append("AND end_date is null ");
@@ -561,7 +561,7 @@ public class Database {
 		
 		Long personId = NOT_FOUND_VALUE;
 
-		final String sqlQuery = "SELECT person_id FROM psu_id WHERE psu_id = :psuid AND end_date IS NULL";
+		final String sqlQuery = "SELECT person_id FROM {h-schema}psu_id WHERE psu_id = :psuid AND end_date IS NULL";
 		final SQLQuery query = session.createSQLQuery(sqlQuery);
 		query.setParameter("psuid", psuId);
 		query.addScalar("person_id", StandardBasicTypes.LONG);
@@ -588,7 +588,7 @@ public class Database {
 		
 		Long personId = NOT_FOUND_VALUE;
 
-		final String sqlQuery = "SELECT person_id FROM userid WHERE userid = :userid";
+		final String sqlQuery = "SELECT person_id FROM {h-schema}userid WHERE userid = :userid";
 		final SQLQuery query = session.createSQLQuery(sqlQuery);
 		query.setParameter("userid", userid);
 		query.addScalar("person_id", StandardBasicTypes.LONG);
@@ -614,7 +614,7 @@ public class Database {
 		
 		Long personId = NOT_FOUND_VALUE;
 
-		final String sqlQuery = "SELECT person_id FROM person_id_card WHERE id_card_number = :idcard AND end_date IS NULL";
+		final String sqlQuery = "SELECT person_id FROM {h-schema}person_id_card WHERE id_card_number = :idcard AND end_date IS NULL";
 		final SQLQuery query = session.createSQLQuery(sqlQuery);
 		query.setParameter("idcard", idCard);
 		query.addScalar("person_id", StandardBasicTypes.LONG);
@@ -640,7 +640,7 @@ public class Database {
 
 		boolean found = false;
 
-		final String sqlQuery = "SELECT person_id FROM userid WHERE userid = :userid AND person_id = :person_id AND end_date IS NULL";
+		final String sqlQuery = "SELECT person_id FROM {h-schema}userid WHERE userid = :userid AND person_id = :person_id AND end_date IS NULL";
 		final SQLQuery query = session.createSQLQuery(sqlQuery);
 		query.setParameter("person_id", personId);
 		query.setParameter("userid", userid);
@@ -660,7 +660,7 @@ public class Database {
 		
 		Long personIdOut = NOT_FOUND_VALUE;
 
-		final String sqlQuery = "SELECT person_id FROM person WHERE person_id = :personid";
+		final String sqlQuery = "SELECT person_id FROM {h-schema}person WHERE person_id = :personid";
 		final SQLQuery query = session.createSQLQuery(sqlQuery);
 		query.setParameter("personid", personId);
 		query.addScalar("person_id", StandardBasicTypes.LONG);
@@ -688,7 +688,7 @@ public class Database {
 		Long personId = NOT_FOUND_VALUE;
 
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-		sb.append("SELECT person_id FROM person_identifier WHERE type_key = :type_key ");
+		sb.append("SELECT person_id FROM {h-schema}person_identifier WHERE type_key = :type_key ");
 		sb.append("AND identifier_value = :identifier_value ");
 		sb.append("AND end_date IS NULL");
 		final SQLQuery query = session.createSQLQuery(sb.toString());
@@ -759,7 +759,7 @@ public class Database {
 		
 		long personIdOut = NOT_FOUND_VALUE;
 
-		final String sqlQuery = "SELECT person_id FROM person WHERE person_id = :personid AND end_date IS NULL";
+		final String sqlQuery = "SELECT person_id FROM {h-schema}person WHERE person_id = :personid AND end_date IS NULL";
 		final SQLQuery query = session.createSQLQuery(sqlQuery);
 		query.setParameter("personid", personId);
 		query.addScalar("person_id", StandardBasicTypes.LONG);
@@ -784,7 +784,7 @@ public class Database {
 
 		Long personId = NOT_FOUND_VALUE;
 
-		final String sqlQuery = "SELECT person_id FROM psu_id WHERE psu_id = :psuid AND end_date IS NULL";
+		final String sqlQuery = "SELECT person_id FROM {h-schema}psu_id WHERE psu_id = :psuid AND end_date IS NULL";
 		final SQLQuery query = session.createSQLQuery(sqlQuery);
 		query.setParameter("psuid", psuId);
 		query.addScalar("person_id", StandardBasicTypes.LONG);
@@ -807,7 +807,7 @@ public class Database {
 		
 		Long personId = NOT_FOUND_VALUE;
 
-		final String sqlQuery = "SELECT person_id FROM userid WHERE userid = :userid";
+		final String sqlQuery = "SELECT person_id FROM {h-schema}userid WHERE userid = :userid";
 		final SQLQuery query = session.createSQLQuery(sqlQuery);
 		query.setParameter("userid", userid);
 		query.addScalar("person_id", StandardBasicTypes.LONG);

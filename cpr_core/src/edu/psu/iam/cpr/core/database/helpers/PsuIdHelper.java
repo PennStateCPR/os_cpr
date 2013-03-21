@@ -93,11 +93,11 @@ public class PsuIdHelper {
 			
 			// Determine if the new PSU ID is not already used, in the exception list or tagged for assignment. 
 			StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-			sb.append("SELECT psu_id FROM cpr.psu_id WHERE psu_id = :psu_id_1");
+			sb.append("SELECT psu_id FROM {h-schema}psu_id WHERE psu_id = :psu_id_1");
 			sb.append(" UNION ");
-			sb.append("SELECT psu_id FROM cpr.psu_id_exceptions WHERE psu_id = :psu_id_2");
+			sb.append("SELECT psu_id FROM {h-schema}psu_id_exceptions WHERE psu_id = :psu_id_2");
 			sb.append(" UNION ");
-			sb.append("SELECT generated_identity AS psu_id from cpr.generated_identity WHERE generated_identity = :psu_id_3");
+			sb.append("SELECT generated_identity AS psu_id from {h-schema}generated_identity WHERE generated_identity = :psu_id_3");
 			final SQLQuery query = session.createSQLQuery(sb.toString());
 			query.addScalar("psu_id", StandardBasicTypes.STRING);
 			query.setParameter("psu_id_1", psuId);

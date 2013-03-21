@@ -37,7 +37,10 @@ public class AddressesTableTest {
 
 	private static Database db = new Database();
 	
-	public static void openDbConnection() throws Exception {
+	public static void openDbConnection()  {
+		if (db.isSessionOpen()) {
+			db.closeSession();
+		}
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 	/**

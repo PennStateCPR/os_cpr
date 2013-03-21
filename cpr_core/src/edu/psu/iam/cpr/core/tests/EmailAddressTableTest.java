@@ -40,7 +40,10 @@ import edu.psu.iam.cpr.core.database.types.EmailAddressType;
 public class EmailAddressTableTest {
 	
 	private static Database db = new Database();
-	public static void openDbConnection() throws Exception {
+	public static void openDbConnection()  {
+		if (db.isSessionOpen()) {
+			db.closeSession();
+		}
 		db.openSession(SessionFactoryUtil.getSessionFactory());
 	}
 

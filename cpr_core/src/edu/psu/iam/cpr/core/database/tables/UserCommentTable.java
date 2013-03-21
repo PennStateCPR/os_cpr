@@ -335,7 +335,7 @@ public class UserCommentTable {
 		sb.append("last_update_by, ");
 		sb.append("last_update_on, ");
 		sb.append("created_by ");
-		sb.append("FROM user_comments ");
+		sb.append("FROM {h-schema}user_comments ");
 		sb.append("WHERE userid = :userid_in ");
 
 		if (getUserCommentType() != null) { 

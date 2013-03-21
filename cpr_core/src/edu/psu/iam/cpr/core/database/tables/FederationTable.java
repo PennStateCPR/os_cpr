@@ -55,7 +55,7 @@ public class FederationTable {
 		final String upperFed = localFederationName.toUpperCase();
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT active_flag ");
-		sb.append("FROM federation ");
+		sb.append("FROM {h-schema}federation ");
 		sb.append("WHERE UPPER(federation)  = :fed_name_in ");
 		final SQLQuery query = session.createSQLQuery(sb.toString());
 		query.setParameter("fed_name_in", upperFed);

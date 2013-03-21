@@ -301,7 +301,7 @@ public class CredentialTable {
 		sb.append("last_update_on, ");
 		sb.append("created_by, ");
 		sb.append("created_on ");
-		sb.append("FROM credential ");
+		sb.append("FROM {h-schema}credential ");
 		sb.append("WHERE person_id = :person_id_in ");
 
 		// If we are doing a query for a specific credential type, we need to specify this clause.

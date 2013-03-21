@@ -89,7 +89,7 @@ public class CampusCsTable {
 
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT campus_code_key, campus ");
-		sb.append("FROM campus_cs ");
+		sb.append("FROM {h-schema}campus_cs ");
 		sb.append("WHERE campus_code = :campus_code_in ");
 		sb.append("AND active_flag = 'Y' ");
 
