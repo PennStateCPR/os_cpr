@@ -5,10 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -49,8 +46,6 @@ public class CprAccessGroups implements Serializable {
         /** Contains the cprAccessGroupsKey. */
         @Id
         @Column(name="cpr_access_groups_key", nullable=false)
-        @GeneratedValue(strategy=GenerationType.AUTO, generator="seq_cpr_access_groups")
-        @SequenceGenerator(name="seq_cpr_access_groups", sequenceName="seq_cpr_access_groups", allocationSize = 1, initialValue= 1)
         private Long cprAccessGroupsKey;
 
         /** Contains the createdOn. */
