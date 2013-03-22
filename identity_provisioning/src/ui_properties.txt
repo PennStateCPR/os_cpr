@@ -160,7 +160,7 @@ ui.set.password.no.person.id.message=Please call the ITS Help Desk: (814) 865-HE
 
 # JMS Items
 #---------------
-ui.setpassword.queue.name=Queue.Authentication
+ui.setpassword.queue.name=Queue.Directory
 ui.setpassword.reply.queue.name=Queue.CPR
 
 # UpdatePerson Returned An Error
