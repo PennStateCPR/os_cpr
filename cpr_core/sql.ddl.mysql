@@ -1317,7 +1317,7 @@ use cpr;
     (
      server_principal_ip_key bigint not null auto_increment, 
      ra_server_principal_key bigint not null, 
-     ip_address varchar(15)  not null,  
+     ip_address varchar(50)  not null,  
      start_date datetime not null,  
      end_date datetime,  
      last_update_by varchar(30) not null,  

@@ -1122,7 +1122,7 @@ create table web_service_access (
 create table server_principal_ip (
      server_principal_ip_key integer default nextval('seq_server_principal_ip') not null primary key,
      ra_server_principal_key integer not null,
-     ip_address varchar(15)  not null,
+     ip_address varchar(50)  not null,
      start_date timestamp not null,
      end_date timestamp,
      last_update_by varchar(30) not null,
