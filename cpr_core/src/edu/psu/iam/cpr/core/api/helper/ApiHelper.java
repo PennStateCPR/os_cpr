@@ -122,6 +122,9 @@ public final class ApiHelper {
 
 		final SortedSet<String> sortedKeys = new TreeSet<String>(otherParameters.keySet());
 		for (String key : sortedKeys) {
+			
+			System.out.println("KEY = " + key);
+			
 			parameters.append(key);
 			parameters.append("=[");
 		
@@ -134,6 +137,8 @@ public final class ApiHelper {
 				value = "null";
 			}
 			
+			System.out.println("VALUE = " + value);
+			
 			if (PROTECTED_KEYS.contains(key) || ValidateSSN.validateSSN(value) || Validate.isValidPsuId(value)) {
 				parameters.append("Sensitive Value Cannot Output");
 			} 
@@ -141,6 +146,8 @@ public final class ApiHelper {
 				parameters.append(value);
 			}
 			parameters.append("] ");
+			
+			System.out.println("We are OK!");
 		}
 		
 		return parameters.toString();
