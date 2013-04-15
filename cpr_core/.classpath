@@ -23,7 +23,6 @@
 	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/grouperClient.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Drools Final"/>
 	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/mysql-connector-java-5.1.20-bin.jar"/>
-	<classpathentry kind="lib" path="/Applications/eclipse/plugins/org.testng.eclipse_6.7.0.20120825_1316/lib/testng.jar" sourcepath="/Applications/eclipse/plugins/org.testng.eclipse_6.7.0.20120825_1316/lib/testng-sources.jar"/>
 	<classpathentry kind="con" path="org.testng.TESTNG_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Tomcat7"/>
 	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/struts2-core-2.3.1.2.jar"/>

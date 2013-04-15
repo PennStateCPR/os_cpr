@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0 (3)">
-		<attributes>
-			<attribute name="owner.project.facets" value="jst.web"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/tomcat_jars/servlet-api.jar"/>
@@ -29,5 +24,6 @@
 	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/json.jar"/>
 	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/mysql-connector-java-5.1.20-bin.jar"/>
 	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars_OS/cpr_core.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
