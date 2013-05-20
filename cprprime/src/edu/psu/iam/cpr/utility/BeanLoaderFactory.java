@@ -154,6 +154,9 @@ public class BeanLoaderFactory {
 		else if (tableName.equals("MessageConsumerMapping")) {
 			return new MessageConsumerMappingLoader();
 		}
+		else if (tableName.equals("Addresses")) {
+			return new AddressesLoader();
+		}
 		return null;
 	}
 
