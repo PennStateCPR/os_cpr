@@ -65,7 +65,7 @@ public class FindPersonTest {
 				null, // address1 
 				null, // address2
 				null, // address3 
-				null, // city 
+				"test city", // city 
 				null, // state 
 				null, // postal code 
 				null, // plus4
@@ -91,7 +91,7 @@ public class FindPersonTest {
 				null, // address1 
 				null, // address2
 				null, // address3 
-				null, // city 
+				"test city", // city 
 				null, // state 
 				null, // postal code 
 				null, // plus4
@@ -130,4 +130,31 @@ public class FindPersonTest {
 		}
 		
 	}
+	
+	@Test
+	public void _05testFindPerson() throws Exception {
+		FindPersonServiceReturn findPersonServiceReturn = port.searchForPerson(
+				ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, null, 
+				null, // userid 
+				null, // ssn
+				"test", // first name 
+				"user", // last name
+				null, // middle name. 
+				null, // address1 
+				null, // address2
+				null, // address3 
+				"test city", // city 
+				null, // state 
+				null, // postal code 
+				null, // plus4
+				null, // country
+				"1/1/1970", // date of birth
+				null, // gender
+				null); // rank cut off
+		if (findPersonServiceReturn.getStatusCode() != 0) {
+			throw new Exception(findPersonServiceReturn.getStatusMessage());
+		}
+		
+	}
+	
 }
