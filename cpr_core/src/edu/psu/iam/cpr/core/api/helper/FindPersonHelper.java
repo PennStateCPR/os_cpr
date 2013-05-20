@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -162,6 +163,7 @@ public class FindPersonHelper {
 		String localFirstName = (firstName != null) ? firstName.trim() : null;
 		String localLastName = (lastName != null) ? lastName.trim() : null;
 		String localDateOfBirth = (dateOfBirth != null) ? dateOfBirth.trim() : null;
+		String localCity = (city != null) ? city.trim() : null;
 		
 		if (localSSN != null && localSSN.length() > 0) {
 			LOG4J_LOGGER.debug("SearchForPerson: found ssn parm = " + localSSN);
@@ -188,7 +190,13 @@ public class FindPersonHelper {
 		if (localDateOfBirth == null || localDateOfBirth.length() == 0) {
 			LOG4J_LOGGER.debug("SearchForPerson: no date of birth entered");
 			return new FindPersonServiceReturn(ReturnType.INVALID_PARAMETERS_EXCEPTION.index(), "A date of birth must be entered.");
-		}			
+		}
+		
+		if (localCity == null || localCity.length() == 0) {
+			LOG4J_LOGGER.debug("SearchForPerson: no city entered");
+			return new FindPersonServiceReturn(ReturnType.INVALID_PARAMETERS_EXCEPTION.index(), "A city must be entered.");			
+		}
+		
 		else {
 			String numericDateOfBirth = localDateOfBirth;			
 			// Take care of MM/DD and MM/DD/YYYY cases.
@@ -217,14 +225,15 @@ public class FindPersonHelper {
 		}
 		
 		// Get the list of matching person ids for the name.  We are doing a simple exact match.
-		ArrayList<Long> nameMatch = new ArrayList<Long>();
+		List<Long> nameMatch = new ArrayList<Long>();
 		if (localLastName != null) {
 			
 			// We are doing a query for names with history.
 			Session session = db.getSession();
-			String sqlQuery = "select distinct personId from Names where upper(lastName)=upper(:last_name)";
+			String sqlQuery = "select distinct personId from Names where upper(lastName)=:last_name AND upper(firstName)=:first_name";
 			Query query = session.createQuery(sqlQuery);
-			query.setParameter("last_name", localLastName);
+			query.setParameter("last_name", localLastName.toUpperCase());
+			query.setParameter("first_name", localFirstName.toUpperCase());
 			for (Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 				Long personIdValue = (Long) it.next();
 				nameMatch.add(personIdValue);
@@ -232,7 +241,7 @@ public class FindPersonHelper {
 		}
 		
 		// Get the list of matches for the SSN.
-		ArrayList<Long> ssnMatch = new ArrayList<Long>();
+		List<Long> ssnMatch = new ArrayList<Long>();
 		if (localSSN != null) {
 			
 			// Need to find the key that is associated with the SSN person identifier.
@@ -258,7 +267,7 @@ public class FindPersonHelper {
 		}
 		
 		// Get the list of matches for the userid.
-		ArrayList<Long> useridMatch = new ArrayList<Long>();
+		List<Long> useridMatch = new ArrayList<Long>();
 		if (localUserid != null) {
 			Session session = db.getSession();
 			String sqlQuery = "select distinct personId from Userid where userid = :userid";
@@ -269,11 +278,24 @@ public class FindPersonHelper {
 				useridMatch.add(personIdValue);
 			}		
 		}
+		
+		// Get the list of matches for the city.
+		List<Long> cityMatch = new ArrayList<Long>(); 
+		if (localCity != null) {
+			Session session = db.getSession();
+			String sqlQuery = "select distinct personId from Addresses where upper(city) = :city";
+			Query query = session.createQuery(sqlQuery);
+			query.setParameter("city", localCity.toUpperCase());
+			for (Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+				Long personIdValue = (Long) it.next();
+				cityMatch.add(personIdValue);
+			}
+		}
 			
 		// Check name, SSN, and DOB.
 		if (localSSN != null) {
-			ArrayList<Long> finalMatch = new ArrayList<Long>();
-			finalMatch = (ArrayList<Long>) CollectionUtils.intersection(nameMatch, ssnMatch);
+			List<Long> finalMatch = new ArrayList<Long>();
+			finalMatch = (List<Long>) CollectionUtils.intersection(nameMatch, ssnMatch);
 			
 			if (finalMatch.size() == 1) {
 				
@@ -294,8 +316,8 @@ public class FindPersonHelper {
 		
 		// Check name, userid and DOB.
 		if (localUserid != null) {
-			ArrayList<Long> finalMatch = new ArrayList<Long>();
-			finalMatch = (ArrayList<Long>) CollectionUtils.intersection(nameMatch, useridMatch);
+			List<Long> finalMatch = new ArrayList<Long>();
+			finalMatch = (List<Long>) CollectionUtils.intersection(nameMatch, useridMatch);
 			if (finalMatch.size() == 1) {
 
 				setPersonId(finalMatch.get(0));
@@ -312,6 +334,29 @@ public class FindPersonHelper {
 
 					return findPersonReturn;
 				}
+			}
+		}
+		
+		// Check name, city and DOB.
+		if (localCity != null) {
+			List<Long> finalMatch = new ArrayList<Long>();
+			finalMatch = (List<Long>) CollectionUtils.intersection(nameMatch, cityMatch);
+			if (finalMatch.size() == 1) {
+				setPersonId(finalMatch.get(0));
+
+				// Verify that the DOB matches.
+				if (matchDOBInCPR(localDateOfBirth)) {
+					// Log a success!
+					LOG4J_LOGGER.info("SearchForPerson: match by city successful = " + localUserid);					        
+					FindPersonServiceReturn findPersonReturn = new FindPersonServiceReturn(ReturnType.SUCCESS.index(), "SUCCESS");
+					findPersonReturn.setMatchingMethod(MatchType.CITY.toString());
+					findPersonReturn.setPersonID(getPersonId());				
+					findPersonReturn.setPsuID(null);
+					findPersonReturn.setUserId(getPrimaryUserIdFromCPR());
+
+					return findPersonReturn;
+				}
+				
 			}
 		}
 		

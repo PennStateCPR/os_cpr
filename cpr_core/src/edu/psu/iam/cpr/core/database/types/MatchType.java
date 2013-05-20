@@ -32,7 +32,8 @@ public enum MatchType {
 	USERID(2),
 	NEAR_MATCH(3),
 	SSN(4),
-	NO_MATCH(5);
+	NO_MATCH(5),
+	CITY(6);
 	private long index;
 
 	/**
