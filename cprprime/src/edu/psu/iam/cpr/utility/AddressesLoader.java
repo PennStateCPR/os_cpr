@@ -45,7 +45,7 @@ public class AddressesLoader implements BeanLoader {
 				bean.setStartDate(d);
 				bean.setEndDate(null);
 				
-				// person_id|address1|city|data_type_key|primary_flag|verified_flag|do_not_verify_flag
+				// person_id|address1|city|data_type_key|primary_flag|verified_flag|do_not_verify_flag|group_id
 
 				for (int i = 0; i < columns.length; ++i) {
 					if (columns[i].equals("person_id")) {
@@ -66,6 +66,10 @@ public class AddressesLoader implements BeanLoader {
 					else if (columns[i].equals("do_not_verify_flag")) {
 						bean.setDoNotVerifyFlag(fields[i]);
 					}
+					else if (columns[i].equals("group_id")) {
+						bean.setGroupId(new Long(fields[i]));
+					}
+
 				}
 				
 				session.save(bean);
