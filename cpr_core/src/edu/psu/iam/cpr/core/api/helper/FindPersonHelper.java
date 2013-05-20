@@ -303,7 +303,7 @@ public class FindPersonHelper {
 
 				// Verify that the DOB matches.
 				if (matchDOBInCPR(localDateOfBirth)) {
-					LOG4J_LOGGER.info("SearchForPerson: match by ssn successful = " + localSSN);								
+					LOG4J_LOGGER.info("SearchForPerson: match by ssn successful");								
 					FindPersonServiceReturn findPersonReturn = new FindPersonServiceReturn(ReturnType.SUCCESS.index(), "SUCCESS");
 					findPersonReturn.setMatchingMethod(MatchType.SSN.toString());
 					findPersonReturn.setPersonID(getPersonId());
@@ -325,7 +325,7 @@ public class FindPersonHelper {
 				// Verify that the DOB matches.
 				if (matchDOBInCPR(localDateOfBirth)) {
 					// Log a success!
-					LOG4J_LOGGER.info("SearchForPerson: match by user id successful = " + localUserid);					        
+					LOG4J_LOGGER.info("SearchForPerson: match by user id successful");					        
 					FindPersonServiceReturn findPersonReturn = new FindPersonServiceReturn(ReturnType.SUCCESS.index(), "SUCCESS");
 					findPersonReturn.setMatchingMethod(MatchType.USERID.toString());
 					findPersonReturn.setPersonID(getPersonId());				
@@ -347,7 +347,7 @@ public class FindPersonHelper {
 				// Verify that the DOB matches.
 				if (matchDOBInCPR(localDateOfBirth)) {
 					// Log a success!
-					LOG4J_LOGGER.info("SearchForPerson: match by city successful = " + localUserid);					        
+					LOG4J_LOGGER.info("SearchForPerson: match by city successful");					        
 					FindPersonServiceReturn findPersonReturn = new FindPersonServiceReturn(ReturnType.SUCCESS.index(), "SUCCESS");
 					findPersonReturn.setMatchingMethod(MatchType.CITY.toString());
 					findPersonReturn.setPersonID(getPersonId());				
