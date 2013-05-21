@@ -431,90 +431,94 @@ public class DirectoryMessageProcessor {
 		Attribute objClass = new BasicAttribute("objectclass");
 		objClass.add("top");
 		objClass.add("inetOrgPerson");
-		objClass.add("eduPerson");
+//		objClass.add("eduPerson");
 		attrs.put(objClass);
 
 		String lastName = getMapValue("LAST_NAME");
 		String nameType = getMapValue("NAME_TYPE");
 
 		if (lastName.length() != 0 && nameType.length() != 0) {
-			String firstName = getMapValue("FIRST_NAME");
-			String middleNames = getMapValue("MIDDLE_NAMES");
-			String suffix = getMapValue("SUFFIX");
+//			String firstName = getMapValue("FIRST_NAME");
+//			String middleNames = getMapValue("MIDDLE_NAMES");
+//			String suffix = getMapValue("SUFFIX");
 
 			attrs.put(new BasicAttribute("sn", lastName));
 
-			String displayName = firstName + " " + lastName;
-			attrs.put(new BasicAttribute("displayName", displayName));
-
-			String cn = firstName + " " + middleNames + " " + lastName + " " + suffix;
-			attrs.put(new BasicAttribute("cn", cn));
-
-			String givenName = firstName + " " + middleNames;
-			attrs.put(new BasicAttribute("givenName", givenName));
+//			String displayName = firstName + " " + lastName;
+//			attrs.put(new BasicAttribute("displayName", displayName));
+//
+//			String cn = firstName + " " + middleNames + " " + lastName + " " + suffix;
+//			attrs.put(new BasicAttribute("cn", cn));
+//
+//			String givenName = firstName + " " + middleNames;
+//			attrs.put(new BasicAttribute("givenName", givenName));
 		}
+		
+		attrs.put(new BasicAttribute("cn", userId));
+		
+		attrs.put(new BasicAttribute("uid", getMapValue("PERSON_ID")));
 
-		String address1 = getMapValue("ADDRESS1");
-		String addressType = getMapValue("ADDRESS_TYPE");
-		if (address1.length() != 0 && addressType.length() != 0) {
+//		String address1 = getMapValue("ADDRESS1");
+//		String addressType = getMapValue("ADDRESS_TYPE");
+//		if (address1.length() != 0 && addressType.length() != 0) {
+//
+//			String postalCode = getMapValue("POSTAL_CODE");
+//			String city = getMapValue("CITY");
+//			String address2 = getMapValue("ADDRESS2");
+//			String address3 = getMapValue("ADDRESS3");
+//			String state = getMapValue("STATE");
+//			String country = getMapValue("COUNTRY_NAME");
+//
+//			// build the address string to insert into the directory (address1$address2$address3$city, state postal code$country)
+//			StringBuffer directoryAddress = new StringBuffer(address1 + "$");
+//			if (address2.length() != 0) {
+//				directoryAddress.append(address2 + "$");
+//			}
+//			if (address3.length() != 0) {
+//				directoryAddress.append(address3 + "$");
+//			}
+//			if (city.length() != 0) {
+//				directoryAddress.append(city + ",");
+//			}
+//			if (state.length() != 0) {
+//				directoryAddress.append(" " + state);
+//			}
+//			if (postalCode.length() != 0) {
+//				directoryAddress.append(" " + postalCode);
+//			}
+//			if (country.length() != 0) {
+//				directoryAddress.append("$" + country);
+//			}
+//
+//			attrs.put(new BasicAttribute("postalAddress", directoryAddress.toString()));
+//		}
 
-			String postalCode = getMapValue("POSTAL_CODE");
-			String city = getMapValue("CITY");
-			String address2 = getMapValue("ADDRESS2");
-			String address3 = getMapValue("ADDRESS3");
-			String state = getMapValue("STATE");
-			String country = getMapValue("COUNTRY_NAME");
+//		attrs.put(new BasicAttribute("eduPersonAffiliation", "student"));
+//		attrs.put(new BasicAttribute("eduPersonPrimaryAffiliation", "student"));
 
-			// build the address string to insert into the directory (address1$address2$address3$city, state postal code$country)
-			StringBuffer directoryAddress = new StringBuffer(address1 + "$");
-			if (address2.length() != 0) {
-				directoryAddress.append(address2 + "$");
-			}
-			if (address3.length() != 0) {
-				directoryAddress.append(address3 + "$");
-			}
-			if (city.length() != 0) {
-				directoryAddress.append(city + ",");
-			}
-			if (state.length() != 0) {
-				directoryAddress.append(" " + state);
-			}
-			if (postalCode.length() != 0) {
-				directoryAddress.append(" " + postalCode);
-			}
-			if (country.length() != 0) {
-				directoryAddress.append("$" + country);
-			}
-
-			attrs.put(new BasicAttribute("postalAddress", directoryAddress.toString()));
-		}
-
-		attrs.put(new BasicAttribute("eduPersonAffiliation", "student"));
-		attrs.put(new BasicAttribute("eduPersonPrimaryAffiliation", "student"));
-
-		String phoneNumber = getMapValue("PHONE_NUMBER");
-		String phoneType = getMapValue("PHONE_TYPE");
-		if (phoneNumber.length() != 0 && phoneType.length() != 0) {
-
-			String extension = getMapValue("EXTENSION");
-			String directoryPhone = null;
-			if (extension.length() != 0) {
-				directoryPhone = phoneNumber;
-			}
-			else {
-				directoryPhone = phoneNumber + "  " + extension;
-			}
-
-			attrs.put(new BasicAttribute("telephoneNumber", directoryPhone.toString()));
-		}
-
-		String emailAddressType = getMapValue("EMAIL_ADDRESS_TYPE");
-		String emailAddress = getMapValue("EMAIL_ADDRESS");
-		if (emailAddressType.length() != 0 && emailAddress.length() != 0) {
-
-			attrs.put(new BasicAttribute("mail", emailAddress));
-			attrs.put(new BasicAttribute("eduPersonPrincipalName", emailAddress));
-		}
+//		String phoneNumber = getMapValue("PHONE_NUMBER");
+//		String phoneType = getMapValue("PHONE_TYPE");
+//		if (phoneNumber.length() != 0 && phoneType.length() != 0) {
+//
+//			String extension = getMapValue("EXTENSION");
+//			String directoryPhone = null;
+//			if (extension.length() != 0) {
+//				directoryPhone = phoneNumber;
+//			}
+//			else {
+//				directoryPhone = phoneNumber + "  " + extension;
+//			}
+//
+//			attrs.put(new BasicAttribute("telephoneNumber", directoryPhone.toString()));
+//		}
+//
+//		String emailAddressType = getMapValue("EMAIL_ADDRESS_TYPE");
+//		String emailAddress = getMapValue("EMAIL_ADDRESS");
+//		if (emailAddressType.length() != 0 && emailAddress.length() != 0) {
+//
+//			attrs.put(new BasicAttribute("mail", emailAddress));
+//			attrs.put(new BasicAttribute("eduPersonPrincipalName", emailAddress));
+//		}
 
 		log.info("Adding entry for user " + userId);
 		directoryContext.createSubcontext(buildDN(userId), attrs);

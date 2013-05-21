@@ -12,7 +12,7 @@ cpr.jms.dir.queue=Queue.Directory
 #
 cpr.ldap.url=<PUT LDAP SERVER URL HERE> - example: ldap://host.somedomain.edu
 cpr.ldap.people.base.dn=<PUT LDAP DN HERE> 
-cpr.ldap.people.dn.prefix=uid
+cpr.ldap.people.dn.prefix=cn
 cpr.ldap.security.authentication=simple
 cpr.ldap.security.protocol=<NOTE THIS WILL NEED TO BE SET TO EITHER SSL OR TLS IF YOU ARE USING LDAPS>
 cpr.ldap.manager.dn=<PUT THE MANAGER ROOT USER HERE>
