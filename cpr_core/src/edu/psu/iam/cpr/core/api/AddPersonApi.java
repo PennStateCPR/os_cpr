@@ -156,10 +156,13 @@ public class AddPersonApi extends ExtendedBaseApi {
 
 		// Verify that the minimum requirements for the service have been met.
 		verifyServiceDataRequirements();
+		
+        LOG4J_LOGGER.info(apiName + ": After the verify of service requirments");
 
 		// Do matching only if the find person flag is set to Y.  The only case that would be true
 		// would be from IAM online where the matching is already done ahead of time.
 		if (doFindPersonFlag.equals("Y")) {
+            LOG4J_LOGGER.info(apiName + ": Doing a find person!");
 			personServiceReturn = performPersonMatch(db, serviceCoreReturn, updatedBy, ssn);
 
 			// Did we find a match?  If so, we need to return.
