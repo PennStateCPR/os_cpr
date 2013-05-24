@@ -1,0 +1,73 @@
+/* Buttons
+--------------------------------------*/
+// Default button.
+// Override
+// .btn (Bootstrap)
+.cm-btn {
+	padding: 6px 30px;
+	border-color: @defaultBorder;
+	.gradient(@startColor: @defaultStart, @fromColor: @defaultEnd);
+	.shadow(@vShadow: 2px, @blur: 0, @color: @defaultShadow);
+	.textshadow;
+
+	&:hover, &:focus, &:active, &.active, &.disabled, &[disabled] {
+		color: @defaultText;
+		.gradient(@startColor: @defaultStart, @fromColor: @defaultStart);
+	}
+}
+
+// Primary button.
+// Override
+// .btn-primary (Bootstrap)
+.cm-btn-primary {
+	border-color: @primaryBorder;
+	.gradient(@startColor: @primaryStart, @fromColor: @primaryEnd);
+	.shadow(@vShadow: 2px, @blur: 0, @color: @primaryShadow);
+
+	&:hover, &:focus, &:active, &.active, &.disabled, &[disabled] {
+		color: @primaryText;
+		.gradient(@startColor: @primaryStart, @fromColor: @primaryStart);
+	}
+}
+
+// Danger button.
+// Override
+// .btn-danger (Bootstrap)
+.cm-btn-danger {
+	border-color: @dangerBorder;
+	.gradient(@startColor: @dangerStart, @fromColor: @dangerEnd);
+	.shadow(@vShadow: 2px, @blur: 0, @color: @dangerShadow);
+
+	&:hover, &:focus, &:active, &.active, &.disabled, &[disabled] {
+		color: @dangerText;
+		.gradient(@startColor: @dangerStart, @fromColor: @dangerStart);
+	}
+}
+
+// Button link.
+// Override
+// .btn-link (Bootstrap)
+.cm-btn-link {
+	color: @link;
+	font-weight: bold;
+
+	&:hover, &:focus {
+		color: @linkHover;
+	}
+}
+
+// Large button.
+// Override
+// .btn-large (Bootstrap)
+.cm-btn-large {
+	padding: 12px 0 12px 0;
+	font-size: @defaultFontSize;
+}
+
+// Block button.
+// Override
+// .btn-block (Bootstrap)
+.cm-btn-block {
+	padding-left: 0;
+	padding-right: 0;
+}

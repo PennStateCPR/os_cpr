@@ -1,0 +1,1 @@
+var commit=commit||{};(function($){"use strict";commit.success={selectors:{primary:"#continueButton"},utils:{},buildReturnUrl:function(url){var label,primary;primary=$(this.selectors.primary),label="Return",primary.attr("href",url).html(label),commit.utils.navHook(primary)},initialize:function(url){_.bindAll(this),this.utils=commit.utils,this.buildReturnUrl(url)}}})(jQuery);

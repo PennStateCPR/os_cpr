@@ -1,0 +1,90 @@
+/* Tabs
+--------------------------------------*/
+.cm-tab-container {
+	padding: 65px 0 0 0;
+}
+
+.cm-tabs-stacked {
+	display: block;
+
+	li {
+		display: block;
+		margin: 0 0 2px 0;
+		&.active a, &.active a:hover,
+		&.active a:focus, &.active a:active {
+			color: @tabStackedActiveText;
+			background: @tabStackedActiveBg url(@commitTabArrowRightActive) right 50% no-repeat;
+			.round(@topRight: 0, @bottomRight: 0);
+			.textshadow;
+		}
+
+		a {
+			display: block;
+			color: @tabStackedText;
+			padding: 6px 40px 6px 8px;
+			white-space: nowrap;
+
+			&:hover, &:focus, &:active {
+				color: @text;
+				background: @tabStackedHoverBg url(@commitTabArrowRightHover) right 50% no-repeat;
+				.round(@topRight: 0, @bottomRight: 0);
+			}
+		}
+	}
+}
+
+.cm-tab-content {
+	.tab-pane {
+		display: none;
+	}
+
+	.active {
+		display: block;
+	}
+}
+
+/* Responsive
+--------------------------------------*/
+// Landscape phone and portrait tablet.
+@media (max-width: 767px) {
+	.cm-tab-container {padding: 0;}
+
+	.cm-tabs-stacked {
+		li {
+			&.active a, &.active a:hover,
+			&.active a:focus, &.active a:active {
+				background: @tabStackedActiveBg;
+				.round;
+			}
+
+			a {
+				&:hover, &:focus, &:active {
+					background: @tabStackedHoverBg;
+					.round;
+				}
+			}
+		}
+	}
+}
+
+// Landscape phones and down.
+@media (max-width: 480px) {
+	.cm-tab-container {padding: 0;}
+
+	.cm-tabs-stacked {
+		li {
+			&.active a, &.active a:hover,
+			&.active a:focus, &.active a:active {
+				background: @tabStackedActiveBg;
+				.rounded;
+			}
+
+			a {
+				&:hover, &:focus, &:active {
+					background: @tabStackedHoverBg;
+					.rounded;
+				}
+			}
+		}
+	}
+}

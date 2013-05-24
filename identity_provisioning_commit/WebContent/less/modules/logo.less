@@ -1,0 +1,40 @@
+/* Logo Module
+--------------------------------------*/
+.logo-module, .logo-module a {
+	display: block;
+	overflow: hidden;
+}
+
+.logo-module {
+	a {
+		&:hover{text-decoration: none;}
+	}
+}
+
+.logo-primary {
+	width: 210px;
+	height: 110px;
+	background: @logoBg url(@commitLogoPath) 0 0 no-repeat;
+}
+
+.logo-secondary {
+	width: 210px;
+	height: 45px;
+	background: @logoBg url(@secondaryLogoPath) 0 0 no-repeat;
+}
+
+/* Responsive
+--------------------------------------*/
+// Landscape phone and portrait tablet.
+@media (max-width: 767px) {
+	.logo-module {
+		margin: 0 auto;
+	}
+}
+
+// Landscape phones and down.
+@media (max-width: 480px) {
+	.logo-module {
+		margin: 0 auto;
+	}
+}

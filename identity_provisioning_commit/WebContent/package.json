@@ -1,0 +1,12 @@
+{
+	"name": "Commit",
+	"description": "The Commit Project",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {},
+	"dependencies": {
+		"grunt": "0.4.0",
+		"grunt-contrib": "0.4.0",
+		"grunt-exec": "0.4.0"
+	}
+}
