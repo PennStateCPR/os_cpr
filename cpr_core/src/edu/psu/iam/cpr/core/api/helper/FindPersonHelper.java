@@ -292,7 +292,7 @@ public class FindPersonHelper {
 			}
 		}
 			
-		// Check name, SSN, and DOB.
+		// Check name, SSN, and DOB, has to be an exact match of a single record.
 		if (localSSN != null) {
 			List<Long> finalMatch = new ArrayList<Long>();
 			finalMatch = (List<Long>) CollectionUtils.intersection(nameMatch, ssnMatch);
@@ -314,7 +314,7 @@ public class FindPersonHelper {
 			}
 		}
 		
-		// Check name, userid and DOB.
+		// Check name, userid and DOB, has to be a single match of one record.
 		if (localUserid != null) {
 			List<Long> finalMatch = new ArrayList<Long>();
 			finalMatch = (List<Long>) CollectionUtils.intersection(nameMatch, useridMatch);
@@ -341,11 +341,12 @@ public class FindPersonHelper {
 		if (localCity != null) {
 			List<Long> finalMatch = new ArrayList<Long>();
 			finalMatch = (List<Long>) CollectionUtils.intersection(nameMatch, cityMatch);
-			if (finalMatch.size() == 1) {
-				setPersonId(finalMatch.get(0));
+			for (Iterator<Long> it = finalMatch.iterator(); it.hasNext(); ) {
+				setPersonId(it.next());
 
 				// Verify that the DOB matches.
 				if (matchDOBInCPR(localDateOfBirth)) {
+					
 					// Log a success!
 					LOG4J_LOGGER.info("SearchForPerson: match by city successful");					        
 					FindPersonServiceReturn findPersonReturn = new FindPersonServiceReturn(ReturnType.SUCCESS.index(), "SUCCESS");
@@ -356,8 +357,8 @@ public class FindPersonHelper {
 
 					return findPersonReturn;
 				}
-				
 			}
+		
 		}
 		
 		// No match was found.
