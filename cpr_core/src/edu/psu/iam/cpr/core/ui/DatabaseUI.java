@@ -172,7 +172,7 @@ public class DatabaseUI extends Database {
 		final List<SecurityQuestionAnswers> securityQuestList = new ArrayList<SecurityQuestionAnswers>();
 
 		// Pull all the security questions associated with the given user from the securityQuestionAnswers table in the database
-		final String sqlQuery = "from SecurityQuestionAnswers where personId = :personId AND userId = :userId";
+		final String sqlQuery = "from SecurityQuestionAnswers where personId = :personId AND userId = :userId order by secQuestGroupKey ASC";
 		final Query query = getSession().createQuery(sqlQuery);
 		query.setParameter("personId", personId);
 		query.setParameter("userId", userId);
