@@ -348,7 +348,7 @@ public class DirectoryMessageProcessor {
 		ModificationItem mod = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute(attribute, value));
 		ModificationItem mods[] = new ModificationItem[1];
 		mods[0] = mod;
-		log.info("Replacing " + attribute + " for dn " + dn + " with " + value);
+		log.info("Replacing " + attribute + " for dn " + dn + ".");
 		directoryContext.modifyAttributes(dn, mods);
 	}
 
