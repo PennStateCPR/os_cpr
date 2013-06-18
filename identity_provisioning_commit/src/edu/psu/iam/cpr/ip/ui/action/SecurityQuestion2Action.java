@@ -42,7 +42,7 @@ public class SecurityQuestion2Action extends SecurityQuestionBaseAction
      */
 	public String execute()
 	{
-		setPrefix(getPrefix());
+		setPrefix("sq2");
 		return super.execute();
 	}
 	

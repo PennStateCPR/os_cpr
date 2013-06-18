@@ -256,6 +256,11 @@ public abstract class BaseAction extends ActionSupport
 		  !getSessionMap().get(RAC_VALID_SESSION).equals("y"))              
 		{
 			allow = false;
+            log.error(String.format("%s SESSION[%s] -- RAC_VALID_SESSION[%s]"
+                    , getUniqueId()
+                    , getHttpServletRequest().getSession(false)
+                    , getSessionMap().get(RAC_VALID_SESSION)
+                    ));
 		}
 		
 		return allow;

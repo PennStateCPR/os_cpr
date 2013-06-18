@@ -54,7 +54,9 @@ public class SuccessAction extends BaseAction
 		homeURL    = getSessionString("rac.homeURL");
 		raReferrer = getSessionString("rac.raReferrer");
 		
-		psuId = RegexHelper.formatUniversityId( getApplicationMap(), psuId);
+		if (psuId != null) {
+			psuId = RegexHelper.formatUniversityId( getApplicationMap(), psuId);
+		}
 
 		log.info(String.format("%s Request complete", getUniqueId()));
 		getSessionMap().put("suc.request.complete","true");

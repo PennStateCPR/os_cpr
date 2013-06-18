@@ -43,18 +43,19 @@ var commit = commit || {};
 			var url, label, primary;
 
 			// Initialize.
-			primary = $(this.selectors.primary);
+			primary = $(this.selectors.primary),
+			url = commit.utils.getCookie('idp') || '/IdentityProvisioning';
 
 			// Logic.
 			if (exception === 'datalock') {
-				url = '/IdentityProvisioning';
+				//url = '/IdentityProvisioning';
 				label = 'Continue';
 			} else if (exception === 'other') {
-				url = commit.utils.getCookie('raHome');
+				//url = commit.utils.getCookie('raHome');
 				label = 'OK';
 			} else {
-				url = commit.utils.getCookie('raReferrer');
-				url = (!url || url === '') ? '/IdentityProvisioning' : url;
+				//url = commit.utils.getCookie('raReferrer');
+				//url = (!url || url === '') ? '/IdentityProvisioning' : url;
 				label = 'OK';
 			}
 
