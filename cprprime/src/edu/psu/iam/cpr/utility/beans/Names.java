@@ -92,6 +92,10 @@ public class Names implements Serializable {
         /** Contains the middleNames. */
         @Column(name="middle_names", nullable=true, length=60)
         private String middleNames;
+        
+        /** Contains the nickname */
+        @Column(name="nickname", nullable=true, length=40) 
+        private String nickname;
 
         /**
          * Constructor
@@ -309,5 +313,19 @@ public class Names implements Serializable {
         public void setMiddleNames(String middleNames) {
                 this.middleNames = middleNames;
         }
+
+		/**
+		 * @param nickname the nickname to set
+		 */
+		public void setNickname(String nickname) {
+			this.nickname = nickname;
+		}
+
+		/**
+		 * @return the nickname
+		 */
+		public String getNickname() {
+			return nickname;
+		}
 
 }
