@@ -54,12 +54,13 @@ public class NamesTable {
 	private static final int MIDDLE_NAMES = 3;
 	private static final int LAST_NAME = 4;
 	private static final int SUFFIX = 5;
-	private static final int START_DATE = 6;
-	private static final int END_DATE = 7;
-	private static final int LAST_UPDATE_BY = 8;
-	private static final int LAST_UPDATE_ON = 9;
-	private static final int CREATED_BY = 10;
-	private static final int CREATED_ON = 11;
+	private static final int NICKNAME = 6;
+	private static final int START_DATE = 7;
+	private static final int END_DATE = 8;
+	private static final int LAST_UPDATE_BY = 9;
+	private static final int LAST_UPDATE_ON = 10;
+	private static final int CREATED_BY = 11;
+	private static final int CREATED_ON = 12;
 	private static final int BUFFER_SIZE = 2048;
 	
 	private static final String DATA_TYPE_KEY_STRING = "data_type_key";
@@ -97,11 +98,12 @@ public class NamesTable {
 	 * @param middleNames contains the middle names (optional).
 	 * @param lastName contains the last name.
 	 * @param suffix contains the suffix (optional).
+	 * @param nickname contains the nickname (optional).
 	 * @param updatedBy contains the updatedBy system identifier.
 	 * @throws CprException will be thrown if there are any problems.
 	 */
 	public NamesTable(long personId, String nameType, String documentType, String firstName, String middleNames, 
-			String lastName, String suffix, String updatedBy) throws CprException {
+			String lastName, String suffix, String nickname, String updatedBy) throws CprException {
 		
 		final Names bean = new Names();
 		final Date d = new Date();
@@ -122,6 +124,7 @@ public class NamesTable {
 		bean.setLastName(lastName);
 		bean.setMiddleNames(middleNames);
 		bean.setSuffix(suffix);
+		bean.setNickname(nickname);
 		
 		bean.setNameMatchCode(null);
 		
@@ -144,7 +147,7 @@ public class NamesTable {
 	 * @throws CprException will be thrown if there are any problems.
 	 */
 	public NamesTable(long personId, String nameType, String documentType, String updatedBy) throws CprException {
-		this(personId, nameType, documentType, null, null, null, null, updatedBy);
+		this(personId, nameType, documentType, null, null, null, null, null, updatedBy);
 	}
 	
 	/**
@@ -248,7 +251,7 @@ public class NamesTable {
 
 		// Build the query string.
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-		sb.append("SELECT data_type_key, document_type_key, first_name, middle_names, last_name, suffix, ");
+		sb.append("SELECT data_type_key, document_type_key, first_name, middle_names, last_name, suffix, nickname, ");
 		sb.append("start_date, ");
 		sb.append("end_date, ");
 		sb.append("last_update_by, ");
@@ -284,6 +287,7 @@ public class NamesTable {
 		query.addScalar("middle_names", StandardBasicTypes.STRING);
 		query.addScalar("last_name", StandardBasicTypes.STRING);
 		query.addScalar("suffix", StandardBasicTypes.STRING);
+		query.addScalar("nickname", StandardBasicTypes.STRING);
 		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
 		query.addScalar("end_date", StandardBasicTypes.TIMESTAMP);
 		query.addScalar("last_update_by", StandardBasicTypes.STRING);
@@ -309,6 +313,7 @@ public class NamesTable {
 			nameReturn.setMiddleNames((String) res[MIDDLE_NAMES]);
 			nameReturn.setLastName((String) res[LAST_NAME]);
 			nameReturn.setSuffix((String) res[SUFFIX]);
+			nameReturn.setNickname((String) res[NICKNAME]);
 			nameReturn.setStartDate(Utility.convertTimestampToString((Date) res[START_DATE]));
 			nameReturn.setEndDate(Utility.convertTimestampToString((Date) res[END_DATE]));
 			nameReturn.setLastUpdateBy((String) res[LAST_UPDATE_BY]);

@@ -174,7 +174,7 @@ public final class ValidateName {
 				
 		// At this point we are ready to save off the information to a class.
 		return new NamesTable(personId, localNameType, localDocumentType, localFirstName, localMiddleNames, 
-					localLastName, localSuffix, localUpdatedBy);
+					localLastName, localSuffix, null, localUpdatedBy);
 	}
 	
 	/**

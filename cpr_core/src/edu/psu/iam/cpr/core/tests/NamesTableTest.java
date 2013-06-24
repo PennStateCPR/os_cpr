@@ -60,7 +60,7 @@ public class NamesTableTest {
 	 */
 	@Test
 	public final void _02testNamesTableIntStringStringStringStringStringString() throws Exception {
-		new NamesTable(1, "legal_name", "", "jeff", "", "jones", "", "cpruser" );
+		new NamesTable(1, "legal_name", "", "jeff", "", "jones", "", null, "cpruser" );
 	}
 	@Test
 	public final void _03testNamesTableIntStringStringStringStringStringString1() throws Exception {
@@ -197,7 +197,7 @@ public class NamesTableTest {
 		NamesTable n = null;
 		try {
 			openDbConnection();
-			n = new NamesTable(100000, "LEGAL_NAME", "", "ted", "eff", "vuccolo", "", "cpruser");
+			n = new NamesTable(100000, "LEGAL_NAME", "", "ted", "eff", "vuccolo", "", null, "cpruser");
 			n.addName(db);
 			db.closeSession();
 		}
@@ -218,7 +218,7 @@ public class NamesTableTest {
 	@Test
 	public final void _20testAddName() throws Exception {
 		openDbConnection();
-		NamesTable n = new NamesTable(100002, "LEGAL_NAME", "", "ted", "", UUID.randomUUID().toString() + "jeff", "", "cpruser");
+		NamesTable n = new NamesTable(100002, "LEGAL_NAME", "", "ted", "", UUID.randomUUID().toString() + "jeff", "", null, "cpruser");
 		n.addName(db);
 		db.closeSession();
 	}
@@ -226,7 +226,7 @@ public class NamesTableTest {
 	@Test
 	public final void _21testAddName2() throws Exception {
 		openDbConnection();
-		NamesTable n = new NamesTable(100002, "DOCUMENTED_NAME", "PASSPORT", "ted", "", UUID.randomUUID().toString() + "jeff", "", "cpruser");
+		NamesTable n = new NamesTable(100002, "DOCUMENTED_NAME", "PASSPORT", "ted", "", UUID.randomUUID().toString() + "jeff", "", null, "cpruser");
 		n.addName(db);
 		db.closeSession();
 	}

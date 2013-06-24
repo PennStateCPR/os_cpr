@@ -47,7 +47,7 @@ public class NameReturnTest {
 	 */
 	@Test
 	public final void testNameReturnStringStringStringStringStringString() {
-		new NameReturn("COMMON_NAME", null, "Jimmy", "A", "Vuccolo", "","","","","","","");
+		new NameReturn("COMMON_NAME", null, "Jimmy", "A", "Vuccolo", "",null,"","","","","", "");
 	}
 
 	/**

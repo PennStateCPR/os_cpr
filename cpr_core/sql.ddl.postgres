@@ -552,6 +552,7 @@ create table names (
         last_update_on timestamp not null,
         middle_names varchar(60),
         name_match_code varchar(60),
+        nickname varchar(40),
         person_id integer not null,
         start_date timestamp not null,
         suffix varchar(30)

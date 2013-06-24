@@ -116,7 +116,7 @@ public class JsonMessageTest {
 	@Test
 	public final void testSetName() throws Exception {
 		openDbConnection();
-		NamesTable namesTable = new NamesTable(100000, NameType.LEGAL_NAME.toString(), null, "James", null, "Vuccolo", null, "cpruser");
+		NamesTable namesTable = new NamesTable(100000, NameType.LEGAL_NAME.toString(), null, "James", null, "Vuccolo", null, null, "cpruser");
 		JsonMessage j = new JsonMessage(db, 100000, CprServiceName.AddPerson.toString(), "cpruser");
 		j.setName(namesTable);
 		db.closeSession();

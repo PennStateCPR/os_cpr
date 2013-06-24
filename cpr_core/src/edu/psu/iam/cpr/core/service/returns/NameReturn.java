@@ -44,6 +44,9 @@ public class NameReturn {
 	/** Contains the user's suffix */
 	private String suffix;
 	
+	/** Contains the user's nickname */
+	private String nickname;
+	
 	/** Contains the start date */
 	private String startDate;
 	
@@ -77,6 +80,7 @@ public class NameReturn {
 	 * @param middleNames middle name(s).
 	 * @param lastName last name.
 	 * @param suffix suffix.
+	 * @param nickname nickname.
 	 * @param startDate contains the start date.
 	 * @param endDate contains the end date.
 	 * @param lastUpdateBy contains the person who last updated this record.
@@ -85,8 +89,8 @@ public class NameReturn {
 	 * @param createdOn contains the date the record was created.
 	 */
 	public NameReturn(String nameType, String documentType, String firstName, String middleNames,
-			String lastName, String suffix, String startDate, String endDate, String lastUpdateBy,
-			String lastUpdateOn, String createdBy, String createdOn) {
+			String lastName, String suffix, String nickname, String startDate, String endDate,
+			String lastUpdateBy, String lastUpdateOn, String createdBy, String createdOn) {
 		super();
 		this.nameType = nameType;
 		this.documentType = documentType;
@@ -268,5 +272,19 @@ public class NameReturn {
 	 */
 	public String getCreatedOn() {
 		return createdOn;
+	}
+
+	/**
+	 * @param nickname the nickname to set
+	 */
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	/**
+	 * @return the nickname
+	 */
+	public String getNickname() {
+		return nickname;
 	}
 }
