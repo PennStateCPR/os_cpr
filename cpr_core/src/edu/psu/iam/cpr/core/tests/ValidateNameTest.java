@@ -139,44 +139,44 @@ public class ValidateNameTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void _15testValidateAddNameParameters1() throws Exception {
 		openDbConnection();
-		ValidateName.validateAddNameParameters(db, 0, null, null, null, null, null, null, null);
+		ValidateName.validateAddNameParameters(db, 0, null, null, null, null, null, null, null, null);
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _16testValidateAddNameParameters2() throws Exception {
 		openDbConnection();
-		ValidateName.validateAddNameParameters(db, 0, "name_type", null, null, null, null, null, null);
+		ValidateName.validateAddNameParameters(db, 0, "name_type", null, null, null, null, null, null, null);
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _17testValidateAddNameParameters3() throws Exception {
 		openDbConnection();
-		ValidateName.validateAddNameParameters(db, 0, "name_type", null, null, null, "last", null, null);
+		ValidateName.validateAddNameParameters(db, 0, "name_type", null, null, null, "last", null, null, null);
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _18testValidateAddNameParameters4() throws Exception {
 		openDbConnection();
-		ValidateName.validateAddNameParameters(db, 0, "name_type", null, null, null, "last", null, "cpruser");
+		ValidateName.validateAddNameParameters(db, 0, "name_type", null, null, null, "last", null, null, "cpruser");
 		db.closeSession();
 	}
 	@Test
 	public final void _19testValidateAddNameParameters5() throws Exception {
 		openDbConnection();
-		ValidateName.validateAddNameParameters(db, 0, "legal_name", null, null, null, "last", null, "cpruser");
+		ValidateName.validateAddNameParameters(db, 0, "legal_name", null, null, null, "last", null, null, "cpruser");
 		db.closeSession();
 	}
 
 	@Test(expectedExceptions=Exception.class)
 	public final void _20testValidateAddNameParameters6() throws Exception {
 		openDbConnection();
-		ValidateName.validateAddNameParameters(db, 0, "common_name", null, "1234567890123456789012345678901", null, null, null, "cpruser");
+		ValidateName.validateAddNameParameters(db, 0, "common_name", null, "1234567890123456789012345678901", null, null, null, null, "cpruser");
 		db.closeSession();
 	}
 	@Test(expectedExceptions=Exception.class)
 	public final void _21testValidateAddNameParameters7() throws Exception {
 		openDbConnection();
-		ValidateName.validateAddNameParameters(db, 0, "common_name", null, "Jimmy", null, "Vuccolo", null, "                                                 ");
+		ValidateName.validateAddNameParameters(db, 0, "common_name", null, "Jimmy", null, "Vuccolo", null, null, "                                                 ");
 		db.closeSession();
 	}
 	

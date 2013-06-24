@@ -62,11 +62,12 @@ public class AddNameApi extends BaseApi {
         final String middleNames = (String) otherParameters.get(MIDDLE_NAMES_KEY);
         final String lastName = (String) otherParameters.get(LAST_NAME_KEY);
         final String suffix = (String) otherParameters.get(SUFFIX_KEY);
+        final String nickname = (String) otherParameters.get(NICKNAME);
         final long personId = serviceCoreReturn.getPersonId();
 		
 		// Validate the service parameters.
 		final NamesTable namesTable = ValidateName.validateAddNameParameters(db, personId, nameType, 
-				documentType, firstName, middleNames, lastName, suffix, updatedBy);
+				documentType, firstName, middleNames, lastName, suffix, nickname, updatedBy);
 
 		// Determine if the caller is authorized to make this call.
 		if (checkAuthorization) {

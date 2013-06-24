@@ -51,6 +51,7 @@ public abstract class BaseApi {
 	public static final String MIDDLE_NAMES_KEY = "middle_names";
 	public static final String LAST_NAME_KEY = "last_name";
 	public static final String SUFFIX_KEY = "suffix";
+	public static final String NICKNAME = "nickname";
 	public static final String ADDRESS1_KEY = "addr1";
 	public static final String ADDRESS2_KEY = "addr2";
 	public static final String ADDRESS3_KEY = "addr3";

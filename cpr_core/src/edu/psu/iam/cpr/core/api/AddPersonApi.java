@@ -122,6 +122,7 @@ public class AddPersonApi extends ExtendedBaseApi {
         final String middleNames		= (String) otherParameters.get(MIDDLE_NAMES_KEY);
         final String lastName			= (String) otherParameters.get(LAST_NAME_KEY);
         final String suffix				= (String) otherParameters.get(SUFFIX_KEY);
+        final String nickname			= (String) otherParameters.get(NICKNAME);
         final String addressType		= (String) otherParameters.get(ADDRESS_TYPE_KEY);
         final String addressDocumentType= (String) otherParameters.get(ADDRESS_DOCUMENT_TYPE_KEY);
         final String address1			= (String) otherParameters.get(ADDRESS1_KEY);
@@ -148,11 +149,11 @@ public class AddPersonApi extends ExtendedBaseApi {
 		// Validate the input to the service.
 		validateServiceInput(db, serviceCoreReturn, updatedBy, assignPsuIdFlag,
 				assignUseridFlag, gender, dob, nameType, nameDocumentType,
-				firstName, middleNames, lastName, suffix, addressType,
-				addressDocumentType, address1, address2, address3, city,
-				stateOrProvince, postalCode, countryCode, campusCode,  verifyAddressFlag,
-				phoneType, phoneNumber, extension, internationalNumber,
-				emailType, emailAddress, affiliation, ssn);
+				firstName, middleNames, lastName, suffix, nickname,
+				addressType, addressDocumentType, address1, address2, address3,
+				city, stateOrProvince, postalCode, countryCode,  campusCode,
+				verifyAddressFlag, phoneType, phoneNumber, extension,
+				internationalNumber, emailType, emailAddress, affiliation, ssn);
 
 		// Verify that the minimum requirements for the service have been met.
 		verifyServiceDataRequirements();
@@ -434,6 +435,7 @@ public class AddPersonApi extends ExtendedBaseApi {
 	 * @param middleNames contains the middle names if specified.
 	 * @param lastName contains the last name.
 	 * @param suffix contains the suffix.
+	 * @param nickname contains the nickname.
 	 * @param addressType contains the address type.
 	 * @param addressDocumentType contains the address document type.
 	 * @param address1 contains address line #1.
@@ -461,12 +463,12 @@ public class AddPersonApi extends ExtendedBaseApi {
 			String assignPsuIdFlag, String assignUseridFlag, String gender,
 			String dob, String nameType, String nameDocumentType,
 			String firstName, String middleNames, String lastName,
-			String suffix, String addressType, String addressDocumentType,
-			String address1, String address2, String address3, String city,
-			String stateOrProvince, String postalCode, String countryCode,
-			String campusCode, String verifyAddressFlag, String phoneType, String phoneNumber,
-			String extension, String internationalNumber, String emailType,
-			String emailAddress, String affiliation, String ssn)
+			String suffix, String nickname, String addressType,
+			String addressDocumentType, String address1, String address2, String address3,
+			String city, String stateOrProvince, String postalCode,
+			String countryCode, String campusCode, String verifyAddressFlag, String phoneType,
+			String phoneNumber, String extension, String internationalNumber,
+			String emailType, String emailAddress, String affiliation, String ssn)
 			throws CprException, ParseException {
 		
 		// Validate all of the input parameters to the service.
@@ -494,7 +496,7 @@ public class AddPersonApi extends ExtendedBaseApi {
 
 		if (lastName != null) {
 			namesTable = ValidateName.validateAddNameParameters(db, serviceCoreReturn.getPersonId(), nameType, nameDocumentType, 
-					firstName, middleNames, lastName, suffix, updatedBy);
+					firstName, middleNames, lastName, suffix, nickname, updatedBy);
 		}
 
 		if (address1 != null) {

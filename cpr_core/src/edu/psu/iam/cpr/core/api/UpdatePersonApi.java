@@ -108,6 +108,7 @@ public class UpdatePersonApi extends ExtendedBaseApi {
         final String middleNames				= (String) otherParameters.get(MIDDLE_NAMES_KEY);
         final String lastName					= (String) otherParameters.get(LAST_NAME_KEY);
         final String suffix						= (String) otherParameters.get(SUFFIX_KEY);
+        final String nickname					= (String) otherParameters.get(NICKNAME);
         final String addressType				= (String) otherParameters.get(ADDRESS_TYPE_KEY);
         final String addressDocumentType        = (String) otherParameters.get(ADDRESS_DOCUMENT_TYPE_KEY);
         final Long addressGroupId				= Utility.safeConvertStringToLong((String) otherParameters.get(ADDRESS_GROUP_ID_KEY));
@@ -134,11 +135,11 @@ public class UpdatePersonApi extends ExtendedBaseApi {
 		// Validate the inputs to the service.
 		validateServiceInput(db, serviceCoreReturn, updatedBy, assignPsuIdFlag,
 				assignUseridFlag, gender, dob, nameType, nameDocumentType,
-				firstName, middleNames, lastName, suffix, addressType,
-				addressDocumentType, addressGroupId, address1, address2,
-				address3, city, stateOrProvince, postalCode, countryCode,
-				campusCode,verifyAddressFlag, phoneType, phoneGroupId, phoneNumber, extension,
-				internationalNumber, emailType, emailAddress, affiliation, ssn);
+				firstName, middleNames, lastName, suffix, nickname,
+				addressType, addressDocumentType, addressGroupId, address1,
+				address2, address3, city, stateOrProvince, postalCode,
+				countryCode,campusCode, verifyAddressFlag, phoneType, phoneGroupId, phoneNumber,
+				extension, internationalNumber, emailType, emailAddress, affiliation, ssn);
 
 		// Update the database.
 		updatePersonInformation(db, updatedBy, ssn);
@@ -302,6 +303,7 @@ public class UpdatePersonApi extends ExtendedBaseApi {
 	 * @param middleNames contains the middle names if specified.
 	 * @param lastName contains the last name.
 	 * @param suffix contains the suffix.
+	 * @param nickname contains the nickname.
 	 * @param addressType contains the address type.
 	 * @param addressDocumentType contains the address document type.
 	 * @param addressGroupId contains the group id within the type to be updated.
@@ -313,7 +315,6 @@ public class UpdatePersonApi extends ExtendedBaseApi {
 	 * @param postalCode contains the postal code.
 	 * @param countryCode contains the country code.
 	 * @param campusCode contains the campus code.
-	 * @param verifyAddressCode contains indication of whether address should be verified
 	 * @param phoneType contains the phone type.
 	 * @param phoneGroupId contains the phone group id within the type to be updated.
 	 * @param phoneNumber contains the phone number.
@@ -323,6 +324,7 @@ public class UpdatePersonApi extends ExtendedBaseApi {
 	 * @param emailAddress contains the email address.
 	 * @param affiliation contains the affiliation.
 	 * @param ssn contains the ssn to be validated if specified.
+	 * @param verifyAddressCode contains indication of whether address should be verified
 	 * @throws CprException will be thrown for any CPR related problems.
 	 * @throws ParseException will be thrown if there are any parsing problems.
 	 */
@@ -331,13 +333,13 @@ public class UpdatePersonApi extends ExtendedBaseApi {
 			String assignPsuIdFlag, String assignUseridFlag, String gender,
 			String dob, String nameType, String nameDocumentType,
 			String firstName, String middleNames, String lastName,
-			String suffix, String addressType, String addressDocumentType,
-			Long addressGroupId, String address1, String address2,
-			String address3, String city, String stateOrProvince,
-			String postalCode, String countryCode, String campusCode, String verifyAddressFlag,
-			String phoneType, Long phoneGroupId, String phoneNumber,
-			String extension, String internationalNumber, String emailType,
-			String emailAddress, String affiliation, String ssn)
+			String suffix, String nickname, String addressType,
+			String addressDocumentType, Long addressGroupId, String address1,
+			String address2, String address3, String city,
+			String stateOrProvince, String postalCode, String countryCode, String campusCode,
+			String verifyAddressFlag, String phoneType, Long phoneGroupId,
+			String phoneNumber, String extension, String internationalNumber,
+			String emailType, String emailAddress, String affiliation, String ssn)
 			throws CprException, ParseException {
 		
 		// Validate all of the input parameters to the service.
@@ -365,7 +367,7 @@ public class UpdatePersonApi extends ExtendedBaseApi {
 
 		if (lastName != null) {
 			namesTable = ValidateName.validateAddNameParameters(db, serviceCoreReturn.getPersonId(), nameType, nameDocumentType, 
-					firstName, middleNames, lastName, suffix, updatedBy);
+					firstName, middleNames, lastName, suffix, nickname, updatedBy);
 		}
 
 		if (address1 != null) {

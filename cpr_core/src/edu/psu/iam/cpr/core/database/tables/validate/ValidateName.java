@@ -39,6 +39,7 @@ public final class ValidateName {
 	private static final String FIRST_NAME = "FIRST_NAME";
 	private static final String MIDDLE_NAMES = "MIDDLE_NAMES";
 	private static final String SUFFIX = "SUFFIX";
+	private static final String NICKNAME = "NICKNAME";
 
 	/** 
 	 * Constructor.
@@ -127,12 +128,13 @@ public final class ValidateName {
 	 * @param middleNames contains the user's middle name.
 	 * @param lastName contains the user's last name.
 	 * @param suffix contains the user's suffix. 
+	 * @param nickname contains the user's nickname.
 	 * @param updatedBy contains the system identifier and/or userid that updated the name.
 	 * @return NameTable class
 	 * @throws CprException 
 	 */
 	public static NamesTable validateAddNameParameters(Database db, long personId, String nameType, String documentType, String firstName, 
-				String middleNames, String lastName, String suffix, String updatedBy) throws CprException {
+				String middleNames, String lastName, String suffix, String nickname, String updatedBy) throws CprException {
 		
 		
 		db.getAllTableColumns(DATABASE_TABLE_NAME);
@@ -141,6 +143,7 @@ public final class ValidateName {
 		String localFirstName = ValidateHelper.trimField(firstName);
 		String localMiddleNames = ValidateHelper.trimField(middleNames);		
 		String localSuffix = ValidateHelper.trimField(suffix);
+		String localNickname = ValidateHelper.trimField(nickname);
 		
 		String localLastName = ValidateHelper.checkField(db, lastName, LAST_NAME, "Last name", true);
 		String localUpdatedBy = ValidateHelper.checkField(db, updatedBy, LAST_UPDATE_BY, "Updated by", true);
@@ -156,9 +159,9 @@ public final class ValidateName {
 			localDocumentType = documentType.trim().toUpperCase();
 		}
 		
-		final String dbColumnNames[] = { FIRST_NAME, MIDDLE_NAMES, SUFFIX };
-		final String inputFields[]   = { localFirstName, localMiddleNames, localSuffix };
-		final String prettyNames[] = { "First name", "Middle name(s)", "Suffix" };
+		final String dbColumnNames[] = { FIRST_NAME, MIDDLE_NAMES, SUFFIX, NICKNAME };
+		final String inputFields[]   = { localFirstName, localMiddleNames, localSuffix, localNickname };
+		final String prettyNames[] = { "First name", "Middle name(s)", "Suffix", "Nickname" };
 		
 		// Verify that the lengths for the individual fields do not exceed the maximum for the database.
 		for (int i = 0; i < dbColumnNames.length; ++i) {
@@ -174,7 +177,7 @@ public final class ValidateName {
 				
 		// At this point we are ready to save off the information to a class.
 		return new NamesTable(personId, localNameType, localDocumentType, localFirstName, localMiddleNames, 
-					localLastName, localSuffix, null, localUpdatedBy);
+					localLastName, localSuffix, localNickname, localUpdatedBy);
 	}
 	
 	/**
