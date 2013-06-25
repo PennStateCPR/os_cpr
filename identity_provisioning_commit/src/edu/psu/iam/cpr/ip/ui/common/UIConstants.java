@@ -155,7 +155,7 @@ public final class UIConstants
 	public static final String LNA_MIDDLE_NAMES         = "lna.middleNames";
 	public static final String LNA_LAST_NAME            = "lna.lastName";
 	public static final String LNA_SUFFIX               = "lna.suffix";
-	public static final String LNA_NICKNAME				= "lna.nickname";
+	public static final String LNA_NICKNAME				= "lna.nickName";
 
 	public static final String IDI_SOCIAL_SECURITY_NUMBER = "idi.socialSecurityNumber";
 	
