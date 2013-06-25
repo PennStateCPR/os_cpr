@@ -23,7 +23,9 @@
 <s:property value="#session['lna.firstName']" />
 <s:property value="#session['lna.middleNames']" />
 <s:property value="#session['lna.lastName']" />
-<s:property value="#session['lna.suffix']" /><br><br>
+<s:property value="#session['lna.suffix']" />
+<s:property value="#session['lna.nickName']" />
+<br><br>
 <!-- May or may not collect -->
 <div id="formername" class="hidden">
 <a href="former_name" tabindex="7" onclick="javascript:navunhook();" title="edit former name"><b>Former Name</b> (edit)</a><br>

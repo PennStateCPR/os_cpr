@@ -34,6 +34,7 @@
 												<s:property value="#session['lna.middleNames']" />
 												<s:property value="#session['lna.lastName']" />
 												<s:property value="#session['lna.suffix']" />
+												<s:property value="#session['lna.nickName']" />
 											</p>
 										</div>
 									</div>

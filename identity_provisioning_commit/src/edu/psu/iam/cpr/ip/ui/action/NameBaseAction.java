@@ -28,6 +28,7 @@ public abstract class NameBaseAction extends BaseAction
 	private String lastName;
 	private String nameType;
 	private String suffix;
+	private String nickName;
 
 	@Override
 	public String execute() 
@@ -136,6 +137,20 @@ public abstract class NameBaseAction extends BaseAction
 	 */
 	public void setSuffix(String suffix) {
 		this.suffix = suffix;
+	}
+
+	/**
+	 * @param nickName the nickName to set
+	 */
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	/**
+	 * @return the nickName
+	 */
+	public String getNickName() {
+		return nickName;
 	}
 
 }
