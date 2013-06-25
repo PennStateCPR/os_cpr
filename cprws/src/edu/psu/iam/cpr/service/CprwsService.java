@@ -1601,6 +1601,7 @@ public class CprwsService implements CprwsSEI {
 	 * @param middleNames the middle name(s) that are being added.
 	 * @param lastName the last name that is being added.
 	 * @param suffix optionally the suffix that is being added.
+	 * @param nickname optionally the nickname that is being added.
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 * 
@@ -1629,17 +1630,20 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="lastName", mode=Mode.IN)
 			String lastName, 
 			@WebParam( name="suffix", mode=Mode.IN)
-			String suffix) {
+			String suffix,
+			@WebParam( name="nickname", mode=Mode.IN)
+			String nickname) {
 		
         final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 
-        final Map<String, Object> otherParameters = new HashMap<String, Object>(6);
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(7);
         otherParameters.put(NAME_TYPE_KEY, nameType);
         otherParameters.put(DOCUMENT_TYPE_KEY, documentType);
         otherParameters.put(FIRST_NAME_KEY, firstName);
         otherParameters.put(MIDDLE_NAMES_KEY, middleNames);
         otherParameters.put(LAST_NAME_KEY, lastName);
         otherParameters.put(SUFFIX_KEY, suffix);
+        otherParameters.put(NICKNAME, nickname);
 
         return (ServiceReturn) new AddNameImpl().implementService(
                                 CprServiceName.AddName.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
@@ -1663,6 +1667,7 @@ public class CprwsService implements CprwsSEI {
 	 * @param middleNames the middle name(s) that are being added.
 	 * @param lastName the last name that is being added.
 	 * @param suffix optionally the suffix that is being added.
+	 * @param nickname optionally the nickname that is being added.
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 * 
@@ -1691,10 +1696,12 @@ public class CprwsService implements CprwsSEI {
 			@WebParam( name="lastName", mode=Mode.IN)
 			String lastName, 
 			@WebParam( name="suffix", mode=Mode.IN)
-			String suffix) {
+			String suffix,
+			@WebParam( name="nickname", mode=Mode.IN)
+			String nickname) {
 		
 		return AddName(principalId, password, updatedBy, identifierType, identifier, nameType, documentType, firstName, middleNames,
-				lastName, suffix);
+				lastName, suffix, nickname);
 
 	}
 

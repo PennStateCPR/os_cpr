@@ -1068,6 +1068,7 @@ public interface CprwsSEI {
 	 * @param middleNames the middle name(s) that are being added.
 	 * @param lastName the last name that is being added.
 	 * @param suffix optionally the suffix that is being added.
+	 * @param nickname optionally the nickname that is being added.
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 * 
@@ -1085,7 +1086,8 @@ public interface CprwsSEI {
 			@WebParam(name = "firstName", mode = Mode.IN) String firstName,
 			@WebParam(name = "middleNames", mode = Mode.IN) String middleNames,
 			@WebParam(name = "lastName", mode = Mode.IN) String lastName,
-			@WebParam(name = "suffix", mode = Mode.IN) String suffix);
+			@WebParam(name = "suffix", mode = Mode.IN) String suffix,
+			@WebParam(name = "nickname", mode= Mode.IN) String nickname);
 
 	/**
 	 * This function provides the implementation for the UpdateName SOAP web service.  UpdateName will allow 
@@ -1104,6 +1106,7 @@ public interface CprwsSEI {
 	 * @param middleNames the middle name(s) that are being added.
 	 * @param lastName the last name that is being added.
 	 * @param suffix optionally the suffix that is being added.
+	 * @param nickname optionally the nickname that is being added.
 	 * @return ServiceReturn object that contains the result of executing the service.
 	 * @see edu.psu.iam.cpr.core.api.returns.ServiceReturn
 	 * 
@@ -1121,7 +1124,8 @@ public interface CprwsSEI {
 			@WebParam(name = "firstName", mode = Mode.IN) String firstName,
 			@WebParam(name = "middleNames", mode = Mode.IN) String middleNames,
 			@WebParam(name = "lastName", mode = Mode.IN) String lastName,
-			@WebParam(name = "suffix", mode = Mode.IN) String suffix);
+			@WebParam(name = "suffix", mode = Mode.IN) String suffix,
+			@WebParam(name = "nickname", mode = Mode.IN) String nickname);
 
 	/**
 	 * This function provides the implementation for the ArchiveName SOAP web service.  ArchiveName will allow 
