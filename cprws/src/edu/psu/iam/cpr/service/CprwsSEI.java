@@ -1315,6 +1315,7 @@ public interface CprwsSEI {
 	 * @param middleNames the middle name(s) that are being added.
 	 * @param lastName the last name that is being added.
 	 * @param suffix optionally the suffix that is being added.
+	 * @param nickname optionally the nickname that is being added.
 	 * @param addressType the type of address that is being added.
 	 * @param addressDocumentType the document type of the address that is being added.
 	 * @param address1 line number one of the address.
@@ -1353,6 +1354,7 @@ public interface CprwsSEI {
 			@WebParam(name = "middleNames", mode = Mode.IN) String middleNames,
 			@WebParam(name = "lastName", mode = Mode.IN) String lastName,
 			@WebParam(name = "suffix", mode = Mode.IN) String suffix,
+			@WebParam(name = "nickname", mode = Mode.IN) String nickname, 
 			@WebParam(name = "addressType", mode = Mode.IN) String addressType,
 			@WebParam(name = "addressDocumentType", mode = Mode.IN) String addressDocumentType,
 			@WebParam(name = "address1", mode = Mode.IN) String address1,
@@ -1463,6 +1465,7 @@ public interface CprwsSEI {
 	 * @param middleNames the middle name(s) that are being added.
 	 * @param lastName the last name that is being added.
 	 * @param suffix optionally the suffix that is being added.
+	 * @param nickname optionally the nickname that is being added.
 	 * @param addressType the type of address that is being added.
 	 * @param addressDocumentType the document type of the address that is being added.
 	 * @param addressGroupId the group id associated addressType and addressDocumentType being updated.
@@ -1505,6 +1508,7 @@ public interface CprwsSEI {
 			@WebParam(name = "middleNames", mode = Mode.IN) String middleNames,
 			@WebParam(name = "lastName", mode = Mode.IN) String lastName,
 			@WebParam(name = "suffix", mode = Mode.IN) String suffix,
+			@WebParam(name = "nickname", mode = Mode.IN) String nickname,  
 			@WebParam(name = "addressType", mode = Mode.IN) String addressType,
 			@WebParam(name = "addressDocumentType", mode = Mode.IN) String addressDocumentType,
 			@WebParam(name = "addressGroupId", mode = Mode.IN) Long addressGroupId,

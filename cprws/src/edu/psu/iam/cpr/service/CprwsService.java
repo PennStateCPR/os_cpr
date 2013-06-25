@@ -1643,7 +1643,7 @@ public class CprwsService implements CprwsSEI {
         otherParameters.put(MIDDLE_NAMES_KEY, middleNames);
         otherParameters.put(LAST_NAME_KEY, lastName);
         otherParameters.put(SUFFIX_KEY, suffix);
-        otherParameters.put(NICKNAME, nickname);
+        otherParameters.put(NICKNAME_KEY, nickname);
 
         return (ServiceReturn) new AddNameImpl().implementService(
                                 CprServiceName.AddName.toString(), request.getRemoteAddr(), principalId, password, updatedBy,
@@ -2002,6 +2002,7 @@ public class CprwsService implements CprwsSEI {
 	 * @param middleNames the middle name(s) that are being added.
 	 * @param lastName the last name that is being added.
 	 * @param suffix optionally the suffix that is being added.
+	 * @param nickname optionally contains the nickname that is being added.
 	 * @param addressType the type of address that is being added.
 	 * @param addressDocumentType the document type of the address that is being added.
 	 * @param address1 line number one of the address.
@@ -2053,6 +2054,8 @@ public class CprwsService implements CprwsSEI {
 			String lastName, 
 			@WebParam( name="suffix", mode=Mode.IN)
 			String suffix,
+			@WebParam( name="nickname", mode=Mode.IN)
+			String nickname,
 			@WebParam( name="addressType", mode=Mode.IN)
 			String addressType, 
 			@WebParam(name = "addressDocumentType", mode = Mode.IN) 
@@ -2095,7 +2098,7 @@ public class CprwsService implements CprwsSEI {
 		final String doFindPersonFlag = "Y";
         final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 
-        final Map<String, Object> otherParameters = new HashMap<String, Object>(30);
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(31);
         otherParameters.put(DO_FIND_PERSON_KEY, doFindPersonFlag);
         otherParameters.put(ASSIGN_PSU_ID_FLAG_KEY, assignPsuIdFlag);
         otherParameters.put(ASSIGN_USERID_FLAG_KEY, assignUseridFlag);
@@ -2107,6 +2110,7 @@ public class CprwsService implements CprwsSEI {
         otherParameters.put(MIDDLE_NAMES_KEY, middleNames);
         otherParameters.put(LAST_NAME_KEY, lastName);
         otherParameters.put(SUFFIX_KEY, suffix);
+        otherParameters.put(NICKNAME_KEY, nickname);
         otherParameters.put(ADDRESS_TYPE_KEY, addressType);
         otherParameters.put(ADDRESS_DOCUMENT_TYPE_KEY, addressDocumentType);
         otherParameters.put(ADDRESS1_KEY, address1);
@@ -2264,6 +2268,7 @@ public class CprwsService implements CprwsSEI {
 	 * @param middleNames the middle name(s) that are being added.
 	 * @param lastName the last name that is being added.
 	 * @param suffix optionally the suffix that is being added.
+	 * @param nickname optionally the nickname that is being added.
 	 * @param addressType the type of address that is being added.
 	 * @param addressDocumentType the document type of the address that is being added.
 	 * @param addressGroupId the group id associated addressType and addressDocumentType being updated.
@@ -2321,6 +2326,8 @@ public class CprwsService implements CprwsSEI {
 			String lastName, 
 			@WebParam( name="suffix", mode=Mode.IN)
 			String suffix,
+			@WebParam( name="nickname", mode=Mode.IN)
+			String nickname,
 			@WebParam( name="addressType", mode=Mode.IN)
 			String addressType, 
 			@WebParam(name = "addressDocumentType", mode = Mode.IN) 
@@ -2366,7 +2373,7 @@ public class CprwsService implements CprwsSEI {
 		
         final HttpServletRequest request = (HttpServletRequest) wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 
-        final Map<String, Object> otherParameters = new HashMap<String, Object>(29);
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(30);
         otherParameters.put(ASSIGN_PSU_ID_FLAG_KEY, assignPsuIdFlag);
         otherParameters.put(ASSIGN_USERID_FLAG_KEY, assignUseridFlag);
         otherParameters.put(GENDER_KEY, gender);
@@ -2377,6 +2384,7 @@ public class CprwsService implements CprwsSEI {
         otherParameters.put(MIDDLE_NAMES_KEY, middleNames);
         otherParameters.put(LAST_NAME_KEY, lastName);
         otherParameters.put(SUFFIX_KEY, suffix);
+        otherParameters.put(NICKNAME_KEY, nickname);
         otherParameters.put(ADDRESS_TYPE_KEY, addressType);
         otherParameters.put(ADDRESS_DOCUMENT_TYPE_KEY, addressDocumentType);
         otherParameters.put(ADDRESS_GROUP_ID_KEY, Utility.safeConvertLongToString(addressGroupId));
