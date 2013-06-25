@@ -98,6 +98,7 @@ public class NameReturn {
 		this.middleNames = middleNames;
 		this.lastName = lastName;
 		this.suffix = suffix;
+		this.nickname = nickname;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.lastUpdateBy = lastUpdateBy;

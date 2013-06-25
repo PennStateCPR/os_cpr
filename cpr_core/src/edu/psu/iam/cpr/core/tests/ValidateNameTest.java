@@ -179,6 +179,12 @@ public class ValidateNameTest {
 		ValidateName.validateAddNameParameters(db, 0, "common_name", null, "Jimmy", null, "Vuccolo", null, null, "                                                 ");
 		db.closeSession();
 	}
+	@Test(expectedExceptions=Exception.class)
+	public final void _22testValidateAddNameParameters8() throws Exception {
+		openDbConnection();
+		ValidateName.validateAddNameParameters(db, 0, "common_name", null, "Jimmy", null, "Vuccolo", null, "123456789012345678901234567890123456789012345", "cpruser");
+		db.closeSession();
+	}
 	
 	@Test
 	public final void _23testIsValidCombination2() {
