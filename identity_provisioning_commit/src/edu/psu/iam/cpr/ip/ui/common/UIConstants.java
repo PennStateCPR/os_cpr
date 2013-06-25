@@ -121,6 +121,7 @@ public final class UIConstants
 	public static final String PHONE_NUMBER 			= "phoneNumber";
 	public static final String CAMPUS 					= "campus";
 	public static final String SUFFIX 					= "suffix";
+	public static final String NICKNAME					= "nickname";
 	public static final String ADDRESS_TYPE 			= "addressType";
 	public static final String ADDRESS_DOCUMENT_TYPE 	= "addressDocumentType";
 	public static final String ADDRESS_GROUP_ID         = "addressGroupId";
@@ -154,6 +155,7 @@ public final class UIConstants
 	public static final String LNA_MIDDLE_NAMES         = "lna.middleNames";
 	public static final String LNA_LAST_NAME            = "lna.lastName";
 	public static final String LNA_SUFFIX               = "lna.suffix";
+	public static final String LNA_NICKNAME				= "lna.nickname";
 
 	public static final String IDI_SOCIAL_SECURITY_NUMBER = "idi.socialSecurityNumber";
 	

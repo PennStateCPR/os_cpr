@@ -255,7 +255,8 @@ public final class SoapClient {
 		LOG.info(uniqueId +" " +"Sending to add person " + addPerson.get(UIConstants.PRINCIPAL_ID) + addPerson.get(UIConstants.REQUESTED_BY) + 
 				addPerson.get(UIConstants.ASSIGN_PSU_ID) + addPerson.get(UIConstants.ASSIGN_USER_ID) + addPerson.get(UIConstants.GENDER) +  addPerson.get(UIConstants.DOB) + 
 				addPerson.get(UIConstants.NAME_TYPE) + addPerson.get(UIConstants.NAME_DOCUMENT_TYPE) + addPerson.get(UIConstants.FIRST_NAME) + addPerson.get(UIConstants.MIDDLE_NAMES) + 
-				addPerson.get(UIConstants.LAST_NAME) + addPerson.get(UIConstants.SUFFIX) + addPerson.get(UIConstants.ADDRESS_TYPE) + addPerson.get(UIConstants.ADDRESS_DOCUMENT_TYPE) + 
+				addPerson.get(UIConstants.LAST_NAME) + addPerson.get(UIConstants.SUFFIX) + addPerson.get(UIConstants.NICKNAME) +
+				addPerson.get(UIConstants.ADDRESS_TYPE) + addPerson.get(UIConstants.ADDRESS_DOCUMENT_TYPE) + 
 				addPerson.get(UIConstants.ADDRESS1) +  addPerson.get(UIConstants.ADDRESS2) +  addPerson.get(UIConstants.ADDRESS3) + 
 				addPerson.get(UIConstants.CITY) + addPerson.get(UIConstants.STATE_OR_PROV) +  addPerson.get(UIConstants.POSTAL_CODE) + addPerson.get(UIConstants.COUNTRY) +
 				addPerson.get(UIConstants.CAMPUS) + addPerson.get(UIConstants.PHONE_TYPE) + addPerson.get(UIConstants.PHONE_NUMBER) + 
@@ -272,7 +273,7 @@ public final class SoapClient {
 			db.setSession(apiSession);
 			serviceCoreReturn.setPersonId(-1L);
 
-	        final Map<String, Object> otherParameters = new HashMap<String, Object>(30);
+	        final Map<String, Object> otherParameters = new HashMap<String, Object>(31);
 	        otherParameters.put(DO_FIND_PERSON_KEY, UIConstants.LETTER_N);
 	        otherParameters.put(ASSIGN_PSU_ID_FLAG_KEY, addPerson.get(UIConstants.ASSIGN_PSU_ID));
 	        otherParameters.put(ASSIGN_USERID_FLAG_KEY, addPerson.get(UIConstants.ASSIGN_USER_ID));
@@ -290,6 +291,7 @@ public final class SoapClient {
 	        otherParameters.put(MIDDLE_NAMES_KEY, addPerson.get(UIConstants.MIDDLE_NAMES));
 	        otherParameters.put(LAST_NAME_KEY, addPerson.get(UIConstants.LAST_NAME));
 	        otherParameters.put(SUFFIX_KEY, addPerson.get(UIConstants.SUFFIX));
+	        otherParameters.put(NICKNAME_KEY, addPerson.get(UIConstants.NICKNAME));
 	        otherParameters.put(ADDRESS_TYPE_KEY, addPerson.get(UIConstants.ADDRESS_TYPE));
 	        otherParameters.put(ADDRESS_DOCUMENT_TYPE_KEY, addPerson.get(UIConstants.ADDRESS_DOCUMENT_TYPE));
 	        otherParameters.put(ADDRESS1_KEY, addPerson.get(UIConstants.ADDRESS1));

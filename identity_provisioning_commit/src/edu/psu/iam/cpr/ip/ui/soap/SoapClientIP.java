@@ -609,6 +609,7 @@ public final class SoapClientIP {
 		formattedPersonData.put(UIConstants.MIDDLE_NAMES, sessionData.get(UIConstants.LNA_MIDDLE_NAMES));
 		formattedPersonData.put(UIConstants.LAST_NAME, sessionData.get(UIConstants.LNA_LAST_NAME));
 		formattedPersonData.put(UIConstants.SUFFIX, sessionData.get(UIConstants.LNA_SUFFIX));
+		formattedPersonData.put(UIConstants.NICKNAME, sessionData.get(UIConstants.LNA_NICKNAME));
 
 		if (sessionData.containsKey(UIConstants.IDI_SOCIAL_SECURITY_NUMBER))
 		{
