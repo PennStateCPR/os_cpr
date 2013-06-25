@@ -82,7 +82,7 @@ public class NamesTest {
 	// Missing name type.
 	@Test(expectedExceptions=Exception.class)
 	public void _06testAddName1() throws Exception {
-		ServiceReturn namesServiceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", null, null, "James", null, "Jones", null);
+		ServiceReturn namesServiceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", null, null, "James", null, "Jones", null, null);
 		if (namesServiceReturn.getStatusCode() != 0) {
 			throw new Exception(namesServiceReturn.getStatusMessage());
 		}
@@ -91,7 +91,7 @@ public class NamesTest {
 	// Invalid document type.
 	@Test(expectedExceptions=Exception.class)
 	public void _07testAddName2() throws Exception {
-		ServiceReturn namesServiceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "legal_name", "junk", "James", null, "Jones", null);
+		ServiceReturn namesServiceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "legal_name", "junk", "James", null, "Jones", null, null);
 		if (namesServiceReturn.getStatusCode() != 0) {
 			throw new Exception(namesServiceReturn.getStatusMessage());
 		}
@@ -100,7 +100,7 @@ public class NamesTest {
 	// Missing name components.
 	@Test(expectedExceptions=Exception.class)
 	public void _08testAddName3() throws Exception {
-		ServiceReturn namesServiceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "legal_name", null, null, null, null, null);
+		ServiceReturn namesServiceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "legal_name", null, null, null, null, null, null);
 		if (namesServiceReturn.getStatusCode() != 0) {
 			throw new Exception(namesServiceReturn.getStatusMessage());
 		}
@@ -112,7 +112,7 @@ public class NamesTest {
 		ServiceReturn serviceReturn = port.archiveName(ServiceAuthentication.GOOD_USERID, 
 				ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "legal_name", null);
 		serviceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, 
-				"person_id", "100000", "legal_name", null, null, null, "Cher", null);
+				"person_id", "100000", "legal_name", null, null, null, "Cher", null, null);
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
@@ -134,7 +134,7 @@ public class NamesTest {
 	// Successful add of a name with a first name and a last name.
 	@Test
 	public void _10testAddName5() throws Exception {
-		ServiceReturn serviceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "legal_name", null, "James", null, "Jones", null);
+		ServiceReturn serviceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "legal_name", null, "James", null, "Jones", null, "Jimmy");
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
@@ -156,7 +156,7 @@ public class NamesTest {
 	// Unsuccessful name type/document type combination.
 	@Test(expectedExceptions=Exception.class)
 	public void _11testAddName6() throws Exception {
-		ServiceReturn namesServiceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "preferred_name", "passport", "James", null, "Jackson", null);
+		ServiceReturn namesServiceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "preferred_name", "passport", "James", null, "Jackson", null, null);
 		if (namesServiceReturn.getStatusCode() != 0) {
 			throw new Exception(namesServiceReturn.getStatusMessage());
 		}
@@ -169,7 +169,7 @@ public class NamesTest {
 //		if (namesServiceReturn.getStatusCode() != 0) {
 //			throw new Exception(namesServiceReturn.getStatusMessage());
 //		}		
-		serviceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "documented_name", "passport", "James", null, "Jackson", null);
+		serviceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "documented_name", "passport", "James", null, "Jackson", null, null);
 		if (serviceReturn.getStatusCode() != 0) {
 			throw new Exception(serviceReturn.getStatusMessage());
 		}
@@ -189,7 +189,7 @@ public class NamesTest {
 	
 	@Test
 	public void _13testUpdateName1() throws Exception {
-		ServiceReturn namesServiceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "legal_name", null, "James", null, "Jackson", null);
+		ServiceReturn namesServiceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "legal_name", null, "James", null, "Jackson", null, "Jimmy");
 		if (namesServiceReturn.getStatusCode() != 0) {
 			throw new Exception(namesServiceReturn.getStatusMessage());
 		}
@@ -197,7 +197,7 @@ public class NamesTest {
 	
 	@Test
 	public void _14testUpdateName2() throws Exception {
-		ServiceReturn namesServiceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "preferred_name", null, "James", null, "James", null);
+		ServiceReturn namesServiceReturn = port.addName(ServiceAuthentication.GOOD_USERID, ServiceAuthentication.GOOD_PASSWORD, ServiceAuthentication.GOOD_USERID, "person_id", "100000", "preferred_name", null, "James", null, "James", null, null);
 		if (namesServiceReturn.getStatusCode() != 0) {
 			throw new Exception(namesServiceReturn.getStatusMessage());
 		}
