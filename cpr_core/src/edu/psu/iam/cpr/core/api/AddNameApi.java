@@ -62,7 +62,7 @@ public class AddNameApi extends BaseApi {
         final String middleNames = (String) otherParameters.get(MIDDLE_NAMES_KEY);
         final String lastName = (String) otherParameters.get(LAST_NAME_KEY);
         final String suffix = (String) otherParameters.get(SUFFIX_KEY);
-        final String nickname = (String) otherParameters.get(NICKNAME);
+        final String nickname = (String) otherParameters.get(NICKNAME_KEY);
         final long personId = serviceCoreReturn.getPersonId();
 		
 		// Validate the service parameters.

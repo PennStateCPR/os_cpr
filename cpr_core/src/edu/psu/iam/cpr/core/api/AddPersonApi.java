@@ -122,7 +122,7 @@ public class AddPersonApi extends ExtendedBaseApi {
         final String middleNames		= (String) otherParameters.get(MIDDLE_NAMES_KEY);
         final String lastName			= (String) otherParameters.get(LAST_NAME_KEY);
         final String suffix				= (String) otherParameters.get(SUFFIX_KEY);
-        final String nickname			= (String) otherParameters.get(NICKNAME);
+        final String nickname			= (String) otherParameters.get(NICKNAME_KEY);
         final String addressType		= (String) otherParameters.get(ADDRESS_TYPE_KEY);
         final String addressDocumentType= (String) otherParameters.get(ADDRESS_DOCUMENT_TYPE_KEY);
         final String address1			= (String) otherParameters.get(ADDRESS1_KEY);
