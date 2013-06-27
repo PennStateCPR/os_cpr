@@ -4,6 +4,7 @@ package edu.psu.iam.cpr.core.database.tables;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.UUID;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -13,9 +14,11 @@ import org.hibernate.type.StandardBasicTypes;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.Userid;
 import edu.psu.iam.cpr.core.database.helpers.UseridHelper;
+import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.UseridReturn;
+import edu.psu.iam.cpr.core.util.CprProperties;
 import edu.psu.iam.cpr.core.util.Utility;
 
 /**
@@ -44,6 +47,8 @@ import edu.psu.iam.cpr.core.util.Utility;
  */
 public class UseridTable {
 	
+	private static final String AT_SYMBOL = "@";
+
 	/** Contains the name of the database table for this implementation */
 	private static final String TABLE_NAME = "Userid";
 	
@@ -86,6 +91,12 @@ public class UseridTable {
 		bean.setUserid(null);
 		bean.setCharPart(null);
 		bean.setNumPart(null);
+		
+		final StringBuilder sb = new StringBuilder(100);
+		sb.append(UUID.randomUUID().toString());
+		sb.append(AT_SYMBOL);
+		sb.append(CprProperties.INSTANCE.getProperties().get(CprPropertyName.CPR_UUID_SCOPE.toString()).toString());
+		bean.setScopedUuid(sb.toString());
 		
 		bean.setDisplayNameFlag("Y");
 		bean.setPrimaryFlag(null);

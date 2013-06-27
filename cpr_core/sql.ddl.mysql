@@ -1041,6 +1041,7 @@ use cpr;
         primary_flag varchar(1) not null,
         psu_id_letter varchar(1),
         start_date datetime not null,
+        scoped_uuid varchar(100),
         primary key (userid, person_id)
     ) ENGINE=INNODB;
 
