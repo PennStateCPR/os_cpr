@@ -81,6 +81,10 @@ public class Userid implements Serializable {
         @Column(name="userid", nullable=false, length=30)
         private String userid;
 
+        /** Contains the scoped UUID */
+        @Column(name="scoped_uuid", nullable=false, length=100)
+        private String scopedUuid;
+
         /**
          * Constructor
          */
@@ -269,5 +273,19 @@ public class Userid implements Serializable {
         public void setUserid(String userid) {
                 this.userid = userid;
         }
+
+		/**
+		 * @param scopedUuid the scopedUuid to set
+		 */
+		public void setScopedUuid(String scopedUuid) {
+			this.scopedUuid = scopedUuid;
+		}
+
+		/**
+		 * @return the scopedUuid
+		 */
+		public String getScopedUuid() {
+			return scopedUuid;
+		}
 
 }
