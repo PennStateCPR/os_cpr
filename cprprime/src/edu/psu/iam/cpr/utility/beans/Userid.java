@@ -82,7 +82,7 @@ public class Userid implements Serializable {
         private String userid;
 
         /** Contains the scoped UUID */
-        @Column(name="scoped_uuid", nullable=false, length=100)
+        @Column(name="scoped_uuid", nullable=true, length=100)
         private String scopedUuid;
 
         /**
