@@ -57,6 +57,9 @@ public class AddressesLoader implements BeanLoader {
 					else if (columns[i].equals("city")) {
 						bean.setCity(fields[i]);
 					}
+					else if (columns[i].equals("data_type_key")) {
+						bean.setDataTypeKey(new Long(fields[i]));
+					}
 					else if (columns[i].equals("primary_flag")) {
 						bean.setPrimaryFlag(fields[i]);
 					}
