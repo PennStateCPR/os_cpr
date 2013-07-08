@@ -88,18 +88,35 @@
 											<s:select name="country" cssClass="input-large" id="country" list="countryMap" onchange="commit.currentaddress.onCountryChange(this);"></s:select>
 										</div>
 									</div>
+
+									<!--ALTERNATE ADDRESS QUESTION-->
+									<div class="control-group">
+										<label class="control-label hide">&nbsp;</label>
+										<div class="controls">
+											<label>Do you have an alternate address?</label>
+											<label class="radio" for="alternateRadioYes">
+												<input type="radio" name="alternateRadio" id="alternateRadioYes" value="true" checked>
+												<span>Yes</span>
+											</label>
+											<label class="radio" for="alternateRadioNo">
+												<input type="radio" name="alternateRadio" id="alternateRadioNo" value="false">
+												<span>No</span>
+											</label>
+
+										</div>
+									</div>
 								</div>
 
 								<!--FORM POPOVER-->
 								<div id="formPopoverContent" class="hidden">
 									<p class="muted">
 										<span>
-											Please enter your current postal/surface mailing address.
-											You must first specify the country, then include your street
-											address and other relevant information such as an apartment or
-											unit number, the city, state/province, and the postal/zip code.
-											If you use an APO/FPO military mailing address, indicate United
-											States as the country where you are currently living and provide
+											Please enter your current postal/surface mailing address. 
+											You must first specify the country, then include your street 
+											address and other relevant information such as an apartment or 
+											unit number, the city, state/province, and the postal/zip code. 
+											If you use an APO/FPO military mailing address, indicate United 
+											States as the country where you are currently living and provide 
 											that address.
 										</span>
 									</p>
