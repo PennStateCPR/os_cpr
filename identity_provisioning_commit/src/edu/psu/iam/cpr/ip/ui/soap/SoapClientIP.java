@@ -131,7 +131,8 @@ public final class SoapClientIP {
 		
 		findPerson.put(UIConstants.DOB, (String) sessionData.get(UIConstants.CON_DOB));
 		
-		findPerson.put(UIConstants.GENDER, (String)sessionData.get(UIConstants.PER_GENDER));
+//		findPerson.put(UIConstants.GENDER, (String)sessionData.get(UIConstants.PER_GENDER));
+		findPerson.put(UIConstants.GENDER, "0");
 
 		LOG.info(uniqueId +" " +"Sending to find person client " + findPerson.get(UIConstants.PRINCIPAL_ID) + findPerson.get(UIConstants.REQUESTED_BY) + 
 				findPerson.get(PSU_ID) + findPerson.get(USER_ID) + findPerson.get(UIConstants.SSN) + findPerson.get(UIConstants.FIRST_NAME) + findPerson.get(UIConstants.LAST_NAME) +  
