@@ -101,7 +101,6 @@
 								<li><span>Legal Name</span></li>
 								<li><span>Address</span></li>
 								<li><span>Additional</span></li>
-								<li><span>Personal</span></li>
 								<li><span>Verify</span></li>
 								<li><span class="active">Security</span></li>
 								<li><span>Password</span></li>
