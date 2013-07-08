@@ -117,14 +117,20 @@ public final class SoapClientIP {
 		}
 		findPerson.put(PLUS4, (String)sessionData.get("cra.plus4"));
 		findPerson.put(UIConstants.COUNTRY, (String)sessionData.get(UIConstants.CRA_COUNTRY));
-		if (!(mapValueIsEmpty((String)sessionData.get(UIConstants.PER_BIRTH_MONTH)) || mapValueIsEmpty((String)sessionData.get(UIConstants.PER_BIRTH_DAY)))) 
-		{
-			String dob = sessionData.get(UIConstants.PER_BIRTH_MONTH) + "/" + sessionData.get(UIConstants.PER_BIRTH_DAY);
-			if (!mapValueIsEmpty((String)sessionData.get(UIConstants.PER_BIRTH_YEAR))) {
-				dob += "/" + sessionData.get(UIConstants.PER_BIRTH_YEAR);
-			}
-			findPerson.put(UIConstants.DOB, dob);
-		}
+		
+		
+		
+//		if (!(mapValueIsEmpty((String)sessionData.get(UIConstants.PER_BIRTH_MONTH)) || mapValueIsEmpty((String)sessionData.get(UIConstants.PER_BIRTH_DAY)))) 
+//		{
+//			String dob = sessionData.get(UIConstants.PER_BIRTH_MONTH) + "/" + sessionData.get(UIConstants.PER_BIRTH_DAY);
+//			if (!mapValueIsEmpty((String)sessionData.get(UIConstants.PER_BIRTH_YEAR))) {
+//				dob += "/" + sessionData.get(UIConstants.PER_BIRTH_YEAR);
+//			}
+//			findPerson.put(UIConstants.DOB, dob);
+//		}
+		
+		findPerson.put(UIConstants.DOB, (String) sessionData.get(UIConstants.CON_DOB));
+		
 		findPerson.put(UIConstants.GENDER, (String)sessionData.get(UIConstants.PER_GENDER));
 
 		LOG.info(uniqueId +" " +"Sending to find person client " + findPerson.get(UIConstants.PRINCIPAL_ID) + findPerson.get(UIConstants.REQUESTED_BY) + 
@@ -617,14 +623,15 @@ public final class SoapClientIP {
 			formattedPersonData.put(UIConstants.SSN, removeNonDigits(sessionData.get(UIConstants.IDI_SOCIAL_SECURITY_NUMBER)));	
 		}
 
-		if (!(mapValueIsEmpty(sessionData.get(UIConstants.PER_BIRTH_MONTH)) || mapValueIsEmpty(sessionData.get(UIConstants.PER_BIRTH_DAY))))
-		{
-			String dob = sessionData.get(UIConstants.PER_BIRTH_MONTH) + "/" + sessionData.get(UIConstants.PER_BIRTH_DAY);
-			if (!mapValueIsEmpty(sessionData.get(UIConstants.PER_BIRTH_YEAR))) {
-				dob += "/" + sessionData.get(UIConstants.PER_BIRTH_YEAR);
-			}
-			formattedPersonData.put(UIConstants.DOB, dob);
-		}
+//		if (!(mapValueIsEmpty(sessionData.get(UIConstants.PER_BIRTH_MONTH)) || mapValueIsEmpty(sessionData.get(UIConstants.PER_BIRTH_DAY))))
+//		{
+//			String dob = sessionData.get(UIConstants.PER_BIRTH_MONTH) + "/" + sessionData.get(UIConstants.PER_BIRTH_DAY);
+//			if (!mapValueIsEmpty(sessionData.get(UIConstants.PER_BIRTH_YEAR))) {
+//				dob += "/" + sessionData.get(UIConstants.PER_BIRTH_YEAR);
+//			}
+//			formattedPersonData.put(UIConstants.DOB, dob);
+//		}
+		formattedPersonData.put(UIConstants.DOB, sessionData.get(UIConstants.CON_DOB));
 
 		formattedPersonData.put(UIConstants.EMAIL_TYPE, sessionData.get(UIConstants.CON_EMAIL_TYPE));
 		formattedPersonData.put(UIConstants.EMAIL, sessionData.get(UIConstants.CON_EMAIL));
