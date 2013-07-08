@@ -7,6 +7,7 @@ A full name including processional certifications degrees honorifics.|Y|255|251|
 The name as it will appear on official university transactions sent to Billing Address.|Y|256|251|Y|BILLING_NAME|Billing Name
 null|Y|257|0|N|ADDRESS|Address
 The address at a person receives official government correspondence such as Internal Revenue Service communications.|Y|258|257|Y|PERMANENT_ADDRESS|Permanent Address
+Alternate address for CommIT.|Y|100500|257|Y|ALTERNATE_ADDRESS|Alternate Address
 The residential address of a person if different from the Permanent Address.|Y|259|257|Y|LOCAL_ADDRESS|Local Address
 The address found on a persons government-issued identification to be used when required for purposes of identity proofing.|Y|260|257|Y|DOCUMENTED_ADDRESS|Documented Address
 A persons work address for example Department of Agriculture. A persons physical work location for example Turf Barn 2.|Y|261|257|Y|WORK_ADDRESS|Work Address
