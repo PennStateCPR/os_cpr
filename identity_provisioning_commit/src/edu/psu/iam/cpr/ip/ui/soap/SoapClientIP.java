@@ -610,7 +610,8 @@ public final class SoapClientIP {
 		formattedPersonData.put(UIConstants.ASSIGN_PSU_ID, sessionData.get(UIConstants.RAC_ASSIGN_PSU_ID));
 		formattedPersonData.put(UIConstants.ASSIGN_USER_ID, sessionData.get(UIConstants.RAC_ASSIGN_USER_ID));
 
-		formattedPersonData.put(UIConstants.GENDER, sessionData.get(UIConstants.PER_GENDER));
+//		formattedPersonData.put(UIConstants.GENDER, sessionData.get(UIConstants.PER_GENDER));
+		formattedPersonData.put(UIConstants.GENDER, "0");
 		formattedPersonData.put(UIConstants.NAME_TYPE, sessionData.get("lna.nameType"));
 		formattedPersonData.put(UIConstants.FIRST_NAME, sessionData.get(UIConstants.LNA_FIRST_NAME));
 		formattedPersonData.put(UIConstants.MIDDLE_NAMES, sessionData.get(UIConstants.LNA_MIDDLE_NAMES));
