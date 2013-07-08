@@ -33,6 +33,16 @@
 										</div>
 									</div>
 
+									<!--DATE OF BIRTH-->
+									<div class="control-group">
+										<label class="control-label" for="dob">Date of Birth:</label>
+										<div class="controls">
+											<!--DOB-->
+											<s:textfield name="dob" cssClass="input-small" id="dob" placeholder="mm/dd/yyyy"/>
+											<!--<i id="dobPopover" data-toggle="popover" class="icon icon-question-sign"></i>-->
+										</div>
+									</div>
+
 									<!--TELEPHONE-->
 									<div class="control-group">
 										<label class="control-label" for="phoneNumber">Telephone:</label>
@@ -67,6 +77,17 @@
 												Please enter your primary e-mail address in this field.
 												It is important to note, that you will receive important
 												information and updates through this email.
+											</span>
+										</p>
+									</div>
+
+									<!--DOB POPOVER-->
+									<div id="dobPopoverContent" class="hidden">
+										<h6>Expected Format:</h6>
+										<p class="muted">
+											<span class="help-block"><em>mm/dd/yyyy</em></span>
+											<span>
+												Please enter your date of birth in this field.
 											</span>
 										</p>
 									</div>
