@@ -60,6 +60,7 @@
 <div id="phoneextension" class="hidden">&nbsp;extension <s:property value="#session['con.extension']" /></div>
 <div id="international" class="hidden"><s:property value="#session['con.internationalNumber']" /></div>
 <s:property value="#session['con.email']" />
+<s:property value="#session['con.dob']" />
 </div>
 </div>
 

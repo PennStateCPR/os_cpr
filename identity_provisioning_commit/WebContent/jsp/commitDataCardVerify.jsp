@@ -87,6 +87,10 @@
 												<span><strong>Email: </strong></span>
 												<s:property value="#session['con.email']" />
 											</p>
+											<p class="help-block">
+												<span><strong>Date of Birth: </strong></span>
+												<s:property value="#session['con.dob']" />
+											</p>
 										</div>
 									</div>
 
