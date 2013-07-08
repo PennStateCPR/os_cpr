@@ -72,8 +72,9 @@ var commit = commit || {};
 					postalCode: {
 						required: true,
 						digits: true,
-                        minlength: 5,
-                        maxlength: 9					}
+						minlength: 5,
+						maxlength: 9
+					}
 				},
 				messages: {
 					addressLine1: {

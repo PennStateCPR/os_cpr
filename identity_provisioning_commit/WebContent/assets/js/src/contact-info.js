@@ -22,6 +22,9 @@ var commit = commit || {};
 		**/
 		selectors: {
 			form: '#contactinfo',
+			dob: '#dob',
+			dobPopover: '#dobPopover',
+			dobPopoverContent: '#dobPopoverContent',
 			email: '#email',
 			primaryEmail: '#primaryEmail',
 			emailPopover: '#emailPopover',
@@ -88,6 +91,10 @@ var commit = commit || {};
 			this.validator = new commit.validator({
 				selectors: selectors,
 				rules: {
+					dob: {
+						required: true,
+						date: true
+					},
 					email: {
 						required: true,
 						email: true
@@ -98,6 +105,10 @@ var commit = commit || {};
 					}
 				},
 				messages: {
+					dob: {
+						required: 'Please enter your date of birth.',
+						date: 'Please enter a valid date of birth'
+					},
 					email: {
 						required: 'Please enter your email.'
 					},
@@ -146,6 +157,27 @@ var commit = commit || {};
 		},
 
 		/**
+		Method initializes jQuery Datepicker.
+
+		@method initializeDatepicker
+		**/
+		initializeDatepicker: function () {
+			var dob = $(this.selectors.dob);
+			dob.datepicker({
+				constrainInput: true,
+				dateFormat: 'mm/dd/yy',
+				autoSize: true,
+				defaultDate: +0,
+				changeMonth: true,
+				changeYear: true,
+				showOtherMonths: true,
+				showOn: 'both',
+				buttonImage: '/IdentityProvisioning/assets/img/calendar.png',
+				buttonImageOnly: true
+			});
+		},
+
+		/**
 		Method initializes view-specific popovers.
 
 		@method initializeViewPopovers
@@ -153,16 +185,21 @@ var commit = commit || {};
 		initializeViewPopovers: function () {
 			// Define.
 			var emailPopover, emailPopoverContent,
-				phonePopover, phonePopoverContent;
+				phonePopover, phonePopoverContent,
+				dobPopover, dobPopoverContent;
 
 			// Initialize.
 			emailPopover = $(this.selectors.emailPopover);
 			emailPopoverContent = $(this.selectors.emailPopoverContent).html();
 			phonePopover = $(this.selectors.phonePopover);
 			phonePopoverContent = $(this.selectors.phonePopoverContent).html();
+			dobPopover = $(this.selectors.dobPopover);
+			dobPopoverContent = $(this.selectors.dobPopoverContent).html();
 
 			// Email popover.
 			this.utils.popover(emailPopover, emailPopoverContent);
+
+			this.utils.popover(dobPopover, dobPopoverContent);
 
 			// Phone popover.
 			this.utils.popover(phonePopover, phonePopoverContent);
@@ -202,6 +239,7 @@ var commit = commit || {};
 		initialize: function () {
 			_.bindAll(this);
 			this.utils = commit.utils;
+			this.initializeDatepicker();
 			this.initializeViewPopovers();
 			this.validate();
 			this.attachModalListeners();
