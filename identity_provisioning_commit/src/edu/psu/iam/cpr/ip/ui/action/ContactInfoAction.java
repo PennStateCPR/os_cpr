@@ -26,6 +26,7 @@ public class ContactInfoAction extends BaseAction
 	private String internationalNumber;
 	private String phoneType;
 	private String emailType;
+	private String dob;
 	
 	/* (non-Javadoc)
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
@@ -164,6 +165,22 @@ public class ContactInfoAction extends BaseAction
 	 */
 	public void setEmailType(String emailType) {
 		this.emailType = emailType;
+	}
+
+
+	/**
+	 * @param dob the dob to set
+	 */
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+
+
+	/**
+	 * @return the dob
+	 */
+	public String getDob() {
+		return dob;
 	}
 
 
