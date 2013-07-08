@@ -31,7 +31,7 @@ public class ContactInfoAction extends BaseAction
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
 	 */
 	@Override
-	@Action(value="contact_info",results={ @Result(name=SUCCESS,location="/personal_info",type=REDIRECT),
+	@Action(value="contact_info",results={ @Result(name=SUCCESS,location="/verify_info",type=REDIRECT),
             @Result(name="Welcome"       ,location="/welcome"         ,type=REDIRECT),
             @Result(name="DataAccuracy"  ,location="/data_accuracy"   ,type=REDIRECT),
             @Result(name="LegalName"     ,location="/legal_name"      ,type=REDIRECT),
