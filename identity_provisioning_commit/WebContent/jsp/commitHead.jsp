@@ -29,6 +29,7 @@
 
 <!--CSS DEPENDENCIES-->
 <link href="<s:property value='#CSS_DIR'/><s:property value='#THEME_DIR'/>/commit.css" rel="stylesheet">
+<link href="<s:property value='#JS_LIB_DIR'/>/jquery-ui/base/jquery-ui-min.css" rel="stylesheet">
 
 <!-- HTML5 SHIM (for IE6-8 support of HTML5 elements) -->
 <!--[if lt IE 9]>

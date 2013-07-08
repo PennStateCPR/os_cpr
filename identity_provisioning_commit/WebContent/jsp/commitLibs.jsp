@@ -1,6 +1,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
 <script type="text/javascript" src="<s:property value='#JS_LIB_DIR'/>/jquery/jquery-min.js"></script>
+<script type="text/javascript" src="<s:property value='#JS_LIB_DIR'/>/jquery-ui/ui/jquery-ui-min.js"></script>
 <script type="text/javascript" src="<s:property value='#JS_LIB_DIR'/>/underscore/underscore-min.js"></script>
 <script type="text/javascript" src="<s:property value='#JS_LIB_DIR'/>/bootstrap/bootstrap-min.js"></script>
 <script type="text/javascript" src="<s:property value='#JS_LIB_DIR'/>/validation/jquery-validation.js"></script>
