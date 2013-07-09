@@ -10,7 +10,7 @@
 							<s:form action="/alternate_address" id="alternate" method="post" cssClass="form-horizontal" theme="simple">
 								<div class="titlebar">
 									<h1>
-										<span>Home Address</span>
+										<span>Alternate Address</span>
 										<i id="formPopover" data-toggle="popover" class="icon icon-question-sign"></i>
 									</h1>
 								</div>
