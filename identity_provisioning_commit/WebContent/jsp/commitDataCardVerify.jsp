@@ -68,7 +68,7 @@
 									</div>
 
 									<!--MINI:DATACARD:ALTERNATE_ADDRESS-->
-									<s:if test="%{#session['alt.address1'] != ''}">
+									<s:if test="%{#session['alt.addressLine1'] != ''}">
 										<div class="datacard-mini">
 											<div class="datacard-mini-titlebar">
 												<h2><a href="alternate_address" class="verification-link">Alternate Address<i class="icon-edit"></i></a></h2>
