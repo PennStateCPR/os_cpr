@@ -33,7 +33,7 @@ public class AlternateAddressAction extends AddressBaseAction
             @Result(name="CurrentAddress",location="/current_address" ,type=REDIRECT),
             @Result(name="ContactInfo"   ,location="/contact_info"    ,type=REDIRECT),
             @Result(name="PersonalInfo"  ,location="/personal_info"   ,type=REDIRECT),
-            @Result(name="IdentityInfo"  ,location="/identity_info"   ,type=REDIRECT),
+            @Result(name="AlternateAddress",location="/alternate_address" ,type=REDIRECT),
             @Result(name="VerifyInfo"    ,location="/verify_info"     ,type=REDIRECT),
 			@Result(name="stay on page"  ,location="/jsp/alternateAddress.jsp"),
 			@Result(name="verify"        ,location="/verify_info"     ,type=REDIRECT),

@@ -32,6 +32,7 @@ public class CurrentAddressAction extends AddressBaseAction
             @Result(name="DataAccuracy"  ,location="/data_accuracy"   ,type=REDIRECT),
             @Result(name="LegalName"     ,location="/legal_name"      ,type=REDIRECT),
             @Result(name="CurrentAddress",location="/current_address" ,type=REDIRECT),
+            @Result(name="AlternateAddress",location="/alternate_address" ,type=REDIRECT),
             @Result(name="ContactInfo"   ,location="/contact_info"    ,type=REDIRECT),
             @Result(name="PersonalInfo"  ,location="/personal_info"   ,type=REDIRECT),
             @Result(name="IdentityInfo"  ,location="/identity_info"   ,type=REDIRECT),
@@ -46,7 +47,9 @@ public class CurrentAddressAction extends AddressBaseAction
 		
 		String nextPage = super.execute();
 		
-		log.info("The value of alternate radio = " + getAlternateRadio());
+		if ("true".equals(getAlternateRadio())) {
+			nextPage = "AlternateAddress";
+		}
 		
 		return nextPage;
 	}
