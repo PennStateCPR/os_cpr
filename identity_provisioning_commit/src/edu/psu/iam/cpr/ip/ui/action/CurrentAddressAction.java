@@ -20,6 +20,9 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
  */
 public class CurrentAddressAction extends AddressBaseAction 
 {
+	
+	private String alternateRadio;
+	
 	/* (non-Javadoc)
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
 	 */
@@ -40,7 +43,12 @@ public class CurrentAddressAction extends AddressBaseAction
 	public String execute() 
 	{
 		setPrefix("cra");
-		return super.execute();
+		
+		String nextPage = super.execute();
+		
+		log.info("The value of alternate radio = " + getAlternateRadio());
+		
+		return nextPage;
 	}
 
 	@Override
@@ -77,5 +85,19 @@ public class CurrentAddressAction extends AddressBaseAction
 	 * This method should only be overridden for address other than Current Address
 	 */
 	public void countryCheck(String returnLocation) 	{ }
+
+	/**
+	 * @param alternateRadio the alternateRadio to set
+	 */
+	public void setAlternateRadio(String alternateRadio) {
+		this.alternateRadio = alternateRadio;
+	}
+
+	/**
+	 * @return the alternateRadio
+	 */
+	public String getAlternateRadio() {
+		return alternateRadio;
+	}
 
 }
