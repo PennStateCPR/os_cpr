@@ -337,6 +337,10 @@ public abstract class BaseAction extends ActionSupport
 		ArrayList<String> screenList = (ArrayList<String>)getApplicationMap().get(raScreenName);
 		int orderIndex = screenList.indexOf(currentScreenName);
 		
+		LOG.info("current screen name = " + currentScreenName);
+		LOG.info("ra screen name = " + raScreenName);
+		LOG.info("order index = " + orderIndex);
+		
 		// When we are at RAConnection, then be sure to follow order in database for next screen
 		String currentAction = this.getClass().getSimpleName();
 		if(currentScreenName.equals(RA_CONNECTION) && currentScreenName.equals(currentAction.substring(0, currentAction.length()- "Action".length())))
@@ -368,6 +372,7 @@ public abstract class BaseAction extends ActionSupport
 			nextScreen = SUCCESS;
 		}
 		
+		LOG.info("Next screen = " + nextScreen);
 		return nextScreen;
 	}
 	
@@ -380,7 +385,7 @@ public abstract class BaseAction extends ActionSupport
 		{
 			isNextScreenOptional = true;
 		}
-		
+		LOG.info("Next Screen optional "  + isNextScreenOptional);
 		return isNextScreenOptional;
 	}
 	
