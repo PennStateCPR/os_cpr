@@ -67,6 +67,33 @@
 										</div>
 									</div>
 
+									<!--MINI:DATACARD:ALTERNATE_ADDRESS-->
+									<s:if test="%{#session['alt.address1'] != ''}">
+										<div class="datacard-mini">
+											<div class="datacard-mini-titlebar">
+												<h2><a href="alternate_address" class="verification-link">Alternate Address<i class="icon-edit"></i></a></h2>
+											</div>
+											<div class="datacard-mini-content">
+												<p class="help-block">
+													<s:property value="#session['alt.addressLine1']" />
+													<s:property value="#session['alt.addressLine2']" />
+													<s:property value="#session['alt.addressLine3']" />
+												</p>
+												<p class="help-block">
+													<s:property value="#session['alt.city']" />,
+													<s:property value="#session['alt.state']" />
+													<s:property value="#session['alt.province']" />
+													<s:property value="#session['alt.postalCode']" />
+												</p>
+												<p class="help-block">
+													<s:property value="#session['alt.country']" />
+												</p>
+											</div>
+										</div>
+									</s:if>
+									
+									
+
 									<!--MINI:DATACARD:ADDITIONAL INFORMATION-->
 									<div class="datacard-mini">
 										<div class="datacard-mini-titlebar">
