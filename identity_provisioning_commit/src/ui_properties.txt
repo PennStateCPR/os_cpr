@@ -222,7 +222,7 @@ logic.security.questions.person.found=go to sq splash
 #logic.security.questions.person.found=default
 
 #   names of the optional screens, and after what screen they should be inserted -- used by debug option 'allPages=yes'
-logic.optional.screens=FormerName,PreviousAddress
+logic.optional.screens=FormerName,AlternateAddress
 logic.optional.insert.after=LegalName,CurrentAddress
 
 

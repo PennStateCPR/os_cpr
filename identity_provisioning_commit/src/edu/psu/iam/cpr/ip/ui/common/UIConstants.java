@@ -201,6 +201,14 @@ public final class UIConstants
 	public static final String PRA_POSTAL_CODE          = "pra.postalCode";
 	public static final String PRA_COUNTRY              = "pra.country";
 	
+	public static final String ALT_ADDRESS_LINE1        = "alt.addressLine1";
+	public static final String ALT_ADDRESS_LINE2        = "alt.addressLine2";
+	public static final String ALT_ADDRESS_LINE3        = "alt.addressLine3";
+	public static final String ALT_STATE                = "alt.state";
+	public static final String ALT_PROVINCE             = "alt.province";
+	public static final String ALT_POSTAL_CODE          = "alt.postalCode";
+	public static final String ALT_COUNTRY              = "alt.country";
+	
 	// Key to access the security question they selected in a past iteration
 	public static final String SEC_PREVIOUS_SECURITY_QUESTION = "sec.previous.security.question";
 	
