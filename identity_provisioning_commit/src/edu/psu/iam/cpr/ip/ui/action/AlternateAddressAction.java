@@ -25,7 +25,7 @@ public class AlternateAddressAction extends AddressBaseAction
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
 	 */
 	@Override
-	@Action(value="previous_address",results={ 
+	@Action(value="alternate_address",results={ 
 			@Result(name=SUCCESS,location="/contact_info"             ,type=REDIRECT),
             @Result(name="Welcome"       ,location="/welcome"         ,type=REDIRECT),
             @Result(name="DataAccuracy"  ,location="/data_accuracy"   ,type=REDIRECT),
