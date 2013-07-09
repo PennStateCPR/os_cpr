@@ -24,7 +24,7 @@ public class CurrentAddressAction extends AddressBaseAction
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
 	 */
 	@Override
-	@Action(value="current_address",results={ @Result(name=SUCCESS,location="/previous_address",type=REDIRECT),
+	@Action(value="current_address",results={ @Result(name=SUCCESS,location="/alternate_address",type=REDIRECT),
             @Result(name="Welcome"       ,location="/welcome"         ,type=REDIRECT),
             @Result(name="DataAccuracy"  ,location="/data_accuracy"   ,type=REDIRECT),
             @Result(name="LegalName"     ,location="/legal_name"      ,type=REDIRECT),
