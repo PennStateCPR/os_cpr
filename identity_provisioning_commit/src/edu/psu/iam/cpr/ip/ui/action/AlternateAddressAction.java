@@ -69,11 +69,5 @@ public class AlternateAddressAction extends AddressBaseAction
 	 */
 	public void countryCheck(String returnLocation)
 	{
-		// If the only field present is the dropdown for country, then blank it out
-		if(FieldUtility.fieldIsPresent(getCountry()) && returnLocation.equalsIgnoreCase(SUCCESS) 
-		&& FieldUtility.fieldIsNotPresent(getAddressLine1(), getAddressLine2(), getAddressLine3(), getCity(), getState(), getPostalCode(), getProvince()))
-		{
-			setCountry(null);
-		}
 	}
 }
