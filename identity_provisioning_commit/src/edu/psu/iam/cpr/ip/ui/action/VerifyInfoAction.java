@@ -13,6 +13,8 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 import edu.psu.iam.cpr.ip.ui.helper.RegexHelper;
 import edu.psu.iam.cpr.ip.util.MapHelper;
 import edu.psu.iam.cpr.ip.ui.common.MagicNumber;
+import edu.psu.iam.cpr.ip.ui.common.UIConstants;
+
 import java.util.HashMap;
 
 /**
@@ -119,7 +121,10 @@ public class VerifyInfoAction extends BaseAction
                                     						getSessionMap().put("formatted.university.id"
                                                               					, RegexHelper.formatUniversityId(getApplicationMap(), status.get("srv.psuId")));
                                     						//Navigation.lock(getSessionMap());
-                                            					break;
+                                    						if (! SoapClientIP.mapValueIsEmpty(argStringMap.get(UIConstants.ALT_ADDRESS_LINE1))) {
+                                    							SoapClientIP.addAlternateAddress(argStringMap);
+                                    						}
+                                            				break;
 
                         						/* We think we found you */
                            						case MagicNumber.I3:

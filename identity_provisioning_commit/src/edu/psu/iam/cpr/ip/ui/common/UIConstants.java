@@ -204,6 +204,7 @@ public final class UIConstants
 	public static final String ALT_ADDRESS_LINE1        = "alt.addressLine1";
 	public static final String ALT_ADDRESS_LINE2        = "alt.addressLine2";
 	public static final String ALT_ADDRESS_LINE3        = "alt.addressLine3";
+	public static final String ALT_CITY					= "alt.city";
 	public static final String ALT_STATE                = "alt.state";
 	public static final String ALT_PROVINCE             = "alt.province";
 	public static final String ALT_POSTAL_CODE          = "alt.postalCode";

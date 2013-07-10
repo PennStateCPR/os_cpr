@@ -448,11 +448,18 @@ public final class SoapClient {
 		addAddressData = cleanseHash(addAddressData);
 		
 		// call service
-		LOG.info("Sending to add address " + addAddressData.get(UIConstants.PRINCIPAL_ID) + addAddressData.get(UIConstants.REQUESTED_BY) + 
-				addAddressData.get(UIConstants.IDENTIFIER_TYPE) + addAddressData.get(UIConstants.IDENTIFIER) +
-				addAddressData.get(UIConstants.ADDRESS_TYPE) + addAddressData.get(UIConstants.ADDRESS_DOCUMENT_TYPE) + 
-				addAddressData.get(UIConstants.ADDRESS1) + addAddressData.get(UIConstants.ADDRESS2) +  addAddressData.get(UIConstants.ADDRESS3) + 
-				addAddressData.get(UIConstants.CITY) + addAddressData.get(UIConstants.STATE_OR_PROV) +  addAddressData.get(UIConstants.POSTAL_CODE) + addAddressData.get(UIConstants.COUNTRY) +
+		LOG.info("Sending to add address " +  
+				addAddressData.get(UIConstants.IDENTIFIER_TYPE) + 
+				addAddressData.get(UIConstants.IDENTIFIER) +
+				addAddressData.get(UIConstants.ADDRESS_TYPE) + 
+				addAddressData.get(UIConstants.ADDRESS_DOCUMENT_TYPE) + 
+				addAddressData.get(UIConstants.ADDRESS1) + 
+				addAddressData.get(UIConstants.ADDRESS2) +  
+				addAddressData.get(UIConstants.ADDRESS3) + 
+				addAddressData.get(UIConstants.CITY) + 
+				addAddressData.get(UIConstants.STATE_OR_PROV) +  
+				addAddressData.get(UIConstants.POSTAL_CODE) + 
+				addAddressData.get(UIConstants.COUNTRY) +
 				addAddressData.get(UIConstants.CAMPUS));
 
 		Session apiSession = null;

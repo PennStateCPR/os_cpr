@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import edu.psu.iam.cpr.core.database.types.AddressType;
 import edu.psu.iam.cpr.core.database.types.MatchType;
 import edu.psu.iam.cpr.core.service.returns.MatchReturn;
 import edu.psu.iam.cpr.core.service.returns.PersonReturn;
@@ -482,9 +483,6 @@ public final class SoapClientIP {
 
 		HashMap<String, String> addAddress = new HashMap<String, String>();
 		
-		addAddress.put(UIConstants.PRINCIPAL_ID, sessionData.get(UIConstants.RAC_PRINCIPAL_ID));
-		addAddress.put(UIConstants.PASSWORD, sessionData.get(UIConstants.RAC_PASSWORD));
-
 		// Add the entered current address as a new permanent address
 		addAddress.put(UIConstants.REQUESTED_BY, sessionData.get(UIConstants.RAC_REQUESTED_BY));
 
@@ -492,6 +490,48 @@ public final class SoapClientIP {
 		addAddress.put("identifier", sessionData.get(SRV_PERSON_ID));
 
 		HashMap<String, String> formattedAddressData = formatAddressData(sessionData);
+ 
+		// Only call add address, if the required information is available
+		if (!formattedAddressData.isEmpty()) {
+			
+			addAddress.putAll(formattedAddressData);
+	
+			ServiceReturn addressServiceReturn = null;
+			
+			try {
+				//call the service
+				addressServiceReturn = SoapClient.callAddAddressService(addAddress);
+			} catch (Exception e) {
+				LOG.info("Error occurred during add address: " + e.getMessage());
+				return false;
+			}
+			
+			// if the add was successful or the address already exists
+			if (addressServiceReturn.getStatusCode() == 0 || addressServiceReturn.getStatusCode() == MagicNumber.INT_201) {
+		        // return success
+				return true;
+			}
+			LOG.info("Error occurred during add address: " + addressServiceReturn.getStatusMessage() + " code: " + addressServiceReturn.getStatusCode());
+		}
+		return false;
+	}
+
+	/**
+	 * This method uses the data entered during the identity provisioning process to call the add address soap service.
+	 * @param sessionData contains the key-value pairs of the identity provisioning session data
+	 * @return true if the call was successful, false if not
+	 */
+	public static boolean addAlternateAddress(HashMap<String, String> sessionData) {
+
+		HashMap<String, String> addAddress = new HashMap<String, String>();
+		
+		// Add the entered current address as a new permanent address
+		addAddress.put(UIConstants.REQUESTED_BY, sessionData.get(UIConstants.RAC_REQUESTED_BY));
+
+		addAddress.put(UIConstants.IDENTIFIER_TYPE, PERSON_ID);
+		addAddress.put("identifier", sessionData.get(SRV_PERSON_ID));
+
+		HashMap<String, String> formattedAddressData = formatAlternateAddressData(sessionData);
  
 		// Only call add address, if the required information is available
 		if (!formattedAddressData.isEmpty()) {
@@ -585,7 +625,7 @@ public final class SoapClientIP {
 	 * @param mapValue to check
 	 * @return true is the value is null or empty, false otherwise
 	 */
-	private static boolean mapValueIsEmpty(String mapValue) {
+	public static boolean mapValueIsEmpty(String mapValue) {
 		if (mapValue == null || mapValue.trim().equals("") || mapValue.equals("null"))
 		{
 			return true;
@@ -677,6 +717,47 @@ public final class SoapClientIP {
 			{
 				// make sure postal code is formatted correctly (only numbers or null)
 				formattedAddressData.put(UIConstants.POSTAL_CODE, removeNonDigits(sessionData.get(UIConstants.CRA_POSTAL_CODE)));		
+			}
+		}
+		
+		return formattedAddressData;
+	}
+	
+	/**
+	 * This method formats the alternate address data for calling the add address service
+	 * @param sessionData
+	 * @return if the required information is available, a key-value hash for add address, otherwise an empty hash
+	 */
+	public static HashMap<String, String> formatAlternateAddressData(HashMap<String, String> sessionData) {
+		HashMap<String, String> formattedAddressData = new HashMap<String, String>();
+
+		// If the required elements are missing, return an empty map
+		if (! (mapValueIsEmpty(sessionData.get(UIConstants.ALT_ADDRESS_LINE1)) ||
+				mapValueIsEmpty(sessionData.get(UIConstants.ALT_COUNTRY)) || 
+				mapValueIsEmpty(sessionData.get(UIConstants.ALT_POSTAL_CODE)))) {
+
+			formattedAddressData.put(UIConstants.ADDRESS_TYPE, AddressType.ALTERNATE_ADDRESS.toString());
+			formattedAddressData.put(UIConstants.ADDRESS_DOCUMENT_TYPE, null);
+			formattedAddressData.put(UIConstants.ADDRESS_GROUP_ID, "1");
+			formattedAddressData.put(UIConstants.ADDRESS1, sessionData.get(UIConstants.ALT_ADDRESS_LINE1));
+			formattedAddressData.put(UIConstants.ADDRESS2, sessionData.get(UIConstants.ALT_ADDRESS_LINE2));
+			formattedAddressData.put(UIConstants.ADDRESS3, sessionData.get(UIConstants.ALT_ADDRESS_LINE3));
+			formattedAddressData.put(UIConstants.CITY, sessionData.get(UIConstants.ALT_CITY));
+			formattedAddressData.put(UIConstants.COUNTRY, sessionData.get(UIConstants.ALT_COUNTRY));
+	
+			if (!mapValueIsEmpty(sessionData.get(UIConstants.ALT_STATE))) 
+			{
+				formattedAddressData.put(UIConstants.STATE_OR_PROV, sessionData.get(UIConstants.ALT_STATE));	
+			}
+			else if (!mapValueIsEmpty(sessionData.get(UIConstants.ALT_PROVINCE))) 
+			{
+				formattedAddressData.put(UIConstants.STATE_OR_PROV, sessionData.get(UIConstants.ALT_PROVINCE));	
+			}
+	
+			if (sessionData.containsKey(UIConstants.ALT_POSTAL_CODE)) 
+			{
+				// make sure postal code is formatted correctly (only numbers or null)
+				formattedAddressData.put(UIConstants.POSTAL_CODE, removeNonDigits(sessionData.get(UIConstants.ALT_POSTAL_CODE)));		
 			}
 		}
 		
