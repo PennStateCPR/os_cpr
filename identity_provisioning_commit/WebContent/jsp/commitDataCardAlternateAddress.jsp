@@ -85,7 +85,7 @@
 									<div class="control-group">
 										<label class="control-label" for="country">Country:</label>
 										<div class="controls">
-											<s:select name="country" cssClass="input-large" id="country" list="countryMap" onchange="commit.currentaddress.onCountryChange(this);"></s:select>
+											<s:select name="country" cssClass="input-large" id="country" list="countryMap" onchange="commit.alternateaddress.onCountryChange(this);"></s:select>
 										</div>
 									</div>
 								</div>
