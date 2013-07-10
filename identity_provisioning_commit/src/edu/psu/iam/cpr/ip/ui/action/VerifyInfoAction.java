@@ -118,9 +118,9 @@ public class VerifyInfoAction extends BaseAction
                                         					getSessionMap().put("suc.personId", status.get("srv.personId"));
                                     						getSessionMap().put("suc.psuId"   , status.get("srv.psuId"));
                                     						getSessionMap().put("suc.userId"  , status.get("srv.userId"));
-                                        					getSessionMap().put("srv.personId", status.get("srv.personId"));
-                                    						getSessionMap().put("srv.psuId"   , status.get("srv.psuId"));
-                                    						getSessionMap().put("srv.userId"  , status.get("srv.userId"));
+                                    						argStringMap.put("srv.personId", status.get("srv.personId"));
+                                    						argStringMap.put("srv.psuId"   , status.get("srv.psuId"));
+                                    						argStringMap.put("srv.userId"  , status.get("srv.userId"));
                                     						getSessionMap().put("formatted.university.id"
                                                               					, RegexHelper.formatUniversityId(getApplicationMap(), status.get("srv.psuId")));
                                     						//Navigation.lock(getSessionMap());
