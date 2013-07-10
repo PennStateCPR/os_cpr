@@ -124,6 +124,7 @@ public class VerifyInfoAction extends BaseAction
                                     						log.info("Address line 1 alt = " + argStringMap.get(UIConstants.ALT_ADDRESS_LINE1));
                                     						log.info("City alt  = " + argStringMap.get(UIConstants.ALT_CITY));
                                     						if (! SoapClientIP.mapValueIsEmpty(argStringMap.get(UIConstants.ALT_ADDRESS_LINE1))) {
+                                    							log.info("We are making the call!");
                                     							SoapClientIP.addAlternateAddress(argStringMap);
                                     						}
                                             				break;
