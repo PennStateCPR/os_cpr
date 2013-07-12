@@ -531,15 +531,11 @@ public final class SoapClientIP {
 		addAddress.put(UIConstants.IDENTIFIER_TYPE, PERSON_ID);
 		addAddress.put("identifier", sessionData.get(SRV_PERSON_ID));
 		
-		LOG.info("Person ID = " + sessionData.get(SRV_PERSON_ID));
-
 		HashMap<String, String> formattedAddressData = formatAlternateAddressData(sessionData);
  
 		// Only call add address, if the required information is available
 		if (!formattedAddressData.isEmpty()) {
-			
-			LOG.info("We have data!!!");
-			
+						
 			addAddress.putAll(formattedAddressData);
 	
 			ServiceReturn addressServiceReturn = null;
@@ -737,10 +733,6 @@ public final class SoapClientIP {
 
 		// If the required elements are missing, return an empty map
 		
-		LOG.info("Address line 1 = " + sessionData.get(UIConstants.ALT_ADDRESS_LINE1));
-		LOG.info("Country = " + sessionData.get(UIConstants.ALT_COUNTRY));
-		LOG.info("city = " + sessionData.get(UIConstants.ALT_CITY));
-		LOG.info("postal code = " + sessionData.get(UIConstants.ALT_POSTAL_CODE));
 		if (! (mapValueIsEmpty(sessionData.get(UIConstants.ALT_ADDRESS_LINE1)) ||
 				mapValueIsEmpty(sessionData.get(UIConstants.ALT_COUNTRY)) || 
 				mapValueIsEmpty(sessionData.get(UIConstants.ALT_POSTAL_CODE)))) {

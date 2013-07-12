@@ -105,10 +105,8 @@ public class VerifyInfoAction extends BaseAction
 				
 				case PERSON_NOT_FOUND:           getSessionMap().put(getPrefix() +".person.found", "no");
 				                                 getSessionMap().put("sec.password.setting", "initial");        
-				                                 log.info(String.format("%s the person was not FOUND by add person", getUniqueId()));
 				                                 HashMap<String, String> argStringMap = MapHelper.genericObjToStringHashMap(getSessionMap());
 				                                 Map<String, String> status = SoapClientIP.addPerson(argStringMap, getUniqueId());
-				                                 log.info(String.format("%s returnStatus from addPerson--> %s ", getUniqueId(), status));
 
 				                                 log.info(String.format("%s statuscode from addPerson[%s] ", getUniqueId(), Integer.parseInt(status.get("statusCode"))));
                         					 switch(Integer.parseInt(status.get("statusCode")))
@@ -124,10 +122,7 @@ public class VerifyInfoAction extends BaseAction
                                     						getSessionMap().put("formatted.university.id"
                                                               					, RegexHelper.formatUniversityId(getApplicationMap(), status.get("srv.psuId")));
                                     						//Navigation.lock(getSessionMap());
-                                    						log.info("Address line 1 alt = " + argStringMap.get(UIConstants.ALT_ADDRESS_LINE1));
-                                    						log.info("City alt  = " + argStringMap.get(UIConstants.ALT_CITY));
                                     						if (! SoapClientIP.mapValueIsEmpty(argStringMap.get(UIConstants.ALT_ADDRESS_LINE1))) {
-                                    							log.info("We are making the call!");
                                     							SoapClientIP.addAlternateAddress(argStringMap);
                                     						}
                                             				break;

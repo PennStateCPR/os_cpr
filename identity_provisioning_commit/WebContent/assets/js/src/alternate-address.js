@@ -107,14 +107,17 @@ var commit = commit || {};
 					this.utils.resetSelect(state);
 					this.utils.resetInput(province);
 				}
-				provinceGroup.show();
-			} else {
+				provinceGroup.show();	
+			} else if (country === 'usa') {
 				if (options.clear) {
 					this.utils.resetSelect(state);
 					this.utils.resetInput(province);
 				}
 				stateGroup.show();
-			}
+			} else {
+				provinceGroup.hide();
+				stateGroup.hide();
+			}			
 		},
 
 		/**
