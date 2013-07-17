@@ -6,6 +6,10 @@
 
     <constant name="struts.enable.DynamicMethodInvocation" value="false" />
     <constant name="struts.devMode" value="false" />
+    
+    <constant name="struts.convention.exclude.parentClassLoader" value="false" />
+	<constant name="struts.convention.action.fileProtocols" value="jar,code-source" />
+    
 
     <bean type="com.opensymphony.xwork2.UnknownHandler" name="handler404" class="edu.psu.iam.cpr.ip.ui.web.handler.UnknownEvent"/>
 	<package name="datalockPackage" namespace="/" extends="struts-default">    
