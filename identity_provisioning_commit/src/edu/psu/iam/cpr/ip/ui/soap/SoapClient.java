@@ -325,6 +325,8 @@ public final class SoapClient {
 			return personServiceReturn;
 		}
 		catch (Exception e) {
+			System.out.println("Exception Caught: " + e.getMessage());
+			e.printStackTrace();
 			try {
 				apiSession.getTransaction().rollback();
 			}
