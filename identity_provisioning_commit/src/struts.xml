@@ -21,7 +21,7 @@
 		</interceptors>
 		
 		<action name="">
-			<result>/WEB-INF/index.jsp</result>
+			<result>/index.jsp</result>
 		</action>
 	</package>
 
