@@ -19,6 +19,10 @@
         		<interceptor-ref name="defaultStack" />
     		</interceptor-stack>
 		</interceptors>
+		
+		<action name="">
+			<result>/WEB-INF/index.jsp</result>
+		</action>
 	</package>
 
 	<constant name="struts.action.excludePattern" value=".*Servlet" />
