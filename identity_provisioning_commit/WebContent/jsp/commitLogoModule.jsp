@@ -4,5 +4,5 @@
 	<a href="/" title="The Commit Project">&nbsp;</a>
 </div>
 <div class="logo-module logo-secondary">
-	<a href="http://umbc.edu/" title="UMBC">&nbsp;</a>
+	<img id="serviceLogo" class="hide" src="" alt="Logo">
 </div>

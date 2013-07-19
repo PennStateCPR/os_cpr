@@ -70,10 +70,7 @@ var commit = commit || {};
 						required: true
 					},
 					postalCode: {
-						required: true,
-						digits: true,
-						minlength: 5,
-						maxlength: 9
+						required: true
 					}
 				},
 				messages: {
@@ -90,9 +87,7 @@ var commit = commit || {};
 						required: 'Please enter a province.'
 					},
 					postalCode: {
-						required: 'Please enter your zip code.',
-						digits: 'Your zip code should only contain numbers.',
-						minlength: 'Zip codes contain at least 5 numbers.'
+						required: 'Please enter your zip code.'
 					}
 				},
 				formPopover: true,
@@ -130,7 +125,7 @@ var commit = commit || {};
 					this.utils.resetSelect(state);
 					this.utils.resetInput(province);
 				}
-				provinceGroup.show();	
+				provinceGroup.show();
 			} else if (country === 'usa') {
 				if (options.clear) {
 					this.utils.resetSelect(state);
@@ -140,7 +135,7 @@ var commit = commit || {};
 			} else {
 				provinceGroup.hide();
 				stateGroup.hide();
-			}			
+			}
 		},
 
 		/**

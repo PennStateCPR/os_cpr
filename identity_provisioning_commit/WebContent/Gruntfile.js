@@ -41,8 +41,10 @@ module.exports = function (grunt) {
 			},
 			source: {
 				files: {
+					'assets/js/min/logo-url-parser-min.js': ['assets/js/src/logo-url-parser.js'],
 					'assets/js/min/contact-info-min.js': ['assets/js/src/contact-info.js'],
 					'assets/js/min/current-address-min.js': ['assets/js/src/current-address.js'],
+					'assets/js/min/alternate-address-min.js': ['assets/js/src/alternate-address.js'],
 					'assets/js/min/error-min.js': ['assets/js/src/error.js'],
 					'assets/js/min/legal-name-min.js': ['assets/js/src/legal-name.js'],
 					'assets/js/min/match-min.js': ['assets/js/src/match.js'],

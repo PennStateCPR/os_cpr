@@ -4,15 +4,17 @@
 <script type="text/javascript" src="<s:property value='#JS_LIB_DIR'/>/jquery-ui/ui/jquery-ui-min.js"></script>
 <script type="text/javascript" src="<s:property value='#JS_LIB_DIR'/>/underscore/underscore-min.js"></script>
 <script type="text/javascript" src="<s:property value='#JS_LIB_DIR'/>/bootstrap/bootstrap-min.js"></script>
-<script type="text/javascript" src="<s:property value='#JS_LIB_DIR'/>/validation/jquery-validation.js"></script>
-<script type="text/javascript" src="<s:property value='#JS_LIB_DIR'/>/validation/additional-methods.js"></script>
+<script type="text/javascript" src="<s:property value='#JS_LIB_DIR'/>/validation/jquery-validation-min.js"></script>
+<script type="text/javascript" src="<s:property value='#JS_LIB_DIR'/>/validation/additional-methods-min.js"></script>
 <script type="text/javascript" src="<s:property value='#JS_LIB_DIR'/>/outside/jquery-outside-min.js"></script>
 <s:if test='%{#DEV_MODE == "true"}'>
 	<script type="text/javascript" src="<s:property value='#JS_SRC_DIR'/>/utils.js"></script>
+	<script type="text/javascript" src="<s:property value='#JS_SRC_DIR'/>/logo-url-parser.js"></script>
 	<script type="text/javascript" src="<s:property value='#JS_SRC_DIR'/>/validator.js"></script>
 </s:if>
 <s:else>
 	<script type="text/javascript" src="<s:property value='#JS_MIN_DIR'/>/utils-min.js"></script>
+	<script type="text/javascript" src="<s:property value='#JS_MIN_DIR'/>/logo-url-parser-min.js"></script>
 	<script type="text/javascript" src="<s:property value='#JS_MIN_DIR'/>/validator-min.js"></script>
 </s:else>
 
