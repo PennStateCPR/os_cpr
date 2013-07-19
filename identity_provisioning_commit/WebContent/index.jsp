@@ -58,6 +58,7 @@
  request.setAttribute("requestedBy", requestedBy);
  request.setAttribute("principalId", principalId);
  request.setAttribute("password", password);
+ request.setAttribute("logoUrl", "http://account.commonidtrust.org/IdentityProvisioning/assets/img/secondary_logo.png");
  
  // Redirect the next request at the server, shielding the "ra_connect" action from the end-user
  request.getRequestDispatcher("ra_connect").forward(request, response);
