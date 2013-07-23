@@ -60,11 +60,11 @@ ui.mail.from=commonidtrust@internet2.edu
 ui.mail.from.person=Identity Provisioning
 ui.mail.success.subject=Your CommIT Identity Has Been Created
 ui.mail.success.text=Your CommIT identity has been created
-ui.mail.success.html=<b>Hello %lna.firstName% %lna.lastName%,</b><br/><br/><i>Your CommIT Identity has been created.<br/><br/>Your user id is '%suc.userId%'.</i>'
+ui.mail.success.html=<b>Hello %lna.firstName% %lna.lastName%,</b><br/><br/><i>Your CommIT Identity has been created.<br/><br/>Your user id is %suc.userId%.</i>
 
 ui.mail.success.reset.subject=Your CommIT Identity Password Has Been Reset
 ui.mail.success.reset.text=Your CommIT identity has been reset.
-ui.mail.success.reset.html=<b>Hello %lna.firstName% %lna.lastName%,</b><br/><br/><i>Your CommIT password has been reset, for your userid '%suc.userId%'.</i><br/><br/>If you did not request this change, please contact Customer Services.
+ui.mail.success.reset.html=<b>Hello %lna.firstName% %lna.lastName%,</b><br/><br/><i>Your CommIT password has been reset, for your userid %suc.userId%.</i>
 
 ui.mail.bcc=
 

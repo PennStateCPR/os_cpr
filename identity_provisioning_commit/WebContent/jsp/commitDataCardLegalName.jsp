@@ -47,6 +47,14 @@
 										</div>
 									</div>
 
+									<!--SUFFIX-->
+									<div class="control-group">
+										<label class="control-label" for="suffix">Suffix:</label>
+										<div class="controls">
+											<s:textfield name="suffix" cssClass="input-large" id="suffix" />
+										</div>
+									</div>
+									
 									<!--NICK NAME-->
 									<div class="control-group">
 										<label class="control-label" for="nickName">Nick Name:</label>
@@ -55,13 +63,6 @@
 										</div>
 									</div>
 
-									<!--SUFFIX-->
-									<div class="control-group">
-										<label class="control-label" for="suffix">Suffix:</label>
-										<div class="controls">
-											<s:textfield name="suffix" cssClass="input-large" id="suffix" />
-										</div>
-									</div>
 								</div>
 
 								<!--FORM POPOVER-->
