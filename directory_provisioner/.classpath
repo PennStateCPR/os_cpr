@@ -2,11 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/json.jar"/>
-	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/activemq-all-5.5.1.jar"/>
-	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/slf4j-log4j12-1.5.11.jar"/>
-	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars/log4j-1.2.14.jar"/>
-	<classpathentry kind="lib" path="/Users/jvuccolo/local_jars/cpr_jars_OS/cpr_core.jar"/>
+	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=directory_provisioner&amp;ivyXmlPath=ivy.xml&amp;confs=*"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/cpr_core"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
