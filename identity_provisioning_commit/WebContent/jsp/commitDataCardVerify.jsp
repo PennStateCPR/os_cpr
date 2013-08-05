@@ -37,7 +37,7 @@
 											</p>
 											<s:if test="%{#session['lna.nickName'] != ''}">
 												<p class="help-block">
-													<span><strong>Nick Name: </strong></span>
+													<span><strong>Preferred Name: </strong></span>
 													<s:property value="#session['lna.nickName']" />
 												</p>
 											</s:if>

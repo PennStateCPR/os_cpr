@@ -57,7 +57,7 @@
 									
 									<!--NICK NAME-->
 									<div class="control-group">
-										<label class="control-label" for="nickName">Nick Name:</label>
+										<label class="control-label" for="nickName">Preferred Name:</label>
 										<div class="controls">
 											<s:textfield name="nickName" cssClass="input-large" id="nickName" />
 										</div>
