@@ -9,12 +9,12 @@
 <script type="text/javascript" src="<s:property value='#JS_LIB_DIR'/>/outside/jquery-outside-min.js"></script>
 <s:if test='%{#DEV_MODE == "true"}'>
 	<script type="text/javascript" src="<s:property value='#JS_SRC_DIR'/>/utils.js"></script>
-	<script type="text/javascript" src="<s:property value='#JS_SRC_DIR'/>/logo-url-parser.js"></script>
+<!-- <script type="text/javascript" src="<s:property value='#JS_SRC_DIR'/>/logo-url-parser.js"></script> -->
 	<script type="text/javascript" src="<s:property value='#JS_SRC_DIR'/>/validator.js"></script>
 </s:if>
 <s:else>
 	<script type="text/javascript" src="<s:property value='#JS_MIN_DIR'/>/utils-min.js"></script>
-	<script type="text/javascript" src="<s:property value='#JS_MIN_DIR'/>/logo-url-parser-min.js"></script>
+<!--  <script type="text/javascript" src="<s:property value='#JS_MIN_DIR'/>/logo-url-parser-min.js"></script> -->
 	<script type="text/javascript" src="<s:property value='#JS_MIN_DIR'/>/validator-min.js"></script>
 </s:else>
 
