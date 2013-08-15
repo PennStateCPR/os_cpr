@@ -506,7 +506,7 @@ public abstract class BaseAction extends ActionSupport
 		// Indicate this is a 2nd to n instance of screen
 		getSessionMap().put("control", prefix); 
 
-		log.info("Session Values : " + getSessionMap());
+		log.info("Session Values : " + this.getClass().getSuperclass().getSimpleName() + " " + getSessionMap());
 		
 		control = prefix;
 	}
