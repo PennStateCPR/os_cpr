@@ -504,9 +504,13 @@ public abstract class BaseAction extends ActionSupport
 			}
 		}
 		// Indicate this is a 2nd to n instance of screen
-		getSessionMap().put("control", prefix); 
-
-		log.info("Session Values : " + this.getClass().getSuperclass().getSimpleName() + " " + getSessionMap());
+		getSessionMap().put("control", prefix);
+		
+		// JAV DEBUG
+		if(!this.getClass().getSuperclass().getSimpleName().equalsIgnoreCase("BaseAction")) {
+			log.info("Session Values : " + this.getClass().getSuperclass().getSimpleName() + " " + getSessionMap());
+		}
+		// JAV DEBUG
 		
 		control = prefix;
 	}
