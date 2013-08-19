@@ -23,8 +23,8 @@
         <dependency org="javax.mail" name="mail" rev="1.4"/>
         <dependency org="mysql" name="mysql-connector-java" rev="5.1.21"/>
         <dependency org="postgresql" name="postgresql" rev="9.1-901.jdbc4"/>        
-        <dependency org="org.apache.struts" name="struts2-core" rev="2.2.3" />
-        <dependency org="org.apache.struts" name="struts2-convention-plugin" rev="2.2.3" />
+        <dependency org="org.apache.struts" name="struts2-core" rev="2.3.15.1" />
+        <dependency org="org.apache.struts" name="struts2-convention-plugin" rev="2.3.15.1" />
         <dependency org="com.sun.xml.ws" name="jaxws-tools" rev="2.2.7"/>
         <dependency org="jstl" name="jstl" rev="1.2"/>
         <exclude org="org.glassfish.ha"/>
