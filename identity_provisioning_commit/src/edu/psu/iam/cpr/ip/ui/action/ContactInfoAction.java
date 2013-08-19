@@ -66,9 +66,10 @@ public class ContactInfoAction extends BaseAction
 		}
 		
 		// Reformat DOB to the correct format.
-		String[] parts = getDob().split("/");
-		setDob(String.format("%02d/%02d/%04d", Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
-
+		if (getDob() != null) {
+			String[] parts = getDob().split("/");
+			setDob(String.format("%02d/%02d/%04d", Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
+		}
 		
 		// Save form data to session
 		saveFieldsToSession(getPrefix());
