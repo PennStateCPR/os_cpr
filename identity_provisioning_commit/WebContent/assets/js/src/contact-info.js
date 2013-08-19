@@ -22,7 +22,11 @@ var commit = commit || {};
 		**/
 		selectors: {
 			form: '#contactinfo',
+			dobControl: '#dobControl',
 			dob: '#dob',
+			dobMonth: '#dob_dateLists_month_list',
+			dobDay: '#dob_dateLists_day_list',
+			dobYear: '#dob_dateLists_year_list',
 			dobPopover: '#dobPopover',
 			dobPopoverContent: '#dobPopoverContent',
 			email: '#email',
@@ -63,7 +67,7 @@ var commit = commit || {};
 			},
 			international: {
 				required: true,
-				phoneINT: true
+				phoneIntCommit: true
 			}
 		},
 
@@ -157,24 +161,71 @@ var commit = commit || {};
 		},
 
 		/**
+		Method returns a formatted date of birth.
+
+		@method getDateOfBirth
+		**/
+		getDateOfBirth: function () {
+			// Define.
+			var dobMonth, dobDay, dobYear;
+
+			// Initialize.
+			dobMonth = $(this.selectors.dobMonth);
+			dobDay = $(this.selectors.dobDay);
+			dobYear = $(this.selectors.dobYear);
+
+			return dobMonth.val() + '/' + dobDay.val() + '/' + dobYear.val();
+		},
+
+		/**
 		Method initializes jQuery Datepicker.
 
 		@method initializeDatepicker
 		**/
 		initializeDatepicker: function () {
-			var dob = $(this.selectors.dob);
-			dob.datepicker({
-				constrainInput: true,
-				dateFormat: 'mm/dd/yy',
-				autoSize: true,
-				defaultDate: +0,
-				changeMonth: true,
-				changeYear: true,
-				showOtherMonths: true,
-				showOn: 'both',
-				buttonImage: '/IdentityProvisioning/assets/img/calendar.png',
-				buttonImageOnly: true
+			// Define.
+			var dob = $(this.selectors.dob),
+				control = $(this.selectors.dobControl),
+				date = new Date(),
+				month = ((date.getMonth()) + 1),
+				day = date.getDate(),
+				yearEnd = ((date.getFullYear()) - 1),
+				yearStart = (yearEnd - 150);
+
+			// Set initial date.
+			dob.val(month + '/' + day + '/' + yearEnd);
+
+			// Initialize dropdown.
+			dob.dateDropDowns({
+				dateFormat: 'mm/dd/yyyy',
+				monthNames: ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'],
+				yearStart: yearStart,
+				yearEnd: yearEnd
 			});
+
+			// Update DOB value.
+			dob.val(this.getDateOfBirth());
+
+			// Reveal control.
+			control.show();
+		},
+
+		/**
+		Method initializes Datepicker listeners.
+
+		@method initializeDatepickerListeners
+		**/
+		initializeDatepickerListeners: function () {
+			// Define.
+			var dob = $(this.selectors.dob),
+				control = $(this.selectors.dobControl),
+				select = control.find('select');
+
+			// Change listener.
+			select.on('change', _.bind(function (evt) {
+				dob.val(this.getDateOfBirth());
+				console.log(dob.val());
+			}, this));
 		},
 
 		/**
@@ -199,6 +250,7 @@ var commit = commit || {};
 			// Email popover.
 			this.utils.popover(emailPopover, emailPopoverContent);
 
+			// DOB popover.
 			this.utils.popover(dobPopover, dobPopoverContent);
 
 			// Phone popover.
@@ -240,6 +292,7 @@ var commit = commit || {};
 			_.bindAll(this);
 			this.utils = commit.utils;
 			this.initializeDatepicker();
+			this.initializeDatepickerListeners();
 			this.initializeViewPopovers();
 			this.validate();
 			this.attachModalListeners();

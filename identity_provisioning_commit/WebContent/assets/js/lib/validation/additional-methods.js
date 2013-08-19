@@ -33,6 +33,20 @@
 
 }());
 
+/**
+COMMIT validation methods.
+**/
+jQuery.validator.addMethod("postalCodeCommit", function(postal_code, element) {
+	var regex = new RegExp("^[0-9]{5}((-| )?[0-9]{4})?$");
+	return regex.test(postal_code);
+}, "Please specify a valid postal code");
+
+jQuery.validator.addMethod("phoneIntCommit", function(phone_number, element) {
+	var regex = new RegExp("^\\+?(?:[0-9]{1,3}?)([0-9- ]{6,15})[0-9 ]$");
+	return regex.test(phone_number);
+}, "Please specify a valid phone number");
+/** END **/
+
 jQuery.validator.addMethod("letterswithbasicpunc", function(value, element) {
 	return this.optional(element) || /^[a-z\-.,()'"\s]+$/i.test(value);
 }, "Letters or punctuation only please");
@@ -432,11 +446,6 @@ jQuery.validator.addMethod("phoneUS", function(phone_number, element) {
 	phone_number = phone_number.replace(/\s+/g, "");
 	return this.optional(element) || phone_number.length > 9 &&
 		phone_number.match(/^(\+?1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/);
-}, "Please specify a valid phone number");
-
-jQuery.validator.addMethod("phoneINT", function(phone_number, element) {
-	var regex = new RegExp("^\\+?(?:[0-9]{1,3}?)([0-9- ]{6,15})[0-9 ]$");
-	return regex.test(phone_number);
 }, "Please specify a valid phone number");
 
 jQuery.validator.addMethod('phoneUK', function(phone_number, element) {

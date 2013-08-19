@@ -70,7 +70,8 @@ var commit = commit || {};
 						required: true
 					},
 					postalCode: {
-						required: true
+						required: true,
+						postalCodeCommit: true
 					}
 				},
 				messages: {
@@ -85,9 +86,6 @@ var commit = commit || {};
 					},
 					province: {
 						required: 'Please enter a province.'
-					},
-					postalCode: {
-						required: 'Please enter your zip code.'
 					}
 				},
 				formPopover: true,

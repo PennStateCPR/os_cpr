@@ -35,12 +35,6 @@
 												<s:property value="#session['lna.lastName']" />
 												<s:property value="#session['lna.suffix']" />
 											</p>
-											<s:if test="%{#session['lna.nickName'] != ''}">
-												<p class="help-block">
-													<span><strong>Preferred Name: </strong></span>
-													<s:property value="#session['lna.nickName']" />
-												</p>
-											</s:if>
 										</div>
 									</div>
 
@@ -67,33 +61,6 @@
 										</div>
 									</div>
 
-									<!--MINI:DATACARD:ALTERNATE_ADDRESS-->
-									<s:if test="%{#session['alt.addressLine1'] != null}">
-										<div class="datacard-mini">
-											<div class="datacard-mini-titlebar">
-												<h2><a href="alternate_address" class="verification-link">Alternate Address<i class="icon-edit"></i></a></h2>
-											</div>
-											<div class="datacard-mini-content">
-												<p class="help-block">
-													<s:property value="#session['alt.addressLine1']" />
-													<s:property value="#session['alt.addressLine2']" />
-													<s:property value="#session['alt.addressLine3']" />
-												</p>
-												<p class="help-block">
-													<s:property value="#session['alt.city']" />,
-													<s:property value="#session['alt.state']" />
-													<s:property value="#session['alt.province']" />
-													<s:property value="#session['alt.postalCode']" />
-												</p>
-												<p class="help-block">
-													<s:property value="#session['alt.country']" />
-												</p>
-											</div>
-										</div>
-									</s:if>
-									
-									
-
 									<!--MINI:DATACARD:ADDITIONAL INFORMATION-->
 									<div class="datacard-mini">
 										<div class="datacard-mini-titlebar">
@@ -119,13 +86,64 @@
 												<span><strong>Email: </strong></span>
 												<s:property value="#session['con.email']" />
 											</p>
-											<p class="help-block">
-												<span><strong>Date of Birth: </strong></span>
-												<s:property value="#session['con.dob']" />
-											</p>
 										</div>
 									</div>
 
+									<!--MINI:DATACARD:PERSONAL INFORMATION-->
+									<div class="datacard-mini">
+										<div class="datacard-mini-titlebar">
+											<h2><a href="personal_info" class="verification-link">Personal Information<i class="icon-edit"></i></a></h2>
+										</div>
+										<div class="datacard-mini-content">
+											<p class="help-block">
+												<span><strong>DOB: </strong></span>
+												<s:property value="#session['per.birthMonth']" /> /
+												<s:property value="#session['per.birthDay']" /> /
+												<s:property value="#session['per.birthYear']" />
+											</p>
+											<p class="help-block">
+												<span><strong>Gender: </strong></span>
+												<s:if test="%{#session['per.gender'] == 'GENDER_FEMALE'}">
+													Female
+												</s:if>
+												<s:elseif test="%{#session['per.gender'] == 'GENDER_MALE'}">
+													Male
+												</s:elseif>
+												<s:elseif test="%{#session['per.gender'] == 'GENDER_OTHER'}">
+													Other
+												</s:elseif>
+												<s:else>
+													Not Provided
+												</s:else>
+											</p>
+											<p class="help-block">
+												<span><strong>Country of Origin: </strong></span>
+												<s:if test="%{#session['per.country'] == 'CAN'}">
+													Canada
+												</s:if>
+												<s:elseif test="%{#session['per.country'] == 'USA'}">
+													USA
+												</s:elseif>
+												<s:else>
+													Not Provided
+												</s:else>
+											</p>
+											<!--
+											<p class="help-block">
+												<span><strong>Citizenship: </strong></span>
+												<s:if test="%{#session['per.citizenship'] == 'NON-US'}">
+													Non U.S. Citizen
+												</s:if>
+												<s:elseif test="%{#session['per.citizenship'] == 'US'}">
+													U.S. Citizen
+												</s:elseif>
+												<s:else>
+													Not Provided
+												</s:else>
+											</p>
+											-->
+										</div>
+									</div>
 								</div>
 
 								<!--FORM POPOVER-->
@@ -153,6 +171,7 @@
 								<li><span>Legal Name</span></li>
 								<li><span>Address</span></li>
 								<li><span>Additional</span></li>
+								<li><span>Personal</span></li>
 								<li><span class="active">Verify</span></li>
 								<li><span>Security</span></li>
 								<li><span>Password</span></li>

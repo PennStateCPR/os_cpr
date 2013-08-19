@@ -27,7 +27,7 @@
 									<div class="control-group">
 										<label class="control-label" for="addressLine1">Address:</label>
 										<div class="controls">
-											<s:textfield name="addressLine1" cssClass="input-large" id="addressLine1"/>
+											<s:textfield name="addressLine1" cssClass="input-large" id="addressLine1" maxlength="60" />
 										</div>
 									</div>
 
@@ -35,7 +35,7 @@
 									<div class="control-group">
 										<label class="control-label" for="addressLine2">Address 2:</label>
 										<div class="controls">
-											<s:textfield name="addressLine2" cssClass="input-large" id="addressLine2"/>
+											<s:textfield name="addressLine2" cssClass="input-large" id="addressLine2" maxlength="60" />
 										</div>
 									</div>
 
@@ -43,7 +43,7 @@
 									<div class="control-group">
 										<label class="control-label" for="addressLine3">Address 3:</label>
 										<div class="controls">
-											<s:textfield name="addressLine3" cssClass="input-large" id="addressLine3"/>
+											<s:textfield name="addressLine3" cssClass="input-large" id="addressLine3" maxlength="60" />
 										</div>
 									</div>
 
@@ -51,7 +51,7 @@
 									<div class="control-group">
 										<label class="control-label" for="city">City:</label>
 										<div class="controls">
-											<s:textfield name="city" cssClass="input-large" id="city"/>
+											<s:textfield name="city" cssClass="input-large" id="city" maxlength="40" />
 										</div>
 									</div>
 
@@ -69,7 +69,7 @@
 									<div id="provinceGroup" class="control-group" style="display: none;">
 										<label class="control-label" for="province">Province:</label>
 										<div class="controls">
-											<s:textfield name="province" cssClass="input-large" id="province" />
+											<s:textfield name="province" cssClass="input-large" id="province" maxlength="40" />
 										</div>
 									</div>
 
@@ -77,7 +77,7 @@
 									<div class="control-group">
 										<label class="control-label" for="postalCode">Zip Code +4:</label>
 										<div class="controls">
-											<s:textfield name="postalCode" maxlength="9" cssClass="input-large" id="postalCode"/>
+											<s:textfield name="postalCode" cssClass="input-large" id="postalCode" maxlength="20" />
 										</div>
 									</div>
 
@@ -95,11 +95,11 @@
 										<div class="controls">
 											<label>Do you have an alternate address?</label>
 											<label class="radio" for="alternateRadioYes">
-												<input type="radio" name="alternateRadio" id="alternateRadioYes" value="true">
+												<input type="radio" name="alternateRadio" id="alternateRadioYes" value="true" checked>
 												<span>Yes</span>
 											</label>
 											<label class="radio" for="alternateRadioNo">
-												<input type="radio" name="alternateRadio" id="alternateRadioNo" value="false" checked>
+												<input type="radio" name="alternateRadio" id="alternateRadioNo" value="false">
 												<span>No</span>
 											</label>
 
@@ -137,6 +137,7 @@
 								<li><span>Legal Name</span></li>
 								<li><span class="active">Address</span></li>
 								<li><span>Additional</span></li>
+								<li><span>Personal</span></li>
 								<li><span>Verify</span></li>
 								<li><span>Security</span></li>
 								<li><span>Password</span></li>

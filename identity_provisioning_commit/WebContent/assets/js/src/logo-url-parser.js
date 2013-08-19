@@ -96,6 +96,16 @@ var commit = commit || {};
 			},
 
 			/**
+			Method builds out the dynamic logo template.
+
+			@method buildLogoTemplate
+			@param {String} logoUrl Url to be added to the src attribute
+			**/
+			buildLogoTemplate: function (logoUrl) {
+				return '<img id="serviceLogo" class="hide" src="' + logoUrl + '" alt="Logo">';
+			},
+
+			/**
 			Method applies parsed logo url to image container
 			stored in the dom.
 
@@ -104,11 +114,13 @@ var commit = commit || {};
 			applyLogoUrl: function () {
 				// Define & initialize.
 				var logo = $(this.options.logoId),
-					logoUrl = this.logoUrl;
+					logoUrl = this.logoUrl,
+					template;
 
 				// Only move forward when logoUrl exists.
 				if (logoUrl) {
-					logo.attr('src', logoUrl).removeClass('hide');
+					template = this.buildLogoTemplate(logoUrl);
+					logo.html(template).removeClass('hide');
 				}
 			},
 

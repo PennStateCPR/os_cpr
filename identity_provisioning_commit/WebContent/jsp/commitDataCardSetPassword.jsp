@@ -95,6 +95,7 @@
 								<li><span>Legal Name</span></li>
 								<li><span>Address</span></li>
 								<li><span>Additional</span></li>
+								<li><span>Personal</span></li>
 								<li><span>Verify</span></li>
 								<li><span>Security</span></li>
 								<li><span class="active">Password</span></li>

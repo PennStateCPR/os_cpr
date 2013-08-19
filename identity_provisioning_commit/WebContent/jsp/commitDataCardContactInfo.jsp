@@ -36,10 +36,8 @@
 									<!--DATE OF BIRTH-->
 									<div class="control-group">
 										<label class="control-label" for="dob">Date of Birth:</label>
-										<div class="controls">
-											<!--DOB-->
-											<s:textfield name="dob" cssClass="input-small" id="dob" placeholder="mm/dd/yyyy"/>
-											<!--<i id="dobPopover" data-toggle="popover" class="icon icon-question-sign"></i>-->
+										<div id="dobControl" class="controls dateList">
+											<s:textfield name="dob" cssClass="input-small" id="dob" placeholder="mm/dd/yyyy" />
 										</div>
 									</div>
 
@@ -47,7 +45,7 @@
 									<div class="control-group">
 										<label class="control-label" for="phoneNumber">Telephone:</label>
 										<div class="controls">
-											<s:textfield name="phoneNumber" cssClass="input-medium" maxlength="16" id="phoneNumber"/>
+											<s:textfield name="phoneNumber" cssClass="input-medium" maxlength="40" id="phoneNumber"/>
 											<i id="phonePopover" data-toggle="popover" class="icon icon-question-sign"></i>
 										</div>
 									</div>
@@ -132,6 +130,7 @@
 								<li><span>Legal Name</span></li>
 								<li><span>Address</span></li>
 								<li><span class="active">Additional</span></li>
+								<li><span>Personal</span></li>
 								<li><span>Verify</span></li>
 								<li><span>Security</span></li>
 								<li><span>Password</span></li>

@@ -27,7 +27,7 @@
 									<div class="control-group">
 										<label class="control-label" for="addressLine1">Address:</label>
 										<div class="controls">
-											<s:textfield name="addressLine1" cssClass="input-large" id="addressLine1"/>
+											<s:textfield name="addressLine1" cssClass="input-large" id="addressLine1" maxlength="60" />
 										</div>
 									</div>
 
@@ -35,7 +35,7 @@
 									<div class="control-group">
 										<label class="control-label" for="addressLine2">Address 2:</label>
 										<div class="controls">
-											<s:textfield name="addressLine2" cssClass="input-large" id="addressLine2"/>
+											<s:textfield name="addressLine2" cssClass="input-large" id="addressLine2" maxlength="60" />
 										</div>
 									</div>
 
@@ -43,7 +43,7 @@
 									<div class="control-group">
 										<label class="control-label" for="addressLine3">Address 3:</label>
 										<div class="controls">
-											<s:textfield name="addressLine3" cssClass="input-large" id="addressLine3"/>
+											<s:textfield name="addressLine3" cssClass="input-large" id="addressLine3" maxlength="60" />
 										</div>
 									</div>
 
@@ -51,7 +51,7 @@
 									<div class="control-group">
 										<label class="control-label" for="city">City:</label>
 										<div class="controls">
-											<s:textfield name="city" cssClass="input-large" id="city"/>
+											<s:textfield name="city" cssClass="input-large" id="city" maxlength="40" />
 										</div>
 									</div>
 
@@ -69,7 +69,7 @@
 									<div id="provinceGroup" class="control-group" style="display: none;">
 										<label class="control-label" for="province">Province:</label>
 										<div class="controls">
-											<s:textfield name="province" cssClass="input-large" id="province" />
+											<s:textfield name="province" cssClass="input-large" id="province" maxlength="40" />
 										</div>
 									</div>
 
@@ -77,7 +77,7 @@
 									<div class="control-group">
 										<label class="control-label" for="postalCode">Zip Code +4:</label>
 										<div class="controls">
-											<s:textfield name="postalCode" maxlength="9" cssClass="input-large" id="postalCode"/>
+											<s:textfield name="postalCode" cssClass="input-large" id="postalCode" maxlength="20" />
 										</div>
 									</div>
 
@@ -94,12 +94,12 @@
 								<div id="formPopoverContent" class="hidden">
 									<p class="muted">
 										<span>
-											Please enter your current postal/surface mailing address.
-											You must first specify the country, then include your street
-											address and other relevant information such as an apartment or
-											unit number, the city, state/province, and the postal/zip code.
-											If you use an APO/FPO military mailing address, indicate United
-											States as the country where you are currently living and provide
+											Please enter your current postal/surface mailing address. 
+											You must first specify the country, then include your street 
+											address and other relevant information such as an apartment or 
+											unit number, the city, state/province, and the postal/zip code. 
+											If you use an APO/FPO military mailing address, indicate United 
+											States as the country where you are currently living and provide 
 											that address.
 										</span>
 									</p>
@@ -120,6 +120,7 @@
 								<li><span>Legal Name</span></li>
 								<li><span class="active">Address</span></li>
 								<li><span>Additional</span></li>
+								<li><span>Personal</span></li>
 								<li><span>Verify</span></li>
 								<li><span>Security</span></li>
 								<li><span>Password</span></li>

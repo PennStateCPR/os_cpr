@@ -27,7 +27,7 @@
 									<div class="control-group">
 										<label class="control-label" for="firstName">First Name:</label>
 										<div class="controls">
-											<s:textfield name="firstName" cssClass="input-large" id="firstName" />
+											<s:textfield name="firstName" cssClass="input-large" id="firstName" maxlength="60" />
 										</div>
 									</div>
 
@@ -35,7 +35,7 @@
 									<div class="control-group">
 										<label class="control-label" for="middleNames">Middle Name:</label>
 										<div class="controls">
-											<s:textfield name="middleNames" cssClass="input-large" id="middleNames" />
+											<s:textfield name="middleNames" cssClass="input-large" id="middleNames" maxlength="60" />
 										</div>
 									</div>
 
@@ -43,7 +43,15 @@
 									<div class="control-group">
 										<label class="control-label" for="lastName">Last Name:</label>
 										<div class="controls">
-											<s:textfield name="lastName" cssClass="input-large" id="lastName" />
+											<s:textfield name="lastName" cssClass="input-large" id="lastName" maxlength="60" />
+										</div>
+									</div>
+
+									<!--NICK NAME-->
+									<div class="control-group">
+										<label class="control-label" for="nickName">Preferred Name:</label>
+										<div class="controls">
+											<s:textfield name="nickName" cssClass="input-large" id="nickName" maxlength="40" />
 										</div>
 									</div>
 
@@ -51,18 +59,9 @@
 									<div class="control-group">
 										<label class="control-label" for="suffix">Suffix:</label>
 										<div class="controls">
-											<s:textfield name="suffix" cssClass="input-large" id="suffix" />
+											<s:textfield name="suffix" cssClass="input-large" id="suffix" maxlength="30" />
 										</div>
 									</div>
-									
-									<!--NICK NAME-->
-									<div class="control-group">
-										<label class="control-label" for="nickName">Preferred Name:</label>
-										<div class="controls">
-											<s:textfield name="nickName" cssClass="input-large" id="nickName" />
-										</div>
-									</div>
-
 								</div>
 
 								<!--FORM POPOVER-->
@@ -92,6 +91,7 @@
 								<li><span class="active">Legal Name</span></li>
 								<li><span>Address</span></li>
 								<li><span>Additional</span></li>
+								<li><span>Personal</span></li>
 								<li><span>Verify</span></li>
 								<li><span>Security</span></li>
 								<li><span>Password</span></li>

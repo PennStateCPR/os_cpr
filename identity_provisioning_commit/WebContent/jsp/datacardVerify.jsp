@@ -23,9 +23,7 @@
 <s:property value="#session['lna.firstName']" />
 <s:property value="#session['lna.middleNames']" />
 <s:property value="#session['lna.lastName']" />
-<s:property value="#session['lna.suffix']" />
-<s:property value="#session['lna.nickName']" />
-<br><br>
+<s:property value="#session['lna.suffix']" /><br><br>
 <!-- May or may not collect -->
 <div id="formername" class="hidden">
 <a href="former_name" tabindex="7" onclick="javascript:navunhook();" title="edit former name"><b>Former Name</b> (edit)</a><br>
@@ -60,7 +58,6 @@
 <div id="phoneextension" class="hidden">&nbsp;extension <s:property value="#session['con.extension']" /></div>
 <div id="international" class="hidden"><s:property value="#session['con.internationalNumber']" /></div>
 <s:property value="#session['con.email']" />
-<s:property value="#session['con.dob']" />
 </div>
 </div>
 
