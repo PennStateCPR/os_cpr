@@ -95,11 +95,11 @@
 										<div class="controls">
 											<label>Do you have an alternate address?</label>
 											<label class="radio" for="alternateRadioYes">
-												<input type="radio" name="alternateRadio" id="alternateRadioYes" value="true" checked>
+												<input type="radio" name="alternateRadio" id="alternateRadioYes" value="true">
 												<span>Yes</span>
 											</label>
 											<label class="radio" for="alternateRadioNo">
-												<input type="radio" name="alternateRadio" id="alternateRadioNo" value="false">
+												<input type="radio" name="alternateRadio" id="alternateRadioNo" value="false" checked>
 												<span>No</span>
 											</label>
 
