@@ -41,8 +41,13 @@ jQuery.validator.addMethod("postalCodeCommit", function(postal_code, element) {
 	return regex.test(postal_code);
 }, "Please specify a valid postal code");
 
+jQuery.validator.addMethod("phoneCommit", function(phone_number, element) {
+	var regex = new RegExp("^(\\+[0]{1,2}?[1]{1})?[-. ]?\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$");
+	return regex.test(phone_number);
+}, "Please specify a valid phone number");
+
 jQuery.validator.addMethod("phoneIntCommit", function(phone_number, element) {
-	var regex = new RegExp("^\\+?(?:[0-9]{1,3}?)([0-9- ]{6,15})[0-9 ]$");
+	var regex = new RegExp("^\\+?(?\:[0-9] ?){6,14}[0-9]$");
 	return regex.test(phone_number);
 }, "Please specify a valid phone number");
 /** END **/

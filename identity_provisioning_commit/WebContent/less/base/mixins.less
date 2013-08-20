@@ -45,6 +45,16 @@
 	border-radius: @radius;
 }
 
+// Replicate gradient for all browsers.
+.btnGradient(@startColor: @white, @fromColor: @c1) {
+	background-image: none;
+	background-color: @startColor;
+	filter: none;
+	-webkit-box-shadow: inset 0 -8px 10px @fromColor, 0 1px 0 @fromColor, inset 0 1px 0 @startColor;
+	-moz-box-shadow: inset 0 -8px 10px @fromColor, 0 1px 0 @fromColor, inset 0 1px 0 @startColor;
+	box-shadow: inset 0 -8px 10px @fromColor, 0 1px 0 @fromColor, inset 0 1px 0 @startColor;
+}
+
 // Linear gradient.
 .gradient(@startColor: @white, @startColorStop: 0%, @fromColor: @c1, @fromColorStop: 100%) {
 	background: @startColor;

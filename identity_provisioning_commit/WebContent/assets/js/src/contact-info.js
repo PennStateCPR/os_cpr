@@ -63,7 +63,7 @@ var commit = commit || {};
 		phone: {
 			us: {
 				required: true,
-				phoneUS: true
+				phoneCommit: true
 			},
 			international: {
 				required: true,
@@ -105,7 +105,7 @@ var commit = commit || {};
 					},
 					phoneNumber: {
 						required: true,
-						phoneUS: true
+						phoneCommit: true
 					}
 				},
 				messages: {
@@ -161,6 +161,27 @@ var commit = commit || {};
 		},
 
 		/**
+		Method sets the year on the year select dropdown.
+
+		@method setYearOnSelect
+		@param {Number} year The year to select
+		**/
+		setYearOnSelect: function (year) {
+			var dobYear = $(this.selectors.dobYear);
+			dobYear.val(year);
+		},
+
+		/**
+		Method returns the year from the year select dropdown.
+
+		@method getYearFromSelect
+		**/
+		getYearFromSelect: function () {
+			var dobYear = $(this.selectors.dobYear);
+			return parseInt(dobYear.val(), 10);
+		},
+
+		/**
 		Method returns a formatted date of birth.
 
 		@method getDateOfBirth
@@ -192,9 +213,6 @@ var commit = commit || {};
 				yearEnd = ((date.getFullYear()) - 1),
 				yearStart = (yearEnd - 150);
 
-			// Set initial date.
-			dob.val(month + '/' + day + '/' + yearEnd);
-
 			// Initialize dropdown.
 			dob.dateDropDowns({
 				dateFormat: 'mm/dd/yyyy',
@@ -202,6 +220,11 @@ var commit = commit || {};
 				yearStart: yearStart,
 				yearEnd: yearEnd
 			});
+
+			// Set initial date only when none exists.
+			if (this.getYearFromSelect() === yearStart) {
+				this.setYearOnSelect(yearEnd);
+			}
 
 			// Update DOB value.
 			dob.val(this.getDateOfBirth());

@@ -6,13 +6,12 @@
 .cm-btn {
 	padding: 6px 30px;
 	border-color: @defaultBorder;
-	.gradient(@startColor: @defaultStart, @fromColor: @defaultEnd);
-	.shadow(@vShadow: 2px, @blur: 0, @color: @defaultShadow);
-	.textshadow;
+	color: @defaultText;
+	.btnGradient(@startColor: @defaultStart, @fromColor: @defaultEnd);
 
 	&:hover, &:focus, &:active, &.active, &.disabled, &[disabled] {
 		color: @defaultText;
-		.gradient(@startColor: @defaultStart, @fromColor: @defaultStart);
+		.btnGradient(@startColor: @defaultStart, @fromColor: @defaultStart);
 	}
 }
 
@@ -21,12 +20,12 @@
 // .btn-primary (Bootstrap)
 .cm-btn-primary {
 	border-color: @primaryBorder;
-	.gradient(@startColor: @primaryStart, @fromColor: @primaryEnd);
-	.shadow(@vShadow: 2px, @blur: 0, @color: @primaryShadow);
+	.btnGradient(@startColor: @primaryStart, @fromColor: @primaryEnd);
+	color: @primaryText;
 
 	&:hover, &:focus, &:active, &.active, &.disabled, &[disabled] {
 		color: @primaryText;
-		.gradient(@startColor: @primaryStart, @fromColor: @primaryStart);
+		.btnGradient(@startColor: @primaryStart, @fromColor: @primaryStart);
 	}
 }
 
@@ -35,12 +34,12 @@
 // .btn-danger (Bootstrap)
 .cm-btn-danger {
 	border-color: @dangerBorder;
-	.gradient(@startColor: @dangerStart, @fromColor: @dangerEnd);
-	.shadow(@vShadow: 2px, @blur: 0, @color: @dangerShadow);
+	.btnGradient(@startColor: @dangerStart, @fromColor: @dangerEnd);
+	color: @dangerText;
 
 	&:hover, &:focus, &:active, &.active, &.disabled, &[disabled] {
 		color: @dangerText;
-		.gradient(@startColor: @dangerStart, @fromColor: @dangerStart);
+		.btnGradient(@startColor: @dangerStart, @fromColor: @dangerStart);
 	}
 }
 

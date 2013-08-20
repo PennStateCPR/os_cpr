@@ -7,20 +7,18 @@
 
 	li {margin: 0 0 10px 0;}
 
-	ul, li, a {
+	ul, li, span {
 		display: block;
 	}
 
-	a {
+	span {
 		color: @datacardTabLink;
 		padding: 5px 20px 5px 20px;
 		cursor: default;
-		.round(@topLeft: 0, @topRight: 4px, @bottomRight: 4px, @bottomLeft: 0);
 
-		&:active, &:hover, &:focus {}
-
-		&.active, &.active:active, &.active:hover, &.active:focus {
+		&.active {
 			color: @white;
+			.round(@topLeft: 0, @topRight: 4px, @bottomRight: 4px, @bottomLeft: 0);
 			.gradient(@startColor: @datacardTabActiveStart, @fromColor: @datacardTabActiveEnd);
 		}
 	}
