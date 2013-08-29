@@ -94,6 +94,10 @@ public class PasswordAction extends BaseAction
 			pswdObject.setPassword         (password);
 			pswdObject.setPasswordConfirmed(passwordConfirmed);
 			
+			System.out.println("Password = " + pswdObject.getPassword());
+			System.out.println("Confirm Password = " + pswdObject.getPasswordConfirmed());
+			System.out.println("Names = " + pswdObject.getListMessages().toString());
+			
 			PasswordResponseObject pro = Password.checkPassword(pswdObject);
 			if(pro.containsErrorMessage())
 			{
