@@ -25,6 +25,7 @@ var commit = commit || {};
 			country: '#country',
 			state: '#state',
 			province: '#province',
+			zip: '#postalCode',
 			controlGroup: '.control-group',
 			helpInline: '.help-inline'
 		},
@@ -86,6 +87,9 @@ var commit = commit || {};
 					},
 					province: {
 						required: 'Please enter a province.'
+					},
+					postalCode: {
+						required: 'Please enter a zip code.'
 					}
 				},
 				formPopover: true,
@@ -137,6 +141,41 @@ var commit = commit || {};
 		},
 
 		/**
+		Method toggles the validation on the zip code based upon
+		the country select box.
+
+		@method togglePostalValidation
+		**/
+		togglePostalValidation: function (options) {
+			// Define.
+			var country, zip, control;
+
+			// Initialize.
+			options = (options && options.hasOwnProperty('clear')) ? options : {clear: false};
+			country = this.utils.lowerCase($.trim($(this.selectors.country).val()));
+			zip = $(this.selectors.zip);
+			control = zip.closest(this.selectors.controlGroup);
+
+			// Add & remove rules based upon the value of the country.
+			if (country === 'usa') {
+				if (options.clear) {
+					this.utils.resetInput(zip);
+				}
+				zip.rules('add', {
+					required: true,
+					postalCodeCommit: true
+				});
+			} else {
+				if (options.clear) {
+					this.utils.resetInput(zip);
+				}
+				zip.rules('remove');
+				control.removeClass('error');
+				control.find('.help-block').hide();
+			}
+		},
+
+		/**
 		Method is triggered when the country select control changes.
 		Method updates the state of the state select control, which
 		is conditionally required.
@@ -146,6 +185,7 @@ var commit = commit || {};
 		**/
 		onCountryChange: function (element) {
 			this.toggleCountryControls({clear: true});
+			this.togglePostalValidation({clear: true});
 		},
 
 		/**
@@ -156,8 +196,9 @@ var commit = commit || {};
 		initialize: function () {
 			_.bindAll(this);
 			this.utils = commit.utils;
-			this.toggleCountryControls();
 			this.validate();
+			this.toggleCountryControls();
+			this.togglePostalValidation();
 		}
 	};
 

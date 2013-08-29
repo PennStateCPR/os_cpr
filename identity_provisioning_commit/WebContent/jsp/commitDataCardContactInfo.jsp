@@ -41,6 +41,14 @@
 										</div>
 									</div>
 
+									<!--INTERNATIONAL CHECKBOX-->
+									<div class="control-group">
+										<label class="control-label" for="internationalNumber">International:</label>
+										<div class="controls">
+											<s:checkbox name="internationalNumber" id="internationalNumber" onclick="commit.contactinfo.onInternationalSelect(this);"/>
+										</div>
+									</div>
+
 									<!--TELEPHONE-->
 									<div class="control-group">
 										<label class="control-label" for="phoneNumber">Telephone:</label>
@@ -55,14 +63,6 @@
 										<label class="control-label" for="extension">Extension:</label>
 										<div class="controls">
 											<s:textfield name="extension" cssClass="input-mini" maxlength="40" id="extension"/>
-										</div>
-									</div>
-
-									<!--INTERNATIONAL CHECKBOX-->
-									<div class="control-group">
-										<label class="control-label" for="internationalNumber">International:</label>
-										<div class="controls">
-											<s:checkbox name="internationalNumber" id="internationalNumber" onclick="commit.contactinfo.onInternationalSelect(this);"/>
 										</div>
 									</div>
 

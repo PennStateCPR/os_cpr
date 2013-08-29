@@ -23,12 +23,27 @@
 										</div>
 									</s:if>
 
+									<div class="alert alert-block alert-info cm-alert">
+										<dl class="cm-dl">
+											<dt>Passwords must contain:</dt>
+											<dd>At least 1 number, 1 lowercase letter and 8 characters.</dd>
+										</dl>
+
+										<dl class="cm-dl">
+											<dt>Passwords must NOT contain:</dt>
+											<dd>Your name or your initials.</dd>
+											<s:if test="%{#session['sec.password.setting'] != 'initial'}">
+												<dd>Your User ID <s:property value="#session['suc.userId']" />.</dd>
+											</s:if>
+										</dl>
+									</div>
+
 									<!--PASSWORD-->
 									<div class="control-group">
 										<label class="control-label" for="password">Enter Password:</label>
 										<div class="controls">
 											<s:password name="password" cssClass="input-medium" id="password" onkeyup="commit.password.onPasswordStrength(this.value);" />
-											<i id="passwordPopover" data-toggle="popover" class="icon icon-question-sign"></i>
+											<i id="passwordPopover" data-toggle="popover" class="icon icon-question-sign hidden"></i>
 										</div>
 									</div>
 
