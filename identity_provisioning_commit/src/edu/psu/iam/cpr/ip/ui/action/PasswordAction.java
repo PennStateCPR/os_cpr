@@ -192,7 +192,9 @@ public class PasswordAction extends BaseAction
 			{	
 				if(name.toLowerCase().contains("middle"))
 				{
-					listOfNames.addAll(FieldUtility.getNameTokens(actualName));
+					for (String middleName: FieldUtility.getNameTokens(actualName)) {
+						listOfNames.add(middleName.trim());
+					}
 				}
 				else
 				{
