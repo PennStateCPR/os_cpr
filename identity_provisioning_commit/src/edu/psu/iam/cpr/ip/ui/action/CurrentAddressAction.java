@@ -65,7 +65,7 @@ public class CurrentAddressAction extends AddressBaseAction
 		
 		// Current address requires the following fields.  
 		if ("USA".equals(getCountry())) {
-			if(FieldUtility.fieldIsNotPresent(getCountry(), getAddressLine1(), getCity(), getPostalCode())) {
+			if(FieldUtility.fieldIsNotPresent(getCountry(), getAddressLine1(), getCity(), getState(), getPostalCode())) {
 				returnLocation =  STAY_ON_PAGE;
 			}
 		}
@@ -74,14 +74,6 @@ public class CurrentAddressAction extends AddressBaseAction
 				returnLocation =  STAY_ON_PAGE;
 			}
 		}
-		
-		
-		// State or Province is required for Current Address
-		if(FieldUtility.fieldIsNotPresent(getState()) && FieldUtility.fieldIsNotPresent(getProvince()))
-		{
-			returnLocation = STAY_ON_PAGE;
-		}
-		
 		return returnLocation;
 	}
 
