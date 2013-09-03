@@ -1,6 +1,9 @@
 /* SVN FILE: $Id: CurrentAddressAction.java 6110 2013-02-01 04:44:33Z jal55 $ */
 package edu.psu.iam.cpr.ip.ui.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
@@ -20,6 +23,10 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
  */
 public class CurrentAddressAction extends AddressBaseAction 
 {
+	
+	private String defaultAlternateAddress;
+	
+	private List<String> alternateAddressList;
 	
 	private String alternateRadio;
 	
@@ -96,6 +103,29 @@ public class CurrentAddressAction extends AddressBaseAction
 	 */
 	public String getAlternateRadio() {
 		return alternateRadio;
+	}
+
+	public String getDefaultAlternateAddress() {
+		return defaultAlternateAddress;
+	}
+
+	public void setDefaultAlternateAddress(String defaultAlternateAddress) {
+		this.defaultAlternateAddress = defaultAlternateAddress;
+	}
+
+	public List<String> getAlternateAddressList() {
+		return alternateAddressList;
+	}
+
+	public void setAlternateAddressList(List<String> alternateAddressList) {
+		this.alternateAddressList = alternateAddressList;
+	}
+	
+	public CurrentAddressAction() {
+		setDefaultAlternateAddress("No");
+		alternateAddressList = new ArrayList<String>();
+		alternateAddressList.add("Yes");
+		alternateAddressList.add("No");
 	}
 
 }

@@ -105,6 +105,18 @@
 
 										</div>
 									</div>
+									
+									<div class="control-group">
+										<label class="control-label hide">&nbsp;</label>
+										<div class="controls">
+											<label>Do you have an alternate address?</label>
+											<s:select label="Do you have an alternate address?" 
+												headerKey="-1" headerValue="Select Alternate Address"
+												list="alternateAddressList" 
+												name="alternateAddressValue" 
+												value="defaultAlternateAddress" />
+										</div>
+									</div>
 								</div>
 
 								<!--FORM POPOVER-->
