@@ -970,8 +970,8 @@ textarea,input[type="text"],input[type="password"],input[type="datetime"],input[
 input:-moz-placeholder,textarea:-moz-placeholder{color:#c8c8c8;font-style:italic;}
 input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:#c8c8c8;font-style:italic;}
 input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{color:#c8c8c8;font-style:italic;}
-@media (min-width:1200px){body{padding-left:80px;padding-right:80px;}}@media (min-width:768px) and (max-width:979px){body{padding-left:60px;padding-right:60px;}}@media (max-width:767px){body{padding-left:20px;padding-right:20px;}}@media (max-width:480px){body{padding-left:10px;padding-right:10px;}}.dateList{display:none;min-height:30px;}
-.dateLists_container select{float:left;width:70px;margin-right:8px;}
+@media (min-width:1200px){body{padding-left:80px;padding-right:80px;}}@media (min-width:768px) and (max-width:979px){body{padding-left:60px;padding-right:60px;}}@media (max-width:767px){body{padding-left:20px;padding-right:20px;}}@media (max-width:480px){body{padding-left:10px;padding-right:10px;}}.cm-dl{margin:5px 0 5px 0;}.cm-dl dd{line-height:25px;margin-left:5px;margin-top:0;margin-bottom:0;}
+.cm-datelist{min-height:30px;}.cm-datelist select{float:left;width:70px;margin-right:8px;}
 .cm-hero-unit{padding:40px;background:transparent;}
 .cm-alert{-webkit-box-shadow:0 0 6px #aeaeae;-moz-box-shadow:0 0 6px #aeaeae;box-shadow:0 0 6px #aeaeae;}
 .cm-alert-danger,.cm-alert-error{border-color:#e48580;}

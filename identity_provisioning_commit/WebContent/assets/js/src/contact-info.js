@@ -24,9 +24,9 @@ var commit = commit || {};
 			form: '#contactinfo',
 			dobControl: '#dobControl',
 			dob: '#dob',
-			dobMonth: '#dob_dateLists_month_list',
-			dobDay: '#dob_dateLists_day_list',
-			dobYear: '#dob_dateLists_year_list',
+			dobMonth: '#dobMonth',
+			dobDay: '#dobDay',
+			dobYear: '#dobYear',
 			dobPopover: '#dobPopover',
 			dobPopoverContent: '#dobPopoverContent',
 			email: '#email',
@@ -53,6 +53,18 @@ var commit = commit || {};
 		@type Object
 		**/
 		validator: {},
+
+		/**
+		Property houses reference to date.
+
+		@property date
+		@type Object
+		**/
+		date: {
+			month: undefined,
+			day: undefined,
+			year: undefined
+		},
 
 		/**
 		Property houses phone validation rules.
@@ -161,24 +173,64 @@ var commit = commit || {};
 		},
 
 		/**
-		Method sets the year on the year select dropdown.
+		Method appends a leading zero.
 
-		@method setYearOnSelect
-		@param {Number} year The year to select
+		@method addLeadingZero
 		**/
-		setYearOnSelect: function (year) {
-			var dobYear = $(this.selectors.dobYear);
-			dobYear.val(year);
+		addLeadingZero: function (value) {
+			value = parseInt(value, 10);
+			if (value < 10) {
+				value = '0' + value.toString();
+			}
+
+			return value;
 		},
 
 		/**
-		Method returns the year from the year select dropdown.
+		Method removes leading zero.
+
+		@method removeLeadingZero
+		**/
+		removeLeadingZero: function (value) {
+			value = parseInt(value, 10);
+
+			return value;
+		},
+
+		/**
+		Method returns a value for year.
 
 		@method getYearFromSelect
 		**/
 		getYearFromSelect: function () {
-			var dobYear = $(this.selectors.dobYear);
-			return parseInt(dobYear.val(), 10);
+			var dobYear = $(this.selectors.dobYear),
+				value = dobYear.val();
+
+			return value;
+		},
+
+		/**
+		Method returns a value for day.
+
+		@method getDayFromSelect
+		**/
+		getDayFromSelect: function () {
+			var dobDay = $(this.selectors.dobDay),
+				value = dobDay.val();
+
+			return value;
+		},
+
+		/**
+		Method returns a value for month.
+
+		@method getMonthFromSelect
+		**/
+		getMonthFromSelect: function () {
+			var dobMonth = $(this.selectors.dobMonth),
+				value = dobMonth.val();
+
+			return value;
 		},
 
 		/**
@@ -188,49 +240,170 @@ var commit = commit || {};
 		**/
 		getDateOfBirth: function () {
 			// Define.
-			var dobMonth, dobDay, dobYear;
+			var dobMonth, dobDay, dobYear, formatted;
 
 			// Initialize.
-			dobMonth = $(this.selectors.dobMonth);
-			dobDay = $(this.selectors.dobDay);
-			dobYear = $(this.selectors.dobYear);
+			dobMonth = this.getMonthFromSelect();
+			dobDay = this.getDayFromSelect();
+			dobYear = this.getYearFromSelect();
+			formatted = dobMonth + '/' + dobDay + '/' + dobYear;
 
-			return dobMonth.val() + '/' + dobDay.val() + '/' + dobYear.val();
+			return formatted;
 		},
 
 		/**
-		Method initializes jQuery Datepicker.
+		Method builds out month select box.
+
+		@method buildMonths
+		**/
+		buildMonths: function () {
+			// Define.
+			var months, dob, dobMonth, template, value;
+
+			// Initialize.
+			months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'];
+			dobMonth = $(this.selectors.dobMonth);
+			template = '';
+			value = 0;
+
+			// Iterate over months.
+			_.each(months, _.bind(function (month, idx) {
+				value = this.addLeadingZero((idx + 1));
+				template = template + '<option value="' + value + '">' + month + '</option>';
+			}, this));
+
+			// Append.
+			dobMonth.html(template);
+
+			// Update selection.
+			dobMonth.val(this.date.month);
+		},
+
+		/**
+		Method builds out day select box.
+
+		@method buildDays
+		**/
+		buildDays: function () {
+			// Define.
+			var dobDay, month, year, days, day, template, value;
+
+			// Initialize.
+			dobDay = $(this.selectors.dobDay);
+			month = (this.removeLeadingZero(this.getMonthFromSelect()));
+			year = this.getYearFromSelect();
+			days = new Date(year, month, 0).getDate();
+			day = this.getDayFromSelect() || this.date.day;
+			day = this.removeLeadingZero(day);
+			template = '';
+			value = 0;
+
+			// Iterate over days.
+			for (var i = 1; i <= days; i++) {
+				value = this.addLeadingZero(i);
+				template = template + '<option value="' + value + '">' + value + '</option>';
+			}
+
+			// Append.
+			dobDay.html(template);
+
+			// When the current day exceeds the
+			// total number of days in a month
+			// set day to the total number of days.
+			if (day >= days) {
+				day = days;
+			}
+			day = this.addLeadingZero(day);
+
+			// Update selection.
+			dobDay.val(day);
+		},
+
+		/**
+		Method builds out year select box.
+
+		@method buildYears
+		**/
+		buildYears: function () {
+			// Define.
+			var dobYear = $(this.selectors.dobYear),
+				date = new Date(),
+				yearEnd = ((date.getFullYear()) - 1),
+				yearStart = (yearEnd - 100),
+				template = '';
+
+			// Iterate over days.
+			for (var i = yearStart; i <= yearEnd; i++) {
+				template = template + '<option value="' + i + '">' + i + '</option>';
+			}
+
+			// Append.
+			dobYear.html(template);
+
+			// Update selection.
+			dobYear.val(this.date.year);
+		},
+
+		/**
+		Method builds a date object based upon an
+		existing date, or today's date, when an
+		existing date cannot be found.
+
+		@method buildDate
+		**/
+		buildDate: function () {
+			// Define.
+			var dob, date, month, year, day;
+
+			// Initialize.
+			dob = $(this.selectors.dob);
+
+			// Parse date depending upon the value of DOB.
+			if (_.isEmpty(dob.val())) {
+				date = new Date();
+				month = (date.getMonth() + 1);
+				year = (date.getFullYear() - 1);
+				day = date.getDate();
+			} else {
+				date = dob.val().split('/');
+				month = date[0];
+				day = date[1];
+				year = date[2];
+			}
+
+			// Update date reference.
+			this.date.month = this.addLeadingZero(month);
+			this.date.day = this.addLeadingZero(day);
+			this.date.year = year;
+		},
+
+		/**
+		Method builds all the select dropdowns
+		required for the DOB.
+
+		@method buildDate
+		**/
+		buildSelects: function () {
+			// Define & initialize.
+			var dob = $(this.selectors.dob);
+
+			// Build out selects.
+			this.buildDate();
+			this.buildMonths();
+			this.buildYears();
+			this.buildDays();
+
+			// Update input field.
+			dob.val(this.getDateOfBirth());
+		},
+
+		/**
+		Method initializes the Datepicker.
 
 		@method initializeDatepicker
 		**/
 		initializeDatepicker: function () {
-			// Define.
-			var dob = $(this.selectors.dob),
-				control = $(this.selectors.dobControl),
-				date = new Date(),
-				month = ((date.getMonth()) + 1),
-				day = date.getDate(),
-				yearEnd = ((date.getFullYear()) - 1),
-				yearStart = (yearEnd - 150);
-
-			// Initialize dropdown.
-			dob.dateDropDowns({
-				dateFormat: 'mm/dd/yyyy',
-				monthNames: ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'],
-				yearStart: yearStart,
-				yearEnd: yearEnd
-			});
-
-			// Set initial date only when none exists.
-			if (this.getYearFromSelect() === yearStart) {
-				this.setYearOnSelect(yearEnd);
-			}
-
-			// Update DOB value.
-			dob.val(this.getDateOfBirth());
-
-			// Reveal control.
-			control.show();
+			this.buildSelects();
 		},
 
 		/**
@@ -246,8 +419,17 @@ var commit = commit || {};
 
 			// Change listener.
 			select.on('change', _.bind(function (evt) {
+				// Define.
+				var targetId = ('#' + $(evt.target).attr('id'));
+
+				// Re-build the days when the month or year
+				// drop-down is changed.
+				if (targetId !== this.selectors.dobDay) {
+					this.buildDays();
+				}
+
+				// Update dob input.
 				dob.val(this.getDateOfBirth());
-				console.log(dob.val());
 			}, this));
 		},
 
@@ -324,4 +506,4 @@ var commit = commit || {};
 
 	// Execute validation.
 	commit.contactinfo.initialize();
-}(jQuery));
+}(jQuery, _));

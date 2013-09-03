@@ -36,8 +36,14 @@
 									<!--DATE OF BIRTH-->
 									<div class="control-group">
 										<label class="control-label" for="dob">Date of Birth:</label>
-										<div id="dobControl" class="controls dateList">
-											<s:textfield name="dob" cssClass="input-small" id="dob" placeholder="mm/dd/yyyy" />
+										<div id="dobControl" class="controls clearfix">
+											<div class="cm-datelist">
+												<select id="dobMonth"></select>
+												<select id="dobDay"></select>
+												<select id="dobYear"></select>
+											</div>
+
+											<s:textfield name="dob" cssClass="input-small hide" id="dob" placeholder="mm/dd/yyyy" />
 										</div>
 									</div>
 

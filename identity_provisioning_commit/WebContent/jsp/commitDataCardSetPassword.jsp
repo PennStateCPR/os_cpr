@@ -23,6 +23,7 @@
 										</div>
 									</s:if>
 
+									<!--PASSWORD INSTRUCTIONS-->
 									<div class="alert alert-block alert-info cm-alert">
 										<dl class="cm-dl">
 											<dt>Passwords must contain:</dt>
