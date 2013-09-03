@@ -64,14 +64,17 @@ public class CurrentAddressAction extends AddressBaseAction
 		String returnLocation = null; 
 		
 		// Current address requires the following fields.  
-		// You may Remove a 'getter' method call if a field is not required
-		if(FieldUtility.fieldIsNotPresent( getCountry()
-				                         , getAddressLine1()
-				                         , getCity()
-				                         , getPostalCode()))
-		{
-			returnLocation =  STAY_ON_PAGE;
+		if ("USA".equals(getCountry())) {
+			if(FieldUtility.fieldIsNotPresent(getCountry(), getAddressLine1(), getCity(), getPostalCode())) {
+				returnLocation =  STAY_ON_PAGE;
+			}
 		}
+		else {
+			if(FieldUtility.fieldIsNotPresent(getCountry(), getAddressLine1(), getCity())) {
+				returnLocation =  STAY_ON_PAGE;
+			}
+		}
+		
 		
 		// State or Province is required for Current Address
 		if(FieldUtility.fieldIsNotPresent(getState()) && FieldUtility.fieldIsNotPresent(getProvince()))
