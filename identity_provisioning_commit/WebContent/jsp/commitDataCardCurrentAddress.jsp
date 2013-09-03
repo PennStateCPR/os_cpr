@@ -111,7 +111,6 @@
 										<div class="controls">
 											<label>Do you have an alternate address?</label>
 											<s:select label="Do you have an alternate address?" 
-												headerKey="-1" headerValue="Select Alternate Address"
 												list="alternateAddressList" 
 												name="alternateAddressValue" 
 												value="defaultAlternateAddress" />
