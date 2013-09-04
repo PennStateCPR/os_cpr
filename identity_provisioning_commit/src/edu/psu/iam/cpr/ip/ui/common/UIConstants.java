@@ -175,6 +175,8 @@ public final class UIConstants
 	public static final String CRA_POSTAL_CODE          = "cra.postalCode";
 	public static final String CRA_ADDRESS_DOCUMENT_TYPE= "cra.addressDocumentType";
 	public static final String CRA_ADDRESS_GROUP_ID     = "cra.addressGroupId";
+	public static final String CRA_ALTERNATE_ADDRESS_FLAG	
+														= "cra.alternateAddressFlag";
 
 	public static final String CON_PHONE_TYPE           = "con.phoneType";
 	public static final String CON_PHONE_GROUP_ID       = "con.phoneGroupId";

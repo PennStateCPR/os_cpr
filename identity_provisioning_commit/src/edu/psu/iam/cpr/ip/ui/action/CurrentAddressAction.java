@@ -27,15 +27,39 @@ import edu.psu.iam.cpr.ip.util.MapHelper;
  */
 public class CurrentAddressAction extends AddressBaseAction 
 {
-	
+	/** No flag constant value */
+	private static final String NO_FLAG = "No";
+
+	/** Yes flag constant value */
+	private static final String YES_FLAG = "Yes";
+
+	/** contains the value for the starting default alternate address, will be set to Yes, if there is one */
 	private String defaultAlternateAddress;
 	
+	/** Contains the list of alternate address values Yes/No. */
 	private List<String> alternateAddressList;
 	
-	private String alternateAddressValue;
+	/** Contains the user selected alternate address value */
+	private String alternateAddressFlag;
 	
-	private String alternateRadio;
-	
+	/**
+	 * Constructor.
+	 */
+	public CurrentAddressAction() {
+		
+		// Initalize the alternate address default value, based on whether there is an alternate address value.
+        HashMap<String, String> argStringMap = MapHelper.genericObjToStringHashMap(getSessionMap());
+        if (YES_FLAG.equals(argStringMap.get(UIConstants.CRA_ALTERNATE_ADDRESS_FLAG))) {
+        	setDefaultAlternateAddress(YES_FLAG);
+        }
+        else {
+        	setDefaultAlternateAddress(NO_FLAG);
+        }
+		alternateAddressList = new ArrayList<String>();
+		alternateAddressList.add(YES_FLAG);
+		alternateAddressList.add(NO_FLAG);
+	}
+
 	/* (non-Javadoc)
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
 	 */
@@ -60,14 +84,7 @@ public class CurrentAddressAction extends AddressBaseAction
 		
 		String nextPage = super.execute();
 		
-		if ("Yes".equals(getAlternateAddressValue())) {
-			System.out.println("Yes was selected!!!");
-		}
-		else if ("No".equals(getAlternateAddressValue())) {
-			System.out.println("No was selected!!");
-		}
-		
-		if ("true".equals(getAlternateRadio())) {
+		if (YES_FLAG.equals(getAlternateAddressFlag())) {
 			nextPage = "AlternateAddress";
 		}
 		
@@ -104,20 +121,6 @@ public class CurrentAddressAction extends AddressBaseAction
 	 */
 	public void countryCheck(String returnLocation) 	{ }
 
-	/**
-	 * @param alternateRadio the alternateRadio to set
-	 */
-	public void setAlternateRadio(String alternateRadio) {
-		this.alternateRadio = alternateRadio;
-	}
-
-	/**
-	 * @return the alternateRadio
-	 */
-	public String getAlternateRadio() {
-		return alternateRadio;
-	}
-
 	public String getDefaultAlternateAddress() {
 		return defaultAlternateAddress;
 	}
@@ -134,32 +137,18 @@ public class CurrentAddressAction extends AddressBaseAction
 		this.alternateAddressList = alternateAddressList;
 	}
 	
-	public CurrentAddressAction() {
-        HashMap<String, String> argStringMap = MapHelper.genericObjToStringHashMap(getSessionMap());
-        if (SoapClientIP.mapValueIsEmpty(argStringMap.get(UIConstants.ALT_ADDRESS_LINE1)) &&
-        		SoapClientIP.mapValueIsEmpty(argStringMap.get(UIConstants.ALT_CITY))) {
-        	setDefaultAlternateAddress("No");
-        }
-        else {
-        	setDefaultAlternateAddress("Yes");
-        }
-		alternateAddressList = new ArrayList<String>();
-		alternateAddressList.add("Yes");
-		alternateAddressList.add("No");
+	/**
+	 * @return the alternateAddressFlag
+	 */
+	public String getAlternateAddressFlag() {
+		return alternateAddressFlag;
 	}
 
 	/**
-	 * @return the alternateAddressValue
+	 * @param alternateAddressFlag the alternateAddressFlag to set
 	 */
-	public String getAlternateAddressValue() {
-		return alternateAddressValue;
-	}
-
-	/**
-	 * @param alternateAddressValue the alternateAddressValue to set
-	 */
-	public void setAlternateAddressValue(String alternateAddressValue) {
-		this.alternateAddressValue = alternateAddressValue;
+	public void setAlternateAddressFlag(String alternateAddressFlag) {
+		this.alternateAddressFlag = alternateAddressFlag;
 	}
 
 }

@@ -94,25 +94,9 @@
 										<label class="control-label hide">&nbsp;</label>
 										<div class="controls">
 											<label>Do you have an alternate address?</label>
-											<label class="radio" for="alternateRadioYes">
-												<input type="radio" name="alternateRadio" id="alternateRadioYes" value="true">
-												<span>Yes</span>
-											</label>
-											<label class="radio" for="alternateRadioNo">
-												<input type="radio" name="alternateRadio" id="alternateRadioNo" value="false" checked>
-												<span>No</span>
-											</label>
-
-										</div>
-									</div>
-									
-									<div class="control-group">
-										<label class="control-label hide">&nbsp;</label>
-										<div class="controls">
-											<label>Do you have an alternate address?</label>
 											<s:select label="Do you have an alternate address?" 
 												list="alternateAddressList" 
-												name="alternateAddressValue" 
+												name="alternateAddressFlag" 
 												value="defaultAlternateAddress" />
 										</div>
 									</div>
