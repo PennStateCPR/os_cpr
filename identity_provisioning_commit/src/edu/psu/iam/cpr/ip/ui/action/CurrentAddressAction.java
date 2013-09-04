@@ -28,6 +28,8 @@ public class CurrentAddressAction extends AddressBaseAction
 	
 	private List<String> alternateAddressList;
 	
+	private String alternateAddressValue;
+	
 	private String alternateRadio;
 	
 	/* (non-Javadoc)
@@ -53,6 +55,13 @@ public class CurrentAddressAction extends AddressBaseAction
 		setPrefix("cra");
 		
 		String nextPage = super.execute();
+		
+		if ("Yes".equals(getAlternateAddressValue())) {
+			System.out.println("Yes was selected!!!");
+		}
+		else if ("No".equals(getAlternateAddressValue())) {
+			System.out.println("No was selected!!");
+		}
 		
 		if ("true".equals(getAlternateRadio())) {
 			nextPage = "AlternateAddress";
@@ -126,6 +135,20 @@ public class CurrentAddressAction extends AddressBaseAction
 		alternateAddressList = new ArrayList<String>();
 		alternateAddressList.add("Yes");
 		alternateAddressList.add("No");
+	}
+
+	/**
+	 * @return the alternateAddressValue
+	 */
+	public String getAlternateAddressValue() {
+		return alternateAddressValue;
+	}
+
+	/**
+	 * @param alternateAddressValue the alternateAddressValue to set
+	 */
+	public void setAlternateAddressValue(String alternateAddressValue) {
+		this.alternateAddressValue = alternateAddressValue;
 	}
 
 }
