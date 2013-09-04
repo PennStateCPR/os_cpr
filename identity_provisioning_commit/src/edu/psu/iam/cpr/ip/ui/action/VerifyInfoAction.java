@@ -44,7 +44,9 @@ public class VerifyInfoAction extends BaseAction
 	public static final String DATA_ENTRY_ERRORS2	  = "Please review/verify the data entered";
 	
 	public static final String FATAL_ERROR1_KEY     = "ui.error.unable.to.proceed";  
-	public static final String CALL_CUST_SERVICES   = "ui.error.call.cust.services"; 
+	public static final String CALL_CUST_SERVICES   = "ui.error.call.cust.services";
+
+	private static final String YES_FLAG = "Yes"; 
 	
 	private String hasConfirmed = "false";
 	
@@ -122,7 +124,7 @@ public class VerifyInfoAction extends BaseAction
                                     						getSessionMap().put("formatted.university.id"
                                                               					, RegexHelper.formatUniversityId(getApplicationMap(), status.get("srv.psuId")));
                                     						//Navigation.lock(getSessionMap());
-                                    						if (! SoapClientIP.mapValueIsEmpty(argStringMap.get(UIConstants.ALT_ADDRESS_LINE1))) {
+                                    						if (YES_FLAG.equals(argStringMap.get(UIConstants.CRA_ALTERNATE_ADDRESS_FLAG))) {
                                     							SoapClientIP.addAlternateAddress(argStringMap);
                                     						}
                                             				break;
