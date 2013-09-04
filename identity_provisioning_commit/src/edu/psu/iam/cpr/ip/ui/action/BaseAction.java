@@ -462,7 +462,7 @@ public abstract class BaseAction extends ActionSupport
 	 */
 	protected void saveFieldsToSession(String prefixName )
 	{
-		LOG.debug("base class name ->> " +this.getClass().getSuperclass().getSimpleName());
+		LOG.info("base class name ->> " +this.getClass().getSuperclass().getSimpleName());
 		Method[] methods = this.getClass().getDeclaredMethods();
 		
 		if(!this.getClass().getSuperclass().getSimpleName().equalsIgnoreCase("BaseAction"))
@@ -480,6 +480,7 @@ public abstract class BaseAction extends ActionSupport
 				{
 					String originalFieldName = method.getName().substring(MagicNumber.I3);
 					String fieldName = originalFieldName;
+					LOG.info("field name = = " + fieldName);
 
 					/* Skip any list(s) or map(s) constructs */
 					fieldName = fieldName.substring(0,1).toLowerCase() + fieldName.substring(1);
@@ -495,6 +496,7 @@ public abstract class BaseAction extends ActionSupport
 						continue;
 					}
 					
+					LOG.info("field value = " + method.invoke(this));
 					session.put(prefixName +"." +fieldName, method.invoke(this));
 				} 
 				catch (Exception e) 
