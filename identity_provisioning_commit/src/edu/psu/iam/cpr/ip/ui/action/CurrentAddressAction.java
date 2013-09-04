@@ -4,6 +4,7 @@ package edu.psu.iam.cpr.ip.ui.action;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
@@ -83,6 +84,9 @@ public class CurrentAddressAction extends AddressBaseAction
 		setPrefix("cra");
 		
 		String nextPage = super.execute();
+		
+		Map<String, Object> session   = getSessionMap();
+		session.put(UIConstants.CRA_ALTERNATE_ADDRESS_FLAG, getAlternateAddressFlag());
 		
 		if (YES_FLAG.equals(getAlternateAddressFlag())) {
 			nextPage = "AlternateAddress";
