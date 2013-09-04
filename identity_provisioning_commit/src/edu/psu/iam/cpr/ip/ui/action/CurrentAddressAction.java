@@ -2,12 +2,16 @@
 package edu.psu.iam.cpr.ip.ui.action;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import edu.psu.iam.cpr.ip.ui.common.UIConstants;
+import edu.psu.iam.cpr.ip.ui.soap.SoapClientIP;
 import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
+import edu.psu.iam.cpr.ip.util.MapHelper;
 /**
  * CurrentAddressAction is responsible for acquiring the current address of  
  * the student.
@@ -131,7 +135,14 @@ public class CurrentAddressAction extends AddressBaseAction
 	}
 	
 	public CurrentAddressAction() {
-		setDefaultAlternateAddress("No");
+        HashMap<String, String> argStringMap = MapHelper.genericObjToStringHashMap(getSessionMap());
+        if (SoapClientIP.mapValueIsEmpty(argStringMap.get(UIConstants.ALT_ADDRESS_LINE1)) &&
+        		SoapClientIP.mapValueIsEmpty(argStringMap.get(UIConstants.ALT_CITY))) {
+        	setDefaultAlternateAddress("No");
+        }
+        else {
+        	setDefaultAlternateAddress("Yes");
+        }
 		alternateAddressList = new ArrayList<String>();
 		alternateAddressList.add("Yes");
 		alternateAddressList.add("No");
