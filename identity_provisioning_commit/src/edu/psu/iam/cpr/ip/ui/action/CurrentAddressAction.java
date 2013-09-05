@@ -85,7 +85,7 @@ public class CurrentAddressAction extends AddressBaseAction
 		
 		String nextPage = super.execute();
 		
-		Map<String, Object> session   = getSessionMap();
+		Map<String, Object> session = getSessionMap();
 		session.put(UIConstants.CRA_ALTERNATE_ADDRESS_FLAG, getAlternateAddressFlag());
 		
 		if (YES_FLAG.equals(getAlternateAddressFlag())) {
