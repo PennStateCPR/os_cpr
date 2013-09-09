@@ -23,6 +23,14 @@
 										</div>
 									</s:if>
 
+									<!--COUNTRY-->
+									<div class="control-group">
+										<label class="control-label" for="country">Country:</label>
+										<div class="controls">
+											<s:select name="country" cssClass="input-large" id="country" list="countryMap" onchange="commit.currentaddress.onCountryChange(this);"></s:select>
+										</div>
+									</div>
+
 									<!--ADDRESS 1-->
 									<div class="control-group">
 										<label class="control-label" for="addressLine1">Address:</label>
@@ -78,14 +86,6 @@
 										<label class="control-label" for="postalCode">Zip Code +4:</label>
 										<div class="controls">
 											<s:textfield name="postalCode" cssClass="input-large" id="postalCode" maxlength="20" />
-										</div>
-									</div>
-
-									<!--COUNTRY-->
-									<div class="control-group">
-										<label class="control-label" for="country">Country:</label>
-										<div class="controls">
-											<s:select name="country" cssClass="input-large" id="country" list="countryMap" onchange="commit.currentaddress.onCountryChange(this);"></s:select>
 										</div>
 									</div>
 
