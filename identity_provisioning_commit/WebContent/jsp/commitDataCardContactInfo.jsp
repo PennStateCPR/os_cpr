@@ -49,7 +49,7 @@
 
 									<!--INTERNATIONAL CHECKBOX-->
 									<div class="control-group">
-										<label class="control-label" for="internationalNumber">International:</label>
+										<label class="control-label" for="internationalNumber">Non-US Phone Number:</label>
 										<div class="controls">
 											<s:checkbox name="internationalNumber" id="internationalNumber" onclick="commit.contactinfo.onInternationalSelect(this);"/>
 										</div>
