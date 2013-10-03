@@ -1,3 +1,0 @@
-<Context>
- <ResourceLink global='jdbc/cpr' name='jdbc/cpr' type="javax.sql.Datasource"/>
-</Context>
