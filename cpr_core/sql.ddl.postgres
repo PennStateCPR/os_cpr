@@ -1346,7 +1346,7 @@ create table employee
      special_status varchar(1),
      job_title varchar(80),
      alternate_job_title varchar(128),
-     start_date timestamp default systimestamp  not null,
+     start_date timestamp not null,
      import_from varchar(30),
      import_date timestamp,
      last_update_by varchar(30)  not null,
@@ -1369,7 +1369,7 @@ create table employee_class_cs
 
 create table employee_hist
     (
-     employee_key integer not null primary key,
+     employee_key integer not null,
      person_id integer not null,
      appt_code varchar(3),
      campus_code_key integer,
@@ -1391,14 +1391,15 @@ create table employee_hist
      special_status varchar(1),
      job_title varchar(80),
      alternate_job_title varchar(128),
-     start_date timestamp  not null primary key,
-     end_date timestamp default systimestamp  not null,
+     start_date timestamp  not null,
+     end_date timestamp not null,
      import_from varchar(30),
      import_date timestamp,
      last_update_by varchar(30)  not null,
      last_update_on timestamp  not null,
      created_by varchar(30)  not null,
-     created_on timestamp  not null
+     created_on timestamp  not null,
+     primary key (employee_key, start_date)
     );
 
 create table irs_country
@@ -1468,7 +1469,7 @@ create table student
      dorm_location varchar(4),
      class_load varchar(1),
      student_aid_flag varchar(1) default 'N'  not null check ( student_aid_flag in ('N', 'Y')),
-     start_date timestamp default systimestamp  not null,
+     start_date timestamp not null,
      import_from varchar(30),
      import_date timestamp,
      last_update_by varchar(30)  not null,
@@ -1486,7 +1487,7 @@ create table student_academic_college
      semester_code varchar(8)  not null,
      college_code varchar(2)  not null,
      rank integer  not null,
-     start_date timestamp default systimestamp  not null,
+     start_date timestamp not null,
      import_from varchar(30),
      import_date timestamp,
      last_update_by varchar(30)  not null,
@@ -1498,19 +1499,20 @@ create table student_academic_college
 
 create table student_academic_college_hist
     (
-     student_academic_college_key integer not null primary key,
+     student_academic_college_key integer not null,
      person_id integer  not null,
      semester_code varchar(8)  not null,
      college_code varchar(2)  not null,
      rank integer  not null,
-     start_date timestamp  not null primary key,
-     end_date timestamp default systimestamp  not null,
+     start_date timestamp  not null,
+     end_date timestamp not null,
      import_from varchar(30),
      import_date timestamp,
      last_update_by varchar(30)  not null,
      last_update_on timestamp  not null,
      created_by varchar(30)  not null,
-     created_on timestamp  not null
+     created_on timestamp  not null,
+     primary key (student_academic_college_key, start_date)
     )
 ;
 
@@ -1521,7 +1523,7 @@ create table student_academic_department
      semester_code varchar(8)  not null,
      department_code varchar(5)  not null,
      rank integer  not null,
-     start_date timestamp default systimestamp  not null,
+     start_date timestamp not null,
      import_from varchar(30),
      import_date timestamp,
      last_update_by varchar(30)  not null,
@@ -1533,25 +1535,26 @@ create table student_academic_department
 
 create table student_academic_dept_hist
     (
-     student_academic_dept_key integer  not null primary key,
+     student_academic_dept_key integer not null,
      person_id integer  not null,
      semester_code varchar(8)  not null,
      department_code varchar(5)  not null,
      rank integer  not null,
-     start_date timestamp  not null primary key,
-     end_date timestamp default systimestamp  not null,
+     start_date timestamp  not null,
+     end_date timestamp not null,
      import_from varchar(30),
      import_date timestamp,
      last_update_by varchar(30)  not null,
      last_update_on timestamp  not null,
      created_by varchar(30)  not null,
-     created_on timestamp  not null
+     created_on timestamp  not null,
+     primary key (student_academic_dept_key, start_date)
     )
 ;
 
 create table student_hist
     (
-     student_key integer  not null primary key,
+     student_key integer  not null,
      person_id integer  not null,
      semester_code varchar(8)  not null,
      campus_code_key integer,
@@ -1564,14 +1567,15 @@ create table student_hist
      dorm_location varchar(4),
      class_load varchar(1),
      student_aid_flag varchar(1) default 'N'  not null,
-     start_date timestamp  not null primary key,
-     end_date timestamp default systimestamp  not null,
+     start_date timestamp  not null,
+     end_date timestamp not null,
      import_from varchar(30),
      import_date timestamp,
      last_update_by varchar(30)  not null,
      last_update_on timestamp  not null,
      created_by varchar(30)  not null,
-     created_on timestamp  not null
+     created_on timestamp  not null,
+     primary key (student_key, start_date)
     )
 ;
 
@@ -1582,7 +1586,7 @@ create table student_major
      semester_code varchar(8)  not null,
      major_code varchar(20)  not null,
      rank integer  not null,
-     start_date timestamp default systimestamp  not null,
+     start_date timestamp not null,
      import_from varchar(30),
      import_date timestamp,
      last_update_by varchar(30)  not null,
@@ -1594,19 +1598,20 @@ create table student_major
 
 create table student_major_hist
     (
-     student_major_key integer  not null primary key,
+     student_major_key integer  not null,
      person_id integer  not null,
      semester_code varchar(8)  not null,
      major_code varchar(20)  not null,
      rank integer  not null,
-     start_date timestamp  not null primary key,
-     end_date timestamp default systimestamp  not null,
+     start_date timestamp  not null,
+     end_date timestamp not null,
      import_from varchar(30),
      import_date timestamp,
      last_update_by varchar(30)  not null,
      last_update_on timestamp  not null,
      created_by varchar(30)  not null,
-     created_on timestamp  not null
+     created_on timestamp  not null,
+     primary key (student_major_key, start_date)
     )
 ;
 
