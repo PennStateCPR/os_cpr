@@ -1,5 +1,7 @@
 set search_path = "cpr";
 
+create sequence seq_names_staging start 100500;
+create sequence seq_person_citizenship start 100500;
 create sequence seq_trans_stubio start 100500;
 create sequence seq_trans_oasis start 100500;
 create sequence seq_trans_hershey start 100500;
@@ -1841,6 +1843,47 @@ create table visa_cs
      created_on timestamp  not null
     )
 ;
+
+create table employee_status_cs
+    (
+     status_code varchar(3)  not null primary key,
+     status_desc varchar(40),
+     active_flag varchar(1) default 'N'  not null check ( active_flag in ('N', 'Y')),
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
+
+
+create table names_staging
+    (
+     name_staging_key integer default nextval('seq_names_staging') not null primary key,
+     person_id integer  not null,
+     first_name varchar(60),
+     middle_names varchar(60),
+     last_name varchar(60),
+     suffix varchar(30),
+     name_match_code varchar(60),
+     import_from varchar(30),
+     import_date timestamp
+    );
+
+create table person_citizenship
+    (
+     person_citizenship_key integer default nextval('seq_person_citizenship') not null primary key,
+     person_id integer  not null,
+     citizenship integer  not null,
+     start_date timestamp  not null,
+     end_date timestamp,
+     import_from varchar(30),
+     import_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
+
 -- end of tables --
 
 
@@ -2336,4 +2379,11 @@ create unique index trans_hershey_pkx on trans_hershey ( trans_hershey_key asc);
 create index the_psu_id_idx on trans_hershey ( psu_id asc);
 create unique index trans_oasis_pkx on trans_oasis ( trans_oasis_key asc);
 create index toa_psu_id_idx on trans_oasis ( psu_id asc);
+create index person_citizenship_pkx on person_citizenship ( person_citizenship_key asc);
+create index csp_per_fkx on person_citizenship ( person_id asc);
+create index pci_cit_fkx on person_citizenship ( citizenship asc);
+create unique index employee_status_cs_pkx on employee_status_cs ( status_code asc);
+create unique index names_staging_pkx on names_staging ( name_staging_key asc);
+create index nst_name_match_per_idx on names_staging ( name_match_code asc, person_id asc);
+create index nst_per_fkx on names_staging ( person_id asc);
 -- end of indexes --
