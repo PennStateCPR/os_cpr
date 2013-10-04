@@ -1310,6 +1310,86 @@ create table citizenship_cs
      created_by varchar(30)  not null,
      created_on timestamp  not null
     );
+    
+create table employee
+    (
+     employee_key integer default nextval('seq_employee') not null primary key,
+     person_id integer  not null,
+     appt_code varchar(3),
+     campus_code_key integer,
+     status_code varchar(3),
+     class_code varchar(4),
+     primary_appt_flag varchar(1) default 'N'  not null check ( primary_appt_flag in ('N', 'Y')),
+     show_in_directory_flag varchar(1) default 'N'  not null check ( show_in_directory_flag in ('N', 'Y')),
+     visa_type varchar(6),
+     benefits_rate varchar(1),
+     hire_date timestamp,
+     terminated_date timestamp,
+     last_date_paid timestamp,
+     pay_freq_code varchar(4),
+     layoff_flag varchar(1) default 'N'  not null check ( layoff_flag in ('N', 'Y')),
+     department varchar(80),
+     admin_area varchar(50),
+     admin_area_code varchar(10),
+     student_status varchar(1),
+     special_status varchar(1),
+     job_title varchar(80),
+     alternate_job_title varchar(128),
+     start_date timestamp default systimestamp  not null,
+     import_from varchar(30),
+     import_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
+
+create table employee_class_cs
+    (
+     class_code varchar(4)  not null primary key,
+     class_desc varchar(40),
+     active_flag varchar(1) default 'N'  not null check ( active_flag in ('N', 'Y')),
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
+
+
+create table employee_hist
+    (
+     employee_key integer not null primary key,
+     person_id integer not null,
+     appt_code varchar(3),
+     campus_code_key integer,
+     status_code varchar(3),
+     class_code varchar(4),
+     primary_appt_flag varchar(1) default 'N'  not null,
+     show_in_directory_flag varchar(1) default 'N'  not null,
+     visa_type varchar(6),
+     benefits_rate varchar(1),
+     hire_date timestamp,
+     terminated_date timestamp,
+     last_date_paid timestamp,
+     pay_freq_code varchar(4),
+     layoff_flag varchar(1) default 'N'  not null,
+     department varchar(80),
+     admin_area varchar(50),
+     admin_area_code varchar(10),
+     student_status varchar(1),
+     special_status varchar(1),
+     job_title varchar(80),
+     alternate_job_title varchar(128),
+     start_date timestamp  not null primary key,
+     end_date timestamp default systimestamp  not null,
+     import_from varchar(30),
+     import_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
+
 -- end of tables --
 
 
@@ -1746,4 +1826,12 @@ create index msglog_websrvc_fkX on message_log ( web_service_key asc );
 create index msglog_mec_fkX on message_log ( message_consumer_key asc );
 create index MESSAGE_LOG_01_IDX on message_log ( created_on asc );
 create index message_log_history_01_IDX on message_log_history ( message_id asc );
+create unique index employee_hist_pkx on employee_hist ( employee_key asc, start_date asc );
+create index emp_his_person_id_idx on employee_hist ( person_id asc );
+create index emp_his_appt_code_idx on employee_hist ( appt_code asc );
+create unique index employee_class_cs_pkx on employee_class_cs ( class_code asc );
+create unique index employee_pkx on employee ( employee_key asc );
+create index emp_cmp_fkx on employee ( campus_code_key asc );
+create index emp_per_fkx on employee ( person_id asc );
+create index emp_app_fkx on employee ( appt_code asc );
 -- end of indexes --
