@@ -157,6 +157,15 @@ public class BeanLoaderFactory {
 		else if (tableName.equals("Addresses")) {
 			return new AddressesLoader();
 		}
+		else if (tableName.equals("IrsCountry")) {
+			return new IrsCountryLoader();
+		}
+		else if (tableName.equals("AcademicCollegeCs")) {
+			return new AcademicCollegeCsLoader();
+		}
+		else if (tableName.equals("AcademicDepartmentCs")) {
+			return new AcademicDepartmentCsLoader();
+		}
 		return null;
 	}
 

@@ -1,0 +1,32 @@
+college_code|college_name|active_flag
+LW|Dickinson School of Law|Y
+HH|Health and Human Development|Y
+ED|Education|Y
+DU|Division of Undergraduate Studies|Y
+HP|Health, Physical Education & Recreation|Y
+NR|School of Nursing|Y
+CA|Capital College|Y
+BC|Behrend College|Y
+ID|Intercollege Graduate Programs|Y
+IC|Intercollege Undergraduate Programs|Y
+IA|School of International Affairs|Y
+MD|College of Medicine|Y
+BL|Berks College|Y
+SC|Science|Y
+HD|Human Development|Y
+UN|Undergraduate Non-Degree|Y
+XX|This Code Does Not Represent A Valid College But  Rather Establishes A College-Like Unit For Purpose|Y
+IS|Information Sciences and Technology|Y
+BA|Business|Y
+MS|Rotc|Y
+GV|School of Graduate Professional Studies|Y
+LA|The Liberal Arts|Y
+AA|Arts and Architecture|Y
+EN|Engineering|Y
+AB|Abington College|Y
+EM|Earth and Mineral Sciences|Y
+AG|Agricultural Sciences|Y
+CC|University College|Y
+GN|Graduate Non-Degree|Y
+AL|Altoona College|Y
+CM|Communications|Y

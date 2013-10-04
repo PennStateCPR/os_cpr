@@ -49,3 +49,6 @@ UspsStates
 MessageConsumer
 MessageConsumerMapping
 Addresses
+IrsCountry
+AcademicCollegeCs
+AcademicDepartmentCs

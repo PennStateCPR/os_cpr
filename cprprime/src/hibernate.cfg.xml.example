@@ -11,6 +11,8 @@
         <property name="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.default_schema">Put your database name here</property>
+		<mapping class="edu.psu.iam.cpr.utility.beans.AcademicCollegeCs" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.AcademicDepartmentCs" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Addresses" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.AffTransitionRules" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Affiliations" />
@@ -50,6 +52,7 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.IapRules" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.IdCardPrintLog" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.IdentifierType" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.IrsCountry" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.JavaExceptions" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.MatchResults" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.MessageConsumer" />
