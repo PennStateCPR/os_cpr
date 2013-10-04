@@ -11,6 +11,9 @@
 		<property name="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
 		<property name="hibernate.current_session_context_class">thread</property>
 		<property name="hibernate.default_schema">cpr</property>
+		<mapping class="edu.psu.iam.cpr.core.database.beans.AcademicCollegeCs" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.AcademicDepartmentCs" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.AddressStaging" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.Addresses" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.AffTransitionRules" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.Affiliations" />
@@ -22,6 +25,7 @@
 		<mapping class="edu.psu.iam.cpr.core.database.beans.CampusCs" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.ChangeNotificationTypes" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.ChangeNotifications" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.CitizenshipCs" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.Confidentiality" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.Country" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.CountryMap" />
@@ -35,6 +39,10 @@
 		<mapping class="edu.psu.iam.cpr.core.database.beans.DateOfBirth" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.EmailAddress" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.EmailNotification" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.Employee" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.EmployeeClassCs" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.EmployeeHist" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.EmployeeStatusCs" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.EventTriggers" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.ExtAffiliation" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.ExtAffiliationMapping" />
@@ -52,7 +60,9 @@
 		<mapping class="edu.psu.iam.cpr.core.database.beans.IapRules" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.IdCardPrintLog" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.IdentifierType" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.IrsCountry" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.JavaExceptions" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.MajorCs" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.MatchResults" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.McWarningNotifications" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.MessageConsumer" />
@@ -60,8 +70,11 @@
 		<mapping class="edu.psu.iam.cpr.core.database.beans.MessageLog" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.MessageLogHistory" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.Names" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.NamesStaging" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.PayFrequencyCs" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.Person" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.PersonAffiliation" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.PersonCitizenship" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.PersonGender" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.PersonIapData" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.PersonIapVp" />
@@ -89,9 +102,24 @@
 		<mapping class="edu.psu.iam.cpr.core.database.beans.RegistrationAuthority" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.SecurityQuestionAnswers" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.SecurityQuestions" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.Semesters" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.ServerPrincipalIp" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.ServiceLog" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.Services" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.Student" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.StudentAcademicCollege" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.StudentAcademicCollegeHist" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.StudentAcademicDepartment" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.StudentAcademicDeptHist" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.StudentHist" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.StudentMajor" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.StudentMajorHist" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.StudentStatusCs" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.TransCidr" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.TransEmpl" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.TransHershey" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.TransOasis" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.TransStubio" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UiApplications" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UiFieldTypes" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UiLog" />
@@ -105,6 +133,7 @@
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UspsStateTypes" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UspsStates" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.VSpNotification" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.VisaCs" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.WebService" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.WebServiceAccess" />
 	</session-factory>
