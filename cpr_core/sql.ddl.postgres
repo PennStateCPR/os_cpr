@@ -1,5 +1,7 @@
 set search_path = "cpr";
 
+create sequence seq_citizenship_cs start 100500;
+create sequence seq_address_staging start 100500;
 create sequence seq_person start 100500;
 create sequence seq_addresses start 100500;
 create sequence seq_aff_transition_rules start 100500;
@@ -1240,6 +1242,74 @@ create table message_log_history (
      last_update_on timestamp not null,
      created_on timestamp not null
 );
+
+create table academic_college_cs
+    (
+     college_code varchar(2)  not null primary key,
+     college_name varchar(100)  not null,
+     active_flag varchar(1) default 'N'  not null check ( active_flag in ('N', 'Y')),
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+);
+
+create table academic_department_cs
+    (
+     department_code varchar(5) not null primary key,
+     department_name varchar(100) not null ,
+     active_flag varchar(1) default 'N' not null check ( active_flag in ('N', 'Y')) ,
+     last_update_by varchar(30) not null ,
+     last_update_on timestamp not null ,
+     created_by varchar(30) not null ,
+     created_on timestamp not null
+    );
+    
+create table address_staging
+    (
+     address_staging_key integer default nextval('seq_address_staging') not null primary key,
+     person_id integer not null ,
+     data_type_key integer  not null ,
+     campus_code_key integer ,
+     campus_code varchar(2),
+     country_key integer ,
+     country_code_two varchar(2),
+     country_code_three varchar(3),
+     province varchar(40),
+     address1 varchar(100),
+     address2 varchar(100),
+     address3 varchar(100),
+     city varchar(40),
+     state varchar(2),
+     postal_code varchar(20),
+     address_match_code varchar(60),
+     city_match_code varchar(60),
+     import_from varchar(30),
+     import_date timestamp
+);
+
+create table appointment_cs
+    (
+     appt_code varchar(3)  not null primary key,
+     appt_desc varchar(40),
+     appt_source varchar(4)  not null check ( appt_source in ('HMC', 'IBIS')),
+     active_flag varchar(1) default 'N'  not null check ( active_flag in ('N', 'Y')),
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
+    
+create table citizenship_cs
+    (
+     citizenship integer default nextval('seq_citizenship_cs') not null primary key,
+     description varchar(128)  not null,
+     active_flag varchar(1) default 'N'  not null check ( active_flag in ('N', 'Y')),
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
 -- end of tables --
 
 
