@@ -13,6 +13,7 @@
         <property name="hibernate.default_schema">Put your database name here</property>
 		<mapping class="edu.psu.iam.cpr.utility.beans.AcademicCollegeCs" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.AcademicDepartmentCs" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.AppointmentCs" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Addresses" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.AffTransitionRules" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Affiliations" />
@@ -22,6 +23,7 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.ApplicationProperties" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.BadPrefixes" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.CampusCs" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.CitizenshipCs" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Confidentiality" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Country" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.CountryMap" />
@@ -35,6 +37,8 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.DateOfBirth" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.EmailAddress" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.EmailNotification" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.EmployeeClassCs" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.EmployeeStatusCs" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.EventTriggers" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.ExtAffiliation" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.ExtAffiliationMapping" />
@@ -54,12 +58,14 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.IdentifierType" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.IrsCountry" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.JavaExceptions" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.MajorCs" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.MatchResults" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.MessageConsumer" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.MessageConsumerMapping" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.MessageLog" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.MessageLogHistory" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Names" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.PayFrequencyCs" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Person" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.PersonAffiliation" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.PersonGender" />
@@ -92,6 +98,7 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.ServerPrincipalIp" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.ServiceLog" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Services" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.StudentStatusCs" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.UiApplications" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.UiFieldTypes" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.UiLog" />
@@ -104,6 +111,7 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.UseridPool" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.UspsStateTypes" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.UspsStates" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.VisaCs" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.VSpNotification" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.WebService" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.WebServiceAccess" />
