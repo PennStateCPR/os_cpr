@@ -6,3 +6,5 @@
 /ivy
 /javadoc
 /lib
+/src/cpr.properties
+/src/hibernate.cfg.xml
