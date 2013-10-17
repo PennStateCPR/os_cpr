@@ -919,53 +919,6 @@ public class Database {
 	}
 	
 	/**
-	 * This routine is used to determine if a database field already equals another field.
-	 * @param s1 contains the first field to test.
-	 * @param s2 contains the second field to test.
-	 * @return will return true if the field are equal, otherwise it will return false.
-	 */
-	public boolean areStringFieldsEqual(String s1, String s2) {
-		
-		try {
-			final String tempString1 = (s1 == null || s1.trim().length() == 0) ? "NULL" : s1.trim();
-			final String tempString2 = (s2 == null || s2.trim().length() == 0) ? "NULL" : s2.trim();
-
-			return tempString1.equals(tempString2);
-		}
-		catch (Exception e) {
-			return false;
-		}
-	}
-	
-	/**
-	 * This routine is used to determine if a database field already equals another field.
-	 * @param parm1 contains the first field to test.
-	 * @param parm2 contains the second field to test.
-	 * @return will return true if the field are equal, otherwise it will return false.
-	 */
-	public boolean areLongFieldsEqual(Long parm1, Long parm2) {
-		
-		try {
-			if (parm1 == null && parm2 == null) {
-				return true;
-			}
-			else if ((parm1 == null && parm2 != null) ||
-					 (parm1 != null && parm2 == null)) {
-				return false;
-			}
-			else if (parm1 != null && parm2 == null) {
-				return false;
-			}
-			else {
-				return parm1.equals(parm2);
-			}
-		}
-		catch (Exception e) {
-			return false;
-		}
-	}
-
-	/**
 	 * @param identifierType the identifierType to set
 	 */
 	public void setIdentifierType(IdentifierType identifierType) {

@@ -198,7 +198,7 @@ public class CredentialTable {
 			Credential dbBean = (Credential) it.next();
 
 			// Check to ensure that the fields are not already there.
-			if (db.areStringFieldsEqual(dbBean.getCredentialData(), bean.getCredentialData())) {
+			if (Utility.areStringFieldsEqual(dbBean.getCredentialData(), bean.getCredentialData())) {
 				matchFound = true;
 			}
 

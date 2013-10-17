@@ -97,7 +97,15 @@ public class Names implements Serializable {
         @Column(name="nickname", nullable=true, length=40) 
         private String nickname;
 
-        /**
+        /** null */
+        @Column(name="import_from", nullable=true, length=30)
+        private String importFrom;
+
+        /** null */
+        @Column(name="import_date", nullable=true)
+        private Date importDate;
+
+       /**
          * Constructor
          */
         public Names() {
@@ -326,6 +334,34 @@ public class Names implements Serializable {
 		 */
 		public String getNickname() {
 			return nickname;
+		}
+
+		/**
+		 * @return the importFrom
+		 */
+		public String getImportFrom() {
+			return importFrom;
+		}
+
+		/**
+		 * @param importFrom the importFrom to set
+		 */
+		public void setImportFrom(String importFrom) {
+			this.importFrom = importFrom;
+		}
+
+		/**
+		 * @return the importDate
+		 */
+		public Date getImportDate() {
+			return importDate;
+		}
+
+		/**
+		 * @param importDate the importDate to set
+		 */
+		public void setImportDate(Date importDate) {
+			this.importDate = importDate;
 		}
 
 }

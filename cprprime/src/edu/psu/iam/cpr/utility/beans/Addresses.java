@@ -137,6 +137,14 @@ public class Addresses implements Serializable {
         @Column(name="do_not_verify_flag", nullable=false, length=1)
         private String doNotVerifyFlag;
 
+        /** null */
+        @Column(name="import_from", nullable=true, length=30)
+        private String importFrom;
+
+        /** null */
+        @Column(name="import_date", nullable=true)
+        private Date importDate;
+
         /**
          * Constructor
          */
@@ -506,6 +514,34 @@ public class Addresses implements Serializable {
 		 */
 		public String getDoNotVerifyFlag() {
 			return doNotVerifyFlag;
+		}
+
+		/**
+		 * @return the importFrom
+		 */
+		public String getImportFrom() {
+			return importFrom;
+		}
+
+		/**
+		 * @param importFrom the importFrom to set
+		 */
+		public void setImportFrom(String importFrom) {
+			this.importFrom = importFrom;
+		}
+
+		/**
+		 * @return the importDate
+		 */
+		public Date getImportDate() {
+			return importDate;
+		}
+
+		/**
+		 * @param importDate the importDate to set
+		 */
+		public void setImportDate(Date importDate) {
+			this.importDate = importDate;
 		}
 
 }

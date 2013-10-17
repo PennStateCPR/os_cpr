@@ -74,3 +74,9 @@ cpr.authz.model=database
 #
 cpr.grouper.resources.stem=apps:cpr:resources
 cpr.grouper.groups.stem=apps:cpr:regAuth
+
+#
+# Email Domain for the insitution.
+#
+cpr.university.email.domain=example.edu
+

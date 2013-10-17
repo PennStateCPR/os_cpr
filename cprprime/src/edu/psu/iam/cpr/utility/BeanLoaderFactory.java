@@ -190,6 +190,15 @@ public class BeanLoaderFactory {
 		else if (tableName.equals("EmployeeStatusCs")) {
 			return new EmployeeStatusCsLoader();
 		}
+		else if (tableName.equals("ChangeNotificationTypes")) {
+			return new ChangeNotificationTypesLoader();
+		}
+		else if (tableName.equals("ChangeNotifications")) {
+			return new ChangeNotificationsLoader();
+		}
+		else if (tableName.equals("Semesters")) {
+			return new SemestersLoader();
+		}
 		return null;
 	}
 

@@ -57,8 +57,7 @@ public class ValidatePersonAffiliationTest {
 	 * @throws Exception
 	 */
 	@Test(expectedExceptions = Exception.class)
-	public final void testValidateAddAffiliationParametersBadParm2()
-	throws Exception {
+	public final void testValidateAddAffiliationParametersBadParm2() throws Exception {
 		openDbConnection();
 		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
 				"STU_UNDERGRAD_PROSPECT",  "cpruser");
@@ -105,14 +104,14 @@ public class ValidatePersonAffiliationTest {
 	 * @throws Exception
 	 * @throws Exception
 	 */
-	@Test(expectedExceptions = Exception.class)
-	public final void testValidateAddAffiliationParametersBadParm2b()
-	throws Exception {
-		openDbConnection();
-		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
-				"STUDENT",  "cpruser");
-		db.closeSession();
-	}
+//	@Test(expectedExceptions = Exception.class)
+//	public final void testValidateAddAffiliationParametersBadParm2b()
+//	throws Exception {
+//		openDbConnection();
+//		ValidatePersonAffiliation.validateAddAffiliationParameters(db, 100001,
+//				"STUDENT",  "cpruser");
+//		db.closeSession();
+//	}
 	
 	/**
 	 * Test method for
@@ -179,12 +178,14 @@ public class ValidatePersonAffiliationTest {
 				"STUDENT_UNDERGRADUATE_PROSPECT", "cpruser");
 		db.closeSession();
 	}
+	
 	@Test(expectedExceptions = Exception.class)
 	public final void testValidateGetAffiliationForPersonIdParameters()
 	throws Exception {
 		ValidatePersonAffiliation.validateGetAffiliationsForPersonIdParameters(db, 100001,
 		"cpruser","N");
 	}
+	
 	@Test(expectedExceptions = Exception.class)
 	public final void testValidatevalidateGetAffiliationForPersonIdParameterseParm2Null()
 	throws Exception {
@@ -201,6 +202,7 @@ public class ValidatePersonAffiliationTest {
 		"cpruser","N");
 		db.closeSession();
 	}
+	
 	@Test(expectedExceptions = Exception.class)
 	public final void testValidateDeleteAffiliationParameters()
 	throws Exception {

@@ -181,7 +181,7 @@ public class PersonIdentifierTable {
 			PersonIdentifier dbBean = (PersonIdentifier) it.next();
 
 			// Check to ensure that the fields are not already there.
-			if (db.areStringFieldsEqual(dbBean.getIdentifierValue(), bean.getIdentifierValue())) {
+			if (Utility.areStringFieldsEqual(dbBean.getIdentifierValue(), bean.getIdentifierValue())) {
 				matchFound = true;
 			}
 

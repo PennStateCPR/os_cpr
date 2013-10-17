@@ -23,6 +23,8 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.ApplicationProperties" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.BadPrefixes" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.CampusCs" />
+ 		<mapping class="edu.psu.iam.cpr.utility.beans.ChangeNotifications"/>
+  		<mapping class="edu.psu.iam.cpr.utility.beans.ChangeNotificationTypes"/>
 		<mapping class="edu.psu.iam.cpr.utility.beans.CitizenshipCs" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Confidentiality" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Country" />
@@ -95,6 +97,7 @@
 		<mapping class="edu.psu.iam.cpr.utility.beans.RegistrationAuthority" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.SecurityQuestionAnswers" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.SecurityQuestions" />
+		<mapping class="edu.psu.iam.cpr.utility.beans.Semesters" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.ServerPrincipalIp" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.ServiceLog" />
 		<mapping class="edu.psu.iam.cpr.utility.beans.Services" />

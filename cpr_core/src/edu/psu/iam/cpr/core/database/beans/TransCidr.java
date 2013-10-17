@@ -153,7 +153,7 @@ public class TransCidr implements Serializable {
         }
 
         /**
-         * @param dob the gender to set.
+         * @param gender the gender to set.
          */
         public void setGender(String gender) {
                 this.gender = gender;

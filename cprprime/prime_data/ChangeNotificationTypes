@@ -1,0 +1,19 @@
+change_notification_types_key|notification_type|notification_desc|active_flag
+1|ADDRESS_CHANGE|Address change notification|Y                                                                                                                                                               
+2|NAME_CHANGE|Name change notification|Y                                                                                                                                                                     
+3|PHONE_CHANGE|Phone change notification|Y                                                                                                                                                                   
+4|EMAIL_ADDRESS_CHANGE|Email address change notification|Y                                                                                                                                                   
+5|PSU_ID_CHANGE|PSU ID change notification|Y                                                                                                                                                                 
+6|USERID_CHANGE|Userid change notification|Y                                                                                                                                                                 
+26|PS_DEPARTMENT_CHANGE|PS Department Change|N                                                                                                                                                               
+27|PS_CAMPUS_CODE_CHANGE|PS Campus Code Change|N                                                                                                                                                             
+28|GENDER_CHANGE|Gender Change|Y                                                                                                                                                                             
+29|CONFIDENTIALITY_CHANGE|Confidentiality Change|Y                                                                                                                                                           
+30|STUDENT_DATA_CHANGE|Student Data Change|Y                                                                                                                                                                 
+31|EMPLOYEE_DATA_CHANGE|Employee Data Change|Y                                                                                                                                                               
+51|ADD_EMPLOYEE_CHANGE|Add new employee change|Y                                                                                                                                                             
+52|ADD_STUDENT_CHANGE|Add new student change|Y                                                                                                                                                               
+53|EDU_PERSON_PRIMARY_AFFILIATION_CHANGE|Primary affiliation Change|Y  
+76|DATE_OF_BIRTH_CHANGE|Date of Birth Change|Y
+102|ACCOUNT_STATUS_CHANGE|Account Status Change|Y     
+103|EDU_PERSON_AFFILIATION_CHANGE|Affiliation Change|Y                                                                                                                                       

@@ -60,7 +60,12 @@ public class AffiliationsLoader implements BeanLoader {
 						bean.setAffiliationKey(new Long(fields[i]));
 					}
 					else if (columns[i].equals("parent_affiliation_key")) {
-						bean.setParentAffiliationKey(new Long(fields[i]));
+						if (fields[i] == null || fields[i].length() == 0) {
+							bean.setParentAffiliationKey(null);
+						}
+						else {
+							bean.setParentAffiliationKey(new Long(fields[i]));
+						}
 					}
 					else if (columns[i].equals("can_assign_flag")) {
 						bean.setCanAssignFlag(fields[i]);

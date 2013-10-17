@@ -4,3 +4,7 @@ message_consumer_key|consumer|consumer_destination|destination_type|maximum_retr
 3|Directory|Queue.Directory|Queue|5|60|100|500
 4|Authentication|Queue.Authentication|Queue|5|60|100|500
 5|Test|Queue.Test|Queue|5|60|100|500
+26|ABS Notifications|Queue.Notifications.ABS|Queue|5|60|100|500
+27|HMC Notifications|Queue.Notifications.HMC|Queue|5|60|100|500
+28|Batch Processing|0|0|5|60|100|500
+51|Batch Processing Test|Queue.Notifications.UnitTest|Queue|5|60|100|500

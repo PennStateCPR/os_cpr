@@ -1,5 +1,8 @@
+drop schema cpr cascade;
+create schema cpr;
 set search_path = "cpr";
 
+create sequence seq_student_academic_dept start 100500;
 create sequence seq_names_staging start 100500;
 create sequence seq_person_citizenship start 100500;
 create sequence seq_trans_stubio start 100500;
@@ -8,7 +11,6 @@ create sequence seq_trans_hershey start 100500;
 create sequence seq_trans_empl start 100500;
 create sequence seq_trans_cidr start 100500;
 create sequence seq_student_major start 100500;
-create sequence seq_student_academic_department start 100500;
 create sequence seq_student_academic_college start 100500;
 create sequence seq_student start 100500;
 create sequence seq_irs_country start 100500;
@@ -118,7 +120,9 @@ create table person (
         end_date timestamp,
         last_update_by varchar(30) not null,
         last_update_on timestamp not null,
-        start_date timestamp not null
+        start_date timestamp not null,
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table addresses (
@@ -147,7 +151,9 @@ create table addresses (
         state varchar(2),
         validate_attempted_on timestamp,
         verified_flag varchar(1) not null,
-        do_not_verify_flag varchar(1) not null
+        do_not_verify_flag varchar(1) not null,
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table aff_transition_rules (
@@ -336,7 +342,9 @@ create table date_of_birth (
         last_update_by varchar(30) not null,
         last_update_on timestamp not null,
         person_id integer not null,
-        start_date timestamp not null
+        start_date timestamp not null,
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table email_address (
@@ -349,7 +357,9 @@ create table email_address (
         last_update_by varchar(30) not null,
         last_update_on timestamp not null,
         person_id integer not null,
-        start_date timestamp not null
+        start_date timestamp not null,
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table event_triggers (
@@ -570,7 +580,9 @@ create table names (
         nickname varchar(40),
         person_id integer not null,
         start_date timestamp not null,
-        suffix varchar(30)
+        suffix varchar(30),
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table person_affiliation (
@@ -597,7 +609,9 @@ create table person_gender (
         last_update_by varchar(30) not null,
         last_update_on timestamp not null,
         person_id integer not null,
-        start_date timestamp not null
+        start_date timestamp not null,
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table person_iap_data (
@@ -700,7 +714,9 @@ create table phones (
         person_id integer not null,
         phone_number varchar(40) not null,
         primary_flag varchar(1) not null,
-        start_date timestamp not null
+        start_date timestamp not null,
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table photo_id_issuer (
@@ -760,7 +776,9 @@ create table psu_id (
         last_update_on timestamp not null,
         person_id integer not null,
         psu_id varchar(20) not null,
-        start_date timestamp not null
+        start_date timestamp not null,
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table psu_id_exceptions (
@@ -894,6 +912,8 @@ create table userid (
         psu_id_letter varchar(1),
         start_date timestamp not null,
         scoped_uuid varchar(100),
+        import_from varchar(30),
+        import_date timestamp,
         primary key (userid, person_id)
 );
 
@@ -1520,7 +1540,7 @@ create table student_academic_college_hist
 
 create table student_academic_department
     (
-     student_academic_dept_key integer default nextval('seq_student_academic_department') not null primary key,
+     student_academic_dept_key integer default nextval('seq_student_academic_dept') not null primary key,
      person_id integer  not null,
      semester_code varchar(8)  not null,
      department_code varchar(5)  not null,
@@ -2122,6 +2142,25 @@ FROM person_id_card JOIN id_card_print_log
     AND web_service.end_date IS NULL
   JOIN services ON message_consumer_mapping.service_key = services.service_key AND
   	services.active_flag = 'Y';
+
+  CREATE OR REPLACE VIEW v_consumer_notification_dest (message_consumer_key, consumer_destination, 
+  	change_notifications_key, change_notification_types_key, notification_type) AS
+  SELECT
+  mec.message_consumer_key MESSAGE_CONSUMER_KEY,
+  mec.consumer_destination CONSUMER_DESTINATION,
+  cno.change_notifications_key CHANGE_NOTIFICATIONS_KEY,
+  cnt.change_notification_types_key CHANGE_NOTIFICATION_TYPES_KEY,
+  cnt.notification_type NOTIFICATION_TYPE
+FROM message_consumer mec
+  JOIN change_notifications cno ON (mec.message_consumer_key = cno.message_consumer_key AND
+				    mec.end_date IS NULL AND
+				    mec.suspend_flag = 'N' AND
+				    cno.end_date IS NULL)
+  JOIN change_notification_types cnt ON (cno.change_notification_types_key =
+					 cnt.change_notification_types_key AND
+					 cnt.active_flag = 'Y' AND
+					 cno.end_date IS NULL)
+ORDER BY cnt.notification_type;
 
 create index email_notification_01_idx on email_notification (notification_process asc);
 create index ra_applications_10_idx on ra_applications ( registration_authority_key asc );

@@ -585,47 +585,6 @@ public class DatabaseTest {
 		db.closeSession();
 	}
 	@Test
-	public final void _74testAreFieldsEqual1() {
-		String s1 = null;
-		String s2 = null;
-		AssertJUnit.assertTrue(db.areStringFieldsEqual(s1,s2));
-	}
-	@Test
-	public final void _75testAreFieldsEqual2() {
-		AssertJUnit.assertFalse(db.areStringFieldsEqual(null, "abcd"));
-	}
-	@Test
-	public final void _76testAreFieldsEqual3() {
-		AssertJUnit.assertTrue(db.areStringFieldsEqual("", ""));
-	}
-	@Test
-	public final void _77testAreFieldsEqual4() {
-		AssertJUnit.assertFalse(db.areStringFieldsEqual("", "abcd"));
-	}
-	@Test
-	public final void _78testAreFieldsEqual6() {
-		AssertJUnit.assertFalse(db.areStringFieldsEqual("ABCD1", "abcd"));
-	}
-	@Test
-	public final void _79testAreFieldsEqual7() {
-		Long l1 = null;
-		Long l2 = null;
-		AssertJUnit.assertTrue(db.areLongFieldsEqual(l1,l2));
-	}
-	@Test
-	public final void _80testAreFieldsEqual8() {
-		Long l1 = null;
-		Long l2 = 1L;
-		AssertJUnit.assertFalse(db.areLongFieldsEqual(l1,l2));
-	}
-	@Test
-	public final void _81testAreFieldsEqual9() {
-		Long l1 = 1L;
-		Long l2 = 1L;
-		AssertJUnit.assertTrue(db.areLongFieldsEqual(l1,l2));
-	}
-	
-	@Test
 	public final void _82testIsValidUserid1() throws Exception {
 		openDbConnection();
 		AssertJUnit.assertFalse(db.isValidUserid(2L, "cpruser"));

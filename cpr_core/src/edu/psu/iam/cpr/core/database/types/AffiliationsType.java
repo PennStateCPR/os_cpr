@@ -1,34 +1,22 @@
-/* SVN FILE: $Id: AffiliationsType.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
-
+/* SVN FILE: $Id: AffiliationsType.java 6987 2013-04-23 19:36:25Z llg5 $ */
 package edu.psu.iam.cpr.core.database.types;
+
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-
 /**
- * Affiliations  Type.
- * 
- * Copyright 2012 The Pennsylvania State University
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * 
+ * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To
+ * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative
+ * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+ * Affiliations Type 
  * @package edu.psu.iam.cpr.core.database.types
- * @author $Author: jvuccolo $
- * @version $Rev: 5340 $
- * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
+ * @author $Author: llg5 $
+ * @version $Rev: 6987 $
+ * @lastrevision $Date: 2013-04-23 15:36:25 -0400 (Tue, 23 Apr 2013) $
  */
 
-public enum AffiliationsType {
+public enum AffiliationsType { 
 	STUDENT_UNDERGRADUATE_PROSPECT(3),
 	STUDENT_UNDERGRADUATE_APPLICANT(4),
 	STUDENT_UNDERGRADUATE_CURRENT(5),
@@ -69,42 +57,6 @@ public enum AffiliationsType {
 	STUDENT_GRADUATE_PROVISIONAL_APPLICANT(49),
 	STUDENT_GRADUATE_PROVISIONAL_CURRENT(50),
 	STUDENT_GRADUATE_PROVISIONAL_FORMER(51),
-	EMPLOYEE_ACADEMIC_ACTIVE(54),
-	EMPLOYEE_ACADEMIC_APPLICANT(55),
-	EMPLOYEE_ACADEMIC_DECEASED(56),
-	EMPLOYEE_ACADEMIC_EMERITUS(57),
-	EMPLOYEE_ACADEMIC_INACTIVE(58),
-	EMPLOYEE_ACADEMIC_PENDING(59),
-	EMPLOYEE_ACADEMIC_RETIRED(60),
-	EMPLOYEE_ACADEMIC_TEMPREHIRE(61),
-	EMPLOYEE_ACADEMIC_TERMINATED(62),
-	EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE(64),
-	EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT(65),
-	EMPLOYEE_ACADEMIC_ADMINISTRATOR_DECEASED(66),
-	EMPLOYEE_ACADEMIC_ADMINISTRATOR_EMERITUS(67),
-	EMPLOYEE_ACADEMIC_ADMINISTRATOR_INACTIVE(68),
-	EMPLOYEE_ACADEMIC_ADMINISTRATOR_PENDING(69),
-	EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED(70),
-	EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRE(71),
-	EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED(72),
-	EMPLOYEE_ADMINISTRATOR_ACTIVE(74),
-	EMPLOYEE_ADMINISTRATOR_APPLICANT(75),
-	EMPLOYEE_ADMINISTRATOR_DECEASED(76),
-	EMPLOYEE_ADMINISTRATOR_EMERITUS(77),
-	EMPLOYEE_ADMINISTRATOR_INACTIVE(78),
-	EMPLOYEE_ADMINISTRATOR_PENDING(79),
-	EMPLOYEE_ADMINISTRATOR_RETIRED(80),
-	EMPLOYEE_ADMINISTRATOR_TEMPREHIRE(81),
-	EMPLOYEE_ADMINISTRATOR_TERMINATED(82),
-	EMPLOYEE_EXECUTIVE_ACTIVE(84),
-	EMPLOYEE_EXECUTIVE_APPLICANT(85),
-	EMPLOYEE_EXECUTIVE_DECEASED(86),
-	EMPLOYEE_EXECUTIVE_EMERITUS(87),
-	EMPLOYEE_EXECUTIVE_INACTIVE(88),
-	EMPLOYEE_EXECUTIVE_PENDING(89),
-	EMPLOYEE_EXECUTIVE_RETIRED(90),
-	EMPLOYEE_EXECUTIVE_TEMPREHIRE(91),
-	EMPLOYEE_EXECUTIVE_TERMINATED(92),
 	EMPLOYEE_FACULTY_ACTIVE(94),
 	EMPLOYEE_FACULTY_APPLICANT(95),
 	EMPLOYEE_FACULTY_DECEASED(96),
@@ -114,21 +66,6 @@ public enum AffiliationsType {
 	EMPLOYEE_FACULTY_RETIRED(100),
 	EMPLOYEE_FACULTY_TEMPREHIRE(101),
 	EMPLOYEE_FACULTY_TERMINATED(102),
-	EMPLOYEE_GRADUATE_ASSISTANT_ACTIVE(104),
-	EMPLOYEE_GRADUATE_ASSISTANT_APPLICANT(105),
-	EMPLOYEE_GRADUATE_ASSISTANT_INACTIVE(106),
-	EMPLOYEE_GRADUATE_ASSISTANT_PENDING(107),
-	EMPLOYEE_GRADUATE_ASSISTANT_TERMINATED(108),
-	EMPLOYEE_PAID_INTERN_ACTIVE(110),
-	EMPLOYEE_PAID_INTERN_APPLICANT(111),
-	EMPLOYEE_PAID_INTERN_INACTIVE(112),
-	EMPLOYEE_PAID_INTERN_PENDING(113),
-	EMPLOYEE_PAID_INTERN_TERMINATED(114),
-	EMPLOYEE_POSTDOC_ACTIVE(116),
-	EMPLOYEE_POSTDOC_APPLICANT(117),
-	EMPLOYEE_POSTDOC_INACTIVE(118),
-	EMPLOYEE_POSTDOC_PENDING(119),
-	EMPLOYEE_POSTDOC_TERMINATED(120),
 	EMPLOYEE_STAFF_ACTIVE(122),
 	EMPLOYEE_STAFF_APPLICANT(123),
 	EMPLOYEE_STAFF_DECEASED(124),
@@ -146,79 +83,55 @@ public enum AffiliationsType {
 	EMPLOYEE_TECHNICAL_SERVICES_PENDING(137),
 	EMPLOYEE_TECHNICAL_SERVICES_RETIRED(138),
 	EMPLOYEE_TECHNICAL_SERVICES_TERMINATED(139),
-	EMPLOYEE_WAGE_ACTIVE(141),
-	EMPLOYEE_WAGE_APPLICANT(142),
-	EMPLOYEE_WAGE_DECEASED(143),
-	EMPLOYEE_WAGE_EMERITUS(144),
-	EMPLOYEE_WAGE_INACTIVE(145),
-	EMPLOYEE_WAGE_PENDING(146),
-	EMPLOYEE_WAGE_RETIRED(147),
-	EMPLOYEE_WAGE_TERMINATED(148),
-	AGRICULTURE_SERVICES_ACTIVE(150),
-	AGRICULTURE_SERVICES_INACTIVE(151),
-	BOARD_OF_TRUSTEES_ACTIVE(153),
-	BOARD_OF_TRUSTEES_INACTIVE(154),
-	COMMERCIAL_SERVICES_ACTIVE(156),
-	COMMERCIAL_SERVICES_INACTIVE(157),
-	CONTRACTOR_SERVICES_ACTIVE(159),
-	CONTRACTOR_SERVICES_INACTIVE(160),
-	DONOR_SERVICES_ACTIVE(162),
-	DONOR_SERVICES_INACTIVE(163),
-	EDUCATIONAL_SERVICES_ACTIVE(165),
-	EDUCATIONAL_SERVICES_INACTIVE(166),
-	FAMILY_SERVICES_ACTIVE(168),
-	FAMILY_SERVICES_INACTIVE(169),
-	GOVERNMENT_SERVICES_ACTIVE(171),
-	GOVERNMENT_SERVICES_INACTIVE(172),
-	MEDICAL_SERVICES_ACTIVE(174),
-	MEDICAL_SERVICES_INACTIVE(175),
 	UNIVERSITY_SERVICES_ACTIVE(177),
 	UNIVERSITY_SERVICES_INACTIVE(178),
-	VOLUNTEER_SERVICES_ACTIVE(180),
-	VOLUNTEER_SERVICES_INACTIVE(181),
-	MEMBER(188);
+	MEMBER(188),
+	STUDENT(226),
+	STAFF(227),
+	FACULTY(228),
+	RETIREE(229),
+	EMPLOYEE(230),
+	EMERITUS(231);
 
-   /**
-    * Contains the index
-    */
+/**
+ * Contains the index
+ */
 
-	private long index;
+    private long index;
 
-   /**
-    * @param index
-    */
+/**
+ * @param index
+ */
 
-	private AffiliationsType(long index) {
-		this.index = index;
-	}
-	
-
-   /**
-    * Return the value of the enum
-    * @return index
-    */
+  private AffiliationsType(long index) {
+        this.index = index;
+    }
 
 
-	public long index() {
-		return index;
-	}
-	
-   /**
-    *
-    */
-	private static final Map<Long, AffiliationsType> LOOKUP = new HashMap<Long,AffiliationsType>();
-	static {
-		for (AffiliationsType p : EnumSet.allOf(AffiliationsType.class)) {
-			LOOKUP.put(p.index(), p);
-		}
-	}
-	
-   /**
-    * @param index
-    * @return enum
-    */
+/**
+ * Return the value of the enum 
+ * @return index
+ */
 
-	public static AffiliationsType get(long index) {
-		return LOOKUP.get(index);
-	}
+  public long index() {
+      return index;
+    }
+/**
+ * 
+ */
+
+  private static final Map<Long, AffiliationsType> lookup = new HashMap<Long, AffiliationsType>();
+  static{
+      for (AffiliationsType p : EnumSet.allOf(AffiliationsType.class)) {
+          lookup.put(p.index(),p);
+      }
+  }
+/**
+ * @param index
+ * @return enum
+ */
+
+  public static AffiliationsType get(long index) {
+      return lookup.get(index);
+  }
 }

@@ -21,6 +21,7 @@
 		<mapping class="edu.psu.iam.cpr.core.database.beans.AllowedNumPart" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.AnswerGroup" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.ApplicationProperties" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.AppointmentCs" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.BadPrefixes" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.CampusCs" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.ChangeNotificationTypes" />
@@ -132,6 +133,7 @@
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UseridPool" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UspsStateTypes" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.UspsStates" />
+		<mapping class="edu.psu.iam.cpr.core.database.beans.VConsumerNotificationDest" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.VSpNotification" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.VisaCs" />
 		<mapping class="edu.psu.iam.cpr.core.database.beans.WebService" />

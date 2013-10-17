@@ -1,49 +1,17 @@
 active_flag|affiliation|affiliation_desc|affiliation_key|parent_affiliation_key|can_assign_flag|enum_string
-Y|Wage|Employee Wage|140|52|N|EMPLOYEE_WAGE
-Y|Active|Employee Wage Active|141|140|N|EMPLOYEE_WAGE_ACTIVE
-Y|Applicant|Employee Wage Applicant|142|140|N|EMPLOYEE_WAGE_APPLICANT
-Y|Deceased|Employee Wage Deceased|143|140|N|EMPLOYEE_WAGE_DECEASED
-Y|Emeritus|Employee Wage Emeritus|144|140|N|EMPLOYEE_WAGE_EMERITUS
-Y|Inactive|Employee Wage Inactive|145|140|N|EMPLOYEE_WAGE_INACTIVE
-Y|Pending|Employee Wage Pending|146|140|N|EMPLOYEE_WAGE_PENDING
-Y|Retired|Employee Wage Retired|147|140|N|EMPLOYEE_WAGE_RETIRED
-Y|Terminated|Employee Wage Terminated|148|140|N|EMPLOYEE_WAGE_TERMINATED
-Y|Agriculture_Services|Agriculture Services|149|0|N|AGRICULTURE_SERVICES
-Y|Active|Agriculture Services Active|150|149|N|AGRICULTURE_SERVICES_ACTIVE
-Y|Inactive|Agriculture Services Inactive|151|149|N|AGRICULTURE_SERVICES_INACTIVE
-Y|Board_Of_Trustees|Board Of Trustees|152|0|N|BOARD_OF_TRUSTEES
-Y|Active|Board Of Trustees Active|153|152|N|BOARD_OF_TRUSTEES_ACTIVE
-Y|Inactive|Board Of Trustees Inactive|154|152|N|BOARD_OF_TRUSTEES_INACTIVE
-Y|Commercial_Services|Commercial Services|155|0|N|COMMERCIAL_SERVICES
-Y|Active|Commercial Services Active|156|155|N|COMMERCIAL_SERVICES_ACTIVE
-Y|Inactive|Commercial Services Inactive|157|155|N|COMMERCIAL_SERVICES_INACTIVE
-Y|Contractor_Services|Contractor Services|158|0|N|CONTRACTOR_SERVICES
-Y|Active|Contractor Services Active|159|158|N|CONTRACTOR_SERVICES_ACTIVE
-Y|Inactive|Contractor Services Inactive|160|158|N|CONTRACTOR_SERVICES_INACTIVE
-Y|Donor_Services|Donor Services|161|0|N|DONOR_SERVICES
-Y|Active|Donor Services Active|162|161|N|DONOR_SERVICES_ACTIVE
-Y|Inactive|Donor Services Inactive|163|161|N|DONOR_SERVICES_INACTIVE
-Y|Educational_Services|Educational Services|164|0|N|EDUCATIONAL_SERVICES
-Y|Active|Educational Services Active|165|164|N|EDUCATIONAL_SERVICES_ACTIVE
-Y|Inactive|Educational Services Inactive|166|164|N|EDUCATIONAL_SERVICES_INACTIVE
-Y|Family_Services|Family Services|167|0|N|FAMILY_SERVICES
-Y|Active|Family Services Active|168|167|N|FAMILY_SERVICES_ACTIVE
-Y|Inactive|Family Services Inactive|169|167|N|FAMILY_SERVICES_INACTIVE
-Y|Government_Services|Government Services|170|0|N|GOVERNMENT_SERVICES
-Y|Active|Government Services Active|171|170|N|GOVERNMENT_SERVICES_ACTIVE
-Y|Inactive|Government Services Inactive|172|170|N|GOVERNMENT_SERVICES_INACTIVE
-Y|Medical_Services|Medical Services|173|0|N|MEDICAL_SERVICES
-Y|Active|Medical Services Active|174|173|N|MEDICAL_SERVICES_ACTIVE
-Y|Inactive|Medical Services Inactive|175|173|N|MEDICAL_SERVICES_INACTIVE
-Y|University_Services|University Services|176|0|N|UNIVERSITY_SERVICES
-Y|Active|University Services Active|177|176|Y|UNIVERSITY_SERVICES_ACTIVE
 Y|Inactive|University Services Inactive|178|176|Y|UNIVERSITY_SERVICES_INACTIVE
-Y|Volunteer_Services|Volunteer Services|179|0|N|VOLUNTEER_SERVICES
+Y|Volunteer_Services|Volunteer Services|179||N|VOLUNTEER_SERVICES
 Y|Active|Volunteer Services Active|180|179|N|VOLUNTEER_SERVICES_ACTIVE
 Y|Inactive|Volunteer Services Inactive|181|179|N|VOLUNTEER_SERVICES_INACTIVE
-Y|Special|Special|186|0|N|SPECIAL
-Y|Member|Member|188|186|Y|MEMBER
-Y|Student|Student|1|0|N|STUDENT
+Y|Special|Special|186||N|SPECIAL
+Y|Member|Member|188||Y|MEMBER
+Y|Student|Student|226||Y|STUDENT
+Y|Staff|Staff|227||Y|STAFF
+Y|Faculty|Faculty|228||Y|FACULTY
+Y|Retiree|Retiree|229||Y|RETIREE
+Y|Employee|Employee|230||Y|EMPLOYEE
+Y|Emeritus|Emeritus|231||Y|EMERITUS
+Y|PSU Student|PSU Student|1||N|PSU_STUDENT
 Y|Undergraduate|Student Undergraduate|2|1|N|STUDENT_UNDERGRADUATE
 Y|Prospect|Student Undergraduate Prospect|3|2|Y|STUDENT_UNDERGRADUATE_PROSPECT
 Y|Applicant|Student Undergraduate Applicant|4|2|Y|STUDENT_UNDERGRADUATE_APPLICANT
@@ -52,13 +20,6 @@ Y|Former|Student Undergraduate Former|6|2|Y|STUDENT_UNDERGRADUATE_FORMER
 Y|Graduate|Student Graduate|7|1|N|STUDENT_GRADUATE
 Y|Prospect|Student Graduate Prospect|8|7|Y|STUDENT_GRADUATE_PROSPECT
 Y|Applicant|Student Graduate Applicant|9|7|Y|STUDENT_GRADUATE_APPLICANT
-Y|Terminated|Employee Academic Terminated|62|53|N|EMPLOYEE_ACADEMIC_TERMINATED
-Y|Academic_Administrator|Employee Academic Administrator|63|52|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR
-Y|Active|Employee Academic Administrator Active|64|63|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE
-Y|Applicant|Employee Academic Administrator Applicant|65|63|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT
-Y|Deceased|Employee Academic Administrator Deceased|66|63|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR_DECEASED
-Y|Emeritus|Employee Academic Administrator Emeritus|67|63|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR_EMERITUS
-Y|Inactive|Employee Academic Administrator Inactive|68|63|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR_INACTIVE
 Y|Current|Student Graduate Current|10|7|Y|STUDENT_GRADUATE_CURRENT
 Y|Former|Student Graduate Former|11|7|Y|STUDENT_GRADUATE_FORMER
 Y|Medical|Student Medical|12|1|N|STUDENT_MEDICAL
@@ -101,7 +62,7 @@ Y|Prospect|Student Graduate Provisional Prospect|48|47|Y|STUDENT_GRADUATE_PROVIS
 Y|Applicant|Student Graduate Provisional Applicant|49|47|Y|STUDENT_GRADUATE_PROVISIONAL_APPLICANT
 Y|Current|Student Graduate Provisional Current|50|47|Y|STUDENT_GRADUATE_PROVISIONAL_CURRENT
 Y|Former|Student Graduate Provisional Former|51|47|Y|STUDENT_GRADUATE_PROVISIONAL_FORMER
-Y|Employee|Employee|52|0|N|EMPLOYEE
+Y|PSU Employee|Employee|52||N|PSU_EMPLOYEE
 Y|Academic|Employee Academic|53|52|N|EMPLOYEE_ACADEMIC
 Y|Active|Employee Academic Active|54|53|N|EMPLOYEE_ACADEMIC_ACTIVE
 Y|Applicant|Employee Academic Applicant|55|53|N|EMPLOYEE_ACADEMIC_APPLICANT
@@ -111,6 +72,13 @@ Y|Inactive|Employee Academic Inactive|58|53|N|EMPLOYEE_ACADEMIC_INACTIVE
 Y|Pending|Employee Academic Pending|59|53|N|EMPLOYEE_ACADEMIC_PENDING
 Y|Retired|Employee Academic Retired|60|53|N|EMPLOYEE_ACADEMIC_RETIRED
 Y|TempRehire|Employee Academic Temprehire|61|53|N|EMPLOYEE_ACADEMIC_TEMPREHIRE
+Y|Terminated|Employee Academic Terminated|62|53|N|EMPLOYEE_ACADEMIC_TERMINATED
+Y|Academic_Administrator|Employee Academic Administrator|63|52|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR
+Y|Active|Employee Academic Administrator Active|64|63|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE
+Y|Applicant|Employee Academic Administrator Applicant|65|63|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT
+Y|Deceased|Employee Academic Administrator Deceased|66|63|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR_DECEASED
+Y|Emeritus|Employee Academic Administrator Emeritus|67|63|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR_EMERITUS
+Y|Inactive|Employee Academic Administrator Inactive|68|63|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR_INACTIVE
 Y|Pending|Employee Academic Administrator Pending|69|63|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR_PENDING
 Y|Retired|Employee Academic Administrator Retired|70|63|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED
 Y|TempRehire|Employee Academic Administrator Temprehire|71|63|N|EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRE
@@ -182,3 +150,41 @@ Y|Inactive|Employee Technical Services Inactive|136|131|Y|EMPLOYEE_TECHNICAL_SER
 Y|Pending|Employee Technical Services Pending|137|131|Y|EMPLOYEE_TECHNICAL_SERVICES_PENDING
 Y|Retired|Employee Technical Services Retired|138|131|Y|EMPLOYEE_TECHNICAL_SERVICES_RETIRED
 Y|Terminated|Employee Technical Services Terminated|139|131|Y|EMPLOYEE_TECHNICAL_SERVICES_TERMINATED
+Y|Wage|Employee Wage|140|52|N|EMPLOYEE_WAGE
+Y|Active|Employee Wage Active|141|140|N|EMPLOYEE_WAGE_ACTIVE
+Y|Applicant|Employee Wage Applicant|142|140|N|EMPLOYEE_WAGE_APPLICANT
+Y|Deceased|Employee Wage Deceased|143|140|N|EMPLOYEE_WAGE_DECEASED
+Y|Emeritus|Employee Wage Emeritus|144|140|N|EMPLOYEE_WAGE_EMERITUS
+Y|Inactive|Employee Wage Inactive|145|140|N|EMPLOYEE_WAGE_INACTIVE
+Y|Pending|Employee Wage Pending|146|140|N|EMPLOYEE_WAGE_PENDING
+Y|Retired|Employee Wage Retired|147|140|N|EMPLOYEE_WAGE_RETIRED
+Y|Terminated|Employee Wage Terminated|148|140|N|EMPLOYEE_WAGE_TERMINATED
+Y|Agriculture_Services|Agriculture Services|149||N|AGRICULTURE_SERVICES
+Y|Active|Agriculture Services Active|150|149|N|AGRICULTURE_SERVICES_ACTIVE
+Y|Inactive|Agriculture Services Inactive|151|149|N|AGRICULTURE_SERVICES_INACTIVE
+Y|Board_Of_Trustees|Board Of Trustees|152||N|BOARD_OF_TRUSTEES
+Y|Active|Board Of Trustees Active|153|152|N|BOARD_OF_TRUSTEES_ACTIVE
+Y|Inactive|Board Of Trustees Inactive|154|152|N|BOARD_OF_TRUSTEES_INACTIVE
+Y|Commercial_Services|Commercial Services|155||N|COMMERCIAL_SERVICES
+Y|Active|Commercial Services Active|156|155|N|COMMERCIAL_SERVICES_ACTIVE
+Y|Inactive|Commercial Services Inactive|157|155|N|COMMERCIAL_SERVICES_INACTIVE
+Y|Contractor_Services|Contractor Services|158||N|CONTRACTOR_SERVICES
+Y|Active|Contractor Services Active|159|158|N|CONTRACTOR_SERVICES_ACTIVE
+Y|Inactive|Contractor Services Inactive|160|158|N|CONTRACTOR_SERVICES_INACTIVE
+Y|Donor_Services|Donor Services|161||N|DONOR_SERVICES
+Y|Active|Donor Services Active|162|161|N|DONOR_SERVICES_ACTIVE
+Y|Inactive|Donor Services Inactive|163|161|N|DONOR_SERVICES_INACTIVE
+Y|Educational_Services|Educational Services|164||N|EDUCATIONAL_SERVICES
+Y|Active|Educational Services Active|165|164|N|EDUCATIONAL_SERVICES_ACTIVE
+Y|Inactive|Educational Services Inactive|166|164|N|EDUCATIONAL_SERVICES_INACTIVE
+Y|Family_Services|Family Services|167||N|FAMILY_SERVICES
+Y|Active|Family Services Active|168|167|N|FAMILY_SERVICES_ACTIVE
+Y|Inactive|Family Services Inactive|169|167|N|FAMILY_SERVICES_INACTIVE
+Y|Government_Services|Government Services|170||N|GOVERNMENT_SERVICES
+Y|Active|Government Services Active|171|170|N|GOVERNMENT_SERVICES_ACTIVE
+Y|Inactive|Government Services Inactive|172|170|N|GOVERNMENT_SERVICES_INACTIVE
+Y|Medical_Services|Medical Services|173||N|MEDICAL_SERVICES
+Y|Active|Medical Services Active|174|173|N|MEDICAL_SERVICES_ACTIVE
+Y|Inactive|Medical Services Inactive|175|173|N|MEDICAL_SERVICES_INACTIVE
+Y|University_Services|University Services|176||N|UNIVERSITY_SERVICES
+Y|Active|University Services Active|177|176|Y|UNIVERSITY_SERVICES_ACTIVE

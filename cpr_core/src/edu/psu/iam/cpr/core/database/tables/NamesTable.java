@@ -20,6 +20,7 @@ import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.NameReturn;
 import edu.psu.iam.cpr.core.util.CprProperties;
+import edu.psu.iam.cpr.core.util.DataQualityService;
 import edu.psu.iam.cpr.core.util.Utility;
 
 /**
@@ -102,40 +103,43 @@ public class NamesTable {
 	 * @param updatedBy contains the updatedBy system identifier.
 	 * @throws CprException will be thrown if there are any problems.
 	 */
-	public NamesTable(long personId, String nameType, String documentType, String firstName, String middleNames, 
+	public NamesTable(long personId, String nameType, String documentType, String firstName, String middleNames,
 			String lastName, String suffix, String nickname, String updatedBy) throws CprException {
-		
+
 		final Names bean = new Names();
 		final Date d = new Date();
-		
+
 		setNameType(findNameTypeEnum(nameType));
 		if (documentType != null && documentType.trim().length() > 0) {
 			setDocumentType(findDocumentTypeEnum(documentType));
 		}
-		
+
 		setNamesBean(bean);
-		
+
 		bean.setPersonId(personId);
-		
+
 		bean.setDataTypeKey(getNameType().index());
 		bean.setDocumentTypeKey((documentType != null && documentType.trim().length() > 0) ? getDocumentType().index() : null);
-		
+
 		bean.setFirstName(firstName);
 		bean.setLastName(lastName);
 		bean.setMiddleNames(middleNames);
 		bean.setSuffix(suffix);
 		bean.setNickname(nickname);
-		
+
 		bean.setNameMatchCode(null);
-		
+
 		bean.setStartDate(d);
 		bean.setEndDate(null);
 
 		bean.setCreatedBy(updatedBy);
 		bean.setCreatedOn(d);
-		
+
 		bean.setLastUpdateBy(updatedBy);
-		bean.setLastUpdateOn(d);	
+		bean.setLastUpdateOn(d);
+
+		bean.setImportFrom(null);
+		bean.setImportDate(null);
 	}
 	
 	/**
@@ -439,10 +443,10 @@ public class NamesTable {
 			Names dbBean = (Names) it.next();
 
 			// Check to ensure that the fields are not already there.
-			if (db.areStringFieldsEqual(dbBean.getFirstName(), bean.getFirstName()) &&
-					db.areStringFieldsEqual(dbBean.getMiddleNames(), bean.getMiddleNames()) &&
-					db.areStringFieldsEqual(dbBean.getLastName(), bean.getLastName()) &&
-					db.areStringFieldsEqual(dbBean.getSuffix(), bean.getSuffix())) {
+			if (Utility.areStringFieldsEqual(dbBean.getFirstName(), bean.getFirstName()) &&
+					Utility.areStringFieldsEqual(dbBean.getMiddleNames(), bean.getMiddleNames()) &&
+					Utility.areStringFieldsEqual(dbBean.getLastName(), bean.getLastName()) &&
+					Utility.areStringFieldsEqual(dbBean.getSuffix(), bean.getSuffix())) {
 				matchFound = true;
 			}
 
@@ -488,5 +492,12 @@ public class NamesTable {
 	 */
 	public void getNameMatchCode(Names bean) {
 	}
-
+ 
+    /**
+     * This method is used to obtain match codes using an existing opened data quality service.
+     * @param dqService contains the data quality service reference.
+     * @param bean contains the names bean.
+     */
+    public void getMatchCodeUsingOpenSession(DataQualityService dqService, Names bean) {
+    }
 }
