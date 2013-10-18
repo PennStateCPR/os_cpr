@@ -192,7 +192,7 @@ public class EmailAddressTable {
 		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
 			EmailAddress dbBean = (EmailAddress) it.next();
-			if ( db.areStringFieldsEqual(dbBean.getEmailAddress(), bean.getEmailAddress())) {
+			if ( Utility.areStringFieldsEqual(dbBean.getEmailAddress(), bean.getEmailAddress())) {
 				matchFound = true;
 			}
 			else {
@@ -235,7 +235,7 @@ public class EmailAddressTable {
 		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
 			EmailAddress dbBean = (EmailAddress) it.next();
-			if ( db.areStringFieldsEqual(dbBean.getEmailAddress(), bean.getEmailAddress())) {
+			if ( Utility.areStringFieldsEqual(dbBean.getEmailAddress(), bean.getEmailAddress())) {
 				matchFound = true;
 			}
 			else {

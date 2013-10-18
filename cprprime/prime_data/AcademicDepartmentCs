@@ -1,0 +1,357 @@
+department_code|department_name|active_flag
+BLADM|Berks-Lehigh Administration|Y
+LAGEN|Liberal Arts General Education Program|Y
+BMS|Biomedical Sciences|Y
+I E|Industrial Engineering|Y
+ANSTH|Anesthesiology|Y
+TSP|Talent Search Program|Y
+PH|Public Health|Y
+MED|Medicine|Y
+E P S|Education Policy Studies|Y
+RGSTR|A Dept-Like Unit Within The Pseudo-College of Xx. This College and Dept Established To Provide Sor|Y
+BIOST|Biostatistics|Y
+CEADM|Administrative Purposes Only|Y
+FCMED|Family and Community Medicine|Y
+NS&EN|Natural Science and Engineering|Y
+LAW|Law|Y
+LAADM|Liberal Arts Administration|Y
+CHEM|Chemistry|Y
+CLASS|Classics|Y
+IST|Information Sciences and Technology|Y
+BEHSC|Behaviorial Science|Y
+NBS|Neural and Behavioral Sciences|Y
+CCBEC|Business and Economics|Y
+CCIST|Information Sciences and Technology|Y
+BUSOF|Business Office-Schuylkill|Y
+L I R|Labor and Industrial Relations|Y
+I DIS|Interdisciplinary Graduate Programs|Y
+ECEEM|Energy, Environmental and Mineral Econ|Y
+CCA&H|Arts and Humanities|Y
+ACCTG|Accounting|Y
+CSE|Computer Science and Engineering|Y
+PROV|Provisional Student|Y
+CSD|Communication Sciences and Disorders|Y
+BCCOM|Behrend College|Y
+PUB A|Public Administration|Y
+CAS|Communication Arts and Sciences|Y
+WMNLA|Womens Studies|Y
+MSIS|Management Science and Information Systems|Y
+I R E|Insurance and Real Estate|Y
+PSY|Psychology|Y
+C E|Civil Engineering|Y
+WESP|Workplace Environment and Safety Program|Y
+HES|Health Evaluation Sciences|Y
+BB H|Biobehavioral Health|Y
+OTC|Office of Telecommunications|Y
+C I|Curriculum and Instruction|Y
+AG E|Agricultural Engineering|Y
+AMIS|Accounting and Management Information  Systems|Y
+CCMTH|Mathematics|Y
+AE RS|Agricultural Economics and Rural Sociology|Y
+HD FS|Human Development and Family Studies|Y
+M & O|Management and Organization|Y
+CRIMJ|Criminal Justice|Y
+GRSCH|Graduate School|Y
+SPITP|Spanish, Italian, Portuguese Department|Y
+RESID|Residence Life|Y
+CMDIS|Communication Disorders|Y
+INTNL|International Students Office|Y
+AAADM|Arts and Architecture Administration|Y
+NDEGL|Non-Degree Law|Y
+MN EC|Mineral Economics|Y
+THSIS|Thesis Office|Y
+L P S|Learning and Performance Systems|Y
+VB SC|Veterinary and Biomedical Sciences|Y
+VET|Veterans Programs|Y
+HL ED|Health Education|Y
+BL ST|Black Studies|Y
+SLAV|Slavic and Eastern European Languages|Y
+HR&RM|School of Hotel, Restaurant and Recreational Management|Y
+HIST|History|Y
+VARTS|Visual Arts|Y
+MRC|Multicultural Resource Center|Y
+NURSG|Nursing|Y
+CCEGL|English|Y
+AGBE|Agricultural and Biological Engineering|Y
+BL SC|Science|Y
+SECED|Secondary Education|Y
+AGADM|Agriculture Administration|Y
+ORGBH|Organizational Behavior|Y
+CACOM|Capital College|Y
+IATHL|Intercollege Athletics|Y
+CH E|Chemical Engineering|Y
+COMM|Communications|Y
+COMP|Computer Science|Y
+ECE|Electrical and Computer Engineering|Y
+WISE|Women in Science and Engr Institute|Y
+PED|Pediatrics|Y
+ALUM|Alumni Association|Y
+COMMS|Communications|Y
+CCHHD|Health and Human Development|Y
+C I C|Committee on Institutional Cooperation|Y
+EMADM|Earth and Mineral Sciences Administration|Y
+CMREL|Campus Relations|Y
+CSP D|Community Systems Planning and Development|Y
+SOC|Sociology|Y
+MAN|Humanities Department-Hy|Y
+CCADM|Commonwealth College Administration|Y
+C R E|Counseling and Rehabilitation Education|Y
+ADULT|Adult Learner Services|Y
+SETCE|School of Engineering Technology and Commonwealth Engineering|Y
+MGTGV|Management Department - Kp|Y
+R PL|Regional Planning|Y
+M C B|Molecular and Cell Biology|Y
+ACST|Acoustics|Y
+ALMNS|Mathematics and Natural Sciences|Y
+EDUC|Education Administration|Y
+AAA S|African and African American Studies|Y
+ORTHO|Orthopaedics and Rehabilitation|Y
+ALADM|Altoona Administration|Y
+LINLA|Linguistics|Y
+EDPOL|Education Policy Studies|Y
+LER|Labor and Employment Relations|Y
+AGESE|Agricultural Economics, Sociology and Education|Y
+CLCOM|Pre-Major-Cl|Y
+STAT|Statistics|Y
+ENADM|Engineering Administration|Y
+PLBIO|Plant Biology|Y
+RESS|Renewable Energy and Sustainability Systems|Y
+C D B|Cell and Developmental Biology|Y
+SURG|Surgery|Y
+NAVY|Naval Science|Y
+LAIDS|Liberal Arts Interdisciplinary Programs|Y
+ENT|Entomology|Y
+LE ST|Leisure Studies|Y
+H&SS|Humanities and Social Sciences|Y
+EMED|Emergency Medicine|Y
+STAFF|Student Affairs|Y
+SE&CD|Special Education & Communication|Y
+BCHEM|Biochemistry and Molecular Biology|Y
+OBGYN|Obstetrics/gynecology|Y
+BL EB|Engineering, Business, and Human Development|Y
+AACOZ|Academic Advising - Oz|Y
+S T S|Science, Technology and Society|Y
+G ART|General Arts|Y
+BSB|Business|Y
+UHS|University Health Services|Y
+LALS|Linguistics and Applied Language Studies|Y
+NRLGY|Neurology|Y
+BDADM|Behrend Administration|Y
+RAD|Radiology|Y
+GER|German|Y
+BAADM|Business Administration|Y
+ASTRO|Astronomy and Astrophysics|Y
+ANAT|Anatomy|Y
+ECON|Economics|Y
+PLTSC|Plant Science|Y
+C MED|Comparative Medicine|Y
+CMBIO|Cell and Molecular Biology|Y
+JOURN|Journalism|Y
+ACS|Acoustics|Y
+NUC E|Nuclear Engineering|Y
+BLCOM|Berks College|Y
+I COL|Intercollege Undergraduate Programs|Y
+O R|Operations Research|Y
+CMPSC|Computer Science|Y
+PSCHT|Psychiatry|Y
+IBIOS|Integrative Biosciences|Y
+BSCED|Behavioral Science and Education|Y
+BIOE|Bioengineering|Y
+THFLM|Theatre and Film|Y
+B PH|Bachelor of Philosophy Program|Y
+ADA|Ada Audit|Y
+AGENG|Agricultural and Biological Engineering|Y
+SAO|Student Activities Office|Y
+MGTSC|Management Science|Y
+ALCOM|Altoona College|Y
+FR|French|Y
+INTAF|International Affairs|Y
+E R M|Environmental Resource Management|Y
+L ST|Library Studies|Y
+ANTH|Anthropology|Y
+RPTM|Recreation, Park and Tourism Management|Y
+AGRO|Agronomy|Y
+A E|Architectural Engineering|Y
+MDADM|College of Medicine Administration|Y
+LIB|Library|Y
+EME|Energy and Mineral Engineering|Y
+SCADM|Science|Y
+BDCOM|Pre-Major|Y
+CRPSS|Crop and Soil Sciences|Y
+GEOSC|Geosciences|Y
+PANAL|Policy Analysis|Y
+R P M|Recreation and Park Management|Y
+MUSIC|Music|Y
+S&BHS|Social and Behavioral Sciences|Y
+NONE|Non-Degree Graduate|Y
+KINES|Kinesiology|Y
+ALENT|Altoona Entrepreneur Minor Office|Y
+ASIA|Asian Studies|Y
+BIOEN|Bioengineering|Y
+NSURG|Neurosurgery|Y
+BIOET|Bioethics|Y
+PHS|Public Health Sciences|Y
+BIOL|Biology|Y
+CEE|Civil and Environmental Engineering|Y
+NUTR|Nutritional Sciences|Y
+APFCE|Administration, Policy, Foundations, and Comparative/international Education|Y
+METEO|Meteorology|Y
+VOCED|Vocational Education|Y
+OPHTH|Ophthalmology|Y
+MS&IS|Management Science and Information Systems|Y
+NEURO|Neuroscience|Y
+VI ED|Vocational Industrial Education|Y
+CN&EP|Counseling and Educational Psychology|Y
+ESSMG|Ecosystem Science and Management|Y
+H EC|Home Economics|Y
+N DEG|Non-Degree Undergraduate|Y
+NEURS|Neuroscience|Y
+HYOGS|Hershey Office of Graduate Studies|Y
+AN SC|Animal Science|Y
+CLADM|Capital Administration|Y
+HLS|Homeland Security|Y
+ADMJ|Administration of Justice|Y
+H RES|Human Resources|Y
+GEOG|Geography|Y
+CCSSE|Social Science and Education|Y
+V SC|Veterinary Science|Y
+HDADM|Human Development Administration|Y
+I&ME|Industrial and Manufacturing Engineering|Y
+PHSIO|Physiology|Y
+MASSC|Mass Communications|Y
+AE IS|Adult Education and Instructional Systems|Y
+BIOCH|Biochemistry|Y
+CAMS|Classics and Ancient Mediterranean Studies|Y
+INART|Integrative Arts|Y
+BUS A|Business Administration|Y
+ALEHS|Education, Human Development and Socialsciences|Y
+CAMP|College Assistance Migrant Program|Y
+PL SC|Political Science|Y
+THEA|Theatre|Y
+HMN|Humanities-Hy|Y
+COM S|Community Studies|Y
+IN SC|Information Science|Y
+BIO E|Bioengineering|Y
+Q M M|Quality and Manufacturing Management|Y
+PLPHY|Plant Physiology|Y
+CJED|Criminal Justice Education and Research|Y
+ARCH|Architecture|Y
+HORT|Horticulture|Y
+ADM|Department For Admissions|Y
+PHARM|Pharmacology|Y
+NURS|Nursing|Y
+HNUTR|Human Nutrition|Y
+S S S|Solid State Science|Y
+ABADM|Abington Administration|Y
+SSSP|Student Support Services Program|Y
+PPATH|Plant Pathology|Y
+HR&IM|Hotel, Restaurant, and Institutional Management|Y
+ENGL|English|Y
+EXSCI|Exercise and Sport Science|Y
+BADMN|Business Administration|Y
+D U S|Division of Undergraduate Studies|Y
+PSIO|Physiology|Y
+ENGGV|Engineering Department|Y
+SPEC|Special Graduate Program|Y
+WMNST|Women's Studies|Y
+PMR|Physical Medicine and Rehabilitation|Y
+PHIL|Philosophy|Y
+AA ST|African American Studies|Y
+ART H|Art History|Y
+HOUS|Housing & Food Service-Bk|Y
+PPEM|Plant Pathology and Environmental Microbiology|Y
+ADM J|Administration of Justice|Y
+CCSCI|Science|Y
+CDPC|Career Development and Placement Center|Y
+NUTRN|Nutrition|Y
+SCHLR|A Dept-Like Unit Within The Pseudo-College of Xx. This College & Dept Established To Pro-Vide Sort C|Y
+SPCOM|Speech Communication|Y
+FD SC|Food Science|Y
+ENNEC|Energy, Environmental, and Mineral Economics|Y
+AGEXT|Agriculture and Extension Education|Y
+MKTG|Marketing|Y
+CECPR|Counselor Education, Counseling|Y
+A&HUM|Arts and Humanities|Y
+CCENG|Engineering|Y
+PHYS|Physics|Y
+MIN E|Mineral Engineering|Y
+DYP|Developmental Year Program|Y
+M DEV|Management Development|Y
+R M|Risk Management|Y
+CONFC|Conference Center|Y
+PH ED|Physical Education|Y
+I&ID|Immunology and Infectious Diseases|Y
+H MGT|School of Hospitality Management|Y
+EPCSE|Educational Psychology, Counseling, and Special Education|Y
+B LOG|Business Logistics|Y
+H P A|Health Policy and Administration|Y
+I F S|Individual and Family Studies|Y
+SEDTP|School of Engineering Design, Technology and Professional Programs|Y
+SC&IS|Supply Chain and Information Systems|Y
+AIS|Administrative Information Services|Y
+RC PK|Recreation and Parks|Y
+AIR|Air Force|Y
+EGEE|Energy and Geo-Environmental Engineering|Y
+M R I|Materials Research Institute|Y
+MICRB|Microbiology|Y
+AIVED|Adult Education, Instructional Systems,and Vocational and Industrial Education|Y
+SCNCE|Science|Y
+O&VOC|Occupational & Vocational Studies|Y
+DERMA|Dermatology|Y
+MATL|Materials|Y
+BSCH|School of Business-Bd|Y
+PTYSC|Poultry Science|Y
+ECLGY|Ecology|Y
+FIN|Finance|Y
+MATH|Mathematics|Y
+D&ASC|Dairy and Animal Science|Y
+AIWED|Adult Education, Instructional Systems, and Workforce Education and Development|Y
+HDNRE|Human Dimensions of Natural Resources and The Environment|Y
+ALB&E|Business and Engineering|Y
+CCCOM|University College|Y
+MICRO|Microbiology and Immunology|Y
+SE&T|Science, Engineering and Technology|Y
+AERSP|Aerospace Engineering|Y
+SEET|Engineering|Y
+APLNG|Applied Linguistics|Y
+PATH|Pathology|Y
+VISJD|Visitor Jd|Y
+EDADM|Educational Administration|Y
+FOR R|Forest Resources|Y
+LEAP|Learning Edge Academic Program|Y
+M M|Molecular Medicine|Y
+C&DE|Continuing & Distance Education|Y
+BL LA|Liberal Arts|Y
+C LIT|Comparative Literature|Y
+PUBAF|Public Affairs|Y
+B M B|Biochemistry and Molecular Biology|Y
+M E|Mechanical Engineering|Y
+UFO|University Fellowship Office|Y
+MSC&E|Materials Science and Engineering|Y
+C M P|Cellular and Molecular Physiology|Y
+RELLA|Religious Studies|Y
+I MBA|Business Administration|Y
+MATSC|Materials Science and Engineering|Y
+E G|Engineering Graphics|Y
+E P C|Environmental Pollution Control|Y
+E E|Electrical Engineering|Y
+M T|Molecular Toxicology|Y
+ESPSE|Educational and School Psychology and  Special Education|Y
+G C I|Gittlen Cancer Institute|Y
+LAUGS|Liberal Arts Undergraduate Studies|Y
+HHADM|Health and Human Development Administration|Y
+HUM|Humanities|Y
+GN AS|General Arts and Sciences|Y
+ABCOM|Abington College|Y
+DEMOG|Demography|Y
+ESC&M|Engineering Science and Mechanics|Y
+UED|Undergraduate Education|Y
+LARCH|Landscape Architecture|Y
+MGTKP|Management Department-Kp|Y
+SCE&T|Science, Engineering and Technology|Y
+CMLIT|Comparative Literature|Y
+GENET|Genetics|Y
+ALA&H|Arts and Humanities|Y
+IMSE|Industrial and Management Systems Engineering|Y
+HPADM|Health, Physical Education & Recreation Administration|Y
+ARMY|Army|Y

@@ -1,0 +1,1200 @@
+major_code|major_name|active_flag
+AMIS|Accounting and Management Information  Systems|Y
+ME BL|Mechanical Engineering|Y
+LASAB|Letters, Arts, and Sciences|Y
+IT|Italian|Y
+BCHSS|Behrend College|Y
+R EST|Real Estate|Y
+WL ED|World Languages Education|Y
+INLST|International Studies|Y
+ME BD|Mechanical Engineering|Y
+2 R P|Recreation and Parks|Y
+GRSCH|Graduate School|Y
+CD FR|Child Development and Family Relations|Y
+SPITP|Spanish, Italian, Portuguese Department|Y
+RESID|Residence Life|Y
+CERSC|Ceramic Science|Y
+RESIB|Real Estate and International Business|Y
+CERSE|Ceramic Science and Engineering|Y
+THSIS|Thesis Office|Y
+ALBUS|Altoona College|Y
+BL ST|Black Studies|Y
+FRNST|French Studies and Business Administration|Y
+SLAV|Slavic and Eastern European Languages|Y
+HR&RM|School of Hotel, Restaurant and Recreational Management|Y
+2 DUS|Division of Undergraduate Studies|Y
+SCIBL|Science|Y
+2EIFS|Individual/family Studies/services|Y
+VARTS|Visual Arts|Y
+IBE|Interdisciplinary Business With Engineering Studies|Y
+SCICA|Science|Y
+BL SC|Science|Y
+LAWSC|Law and Society|Y
+ENVET|Environmental Engineering Technology|Y
+CACOM|Capital College|Y
+CH E|Chemical Engineering|Y
+ELEDM|Elementary Education in Multicultural Settings|Y
+ECE|Electrical and Computer Engineering|Y
+PH SC|Physical Science|Y
+WISE|Women in Science and Engr Institute|Y
+CCHHD|Health and Human Development|Y
+SCICC|Science|Y
+PHYBD|Physics|Y
+J ST|Jewish Studies|Y
+CCADM|Commonwealth College Administration|Y
+MAN|Humanities Department-Hy|Y
+H H D|Health and Human Development|Y
+BLEDU|Berks College|Y
+MGTGV|Management Department - Kp|Y
+LASCA|Letters, Arts, and Sciences|Y
+LASCC|Letters, Arts, and Sciences|Y
+FRNSC|Forensic Science|Y
+AMSTD|American Studies|Y
+PYACC|Psychology|Y
+GERBA|German|Y
+A ED|Art Education|Y
+EBF|Energy, Business and Finance|Y
+LINLA|Linguistics|Y
+P V|Pre Veterinary|Y
+PUB S|Public Service|Y
+M I S|Management Information Systems|Y
+P T|Production Technology|Y
+R SOC|Rural Sociology|Y
+CLCOM|Pre-Major-Cl|Y
+PLBIO|Plant Biology|Y
+ENVBS|Environmental Studies|Y
+CE CA|Civil Engineering|Y
+C D B|Cell and Developmental Biology|Y
+LE ST|Leisure Studies|Y
+MUSMA|Music|Y
+2 SEC|Secretarial|Y
+TX SC|Textile Sciences|Y
+LA SC|Science|Y
+ENVBA|Environmental Studies|Y
+SCIAL|Science|Y
+LERBS|Labor Studies and Employment Relations|Y
+S T|Surveying Technology|Y
+INT B|International Business|Y
+Z E|Zoology and Entomology|Y
+RUSTT|Russian Technical Translation|Y
+G ART|General Arts|Y
+TELEC|Telecommunications Studies|Y
+SCBUS|Science|Y
+SCIAB|Science|Y
+D SC|Dairy Science|Y
+RAD|Radiology|Y
+OPMGT|Operations Management|Y
+2 CHS|Clinical Health Services|Y
+2 CHT|Chemical Technology|Y
+ASTRO|Astronomy and Astrophysics|Y
+I H S|Industrial Health and Safety|Y
+2PRHH|2 Yr Provisional	Health and Human Development|Y
+PLTSC|Plant Science|Y
+A S M|Agricultural Systems Management|Y
+S&BS|Social and Behavioral Sciences|Y
+JOURN|Journalism|Y
+ACS|Acoustics|Y
+SPNBA|Spanish|Y
+BIOE|Bioengineering|Y
+THFLM|Theatre and Film|Y
+OL BS|Organizational Leadership|Y
+S P A|Speech Pathology and Audiology|Y
+ADA|Ada Audit|Y
+W L S|Wildlife Science|Y
+I L A|Interdisciplinary Liberal Arts|Y
+OCCTH|Occupational Therapy|Y
+2PRIS|2 Yr Provisional	Information Sciences and Technology|Y
+W L M|Wildlife Management|Y
+L ST|Library Studies|Y
+OL BA|Organizational Leadership|Y
+L A M|Laboratory Animal Medicine|Y
+TELCM|Telecommunications|Y
+PATHB|Pathobiology|Y
+CRPSS|Crop and Soil Sciences|Y
+BA EC|Economics|Y
+GEOSC|Geosciences|Y
+AJSAB|Administration of Justice|Y
+S E|Sanitary Engineering|Y
+E ACS|Engineering Acoustics|Y
+MUSIC|Music|Y
+S&BHS|Social and Behavioral Sciences|Y
+KINES|Kinesiology|Y
+ATHTR|Athletic Training|Y
+FN SC|Food & Nutrition Sciences|Y
+PRHPE|Provisional  Health, Physical Education and Recreation|Y
+BIOL|Biology|Y
+AAIDS|Arts and Architecture|Y
+ABENG|Agricultural and Biological Engineering|Y
+SPNBS|Spanish|Y
+BIOS|Bioscience|Y
+METEO|Meteorology|Y
+PLAW|Prelaw|Y
+MDET|Mechanical Design Engineering Technology|Y
+OPHTH|Ophthalmology|Y
+2LAAL|Letters, Arts, and Sciences|Y
+MGT P|Management-Public Administration|Y
+N DEG|Non-Degree Undergraduate|Y
+2 NET|Nuclear Engineering Technology|Y
+MUCOM|Composition-Theory|Y
+BGC|Biogeochemistry|Y
+MGT G|Management-General|Y
+BCBUS|Behrend College|Y
+MGT H|Management-Health Care Administration|Y
+MUSPP|Pedagogy and Performance|Y
+H RES|Human Resources|Y
+INSCI|Information Sciences|Y
+HDADM|Human Development Administration|Y
+2CPSC|Computer Science|Y
+2BAAL|Business Administration|Y
+I&ME|Industrial and Manufacturing Engineering|Y
+2LAAB|Letters, Arts, and Sciences|Y
+2BAAB|Business Administration|Y
+MKTIB|Marketing and International Business|Y
+AEE|Agricultural and Extension Education|Y
+GN AG|General Agriculture|Y
+2LABL|Letters, Arts, and Sciences|Y
+CAMS|Classics and Ancient Mediterranean Studies|Y
+2MATE|Materials Engineering Technology|Y
+CAMP|College Assistance Migrant Program|Y
+HUM B|Humanities-Business|Y
+COM S|Community Studies|Y
+BLSCN|Berks College|Y
+MUCND|Conducting|Y
+BIO E|Bioengineering|Y
+PLPHY|Plant Physiology|Y
+AASBS|African and African American Studies|Y
+2BABL|Business Administration|Y
+ELAS|Letters, Arts, and Sciences|Y
+ACCIB|Accounting and International Business|Y
+BSBCC|Business|Y
+EA|Enterprise Architecture|Y
+ED|Education|Y
+CMPAP|Computer Applications|Y
+RESS|Renewable Energy and Sustainability Systems|Y
+CONSV|Conservation|Y
+CCBA|Corporate Communication|Y
+SURG|Surgery|Y
+LAIDS|Liberal Arts Interdisciplinary Programs|Y
+C PSY|Community Psychology|Y
+ABBUS|Abington College|Y
+STAFF|Student Affairs|Y
+BANTH|Biological Anthropology|Y
+CONTE|Continuing Education Students|Y
+OBGYN|Obstetrics/gynecology|Y
+BL EB|Engineering, Business, and Human Development|Y
+ENVST|Environmental Studies|Y
+S T S|Science, Technology and Society|Y
+EK ED|Elementary and Kindergarten Education|Y
+BSB|Business|Y
+I HUM|Interdisciplinary Humanities|Y
+2 RTL|Retailing|Y
+BLIST|Information Sciences and Technology|Y
+E SC|Engineering Science|Y
+SYSEN|Systems Engineering|Y
+BSBBL|Business|Y
+FINAN|Finance|Y
+BDSCN|Behrend Science|Y
+2 SC|Science|Y
+PLTBD|Plastics Engineering Technology|Y
+ENVSE|Environmental Systems Engineering|Y
+ISTBS|Information Sciences and Technology|Y
+GER|German|Y
+CNPSY|Counseling Psychology|Y
+CMPBD|Computer Science|Y
+BAADM|Business Administration|Y
+PR ED|Provisional  Education|Y
+BRS|Biorenewable Systems|Y
+E RRE|Environmental and Renewable Resource Economics|Y
+ENVRN|Environmental Science and Engineering|Y
+IESBD|Industrial Engineering|Y
+ISTBA|Information Sciences and Technology|Y
+W F S|Wildlife and Fisheries Science|Y
+GD|Graphic Design|Y
+FE HM|Family Economics and Home Management|Y
+CP&SC|Community Psychology and Social Change|Y
+CER T|Ceramics Technology|Y
+APLSC|Applied Science|Y
+CH DV|Child Development|Y
+PR AG|Provisional  Agriculture|Y
+MGTSC|Management Science|Y
+F T|Fuel Technology|Y
+FR|French|Y
+PR BA|Provisional  Business Administration|Y
+BUS|Business|Y
+ART|Art|Y
+INS|Insurance|Y
+CCCC|Corporate Communication|Y
+MDADM|College of Medicine Administration|Y
+TURFM|Turfgrass Management|Y
+F P|Forest Products|Y
+F N|Foods and Nutrition|Y
+LIRBA|Labor and Industrial Relations|Y
+PANAL|Policy Analysis|Y
+MUMCY|Musicology|Y
+PRE L|Prelaw|Y
+2ECSV|Community Services|Y
+PR CC|Provisional  Capital College|Y
+NSURG|Neurosurgery|Y
+PRE E|Pre-Engineering|Y
+APFCE|Administration, Policy, Foundations,   and Comparative/international Education|Y
+CLPAF|Capital Public Affairs|Y
+NEURO|Neuroscience|Y
+2 B A|Business Administration|Y
+TRDEV|Training and Development|Y
+H EC|Home Economics|Y
+NEURS|Neuroscience|Y
+HYOGS|Hershey Office of Graduate Studies|Y
+P ACC|Professional Accountancy|Y
+2 MT|Medical Technical|Y
+ADMJ|Administration of Justice|Y
+CCSSE|Social Science and Education|Y
+AVIED|Adult Education, Instructional Systems,and Vocational and Industrial Education|Y
+ELEC|Law Enforcement and Corrections|Y
+LIRBS|Labor and Industrial Relations|Y
+PHSIO|Physiology|Y
+PR HH|Provisional  Health and Human Development|Y
+ELEM|Elementary Education|Y
+PRBDC|Provisional  Behrend College|Y
+INART|Integrative Arts|Y
+P ADM|Public Administration|Y
+BDGEN|Behrend General|Y
+2PRSC|2 Yr Provisional	Science|Y
+PL SC|Political Science|Y
+B C T|Building Construction Technology|Y
+MTHBS|Mathematics|Y
+FILM|Film-Video|Y
+IID|Immunology and Infectious Disease|Y
+ARCH|Architecture|Y
+AG|Agriculture|Y
+G GR|General Graduate|Y
+MTHBA|Mathematics|Y
+MTHBD|Mathematics|Y
+GIS|Geographic Information Systems|Y
+HR&IM|Hotel, Restaurant, and Institutional Management|Y
+2MCMP|Microcomputer Engineering Technology|Y
+AA BR|Broadcasting|Y
+MN PR|Mineral Processing|Y
+WS BS|Women's Studies|Y
+ENGL|English|Y
+EXSCI|Exercise and Sport Science|Y
+2PRVC|2 Yr Provisional (continuing Education)|Y
+RUS T|Russian Translation|Y
+CHMBD|Chemistry|Y
+BADMN|Business Administration|Y
+2 BUS|Business|Y
+ARO E|Aeronautical Engineering|Y
+MIN P|Mineralogy and Petrology|Y
+GHHD|Used Only By Undergraduate Admissions  To Admit Leisure Studies Students Directly Into|Y
+ALSCN|Altoona College|Y
+WMNST|Women's Studies|Y
+BSBIC|Business|Y
+WS BA|Women's Studies|Y
+ENGR|Engineering|Y
+LING|Linguistics|Y
+OGEM|Oil and Gas Engineering Management|Y
+FM ST|Family Studies|Y
+SPCOM|Speech Communication|Y
+EAJBA|Administration of Justice|Y
+BLBUS|Berks College|Y
+SDCET|Structural Design and Construction Engineering Technology|Y
+ALEDU|Altoona College|Y
+SUR E|Surveying Engineering|Y
+FINCE|Finance|Y
+2NUCT|Nuclear Technology|Y
+PHYS|Physics|Y
+AAMUS|Arts and Architecture|Y
+EAJBS|Administration of Justice|Y
+MIN E|Mineral Engineering|Y
+DYP|Developmental Year Program|Y
+CWRIT|Creative Writing|Y
+A & A|Arts and Architecture|Y
+PRESC|Pre-Science|Y
+E&ENT|Energy and Environmental Technology|Y
+G BR|Genetics and Breeding|Y
+HRIM|Hotel, Restaurant, and Institutional Management|Y
+2CPET|Computer Engineering Technology|Y
+P M|Premedicine|Y
+YFE|Youth and Family Education|Y
+P H|Poultry Husbandry|Y
+GERBS|German|Y
+SPLED|Special Education|Y
+LEDUC|Literacy Education|Y
+M R I|Materials Research Institute|Y
+AIVED|Adult Education, Instructional Systems,and Vocational and Industrial Education|Y
+SCNCE|Science|Y
+IDS|Interdisciplinary Digital Studio|Y
+SO ST|Social Studies|Y
+2 DOC|Division of Counseling|Y
+2 ACC|Accounting|Y
+MGTIB|Management and International Business|Y
+BDBUS|Behrend Business|Y
+PRHDV|Provisional  Human Development|Y
+MN I|Mineral Industries|Y
+2PROV|2 Yr Provisional|Y
+SE&T|Science, Engineering and Technology|Y
+BUSED|Business Education|Y
+MGT|Management|Y
+SO SC|Social Science|Y
+APLNG|Applied Linguistics|Y
+PATH|Pathology|Y
+L A|Liberal Arts|Y
+AB SC|Agricultural and Biological Sciences|Y
+UR PL|Urban and Regional Planning|Y
+SCNBD|Science|Y
+BL LA|Liberal Arts|Y
+UFO|University Fellowship Office|Y
+L S|Labor Studies|Y
+2 TSM|Turfgrass Science and Management|Y
+AEREC|Agricultural, Environmental and Regional Economics|Y
+CAIST|Information Sciences and Technology|Y
+FOREM|Forest Ecosystem Management|Y
+PRA&A|Provisional  Arts and Architecture|Y
+2MCRB|Mass Communications-Radio Broadcasting|Y
+SOCBA|Sociology|Y
+EARSP|Earth Science and Policy|Y
+ESPSE|Educational and School Psychology and  Special Education|Y
+LAUGS|Liberal Arts Undergraduate Studies|Y
+2PENG|2 Yr Provisional	Engineering|Y
+GN AS|General Arts and Sciences|Y
+DEMOG|Demography|Y
+UED|Undergraduate Education|Y
+MGTKP|Management Department-Kp|Y
+SOCBS|Sociology|Y
+NXDEG|Non-Degree Undergraduate,dropped From  Degree Status|Y
+FAM R|Family Relationships|Y
+AOJBS|Administration of Justice|Y
+FRNPA|French Studies and Public Administration|Y
+JAPNS|Japanese|Y
+BUSAD|Business Administration|Y
+THABL|Theatre|Y
+GLOBE|Global and International Studies|Y
+2PEMS|2 Yr Provisional Earth and Mineral Sciences|Y
+BLGIB|Business Logistics and International Business|Y
+GENET|Genetics|Y
+BIOTC|Biotechnology|Y
+IMSE|Industrial and Management Systems Engineering|Y
+D R R|Developmental and Remedial Reading|Y
+ARMY|Army|Y
+MUSBM|Music|Y
+AOJBA|Administration of Justice|Y
+ARBFA|Art|Y
+BBACC|Business Administration|Y
+EARTH|Earth Sciences|Y
+PH|Public Health|Y
+INSYS|Instructional Systems|Y
+MED|Medicine|Y
+MUSBA|Music|Y
+E ENG|Electrical Engineering|Y
+BIOST|Biostatistics|Y
+H A|Hotel Administration|Y
+BLEGN|Berks College|Y
+LAADM|Liberal Arts Administration|Y
+RC ED|Recreation Education|Y
+2 AGB|Agricultural Business|Y
+BRCST|Broadcasting|Y
+ECEEM|Energy, Environmental and Mineral Econ|Y
+I DIS|Interdisciplinary Graduate Programs|Y
+HRER|Human Resources and Employment Relations|Y
+PUB A|Public Administration|Y
+CAS|Communication Arts and Sciences|Y
+2PRLA|2 Yr Provisional	Liberal Arts|Y
+PRCOM|Provisional  Communications|Y
+LASAL|Letters, Arts, and Sciences|Y
+ME CA|Mechanical Engineering|Y
+ENRGY|Energy Science and Engineering|Y
+SCIEN|Science|Y
+C E|Civil Engineering|Y
+2 AET|Architectural Engineering Technology|Y
+C I|Curriculum and Instruction|Y
+GAS|General Arts and Sciences|Y
+MANGT|Management|Y
+2 P T|Production Technology|Y
+LDT|Learning, Design, and Technology|Y
+PED|Pediatrics|Y
+ECLBA|Economics|Y
+GSCBA|Geosciences|Y
+COMMS|Communications|Y
+2CHET|Chemical Engineering Technology|Y
+PS BA|Public Service|Y
+PLMSC|Polymer Science|Y
+GSCBS|Geosciences|Y
+T E T|Transportation Engineering Technology|Y
+E MCH|Engineering Mechanics|Y
+R PL|Regional Planning|Y
+GCHEM|Geochemistry|Y
+MUMTH|Music Theory and History|Y
+AGESS|Agroecosystems Science|Y
+M C B|Molecular and Cell Biology|Y
+ED A|Educational Administration|Y
+SCLSC|Social Science|Y
+EE BD|Electrical Engineering|Y
+IT BA|Italian|Y
+PR SC|Provisional  Science|Y
+2FORT|Forest Technology|Y
+LER|Labor and Employment Relations|Y
+AGESE|Agricultural Economics, Sociology and Education|Y
+BE SC|Behavioral Sciences|Y
+GLBST|Global Studies|Y
+STAT|Statistics|Y
+PREMS|Provisional  Earth and Mineral Sciences|Y
+ENADM|Engineering Administration|Y
+ENGMT|Engineering Management|Y
+CL TX|Clothing and Textiles|Y
+NAVY|Naval Science|Y
+ENT|Entomology|Y
+MET T|Metals Technology|Y
+H ADM|Health Administration|Y
+H&SS|Humanities and Social Sciences|Y
+SE&CD|Special Education & Communication|Y
+BCHEM|Biochemistry and Molecular Biology|Y
+HFSAL|Human Development and Family Studies|Y
+PRENG|Provisional  Engineering|Y
+G F S|General Family Studies|Y
+ALENG|Engineering|Y
+T T|Transportation Technology|Y
+SOCIO|Sociology|Y
+HFSCC|Human Development and Family Studies|Y
+PSSBS|Psychological and Social Sciences|Y
+MUPPP|Piano Pedagogy and Performance|Y
+FS HA|Food Service and Housing Administration|Y
+GNBUS|General Business|Y
+HFSCA|Human Development and Family Studies|Y
+UHS|University Health Services|Y
+ECNS|Economics|Y
+ENV E|Environmental Engineering|Y
+BMMB|Biochemistry, Microbiology, and Molecular Biology|Y
+BDADM|Behrend Administration|Y
+G BUS|General Business|Y
+C CH|Commercial Chemistry|Y
+SPAN|Spanish|Y
+ANAT|Anatomy|Y
+ECON|Economics|Y
+C MED|Comparative Medicine|Y
+ED ET|Electrical Design Engineering Technology|Y
+NUC E|Nuclear Engineering|Y
+BLCOM|Berks College|Y
+COMBA|Communication|Y
+F W S|Fish and Wildlife Science|Y
+2NURS|Nursing|Y
+2 MLT|Medical Laboratory Technology|Y
+CMPSC|Computer Science|Y
+MUBMA|Musical Arts|Y
+CMPSE|Computer Science|Y
+PSCHT|Psychiatry|Y
+ADTED|Adult Education|Y
+B PH|Bachelor of Philosophy Program|Y
+LIT|Literature|Y
+SAO|Student Activities Office|Y
+ALCOM|Altoona College|Y
+A L|Arts and Letters|Y
+INTAF|International Affairs|Y
+A H|Animal Husbandry|Y
+COMBS|Communication|Y
+E R M|Environmental Resource Management|Y
+INTAD|International Agriculture and Development|Y
+CLHUM|Capital Humanities|Y
+2 HFS|Hotel and Food Service|Y
+A I|Animal Industry|Y
+2BLET|Building Engineering Technology|Y
+AGRO|Agronomy|Y
+BECON|Business Economics|Y
+2 BET|Biomedical Engineering Technology|Y
+A E|Architectural Engineering|Y
+EME|Energy and Mineral Engineering|Y
+LIB|Library|Y
+EXMBA|Business Administration|Y
+BDCOM|Pre-Major|Y
+COMAL|Communications|Y
+2 AG|Agriculture|Y
+MED T|Medical Technology|Y
+NONE|Non-Degree Graduate|Y
+ALENT|Altoona Entrepreneur Minor Office|Y
+IR HR|Industrial Relations and Human Resources|Y
+HUMAN|Humanities|Y
+BIOEN|Bioengineering|Y
+INFSY|Information Systems|Y
+BIOET|Bioethics|Y
+INFST|Information Sciences and Technology|Y
+CEE|Civil and Environmental Engineering|Y
+NUTR|Nutritional Sciences|Y
+CED|Community, Environment, and Development|Y
+2 HET|Highway Engineering Technology|Y
+MS&IS|Management Science and Information Systems|Y
+PWRIT|Professional Writing|Y
+VI ED|Vocational Industrial Education|Y
+CN&EP|Counseling and Educational Psychology|Y
+ESSMG|Ecosystem Science and Management|Y
+EAMST|American Studies|Y
+AN SC|Animal Science|Y
+GEOG|Geography|Y
+V SC|Veterinary Science|Y
+2RSCA|Radiological Sciences|Y
+2RSCC|Radiological Sciences|Y
+SE BD|Software Engineering|Y
+GEOL|Geology|Y
+AYFCE|Applied Youth, Family and Community Education|Y
+FORSC|Forest Science|Y
+BIOCH|Biochemistry|Y
+COMCL|Communications|Y
+ALEHS|Education, Human Development and Socialsciences|Y
+BIOCC|Biology|Y
+THEA|Theatre|Y
+COMCC|Communications|Y
+AADES|Arts and Architecture|Y
+IN SC|Information Science|Y
+SESST|Secondary Education Social Studies|Y
+NURN|Nursing|Y
+ARTSA|Arts Administration|Y
+PHARM|Pharmacology|Y
+NURS|Nursing|Y
+LATAM|Latin-American Studies|Y
+ABADM|Abington Administration|Y
+BDCHS|Behrend College Pre-Major Pgm Type D|Y
+BDENG|Behrend Engineering|Y
+BIOBD|Biology|Y
+ACTSC|Actuarial Science|Y
+BPHYS|Biophysics|Y
+D U S|Division of Undergraduate Studies|Y
+PSIO|Physiology|Y
+ENGGV|Engineering Department|Y
+SPEC|Special Graduate Program|Y
+CI ED|Comparative and International Education|Y
+ART H|Art History|Y
+BIOBL|Biology|Y
+PRINT|Print Journalism|Y
+MISBD|Management Information Systems|Y
+ACPSY|Applied Clinical Psychology|Y
+ADM J|Administration of Justice|Y
+BIOAB|Biology|Y
+CDPC|Career Development and Placement Center|Y
+CCSCI|Science|Y
+NUTRN|Nutrition|Y
+CCSCN|University College|Y
+RTEAL|Rail Transportation Engineering|Y
+SPCH|Speech|Y
+T C|Teaching and Curriculum|Y
+CECPR|Counselor Education, Counseling|Y
+A&HUM|Arts and Humanities|Y
+ARTS|Arts|Y
+HORT|Horticulture|Y
+ADM|Department For Admissions|Y
+MGT C|Management-Public Contract Management|Y
+2NRCM|Nursing|Y
+MGT B|Management-Business Administration|Y
+2LABC|Letters, Arts, and Sciences|Y
+2BABC|Business Administration|Y
+COM D|Community Development|Y
+ADJ|Adjunct|Y
+PIANO|Piano Performance|Y
+2SCAL|Science|Y
+BIO T|Biotechnology|Y
+PPATH|Plant Pathology|Y
+MNGMT|Management|Y
+APSYR|Applied Psychological Research|Y
+D I R|Divison of Intermediate Registration|Y
+2PRED|2 Yr Provisional	Education|Y
+2LACC|Letters, Arts, and Sciences|Y
+APSYC|Applied Psychology|Y
+2MATT|Materials Technology|Y
+2LACA|Letters, Arts, and Sciences|Y
+PHIL|Philosophy|Y
+D PR|Dairy Production|Y
+AA ST|African American Studies|Y
+CHNS|Chinese|Y
+B&BS|Business and Behavioral Sciences|Y
+E S U|Energy Sources and Utilization|Y
+HOUS|Housing & Food Service-Bk|Y
+PYSCC|Psychology|Y
+PPEM|Plant Pathology and Environmental Microbiology|Y
+AASBA|African and African American Studies|Y
+OPMIB|Operations Management and International Business|Y
+SC|Science|Y
+C T S|Computing Technology and Science|Y
+FD SC|Food Science|Y
+ENNEC|Energy, Environmental, and Mineral Economics|Y
+ALHSS|Altoona College|Y
+AGEXT|Agriculture and Extension Education|Y
+MUVPP|Voice Performance and Pedagogy|Y
+2SCCC|Science|Y
+ARCBS|Architecture|Y
+2SCCA|Science|Y
+CCENG|Engineering|Y
+EDENG|Secondary Education-English|Y
+2METE|Metallurgical Engineering Technology|Y
+LNGSC|Language Science|Y
+CONFC|Conference Center|Y
+ANTHM|Anthropology - Medical|Y
+AM ST|American Studies|Y
+I&ID|Immunology and Infectious Diseases|Y
+OLDBS|Organizational Leadership|Y
+ABIST|Information Sciences and Technology|Y
+SC BA|Science|Y
+PUBPL|Public Policy|Y
+FINIB|Finance and International Business|Y
+ANTHG|Anthropology - General|Y
+I F S|Individual and Family Studies|Y
+ABESC|Applied Behavioral Science|Y
+AIS|Administrative Information Services|Y
+RC PK|Recreation and Parks|Y
+NRCOM|Nursing|Y
+AIR|Air Force|Y
+CEDEV|Community and Economic Development|Y
+O&VOC|Occupational & Vocational Studies|Y
+M P E|Mineral Preparation Engineering|Y
+ANTHY|Anthropology|Y
+ESPCM|Speech Communication|Y
+MEDIA|Media Studies|Y
+BSCH|School of Business-Bd|Y
+PTYSC|Poultry Science|Y
+OLDBA|Organizational Leadership|Y
+LEAD|Leadership Development|Y
+ELISH|English|Y
+SPHCC|Speech Communication|Y
+CCCOM|University College|Y
+ENGYT|Energy Technology|Y
+AD PR|Advertising/public Relations|Y
+AERSP|Aerospace Engineering|Y
+2 LAT|Laboratory Animal Technology|Y
+2 LAS|Letters, Arts, and Sciences|Y
+SC BS|Science|Y
+LEAP|Learning Edge Academic Program|Y
+PRMGT|Project Management|Y
+AS MT|Agricultural Systems Management and Technology|Y
+C&DE|Continuing & Distance Education|Y
+ADMIN|Administration|Y
+C LIT|Comparative Literature|Y
+IN A|Institution Administration|Y
+PL ET|Plastics Engineering Technology|Y
+I MBA|Business Administration|Y
+2 PTA|Physical Therapist Assistant|Y
+HSTRY|History|Y
+MATSC|Materials Science and Engineering|Y
+2PRAG|2 Yr Provisional	Agriculture|Y
+MATSE|Materials Science and Engineering|Y
+2 WLT|Wildlife Technology|Y
+2 EBA|Business Administration|Y
+FNC|Finance|Y
+HHADM|Health and Human Development Administration|Y
+HUM|Humanities|Y
+ESC&M|Engineering Science and Mechanics|Y
+ESMCH|Engineering Science and Mechanics|Y
+2 IST|Information Sciences and Technology|Y
+TURF|Turfgrass Science|Y
+SECAB|Secondary Education|Y
+RRCOM|Provisional Communications|Y
+CN ED|Counselor Education|Y
+MTSAL|Mathematics|Y
+AJACC|Administration of Justice|Y
+INSIB|Insurance and International Business|Y
+AB CH|Agricultural and Biological Chemistry|Y
+HPADM|Health, Physical Education & Recreation Administration|Y
+F R D|Food Retailing and Distribution|Y
+2PRBA|2 Yr Provisional	Business Administration|Y
+TESL|Teaching English As A Second Language|Y
+LAGEO|Geography|Y
+T & T|Transportatoin and Trade|Y
+EGNAS|General Arts and Sciences|Y
+LAGEN|Liberal Arts General Education Program|Y
+BMS|Biomedical Sciences|Y
+EIART|Integrative Arts|Y
+PSYC|Psychology|Y
+TSP|Talent Search Program|Y
+RGSTR|A Dept-Like Unit Within The Pseudo-College of Xx. This College and Dept Established To|Y
+PS SC|Psychosocial Science|Y
+BRCAB|Broadcast-Cable|Y
+MCOMM|Mass Communications|Y
+SECBC|Secondary Education|Y
+ESPBA|Energy and Sustainability Policy|Y
+FCMED|Family and Community Medicine|Y
+EWFED|Workforce Education and Development|Y
+CLASS|Classics|Y
+ABIOL|Astrobiology|Y
+GPHYS|Geophysics|Y
+CCIST|Information Sciences and Technology|Y
+LSCPE|Landscape Contracting|Y
+F SER|Foreign Service and International Politics|Y
+C LNG|Classical Languages|Y
+AMSAB|American Studies|Y
+ACCTG|Accounting|Y
+FOR|Forestry|Y
+PROV|Provisional Student|Y
+AJAAB|Administration of Justice|Y
+ADVT|Advertising|Y
+2 NMT|Nanofabrication Manufacturing Technology|Y
+OUTAU|Outside Auditor|Y
+L M R|Labor Management Relations|Y
+2MTCC|Manufacturing Technology|Y
+WESP|Workplace Environment and Safety Program|Y
+NDEGC|Non-Degree Conditional Undergraduate|Y
+FD T|Food Technology|Y
+OTC|Office of Telecommunications|Y
+F SC|Cience|Y
+CCMTH|Mathematics|Y
+M & O|Management and Organization|Y
+BOT|Botany|Y
+CRIMJ|Criminal Justice|Y
+2PLET|Plastics Engineering Technology|Y
+BDHSS|Behrend Humanities & Social Sciences|Y
+NDEGR|Non-Degree Regular Undergraduate|Y
+CMDIS|Communication Disorders|Y
+AMSBL|American Studies|Y
+2ESOC|Sociology|Y
+NDEGL|Non-Degree Law|Y
+AJSCC|Administration of Justice|Y
+VB SC|Veterinary and Biomedical Sciences|Y
+NDEGH|Non-Degree Regular High School|Y
+HIST|History|Y
+AMSCA|American Studies|Y
+AMSCC|American Studies|Y
+ENURS|Nursing|Y
+FR BS|French and Francophone Studies|Y
+MRC|Multicultural Resource Center|Y
+PROVC|Provisional (continuing Education)|Y
+SOILS|Soil Science|Y
+PSHBS|Psychology|Y
+AGBE|Agricultural and Biological Engineering|Y
+BCEDU|Behrend College|Y
+2 EET|Electrical Engineering Technology|Y
+S PSY|School Psychology|Y
+KINBL|Kinesiology|Y
+PHYSC|Physical Science|Y
+SECED|Secondary Education|Y
+AGADM|Agriculture Administration|Y
+COMM|Communications|Y
+COMP|Computer Science|Y
+C R S|Consumer Related Studies|Y
+I ART|Industrial Art|Y
+PSHBA|Psychology|Y
+ALUM|Alumni Association|Y
+H DEV|Human Development|Y
+C I C|Committee on Institutional Cooperation|Y
+EMADM|Earth and Mineral Sciences Administration|Y
+METAL|Metals Science and Engineering|Y
+CSP D|Community Systems Planning and Development|Y
+CMREL|Campus Relations|Y
+2PHDV|2 Yr Provisional	Human Development|Y
+2 M T|Manufacturing Engineering Technology|Y
+EA ST|East Asian Studies|Y
+MSTAT|Mathematical Statistics|Y
+C R E|Counseling and Rehabilitation Education|Y
+ADULT|Adult Learner Services|Y
+ANBIO|Animal Bioscience|Y
+POLSC|Political Science|Y
+BLHSS|Berks College|Y
+TOX|Toxicology|Y
+BSBAL|Business|Y
+ALMNS|Mathematics and Natural Sciences|Y
+EDUC|Education Administration|Y
+METBD|Mechanical Engineering Technology|Y
+ORTHO|Orthopaedics and Rehabilitation|Y
+BDMET|Behrend Engineering|Y
+P S T|Poultry Science and Technology|Y
+BSBAB|Business|Y
+FR BA|French and Francophone Studies|Y
+EMET|Electro-Mechanical Engineering Technology|Y
+P T M|Poultry Technology and Management|Y
+MRKT|Marketing|Y
+C STD|Classical Studies|Y
+GEOBS|Geography|Y
+THRFA|Theatre|Y
+EMED|Emergency Medicine|Y
+2 O T|Occupational Therapy|Y
+AACOZ|Academic Advising - Oz|Y
+EXTED|Extension Education|Y
+S L L|Slavic Languages and Literature|Y
+P V M|Pre-Veterinary Medicine|Y
+CABUS|Capital College|Y
+P M M|Premedical-Medical|Y
+CCM D|Community Development|Y
+LALS|Linguistics and Applied Language Studies|Y
+NRLGY|Neurology|Y
+P M E|Petroleum and Mineral Engineering|Y
+2ASET|Aerospace Engineering Technology|Y
+CRMBS|Criminology|Y
+COUN|Counseling|Y
+OCTCC|Occupational Therapy|Y
+CMBIO|Cell and Molecular Biology|Y
+EME T|Mechanical Engineering Technology|Y
+I COL|Intercollege Undergraduate Programs|Y
+GD PH|Graphic Design and Photography|Y
+O R|Operations Research|Y
+IARAB|Integrative Arts|Y
+G G|Geophysics and Geochemistry|Y
+G E|General Engineering|Y
+HE ED|Home Economics Education|Y
+IBIOS|Integrative Biosciences|Y
+INTPL|International Politics|Y
+BSCED|Behavioral Science and Education|Y
+URBCC|Urban Early and Middle Childhood Education|Y
+BCSCN|Behrend College|Y
+MUTH|Music Theory|Y
+AGENG|Agricultural and Biological Engineering|Y
+G M|Geochemistry and Mineralogy|Y
+2FSCA|Human Development and Family Studies|Y
+ANTH|Anthropology|Y
+2FSCC|Human Development and Family Studies|Y
+RPTM|Recreation, Park and Tourism Management|Y
+HE ES|Home Economics and Educational Services|Y
+RL ST|Religious Studies|Y
+SCADM|Science|Y
+ECNMS|Economics|Y
+ESOIL|Environmental Soil Science|Y
+MTAAL|Mathematics|Y
+RUSCL|Russian and Comparative Literature|Y
+BDTEC|Behrend College Pre-Major-Technology|Y
+R P M|Recreation and Park Management|Y
+B P P|Botany and Plant Pathology|Y
+ASIA|Asian Studies|Y
+GEOBI|Geobiology|Y
+DENTH|Dental Hygiene (not A Psu Major)|Y
+2STLT|Steel Technology|Y
+PHS|Public Health Sciences|Y
+GEOBA|Geography|Y
+IARAL|Integrative Arts|Y
+VOCED|Vocational Education|Y
+2APCT|Air Pollution Control Engineering Technology|Y
+ARTBA|Art|Y
+URBED|Urban Early and Middle Childhood Education|Y
+SUR|Surveying|Y
+FOODS|Foods|Y
+2TELT|Telecommunications Technology|Y
+2MNGT|Mining Technology|Y
+CLADM|Capital Administration|Y
+C SPH|Clinical Speech|Y
+HLS|Homeland Security|Y
+LARIP|Landscape Architecture|Y
+COMST|Communication Studies|Y
+PR LA|Provisional  Liberal Arts|Y
+THRBA|Theatre|Y
+PASTR|Planetary Science and Astronomy|Y
+PLSCA|Political Science|Y
+MASSC|Mass Communications|Y
+AG BM|Agribusiness Management|Y
+AE IS|Adult Education and Instructional Systems|Y
+OPSMT|Operations Management|Y
+BUS A|Business Administration|Y
+EEDCC|Elementary and Kindergarten Education|Y
+HMN|Humanities-Hy|Y
+PLSAL|Political Science|Y
+Q M M|Quality and Manufacturing Management|Y
+CJED|Criminal Justice Education and Research|Y
+BLASC|Business, Liberal Arts, and Science|Y
+CLEDU|Capital Education|Y
+EADMJ|Administration of Justice|Y
+S S T|Soild State Technology|Y
+HNUTR|Human Nutrition|Y
+BAREX|Foreign-Bar Exam|Y
+S S S|Solid State Science|Y
+SSSP|Student Support Services Program|Y
+ASTAT|Applied Statistics|Y
+BARCH|Architecture|Y
+RHSCC|Rehabilitation and Human Services|Y
+PR IS|Provisional  Information Sciences and Technology|Y
+CRMBA|Criminology|Y
+GEOEE|Geo Environmental Engineering|Y
+PMR|Physical Medicine and Rehabilitation|Y
+ZOOL|Zoology|Y
+W U|Wood Utilization|Y
+ARTAB|Art|Y
+FIN A|Fine Art|Y
+SCHLR|A Dept-Like Unit Within The Pseudo-College of Xx. This College & Dept Established To Pro-|Y
+W S|Wood Science|Y
+2ISBL|Information Sciences and Technology|Y
+W P|Wood Products|Y
+2EDSM|Dietetic Food Systems Management|Y
+2ISCC|Information Sciences and Technology|Y
+MKTG|Marketing|Y
+HISAL|History|Y
+R L L|Romance Languages and Literatures|Y
+S C M|Supply Chain Management|Y
+AG ED|Agricultural Education|Y
+AG EC|Agricultural Economics|Y
+BI SC|Biological Science|Y
+ABSCN|Abington College|Y
+H P E|Health and Physical Education|Y
+EPCSE|Educational Psychology, Counseling, and Special Education|Y
+B LOG|Business Logistics|Y
+H P A|Health Policy and Administration|Y
+MA ST|Mathematical Studies|Y
+CJBA|Criminal Justice|Y
+SEDTP|School of Engineering Design, Technology and Professional Programs|Y
+CLJBS|Crime, Law, and Justice|Y
+PNG E|Petroleum and Natural Gas Engineering|Y
+EGEE|Energy and Geo-Environmental Engineering|Y
+MICRB|Microbiology|Y
+Q B A|Quantitative Business Analysis|Y
+HSTAB|History|Y
+CJBS|Criminal Justice|Y
+EETBD|Electrical Engineering Technology|Y
+PS BS|Public Service|Y
+NU PH|Nutrition in Public Health|Y
+CLJBA|Crime, Law, and Justice|Y
+MATL|Materials|Y
+WR ET|Water Resources Engineering Technology|Y
+ECLGY|Ecology|Y
+FIN|Finance|Y
+D&ASC|Dairy and Animal Science|Y
+MATH|Mathematics|Y
+AIWED|Adult Education, Instructional Systems, and Workforce Education and Development|Y
+HI ED|Higher Education|Y
+B ADM|Business Administration|Y
+2PHPE|2 Yr Provisional	Health, Physical Education, and Recreation|Y
+ABEDU|Abington College|Y
+EEE T|Electrical Engineering Technology|Y
+MICRO|Microbiology and Immunology|Y
+HSTBS|History|Y
+HM FE|Home Management and Family Economics|Y
+SEET|Engineering|Y
+2BACC|Business Administration|Y
+VISJD|Visitor Jd|Y
+EDADM|Educational Administration|Y
+FOR R|Forest Resources|Y
+FOR T|Forestry Technology|Y
+SOIL|Soil Science|Y
+NR ED|Nursing Education|Y
+BECIB|Economics and International Business|Y
+EBSEE|Electrical Engineering|Y
+M M|Molecular Medicine|Y
+ECET|Electrical and Computer Engineering Technology|Y
+AFRST|African Studies|Y
+2BACA|Business Administration|Y
+PUBAF|Public Affairs|Y
+HSTBA|History|Y
+PSCM|Project and Supply Chain Management|Y
+M E|Mechanical Engineering|Y
+MA SC|Mathematical Sciences|Y
+MSC&E|Materials Science and Engineering|Y
+C M P|Cellular and Molecular Physiology|Y
+EVIED|Vocational Industrial Education|Y
+RELLA|Religious Studies|Y
+TLCOM|Telecommunications|Y
+E G|Engineering Graphics|Y
+DT PM|Dairy Technology and Plant Management|Y
+ENGCC|English|Y
+CLSET|Capital Science, Engr and Technology|Y
+E P C|Environmental Pollution Control|Y
+MEDVL|Medieval Studies|Y
+E E|Electrical Engineering|Y
+H C M|Health Care Management|Y
+G C I|Gittlen Cancer Institute|Y
+M T|Molecular Toxicology|Y
+2PBDC|2 Yr Provisional	Behrend|Y
+PLANT|Plant Sciences|Y
+EEDBL|Elementary and Kindergarten Education|Y
+REHAB|Rehabilitation Services|Y
+E T|Electrical Technology|Y
+LARCH|Landscape Architecture|Y
+G H E|General Home Economics|Y
+2ELAS|Letters, Arts, and Sciences|Y
+ENGBD|Engineering|Y
+ENGBE|Engineering|Y
+E M|Engineering Management|Y
+ISSCA|Information Sciences and Technology|Y
+ALA&H|Arts and Humanities|Y
+I S|Industrial Studies|Y
+ARSCI|Archaeological Science|Y
+SPTAB|Science-Physical Therapy|Y
+BLADM|Berks-Lehigh Administration|Y
+ISSCC|Information Sciences and Technology|Y
+WF ED|Workforce Education and Development|Y
+I E|Industrial Engineering|Y
+LAS|Letters, Arts, and Sciences|Y
+ANSTH|Anesthesiology|Y
+EEDAL|Elementary and Kindergarten Education|Y
+2 RET|Railway Engineering Technology|Y
+E P S|Education Policy Studies|Y
+CCEDU|University College|Y
+ENGCL|English|Y
+2ELBR|Labor Studies|Y
+RHS|Rehabilitation and Human Services|Y
+LARBS|Landscape Architecture|Y
+NS&EN|Natural Science and Engineering|Y
+2 HCT|Highway Construction Technology|Y
+LAW|Law|Y
+CHEM|Chemistry|Y
+CENBD|Computer Engineering|Y
+NBS|Neural and Behavioral Sciences|Y
+CCBEC|Business and Economics|Y
+D D T|Drafting and Design Technology|Y
+D D P|Dual Degree Program in Liberal Arts Andengineering|Y
+ENGAB|English|Y
+ACNTG|Accounting|Y
+CCA&H|Arts and Humanities|Y
+MFGSE|Manufacturing Systems Engineering|Y
+HLHED|Health Education|Y
+BCCOM|Behrend College|Y
+OISM|Operations and Information Systems Management|Y
+ALIST|Information Sciences and Technology|Y
+ISSBL|Information Sciences and Technology|Y
+VISLM|Visitor Lm|Y
+LERBA|Labor Studies and Employment Relations|Y
+ISSAB|Information Sciences and Technology|Y
+B E|Biological Engineering|Y
+I R E|Insurance and Real Estate|Y
+MNG E|Mining Engineering|Y
+HES|Health Evaluation Sciences|Y
+B A|Business Administration|Y
+AE RS|Agricultural Economics and Rural Sociology|Y
+A C I|Academic Curriculum and Instruction|Y
+VAST|Visual Art Studies|Y
+GEN E|General Engineering|Y
+SOC W|Social Work|Y
+PBK|Pbk Audit|Y
+B H|Biological Health|Y
+AG SI|Agriculture Science|Y
+ENGAE|Engineering|Y
+B S|Business Statistics|Y
+BCEGN|Behrend College|Y
+AG SC|Agricultural Science|Y
+AAADM|Arts and Architecture Administration|Y
+ENGAL|English|Y
+2FSAL|Human Development and Family Studies|Y
+VET|Veterans Programs|Y
+HL ED|Health Education|Y
+CAHSS|Capital College|Y
+2 SRT|Surveying Engineering Technology|Y
+MD ET|Mechanical Design Engineering Technology|Y
+ACCT|Accounting|Y
+ECLBS|Economics|Y
+IT BS|Italian|Y
+2EHFS|Human Development and Family Studies|Y
+CCEGL|English|Y
+COMMU|Communications|Y
+IATHL|Intercollege Athletics|Y
+REHED|Rehabilitation Services Education|Y
+B ED|Business Education|Y
+HP ER|Health, Physical Education & Recreation|Y
+BIOAL|Biology|Y
+M DEV|Management Development|Y
+R M|Risk Management|Y
+ENVE|Environmental Engineering|Y
+PH ED|Physical Education|Y
+PSCBS|Psychology|Y
+H MGT|School of Hospitality Management|Y
+ABHSS|Abington College|Y
+GEBUS|General Business|Y
+SWENG|Software Engineering|Y
+EDTHP|Educational Theory and Policy|Y
+SC&IS|Supply Chain and Information Systems|Y
+EL ED|Elementary Education|Y
+W LIT|World Literature|Y
+ENENG|Energy Engineering|Y
+DERMA|Dermatology|Y
+CCHSS|University College|Y
+CASBL|Communication Arts and Sciences|Y
+PETRO|Mineralogy and Petrology|Y
+2 MFT|Manufacturing Technology|Y
+2 E T|Electrical Technology|Y
+HDNRE|Human Dimensions of Natural Resources and The Environment|Y
+ALB&E|Business and Engineering|Y
+2OTBL|Occupational Therapy|Y
+PSCBA|Psychology|Y
+AGECO|Agroecology|Y
+A ART||Y
+2OTCC|Occupational Therapy|Y
+BACT|Bacteriology|Y
+EDLDR|Educational Leadership|Y
+B M B|Biochemistry and Molecular Biology|Y
+2 MET|Mechanical Engineering Technology|Y
+THRMT|Musical Theatre|Y
+CAEGN|Capital College|Y
+ANSCI|Animal Sciences|Y
+ICBUS|Intercollege|Y
+SRABL|Security and Risk Analysis|Y
+SRA|Security and Risk Analysis|Y
+BDPLT|Behrend Engineering|Y
+CLJ|Crime, Law and Justice|Y
+CASCN|Capital College|Y
+AR ST|Area Studies|Y
+ABCOM|Abington College|Y
+A PSY|Applied Psychology|Y
+A B E|Agricultural and Biological Engineering|Y
+SCE&T|Science, Engineering and Technology|Y
+A B A|Applied Behavior Analysis|Y
+2BEST|Building Energy Systems Technology|Y
+2 MDT|Medical Technology|Y
+CMLIT|Comparative Literature|Y
+2GBBC|General Business|Y
+AN PR|Animal Production|Y
+PSYCH|Psychology|Y
+OLEAD|Organizational Leadership|Y
+SRACA|Security and Risk Analysis|Y
+CEAED|Childhood and Early Adolescent Education|Y
+EDPSY|Educational Psychology|Y
+C S B|Consumer Services in Business|Y
+A NTR|Animal Nutrition|Y
+G HUM|General Humanities|Y
+2 MCJ|Mass Communications-Journalism|Y
+APSCC|Applied Psychology|Y
+PSYBS|Psychology|Y
+CASCC|Communication Arts and Sciences|Y
+CEADM|Administrative Purposes Only|Y
+PREBA|Pre-Business Administration|Y
+2 MCB|Mass Communications-Broadcasting|Y
+CAEDU|Capital College|Y
+2 MCA|Mass Communications Advertising|Y
+IST|Information Sciences and Technology|Y
+PSYBA|Psychology|Y
+BEHSC|Behaviorial Science|Y
+ESCBS|Science|Y
+BUSOF|Business Office-Schuylkill|Y
+GSOSC|General Social Science|Y
+L E C|Law Enforcement and Corrections|Y
+L I R|Labor and Industrial Relations|Y
+CSE|Computer Science and Engineering|Y
+CSD|Communication Sciences and Disorders|Y
+M E M|Mineral Engineering Management|Y
+CSA|College Student Affairs|Y
+MRKTG|Marketing|Y
+WMNLA|Womens Studies|Y
+CLBSC|Capital Behavioral Sciences|Y
+C & P|Chemistry and Physics|Y
+MSIS|Management Science and Information Systems|Y
+PSY|Psychology|Y
+E E T|Electrical Engineering Technology|Y
+BB H|Biobehavioral Health|Y
+AG E|Agricultural Engineering|Y
+EM SC|Earth and Mineral Sciences|Y
+2HRIM|Hotel, Restaurant, and Institutional Management|Y
+SRAAL|Security and Risk Analysis|Y
+HD FS|Human Development and Family Studies|Y
+CCBUS|University College|Y
+M E R|Man-Environment Relations|Y
+M E T|Mechanical Engineering Technology|Y
+E E C|Education of Exceptional Children|Y
+2SOLR|Solar and Thermal Technology|Y
+2 CJ|Criminal Justice|Y
+INTNL|International Students Office|Y
+2 DDT|Drafting and Design Technology|Y
+MN EC|Mineral Economics|Y
+AG J|Agricultural Journalism|Y
+L P S|Learning and Performance Systems|Y
+AG M|Agricultural Mechanization|Y
+MUPER|Performance|Y
+CLBUS|Capital Business Administration|Y
+MGMT|Management|Y
+MSIB|Management Science, Information Systems, and International Business|Y
+NURSE|Nursing|Y
+2MCBR|Mass Communications-Broadcasting|Y
+NURSG|Nursing|Y
+AAART|Arts and Architecture|Y
+PSSBA|Psychological and Social Sciences|Y
+ORGBH|Organizational Behavior|Y
+BDEET|Behrend Engineering|Y
+EPP|Education and Public Policy|Y
+IA ED|Industrial Arts Education|Y
+SOC|Sociology|Y
+CMPEN|Computer Engineering|Y
+SETCE|School of Engineering Technology and Commonwealth Engineering|Y
+CULST|Culture Studies|Y
+ACST|Acoustics|Y
+MU ED|Music Education|Y
+OISIB|Operations and Information Systems Management and International Business|Y
+AAA S|African and African American Studies|Y
+MFG E|Manufacturing Engineering|Y
+RUS|Russian|Y
+ALADM|Altoona Administration|Y
+P H P|Public Health Preparedness|Y
+CMPET|Computer Engineering Technology|Y
+EDPOL|Education Policy Studies|Y
+G SC|Geological Sciences|Y

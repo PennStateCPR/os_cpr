@@ -325,6 +325,7 @@
 <xs:element minOccurs="0" name="middleNames" type="xs:string"/>
 <xs:element minOccurs="0" name="lastName" type="xs:string"/>
 <xs:element minOccurs="0" name="suffix" type="xs:string"/>
+<xs:element minOccurs="0" name="nickname" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="AddNameResponse">
@@ -394,6 +395,7 @@
 <xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
 <xs:element minOccurs="0" name="middleNames" type="xs:string"/>
 <xs:element minOccurs="0" name="nameType" type="xs:string"/>
+<xs:element minOccurs="0" name="nickname" type="xs:string"/>
 <xs:element minOccurs="0" name="startDate" type="xs:string"/>
 <xs:element minOccurs="0" name="suffix" type="xs:string"/>
 </xs:sequence>
@@ -944,6 +946,7 @@
 <xs:element minOccurs="0" name="middleNames" type="xs:string"/>
 <xs:element minOccurs="0" name="lastName" type="xs:string"/>
 <xs:element minOccurs="0" name="suffix" type="xs:string"/>
+<xs:element minOccurs="0" name="nickname" type="xs:string"/>
 <xs:element minOccurs="0" name="addressType" type="xs:string"/>
 <xs:element minOccurs="0" name="addressDocumentType" type="xs:string"/>
 <xs:element minOccurs="0" name="address1" type="xs:string"/>
@@ -1161,6 +1164,7 @@
 <xs:element minOccurs="0" name="middleNames" type="xs:string"/>
 <xs:element minOccurs="0" name="lastName" type="xs:string"/>
 <xs:element minOccurs="0" name="suffix" type="xs:string"/>
+<xs:element minOccurs="0" name="nickname" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 <xs:complexType name="UpdateNameResponse">
@@ -1538,6 +1542,7 @@
 <xs:element minOccurs="0" name="middleNames" type="xs:string"/>
 <xs:element minOccurs="0" name="lastName" type="xs:string"/>
 <xs:element minOccurs="0" name="suffix" type="xs:string"/>
+<xs:element minOccurs="0" name="nickname" type="xs:string"/>
 <xs:element minOccurs="0" name="addressType" type="xs:string"/>
 <xs:element minOccurs="0" name="addressDocumentType" type="xs:string"/>
 <xs:element minOccurs="0" name="addressGroupId" type="xs:long"/>

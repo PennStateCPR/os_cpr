@@ -1,0 +1,36 @@
+appt_code|appt_desc|appt_source|active_flag
+LW|Leave of Absence reduced hours|HMC|Y
+LN|Leave of Absence with no Pay|HMC|Y
+RN|Resident LOA with No Pay|HMC|Y
+RL|Resident LOA with Pay|HMC|Y
+LP|Leave of Absence with Pay|HMC|Y
+TP|Termination Pending|HMC|Y
+DL|Physician LOA with Pay|HMC|Y
+FT|Full Time|HMC|Y
+DN|Physician LOA with No Pay|HMC|Y
+DR|Physician|HMC|Y
+L0|Personal Leave No Benefits|HMC|Y
+AT|Temporary|HMC|Y
+T1|Terminated Severance|HMC|Y
+P0|PRN Flex|HMC|Y
+T3|Terminated No Show|HMC|Y
+WN|Worker's Comp No Pay|HMC|Y
+T2|Terminated|HMC|Y
+PT|Part Time|HMC|Y
+RS|Resident|HMC|Y
+RT|Retirees with Benefits|HMC|Y
+NI|Grad Nurse & Crit Care Interns|HMC|Y
+ES|Early Separation|HMC|Y
+WC|Worker's Compensation|HMC|Y
+LD|Long Term Disability|HMC|Y
+NE|Nurse Externs|HMC|Y
+RES|FNS22P|IBIS|Y
+FT1|FRP17F|IBIS|Y
+FT2|PNS20P|IBIS|Y
+FEL|PNS28P|IBIS|Y
+ADJ|PNS40N10|IBIS|Y
+SCH|PNS26P|IBIS|Y
+GRD|PNS24P|IBIS|Y
+STN|FRP10F|IBIS|Y
+WAG|PNS30P|IBIS|Y
+FTM|FRP14F|IBIS|Y

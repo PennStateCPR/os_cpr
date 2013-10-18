@@ -81,17 +81,17 @@ public final class Validate {
      */
     public static String isValidYesNo(String yesNo) {
     	
-    	if (yesNo == null) {
+    	if (yesNo == null || "".equals(yesNo)) {
     		return "N";
     	}
-    	
+
     	final String s = yesNo.toUpperCase().trim();
-    	
+
     	if (s.equals("Y") || s.equals("YES") ||
-    		s.equals("N") || s.equals("NO")) {
+    			s.equals("N") || s.equals("NO")) {
     		return s.substring(0,1);
     	}
-    	
+
     	return null;
     }
 

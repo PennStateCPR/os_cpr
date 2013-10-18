@@ -28,8 +28,8 @@ public class UseridPoolLoader implements BeanLoader {
 			for (int i = start; i <= end; ++i) {
 				for (int j = start; j <= end; ++j) {
 					for (int k = start; k <= end; ++k) {
-						for (int l = 1; l < 26; ++l) {
-							StringBuilder sb = new StringBuilder(30);
+						for (int l = 1; l < 100; ++l) {
+							StringBuilder sb = new StringBuilder(7);
 							sb.append((char) i);
 							sb.append((char) j);
 							sb.append((char) k);

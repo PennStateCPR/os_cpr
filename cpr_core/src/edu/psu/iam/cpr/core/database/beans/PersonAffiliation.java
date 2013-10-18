@@ -99,6 +99,30 @@ public class PersonAffiliation implements Serializable {
         }
 
         /**
+         * COPY Constructor, make sure you include this when you rebuild the bean.
+         * @param personAffiliation contains the the affiliation to be copied.
+         */
+        public PersonAffiliation(final PersonAffiliation personAffiliation) {
+        	
+        	if (personAffiliation == null) {
+        		return;
+        	}
+        	
+        	setAffiliationKey(personAffiliation.getAffiliationKey());
+        	setCreatedBy(personAffiliation.getCreatedBy());
+        	setCreatedOn(personAffiliation.getCreatedOn());
+        	setEndDate(personAffiliation.getEndDate());
+        	setExceptionComments(personAffiliation.getExceptionComments());
+        	setExceptionFlag(personAffiliation.getExceptionFlag());
+        	setLastUpdateBy(personAffiliation.getLastUpdateBy());
+        	setLastUpdateOn(personAffiliation.getLastUpdateOn());
+        	setPersonAffiliationKey(personAffiliation.getPersonAffiliationKey());
+        	setPersonId(personAffiliation.getPersonId());
+        	setPrimaryFlag(personAffiliation.getPrimaryFlag());
+        	setStartDate(personAffiliation.getStartDate());        
+        }
+
+       /**
          * @return the startDate
          */
         public Date getStartDate() {

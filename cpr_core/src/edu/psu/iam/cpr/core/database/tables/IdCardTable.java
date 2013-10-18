@@ -409,12 +409,13 @@ public class IdCardTable {
 				{
 					// id card of type exist
 					// check to see if this is duplicate Person id card data
-					if (db.areStringFieldsEqual(saveDuplicatePersonIdCardBean.getIdCardNumber(), bean.getIdCardNumber()) &&
-							db.areStringFieldsEqual(saveDuplicatePersonIdCardBean.getIdSerialNumber(), bean.getIdSerialNumber()) ){
+					if (Utility.areStringFieldsEqual(saveDuplicatePersonIdCardBean.getIdCardNumber(), bean.getIdCardNumber()) &&
+							Utility.areStringFieldsEqual(saveDuplicatePersonIdCardBean.getIdSerialNumber(), bean.getIdSerialNumber()) ){
 						// a photo is included on the add check for duplicate data
 						if ( photoBean != null) {
 							if (  dbExistingPhotoBean !=null && 
-									(db.areStringFieldsEqual(Utility.convertDateToString(dbExistingPhotoBean.getDateTaken()), Utility.convertDateToString(personPhotoBean.getDateTaken())))) {
+									(Utility.areStringFieldsEqual(Utility.convertDateToString(dbExistingPhotoBean.getDateTaken()), 
+											Utility.convertDateToString(personPhotoBean.getDateTaken())))) {
 								// the record is a duplicate throw an error
 								matchFound = true;		
 							}

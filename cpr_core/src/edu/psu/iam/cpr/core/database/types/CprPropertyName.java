@@ -66,7 +66,8 @@ public enum CprPropertyName {
 	CPR_SERVICE_USERID("cpr.service.userid"),
 	CPR_SERVICE_PASSWORD("cpr.service.password"),
 	CPR_DATABASE_NAME("cpr.database.name"),
-	CPR_UUID_SCOPE("cpr.uuid.scope");
+	CPR_UUID_SCOPE("cpr.uuid.scope"),
+    CPR_UNIVERSITY_EMAIL_DOMAIN("cpr.university.email.domain");
 	
 	private String cprPropertyName;
 	

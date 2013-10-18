@@ -73,6 +73,14 @@ public class EmailAddress implements Serializable {
         @Column(name="email_address", nullable=false, length=256)
         private String emailAddress;
 
+        /** null */
+        @Column(name="import_from", nullable=true, length=30)
+        private String importFrom;
+
+        /** null */
+        @Column(name="import_date", nullable=true)
+        private Date importDate;
+
         /**
          * Constructor
          */
@@ -219,5 +227,33 @@ public class EmailAddress implements Serializable {
         public void setEmailAddress(String emailAddress) {
                 this.emailAddress = emailAddress;
         }
+
+		/**
+		 * @return the importFrom
+		 */
+		public String getImportFrom() {
+			return importFrom;
+		}
+
+		/**
+		 * @param importFrom the importFrom to set
+		 */
+		public void setImportFrom(String importFrom) {
+			this.importFrom = importFrom;
+		}
+
+		/**
+		 * @return the importDate
+		 */
+		public Date getImportDate() {
+			return importDate;
+		}
+
+		/**
+		 * @param importDate the importDate to set
+		 */
+		public void setImportDate(Date importDate) {
+			this.importDate = importDate;
+		}
 
 }

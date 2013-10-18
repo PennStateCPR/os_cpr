@@ -1,5 +1,22 @@
+drop schema cpr cascade;
+create schema cpr;
 set search_path = "cpr";
 
+create sequence seq_student_academic_dept start 100500;
+create sequence seq_names_staging start 100500;
+create sequence seq_person_citizenship start 100500;
+create sequence seq_trans_stubio start 100500;
+create sequence seq_trans_oasis start 100500;
+create sequence seq_trans_hershey start 100500;
+create sequence seq_trans_empl start 100500;
+create sequence seq_trans_cidr start 100500;
+create sequence seq_student_major start 100500;
+create sequence seq_student_academic_college start 100500;
+create sequence seq_student start 100500;
+create sequence seq_irs_country start 100500;
+create sequence seq_employee start 100500;
+create sequence seq_citizenship_cs start 100500;
+create sequence seq_address_staging start 100500;
 create sequence seq_person start 100500;
 create sequence seq_addresses start 100500;
 create sequence seq_aff_transition_rules start 100500;
@@ -103,7 +120,9 @@ create table person (
         end_date timestamp,
         last_update_by varchar(30) not null,
         last_update_on timestamp not null,
-        start_date timestamp not null
+        start_date timestamp not null,
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table addresses (
@@ -132,7 +151,9 @@ create table addresses (
         state varchar(2),
         validate_attempted_on timestamp,
         verified_flag varchar(1) not null,
-        do_not_verify_flag varchar(1) not null
+        do_not_verify_flag varchar(1) not null,
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table aff_transition_rules (
@@ -321,7 +342,9 @@ create table date_of_birth (
         last_update_by varchar(30) not null,
         last_update_on timestamp not null,
         person_id integer not null,
-        start_date timestamp not null
+        start_date timestamp not null,
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table email_address (
@@ -334,7 +357,9 @@ create table email_address (
         last_update_by varchar(30) not null,
         last_update_on timestamp not null,
         person_id integer not null,
-        start_date timestamp not null
+        start_date timestamp not null,
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table event_triggers (
@@ -555,7 +580,9 @@ create table names (
         nickname varchar(40),
         person_id integer not null,
         start_date timestamp not null,
-        suffix varchar(30)
+        suffix varchar(30),
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table person_affiliation (
@@ -582,7 +609,9 @@ create table person_gender (
         last_update_by varchar(30) not null,
         last_update_on timestamp not null,
         person_id integer not null,
-        start_date timestamp not null
+        start_date timestamp not null,
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table person_iap_data (
@@ -685,7 +714,9 @@ create table phones (
         person_id integer not null,
         phone_number varchar(40) not null,
         primary_flag varchar(1) not null,
-        start_date timestamp not null
+        start_date timestamp not null,
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table photo_id_issuer (
@@ -745,7 +776,9 @@ create table psu_id (
         last_update_on timestamp not null,
         person_id integer not null,
         psu_id varchar(20) not null,
-        start_date timestamp not null
+        start_date timestamp not null,
+        import_from varchar(30),
+        import_date timestamp
 );
 
 create table psu_id_exceptions (
@@ -879,6 +912,8 @@ create table userid (
         psu_id_letter varchar(1),
         start_date timestamp not null,
         scoped_uuid varchar(100),
+        import_from varchar(30),
+        import_date timestamp,
         primary key (userid, person_id)
 );
 
@@ -1241,6 +1276,634 @@ create table message_log_history (
      created_on timestamp not null
 );
 
+create table academic_college_cs
+    (
+     college_code varchar(2)  not null primary key,
+     college_name varchar(100)  not null,
+     active_flag varchar(1) default 'N'  not null check ( active_flag in ('N', 'Y')),
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+);
+
+create table academic_department_cs
+    (
+     department_code varchar(5) not null primary key,
+     department_name varchar(100) not null ,
+     active_flag varchar(1) default 'N' not null check ( active_flag in ('N', 'Y')) ,
+     last_update_by varchar(30) not null ,
+     last_update_on timestamp not null ,
+     created_by varchar(30) not null ,
+     created_on timestamp not null
+    );
+
+create table address_staging
+    (
+     address_staging_key integer default nextval('seq_address_staging') not null primary key,
+     person_id integer not null ,
+     data_type_key integer  not null ,
+     campus_code_key integer ,
+     campus_code varchar(2),
+     country_key integer ,
+     country_code_two varchar(2),
+     country_code_three varchar(3),
+     province varchar(40),
+     address1 varchar(100),
+     address2 varchar(100),
+     address3 varchar(100),
+     city varchar(40),
+     state varchar(2),
+     postal_code varchar(20),
+     address_match_code varchar(60),
+     city_match_code varchar(60),
+     import_from varchar(30),
+     import_date timestamp
+);
+
+create table appointment_cs
+    (
+     appt_code varchar(3)  not null primary key,
+     appt_desc varchar(40),
+     appt_source varchar(4)  not null check ( appt_source in ('HMC', 'IBIS')),
+     active_flag varchar(1) default 'N'  not null check ( active_flag in ('N', 'Y')),
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
+
+create table citizenship_cs
+    (
+     citizenship integer default nextval('seq_citizenship_cs') not null primary key,
+     description varchar(128)  not null,
+     active_flag varchar(1) default 'N'  not null check ( active_flag in ('N', 'Y')),
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
+
+create table employee
+    (
+     employee_key integer default nextval('seq_employee') not null primary key,
+     person_id integer  not null,
+     appt_code varchar(3),
+     campus_code_key integer,
+     status_code varchar(3),
+     class_code varchar(4),
+     primary_appt_flag varchar(1) default 'N'  not null check ( primary_appt_flag in ('N', 'Y')),
+     show_in_directory_flag varchar(1) default 'N'  not null check ( show_in_directory_flag in ('N', 'Y')),
+     visa_type varchar(6),
+     benefits_rate varchar(1),
+     hire_date timestamp,
+     terminated_date timestamp,
+     last_date_paid timestamp,
+     pay_freq_code varchar(4),
+     layoff_flag varchar(1) default 'N'  not null check ( layoff_flag in ('N', 'Y')),
+     department varchar(80),
+     admin_area varchar(50),
+     admin_area_code varchar(10),
+     student_status varchar(1),
+     special_status varchar(1),
+     job_title varchar(80),
+     alternate_job_title varchar(128),
+     start_date timestamp not null,
+     import_from varchar(30),
+     import_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
+
+create table employee_class_cs
+    (
+     class_code varchar(4)  not null primary key,
+     class_desc varchar(40),
+     active_flag varchar(1) default 'N'  not null check ( active_flag in ('N', 'Y')),
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
+
+
+create table employee_hist
+    (
+     employee_key integer not null,
+     person_id integer not null,
+     appt_code varchar(3),
+     campus_code_key integer,
+     status_code varchar(3),
+     class_code varchar(4),
+     primary_appt_flag varchar(1) default 'N'  not null,
+     show_in_directory_flag varchar(1) default 'N'  not null,
+     visa_type varchar(6),
+     benefits_rate varchar(1),
+     hire_date timestamp,
+     terminated_date timestamp,
+     last_date_paid timestamp,
+     pay_freq_code varchar(4),
+     layoff_flag varchar(1) default 'N'  not null,
+     department varchar(80),
+     admin_area varchar(50),
+     admin_area_code varchar(10),
+     student_status varchar(1),
+     special_status varchar(1),
+     job_title varchar(80),
+     alternate_job_title varchar(128),
+     start_date timestamp  not null,
+     end_date timestamp not null,
+     import_from varchar(30),
+     import_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null,
+     primary key (employee_key, start_date)
+    );
+
+create table irs_country
+    (
+     irs_country_key integer default nextval('seq_irs_country') not null primary key,
+     country_key integer  not null,
+     irs_country_code varchar(2)  not null,
+     start_date timestamp,
+     end_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
+
+
+create table major_cs
+    (
+     major_code varchar(20)  not null primary key,
+     major_name varchar(100),
+     active_flag varchar(1) default 'N'  not null check ( active_flag in ('N', 'Y')),
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
+
+
+create table pay_frequency_cs
+    (
+     pay_freq_code varchar(4)  not null primary key,
+     pay_freq_desc varchar(40),
+     active_flag varchar(1) default 'N'  not null check ( active_flag in ('N', 'Y')),
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    )
+;
+
+
+create table semesters
+    (
+     semester_code varchar(8)  not null primary key,
+     semester_desc varchar(20)  not null,
+     sem_start_date timestamp  not null,
+     sem_end_date timestamp  not null,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    )
+;
+
+create table student
+    (
+     student_key integer default nextval('seq_student') not null primary key,
+     person_id integer  not null,
+     semester_code varchar(8)  not null,
+     campus_code_key integer,
+     registration_status varchar(6),
+     academic_level varchar(2),
+     year_term varchar(2),
+     graduating_flag varchar(1) default 'N'  not null check ( graduating_flag in ('N', 'Y')),
+     sem_loa_start varchar(8),
+     sem_loa_end varchar(8),
+     dorm_location varchar(4),
+     class_load varchar(1),
+     student_aid_flag varchar(1) default 'N'  not null check ( student_aid_flag in ('N', 'Y')),
+     start_date timestamp not null,
+     import_from varchar(30),
+     import_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    )
+;
+
+
+create table student_academic_college
+    (
+     student_academic_college_key integer default nextval('seq_student_academic_college') primary key not null,
+     person_id integer  not null,
+     semester_code varchar(8)  not null,
+     college_code varchar(2)  not null,
+     rank integer  not null,
+     start_date timestamp not null,
+     import_from varchar(30),
+     import_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    )
+;
+
+create table student_academic_college_hist
+    (
+     student_academic_college_key integer not null,
+     person_id integer  not null,
+     semester_code varchar(8)  not null,
+     college_code varchar(2)  not null,
+     rank integer  not null,
+     start_date timestamp  not null,
+     end_date timestamp not null,
+     import_from varchar(30),
+     import_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null,
+     primary key (student_academic_college_key, start_date)
+    )
+;
+
+create table student_academic_department
+    (
+     student_academic_dept_key integer default nextval('seq_student_academic_dept') not null primary key,
+     person_id integer  not null,
+     semester_code varchar(8)  not null,
+     department_code varchar(5)  not null,
+     rank integer  not null,
+     start_date timestamp not null,
+     import_from varchar(30),
+     import_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    )
+;
+
+create table student_academic_dept_hist
+    (
+     student_academic_dept_key integer not null,
+     person_id integer  not null,
+     semester_code varchar(8)  not null,
+     department_code varchar(5)  not null,
+     rank integer  not null,
+     start_date timestamp  not null,
+     end_date timestamp not null,
+     import_from varchar(30),
+     import_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null,
+     primary key (student_academic_dept_key, start_date)
+    )
+;
+
+create table student_hist
+    (
+     student_key integer  not null,
+     person_id integer  not null,
+     semester_code varchar(8)  not null,
+     campus_code_key integer,
+     registration_status varchar(6),
+     academic_level varchar(2),
+     year_term varchar(2),
+     graduating_flag varchar(1) default 'N'  not null,
+     sem_loa_start varchar(8),
+     sem_loa_end varchar(8),
+     dorm_location varchar(4),
+     class_load varchar(1),
+     student_aid_flag varchar(1) default 'N'  not null,
+     start_date timestamp  not null,
+     end_date timestamp not null,
+     import_from varchar(30),
+     import_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null,
+     primary key (student_key, start_date)
+    )
+;
+
+create table student_major
+    (
+     student_major_key integer default nextval('seq_student_major') not null primary key,
+     person_id integer  not null,
+     semester_code varchar(8)  not null,
+     major_code varchar(20)  not null,
+     rank integer  not null,
+     start_date timestamp not null,
+     import_from varchar(30),
+     import_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    )
+;
+
+create table student_major_hist
+    (
+     student_major_key integer  not null,
+     person_id integer  not null,
+     semester_code varchar(8)  not null,
+     major_code varchar(20)  not null,
+     rank integer  not null,
+     start_date timestamp  not null,
+     end_date timestamp not null,
+     import_from varchar(30),
+     import_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null,
+     primary key (student_major_key, start_date)
+    )
+;
+
+create table student_status_cs
+    (
+     status_code varchar(6)  not null primary key,
+     status_desc varchar(128)  not null,
+     active_flag varchar(1) default 'N'  not null check ( active_flag in ('N', 'Y')),
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    )
+;
+
+
+create table trans_cidr
+    (
+     trans_cidr_key integer default nextval('seq_trans_cidr')  not null primary key,
+     psu_id varchar(9)  not null,
+     status varchar(4)  not null,
+     affiliate varchar(8),
+     street1 varchar(40),
+     street2 varchar(40),
+     city varchar(35),
+     state varchar(2),
+     zip varchar(9),
+     country varchar(3),
+     dob varchar(8),
+     gender varchar(1),
+     first_name varchar(25),
+     middle_name varchar(25),
+     last_name varchar(30),
+     last_update varchar(8)
+    )
+;
+
+
+create table trans_empl
+    (
+     trans_empl_key integer default nextval('seq_trans_empl') not null primary key,
+     psu_id varchar(100),
+     date_empl_hired varchar(100),
+     code_empl_sex varchar(100),
+     date_empl_birth varchar(100),
+     numb_empl_phone_home varchar(100),
+     addr_empl_room_integer varchar(100),
+     addr_empl_building_name varchar(100),
+     addr_empl_campus_name varchar(100),
+     addr_empl_office_street varchar(100),
+     addr_empl_office_city varchar(100),
+     addr_empl_offc_state varchar(100),
+     addr_empl_offc_zip varchar(100),
+     numb_empl_phone_offc varchar(100),
+     name_empl_first_legal varchar(100),
+     name_empl_mid_legal varchar(100),
+     name_empl_last_legal varchar(100),
+     name_empl_sfx_legal varchar(100),
+     name_empl_pm_preferred_name varchar(100),
+     filler varchar(100),
+     addr_empl_street_home varchar(100),
+     addr_empl_city_home varchar(100),
+     addr_empl_state_home varchar(100),
+     addr_empl_zip_home_prime varchar(100),
+     addr_empl_zip_home_second varchar(100),
+     code_empl_country_home varchar(100),
+     code_empl_fnat_visa_type varchar(100),
+     code_empl_class varchar(100),
+     code_empl_status varchar(100),
+     code_budg_numb_home varchar(100),
+     code_budg_location_home varchar(100),
+     name_jobd_title_short varchar(100),
+     name_jobd_title_long varchar(100),
+     code_empl_rank varchar(100),
+     code_appt varchar(100),
+     code_empl_appt_special varchar(100),
+     date_empl_termn varchar(100),
+     code_appt_type varchar(100),
+     code_empl_bnfts_rate varchar(100),
+     date_empl_paid varchar(100),
+     code_empl_title_class varchar(100),
+     code_empl_title2_class varchar(100),
+     code_empl_layoff varchar(100),
+     addr_campus_addr_line1 varchar(100),
+     code_empl_direct_phone varchar(100),
+     addr_campus_addr_line2 varchar(100),
+     numb_pers_access_acct_id varchar(100),
+     addr_campus_addr_line3 varchar(100),
+     name_empl_department varchar(100),
+     code_admin_area varchar(100),
+     name_empl_admin_area varchar(100),
+     code_mnemonic varchar(100),
+     student_status varchar(1),
+     code_campus varchar(100),
+     addr_empl_st2_home varchar(100),
+     alt_job_title varchar(128),
+     job_family varchar(100),
+     code_empl_pay_calc varchar(100)
+    )
+;
+
+create table trans_hershey
+    (
+     trans_hershey_key integer default nextval('seq_trans_hershey')  not null primary key,
+     psu_id varchar(16),
+     last_name varchar(100),
+     first_name varchar(100),
+     middle_names varchar(100),
+     suffix varchar(100),
+     preferred_name varchar(240),
+     dept_name varchar(100),
+     mail_code varchar(100),
+     campus_name varchar(100),
+     work_address1 varchar(100),
+     work_address2 varchar(100),
+     work_city varchar(100),
+     work_state varchar(100),
+     work_zipcode varchar(100),
+     work_phone varchar(100),
+     work_phone_ext varchar(10),
+     title varchar(100),
+     date_of_birth varchar(100),
+     appt_type_code varchar(100),
+     home_address1 varchar(100),
+     home_address2 varchar(100),
+     home_city varchar(100),
+     home_state varchar(2),
+     home_zipcode varchar(100),
+     home_country varchar(3),
+     gender varchar(1),
+     hr_hire_date varchar(8),
+     hr_term_date varchar(8)
+    )
+;
+
+
+create table trans_oasis
+    (
+     trans_oasis_key integer default nextval('seq_trans_oasis') not null primary key,
+     psu_id varchar(9),
+     userid varchar(30),
+     status varchar(1)
+    )
+;
+
+create table trans_stubio
+    (
+     trans_stubio_key integer default nextval('seq_trans_stubio')  not null primary key,
+     psu_id varchar(100)  not null,
+     psu_id_prev varchar(100),
+     type varchar(1000),
+     name_pers_last varchar(1000),
+     name_pers_first varchar(1000),
+     name_pers_mid varchar(1000),
+     name_pers_sfx varchar(1000),
+     code_stud_coll1 varchar(1000),
+     code_stud_coll2 varchar(1000),
+     code_stud_coll3 varchar(1000),
+     code_stud_coll4 varchar(1000),
+     code_stud_acdt1 varchar(1000),
+     code_stud_acdt2 varchar(1000),
+     code_stud_acdt3 varchar(1000),
+     code_stud_acdt4 varchar(1000),
+     code_camp varchar(1000),
+     code_pers_sex varchar(1000),
+     code_stud_majr1 varchar(1000),
+     code_stud_majr2 varchar(1000),
+     code_stud_majr3 varchar(1000),
+     code_stud_majr4 varchar(1000),
+     code_stud_lvl varchar(1000),
+     code_stud_clsfctn_yrtm varchar(1000),
+     code_stud_stat varchar(1000),
+     numb_stud_access_acct_id varchar(1000),
+     date_pers_birth varchar(1000),
+     indc_stud_graduation varchar(1000),
+     sem varchar(1000),
+     date_confid_end varchar(1000),
+     date_confid_beg varchar(1000),
+     appl_stat varchar(1000),
+     appl_type varchar(1000),
+     date_counsel varchar(1000),
+     phone_local varchar(1000),
+     req_sem varchar(1000),
+     addr_locl_st1 varchar(1000),
+     addr_locl_st2 varchar(1000),
+     addr_locl_city varchar(1000),
+     addr_locl_state varchar(1000),
+     addr_locl_zip varchar(1000),
+     addr_locl_ctry varchar(1000),
+     phone_home varchar(1000),
+     addr_home_st1 varchar(1000),
+     addr_home_st2 varchar(1000),
+     addr_home_city varchar(1000),
+     addr_home_state varchar(1000),
+     addr_home_zip varchar(1000),
+     addr_home_ctry varchar(1000),
+     code_scholar varchar(1000),
+     date_scholar varchar(1000),
+     loa_start varchar(1000),
+     loa_return_st1 varchar(1000),
+     code_pers_cznshp_st2 varchar(1000),
+     code_pers_residence varchar(1000),
+     stud_reg varchar(1000),
+     stud_hold varchar(1000),
+     code_stud_admit_univ_yrterm varchar(1000),
+     addr_locl_st3 varchar(1000),
+     addr_home_st3 varchar(1000),
+     code_hotl varchar(10),
+     fps_id varchar(8),
+     class_load varchar(1),
+     preferred_name varchar(100),
+     cell_phone varchar(100),
+     cell_carrier varchar(100),
+     non_psu_email_addr varchar(100),
+     student_aid varchar(100)
+    )
+;
+
+create table visa_cs
+    (
+     visa_code varchar(6)  not null primary key,
+     visa_desc varchar(40),
+     active_flag varchar(1) default 'N'  not null check ( active_flag in ('N', 'Y')),
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    )
+;
+
+create table employee_status_cs
+    (
+     status_code varchar(3)  not null primary key,
+     status_desc varchar(40),
+     active_flag varchar(1) default 'N'  not null check ( active_flag in ('N', 'Y')),
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
+
+
+create table names_staging
+    (
+     name_staging_key integer default nextval('seq_names_staging') not null primary key,
+     person_id integer  not null,
+     first_name varchar(60),
+     middle_names varchar(60),
+     last_name varchar(60),
+     suffix varchar(30),
+     name_match_code varchar(60),
+     import_from varchar(30),
+     import_date timestamp
+    );
+
+create table person_citizenship
+    (
+     person_citizenship_key integer default nextval('seq_person_citizenship') not null primary key,
+     person_id integer  not null,
+     citizenship integer  not null,
+     start_date timestamp  not null,
+     end_date timestamp,
+     import_from varchar(30),
+     import_date timestamp,
+     last_update_by varchar(30)  not null,
+     last_update_on timestamp  not null,
+     created_by varchar(30)  not null,
+     created_on timestamp  not null
+    );
+
 -- end of tables --
 
 
@@ -1480,6 +2143,25 @@ FROM person_id_card JOIN id_card_print_log
   JOIN services ON message_consumer_mapping.service_key = services.service_key AND
   	services.active_flag = 'Y';
 
+  CREATE OR REPLACE VIEW v_consumer_notification_dest (message_consumer_key, consumer_destination, 
+  	change_notifications_key, change_notification_types_key, notification_type) AS
+  SELECT
+  mec.message_consumer_key MESSAGE_CONSUMER_KEY,
+  mec.consumer_destination CONSUMER_DESTINATION,
+  cno.change_notifications_key CHANGE_NOTIFICATIONS_KEY,
+  cnt.change_notification_types_key CHANGE_NOTIFICATION_TYPES_KEY,
+  cnt.notification_type NOTIFICATION_TYPE
+FROM message_consumer mec
+  JOIN change_notifications cno ON (mec.message_consumer_key = cno.message_consumer_key AND
+				    mec.end_date IS NULL AND
+				    mec.suspend_flag = 'N' AND
+				    cno.end_date IS NULL)
+  JOIN change_notification_types cnt ON (cno.change_notification_types_key =
+					 cnt.change_notification_types_key AND
+					 cnt.active_flag = 'Y' AND
+					 cno.end_date IS NULL)
+ORDER BY cnt.notification_type;
+
 create index email_notification_01_idx on email_notification (notification_process asc);
 create index ra_applications_10_idx on ra_applications ( registration_authority_key asc );
 create index security_questions_01_idx on security_questions ( sec_quest_group_key asc , end_date asc );
@@ -1677,4 +2359,70 @@ create index msglog_websrvc_fkX on message_log ( web_service_key asc );
 create index msglog_mec_fkX on message_log ( message_consumer_key asc );
 create index MESSAGE_LOG_01_IDX on message_log ( created_on asc );
 create index message_log_history_01_IDX on message_log_history ( message_id asc );
+create unique index employee_hist_pkx on employee_hist ( employee_key asc, start_date asc );
+create index emp_his_person_id_idx on employee_hist ( person_id asc );
+create index emp_his_appt_code_idx on employee_hist ( appt_code asc );
+create unique index employee_class_cs_pkx on employee_class_cs ( class_code asc );
+create unique index employee_pkx on employee ( employee_key asc );
+create index emp_cmp_fkx on employee ( campus_code_key asc );
+create index emp_per_fkx on employee ( person_id asc );
+create index emp_app_fkx on employee ( appt_code asc );
+create unique index ACADEMIC_COLLEGE_PKX on academic_college_cs (college_code asc);
+create unique index ACADEMIC_DEPARTMENT_PKX on academic_department_cs (department_code ASC);
+create unique index address_staging_pkx on address_staging ( address_staging_key asc) ;
+create index ast_per_match_code_idx on address_staging ( person_id asc, address_match_code asc, city_match_code asc, state asc, postal_code asc) ;
+create index ast_address1_2_3_idx on address_staging ( address1 asc, address2 asc, address3 asc) ;
+create index ast_per_fkx on address_staging ( person_id asc) ;
+create index ast_cmp_fkx on address_staging ( campus_code_key asc) ;
+create index ast_cou_fkx on address_staging ( country_key asc);
+create index ast_dat_fkx on address_staging ( data_type_key asc) ;
+create unique index CITIZENSHIP_CS_PKX on citizenship_cs (citizenship ASC);
+create unique index visa_cs_pkx on visa_cs ( visa_code asc);
+create unique index trans_stubio_pkx on trans_stubio ( trans_stubio_key asc);
+create index tsb_psu_id_idx on trans_stubio ( psu_id asc);
+create unique index irs_country_pkx on irs_country ( irs_country_key asc);
+create unique index major_cs_pkx on major_cs ( major_code asc);
+create unique index pay_frequency_cs_pkx on pay_frequency_cs ( pay_freq_code asc);
+create unique index semesters_pkx on semesters ( semester_code asc);
+create unique index student_pkx on student ( student_key asc);
+create unique index stu_per_sem_ukx on student ( person_id asc, semester_code asc);
+create index stu_per_fkx on student ( person_id asc);
+create index stu_sem_fkx on student ( semester_code asc);
+create unique index student_academic_college_pkx on student_academic_college ( student_academic_college_key asc);
+create index sac_per_fkx on student_academic_college ( person_id asc);
+create index sac_sem_fkx on student_academic_college ( semester_code asc);
+create unique index sac_hist_pkx on student_academic_college_hist ( student_academic_college_key asc, start_date asc);
+create index sac_his_per_sem_aco_idx on student_academic_college_hist ( person_id asc, semester_code asc, college_code asc);
+create index sac_his_sem_idx on student_academic_college_hist ( semester_code asc);
+create unique index student_academic_dept_pkx on student_academic_department ( student_academic_dept_key asc);
+create index sad_per_fkx on student_academic_department ( person_id asc);
+create index sad_sem_fkx on student_academic_department ( semester_code asc);
+create unique index sad_his_pkx on student_academic_dept_hist ( student_academic_dept_key asc, start_date asc);
+create index sad_his_per_sem_ade_idx on student_academic_dept_hist ( person_id asc, semester_code asc, department_code asc);
+create index sad_his_sem_idx on student_academic_dept_hist ( semester_code asc);
+create unique index student_hist_pkx on student_hist ( student_key asc, start_date asc);
+create index stu_his_per_sem_idx on student_hist ( person_id asc, semester_code asc);
+create index stu_his_semester_code_idx on student_hist ( semester_code asc);
+create unique index student_major_pkx on student_major ( student_major_key asc);
+create index sma_per_fkx on student_major ( person_id asc);
+create index sma_sem_fkx on student_major ( semester_code asc);
+create unique index student_major_hist_pkx on student_major_hist ( student_major_key asc, start_date asc);
+create index sma_his_per_sem_maj_idx on student_major_hist ( person_id asc, semester_code asc, major_code asc);
+create index sma_his_sem_idx on student_major_hist ( semester_code asc);
+create unique index student_status_cs_pkx on student_status_cs ( status_code asc);
+create unique index trans_cidr_pkx on trans_cidr ( trans_cidr_key asc);
+create index tci_psu_id_idx on trans_cidr ( psu_id asc);
+create unique index trans_empl_pkx on trans_empl ( trans_empl_key asc);
+create index tem_psu_id_idx on trans_empl ( psu_id asc);
+create unique index trans_hershey_pkx on trans_hershey ( trans_hershey_key asc);
+create index the_psu_id_idx on trans_hershey ( psu_id asc);
+create unique index trans_oasis_pkx on trans_oasis ( trans_oasis_key asc);
+create index toa_psu_id_idx on trans_oasis ( psu_id asc);
+create index person_citizenship_pkx on person_citizenship ( person_citizenship_key asc);
+create index csp_per_fkx on person_citizenship ( person_id asc);
+create index pci_cit_fkx on person_citizenship ( citizenship asc);
+create unique index employee_status_cs_pkx on employee_status_cs ( status_code asc);
+create unique index names_staging_pkx on names_staging ( name_staging_key asc);
+create index nst_name_match_per_idx on names_staging ( name_match_code asc, person_id asc);
+create index nst_per_fkx on names_staging ( person_id asc);
 -- end of indexes --

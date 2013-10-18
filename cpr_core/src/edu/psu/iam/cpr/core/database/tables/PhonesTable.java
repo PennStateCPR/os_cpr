@@ -240,9 +240,9 @@ public class PhonesTable {
 		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
 			Phones dbBean = (Phones) it.next();
-			if (db.areStringFieldsEqual(bean.getPhoneNumber(), dbBean.getPhoneNumber()) &&
-					db.areStringFieldsEqual(bean.getExtension(), dbBean.getExtension()) &&
-					db.areStringFieldsEqual(bean.getInternationalNumberFlag(), dbBean.getInternationalNumberFlag())) {
+			if (Utility.areStringFieldsEqual(bean.getPhoneNumber(), dbBean.getPhoneNumber()) &&
+					Utility.areStringFieldsEqual(bean.getExtension(), dbBean.getExtension()) &&
+					Utility.areStringFieldsEqual(bean.getInternationalNumberFlag(), dbBean.getInternationalNumberFlag())) {
 				matchFound = true;
 			}
 		}
@@ -300,9 +300,9 @@ public class PhonesTable {
 		query.setParameter(DATA_TYPE_KEY_STRING, bean.getDataTypeKey());
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext() && (! matchFound); ) {
 			Phones dbBean = (Phones) it.next();
-			if (db.areStringFieldsEqual(bean.getPhoneNumber(), dbBean.getPhoneNumber()) &&
-					db.areStringFieldsEqual(bean.getExtension(), dbBean.getExtension()) &&
-					db.areStringFieldsEqual(bean.getInternationalNumberFlag(), dbBean.getInternationalNumberFlag())) {
+			if (Utility.areStringFieldsEqual(bean.getPhoneNumber(), dbBean.getPhoneNumber()) &&
+					Utility.areStringFieldsEqual(bean.getExtension(), dbBean.getExtension()) &&
+					Utility.areStringFieldsEqual(bean.getInternationalNumberFlag(), dbBean.getInternationalNumberFlag())) {
 				matchFound = true;
 			}
 		}

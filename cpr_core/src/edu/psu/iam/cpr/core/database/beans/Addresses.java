@@ -146,6 +146,14 @@ public class Addresses implements Serializable {
         /** Contains the postalCode. */
         @Column(name="postal_code", nullable=true, length=20)
         private String postalCode;
+        
+        /** null */
+        @Column(name="import_from", nullable=true, length=30)
+        private String importFrom;
+
+        /** null */
+        @Column(name="import_date", nullable=true)
+        private Date importDate;
 
         /**
          * Constructor
@@ -516,6 +524,22 @@ public class Addresses implements Serializable {
 		 */
 		public String getDoNotVerifyFlag() {
 			return doNotVerifyFlag;
+		}
+
+		public String getImportFrom() {
+			return importFrom;
+		}
+
+		public void setImportFrom(String importFrom) {
+			this.importFrom = importFrom;
+		}
+
+		public Date getImportDate() {
+			return importDate;
+		}
+
+		public void setImportDate(Date importDate) {
+			this.importDate = importDate;
 		}
 
 }

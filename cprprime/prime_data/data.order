@@ -49,3 +49,17 @@ UspsStates
 MessageConsumer
 MessageConsumerMapping
 Addresses
+IrsCountry
+AcademicCollegeCs
+AcademicDepartmentCs
+AppointmentCs
+CitizenshipCs
+EmployeeClassCs
+MajorCs
+PayFrequencyCs
+StudentStatusCs
+VisaCs
+EmployeeStatusCs
+ChangeNotificationTypes
+ChangeNotifications
+Semesters

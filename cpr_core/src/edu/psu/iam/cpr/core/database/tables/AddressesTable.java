@@ -22,6 +22,7 @@ import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.AddressReturn;
 import edu.psu.iam.cpr.core.util.CprProperties;
+import edu.psu.iam.cpr.core.util.DataQualityService;
 import edu.psu.iam.cpr.core.util.Utility;
 
 /**
@@ -436,15 +437,15 @@ public class AddressesTable {
 			// Check to ensure that the fields are not already there
 			// ignore campus code and country code
 
-			if (db.areStringFieldsEqual(dbBean.getAddress1(), bean.getAddress1()) &&
-					db.areStringFieldsEqual(dbBean.getAddress2(), bean.getAddress2())	 &&
-					db.areStringFieldsEqual(dbBean.getAddress3(), bean.getAddress3()) &&
-					db.areStringFieldsEqual(dbBean.getCity(), bean.getCity()) &&
-					db.areStringFieldsEqual(dbBean.getState(), bean.getState()) && 
-					db.areStringFieldsEqual(dbBean.getProvince(), bean.getProvince()) &&
-					db.areStringFieldsEqual(dbBean.getPostalCode(), bean.getPostalCode()) &&
-					db.areLongFieldsEqual(dbBean.getCampusCodeKey(), bean.getCampusCodeKey()) && 
-					db.areLongFieldsEqual(dbBean.getCountryKey(), bean.getCountryKey())) {
+			if (Utility.areStringFieldsEqual(dbBean.getAddress1(), bean.getAddress1()) &&
+					Utility.areStringFieldsEqual(dbBean.getAddress2(), bean.getAddress2())	 &&
+					Utility.areStringFieldsEqual(dbBean.getAddress3(), bean.getAddress3()) &&
+					Utility.areStringFieldsEqual(dbBean.getCity(), bean.getCity()) &&
+					Utility.areStringFieldsEqual(dbBean.getState(), bean.getState()) && 
+					Utility.areStringFieldsEqual(dbBean.getProvince(), bean.getProvince()) &&
+					Utility.areStringFieldsEqual(dbBean.getPostalCode(), bean.getPostalCode()) &&
+					Utility.areLongFieldsEqual(dbBean.getCampusCodeKey(), bean.getCampusCodeKey()) && 
+					Utility.areLongFieldsEqual(dbBean.getCountryKey(), bean.getCountryKey())) {
 				matchFound = true;
 			}
 			else {
@@ -856,15 +857,15 @@ public class AddressesTable {
 			// Check to ensure that the fields are not already there
 			// do we need to check campus code and country code
 
-			if (db.areStringFieldsEqual(dbBean.getAddress1(), bean.getAddress1()) &&
-					db.areStringFieldsEqual(dbBean.getAddress2(), bean.getAddress2())	 &&
-					db.areStringFieldsEqual(dbBean.getAddress3(), bean.getAddress3()) &&
-					db.areStringFieldsEqual(dbBean.getCity(), bean.getCity()) &&
-					db.areStringFieldsEqual(dbBean.getState(), bean.getState()) && 
-					db.areStringFieldsEqual(dbBean.getProvince(), bean.getProvince()) &&
-					db.areStringFieldsEqual(dbBean.getPostalCode(), bean.getPostalCode()) &&
-					db.areLongFieldsEqual(dbBean.getCampusCodeKey(), bean.getCampusCodeKey()) && 
-					db.areLongFieldsEqual(dbBean.getCountryKey(), bean.getCountryKey()))
+			if (Utility.areStringFieldsEqual(dbBean.getAddress1(), bean.getAddress1()) &&
+					Utility.areStringFieldsEqual(dbBean.getAddress2(), bean.getAddress2())	 &&
+					Utility.areStringFieldsEqual(dbBean.getAddress3(), bean.getAddress3()) &&
+					Utility.areStringFieldsEqual(dbBean.getCity(), bean.getCity()) &&
+					Utility.areStringFieldsEqual(dbBean.getState(), bean.getState()) && 
+					Utility.areStringFieldsEqual(dbBean.getProvince(), bean.getProvince()) &&
+					Utility.areStringFieldsEqual(dbBean.getPostalCode(), bean.getPostalCode()) &&
+					Utility.areLongFieldsEqual(dbBean.getCampusCodeKey(), bean.getCampusCodeKey()) && 
+					Utility.areLongFieldsEqual(dbBean.getCountryKey(), bean.getCountryKey()))
 			{
 
 				matchFound = true;	
@@ -957,5 +958,13 @@ public class AddressesTable {
 	 * @param bean contains the database bean.
 	 */
 	public void getAddressCityMatchCode(Addresses bean) {
+	}
+
+	/**
+	 * This method is used to obtain match codes using an existing opened data quality service.
+	 * @param dqService contains the data quality service reference.
+	 * @param bean contains the Addresses bean.
+	 */
+	public void getMatchCodesUsingOpenSession(DataQualityService dqService, Addresses bean) {
 	}
 }

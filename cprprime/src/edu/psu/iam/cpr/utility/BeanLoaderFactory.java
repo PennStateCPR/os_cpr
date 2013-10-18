@@ -157,6 +157,48 @@ public class BeanLoaderFactory {
 		else if (tableName.equals("Addresses")) {
 			return new AddressesLoader();
 		}
+		else if (tableName.equals("IrsCountry")) {
+			return new IrsCountryLoader();
+		}
+		else if (tableName.equals("AcademicCollegeCs")) {
+			return new AcademicCollegeCsLoader();
+		}
+		else if (tableName.equals("AcademicDepartmentCs")) {
+			return new AcademicDepartmentCsLoader();
+		}
+		else if (tableName.equals("AppointmentCs")) {
+			return new AppointmentCsLoader();
+		}
+		else if (tableName.equals("CitizenshipCs")) {
+			return new CitizenshipCsLoader();
+		}
+		else if (tableName.equals("EmployeeClassCs")) {
+			return new EmployeeClassCsLoader();
+		}
+		else if (tableName.equals("MajorCs")) {
+			return new MajorCsLoader();
+		}
+		else if (tableName.equals("PayFrequencyCs")) {
+			return new PayFrequencyCsLoader();
+		}
+		else if (tableName.equals("StudentStatusCs")) {
+			return new StudentStatusCsLoader();
+		}
+		else if (tableName.equals("VisaCs")) {
+			return new VisaCsLoader();
+		}
+		else if (tableName.equals("EmployeeStatusCs")) {
+			return new EmployeeStatusCsLoader();
+		}
+		else if (tableName.equals("ChangeNotificationTypes")) {
+			return new ChangeNotificationTypesLoader();
+		}
+		else if (tableName.equals("ChangeNotifications")) {
+			return new ChangeNotificationsLoader();
+		}
+		else if (tableName.equals("Semesters")) {
+			return new SemestersLoader();
+		}
 		return null;
 	}
 
