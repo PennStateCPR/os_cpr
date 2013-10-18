@@ -24,27 +24,23 @@ package edu.psu.iam.cpr.core.error;
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
 public class CprException extends Exception {
-	
-	/**
-	 *  Serial UID.
-	 */
-	
+
+	/** Serial UID. */
 	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * Contains the return type enumerated value.
-	 */
+
+	/** Contains the return type enumerated value. */
 	private ReturnType returnType;
-	
-	/** 
-	 * Contains the parameter value string (optional).
-	 */
-	
+
+	/** Contains the parameter value string (optional). */
 	private String parameterValue;
-	
-	
+
+	/** Contains a throwable that caused this exception. */
+	private Throwable cause;
+
+
 	/**
-	 * 
+	 * Default constructor
+	 *
 	 * @param returnType contains the return type parameter.
 	 * @param parameterValue contains the  parameter value.
 	 */
@@ -53,7 +49,7 @@ public class CprException extends Exception {
 		this.returnType = returnType;
 		this.parameterValue = parameterValue;
 	}
-	
+
 	/**
 	 * Constructor
 	 * @param returnType contains the return type parameter.
@@ -63,7 +59,45 @@ public class CprException extends Exception {
 		this.returnType = returnType;
 		this.parameterValue = null;
 	}
-	
+
+	/**
+	 * Constructor
+	 *
+	 * @param returnType contains the return type parameter.
+	 * @param parameterValue contains the parameter value.
+	 * @param cause The detail cause for the exception
+	 */
+	public CprException(ReturnType returnType, String parameterValue, Throwable cause) {
+		super();
+		this.returnType = returnType;
+		this.parameterValue = parameterValue;
+		this.cause = cause;
+	}
+
+	/**
+	 * Constructor
+	 * @param returnType contains the return type parameter.
+	 * @param cause The detail cause for the exception
+	 */
+	public CprException(ReturnType returnType, Throwable cause) {
+		super();
+		this.returnType = returnType;
+		this.parameterValue = null;
+		this.cause = cause;
+	}
+
+	/**
+	 * Conntructor
+	 * @param cause The detail cause for the exception
+	 */
+	public CprException(Throwable cause) {
+		super(cause);
+		this.returnType = null;
+		this.parameterValue = null;
+		this.cause = cause;
+	}
+
+
 	/**
 	 * @return the returnType
 	 */
@@ -90,5 +124,21 @@ public class CprException extends Exception {
 	 */
 	public void setParameterValue(String parameterValue) {
 		this.parameterValue = parameterValue;
+	}
+
+
+	/**
+	 * @return the detail cause.
+	 */
+	@Override
+	public synchronized Throwable getCause() {
+		return this.cause;
+	}
+
+	/**
+	 * @param cause The detail cause for the exception
+	 */
+	public void setCause(Throwable cause) {
+		this.cause = cause;
 	}
 }
