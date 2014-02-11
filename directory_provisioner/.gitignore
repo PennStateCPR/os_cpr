@@ -6,3 +6,4 @@
 /src/cpr.properties
 /.sonar
 /sonar-project.properties
+/.gradle

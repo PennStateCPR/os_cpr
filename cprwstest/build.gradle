@@ -1,0 +1,33 @@
+configurations {
+	jaxws
+}
+
+test {
+        useTestNG()
+        maxParallelForks 5
+}
+
+dependencies {
+	jaxws 'com.sun.xml.ws:jaxws-tools:2.2.7'
+	testCompile 'org.testng:testng:6.8.7'
+	compile project(':cpr_core')
+}
+
+task wsimport {
+
+	if (app_hostname != 'SPECIFY_HOST') {
+		ant {
+			sourceSets.main.output.classesDir.mkdirs()
+			taskdef(name: 'wsimport',
+				classname: 'com.sun.tools.ws.ant.WsImport',
+				classpath:configurations.jaxws.asPath)
+			wsimport(keep: true,
+				destDir: sourceSets.main.output.classesDir,
+				wsdl: app_hostname + '/cprws/services/cprws_port?wsdl',
+				xendorsed: 'true'
+			)
+		}
+	}
+}
+
+compileJava.dependsOn(wsimport)

@@ -1,0 +1,9 @@
+/build
+/sonar-project.properties
+/.sonar
+/ivy
+/javadoc
+/build-jars
+/dist
+/lib
+/WebContent/WEB-INF/lib

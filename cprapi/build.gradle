@@ -1,0 +1,19 @@
+apply plugin: 'war'
+
+test {
+        useTestNG()
+        systemProperty 'REST_HOST', app_hostname
+}
+
+dependencies {
+	compile project(':cpr_core')
+	compile 'org.apache.cxf:apache-cxf:2.5.0'
+	testCompile 'javax.ws.rs:jsr311-api:1.1.1'
+	testCompile 'commons-codec:commons-codec:1.4'
+	testCompile 'commons-logging:commons-logging:1.1.1'
+	testCompile 'org.apache.httpcomponents:httpclient:4.1.3'
+	testCompile 'org.apache.httpcomponents:httpcore:4.1.3'
+	testCompile 'org.apache.httpcomponents:httpclient-cache:4.1.3'
+	testCompile 'org.apache.httpcomponents:httpmime:4.1.3'
+        testCompile 'org.testng:testng:6.8.7'
+} 

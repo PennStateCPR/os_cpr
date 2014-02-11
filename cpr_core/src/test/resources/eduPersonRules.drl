@@ -1,0 +1,217 @@
+#created on: Feb 27, 2012
+package edu.psu.iam.cpr.core.rules.engine
+
+rule "rule1"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact()
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_CURRENT" || fact == "STUDENT_GRADUATE_CURRENT" 
+		|| fact == "STUDENT_MEDICAL_CURRENT" || fact == "STUDENT_LAW_CURRENT" 
+		|| fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CURRENT" || fact == "STUDENT_GRADUATE_NONDEGREE_CURRENT" 
+		|| fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_CURRENT"  || fact == "STUDENT_GRADUATE_NONDEGREE_CERTIFICATE_CURRENT" 
+		|| fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_CURRENT"  || fact == "STUDENT_GRADUATE_PROVISIONAL_CURRENT" )
+	then
+		retract($input);
+		$known.setFact("student");
+		update($known);
+end
+
+rule "rule2"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact()
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_EMERITUS" || fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_EMERITUS" 
+		|| fact == "EMPLOYEE_ADMINISTRATOR_EMERITUS" || fact == "EMPLOYEE_EXECUTIVE_EMERITUS"  
+		|| fact == "EMPLOYEE_FACULTY_EMERITUS" || fact == "EMPLOYEE_STAFF_EMERITUS" )	
+	then
+		retract($input);
+		$known.setFact("emeritus");
+		update($known);
+end
+rule "rule3"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact()
+		$input : InputFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_ACTIVE" )	
+	then
+		retract($input);
+		$known.setFact("employee");
+		update($known);
+end
+rule "rule4"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact()
+		$input : InputFact ( fact == "EMPLOYEE_FACULTY_ACTIVE" || fact == "EMPLOYEE_FACULTY_TEMPREHIRE" )	
+	then
+		retract($input);
+		$known.setFact("faculty");
+		update($known);
+end
+rule "rule5"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact()
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_ACTIVE" || fact == "EMPLOYEE_ACADEMIC_TEMPREHIRE" 
+		|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE" || fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRE"
+		|| fact == "EMPLOYEE_ADMINISTRATOR_ACTIVE" || fact == "EMPLOYEE_ADMINISTRATOR_TEMPREHIRE"
+		|| fact == "EMPLOYEE_EXECUTIVE_ACTIVE"  || fact == "EMPLOYEE_EXECUTIVE_TEMPREHIRE"  
+		|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_ACTIVE" || fact == "EMPLOYEE_PAID_INTERN_ACTIVE" 
+		|| fact == "EMPLOYEE_POST_DOC_ACTIVE" || fact == "EMPLOYEE_STAFF_ACTIVE"
+		|| fact == "EMPLOYEE_STAFF_TEMPREHIRE" || fact == "EMPLOYEE_WAGE_ACTIVE")	
+	then
+		retract($input);
+		$known.setFact("staff");
+		update($known);
+end
+rule "rule6"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact()
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_RETIRED" || fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED" 
+		|| fact == "EMPLOYEE_ADMINISTRATOR_RETIRED" || fact == "EMPLOYEE_EXECUTIVE_RETIRED"  
+		|| fact == "EMPLOYEE_FACULTY_RETIRED" || fact == "EMPLOYEE_STAFF_RETIRED" 
+		|| fact == "EMPLOYEE_TECHNICAL_SERVICES_RETIRED" || fact == "EMPLOYEE_WAGE_RETIRED")	
+	then
+		retract($input);
+		$known.setFact("retiree");
+		update($known);
+end
+rule "rule7"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact()
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROSPECT" || fact == "STUDENT_UNDERGRADUATE_APPLICANT" 
+		||  fact == "STUDENT_UNDERGRADUATE_FORMER" || fact == "STUDENT_GRADUATE_PROSPECT"
+		|| fact == "STUDENT_GRADUATE_APPLICANT" || fact == "STUDENT_GRADUATE_FORMER" 
+		|| fact == "STUDENT_MEDICAL_PROSPECT" || fact == "STUDENT_MEDICAL_APPLICANT" 
+		||  fact == "STUDENT_MEDICAL_FORMER" || fact == "STUDENT_LAW_PROSPECT"
+		|| fact == "STUDENT_LAW_APPLICANT"  || fact == "STUDENT_LAW_FORMER" 
+		|| fact == "STUDENT_UNDERGRADUATE_NONDEGREE_PROSPECT" || fact == "STUDENT_UNDERGRADUATE_NONDEGREE_APPLICANT" 
+		||  fact == "STUDENT_UNDERGRADUATE_NONDEGREE_FORMER" || fact == "STUDENT_GRADUATE_NONDEGREE_PROSPECT"
+		|| fact == "STUDENT_GRADUATE_NONDEGREE_APPLICANT" || fact == "STUDENT_GRADUATE_NONDEGREE_FORMER" 
+		|| fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_PROSPECT" || fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_APPLICANT" 
+		||  fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_FORMER" || fact == "STUDENT_GRADUATE_NONDEGREE_CERTIFICATE_PROSPECT"
+		|| fact == "STUDENT_GRADUATE_NONDEGREE_CERTIFICATE_APPLICANT" || fact == "STUDENT_GRADUATE_NONDEGREE_CERTIFICATE_FORMER" 
+		|| fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_PROSPECT" || fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_APPLICANT" 
+		||  fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_FORMER" || fact == "STUDENT_GRADUATE_PROVISIONAL_PROSPECT"
+		|| fact == "STUDENT_GRADUATE_PROVISIONAL_APPLICANT" || fact == "STUDENT_GRADUATE_PROVISIONAL_FORMER" 
+		|| fact == "EMPLOYEE_ACADEMIC_DECEASED" || fact == "EMPLOYEE_ACADEMIC_FORMER" 
+		|| fact == "EMPLOYEE_ACADEMIC_INACTIVE" || fact == "EMPLOYEE_ACADEMIC_PENDING" 
+		|| fact == "EMPLOYEE_ACADEMIC_APPLICANT" ||fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT"
+		|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_DECEASED" || fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED" 
+		|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_INACTIVE" || fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_PENDING" 
+		|| fact == "EMPLOYEE_ADMINISTRATOR_DECEASED" || fact == "EMPLOYEE_ADMINISTRATOR_TERMINATED" 
+		|| fact == "EMPLOYEE_ADMINISTRATOR_INACTIVE" || fact == "EMPLOYEE_ADMINISTRATOR_PENDING" 
+		|| fact == "EMPLOYEE_ADMINISTRATOR_APPLICANT" || fact == "EMPLOYEE_EXECUTIVE_APPLICANT"
+		|| fact == "EMPLOYEE_EXECUTIVE_DECEASED" || fact == "EMPLOYEE_EXECUTIVE_TERMINATED" 
+		|| fact == "EMPLOYEE_EXECUTIVE_INACTIVE" || fact == "EMPLOYEE_EXECUTIVE_PENDING" 
+		|| fact == "EMPLOYEE_FACULTY_DECEASED" || fact == "EMPLOYEE_FACULTY_TERMINATED" 
+		|| fact == "EMPLOYEE_FACULTY_INACTIVE" || fact == "EMPLOYEE_FACULTY_PENDING" 
+		|| fact == "EMPLOYEE_FACULTY_APPLICANT" || fact == "EMPLOYEE_GRADUATE_ASSISTANT_APPLICANT" 
+		|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_TERMINATED" || fact == "EMPLOYEE_GRADUATE_ASSISTANT_INACTIVE"
+		|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_PENDING" || fact == "EMPLOYEE_PAID_INTERN_TERMINATED" 
+		|| fact == "EMPLOYEE_PAID_INTERN_INACTIVE" || fact == "EMPLOYEE_PAID_INTERN_PENDING" 
+		|| fact == "EMPLOYEE_PAID_INTERN_APPLICANT" || fact == "EMPLOYEE_POST_DOC_APPLICANT" 
+		|| fact == "EMPLOYEE_POST_DOC_TERMINATED" || fact == "EMPLOYEE_POST_DOC_INACTIVE" 
+		|| fact == "EMPLOYEE_POST_DOC_PENDING" || fact == "EMPLOYEE_STAFF_DECEASED" 
+		|| fact == "EMPLOYEE_STAFF_TERMINATED" || fact == "EMPLOYEE_STAFF_INACTIVE" 
+		|| fact == "EMPLOYEE_STAFF_PENDING" || fact == "EMPLOYEE_STAFF_APPLICANT" 
+		|| fact == "EMPLOYEE_TECHNICAL_SERVICES_APPLICANT" || fact == "EMPLOYEE_TECHNICAL_SERVICES_DECEASED" 
+		|| fact == "EMPLOYEE_TECHNICAL_SERVICES_TERMINATED" || fact == "EMPLOYEE_TECHNICAL_SERVICES_INACTIVE" 
+		|| fact == "EMPLOYEE_TECHNICAL_SERVICES_PENDING" || fact == "EMPLOYEE_WAGE_DECEASED" 
+		|| fact == "EMPLOYEE_WAGE_TERMINATED" || fact == "EMPLOYEE_WAGE_INACTIVE" 
+		|| fact == "EMPLOYEE_WAGE_PENDING" ||  fact == "EMPLOYEE_WAGE_APPLICANT" 
+		|| fact == "AGRICULTURE_SERVICES_ACTIVE" || fact == "AGRICULTURE_SERVICES_INACTIVE" 
+		|| fact == "BOARD_OF_TRUSTEES_ACTIVE" || fact == "BOARD_OF_TRUSTEES_INACTIVE" 
+		|| fact == "COMMERCIAL_SERVICES_ACTIVE" || fact == "COMMERCIAL_SERVICES_INACTIVE" 
+		|| fact == "CONTRACTOR_SERVICES_ACTIVE" || fact == "CONTRACTOR_SERVICES_INACTIVE" 
+		|| fact == "DONOR_SERVICES_ACTIVE" || fact == "DONOR_SERVICES_INACTIVE" 
+		|| fact == "EDUCATIONAL_SERVICES_ACTIVE" || fact == "EDUCATIONAL_SERVICES_INACTIVE" 
+		|| fact == "FAMILY_SERVICES_ACTIVE" || fact == "FAMILY_SERVICES_INACTIVE" 
+		|| fact == "GOVERNMENT_SERVICES_ACTIVE" || fact == "GOVERNMENT_SERVICES_INACTIVE" 
+		|| fact == "MEDICAL_SERVICES_ACTIVE" || fact == "MEDICAL_SERVICES_INACTIVE" 
+		|| fact == "UNIVERSITY_SERVICES_ACTIVE" || fact == "UNIVERSITY_SERVICES_INACTIVE" 
+		|| fact == "VOLUNTEER_SERVICES_ACTIVE" || fact == "VOLUNTEER_SERVICES_INACTIVE" 
+		)
+	then
+		retract($input);
+		$known.setFact("member");
+		update($known);
+end
+/**
+rule "rule2"
+	salience 90
+	dialect "mvel"
+	when
+		$known : KnownFact ( fact == "PROSPECT" )
+		$input : InputFact ( fact == "APPLICANT" )
+	then
+		retract($known); 
+end
+
+rule "rule3"
+	salience 90
+	dialect "mvel"
+	when
+		$known : KnownFact ( fact == "APPLICANT" )
+		$input : InputFact ( fact == "STUDENT" )
+	then
+		retract($known);
+end
+
+
+rule "Is the student an applicant"
+	salience 10
+	dialect "mvel"
+	when
+		$fact : InputFact ( fact == "APPLICANT" )
+	then
+end
+
+rule "Is the student an prospect"
+	salience 10
+	dialect "mvel"
+	when
+		$fact : InputFact ( fact == "PROSPECT" )
+	then
+end
+
+rule "Is the student an student"
+	salience 10
+	dialect "mvel"
+	when
+		$fact : InputFact ( fact == "STUDENT" )
+	then
+end
+
+rule "Is wage"
+	salience 10
+	dialect "mvel"
+	when
+		$fact : InputFact ( fact == "WAGE" )
+	then
+end
+
+rule "default"
+	salience 0
+	dialect "mvel"
+	when
+		$fact : KnownFact()
+	then
+end
+**/

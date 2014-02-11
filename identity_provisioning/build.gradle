@@ -1,0 +1,9 @@
+apply plugin: 'war'
+
+dependencies {
+	compile project(':cpr_core')
+	compile 'org.apache.cxf:apache-cxf:2.7.6'
+	compile 'org.apache.struts:struts2-core:2.2.3'
+	compile 'org.apache.struts:struts2-convention-plugin:2.2.3'
+} 
+

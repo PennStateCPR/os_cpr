@@ -1,0 +1,7 @@
+apply plugin: 'application'
+
+mainClassName='edu.psu.iam.cpr.batch.processor.BatchMain'
+
+dependencies {
+	compile project(':cpr_core')
+}

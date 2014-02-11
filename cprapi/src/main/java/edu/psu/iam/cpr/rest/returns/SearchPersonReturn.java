@@ -1,0 +1,81 @@
+package edu.psu.iam.cpr.rest.returns;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
+import edu.psu.iam.cpr.core.api.returns.FindPersonServiceReturn;
+
+@XmlRootElement
+public class SearchPersonReturn {
+	
+	/** Contains the meta information */
+	private ResourceMetadata resourceMetadata;
+	
+	/** Contains the response meta information */
+	private ResponseMeta responseMetadata;
+	
+	/** Contains the resource */
+	private FindPersonServiceReturn resource;
+
+	/**
+	 * @param resourceMetadata contains the meta information.
+	 * @param responseMetadata contains the response meta information.
+	 * @param resource contains the person service return.
+	 */
+	public SearchPersonReturn(ResourceMetadata resourceMetadata,
+			ResponseMeta responseMetadata, FindPersonServiceReturn resource) {
+		super();
+		this.resourceMetadata = resourceMetadata;
+		this.responseMetadata = responseMetadata;
+		this.resource = resource;
+	}
+
+	/**
+	 * Default constructor.
+	 */
+	public SearchPersonReturn() {
+		super();
+	}
+
+	/**
+	 * @return the resourceMetadata
+	 */
+	public ResourceMetadata getResourceMetadata() {
+		return resourceMetadata;
+	}
+
+	/**
+	 * @param resourceMetadata the resourceMetadata to set
+	 */
+	public void setResourceMetadata(ResourceMetadata resourceMetadata) {
+		this.resourceMetadata = resourceMetadata;
+	}
+
+	/**
+	 * @return the responseMetadata
+	 */
+	public ResponseMeta getResponseMetadata() {
+		return responseMetadata;
+	}
+
+	/**
+	 * @param responseMetadata the responseMetadata to set
+	 */
+	public void setResponseMetadata(ResponseMeta responseMetadata) {
+		this.responseMetadata = responseMetadata;
+	}
+
+	/**
+	 * @return the resource
+	 */
+	public FindPersonServiceReturn getResource() {
+		return resource;
+	}
+
+	/**
+	 * @param resource the resource to set
+	 */
+	public void setResource(FindPersonServiceReturn resource) {
+		this.resource = resource;
+	}
+
+}

@@ -1,0 +1,13 @@
+apply plugin: 'application'
+
+mainClassName='edu.psu.iam.cpr.provisioner.directory.DirectoryReceiver'
+
+dependencies {
+	compile 'log4j:log4j:1.2.17'
+	compile 'org.json:json:20131018'
+	compile 'org.slf4j:slf4j-api:1.7.5'
+	compile 'org.slf4j:slf4j-nop:1.7.5'
+	compile 'org.apache.activemq:activemq-core:5.7.0'
+	compile 'com.googlecode.json-simple:json-simple:1.1.1'
+	compile project(':cpr_core')
+}

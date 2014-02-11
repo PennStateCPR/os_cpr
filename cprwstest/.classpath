@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/jvuccolo/Desktop/cprws_os.jar"/>
-	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=cprwstest&amp;ivyXmlPath=ivy.xml&amp;confs=*"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="src" path="src/test/resources"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="src" path="/cpr_core"/>
+	<classpathentry exported="true" kind="lib" path="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/org.testng/testng/6.8.7/jar/3eaa6cbb13e327f3f1154d336dff11d7e83a727e/testng-6.8.7.jar" sourcepath="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/org.testng/testng/6.8.7/source/e8af915a4e86396afac9b7708152fb587e64554e/testng-6.8.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/org.hamcrest/hamcrest-core/1.1/jar/860340562250678d1a344907ac75754e259cdb14/hamcrest-core-1.1.jar" sourcepath="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/org.hamcrest/hamcrest-core/1.1/source/2ccf1154d1a8936042a8a742dc3e611d02ac7213/hamcrest-core-1.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/junit/junit/4.10/jar/e4f1766ce7404a08f45d859fb9c226fc9e41a861/junit-4.10.jar" sourcepath="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/junit/junit/4.10/source/6c98d6766e72d5575f96c9479d1c1d3b865c6e25/junit-4.10-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/org.beanshell/bsh/2.0b4/jar/a05f0a0feefa8d8467ac80e16e7de071489f0d9c/bsh-2.0b4.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/com.beust/jcommander/1.27/jar/58c9cbf0f1fa296f93c712f2cf46de50471920f9/jcommander-1.27.jar" sourcepath="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/com.beust/jcommander/1.27/source/fae697ac46477a5227a5ee14f8f3a1270a4627b0/jcommander-1.27-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/org.yaml/snakeyaml/1.12/bundle/ebe66a6b88caab31d7a19571ad23656377523545/snakeyaml-1.12.jar" sourcepath="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/org.yaml/snakeyaml/1.12/source/f86c67beb22f7d1edb5d6c6a3c4dab77a23234da/snakeyaml-1.12-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

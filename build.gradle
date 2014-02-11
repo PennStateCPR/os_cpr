@@ -1,0 +1,32 @@
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'checkstyle'
+	apply plugin: 'pmd'
+	apply plugin: 'eclipse'
+
+	defaultTasks 'clean','javadoc','assemble','eclipse'
+
+	version = '1.0'
+
+	pmd {
+        	ignoreFailures true
+	}
+
+	checkstyle {
+		configFile = new File(rootDir, "checkstyle.xml")
+        	ignoreFailures true
+	}
+
+	javadoc {
+        	title "$project.name JavaDoc"
+             	failOnError = false
+               	options.author = true
+               	options.tags = ['package:a:Package:', 'lastrevision:a:Last Revision:']
+               	options.use = true
+               	options.version = true
+	}
+
+	repositories {
+        	mavenCentral()
+	}
+}
