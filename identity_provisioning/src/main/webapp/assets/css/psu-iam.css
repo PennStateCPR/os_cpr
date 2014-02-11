@@ -1,0 +1,60 @@
+.navbar-inner {
+  background-attachment:fixed;
+  background-image: url("../img/lion.png");
+  background-size:170px 100px;
+  background-position: right top;
+  background-repeat: no-repeat;
+}
+
+body {
+  background-image: url("../img/thumbprint.jpg");
+  background-position: right top;
+  background-repeat: no-repeat;
+}
+
+.verifydata {
+  background: #FFFFFF;
+  background-image: url("../img/bg.jpg");
+  background-position: left top;
+  background-repeat: repeat;
+  max-width: 979px;
+  padding-top 10px;
+}
+
+@media (max-width: 639px) {
+body {
+  background-image: url("../img/bg.jpg");
+  background-repeat: repeat;
+  }
+.navbar-inner {
+  background-image: url("../img/pixel.png");
+}
+  #logo {
+	height: 42px;
+	width: 78px;
+	}
+}
+
+@media (min-width: 640px) and (max-width: 723px) {
+	#logo {
+	height: 46px;
+	width: 86px;
+	}
+}
+
+@media (min-width: 724px) and (max-width: 979px) {
+	#logo {
+		height: 46px;
+		width: 86px;
+	}
+}
+
+@media (min-width: 980px) {
+	#logo {
+	height: 70px;
+	width: 130px;
+	}
+	.sitename {
+    padding-top: 35px
+  }
+}

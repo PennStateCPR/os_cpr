@@ -1,0 +1,3631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="cprws" targetNamespace="http://service.cpr.iam.psu.edu/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.cpr.iam.psu.edu/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.cpr.iam.psu.edu/" elementFormDefault="unqualified" targetNamespace="http://service.cpr.iam.psu.edu/" version="1.0">
+<xs:element name="AddAddress" type="tns:AddAddress"/>
+<xs:element name="AddAddressResponse" type="tns:AddAddressResponse"/>
+<xs:element name="AddAffiliation" type="tns:AddAffiliation"/>
+<xs:element name="AddAffiliationResponse" type="tns:AddAffiliationResponse"/>
+<xs:element name="AddConfidentialityHold" type="tns:AddConfidentialityHold"/>
+<xs:element name="AddConfidentialityHoldResponse" type="tns:AddConfidentialityHoldResponse"/>
+<xs:element name="AddCredential" type="tns:AddCredential"/>
+<xs:element name="AddCredentialResponse" type="tns:AddCredentialResponse"/>
+<xs:element name="AddEmailAddress" type="tns:AddEmailAddress"/>
+<xs:element name="AddEmailAddressResponse" type="tns:AddEmailAddressResponse"/>
+<xs:element name="AddIdCard" type="tns:AddIdCard"/>
+<xs:element name="AddIdCardPrintEvent" type="tns:AddIdCardPrintEvent"/>
+<xs:element name="AddIdCardPrintEventResponse" type="tns:AddIdCardPrintEventResponse"/>
+<xs:element name="AddIdCardResponse" type="tns:AddIdCardResponse"/>
+<xs:element name="AddName" type="tns:AddName"/>
+<xs:element name="AddNameResponse" type="tns:AddNameResponse"/>
+<xs:element name="AddPerson" type="tns:AddPerson"/>
+<xs:element name="AddPersonIdentifier" type="tns:AddPersonIdentifier"/>
+<xs:element name="AddPersonIdentifierResponse" type="tns:AddPersonIdentifierResponse"/>
+<xs:element name="AddPersonLinkage" type="tns:AddPersonLinkage"/>
+<xs:element name="AddPersonLinkageResponse" type="tns:AddPersonLinkageResponse"/>
+<xs:element name="AddPersonResponse" type="tns:AddPersonResponse"/>
+<xs:element name="AddPhone" type="tns:AddPhone"/>
+<xs:element name="AddPhoneResponse" type="tns:AddPhoneResponse"/>
+<xs:element name="AddPhoto" type="tns:AddPhoto"/>
+<xs:element name="AddPhotoResponse" type="tns:AddPhotoResponse"/>
+<xs:element name="AddSpecialUserid" type="tns:AddSpecialUserid"/>
+<xs:element name="AddSpecialUseridResponse" type="tns:AddSpecialUseridResponse"/>
+<xs:element name="AddUserComment" type="tns:AddUserComment"/>
+<xs:element name="AddUserCommentResponse" type="tns:AddUserCommentResponse"/>
+<xs:element name="AddUserid" type="tns:AddUserid"/>
+<xs:element name="AddUseridResponse" type="tns:AddUseridResponse"/>
+<xs:element name="ArchiveAddress" type="tns:ArchiveAddress"/>
+<xs:element name="ArchiveAddressResponse" type="tns:ArchiveAddressResponse"/>
+<xs:element name="ArchiveAffiliation" type="tns:ArchiveAffiliation"/>
+<xs:element name="ArchiveAffiliationResponse" type="tns:ArchiveAffiliationResponse"/>
+<xs:element name="ArchiveConfidentialityHold" type="tns:ArchiveConfidentialityHold"/>
+<xs:element name="ArchiveConfidentialityHoldResponse" type="tns:ArchiveConfidentialityHoldResponse"/>
+<xs:element name="ArchiveCredential" type="tns:ArchiveCredential"/>
+<xs:element name="ArchiveCredentialResponse" type="tns:ArchiveCredentialResponse"/>
+<xs:element name="ArchiveEmailAddress" type="tns:ArchiveEmailAddress"/>
+<xs:element name="ArchiveEmailAddressResponse" type="tns:ArchiveEmailAddressResponse"/>
+<xs:element name="ArchiveIdCard" type="tns:ArchiveIdCard"/>
+<xs:element name="ArchiveIdCardResponse" type="tns:ArchiveIdCardResponse"/>
+<xs:element name="ArchiveName" type="tns:ArchiveName"/>
+<xs:element name="ArchiveNameResponse" type="tns:ArchiveNameResponse"/>
+<xs:element name="ArchivePerson" type="tns:ArchivePerson"/>
+<xs:element name="ArchivePersonIdentifier" type="tns:ArchivePersonIdentifier"/>
+<xs:element name="ArchivePersonIdentifierResponse" type="tns:ArchivePersonIdentifierResponse"/>
+<xs:element name="ArchivePersonLinkage" type="tns:ArchivePersonLinkage"/>
+<xs:element name="ArchivePersonLinkageResponse" type="tns:ArchivePersonLinkageResponse"/>
+<xs:element name="ArchivePersonResponse" type="tns:ArchivePersonResponse"/>
+<xs:element name="ArchivePhone" type="tns:ArchivePhone"/>
+<xs:element name="ArchivePhoneResponse" type="tns:ArchivePhoneResponse"/>
+<xs:element name="ArchiveUserComment" type="tns:ArchiveUserComment"/>
+<xs:element name="ArchiveUserCommentResponse" type="tns:ArchiveUserCommentResponse"/>
+<xs:element name="ArchiveUserid" type="tns:ArchiveUserid"/>
+<xs:element name="ArchiveUseridResponse" type="tns:ArchiveUseridResponse"/>
+<xs:element name="BlockUser" type="tns:BlockUser"/>
+<xs:element name="BlockUserResponse" type="tns:BlockUserResponse"/>
+<xs:element name="DisableUser" type="tns:DisableUser"/>
+<xs:element name="DisableUserResponse" type="tns:DisableUserResponse"/>
+<xs:element name="EnableUser" type="tns:EnableUser"/>
+<xs:element name="EnableUserResponse" type="tns:EnableUserResponse"/>
+<xs:element name="GetAddress" type="tns:GetAddress"/>
+<xs:element name="GetAddressResponse" type="tns:GetAddressResponse"/>
+<xs:element name="GetAffiliations" type="tns:GetAffiliations"/>
+<xs:element name="GetAffiliationsResponse" type="tns:GetAffiliationsResponse"/>
+<xs:element name="GetConfidentialityHold" type="tns:GetConfidentialityHold"/>
+<xs:element name="GetConfidentialityHoldResponse" type="tns:GetConfidentialityHoldResponse"/>
+<xs:element name="GetCredential" type="tns:GetCredential"/>
+<xs:element name="GetCredentialResponse" type="tns:GetCredentialResponse"/>
+<xs:element name="GetEmailAddress" type="tns:GetEmailAddress"/>
+<xs:element name="GetEmailAddressResponse" type="tns:GetEmailAddressResponse"/>
+<xs:element name="GetExternalAffiliations" type="tns:GetExternalAffiliations"/>
+<xs:element name="GetExternalAffiliationsResponse" type="tns:GetExternalAffiliationsResponse"/>
+<xs:element name="GetExternalIAP" type="tns:GetExternalIAP"/>
+<xs:element name="GetExternalIAPResponse" type="tns:GetExternalIAPResponse"/>
+<xs:element name="GetIdCard" type="tns:GetIdCard"/>
+<xs:element name="GetIdCardNumber" type="tns:GetIdCardNumber"/>
+<xs:element name="GetIdCardNumberResponse" type="tns:GetIdCardNumberResponse"/>
+<xs:element name="GetIdCardPrintEvent" type="tns:GetIdCardPrintEvent"/>
+<xs:element name="GetIdCardPrintEventResponse" type="tns:GetIdCardPrintEventResponse"/>
+<xs:element name="GetIdCardResponse" type="tns:GetIdCardResponse"/>
+<xs:element name="GetInternalAffiliations" type="tns:GetInternalAffiliations"/>
+<xs:element name="GetInternalAffiliationsResponse" type="tns:GetInternalAffiliationsResponse"/>
+<xs:element name="GetMatchCode" type="tns:GetMatchCode"/>
+<xs:element name="GetMatchCodeResponse" type="tns:GetMatchCodeResponse"/>
+<xs:element name="GetName" type="tns:GetName"/>
+<xs:element name="GetNameResponse" type="tns:GetNameResponse"/>
+<xs:element name="GetPSUIAP" type="tns:GetPSUIAP"/>
+<xs:element name="GetPSUIAPResponse" type="tns:GetPSUIAPResponse"/>
+<xs:element name="GetPerson" type="tns:GetPerson"/>
+<xs:element name="GetPersonIdentifier" type="tns:GetPersonIdentifier"/>
+<xs:element name="GetPersonIdentifierResponse" type="tns:GetPersonIdentifierResponse"/>
+<xs:element name="GetPersonLinkage" type="tns:GetPersonLinkage"/>
+<xs:element name="GetPersonLinkageResponse" type="tns:GetPersonLinkageResponse"/>
+<xs:element name="GetPersonResponse" type="tns:GetPersonResponse"/>
+<xs:element name="GetPhone" type="tns:GetPhone"/>
+<xs:element name="GetPhoneResponse" type="tns:GetPhoneResponse"/>
+<xs:element name="GetPhoto" type="tns:GetPhoto"/>
+<xs:element name="GetPhotoResponse" type="tns:GetPhotoResponse"/>
+<xs:element name="GetUserComments" type="tns:GetUserComments"/>
+<xs:element name="GetUserCommentsResponse" type="tns:GetUserCommentsResponse"/>
+<xs:element name="GetUserid" type="tns:GetUserid"/>
+<xs:element name="GetUseridResponse" type="tns:GetUseridResponse"/>
+<xs:element name="ProcessRules" type="tns:ProcessRules"/>
+<xs:element name="ProcessRulesResponse" type="tns:ProcessRulesResponse"/>
+<xs:element name="SearchForPerson" type="tns:SearchForPerson"/>
+<xs:element name="SearchForPersonResponse" type="tns:SearchForPersonResponse"/>
+<xs:element name="SetPrimaryAddressByType" type="tns:SetPrimaryAddressByType"/>
+<xs:element name="SetPrimaryAddressByTypeResponse" type="tns:SetPrimaryAddressByTypeResponse"/>
+<xs:element name="SetPrimaryAffiliation" type="tns:SetPrimaryAffiliation"/>
+<xs:element name="SetPrimaryAffiliationResponse" type="tns:SetPrimaryAffiliationResponse"/>
+<xs:element name="SetPrimaryPhoneByType" type="tns:SetPrimaryPhoneByType"/>
+<xs:element name="SetPrimaryPhoneByTypeResponse" type="tns:SetPrimaryPhoneByTypeResponse"/>
+<xs:element name="SetPrimaryUserid" type="tns:SetPrimaryUserid"/>
+<xs:element name="SetPrimaryUseridResponse" type="tns:SetPrimaryUseridResponse"/>
+<xs:element name="TransformAddress" type="tns:TransformAddress"/>
+<xs:element name="TransformAddressResponse" type="tns:TransformAddressResponse"/>
+<xs:element name="UnarchivePerson" type="tns:UnarchivePerson"/>
+<xs:element name="UnarchivePersonResponse" type="tns:UnarchivePersonResponse"/>
+<xs:element name="UnarchiveUserid" type="tns:UnarchiveUserid"/>
+<xs:element name="UnarchiveUseridResponse" type="tns:UnarchiveUseridResponse"/>
+<xs:element name="UnblockUser" type="tns:UnblockUser"/>
+<xs:element name="UnblockUserResponse" type="tns:UnblockUserResponse"/>
+<xs:element name="UpdateAddress" type="tns:UpdateAddress"/>
+<xs:element name="UpdateAddressResponse" type="tns:UpdateAddressResponse"/>
+<xs:element name="UpdateAffiliation" type="tns:UpdateAffiliation"/>
+<xs:element name="UpdateAffiliationResponse" type="tns:UpdateAffiliationResponse"/>
+<xs:element name="UpdateConfidentialityHold" type="tns:UpdateConfidentialityHold"/>
+<xs:element name="UpdateConfidentialityHoldResponse" type="tns:UpdateConfidentialityHoldResponse"/>
+<xs:element name="UpdateCredential" type="tns:UpdateCredential"/>
+<xs:element name="UpdateCredentialResponse" type="tns:UpdateCredentialResponse"/>
+<xs:element name="UpdateEmailAddress" type="tns:UpdateEmailAddress"/>
+<xs:element name="UpdateEmailAddressResponse" type="tns:UpdateEmailAddressResponse"/>
+<xs:element name="UpdateIdCard" type="tns:UpdateIdCard"/>
+<xs:element name="UpdateIdCardResponse" type="tns:UpdateIdCardResponse"/>
+<xs:element name="UpdateName" type="tns:UpdateName"/>
+<xs:element name="UpdateNameResponse" type="tns:UpdateNameResponse"/>
+<xs:element name="UpdatePerson" type="tns:UpdatePerson"/>
+<xs:element name="UpdatePersonIdentifier" type="tns:UpdatePersonIdentifier"/>
+<xs:element name="UpdatePersonIdentifierResponse" type="tns:UpdatePersonIdentifierResponse"/>
+<xs:element name="UpdatePersonLinkage" type="tns:UpdatePersonLinkage"/>
+<xs:element name="UpdatePersonLinkageResponse" type="tns:UpdatePersonLinkageResponse"/>
+<xs:element name="UpdatePersonResponse" type="tns:UpdatePersonResponse"/>
+<xs:element name="UpdatePhone" type="tns:UpdatePhone"/>
+<xs:element name="UpdatePhoneResponse" type="tns:UpdatePhoneResponse"/>
+<xs:element name="UpdateUserComment" type="tns:UpdateUserComment"/>
+<xs:element name="UpdateUserCommentResponse" type="tns:UpdateUserCommentResponse"/>
+<xs:complexType name="UpdateEmailAddress">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="emailAddressType" type="xs:string"/>
+<xs:element minOccurs="0" name="emailAddress" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateEmailAddressResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="serviceReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="recordKey" type="xs:long"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+<xs:element minOccurs="0" name="uri" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ProcessRules">
+<xs:sequence>
+<xs:element minOccurs="0" name="rulesetName" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="knownFacts" type="xs:string"/>
+<xs:element minOccurs="0" name="newFact" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ProcessRulesResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="RulesServiceReturn" type="tns:rulesServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="rulesServiceReturn">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="facts" nillable="true" type="xs:string"/>
+<xs:element name="numberOfFacts" type="xs:int"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddUserComment">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="userCommentType" type="xs:string"/>
+<xs:element minOccurs="0" name="comment" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddUserCommentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddUserid">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element name="personId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddUseridResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="UseridServiceReturn" type="tns:useridServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="useridServiceReturn">
+<xs:sequence>
+<xs:element name="numberElements" type="xs:int"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="useridReturnRecord" nillable="true" type="tns:useridReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="useridReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="primary" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+<xs:element minOccurs="0" name="uri" type="xs:string"/>
+<xs:element minOccurs="0" name="userid" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddName">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="nameType" type="xs:string"/>
+<xs:element minOccurs="0" name="documentType" type="xs:string"/>
+<xs:element minOccurs="0" name="firstName" type="xs:string"/>
+<xs:element minOccurs="0" name="middleNames" type="xs:string"/>
+<xs:element minOccurs="0" name="lastName" type="xs:string"/>
+<xs:element minOccurs="0" name="suffix" type="xs:string"/>
+<xs:element minOccurs="0" name="nickname" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddNameResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddAddress">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="addressType" type="xs:string"/>
+<xs:element minOccurs="0" name="documentType" type="xs:string"/>
+<xs:element minOccurs="0" name="address1" type="xs:string"/>
+<xs:element minOccurs="0" name="address2" type="xs:string"/>
+<xs:element minOccurs="0" name="address3" type="xs:string"/>
+<xs:element minOccurs="0" name="city" type="xs:string"/>
+<xs:element minOccurs="0" name="stateOrProvince" type="xs:string"/>
+<xs:element minOccurs="0" name="postalCode" type="xs:string"/>
+<xs:element minOccurs="0" name="countryCode" type="xs:string"/>
+<xs:element minOccurs="0" name="campusCode" type="xs:string"/>
+<xs:element minOccurs="0" name="verifyAddressFlag" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddAddressResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdatePersonLinkage">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="linkageType" type="xs:string"/>
+<xs:element minOccurs="0" name="linkedIdentifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="linkedIdentifier" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdatePersonLinkageResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UnarchiveUserid">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="userid" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UnarchiveUseridResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UnblockUser">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="userid" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UnblockUserResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetName">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="nameType" type="xs:string"/>
+<xs:element minOccurs="0" name="returnHistory" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetNameResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="NamesServiceReturn" type="tns:namesServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="namesServiceReturn">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="namesReturnRecord" nillable="true" type="tns:nameReturn"/>
+<xs:element name="numberElements" type="xs:int"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="nameReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="documentType" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="firstName" type="xs:string"/>
+<xs:element minOccurs="0" name="lastName" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="middleNames" type="xs:string"/>
+<xs:element minOccurs="0" name="nameKey" type="xs:string"/>
+<xs:element minOccurs="0" name="nameType" type="xs:string"/>
+<xs:element minOccurs="0" name="nickname" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+<xs:element minOccurs="0" name="suffix" type="xs:string"/>
+<xs:element minOccurs="0" name="uri" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetEmailAddress">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="returnHistory" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetEmailAddressResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="EmailAddressServiceReturn" type="tns:emailAddressServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="emailAddressServiceReturn">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="emailAddressReturnRecord" nillable="true" type="tns:emailAddressReturn"/>
+<xs:element name="numberElements" type="xs:int"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="emailAddressReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="emailAddress" type="xs:string"/>
+<xs:element minOccurs="0" name="emailAddressType" type="xs:string"/>
+<xs:element minOccurs="0" name="emailKey" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+<xs:element minOccurs="0" name="uri" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateUserComment">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="userCommentType" type="xs:string"/>
+<xs:element minOccurs="0" name="comment" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateUserCommentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateAddress">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="addressType" type="xs:string"/>
+<xs:element minOccurs="0" name="documentType" type="xs:string"/>
+<xs:element minOccurs="0" name="groupId" type="xs:long"/>
+<xs:element minOccurs="0" name="address1" type="xs:string"/>
+<xs:element minOccurs="0" name="address2" type="xs:string"/>
+<xs:element minOccurs="0" name="address3" type="xs:string"/>
+<xs:element minOccurs="0" name="city" type="xs:string"/>
+<xs:element minOccurs="0" name="stateOrProvince" type="xs:string"/>
+<xs:element minOccurs="0" name="postalCode" type="xs:string"/>
+<xs:element minOccurs="0" name="countryCode" type="xs:string"/>
+<xs:element minOccurs="0" name="campusCode" type="xs:string"/>
+<xs:element minOccurs="0" name="verifyAddressFlag" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateAddressResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddPerson">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="assignPsuIdFlag" type="xs:string"/>
+<xs:element minOccurs="0" name="assignUseridFlag" type="xs:string"/>
+<xs:element minOccurs="0" name="gender" type="xs:string"/>
+<xs:element minOccurs="0" name="dob" type="xs:string"/>
+<xs:element minOccurs="0" name="nameType" type="xs:string"/>
+<xs:element minOccurs="0" name="nameDocumentType" type="xs:string"/>
+<xs:element minOccurs="0" name="firstName" type="xs:string"/>
+<xs:element minOccurs="0" name="middleNames" type="xs:string"/>
+<xs:element minOccurs="0" name="lastName" type="xs:string"/>
+<xs:element minOccurs="0" name="suffix" type="xs:string"/>
+<xs:element minOccurs="0" name="nickname" type="xs:string"/>
+<xs:element minOccurs="0" name="addressType" type="xs:string"/>
+<xs:element minOccurs="0" name="addressDocumentType" type="xs:string"/>
+<xs:element minOccurs="0" name="address1" type="xs:string"/>
+<xs:element minOccurs="0" name="address2" type="xs:string"/>
+<xs:element minOccurs="0" name="address3" type="xs:string"/>
+<xs:element minOccurs="0" name="city" type="xs:string"/>
+<xs:element minOccurs="0" name="stateOrProvince" type="xs:string"/>
+<xs:element minOccurs="0" name="postalCode" type="xs:string"/>
+<xs:element minOccurs="0" name="countryCode" type="xs:string"/>
+<xs:element minOccurs="0" name="campusCode" type="xs:string"/>
+<xs:element minOccurs="0" name="verifyAddressFlag" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneType" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="extension" type="xs:string"/>
+<xs:element minOccurs="0" name="internationalNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="emailType" type="xs:string"/>
+<xs:element minOccurs="0" name="emailAddress" type="xs:string"/>
+<xs:element minOccurs="0" name="affilation" type="xs:string"/>
+<xs:element minOccurs="0" name="ssn" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddPersonResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="PersonServiceReturn" type="tns:personServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="personServiceReturn">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="addressReturnRecord" nillable="true" type="tns:addressReturn"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="affiliationReturnRecord" nillable="true" type="tns:affiliationReturn"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="dateOfBirthRecord" nillable="true" type="tns:dateOfBirthReturn"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="emailAddressReturnRecord" nillable="true" type="tns:emailAddressReturn"/>
+<xs:element minOccurs="0" name="exactMatchReturn" type="tns:matchReturn"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="genderReturnRecord" nillable="true" type="tns:genderReturn"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="nameReturnRecord" nillable="true" type="tns:nameReturn"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="nearMatchReturnRecord" nillable="true" type="tns:matchReturn"/>
+<xs:element name="numberOfAddresses" type="xs:int"/>
+<xs:element name="numberOfAffiliations" type="xs:int"/>
+<xs:element name="numberOfDateOfBirthdays" type="xs:int"/>
+<xs:element name="numberOfEmailAddresses" type="xs:int"/>
+<xs:element name="numberOfGenders" type="xs:int"/>
+<xs:element name="numberOfNames" type="xs:int"/>
+<xs:element name="numberOfPhones" type="xs:int"/>
+<xs:element name="numberOfPsuIds" type="xs:int"/>
+<xs:element name="numberOfUserids" type="xs:int"/>
+<xs:element name="numberofNearMatches" type="xs:int"/>
+<xs:element minOccurs="0" name="personReturn" type="tns:personReturn"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="phoneReturnRecord" nillable="true" type="tns:phoneReturn"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="psuIdReturnRecord" nillable="true" type="tns:psuIdReturn"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="useridReturnRecord" nillable="true" type="tns:useridReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addressReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="address1" type="xs:string"/>
+<xs:element minOccurs="0" name="address2" type="xs:string"/>
+<xs:element minOccurs="0" name="address3" type="xs:string"/>
+<xs:element minOccurs="0" name="addressKey" type="xs:string"/>
+<xs:element minOccurs="0" name="addressType" type="xs:string"/>
+<xs:element minOccurs="0" name="campusCode" type="xs:string"/>
+<xs:element minOccurs="0" name="campusName" type="xs:string"/>
+<xs:element minOccurs="0" name="city" type="xs:string"/>
+<xs:element minOccurs="0" name="countryCode" type="xs:string"/>
+<xs:element minOccurs="0" name="countryName" type="xs:string"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="documentType" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="groupId" type="xs:long"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="postalCode" type="xs:string"/>
+<xs:element minOccurs="0" name="primaryFlag" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+<xs:element minOccurs="0" name="stateOrProvince" type="xs:string"/>
+<xs:element minOccurs="0" name="uri" type="xs:string"/>
+<xs:element minOccurs="0" name="verifiedFlag" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="affiliationReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="affiliation" type="xs:string"/>
+<xs:element minOccurs="0" name="affiliationType" type="xs:string"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="primary" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="dateOfBirthReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="dob" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="matchReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:long"/>
+<xs:element minOccurs="0" name="psuId" type="xs:string"/>
+<xs:element minOccurs="0" name="score" type="xs:long"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="genderReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="gender" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="personReturn">
+<xs:sequence>
+<xs:element name="personId" type="xs:long"/>
+<xs:element minOccurs="0" name="uri" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="phoneReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="extension" type="xs:string"/>
+<xs:element minOccurs="0" name="groupId" type="xs:long"/>
+<xs:element minOccurs="0" name="internationalNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneKey" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneType" type="xs:string"/>
+<xs:element minOccurs="0" name="primaryFlag" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+<xs:element minOccurs="0" name="uri" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="psuIdReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="psuId" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateConfidentialityHold">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="confidentialityType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateConfidentialityHoldResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetPhone">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneType" type="xs:string"/>
+<xs:element minOccurs="0" name="returnHistory" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetPhoneResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="PhoneServiceReturn" type="tns:phoneServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="phoneServiceReturn">
+<xs:sequence>
+<xs:element name="numberElements" type="xs:int"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="phoneReturnRecord" nillable="true" type="tns:phoneReturn"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveUserComment">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="userCommentType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveUserCommentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddConfidentialityHold">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="confidentialityType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddConfidentialityHoldResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetMatchCode">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="matchDataType" type="xs:string"/>
+<xs:element minOccurs="0" name="dataValue" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetMatchCodeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="MatchCodeServiceReturn" type="tns:matchCodeServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="matchCodeServiceReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="matchCode" type="xs:string"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetUserid">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="returnHistory" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetUseridResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="UseridServiceReturn" type="tns:useridServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddAffiliation">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="affiliation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddAffiliationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchivePersonIdentifier">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="registryIdentifierType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchivePersonIdentifierResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SearchForPerson">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="psuId" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="ssn" type="xs:string"/>
+<xs:element minOccurs="0" name="firstName" type="xs:string"/>
+<xs:element minOccurs="0" name="lastName" type="xs:string"/>
+<xs:element minOccurs="0" name="middleName" type="xs:string"/>
+<xs:element minOccurs="0" name="address1" type="xs:string"/>
+<xs:element minOccurs="0" name="address2" type="xs:string"/>
+<xs:element minOccurs="0" name="address3" type="xs:string"/>
+<xs:element minOccurs="0" name="city" type="xs:string"/>
+<xs:element minOccurs="0" name="state" type="xs:string"/>
+<xs:element minOccurs="0" name="postalCode" type="xs:string"/>
+<xs:element minOccurs="0" name="plus4" type="xs:string"/>
+<xs:element minOccurs="0" name="country" type="xs:string"/>
+<xs:element minOccurs="0" name="dateOfBirth" type="xs:string"/>
+<xs:element minOccurs="0" name="gender" type="xs:string"/>
+<xs:element minOccurs="0" name="rankCutOff" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SearchForPersonResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="FindPersonServiceReturn" type="tns:findPersonServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="findPersonServiceReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="matchingMethod" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="nearMatchArray" nillable="true" type="tns:matchReturn"/>
+<xs:element name="personID" type="xs:long"/>
+<xs:element minOccurs="0" name="psuID" type="xs:string"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetIdCardPrintEvent">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetIdCardPrintEventResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="IdCardPrintEventServiceReturn" type="tns:idCardPrintEventServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="idCardPrintEventServiceReturn">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="idCardPrintEventReturnRecord" nillable="true" type="tns:idCardPrintLogReturn"/>
+<xs:element name="numberIdCardPrintEventElements" type="xs:int"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="idCardPrintLogReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="idCardNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="ipAddress" type="xs:string"/>
+<xs:element minOccurs="0" name="personId" type="xs:long"/>
+<xs:element minOccurs="0" name="printDate" type="xs:string"/>
+<xs:element minOccurs="0" name="printedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="workStationName" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetCredential">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="credentialType" type="xs:string"/>
+<xs:element minOccurs="0" name="returnHistory" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetCredentialResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="CredentialServiceReturn" type="tns:credentialServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="credentialServiceReturn">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="credentialReturnRecord" nillable="true" type="tns:credentialReturn"/>
+<xs:element name="numberElements" type="xs:int"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="credentialReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="credentialData" type="xs:string"/>
+<xs:element minOccurs="0" name="credentialType" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetPerson">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="returnHistory" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetPersonResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="PersonServiceReturn" type="tns:personServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetPSUIAP">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="returnHistory" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetPSUIAPResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="IAPServiceReturn" type="tns:iapServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="iapServiceReturn">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="iapReturnRecord" nillable="true" type="tns:iapReturn"/>
+<xs:element name="numberElements" type="xs:int"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="iapReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="iap" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddPersonIdentifier">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="registryIdentifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="registryIdentifierValue" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddPersonIdentifierResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchivePerson">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchivePersonResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdatePhone">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneType" type="xs:string"/>
+<xs:element minOccurs="0" name="groupId" type="xs:long"/>
+<xs:element minOccurs="0" name="phoneNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="extension" type="xs:string"/>
+<xs:element minOccurs="0" name="internationalNumber" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdatePhoneResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SetPrimaryAddressByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="addressType" type="xs:string"/>
+<xs:element minOccurs="0" name="documentType" type="xs:string"/>
+<xs:element minOccurs="0" name="groupId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SetPrimaryAddressByTypeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddPersonLinkage">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="linkageType" type="xs:string"/>
+<xs:element minOccurs="0" name="linkedIdentifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="linkedIdentifier" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddPersonLinkageResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddPhoto">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="photo" type="xs:base64Binary"/>
+<xs:element minOccurs="0" name="photoDateTaken" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddPhotoResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SetPrimaryUserid">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="userid" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SetPrimaryUseridResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveName">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="nameType" type="xs:string"/>
+<xs:element minOccurs="0" name="documentType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveNameResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveAffiliation">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="affiliation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveAffiliationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DisableUser">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="userid" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DisableUserResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddIdCard">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="IdCardType" type="xs:string"/>
+<xs:element minOccurs="0" name="idCardNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="idSerialNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="photo" type="xs:base64Binary"/>
+<xs:element minOccurs="0" name="photoDateTaken" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddIdCardResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateCredential">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="credentialType" type="xs:string"/>
+<xs:element minOccurs="0" name="credentialData" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateCredentialResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchivePersonLinkage">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="linkageType" type="xs:string"/>
+<xs:element minOccurs="0" name="linkedIdentifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="linkedIdentifier" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchivePersonLinkageResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveUserid">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="userid" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveUseridResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchivePhone">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneType" type="xs:string"/>
+<xs:element minOccurs="0" name="groupId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchivePhoneResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TransformAddress">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="address1" type="xs:string"/>
+<xs:element minOccurs="0" name="address2" type="xs:string"/>
+<xs:element minOccurs="0" name="address3" type="xs:string"/>
+<xs:element minOccurs="0" name="city" type="xs:string"/>
+<xs:element minOccurs="0" name="stateOrProvince" type="xs:string"/>
+<xs:element minOccurs="0" name="postalCode" type="xs:string"/>
+<xs:element minOccurs="0" name="countryCode" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TransformAddressResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="TransformServiceReturn" type="tns:transformServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="transformServiceReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="address1" type="xs:string"/>
+<xs:element minOccurs="0" name="address2" type="xs:string"/>
+<xs:element minOccurs="0" name="city" type="xs:string"/>
+<xs:element minOccurs="0" name="countryCode" type="xs:string"/>
+<xs:element minOccurs="0" name="countryName" type="xs:string"/>
+<xs:element minOccurs="0" name="deliverability" type="xs:string"/>
+<xs:element minOccurs="0" name="postalCode" type="xs:string"/>
+<xs:element minOccurs="0" name="stateOrProvince" type="xs:string"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveAddress">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="addressType" type="xs:string"/>
+<xs:element minOccurs="0" name="documentType" type="xs:string"/>
+<xs:element minOccurs="0" name="groupId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveAddressResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetPersonLinkage">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="returnHistory" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetPersonLinkageResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="PersonLinkageServiceReturn" type="tns:personLinkageServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="personLinkageServiceReturn">
+<xs:sequence>
+<xs:element name="numberElements" type="xs:int"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="personLinkageReturn" nillable="true" type="tns:personLinkageReturn"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="personLinkageReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="linkageTypeString" type="xs:string"/>
+<xs:element name="linkeePersonId" type="xs:long"/>
+<xs:element name="linkerPersonId" type="xs:long"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveConfidentialityHold">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="confidentialityType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveConfidentialityHoldResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetAffiliations">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetAffiliationsResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="AffiliationServiceReturn" type="tns:affiliationServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="affiliationServiceReturn">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="affiliationReturnRecord" nillable="true" type="tns:affiliationReturn"/>
+<xs:element name="numberElements" type="xs:int"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetExternalIAP">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="federationName" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetExternalIAPResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="IAPServiceReturn" type="tns:iapServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateIdCard">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="idCardType" type="xs:string"/>
+<xs:element minOccurs="0" name="idCardNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="idSerialNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="photo" type="xs:base64Binary"/>
+<xs:element minOccurs="0" name="photoDateTaken" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateIdCardResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UnarchivePerson">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UnarchivePersonResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SetPrimaryPhoneByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneType" type="xs:string"/>
+<xs:element minOccurs="0" name="groupId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SetPrimaryPhoneByTypeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetPersonIdentifier">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="registryIdentifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="returnHistory" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetPersonIdentifierResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="PersonIdentifierServiceReturn" type="tns:personIdentifierServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="personIdentifierServiceReturn">
+<xs:sequence>
+<xs:element name="numberOfElements" type="xs:int"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="personIdentifierReturn" nillable="true" type="tns:personIdentifierReturn"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="personIdentifierReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierTypeString" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierValue" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetIdCardNumber">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetIdCardNumberResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="IdCardNumberServiceReturn" type="tns:personIdCardNumberServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="personIdCardNumberServiceReturn">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="idCardNumberReturnRecord" nillable="true" type="tns:personIdCardNumberReturn"/>
+<xs:element name="numberIdCardNumberElements" type="xs:int"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="personIdCardNumberReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="idCardNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="idCardType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SetPrimaryAffiliation">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="affiliation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SetPrimaryAffiliationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdatePerson">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="assignPsuIdFlag" type="xs:string"/>
+<xs:element minOccurs="0" name="assignUseridFlag" type="xs:string"/>
+<xs:element minOccurs="0" name="gender" type="xs:string"/>
+<xs:element minOccurs="0" name="dob" type="xs:string"/>
+<xs:element minOccurs="0" name="nameType" type="xs:string"/>
+<xs:element minOccurs="0" name="nameDocumentType" type="xs:string"/>
+<xs:element minOccurs="0" name="firstName" type="xs:string"/>
+<xs:element minOccurs="0" name="middleNames" type="xs:string"/>
+<xs:element minOccurs="0" name="lastName" type="xs:string"/>
+<xs:element minOccurs="0" name="suffix" type="xs:string"/>
+<xs:element minOccurs="0" name="nickname" type="xs:string"/>
+<xs:element minOccurs="0" name="addressType" type="xs:string"/>
+<xs:element minOccurs="0" name="addressDocumentType" type="xs:string"/>
+<xs:element minOccurs="0" name="addressGroupId" type="xs:long"/>
+<xs:element minOccurs="0" name="address1" type="xs:string"/>
+<xs:element minOccurs="0" name="address2" type="xs:string"/>
+<xs:element minOccurs="0" name="address3" type="xs:string"/>
+<xs:element minOccurs="0" name="city" type="xs:string"/>
+<xs:element minOccurs="0" name="stateOrProvince" type="xs:string"/>
+<xs:element minOccurs="0" name="postalCode" type="xs:string"/>
+<xs:element minOccurs="0" name="countryCode" type="xs:string"/>
+<xs:element minOccurs="0" name="campusCode" type="xs:string"/>
+<xs:element minOccurs="0" name="verifyAddressFlag" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneType" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneGroupId" type="xs:long"/>
+<xs:element minOccurs="0" name="phoneNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="extension" type="xs:string"/>
+<xs:element minOccurs="0" name="internationalNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="emailType" type="xs:string"/>
+<xs:element minOccurs="0" name="emailAddress" type="xs:string"/>
+<xs:element minOccurs="0" name="affiliation" type="xs:string"/>
+<xs:element minOccurs="0" name="ssn" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdatePersonResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="PersonServiceReturn" type="tns:personServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveCredential">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="credentialType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveCredentialResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetUserComments">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="userId" type="xs:string"/>
+<xs:element minOccurs="0" name="userCommentType" type="xs:string"/>
+<xs:element minOccurs="0" name="returnHistory" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetUserCommentsResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="UserCommentServiceReturn" type="tns:userCommentServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="userCommentServiceReturn">
+<xs:sequence>
+<xs:element name="numberElements" type="xs:int"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="userCommentReturnRecord" nillable="true" type="tns:userCommentReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="userCommentReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="comment" type="xs:string"/>
+<xs:element minOccurs="0" name="commentDateString" type="xs:string"/>
+<xs:element minOccurs="0" name="commentKey" type="xs:string"/>
+<xs:element minOccurs="0" name="commenter" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="uri" type="xs:string"/>
+<xs:element minOccurs="0" name="userCommentType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddEmailAddress">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="emailAddressType" type="xs:string"/>
+<xs:element minOccurs="0" name="emailAddress" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddEmailAddressResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetInternalAffiliations">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="returnHistory" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetInternalAffiliationsResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="AffiliationServiceReturn" type="tns:affiliationServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetConfidentialityHold">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="returnHistory" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetConfidentialityHoldResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ConfidentialityServiceReturn" type="tns:confidentialityServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="confidentialityServiceReturn">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="confidentialityReturn" nillable="true" type="tns:confidentialityReturn"/>
+<xs:element name="numberElements" type="xs:int"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="confidentialityReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="confidentialityType" type="xs:string"/>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateName">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="nameType" type="xs:string"/>
+<xs:element minOccurs="0" name="documentType" type="xs:string"/>
+<xs:element minOccurs="0" name="firstName" type="xs:string"/>
+<xs:element minOccurs="0" name="middleNames" type="xs:string"/>
+<xs:element minOccurs="0" name="lastName" type="xs:string"/>
+<xs:element minOccurs="0" name="suffix" type="xs:string"/>
+<xs:element minOccurs="0" name="nickname" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateNameResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetIdCard">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="idCardType" type="xs:string"/>
+<xs:element minOccurs="0" name="returnHistory" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetIdCardResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="IdCardServiceReturn" type="tns:idCardServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="idCardServiceReturn">
+<xs:sequence>
+<xs:element name="numberPersonIdCardElements" type="xs:int"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="personIdCardsReturnRecord" nillable="true" type="tns:personIdCardReturn"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="photoReturn" nillable="true" type="tns:photoReturn"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="personIdCardReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="endDate" type="xs:string"/>
+<xs:element minOccurs="0" name="idCardNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="idCardType" type="xs:string"/>
+<xs:element minOccurs="0" name="idSerialNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="photoReturn">
+<xs:sequence>
+<xs:element minOccurs="0" name="createdBy" type="xs:string"/>
+<xs:element minOccurs="0" name="createdOn" type="xs:string"/>
+<xs:element minOccurs="0" name="dateTaken" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateBy" type="xs:string"/>
+<xs:element minOccurs="0" name="lastUpdateOn" type="xs:string"/>
+<xs:element minOccurs="0" name="photo" type="xs:base64Binary"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetAddress">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="addressType" type="xs:string"/>
+<xs:element minOccurs="0" name="returnHistory" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetAddressResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="AddressServiceReturn" type="tns:addressServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addressServiceReturn">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="addressReturnRecord" nillable="true" type="tns:addressReturn"/>
+<xs:element name="numberElements" type="xs:int"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveEmailAddress">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="emailAddressType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveEmailAddressResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddSpecialUserid">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element name="personId" type="xs:int"/>
+<xs:element minOccurs="0" name="userid" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddSpecialUseridResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="EnableUser">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="userid" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="EnableUserResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetPhoto">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetPhotoResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="PhotoServiceReturn" type="tns:photoServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="photoServiceReturn">
+<xs:sequence>
+<xs:element name="numberElements" type="xs:int"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="photoReturn" nillable="true" type="tns:photoReturn"/>
+<xs:element name="statusCode" type="xs:int"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddCredential">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="credentialType" type="xs:string"/>
+<xs:element minOccurs="0" name="credentialData" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddCredentialResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdatePersonIdentifier">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="registryIdentifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="registryIdentifierValue" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdatePersonIdentifierResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateAffiliation">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="affiliation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateAffiliationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveIdCard">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="idCardType" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ArchiveIdCardResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddPhone">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneType" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="extension" type="xs:string"/>
+<xs:element minOccurs="0" name="internationalNumber" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddPhoneResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="BlockUser">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="userid" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="BlockUserResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddIdCardPrintEvent">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="updatedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+<xs:element minOccurs="0" name="eventUserId" type="xs:string"/>
+<xs:element minOccurs="0" name="eventIpAddress" type="xs:string"/>
+<xs:element minOccurs="0" name="eventWorkstation" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddIdCardPrintEventResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="ServiceReturn" type="tns:serviceReturn"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetExternalAffiliations">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="password" type="xs:string"/>
+<xs:element minOccurs="0" name="requestedBy" type="xs:string"/>
+<xs:element minOccurs="0" name="identifierType" type="xs:string"/>
+<xs:element minOccurs="0" name="identifier" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetExternalAffiliationsResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="AffiliationServiceReturn" type="tns:affiliationServiceReturn"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="GetEmailAddressResponse">
+    <wsdl:part name="parameters" element="tns:GetEmailAddressResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetInternalAffiliationsResponse">
+    <wsdl:part name="parameters" element="tns:GetInternalAffiliationsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateConfidentialityHoldResponse">
+    <wsdl:part name="parameters" element="tns:UpdateConfidentialityHoldResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddPhone">
+    <wsdl:part name="parameters" element="tns:AddPhone">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateCredentialResponse">
+    <wsdl:part name="parameters" element="tns:UpdateCredentialResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddConfidentialityHoldResponse">
+    <wsdl:part name="parameters" element="tns:AddConfidentialityHoldResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetIdCard">
+    <wsdl:part name="parameters" element="tns:GetIdCard">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SetPrimaryUseridResponse">
+    <wsdl:part name="parameters" element="tns:SetPrimaryUseridResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetAffiliations">
+    <wsdl:part name="parameters" element="tns:GetAffiliations">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveName">
+    <wsdl:part name="parameters" element="tns:ArchiveName">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdatePhoneResponse">
+    <wsdl:part name="parameters" element="tns:UpdatePhoneResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveAddress">
+    <wsdl:part name="parameters" element="tns:ArchiveAddress">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchivePersonResponse">
+    <wsdl:part name="parameters" element="tns:ArchivePersonResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetIdCardNumberResponse">
+    <wsdl:part name="parameters" element="tns:GetIdCardNumberResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetIdCardNumber">
+    <wsdl:part name="parameters" element="tns:GetIdCardNumber">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdatePerson">
+    <wsdl:part name="parameters" element="tns:UpdatePerson">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DisableUser">
+    <wsdl:part name="parameters" element="tns:DisableUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveIdCardResponse">
+    <wsdl:part name="parameters" element="tns:ArchiveIdCardResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetAffiliationsResponse">
+    <wsdl:part name="parameters" element="tns:GetAffiliationsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateAffiliationResponse">
+    <wsdl:part name="parameters" element="tns:UpdateAffiliationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateIdCard">
+    <wsdl:part name="parameters" element="tns:UpdateIdCard">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddEmailAddress">
+    <wsdl:part name="parameters" element="tns:AddEmailAddress">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddUserComment">
+    <wsdl:part name="parameters" element="tns:AddUserComment">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SearchForPersonResponse">
+    <wsdl:part name="parameters" element="tns:SearchForPersonResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetUserComments">
+    <wsdl:part name="parameters" element="tns:GetUserComments">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddPhotoResponse">
+    <wsdl:part name="parameters" element="tns:AddPhotoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchivePhoneResponse">
+    <wsdl:part name="parameters" element="tns:ArchivePhoneResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveUserCommentResponse">
+    <wsdl:part name="parameters" element="tns:ArchiveUserCommentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddAddressResponse">
+    <wsdl:part name="parameters" element="tns:AddAddressResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveUserid">
+    <wsdl:part name="parameters" element="tns:ArchiveUserid">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddName">
+    <wsdl:part name="parameters" element="tns:AddName">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetPhone">
+    <wsdl:part name="parameters" element="tns:GetPhone">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UnarchiveUserid">
+    <wsdl:part name="parameters" element="tns:UnarchiveUserid">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="EnableUser">
+    <wsdl:part name="parameters" element="tns:EnableUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveNameResponse">
+    <wsdl:part name="parameters" element="tns:ArchiveNameResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetIdCardResponse">
+    <wsdl:part name="parameters" element="tns:GetIdCardResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UnblockUser">
+    <wsdl:part name="parameters" element="tns:UnblockUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetPersonLinkageResponse">
+    <wsdl:part name="parameters" element="tns:GetPersonLinkageResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetUserCommentsResponse">
+    <wsdl:part name="parameters" element="tns:GetUserCommentsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetMatchCode">
+    <wsdl:part name="parameters" element="tns:GetMatchCode">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetPerson">
+    <wsdl:part name="parameters" element="tns:GetPerson">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UnarchivePerson">
+    <wsdl:part name="parameters" element="tns:UnarchivePerson">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddNameResponse">
+    <wsdl:part name="parameters" element="tns:AddNameResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchivePersonIdentifierResponse">
+    <wsdl:part name="parameters" element="tns:ArchivePersonIdentifierResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddEmailAddressResponse">
+    <wsdl:part name="parameters" element="tns:AddEmailAddressResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveUserComment">
+    <wsdl:part name="parameters" element="tns:ArchiveUserComment">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddUserid">
+    <wsdl:part name="parameters" element="tns:AddUserid">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddPersonLinkage">
+    <wsdl:part name="parameters" element="tns:AddPersonLinkage">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetPSUIAPResponse">
+    <wsdl:part name="parameters" element="tns:GetPSUIAPResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="TransformAddress">
+    <wsdl:part name="parameters" element="tns:TransformAddress">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetEmailAddress">
+    <wsdl:part name="parameters" element="tns:GetEmailAddress">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateAddress">
+    <wsdl:part name="parameters" element="tns:UpdateAddress">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveConfidentialityHoldResponse">
+    <wsdl:part name="parameters" element="tns:ArchiveConfidentialityHoldResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddPhoneResponse">
+    <wsdl:part name="parameters" element="tns:AddPhoneResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetConfidentialityHold">
+    <wsdl:part name="parameters" element="tns:GetConfidentialityHold">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddAffiliationResponse">
+    <wsdl:part name="parameters" element="tns:AddAffiliationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SetPrimaryUserid">
+    <wsdl:part name="parameters" element="tns:SetPrimaryUserid">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetUseridResponse">
+    <wsdl:part name="parameters" element="tns:GetUseridResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddAffiliation">
+    <wsdl:part name="parameters" element="tns:AddAffiliation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetExternalAffiliationsResponse">
+    <wsdl:part name="parameters" element="tns:GetExternalAffiliationsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SetPrimaryAffiliation">
+    <wsdl:part name="parameters" element="tns:SetPrimaryAffiliation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UnarchiveUseridResponse">
+    <wsdl:part name="parameters" element="tns:UnarchiveUseridResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddPhoto">
+    <wsdl:part name="parameters" element="tns:AddPhoto">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetPhotoResponse">
+    <wsdl:part name="parameters" element="tns:GetPhotoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveCredentialResponse">
+    <wsdl:part name="parameters" element="tns:ArchiveCredentialResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetPhoneResponse">
+    <wsdl:part name="parameters" element="tns:GetPhoneResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateAffiliation">
+    <wsdl:part name="parameters" element="tns:UpdateAffiliation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetExternalAffiliations">
+    <wsdl:part name="parameters" element="tns:GetExternalAffiliations">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchivePhone">
+    <wsdl:part name="parameters" element="tns:ArchivePhone">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="BlockUserResponse">
+    <wsdl:part name="parameters" element="tns:BlockUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SetPrimaryPhoneByTypeResponse">
+    <wsdl:part name="parameters" element="tns:SetPrimaryPhoneByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateUserCommentResponse">
+    <wsdl:part name="parameters" element="tns:UpdateUserCommentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="TransformAddressResponse">
+    <wsdl:part name="parameters" element="tns:TransformAddressResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SetPrimaryAddressByType">
+    <wsdl:part name="parameters" element="tns:SetPrimaryAddressByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetPersonIdentifierResponse">
+    <wsdl:part name="parameters" element="tns:GetPersonIdentifierResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddPersonLinkageResponse">
+    <wsdl:part name="parameters" element="tns:AddPersonLinkageResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveAffiliation">
+    <wsdl:part name="parameters" element="tns:ArchiveAffiliation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateConfidentialityHold">
+    <wsdl:part name="parameters" element="tns:UpdateConfidentialityHold">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetIdCardPrintEvent">
+    <wsdl:part name="parameters" element="tns:GetIdCardPrintEvent">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UnblockUserResponse">
+    <wsdl:part name="parameters" element="tns:UnblockUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddConfidentialityHold">
+    <wsdl:part name="parameters" element="tns:AddConfidentialityHold">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddUseridResponse">
+    <wsdl:part name="parameters" element="tns:AddUseridResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddPersonIdentifier">
+    <wsdl:part name="parameters" element="tns:AddPersonIdentifier">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateName">
+    <wsdl:part name="parameters" element="tns:UpdateName">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchivePersonLinkage">
+    <wsdl:part name="parameters" element="tns:ArchivePersonLinkage">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveConfidentialityHold">
+    <wsdl:part name="parameters" element="tns:ArchiveConfidentialityHold">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetCredential">
+    <wsdl:part name="parameters" element="tns:GetCredential">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdatePhone">
+    <wsdl:part name="parameters" element="tns:UpdatePhone">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveEmailAddressResponse">
+    <wsdl:part name="parameters" element="tns:ArchiveEmailAddressResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetPhoto">
+    <wsdl:part name="parameters" element="tns:GetPhoto">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetIdCardPrintEventResponse">
+    <wsdl:part name="parameters" element="tns:GetIdCardPrintEventResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddPersonIdentifierResponse">
+    <wsdl:part name="parameters" element="tns:AddPersonIdentifierResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateIdCardResponse">
+    <wsdl:part name="parameters" element="tns:UpdateIdCardResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SearchForPerson">
+    <wsdl:part name="parameters" element="tns:SearchForPerson">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddSpecialUseridResponse">
+    <wsdl:part name="parameters" element="tns:AddSpecialUseridResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddSpecialUserid">
+    <wsdl:part name="parameters" element="tns:AddSpecialUserid">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddCredential">
+    <wsdl:part name="parameters" element="tns:AddCredential">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SetPrimaryAffiliationResponse">
+    <wsdl:part name="parameters" element="tns:SetPrimaryAffiliationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateCredential">
+    <wsdl:part name="parameters" element="tns:UpdateCredential">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetPSUIAP">
+    <wsdl:part name="parameters" element="tns:GetPSUIAP">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveAddressResponse">
+    <wsdl:part name="parameters" element="tns:ArchiveAddressResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdatePersonResponse">
+    <wsdl:part name="parameters" element="tns:UpdatePersonResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateUserComment">
+    <wsdl:part name="parameters" element="tns:UpdateUserComment">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdatePersonLinkage">
+    <wsdl:part name="parameters" element="tns:UpdatePersonLinkage">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchivePerson">
+    <wsdl:part name="parameters" element="tns:ArchivePerson">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetExternalIAP">
+    <wsdl:part name="parameters" element="tns:GetExternalIAP">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchivePersonIdentifier">
+    <wsdl:part name="parameters" element="tns:ArchivePersonIdentifier">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddAddress">
+    <wsdl:part name="parameters" element="tns:AddAddress">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetInternalAffiliations">
+    <wsdl:part name="parameters" element="tns:GetInternalAffiliations">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetAddress">
+    <wsdl:part name="parameters" element="tns:GetAddress">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetPersonIdentifier">
+    <wsdl:part name="parameters" element="tns:GetPersonIdentifier">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveAffiliationResponse">
+    <wsdl:part name="parameters" element="tns:ArchiveAffiliationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddIdCard">
+    <wsdl:part name="parameters" element="tns:AddIdCard">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateNameResponse">
+    <wsdl:part name="parameters" element="tns:UpdateNameResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchivePersonLinkageResponse">
+    <wsdl:part name="parameters" element="tns:ArchivePersonLinkageResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveCredential">
+    <wsdl:part name="parameters" element="tns:ArchiveCredential">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateAddressResponse">
+    <wsdl:part name="parameters" element="tns:UpdateAddressResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetName">
+    <wsdl:part name="parameters" element="tns:GetName">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateEmailAddressResponse">
+    <wsdl:part name="parameters" element="tns:UpdateEmailAddressResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetConfidentialityHoldResponse">
+    <wsdl:part name="parameters" element="tns:GetConfidentialityHoldResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdatePersonLinkageResponse">
+    <wsdl:part name="parameters" element="tns:UpdatePersonLinkageResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UnarchivePersonResponse">
+    <wsdl:part name="parameters" element="tns:UnarchivePersonResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DisableUserResponse">
+    <wsdl:part name="parameters" element="tns:DisableUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SetPrimaryAddressByTypeResponse">
+    <wsdl:part name="parameters" element="tns:SetPrimaryAddressByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveEmailAddress">
+    <wsdl:part name="parameters" element="tns:ArchiveEmailAddress">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="BlockUser">
+    <wsdl:part name="parameters" element="tns:BlockUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="EnableUserResponse">
+    <wsdl:part name="parameters" element="tns:EnableUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddCredentialResponse">
+    <wsdl:part name="parameters" element="tns:AddCredentialResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddPerson">
+    <wsdl:part name="parameters" element="tns:AddPerson">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetPersonLinkage">
+    <wsdl:part name="parameters" element="tns:GetPersonLinkage">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetExternalIAPResponse">
+    <wsdl:part name="parameters" element="tns:GetExternalIAPResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdatePersonIdentifierResponse">
+    <wsdl:part name="parameters" element="tns:UpdatePersonIdentifierResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateEmailAddress">
+    <wsdl:part name="parameters" element="tns:UpdateEmailAddress">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveIdCard">
+    <wsdl:part name="parameters" element="tns:ArchiveIdCard">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SetPrimaryPhoneByType">
+    <wsdl:part name="parameters" element="tns:SetPrimaryPhoneByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddPersonResponse">
+    <wsdl:part name="parameters" element="tns:AddPersonResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddUserCommentResponse">
+    <wsdl:part name="parameters" element="tns:AddUserCommentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetPersonResponse">
+    <wsdl:part name="parameters" element="tns:GetPersonResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddIdCardPrintEventResponse">
+    <wsdl:part name="parameters" element="tns:AddIdCardPrintEventResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetUserid">
+    <wsdl:part name="parameters" element="tns:GetUserid">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetMatchCodeResponse">
+    <wsdl:part name="parameters" element="tns:GetMatchCodeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddIdCardPrintEvent">
+    <wsdl:part name="parameters" element="tns:AddIdCardPrintEvent">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetCredentialResponse">
+    <wsdl:part name="parameters" element="tns:GetCredentialResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArchiveUseridResponse">
+    <wsdl:part name="parameters" element="tns:ArchiveUseridResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ProcessRules">
+    <wsdl:part name="parameters" element="tns:ProcessRules">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdatePersonIdentifier">
+    <wsdl:part name="parameters" element="tns:UpdatePersonIdentifier">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddIdCardResponse">
+    <wsdl:part name="parameters" element="tns:AddIdCardResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetAddressResponse">
+    <wsdl:part name="parameters" element="tns:GetAddressResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ProcessRulesResponse">
+    <wsdl:part name="parameters" element="tns:ProcessRulesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetNameResponse">
+    <wsdl:part name="parameters" element="tns:GetNameResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CprwsSEI">
+    <wsdl:operation name="UpdateEmailAddress">
+      <wsdl:input name="UpdateEmailAddress" message="tns:UpdateEmailAddress">
+    </wsdl:input>
+      <wsdl:output name="UpdateEmailAddressResponse" message="tns:UpdateEmailAddressResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessRules">
+      <wsdl:input name="ProcessRules" message="tns:ProcessRules">
+    </wsdl:input>
+      <wsdl:output name="ProcessRulesResponse" message="tns:ProcessRulesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUserComment">
+      <wsdl:input name="AddUserComment" message="tns:AddUserComment">
+    </wsdl:input>
+      <wsdl:output name="AddUserCommentResponse" message="tns:AddUserCommentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUserid">
+      <wsdl:input name="AddUserid" message="tns:AddUserid">
+    </wsdl:input>
+      <wsdl:output name="AddUseridResponse" message="tns:AddUseridResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddName">
+      <wsdl:input name="AddName" message="tns:AddName">
+    </wsdl:input>
+      <wsdl:output name="AddNameResponse" message="tns:AddNameResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddAddress">
+      <wsdl:input name="AddAddress" message="tns:AddAddress">
+    </wsdl:input>
+      <wsdl:output name="AddAddressResponse" message="tns:AddAddressResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePersonLinkage">
+      <wsdl:input name="UpdatePersonLinkage" message="tns:UpdatePersonLinkage">
+    </wsdl:input>
+      <wsdl:output name="UpdatePersonLinkageResponse" message="tns:UpdatePersonLinkageResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnarchiveUserid">
+      <wsdl:input name="UnarchiveUserid" message="tns:UnarchiveUserid">
+    </wsdl:input>
+      <wsdl:output name="UnarchiveUseridResponse" message="tns:UnarchiveUseridResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnblockUser">
+      <wsdl:input name="UnblockUser" message="tns:UnblockUser">
+    </wsdl:input>
+      <wsdl:output name="UnblockUserResponse" message="tns:UnblockUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetName">
+      <wsdl:input name="GetName" message="tns:GetName">
+    </wsdl:input>
+      <wsdl:output name="GetNameResponse" message="tns:GetNameResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEmailAddress">
+      <wsdl:input name="GetEmailAddress" message="tns:GetEmailAddress">
+    </wsdl:input>
+      <wsdl:output name="GetEmailAddressResponse" message="tns:GetEmailAddressResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserComment">
+      <wsdl:input name="UpdateUserComment" message="tns:UpdateUserComment">
+    </wsdl:input>
+      <wsdl:output name="UpdateUserCommentResponse" message="tns:UpdateUserCommentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAddress">
+      <wsdl:input name="UpdateAddress" message="tns:UpdateAddress">
+    </wsdl:input>
+      <wsdl:output name="UpdateAddressResponse" message="tns:UpdateAddressResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPerson">
+      <wsdl:input name="AddPerson" message="tns:AddPerson">
+    </wsdl:input>
+      <wsdl:output name="AddPersonResponse" message="tns:AddPersonResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateConfidentialityHold">
+      <wsdl:input name="UpdateConfidentialityHold" message="tns:UpdateConfidentialityHold">
+    </wsdl:input>
+      <wsdl:output name="UpdateConfidentialityHoldResponse" message="tns:UpdateConfidentialityHoldResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPhone">
+      <wsdl:input name="GetPhone" message="tns:GetPhone">
+    </wsdl:input>
+      <wsdl:output name="GetPhoneResponse" message="tns:GetPhoneResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveUserComment">
+      <wsdl:input name="ArchiveUserComment" message="tns:ArchiveUserComment">
+    </wsdl:input>
+      <wsdl:output name="ArchiveUserCommentResponse" message="tns:ArchiveUserCommentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddConfidentialityHold">
+      <wsdl:input name="AddConfidentialityHold" message="tns:AddConfidentialityHold">
+    </wsdl:input>
+      <wsdl:output name="AddConfidentialityHoldResponse" message="tns:AddConfidentialityHoldResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMatchCode">
+      <wsdl:input name="GetMatchCode" message="tns:GetMatchCode">
+    </wsdl:input>
+      <wsdl:output name="GetMatchCodeResponse" message="tns:GetMatchCodeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserid">
+      <wsdl:input name="GetUserid" message="tns:GetUserid">
+    </wsdl:input>
+      <wsdl:output name="GetUseridResponse" message="tns:GetUseridResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddAffiliation">
+      <wsdl:input name="AddAffiliation" message="tns:AddAffiliation">
+    </wsdl:input>
+      <wsdl:output name="AddAffiliationResponse" message="tns:AddAffiliationResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchivePersonIdentifier">
+      <wsdl:input name="ArchivePersonIdentifier" message="tns:ArchivePersonIdentifier">
+    </wsdl:input>
+      <wsdl:output name="ArchivePersonIdentifierResponse" message="tns:ArchivePersonIdentifierResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchForPerson">
+      <wsdl:input name="SearchForPerson" message="tns:SearchForPerson">
+    </wsdl:input>
+      <wsdl:output name="SearchForPersonResponse" message="tns:SearchForPersonResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIdCardPrintEvent">
+      <wsdl:input name="GetIdCardPrintEvent" message="tns:GetIdCardPrintEvent">
+    </wsdl:input>
+      <wsdl:output name="GetIdCardPrintEventResponse" message="tns:GetIdCardPrintEventResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCredential">
+      <wsdl:input name="GetCredential" message="tns:GetCredential">
+    </wsdl:input>
+      <wsdl:output name="GetCredentialResponse" message="tns:GetCredentialResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPerson">
+      <wsdl:input name="GetPerson" message="tns:GetPerson">
+    </wsdl:input>
+      <wsdl:output name="GetPersonResponse" message="tns:GetPersonResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPSUIAP">
+      <wsdl:input name="GetPSUIAP" message="tns:GetPSUIAP">
+    </wsdl:input>
+      <wsdl:output name="GetPSUIAPResponse" message="tns:GetPSUIAPResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPersonIdentifier">
+      <wsdl:input name="AddPersonIdentifier" message="tns:AddPersonIdentifier">
+    </wsdl:input>
+      <wsdl:output name="AddPersonIdentifierResponse" message="tns:AddPersonIdentifierResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchivePerson">
+      <wsdl:input name="ArchivePerson" message="tns:ArchivePerson">
+    </wsdl:input>
+      <wsdl:output name="ArchivePersonResponse" message="tns:ArchivePersonResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePhone">
+      <wsdl:input name="UpdatePhone" message="tns:UpdatePhone">
+    </wsdl:input>
+      <wsdl:output name="UpdatePhoneResponse" message="tns:UpdatePhoneResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPrimaryAddressByType">
+      <wsdl:input name="SetPrimaryAddressByType" message="tns:SetPrimaryAddressByType">
+    </wsdl:input>
+      <wsdl:output name="SetPrimaryAddressByTypeResponse" message="tns:SetPrimaryAddressByTypeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPersonLinkage">
+      <wsdl:input name="AddPersonLinkage" message="tns:AddPersonLinkage">
+    </wsdl:input>
+      <wsdl:output name="AddPersonLinkageResponse" message="tns:AddPersonLinkageResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPhoto">
+      <wsdl:input name="AddPhoto" message="tns:AddPhoto">
+    </wsdl:input>
+      <wsdl:output name="AddPhotoResponse" message="tns:AddPhotoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPrimaryUserid">
+      <wsdl:input name="SetPrimaryUserid" message="tns:SetPrimaryUserid">
+    </wsdl:input>
+      <wsdl:output name="SetPrimaryUseridResponse" message="tns:SetPrimaryUseridResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveName">
+      <wsdl:input name="ArchiveName" message="tns:ArchiveName">
+    </wsdl:input>
+      <wsdl:output name="ArchiveNameResponse" message="tns:ArchiveNameResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveAffiliation">
+      <wsdl:input name="ArchiveAffiliation" message="tns:ArchiveAffiliation">
+    </wsdl:input>
+      <wsdl:output name="ArchiveAffiliationResponse" message="tns:ArchiveAffiliationResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DisableUser">
+      <wsdl:input name="DisableUser" message="tns:DisableUser">
+    </wsdl:input>
+      <wsdl:output name="DisableUserResponse" message="tns:DisableUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddIdCard">
+      <wsdl:input name="AddIdCard" message="tns:AddIdCard">
+    </wsdl:input>
+      <wsdl:output name="AddIdCardResponse" message="tns:AddIdCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCredential">
+      <wsdl:input name="UpdateCredential" message="tns:UpdateCredential">
+    </wsdl:input>
+      <wsdl:output name="UpdateCredentialResponse" message="tns:UpdateCredentialResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchivePersonLinkage">
+      <wsdl:input name="ArchivePersonLinkage" message="tns:ArchivePersonLinkage">
+    </wsdl:input>
+      <wsdl:output name="ArchivePersonLinkageResponse" message="tns:ArchivePersonLinkageResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveUserid">
+      <wsdl:input name="ArchiveUserid" message="tns:ArchiveUserid">
+    </wsdl:input>
+      <wsdl:output name="ArchiveUseridResponse" message="tns:ArchiveUseridResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchivePhone">
+      <wsdl:input name="ArchivePhone" message="tns:ArchivePhone">
+    </wsdl:input>
+      <wsdl:output name="ArchivePhoneResponse" message="tns:ArchivePhoneResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TransformAddress">
+      <wsdl:input name="TransformAddress" message="tns:TransformAddress">
+    </wsdl:input>
+      <wsdl:output name="TransformAddressResponse" message="tns:TransformAddressResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveAddress">
+      <wsdl:input name="ArchiveAddress" message="tns:ArchiveAddress">
+    </wsdl:input>
+      <wsdl:output name="ArchiveAddressResponse" message="tns:ArchiveAddressResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonLinkage">
+      <wsdl:input name="GetPersonLinkage" message="tns:GetPersonLinkage">
+    </wsdl:input>
+      <wsdl:output name="GetPersonLinkageResponse" message="tns:GetPersonLinkageResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveConfidentialityHold">
+      <wsdl:input name="ArchiveConfidentialityHold" message="tns:ArchiveConfidentialityHold">
+    </wsdl:input>
+      <wsdl:output name="ArchiveConfidentialityHoldResponse" message="tns:ArchiveConfidentialityHoldResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAffiliations">
+      <wsdl:input name="GetAffiliations" message="tns:GetAffiliations">
+    </wsdl:input>
+      <wsdl:output name="GetAffiliationsResponse" message="tns:GetAffiliationsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExternalIAP">
+      <wsdl:input name="GetExternalIAP" message="tns:GetExternalIAP">
+    </wsdl:input>
+      <wsdl:output name="GetExternalIAPResponse" message="tns:GetExternalIAPResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateIdCard">
+      <wsdl:input name="UpdateIdCard" message="tns:UpdateIdCard">
+    </wsdl:input>
+      <wsdl:output name="UpdateIdCardResponse" message="tns:UpdateIdCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnarchivePerson">
+      <wsdl:input name="UnarchivePerson" message="tns:UnarchivePerson">
+    </wsdl:input>
+      <wsdl:output name="UnarchivePersonResponse" message="tns:UnarchivePersonResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPrimaryPhoneByType">
+      <wsdl:input name="SetPrimaryPhoneByType" message="tns:SetPrimaryPhoneByType">
+    </wsdl:input>
+      <wsdl:output name="SetPrimaryPhoneByTypeResponse" message="tns:SetPrimaryPhoneByTypeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonIdentifier">
+      <wsdl:input name="GetPersonIdentifier" message="tns:GetPersonIdentifier">
+    </wsdl:input>
+      <wsdl:output name="GetPersonIdentifierResponse" message="tns:GetPersonIdentifierResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIdCardNumber">
+      <wsdl:input name="GetIdCardNumber" message="tns:GetIdCardNumber">
+    </wsdl:input>
+      <wsdl:output name="GetIdCardNumberResponse" message="tns:GetIdCardNumberResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPrimaryAffiliation">
+      <wsdl:input name="SetPrimaryAffiliation" message="tns:SetPrimaryAffiliation">
+    </wsdl:input>
+      <wsdl:output name="SetPrimaryAffiliationResponse" message="tns:SetPrimaryAffiliationResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePerson">
+      <wsdl:input name="UpdatePerson" message="tns:UpdatePerson">
+    </wsdl:input>
+      <wsdl:output name="UpdatePersonResponse" message="tns:UpdatePersonResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveCredential">
+      <wsdl:input name="ArchiveCredential" message="tns:ArchiveCredential">
+    </wsdl:input>
+      <wsdl:output name="ArchiveCredentialResponse" message="tns:ArchiveCredentialResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserComments">
+      <wsdl:input name="GetUserComments" message="tns:GetUserComments">
+    </wsdl:input>
+      <wsdl:output name="GetUserCommentsResponse" message="tns:GetUserCommentsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddEmailAddress">
+      <wsdl:input name="AddEmailAddress" message="tns:AddEmailAddress">
+    </wsdl:input>
+      <wsdl:output name="AddEmailAddressResponse" message="tns:AddEmailAddressResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInternalAffiliations">
+      <wsdl:input name="GetInternalAffiliations" message="tns:GetInternalAffiliations">
+    </wsdl:input>
+      <wsdl:output name="GetInternalAffiliationsResponse" message="tns:GetInternalAffiliationsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfidentialityHold">
+      <wsdl:input name="GetConfidentialityHold" message="tns:GetConfidentialityHold">
+    </wsdl:input>
+      <wsdl:output name="GetConfidentialityHoldResponse" message="tns:GetConfidentialityHoldResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateName">
+      <wsdl:input name="UpdateName" message="tns:UpdateName">
+    </wsdl:input>
+      <wsdl:output name="UpdateNameResponse" message="tns:UpdateNameResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIdCard">
+      <wsdl:input name="GetIdCard" message="tns:GetIdCard">
+    </wsdl:input>
+      <wsdl:output name="GetIdCardResponse" message="tns:GetIdCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddress">
+      <wsdl:input name="GetAddress" message="tns:GetAddress">
+    </wsdl:input>
+      <wsdl:output name="GetAddressResponse" message="tns:GetAddressResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveEmailAddress">
+      <wsdl:input name="ArchiveEmailAddress" message="tns:ArchiveEmailAddress">
+    </wsdl:input>
+      <wsdl:output name="ArchiveEmailAddressResponse" message="tns:ArchiveEmailAddressResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSpecialUserid">
+      <wsdl:input name="AddSpecialUserid" message="tns:AddSpecialUserid">
+    </wsdl:input>
+      <wsdl:output name="AddSpecialUseridResponse" message="tns:AddSpecialUseridResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnableUser">
+      <wsdl:input name="EnableUser" message="tns:EnableUser">
+    </wsdl:input>
+      <wsdl:output name="EnableUserResponse" message="tns:EnableUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPhoto">
+      <wsdl:input name="GetPhoto" message="tns:GetPhoto">
+    </wsdl:input>
+      <wsdl:output name="GetPhotoResponse" message="tns:GetPhotoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddCredential">
+      <wsdl:input name="AddCredential" message="tns:AddCredential">
+    </wsdl:input>
+      <wsdl:output name="AddCredentialResponse" message="tns:AddCredentialResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePersonIdentifier">
+      <wsdl:input name="UpdatePersonIdentifier" message="tns:UpdatePersonIdentifier">
+    </wsdl:input>
+      <wsdl:output name="UpdatePersonIdentifierResponse" message="tns:UpdatePersonIdentifierResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAffiliation">
+      <wsdl:input name="UpdateAffiliation" message="tns:UpdateAffiliation">
+    </wsdl:input>
+      <wsdl:output name="UpdateAffiliationResponse" message="tns:UpdateAffiliationResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveIdCard">
+      <wsdl:input name="ArchiveIdCard" message="tns:ArchiveIdCard">
+    </wsdl:input>
+      <wsdl:output name="ArchiveIdCardResponse" message="tns:ArchiveIdCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPhone">
+      <wsdl:input name="AddPhone" message="tns:AddPhone">
+    </wsdl:input>
+      <wsdl:output name="AddPhoneResponse" message="tns:AddPhoneResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BlockUser">
+      <wsdl:input name="BlockUser" message="tns:BlockUser">
+    </wsdl:input>
+      <wsdl:output name="BlockUserResponse" message="tns:BlockUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddIdCardPrintEvent">
+      <wsdl:input name="AddIdCardPrintEvent" message="tns:AddIdCardPrintEvent">
+    </wsdl:input>
+      <wsdl:output name="AddIdCardPrintEventResponse" message="tns:AddIdCardPrintEventResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExternalAffiliations">
+      <wsdl:input name="GetExternalAffiliations" message="tns:GetExternalAffiliations">
+    </wsdl:input>
+      <wsdl:output name="GetExternalAffiliationsResponse" message="tns:GetExternalAffiliationsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CprwsSEIServiceSoapBinding" type="tns:CprwsSEI">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="UpdateEmailAddress">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UpdateEmailAddress">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UpdateEmailAddressResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessRules">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ProcessRules">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ProcessRulesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUserComment">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddUserComment">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddUserCommentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUserid">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddUserid">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddUseridResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddAddress">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddAddress">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddAddressResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddName">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddName">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddNameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnarchiveUserid">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UnarchiveUserid">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UnarchiveUseridResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePersonLinkage">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UpdatePersonLinkage">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UpdatePersonLinkageResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetName">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetName">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetNameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnblockUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UnblockUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UnblockUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEmailAddress">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetEmailAddress">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetEmailAddressResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAddress">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UpdateAddress">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UpdateAddressResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserComment">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UpdateUserComment">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UpdateUserCommentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPerson">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddPerson">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddPersonResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateConfidentialityHold">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UpdateConfidentialityHold">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UpdateConfidentialityHoldResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPhone">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetPhone">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetPhoneResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveUserComment">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ArchiveUserComment">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ArchiveUserCommentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddConfidentialityHold">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddConfidentialityHold">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddConfidentialityHoldResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMatchCode">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetMatchCode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetMatchCodeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddAffiliation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddAffiliation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddAffiliationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserid">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetUserid">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetUseridResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchivePersonIdentifier">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ArchivePersonIdentifier">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ArchivePersonIdentifierResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchForPerson">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SearchForPerson">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SearchForPersonResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCredential">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetCredential">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetCredentialResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIdCardPrintEvent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetIdCardPrintEvent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetIdCardPrintEventResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPerson">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetPerson">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetPersonResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPSUIAP">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetPSUIAP">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetPSUIAPResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPersonIdentifier">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddPersonIdentifier">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddPersonIdentifierResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchivePerson">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ArchivePerson">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ArchivePersonResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePhone">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UpdatePhone">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UpdatePhoneResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPrimaryAddressByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SetPrimaryAddressByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SetPrimaryAddressByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPersonLinkage">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddPersonLinkage">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddPersonLinkageResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPhoto">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddPhoto">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddPhotoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveName">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ArchiveName">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ArchiveNameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPrimaryUserid">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SetPrimaryUserid">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SetPrimaryUseridResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveAffiliation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ArchiveAffiliation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ArchiveAffiliationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddIdCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddIdCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddIdCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DisableUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="DisableUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="DisableUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchivePersonLinkage">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ArchivePersonLinkage">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ArchivePersonLinkageResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCredential">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UpdateCredential">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UpdateCredentialResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchivePhone">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ArchivePhone">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ArchivePhoneResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveUserid">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ArchiveUserid">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ArchiveUseridResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TransformAddress">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="TransformAddress">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="TransformAddressResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveAddress">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ArchiveAddress">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ArchiveAddressResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonLinkage">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetPersonLinkage">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetPersonLinkageResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveConfidentialityHold">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ArchiveConfidentialityHold">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ArchiveConfidentialityHoldResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExternalIAP">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetExternalIAP">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetExternalIAPResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAffiliations">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetAffiliations">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetAffiliationsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateIdCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UpdateIdCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UpdateIdCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPersonIdentifier">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetPersonIdentifier">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetPersonIdentifierResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPrimaryPhoneByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SetPrimaryPhoneByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SetPrimaryPhoneByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnarchivePerson">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UnarchivePerson">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UnarchivePersonResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIdCardNumber">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetIdCardNumber">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetIdCardNumberResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPrimaryAffiliation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SetPrimaryAffiliation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SetPrimaryAffiliationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePerson">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UpdatePerson">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UpdatePersonResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveCredential">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ArchiveCredential">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ArchiveCredentialResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddEmailAddress">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddEmailAddress">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddEmailAddressResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserComments">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetUserComments">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetUserCommentsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInternalAffiliations">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetInternalAffiliations">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetInternalAffiliationsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfidentialityHold">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetConfidentialityHold">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetConfidentialityHoldResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateName">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UpdateName">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UpdateNameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIdCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetIdCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetIdCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAddress">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetAddress">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetAddressResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveEmailAddress">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ArchiveEmailAddress">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ArchiveEmailAddressResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSpecialUserid">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddSpecialUserid">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddSpecialUseridResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnableUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="EnableUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="EnableUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPhoto">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetPhoto">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetPhotoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddCredential">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddCredential">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddCredentialResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAffiliation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UpdateAffiliation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UpdateAffiliationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePersonIdentifier">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="UpdatePersonIdentifier">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="UpdatePersonIdentifierResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveIdCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ArchiveIdCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ArchiveIdCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPhone">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddPhone">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddPhoneResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BlockUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="BlockUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="BlockUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddIdCardPrintEvent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="AddIdCardPrintEvent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AddIdCardPrintEventResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExternalAffiliations">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetExternalAffiliations">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetExternalAffiliationsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="cprws">
+    <wsdl:port name="cprws_port" binding="tns:CprwsSEIServiceSoapBinding">
+      <soap:address location="http://localhost:9090/cprws_port"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

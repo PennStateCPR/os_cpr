@@ -1,2 +1,14 @@
 /build
 /javadoc
+/src/cpr.properties
+/src/grouper.client.properties
+/src/hibernate.cfg.xml
+/src/jndi.properties
+/src/test/resources/cpr.properties
+/src/test/resources/grouper.client.properties
+/src/test/resources/hibernate.cfg.xml
+/src/test/resources/jndi.properties
+/src/main/resources/cpr.properties
+/src/main/resources/grouper.client.properties
+/src/main/resources/hibernate.cfg.xml
+/src/main/resources/jndi.properties

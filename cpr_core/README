@@ -7,7 +7,7 @@ database.  If you are using a different database vendor, you will need to
 update this file to use the correct data types and so on.  Consult your DBA
 for more information.
 
-2)  In the src folder, you will need to copy some files:
+2)  In the src/main/resources folder, you will need to copy some files:
     *) cp hibernate.cfg.xml.example hibernate.cfg.xml
     *) cp cpr.properties.example cpr.properties.
     
@@ -65,10 +65,7 @@ for more information.
 	* If the CPR database name is different (see above) update this line with the name of the database.
 
 6)	Build the CPR code.
-	* ant
+	* gradle clean assemble
 	
 7)	To run unit tests (assumes the database exists and is populated).
-	ant -Drun.unit.tests=1
-
-8)	When you build the code, the JavaDoc will be placed in the javadoc folder and
-	the cpr_core.jar will be placed in the dist/lib folder.
+	* gradle clean test

@@ -1,0 +1,3805 @@
+#created on: Jan 5, 2012
+package edu.psu.iam.cpr.core.rules.engine
+
+
+
+rule "invalid UGrad Transition 1"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_APPLICANT" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROSPECT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid UGrad Transition 2"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_CURRENT" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROSPECT"  || fact == "STUDENT_UNDERGRADUATE_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid UGrad Transition 3"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_FORMER" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROSPECT"  || fact == "STUDENT_UNDERGRADUATE_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Grad Transition 1"
+        salience 100
+        dialect "mvel"
+        lock-on-active true
+        when
+                $known : KnownFact ( fact == "STUDENT_GRADUATE_APPLICANT" )
+                $input : InputFact ( fact == "STUDENT_GRADUATE_PROSPECT" )
+        then
+                retract($input);
+                $known.setFact("ERROR");
+                update($known);
+end
+
+rule "invalid Grad Transition 2"
+        salience 100
+        dialect "mvel"
+        lock-on-active true
+        when
+                $known : KnownFact ( fact == "STUDENT_GRADUATE_CURRENT" )
+                $input : InputFact ( fact == "STUDENT_GRADUATE_PROSPECT"  || fact == "STUDENT_GRADUATE_APPLICANT" )
+        then
+                retract($input);
+                $known.setFact("ERROR");
+                update($known);
+end
+
+rule "invalid Grad Transition 3"
+        salience 100
+        dialect "mvel"
+        lock-on-active true
+        when
+                $known : KnownFact ( fact == "STUDENT_GRADUATE_FORMER" )
+                $input : InputFact ( fact == "STUDENT_GRADUATE_PROSPECT" || fact == "STUDENT_GRADUATE_APPLICANT" )
+        then
+                retract($input);
+                $known.setFact("ERROR");
+                update($known);
+end
+
+rule "invalid Law Transition 1"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_LAW_APPLICANT" )
+		$input : InputFact ( fact == "STUDENT_LAW_PROSPECT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Law Transition 2"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_LAW_CURRENT" )
+		$input : InputFact ( fact == "STUDENT_LAW_PROSPECT"  || fact == "STUDENT_LAW_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Law Transition 3"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_LAW_FORMER" )
+		$input : InputFact ( fact == "STUDENT_LAW_PROSPECT"  || fact == "STUDENT_LAW_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Medical Transition 1"
+        salience 100
+        dialect "mvel"
+        lock-on-active true
+        when
+                $known : KnownFact ( fact == "STUDENT_MEDICAL_APPLICANT" )
+                $input : InputFact ( fact == "STUDENT_MEDICAL_PROSPECT" )
+        then
+                retract($input);
+                $known.setFact("ERROR");
+                update($known);
+end
+
+rule "invalid Medical Transition 2"
+        salience 100
+        dialect "mvel"
+        lock-on-active true
+        when
+                $known : KnownFact ( fact == "STUDENT_MEDICAL_CURRENT" )
+                $input : InputFact ( fact == "STUDENT_MEDICAL_PROSPECT"  || fact == "STUDENT_MEDICAL_APPLICANT" )
+        then
+                retract($input);
+                $known.setFact("ERROR");
+                update($known);
+end
+
+rule "invalid Medical Transition 3"
+        salience 100
+        dialect "mvel"
+        lock-on-active true
+        when
+                $known : KnownFact ( fact == "STUDENT_MEDICAL_FORMER" )
+                $input : InputFact ( fact == "STUDENT_MEDICAL_PROSPECT" || fact == "STUDENT_MEDICAL_APPLICANT" )
+        then
+                retract($input);
+                $known.setFact("ERROR");
+                update($known);
+end
+
+rule "invalid Ugrad NonDegree Transition 1"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_APPLICANT" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_PROSPECT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Ugrad NonDegree Transition 2"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CURRENT" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_PROSPECT"  
+			|| fact == "STUDENT_UNDERGRADUATE_NONDEGREE_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Ugrad NonDegree Transition 3"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_FORMER" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_PROSPECT"  
+			|| fact == "STUDENT_UNDERGRADUATE_NONDEGREE_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Grad NonDegree Transition 1"
+    salience 100
+    dialect "mvel"
+    lock-on-active true
+    when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_NONDEGREE_APPLICANT" )
+        $input : InputFact ( fact == "STUDENT_GRADUATE_NONDEGREE_PROSPECT" )
+    then
+        retract($input);
+        $known.setFact("ERROR");
+       	update($known);
+end
+
+rule "invalid Grad NonDegree Transition 2"
+    salience 100
+    dialect "mvel"
+    lock-on-active true
+    when
+        $known : KnownFact ( fact == "STUDENT_GRADUATE_NONDEGREE_CURRENT" )
+        $input : InputFact ( fact == "STUDENT_GRADUATE_NONDEGREE_PROSPECT"  
+			|| fact == "STUDENT_GRADUATE_NONDEGREE_APPLICANT" )
+    then
+       	retract($input);
+        $known.setFact("ERROR");
+        update($known);
+end
+
+rule "invalid Grad NonDegree Transition 3"
+    salience 100
+    dialect "mvel"
+    lock-on-active true
+    when
+        $known : KnownFact ( fact == "STUDENT_GRADUATE_NONDEGREE_FORMER" )
+        $input : InputFact ( fact == "STUDENT_GRADUATE_NONDEGREE_PROSPECT" 
+			|| fact == "STUDENT_GRADUATE_NONDEGREE_APPLICANT" )
+ 	then
+      	retract($input);
+        $known.setFact("ERROR");
+        update($known);
+end
+
+rule "invalid Ugrad NonDegree Certificate Transition 1"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_CERTIFICATE_APPLICANT" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_CERTIFICATE_PROSPECT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Ugrad NonDegree Certificate Transition 2"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_CERTIFICATE_CURRENT" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_CERTIFICATE_PROSPECT"  
+			|| fact == "STUDENT_UNDERGRADUATE_CERTIFICATE_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Ugrad NonDegree Certificate Transition 3"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_CERTIFICATE_FORMER" )
+		$input : InputFact	 ( fact == "STUDENT_UNDERGRADUATE_CERTIFICATE_PROSPECT"  
+			|| fact == "STUDENT_UNDERGRADUATE_CERTIFICATE_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Grad Certificate Transition 1"
+	salience 100
+	dialect "mvel"
+ 	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_CERTIFICATE_APPLICANT" )
+		$input : InputFact ( fact == "STUDENT_GRADUATE_CERTIFICATE_PROSPECT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Grad Certificate Transition 2"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_CERTIFICATE_CURRENT" )
+ 		$input : InputFact ( fact == "STUDENT_GRADUATE_CERTIFICATE_PROSPECT"  
+			|| fact == "STUDENT_GRADUATE_CERTIFICATE_APPLICANT" )
+	then
+ 		retract($input);
+ 		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Grad Certificate Transition 3"
+	salience 100
+ 	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_CERTIFICATE_FORMER" )
+ 		$input : InputFact ( fact == "STUDENT_GRADUATE_CERTIFICATE_PROSPECT" 
+			|| fact == "STUDENT_GRADUATE_CERTIFICATE_APPLICANT" )
+	then
+		retract($input);
+	$known.setFact("ERROR");
+	update($known);
+end
+rule "invalid UGrad Provisioanl Transition 1"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_APPLICANT" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_PROSPECT" )
+	then
+		retract($input);
+	$known.setFact("ERROR");
+	update($known);
+end
+
+rule "invalid UGrad Provisional Transition 2"
+ 	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_CURRENT" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_PROSPECT"  
+			|| fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_APPLICANT" )
+	then
+ 		retract($input);
+		$known.setFact("ERROR");
+	update($known);
+end
+
+rule "invalid UGrad Provisional Transition 3"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_FORMER" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_PROSPECT" 
+			|| fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Grad Provisioanl Transition 1"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_APPLICANT" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_PROSPECT" )
+	then
+		retract($input);
+	$known.setFact("ERROR");
+	update($known);
+end
+
+rule "invalid Grad Provisional Transition 2"
+ 	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_CURRENT" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_PROSPECT"  
+			|| fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_APPLICANT" )
+	then
+ 		retract($input);
+		$known.setFact("ERROR");
+	update($known);
+end
+
+rule "invalid Grad Provisional Transition 3"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "STUDENT_GRADUATE_PROVISIONAL_FORMER" )
+		$input : InputFact ( fact == "STUDENT_GRADUATE_PROVISIONAL_PROSPECT" 
+			|| fact == "STUDENT_GRADUATE_PROVISIONAL_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Academic Transition Active"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ACTIVE" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_APPLICANT" 
+			|| fact == "EMPLOYEE_ACADEMIC_PENDING"
+			|| fact == "EMPLOYEE_ACADEMIC_TEMPREHIRE")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Academic Transition Applicant"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_APPLICANT" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_EMERITUS" 
+			|| fact == "EMPLOYEE_ACADEMIC_DECEASED"
+			|| fact == "EMPLOYEE_ACADEMIC_TEMPREHIRE"
+			|| fact == "EMPLOYEE_ACADEMIC_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Academic Transition Deceased"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_DECEASED" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_APPLICANT" 
+			|| fact == "EMPLOYEE_ACADEMIC_ACTIVE"
+			|| fact == "EMPLOYEE_ACADEMIC_EMERITUS"
+			|| fact == "EMPLOYEE_ACADEMIC_PENDING"
+			|| fact == "EMPLOYEE_ACADEMIC_RETIRED"
+			|| fact == "EMPLOYEE_ACADEMIC_TEMPREHIRE"
+			|| fact == "EMPLOYEE_ACADEMIC_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Academic  Transition Pending"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_PENDING" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_APPLICANT" 
+			|| fact == "EMPLOYEE_ACADEMIC_EMERITUS"
+			|| fact == "EMPLOYEE_ACADEMIC_RETIRED"
+			|| fact == "EMPLOYEE_ACADEMIC_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Academic  Transition Retired"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_RETIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_APPLICANT" 
+			|| fact == "EMPLOYEE_ACADEMIC_ACTIVE"
+			|| fact == "EMPLOYEE_ACADEMIC_PENDING"
+			|| fact == "EMPLOYEE_ACADEMIC_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Academic  Transition TempRehired"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_TEMPREHIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_APPLICANT" 
+			|| fact == "EMPLOYEE_ACADEMIC_ACTIVE"
+			|| fact == "EMPLOYEE_ACADEMIC_PENDING"
+			|| fact == "EMPLOYEE_ACADEMIC_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Academic  Transition Terminated"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_TERMINATED" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_EMERITUS" 
+			|| fact == "EMPLOYEE_ACADEMIC_RETIRED"
+			|| fact == "EMPLOYEE_ACADEMIC_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee ACADEMIC_ADMINISTRATOR Transition Active"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT" 
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_PENDING"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRE")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee ACADEMIC_ADMINISTRATOR Transition Applicant"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_EMERITUS" 
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_DECEASED"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRE"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Employee Academic Administrator Transition Deceased"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_DECEASED" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT" 
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_EMERITUS"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_PENDING"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRE"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Academic Administrator Transition Emeritus"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_EMERITUS" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT" 
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_PENDING"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Academic Administrator Transition Pending"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_PENDING" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT" 
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_EMERITUS"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee ACADEMIC_ADMINISTRATOR  Transition Retired"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT" 
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_PENDING"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee ACADEMIC_ADMINISTRATOR  Transition TempRehired"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT" 
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_PENDING"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee ACADEMIC_ADMINISTRATOR  Transition Terminated"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED" )
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_EMERITUS" 
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee ADMINISTRATOR Transition Active"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_ACTIVE" )
+		$input : InputFact ( fact == "EMPLOYEE_ADMINISTRATOR_APPLICANT" 
+			|| fact == "EMPLOYEE_ADMINISTRATOR_PENDING"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TEMPREHIRE")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee ADMINISTRATOR Transition Applicant"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_APPLICANT" )
+		$input : InputFact ( fact == "EMPLOYEE_ADMINISTRATOR_EMERITUS" 
+			|| fact == "EMPLOYEE_ADMINISTRATOR_DECEASED"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TEMPREHIRE"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Employee Administrator Transition Deceased"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_DECEASED" )
+		$input : InputFact ( fact == "EMPLOYEE_ADMINISTRATOR_APPLICANT" 
+			|| fact == "EMPLOYEE_ADMINISTRATOR_ACTIVE"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_EMERITUS"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_PENDING"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_RETIRED"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TEMPREHIRE"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee ADMINISTRATOR Transition Emeritus"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_EMERITUS" )
+		$input : InputFact ( fact == "EMPLOYEE_ADMINISTRATOR_APPLICANT" 
+			|| fact == "EMPLOYEE_ADMINISTRATOR_ACTIVE"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_PENDING"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_RETIRED"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee ADMINISTRATOR  Transition Pending"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_PENDING" )
+		$input : InputFact ( fact == "EMPLOYEE_ADMINISTRATOR_APPLICANT" 
+			|| fact == "EMPLOYEE_ADMINISTRATOR_EMERITUS"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_RETIRED"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee ADMINISTRATOR  Transition Retired"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_RETIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_ADMINISTRATOR_APPLICANT" 
+			|| fact == "EMPLOYEE_ADMINISTRATOR_ACTIVE"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_PENDING"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee ADMINISTRATOR  Transition TempRehired"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_TEMPREHIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_ADMINISTRATOR_APPLICANT" 
+			|| fact == "EMPLOYEE_ADMINISTRATOR_ACTIVE"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_PENDING"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee ADMINISTRATOR  Transition Terminated"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_TERMINATED" )
+		$input : InputFact ( fact == "EMPLOYEE_ADMINISTRATOR_EMERITUS" 
+			|| fact == "EMPLOYEE_ADMINISTRATOR_RETIRED"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee EXECUTIVE Transition Active"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_ACTIVE" )
+		$input : InputFact ( fact == "EMPLOYEE_EXECUTIVE_APPLICANT" 
+			|| fact == "EMPLOYEE_EXECUTIVE_PENDING"
+			|| fact == "EMPLOYEE_EXECUTIVE_TEMPREHIRE")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee EXECUTIVE Transition Applicant"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_APPLICANT" )
+		$input : InputFact ( fact == "EMPLOYEE_EXECUTIVE_EMERITUS" 
+			|| fact == "EMPLOYEE_EXECUTIVE_DECEASED"
+			|| fact == "EMPLOYEE_EXECUTIVE_TEMPREHIRE"
+			|| fact == "EMPLOYEE_EXECUTIVE_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Employee Executive Transition Deceased"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_DECEASED" )
+		$input : InputFact ( fact == "EMPLOYEE_EXECUTIVE_APPLICANT" 
+			|| fact == "EMPLOYEE_EXECUTIVE_ACTIVE"
+			|| fact == "EMPLOYEE_EXECUTIVE_EMERITUS"
+			|| fact == "EMPLOYEE_EXECUTIVE_PENDING"
+			|| fact == "EMPLOYEE_EXECUTIVE_RETIRED"
+			|| fact == "EMPLOYEE_EXECUTIVE_TEMPREHIRE"
+			|| fact == "EMPLOYEE_EXECUTIVE_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee EXECUTIVE Transition Emeritus"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_EMERITUS" )
+		$input : InputFact ( fact == "EMPLOYEE_EXECUTIVE_APPLICANT" 
+			|| fact == "EMPLOYEE_EXECUTIVE_ACTIVE"
+			|| fact == "EMPLOYEE_EXECUTIVE_PENDING"
+			|| fact == "EMPLOYEE_EXECUTIVE_RETIRED"
+			|| fact == "EMPLOYEE_EXECUTIVE_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee EXECUTIVE  Transition Pending"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_PENDING" )
+		$input : InputFact ( fact == "EMPLOYEE_EXECUTIVE_APPLICANT" 
+			|| fact == "EMPLOYEE_EXECUTIVE_EMERITUS"
+			|| fact == "EMPLOYEE_EXECUTIVE_RETIRED"
+			|| fact == "EMPLOYEE_EXECUTIVE_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee EXECUTIVE  Transition Retired"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_RETIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_EXECUTIVE_APPLICANT" 
+			|| fact == "EMPLOYEE_EXECUTIVE_ACTIVE"
+			|| fact == "EMPLOYEE_EXECUTIVE_PENDING"
+			|| fact == "EMPLOYEE_EXECUTIVE_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee EXECUTIVE  Transition TempRehired"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_TEMPREHIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_EXECUTIVE_APPLICANT" 
+			|| fact == "EMPLOYEE_EXECUTIVE_ACTIVE"
+			|| fact == "EMPLOYEE_EXECUTIVE_PENDING"
+			|| fact == "EMPLOYEE_EXECUTIVE_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee EXECUTIVE  Transition Terminated"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_TERMINATED" )
+		$input : InputFact ( fact == "EMPLOYEE_EXECUTIVE_EMERITUS" 
+			|| fact == "EMPLOYEE_EXECUTIVE_RETIRED"
+			|| fact == "EMPLOYEE_EXECUTIVE_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee FACULTY Transition Active"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_ACTIVE" )
+		$input : InputFact ( fact == "EMPLOYEE_FACULTY_APPLICANT" 
+			|| fact == "EMPLOYEE_FACULTY_PENDING"
+			|| fact == "EMPLOYEE_FACULTY_TEMPREHIRE")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee FACULTY Transition Applicant"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_APPLICANT" )
+		$input : InputFact ( fact == "EMPLOYEE_FACULTY_EMERITUS" 
+			|| fact == "EMPLOYEE_FACULTY_DECEASED"
+			|| fact == "EMPLOYEE_FACULTY_TEMPREHIRE"
+			|| fact == "EMPLOYEE_FACULTY_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Employee Faculty Transition Deceased"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_DECEASED" )
+		$input : InputFact ( fact == "EMPLOYEE_FACULTY_APPLICANT" 
+			|| fact == "EMPLOYEE_FACULTY_ACTIVE"
+			|| fact == "EMPLOYEE_FACULTY_EMERITUS"
+			|| fact == "EMPLOYEE_FACULTY_PENDING"
+			|| fact == "EMPLOYEE_FACULTY_RETIRED"
+			|| fact == "EMPLOYEE_FACULTY_TEMPREHIRE"
+			|| fact == "EMPLOYEE_FACULTY_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee FACULTY Transition Emeritus"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_EMERITUS" )
+		$input : InputFact ( fact == "EMPLOYEE_FACULTY_APPLICANT" 
+			|| fact == "EMPLOYEE_FACULTY_ACTIVE"
+			|| fact == "EMPLOYEE_FACULTY_PENDING"
+			|| fact == "EMPLOYEE_FACULTY_RETIRED"
+			|| fact == "EMPLOYEE_FACULTY_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee FACULTY  Transition Pending"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_PENDING" )
+		$input : InputFact ( fact == "EMPLOYEE_FACULTY_APPLICANT" 
+			|| fact == "EMPLOYEE_FACULTY_EMERITUS"
+			|| fact == "EMPLOYEE_FACULTY_RETIRED"
+			|| fact == "EMPLOYEE_FACULTY_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee FACULTY  Transition Retired"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_RETIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_FACULTY_APPLICANT" 
+			|| fact == "EMPLOYEE_FACULTY_ACTIVE"
+			|| fact == "EMPLOYEE_FACULTY_PENDING"
+			|| fact == "EMPLOYEE_FACULTY_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee FACULTY  Transition TempRehired"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_TEMPREHIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_FACULTY_APPLICANT" 
+			|| fact == "EMPLOYEE_FACULTY_ACTIVE"
+			|| fact == "EMPLOYEE_FACULTY_PENDING"
+			|| fact == "EMPLOYEE_FACULTY_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee FACULTY  Transition Terminated"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_TERMINATED" )
+		$input : InputFact ( fact == "EMPLOYEE_FACULTY_EMERITUS" 
+			|| fact == "EMPLOYEE_FACULTY_RETIRED"
+			|| fact == "EMPLOYEE_FACULTY_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee STAFF Transition Active"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_STAFF_ACTIVE" )
+		$input : InputFact ( fact == "EMPLOYEE_STAFF_APPLICANT" 
+			|| fact == "EMPLOYEE_STAFF_PENDING"
+			|| fact == "EMPLOYEE_STAFF_TEMPREHIRE")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee STAFF Transition Applicant"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_STAFF_APPLICANT" )
+		$input : InputFact ( fact == "EMPLOYEE_STAFF_EMERITUS" 
+			|| fact == "EMPLOYEE_STAFF_DECEASED"
+			|| fact == "EMPLOYEE_STAFF_TEMPREHIRE"
+			|| fact == "EMPLOYEE_STAFF_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+
+rule "invalid Employee Staff Transition Deceased"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_STAFF_DECEASED" )
+		$input : InputFact ( fact == "EMPLOYEE_STAFF_APPLICANT" 
+			|| fact == "EMPLOYEE_STAFF_ACTIVE"
+			|| fact == "EMPLOYEE_STAFF_EMERITUS"
+			|| fact == "EMPLOYEE_STAFF_PENDING"
+			|| fact == "EMPLOYEE_STAFF_RETIRED"
+			|| fact == "EMPLOYEE_STAFF_TEMPREHIRE"
+			|| fact == "EMPLOYEE_STAFF_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee STAFF STAFF Transition Emeritus"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_STAFF_EMERITUS" )
+		$input : InputFact ( fact == "EMPLOYEE_STAFF_APPLICANT" 
+			|| fact == "EMPLOYEE_STAFF_ACTIVE"
+			|| fact == "EMPLOYEE_STAFF_PENDING"
+			|| fact == "EMPLOYEE_STAFF_RETIRED"
+			|| fact == "EMPLOYEE_STAFF_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee STAFF  Transition Pending"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_STAFF_PENDING" )
+		$input : InputFact ( fact == "EMPLOYEE_STAFF_APPLICANT" 
+			|| fact == "EMPLOYEE_STAFF_EMERITUS"
+			|| fact == "EMPLOYEE_STAFF_RETIRED"
+			|| fact == "EMPLOYEE_STAFF_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee STAFF  Transition Retired"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_STAFF_RETIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_STAFF_APPLICANT" 
+			|| fact == "EMPLOYEE_STAFF_ACTIVE"
+			|| fact == "EMPLOYEE_STAFF_PENDING"
+			|| fact == "EMPLOYEE_STAFF_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee STAFF  Transition TempRehired"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_STAFF_TEMPREHIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_STAFF_APPLICANT" 
+			|| fact == "EMPLOYEE_STAFF_ACTIVE"
+			|| fact == "EMPLOYEE_STAFF_PENDING"
+			|| fact == "EMPLOYEE_STAFF_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee STAFF  Transition Terminated"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_STAFF_TERMINATED" )
+		$input : InputFact ( fact == "EMPLOYEE_STAFF_EMERITUS" 
+			|| fact == "EMPLOYEE_STAFF_RETIRED"
+			|| fact == "EMPLOYEE_STAFF_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Technical Services Transition Deceased"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_DECEASED" )
+		$input : InputFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_APPLICANT" 
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_ACTIVE"
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_PENDING"
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_RETIRED"
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Wage Transition Deceased"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_WAGE_DECEASED" )
+		$input : InputFact ( fact == "EMPLOYEE_WAGE_APPLICANT" 
+			|| fact == "EMPLOYEE_WAGE_ACTIVE"
+			|| fact == "EMPLOYEE_WAGE_PENDING"
+			|| fact == "EMPLOYEE_WAGE_RETIRED"
+			|| fact == "EMPLOYEE_WAGE_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Graduate Assistant  Applicant"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_GRADUATE_ASSISTANT_APPLICANT" )
+		$input : InputFact ( fact == "EMPLOYEE_GRADUATE_ASSISTANT_ACTIVE" 
+			|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_PENDING")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Graduate Assistant Pending"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_GRADUATE_ASSISTANT_PENDING" )
+		$input : InputFact ( fact == "EMPLOYEE_GRADUATE_ASSISTANT_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Graduate Assistant Active"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_GRADUATE_ASSISTANT_ACTIVE" )
+		$input : InputFact ( fact == "EMPLOYEE_GRADUATE_ASSISTANT_APPLICANT" 
+			|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_PENDING")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee PostDoc Applicant"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_POSTDOC_APPLICANT" )
+		$input : InputFact ( fact == "EMPLOYEE_POSTDOC_ACTIVE" 
+			|| fact == "EMPLOYEE_POSTDOC_PENDING")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee PostDoc Pending"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_POSTDOC_PENDING" )
+		$input : InputFact ( fact == "EMPLOYEE_POSTDOC_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee PostDoc Active"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_POSTDOC_ACTIVE" )
+		$input : InputFact ( fact == "EMPLOYEE_POSTDOC_APPLICANT" 
+			|| fact == "EMPLOYEE_POSTDOC_PENDING")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Paid Intern Applicant"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_PAID_INTERN_APPLICANT" )
+		$input : InputFact ( fact == "EMPLOYEE_PAID_INTERN_ACTIVE" 
+			|| fact == "EMPLOYEE_PAID_INTERN_PENDING")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Paid Intern Pending"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_PAID_INTERN_PENDING" )
+		$input : InputFact ( fact == "EMPLOYEE_PAID_INTERN_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Paid Intern Active"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_PAID_INTERN_ACTIVE" )
+		$input : InputFact ( fact == "EMPLOYEE_PAID_INTERN_APPLICANT" 
+			|| fact == "EMPLOYEE_PAID_INTERN_PENDING")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Technical Services Applicant"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_APPLICANT" )
+		$input : InputFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_TERMINATED" 
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_RETIRED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Technical Services Active"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_ACTIVE" )
+		$input : InputFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_APPLICANT" 
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_PENDING")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Technical Services Pending"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_PENDING" )
+		$input : InputFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_APPLICANT" 
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_RETIRED"
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Technical Services Terminated"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_TERMINATED" )
+		$input : InputFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_RETIRED" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Technical Services Retired"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_RETIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_APPLICANT" 
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_ACTIVE"
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_PENDING"
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Wage Applicant"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_WAGE_APPLICANT" )
+		$input : InputFact ( fact == "EMPLOYEE_WAGE_TERMINATED" 
+			|| fact == "EMPLOYEE_WAGE_RETIRED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Wage Active"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_WAGE_ACTIVE" )
+		$input : InputFact ( fact == "EMPLOYEE_WAGE_APPLICANT" 
+			|| fact == "EMPLOYEE_WAGE_PENDING")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Wage Pending"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_WAGE_PENDING" )
+		$input : InputFact ( fact == "EMPLOYEE_WAGE_APPLICANT" 
+			|| fact == "EMPLOYEE_WAGE_RETIRED"
+			|| fact == "EMPLOYEE_WAGE_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Wage Terminated"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_WAGE_TERMINATED" )
+		$input : InputFact ( fact == "EMPLOYEE_WAGE_RETIRED" )
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid Employee Wage Retired"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "EMPLOYEE_WAGE_RETIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_WAGE_APPLICANT" 
+			|| fact == "EMPLOYEE_WAGE_ACTIVE"
+			|| fact == "EMPLOYEE_WAGE_PENDING"
+			|| fact == "EMPLOYEE_WAGE_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "Is Ugrad Prospect"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_PROSPECT" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROSPECT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_PROSPECT");
+		update($known);
+		
+end
+
+rule "Is Ugrad Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_PROSPECT"  ||  fact == "STUDENT_UNDERGRADUATE_APPLICANT")
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_APPLICANT"  )
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_APPLICANT");
+		update($known);
+		
+		
+end
+rule "Is Ugrad Current"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_PROSPECT" ||  fact == "STUDENT_UNDERGRADUATE_APPLICANT" 
+			|| fact == "STUDENT_UNDERGRADUATE_CURRENT"  ||  fact == "STUDENT_UNDERGRADUATE_FORMER")
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_CURRENT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_CURRENT");
+		update($known);
+		
+		
+end
+
+rule "Is UGrad Former"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_PROSPECT" ||  fact == "STUDENT_UNDERGRADUATE_APPLICANT" 
+		|| fact == "STUDENT_UNDERGRADUATE_CURRENT" ||  fact == "STUDENT_UNDERGRADUATE_FORMER")
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_FORMER")
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_FORMER");
+		update($known);
+		
+		
+end
+
+rule "Is Grad Prospect"
+	salience 90
+    dialect "mvel"
+    lock-on-active true
+    when
+       	$known : KnownFact ( fact == "STUDENT_GRADUATE_PROSPECT" )
+        $input : InputFact ( fact == "STUDENT_GRADUATE_PROSPECT" )
+    then
+        retract($input);
+        $known.setFact("STUDENT_GRADUATE_PROSPECT");
+        update($known);
+                
+end
+
+rule "Is Grad Applicant"
+	salience 90
+    dialect "mvel"
+    lock-on-active true
+    when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_PROSPECT"  || fact == "STUDENT_GRADUATE_APPLICANT")
+        $input : InputFact ( fact == "STUDENT_GRADUATE_APPLICANT"  )
+    then
+		retract($input);
+        $known.setFact("STUDENT_GRADUATE_APPLICANT");
+        update($known);        
+end
+
+rule "Is Grad Current"
+	salience 90
+    dialect "mvel"
+    lock-on-active true
+    when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_PROSPECT"  ||  fact == "STUDENT_GRADUATE_APPLICANT" 
+			||  fact == "STUDENT_GRADUATE_CURRENT"   || fact == "STUDENT_GRADUATE_FORMER" )
+        $input : InputFact (  fact == "STUDENT_GRADUATE_CURRENT" )
+    then
+		retract($input);
+        $known.setFact("STUDENT_GRADUATE_CURRENT");
+        update($known);               
+end
+
+rule "Is Grad Former"
+	salience 90
+    dialect "mvel"
+    lock-on-active true
+    when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_PROSPECT" || fact == "STUDENT_GRADUATE_APPLICANT" 
+			|| fact == "STUDENT_GRADUATE_CURRENT" || fact == "STUDENT_GRADUATE_FORMER" )
+ 		$input : InputFact ( fact == "STUDENT_GRADUATE_FORMER")
+	then
+        retract($input);
+        $known.setFact("STUDENT_GRADUATE_FORMER");
+        update($known);             
+end
+
+
+rule "Is Law Prospect"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_LAW_PROSPECT" )
+		$input : InputFact ( fact == "STUDENT_LAW_PROSPECT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_LAW_PROSPECT");
+		update($known);
+		
+end
+
+rule "Is Law Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_LAW_PROSPECT"  ||  fact == "STUDENT_LAW_APPLICANT")
+		$input : InputFact ( fact == "STUDENT_LAW_APPLICANT"  )
+	then
+		retract($input);
+		$known.setFact("STUDENT_LAW_APPLICANT");
+		update($known);
+		
+		
+end
+rule "Is Law Current"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_LAW_PROSPECT" ||  fact == "STUDENT_LAW_APPLICANT" 
+			|| fact == "STUDENT_LAW_CURRENT"  ||  fact == "STUDENT_LAW_FORMER")
+		$input : InputFact ( fact == "STUDENT_LAW_CURRENT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_LAW_CURRENT");
+		update($known);
+		
+		
+end
+
+rule "Is Law Former"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_LAW_PROSPECT" ||  fact == "STUDENT_LAW_APPLICANT" 
+			|| fact == "STUDENT_LAW_CURRENT" ||  fact == "STUDENT_LAW_FORMER")
+		$input : InputFact ( fact == "STUDENT_LAW_FORMER")
+	then
+		retract($input);
+		$known.setFact("STUDENT_LAW_FORMER");
+		update($known);
+		
+		
+end
+
+rule "Is Medical Prospect"
+	salience 90
+    dialect "mvel"
+    lock-on-active true
+    when
+		$known : KnownFact ( fact == "STUDENT_MEDICAL_PROSPECT" )
+        $input : InputFact ( fact == "STUDENT_MEDICAL_PROSPECT" )
+	then
+		retract($input);
+        $known.setFact("STUDENT_MEDICAL_PROSPECT");
+        update($known);
+                
+end
+
+rule "Is Medical Applicant"
+ 	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_MEDICAL_PROSPECT"  || fact == "STUDENT_MEDICAL_APPLICANT")
+		$input : InputFact ( fact == "STUDENT_MEDICAL_APPLICANT"  )
+	then
+		retract($input);
+		$known.setFact("STUDENT_MEDICAL_APPLICANT");
+		update($known);
+ 
+end
+
+rule "Is Medical Current"
+	salience 90
+	dialect "mvel"
+ 	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_MEDICAL_PROSPECT"  ||  fact == "STUDENT_MEDICAL_APPLICANT" 
+			||  fact == "STUDENT_MEDICAL_CURRENT"   || fact == "STUDENT_MEDICAL_FORMER" )
+ 		$input : InputFact (  fact == "STUDENT_MEDICAL_CURRENT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_MEDICAL_CURRENT");
+	 	update($known);    
+end
+
+rule "Is Medical Former"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_MEDICAL_PROSPECT" || fact == "STUDENT_MEDICAL_APPLICANT" 
+			|| fact == "STUDENT_MEDICAL_CURRENT" || fact == "STUDENT_MEDICAL_FORMER" )
+  		$input : InputFact ( fact == "STUDENT_MEDICAL_FORMER")
+	then
+		retract($input);
+		$known.setFact("STUDENT_MEDICAL_FORMER");
+		update($known);            
+end
+
+rule "Is Ugrad NonDegree Prospect"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_PROSPECT" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_PROSPECT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_NONDEGREE_PROSPECT");
+		update($known);
+		
+end
+
+rule "Is Ugrad NonDegree Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_PROSPECT"  
+			||  fact == "STUDENT_UNDERGRADUATE_NONDEGREE_APPLICANT")
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_APPLICANT"  )
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_NONDEGREE_APPLICANT");
+		update($known);
+		
+		
+end
+rule "Is Ugrad NonDegree Current"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_PROSPECT" 
+			||  fact == "STUDENT_UNDERGRADUATE_NONDEGREE_APPLICANT" 
+			|| fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CURRENT"  
+			||  fact == "STUDENT_UNDERGRADUATE_NONDEGREE_FORMER")
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CURRENT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_NONDEGREE_CURRENT");
+		update($known);
+		
+		
+end
+
+rule "Is Ugrad NonDegree Former"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_PROSPECT" 
+			||  fact == "STUDENT_UNDERGRADUATE_NONDEGREE_APPLICANT" 
+			|| fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CURRENT" 
+			||  fact == "STUDENT_UNDERGRADUATE_NONDEGREE_FORMER")
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_FORMER")
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_NONDEGREE_FORMER");
+		update($known);
+		
+		
+end
+
+rule "Is Grad Nondegree Prospect"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_NONDEGREE_PROSPECT" )
+		$input : InputFact ( fact == "STUDENT_GRADUATE_NONDEGREE_PROSPECT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_GRADUATE_NONDEGREE_PROSPECT");
+		update($known);
+                
+end
+
+rule "Is Grad Nondegree Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_NONDEGREE_PROSPECT"  || fact == "STUDENT_GRADUATE_NONDEGREE_APPLICANT")
+		$input : InputFact ( fact == "STUDENT_GRADUATE_NONDEGREE_APPLICANT"  )
+        then
+                retract($input);
+                $known.setFact("STUDENT_GRADUATE_NONDEGREE_APPLICANT");
+                update($known);
+end
+
+rule "Is Grad Nondegree Current"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+ 	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_NONDEGREE_PROSPECT"  ||  fact == "STUDENT_GRADUATE_NONDEGREE_APPLICANT" 
+			||  fact == "STUDENT_GRADUATE_NONDEGREE_CURRENT"   || fact == "STUDENT_GRADUATE_NONDEGREE_FORMER" )
+		$input : InputFact (  fact == "STUDENT_GRADUATE_NONDEGREE_CURRENT" )
+	then
+ 		retract($input);
+ 		$known.setFact("STUDENT_GRADUATE_NONDEGREE_CURRENT");
+ 		update($known);
+end
+
+rule "Is Grad Nondegree Former"
+	salience 90
+	dialect "mvel"
+ 	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_NONDEGREE_PROSPECT" || fact == "STUDENT_GRADUATE_NONDEGREE_APPLICANT" 
+			|| fact == "STUDENT_GRADUATE_NONDEGREE_CURRENT" || fact == "STUDENT_GRADUATE_NONDEGREE_FORMER" )
+ 		$input : InputFact ( fact == "STUDENT_GRADUATE_NONDEGREE_FORMER")
+	then
+		retract($input);
+		$known.setFact("STUDENT_GRADUATE_NONDEGREE_FORMER");
+ 		update($known);
+end
+
+rule "Is Ugrad NonDegree Certificate Prospect"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_PROSPECT" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_PROSPECT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_PROSPECT");
+		update($known);
+		
+end
+
+rule "Is Ugrad NonDegree Certificate Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_PROSPECT"  ||  fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_APPLICANT")
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_APPLICANT"  )
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_APPLICANT");
+		update($known);
+		
+		
+end
+rule "Is Ugrad NonDegree Certificate Current"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_PROSPECT" ||  fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_APPLICANT" 
+			|| fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_CURRENT"  ||  fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_FORMER")
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_CURRENT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_CURRENT");
+		update($known);
+		
+		
+end
+
+rule "Is Ugrad NonDegree Certificate  Former"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_PROSPECT" ||  fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_APPLICANT" 
+		|| fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_CURRENT" ||  fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_FORMER")
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_FORMER")
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_FORMER");
+		update($known);
+		
+		
+end
+
+rule "Is Grad Certificate  Prospect"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_CERTIFICATE_PROSPECT" )
+ 		$input : InputFact ( fact == "STUDENT_GRADUATE_CERTIFICATE_PROSPECT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_GRADUATE_CERTIFICATE_PROSPECT");
+		update($known);
+                
+end
+
+rule "Is Grad Certificate Applicant"
+	salience 90
+ 	 dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_CERTIFICATE_PROSPECT"  || fact == "STUDENT_GRADUATE_CERTIFICATE_APPLICANT")
+		$input : InputFact ( fact == "STUDENT_GRADUATE_CERTIFICATE_APPLICANT"  )
+	then
+		retract($input);
+		$known.setFact("STUDENT_GRADUATE_CERTIFICATE_APPLICANT");
+		update($known);
+                
+                
+end
+
+rule "Is Grad Certificate Current"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_CERTIFICATE_PROSPECT"  ||  fact == "STUDENT_GRADUATE_CERTIFICATE_APPLICANT" 
+			||  fact == "STUDENT_GRADUATE_CERTIFICATE_CURRENT"   || fact == "STUDENT_GRADUATE_CERTIFICATE_FORMER" )
+		$input : InputFact (  fact == "STUDENT_GRADUATE_CERTIFICATE_CURRENT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_GRADUATE_CERTIFICATE_CURRENT");
+		update($known);
+                
+                
+end
+
+rule "Is Grad Certificate Former"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_CERTIFICATE_PROSPECT" || fact == "STUDENT_GRADUATE_CERTIFICATE_APPLICANT" 
+ 			|| fact == "STUDENT_GRADUATE_CERTIFICATE_CURRENT" || fact == "STUDENT_GRADUATE_CERTIFICATE_FORMER" )
+		$input : InputFact ( fact == "STUDENT_GRADUATE_CERTIFICATE_FORMER")
+	then
+		retract($input);
+		$known.setFact("STUDENT_GRADUATE_CERTIFICATE_FORMER");
+	update($known);
+                
+                
+end
+rule "Is uGrad Provisional  Prospect"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_PROSPECT" )
+ 		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_PROSPECT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_PROVISIONAL_PROSPECT");
+		update($known);
+                
+end
+
+rule "Is UGrad Provisonal Applicant"
+	salience 90
+ 	 dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_PROSPECT"  || fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_APPLICANT")
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_APPLICANT"  )
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_PROVISIONAL_APPLICANT");
+		update($known);
+                
+                
+end
+
+rule "Is UGrad Provisional Current"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_PROSPECT"  ||  fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_APPLICANT" 
+			||  fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_CURRENT"   || fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_FORMER" )
+		$input : InputFact (  fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_CURRENT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_PROVISIONAL_CURRENT");
+		update($known);
+                
+                
+end
+
+rule "Is UGrad Provisional Former"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_PROSPECT" || fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_APPLICANT" 
+ 			|| fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_CURRENT" || fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_FORMER" )
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_FORMER")
+	then
+		retract($input);
+		$known.setFact("STUDENT_UNDERGRADUATE_PROVISIONAL_FORMER");
+	update($known);
+                
+                
+end
+rule "Is Grad Provisional  Prospect"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_PROVISIONAL_PROSPECT" )
+ 		$input : InputFact ( fact == "STUDENT_GRADUATE_PROVISIONAL_PROSPECT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_GRADUATE_PROVISIONAL_PROSPECT");
+		update($known);
+                
+end
+
+rule "Is Grad Provisonal Applicant"
+	salience 90
+ 	 dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_PROVISIONAL_PROSPECT"  || fact == "STUDENT_GRADUATE_PROVISIONAL_APPLICANT")
+		$input : InputFact ( fact == "STUDENT_GRADUATE_PROVISIONAL_APPLICANT"  )
+	then
+		retract($input);
+		$known.setFact("STUDENT_GRADUATE_PROVISIONAL_APPLICANT");
+		update($known);
+                
+                
+end
+
+rule "Is Grad Provisional Current"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_PROVISIONAL_PROSPECT"  ||  fact == "STUDENT_GRADUATE_PROVISIONAL_APPLICANT" 
+			||  fact == "STUDENT_GRADUATE_PROVISIONAL_CURRENT"   || fact == "STUDENT_GRADUATE_PROVISIONAL_FORMER" )
+		$input : InputFact (  fact == "STUDENT_GRADUATE_PROVISIONAL_CURRENT" )
+	then
+		retract($input);
+		$known.setFact("STUDENT_GRADUATE_PROVISIONAL_CURRENT");
+		update($known);
+                
+                
+end
+
+rule "Is Grad Provisional Former"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "STUDENT_GRADUATE_PROVISIONAL_PROSPECT" || fact == "STUDENT_GRADUATE_PROVISIONAL_APPLICANT" 
+ 			|| fact == "STUDENT_GRADUATE_PROVISIONAL_CURRENT" || fact == "STUDENT_GRADUATE_PROVISIONAL_FORMER" )
+		$input : InputFact ( fact == "STUDENT_GRADUATE_PROVISIONAL_FORMER")
+	then
+		retract($input);
+		$known.setFact("STUDENT_GRADUATE_PROVISIONAL_FORMER");
+	update($known);
+         
+end
+rule "Is Employee Academic Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_APPLICANT"   
+		|| fact == "EMPLOYEE_ACADEMIC_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_APPLICANT");
+		update($known);
+end
+
+rule "Is Employee Academic Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_APPLICANT"   
+			|| fact == "EMPLOYEE_ACADEMIC_ACTIVE"
+			|| fact == "EMPLOYEE_ACADEMIC_PENDING"
+			|| fact == "EMPLOYEE_ACADEMIC_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_ACTIVE");
+		update($known);
+end
+
+rule "Is Employee Academic Deceased"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ACTIVE"   
+			|| fact == "EMPLOYEE_ACADEMIC_RETIRED"
+			|| fact == "EMPLOYEE_ACADEMIC_TEMPREHIRE"
+			|| fact == "EMPLOYEE_ACADEMIC_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_DECEASED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_DECEASED");
+		update($known);
+end
+
+rule "Is Employee Academic Emeritus"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ACTIVE"   
+			|| fact == "EMPLOYEE_ACADEMIC_EMERITUS"
+			|| fact == "EMPLOYEE_ACADEMIC_RETIRED"
+			|| fact == "EMPLOYEE_ACADEMIC_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_EMERITUS" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_EMERITUS");
+		update($known);
+end
+
+rule "Is Employee Academic Pending"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_APPLICANT"   
+			|| fact == "EMPLOYEE_ACADEMIC_PENDING"
+			|| fact == "EMPLOYEE_ACADEMIC_TERMINATED")
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_PENDING" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_PENDING");
+		update($known);
+end
+
+rule "Is Employee Academic Retired"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ACTIVE"   
+			|| fact == "EMPLOYEE_ACADEMIC_RETIRED"
+			|| fact == "EMPLOYEE_ACADEMIC_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_RETIRED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_RETIRED");
+		update($known);
+end
+
+rule "Is Employee Academic TempRehire"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_RETIRED"   
+			|| fact == "EMPLOYEE_ACADEMIC_EMERITUS"
+			|| fact == "EMPLOYEE_ACADEMIC_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_TEMPREHIRE");
+		update($known);
+end
+
+rule "Is Employee Academic Terminated"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ACTIVE"   )
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_TERMINATED");
+		update($known);
+end
+
+rule "Is Employee ACADEMIC_ADMINISTRATOR Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT"   
+		|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT");
+		update($known);
+end
+
+rule "Is Employee ACADEMIC_ADMINISTRATOR Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT"   
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_PENDING"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE");
+		update($known);
+end
+
+rule "Is Employee ACADEMIC_ADMINISTRATOR Deceased"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE"   
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRE"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_DECEASED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_ADMINISTRATOR_DECEASED");
+		update($known);
+end
+
+rule "Is Employee ACADEMIC_ADMINISTRATOR Emeritus"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE"   
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_EMERITUS"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_EMERITUS" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_ADMINISTRATOR_EMERITUS");
+		update($known);
+end
+
+rule "Is Employee ACADEMIC_ADMINISTRATOR Pending"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_APPLICANT"   
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_PENDING"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED")
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_PENDING" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_ADMINISTRATOR_PENDING");
+		update($known);
+end
+
+rule "Is Employee ACADEMIC_ADMINISTRATOR Retired"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE"   
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED");
+		update($known);
+end
+
+rule "Is Employee ACADEMIC_ADMINISTRATOR TempRehire"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED"   
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_EMERITUS"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_ADMINISTRATOR_TEMPREHIRE");
+		update($known);
+end
+
+rule "Is Employee ACADEMIC_ADMINISTRATOR Terminated"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE"   )
+		$input : InputFact (  fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED");
+		update($known);
+end
+
+rule "Is Employee Graduate Assistant Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_GRADUATE_ASSISTANT_APPLICANT"   
+		|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_GRADUATE_ASSISTANT_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_GRADUATE_ASSISTANT_APPLICANT");
+		update($known);
+end
+
+rule "Is Employee Graduate Assistant Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_GRADUATE_ASSISTANT_ACTIVE"  
+			|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_APPLICANT"
+			|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_PENDING"
+			|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_GRADUATE_ASSISTANT_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_GRADUATE_ASSISTANT_ACTIVE");
+		update($known);
+end
+
+rule "Is Employee ADMINISTRATOR Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_APPLICANT"   
+		|| fact == "EMPLOYEE_ADMINISTRATOR_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_ADMINISTRATOR_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ADMINISTRATOR_APPLICANT");
+		update($known);
+end
+
+rule "Is Employee ADMINISTRATOR Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_APPLICANT"   
+			|| fact == "EMPLOYEE_ADMINISTRATOR_ACTIVE"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_PENDING"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_ADMINISTRATOR_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ADMINISTRATOR_ACTIVE");
+		update($known);       
+end
+
+rule "Is Employee ADMINISTRATOR Deceased"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_ACTIVE"   
+			|| fact == "EMPLOYEE_ADMINISTRATOR_RETIRED"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TEMPREHIRE"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_ADMINISTRATOR_DECEASED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ADMINISTRATOR_DECEASED");
+		update($known);
+end
+
+rule "Is Employee ADMINISTRATOR Emeritus"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_ACTIVE"   
+			|| fact == "EMPLOYEE_ADMINISTRATOR_EMERITUS"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_RETIRED"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_ADMINISTRATOR_EMERITUS" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ADMINISTRATOR_EMERITUS");
+		update($known);
+end
+
+rule "Is Employee ADMINISTRATOR Pending"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_APPLICANT"   
+			|| fact == "EMPLOYEE_ADMINISTRATOR_PENDING"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TERMINATED")
+		$input : InputFact (  fact == "EMPLOYEE_ADMINISTRATOR_PENDING" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ADMINISTRATOR_PENDING");
+		update($known);
+end
+
+rule "Is Employee ADMINISTRATOR Retired"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_ACTIVE"   
+			|| fact == "EMPLOYEE_ADMINISTRATOR_RETIRED"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_ADMINISTRATOR_RETIRED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ADMINISTRATOR_RETIRED");
+		update($known);
+end
+
+rule "Is Employee ADMINISTRATOR TempRehire"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_RETIRED"   
+			|| fact == "EMPLOYEE_ADMINISTRATOR_EMERITUS"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_ADMINISTRATOR_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ADMINISTRATOR_TEMPREHIRE");
+		update($known);
+end
+
+rule "Is Employee ADMINISTRATOR Terminated"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_ADMINISTRATOR_ACTIVE"   )
+		$input : InputFact (  fact == "EMPLOYEE_ADMINISTRATOR_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_ADMINISTRATOR_TERMINATED");
+		update($known);  
+end
+
+rule "Is Employee EXECUTIVE Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_APPLICANT"   
+		|| fact == "EMPLOYEE_EXECUTIVE_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_EXECUTIVE_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_EXECUTIVE_APPLICANT");
+		update($known);
+end
+
+rule "Is Employee EXECUTIVE Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_APPLICANT"   
+			|| fact == "EMPLOYEE_EXECUTIVE_ACTIVE"
+			|| fact == "EMPLOYEE_EXECUTIVE_PENDING"
+			|| fact == "EMPLOYEE_EXECUTIVE_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_EXECUTIVE_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_EXECUTIVE_ACTIVE");
+		update($known);
+end
+
+rule "Is Employee EXECUTIVE Deceased"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_ACTIVE"   
+			|| fact == "EMPLOYEE_EXECUTIVE_RETIRED"
+			|| fact == "EMPLOYEE_EXECUTIVE_TEMPREHIRE"
+			|| fact == "EMPLOYEE_EXECUTIVE_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_EXECUTIVE_DECEASED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_EXECUTIVE_DECEASED");
+		update($known);          
+end
+
+rule "Is Employee EXECUTIVE Emeritus"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_ACTIVE"   
+			|| fact == "EMPLOYEE_EXECUTIVE_EMERITUS"
+			|| fact == "EMPLOYEE_EXECUTIVE_RETIRED"
+			|| fact == "EMPLOYEE_EXECUTIVE_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_EXECUTIVE_EMERITUS" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_EXECUTIVE_EMERITUS");
+		update($known);  
+end
+
+rule "Is Employee EXECUTIVE Pending"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_APPLICANT"   
+			|| fact == "EMPLOYEE_EXECUTIVE_PENDING"
+			|| fact == "EMPLOYEE_EXECUTIVE_TERMINATED")
+		$input : InputFact (  fact == "EMPLOYEE_EXECUTIVE_PENDING" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_EXECUTIVE_PENDING");
+		update($known);              
+end
+
+rule "Is Employee EXECUTIVE Retired"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_ACTIVE"   
+			|| fact == "EMPLOYEE_EXECUTIVE_RETIRED"
+			|| fact == "EMPLOYEE_EXECUTIVE_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_EXECUTIVE_RETIRED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_EXECUTIVE_RETIRED");
+		update($known);      
+end
+
+rule "Is Employee EXECUTIVE TempRehire"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_RETIRED"   
+			|| fact == "EMPLOYEE_EXECUTIVE_EMERITUS"
+			|| fact == "EMPLOYEE_EXECUTIVE_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_EXECUTIVE_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_EXECUTIVE_TEMPREHIRE");
+		update($known);      
+end
+
+rule "Is Employee EXECUTIVE Terminated"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_EXECUTIVE_ACTIVE"   )
+		$input : InputFact (  fact == "EMPLOYEE_EXECUTIVE_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_EXECUTIVE_TERMINATED");
+		update($known);
+end
+
+rule "Is Employee FACULTY Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_APPLICANT"   
+		|| fact == "EMPLOYEE_FACULTY_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_FACULTY_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_FACULTY_APPLICANT");
+		update($known);       
+end
+
+rule "Is Employee FACULTY Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_APPLICANT"   
+			|| fact == "EMPLOYEE_FACULTY_ACTIVE"
+			|| fact == "EMPLOYEE_FACULTY_PENDING"
+			|| fact == "EMPLOYEE_FACULTY_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_FACULTY_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_FACULTY_ACTIVE");
+		update($known);        
+end
+
+rule "Is Employee FACULTY Deceased"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_ACTIVE"   
+			|| fact == "EMPLOYEE_FACULTY_RETIRED"
+			|| fact == "EMPLOYEE_FACULTY_TEMPREHIRE"
+			|| fact == "EMPLOYEE_FACULTY_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_FACULTY_DECEASED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_FACULTY_DECEASED");
+		update($known);           
+end
+
+rule "Is Employee FACULTY Emeritus"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_ACTIVE"   
+			|| fact == "EMPLOYEE_FACULTY_EMERITUS"
+			|| fact == "EMPLOYEE_FACULTY_RETIRED"
+			|| fact == "EMPLOYEE_FACULTY_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_FACULTY_EMERITUS" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_FACULTY_EMERITUS");
+		update($known);             
+end
+
+rule "Is Employee FACULTY Pending"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_APPLICANT"   
+			|| fact == "EMPLOYEE_FACULTY_PENDING"
+			|| fact == "EMPLOYEE_FACULTY_TERMINATED")
+		$input : InputFact (  fact == "EMPLOYEE_FACULTY_PENDING" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_FACULTY_PENDING");
+		update($known);
+end
+		
+rule "Is Employee FACULTY Retired"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_ACTIVE"   
+			|| fact == "EMPLOYEE_FACULTY_RETIRED"
+			|| fact == "EMPLOYEE_FACULTY_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_FACULTY_RETIRED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_FACULTY_RETIRED");
+		update($known);         
+end
+
+rule "Is Employee FACULTY TempRehire"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_RETIRED"   
+			|| fact == "EMPLOYEE_FACULTY_EMERITUS"
+			|| fact == "EMPLOYEE_FACULTY_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_FACULTY_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_FACULTY_TEMPREHIRE");
+		update($known);      
+end
+
+rule "Is Employee FACULTY Terminated"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_FACULTY_ACTIVE"   )
+		$input : InputFact (  fact == "EMPLOYEE_FACULTY_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_FACULTY_TERMINATED");
+		update($known);
+end
+
+rule "Is Employee STAFF Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_STAFF_APPLICANT"   
+		|| fact == "EMPLOYEE_STAFF_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_STAFF_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_STAFF_APPLICANT");
+		update($known);            
+end
+
+rule "Is Employee STAFF Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_STAFF_APPLICANT"   
+			|| fact == "EMPLOYEE_STAFF_ACTIVE"
+			|| fact == "EMPLOYEE_STAFF_PENDING"
+			|| fact == "EMPLOYEE_STAFF_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_STAFF_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_STAFF_ACTIVE");
+		update($known);
+end
+
+rule "Is Employee STAFF Deceased"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_STAFF_ACTIVE"   
+			|| fact == "EMPLOYEE_STAFF_RETIRED"
+			|| fact == "EMPLOYEE_STAFF_TEMPREHIRE"
+			|| fact == "EMPLOYEE_STAFF_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_STAFF_DECEASED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_STAFF_DECEASED");
+		update($known);
+end
+
+rule "Is Employee STAFF Emeritus"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_STAFF_ACTIVE"   
+			|| fact == "EMPLOYEE_STAFF_EMERITUS"
+			|| fact == "EMPLOYEE_STAFF_RETIRED"
+			|| fact == "EMPLOYEE_STAFF_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_STAFF_EMERITUS" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_STAFF_EMERITUS");
+		update($known);
+end
+
+rule "Is Employee STAFF Pending"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_STAFF_APPLICANT"   
+			|| fact == "EMPLOYEE_STAFF_PENDING"
+			|| fact == "EMPLOYEE_STAFF_TERMINATED")
+		$input : InputFact (  fact == "EMPLOYEE_STAFF_PENDING" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_STAFF_PENDING");
+		update($known);              
+end
+
+rule "Is Employee STAFF Retired"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_STAFF_ACTIVE"   
+			|| fact == "EMPLOYEE_STAFF_RETIRED"
+			|| fact == "EMPLOYEE_STAFF_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_STAFF_RETIRED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_STAFF_RETIRED");
+		update($known); 
+end
+
+rule "Is Employee STAFF TempRehire"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_STAFF_RETIRED"   
+			|| fact == "EMPLOYEE_STAFF_EMERITUS"
+			|| fact == "EMPLOYEE_STAFF_TEMPREHIRE")
+		$input : InputFact (  fact == "EMPLOYEE_STAFF_TEMPREHIRE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_STAFF_TEMPREHIRE");
+		update($known);
+
+end
+
+rule "Is Employee STAFF Terminated"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_STAFF_ACTIVE"   )
+		$input : InputFact (  fact == "EMPLOYEE_STAFF_TERMINATED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_STAFF_TERMINATED");
+		update($known);         
+end
+/***
+rule "Is Employee Graduate Assistant  Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_GRADUATE_ASSISTANT_APPLICANT"   
+		|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_GRADUATE_ASSISTANT_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_GRADUATE_ASSISTANT_APPLICANT");
+		update($known);
+end
+
+rule "Is Employee Graduate Assistant Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_GRADUATE_ASSISTANT_ACTIVE"   
+			|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_APPLICANT" 
+			||  fact == "EMPLOYEE_GRADUATE_ASSISTANT_PENDING" 
+			|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_GRADUATE_ASSISTANT_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_GRADUATE_ASSISTANT_ACTIVE");
+		update($known);
+end
+**/
+rule "Is Employee Graduate Assistant Pending"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_GRADUATE_ASSISTANT_APPLICANT"   
+			|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_PENDING"
+			|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_GRADUATE_ASSISTANT_PENDING" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_GRADUATE_ASSISTANT_PENDING");
+		update($known);   
+end
+
+rule "Is  Employee Graduate Assistant Terminated"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_GRADUATE_ASSISTANT_ACTIVE" 
+			|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_TERMINATED" )
+		$input : InputFact ( fact == "EMPLOYEE_GRADUATE_ASSISTANT_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_GRADUATE_ASSISTANT_TERMINATED");
+	update($known);
+end
+
+rule "Is Employee Paid Intern Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_PAID_INTERN_APPLICANT"   
+		|| fact == "EMPLOYEE_PAID_INTERN_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_PAID_INTERN_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_PAID_INTERN_APPLICANT");
+		update($known);
+end
+
+rule "Is Employee Paid Intern Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_PAID_INTERN_ACTIVE"   
+			|| fact == "EMPLOYEE_PAID_INTERN_APPLICANT" 
+			||  fact == "EMPLOYEE_PAID_INTERN_PENDING" 
+			|| fact == "EMPLOYEE_PAID_INTERN_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_PAID_INTERN_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_PAID_INTERN_ACTIVE");
+		update($known);
+end
+
+rule "Is Employee Paid Intern Pending"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_PAID_INTERN_APPLICANT"   
+			|| fact == "EMPLOYEE_PAID_INTERN_PENDING"
+			|| fact == "EMPLOYEE_PAID_INTERN_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_PAID_INTERN_PENDING" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_PAID_INTERN_PENDING");
+		update($known);           
+end
+
+rule "Is  Employee Paid Intern Terminated"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_PAID_INTERN_ACTIVE" 
+			|| fact == "EMPLOYEE_PAID_INTERN_TERMINATED" )
+		$input : InputFact ( fact == "EMPLOYEE_PAID_INTERN_FORMER")
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_PAID_INTERN_TERMINATED");
+	update($known);         
+end
+
+rule "Is Employee PostDoc Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_POSTDOC_APPLICANT"   
+		|| fact == "EMPLOYEE_POSTDOC_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_POSTDOC_APPLICANT" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_POSTDOC_APPLICANT");
+		update($known);            
+end
+
+rule "Is Employee PostDoc Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_POSTDOC_ACTIVE"   
+			|| fact == "EMPLOYEE_POSTDOC_APPLICANT"
+			|| fact == "EMPLOYEE_POSTDOC_PENDING"
+			|| fact == "EMPLOYEE_POSTDOC_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_POSTDOC_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_POSTDOC_ACTIVE");
+		update($known);
+        
+end
+
+rule "Is Employee PostDoc Pending"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_POSTDOC_APPLICANT"   
+			|| fact == "EMPLOYEE_POSTDOC_PENDING"
+			|| fact == "EMPLOYEE_POSTDOC_TERMINATED" )
+		$input : InputFact (  fact == "EMPLOYEE_POSTDOC_PENDING" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_POSTDOC_PENDING");
+		update($known);
+end
+
+rule "Is  Employee PostDoc Terminated"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_POSTDOC_ACTIVE" 
+			|| fact == "EMPLOYEE_POSTDOC_TERMINATED" )
+		$input : InputFact ( fact == "EMPLOYEE_POSTDOC_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_POSTDOC_TERMINATED");
+		update($known); 
+end
+
+rule "Is Employee Technical Services Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_TERMINATED"  
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_APPLICANT")	
+		$input : InputFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_APPLICANT")
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_TECHNICAL_SERVICES_APPLICANT");
+		update($known);
+end
+
+rule "Is Employee Technical Services Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_TERMINATED"  
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_APPLICANT"
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_PENDING"
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_ACTIVE" )
+		$input : InputFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_ACTIVE"  )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_TECHNICAL_SERVICES_ACTIVE");
+		update($known);
+end
+
+rule "Is Technical Services Deceased"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_ACTIVE" 
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_RETIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_DECEASED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_TECHNICAL_SERVICES_DECEASED");
+		update($known);
+end
+
+rule "Is Employee Technical Services Pending"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_APPLICANT"  
+			|| fact ==  "EMPLOYEE_TECHNICAL_SERVICES_PENDING"
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_TERMINATED")	
+		$input : InputFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_PENDING" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_TECHNICAL_SERVICES_PENDING");
+		update($known);
+end
+
+rule "Is Technical Services Retired"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_ACTIVE" 
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_RETIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_RETIRED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_TECHNICAL_SERVICES_RETIRED");
+		update($known);
+end
+
+rule "Is Technical Services Terminated"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_ACTIVE" 
+			||  fact == "EMPLOYEE_TECHNICAL_SERVICES_TERMINATED" )
+		$input : InputFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_TECHNICAL_SERVICES_TERMINATED");
+		update($known);	
+end
+
+rule "Is Employee Wage Applicant"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_WAGE_TERMINATED"  
+			|| fact == "EMPLOYEE_WAGE_APPLICANT")	
+		$input : InputFact ( fact == "EMPLOYEE_WAGE_APPLICANT"  )	
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_WAGE_APPLICANT");
+		update($known);		
+end
+
+rule "Is Employee Wage Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_WAGE_TERMINATED"  
+			|| fact == "EMPLOYEE_WAGE_APPLICANT"
+			|| fact == "EMPLOYEE_WAGE_ACTIVE"
+			|| fact == "EMPLOYEE_WAGE_PENDING")
+		$input : InputFact ( fact == "EMPLOYEE_WAGE_ACTIVE"  )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_WAGE_ACTIVE");
+		update($known);	
+end
+rule "Is Employee Wage Deceased"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_WAGE_ACTIVE" 
+			|| fact == "EMPLOYEE_WAGE_RETIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_WAGE_DECEASED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_WAGE_DECEASED");
+		update($known);
+end
+rule "Is Employee Wage Pending"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_WAGE_APPLICANT"  
+			|| fact == "EMPLOYEE_WAGE_PENDING"
+			|| fact == "EMPLOYEE_WAGE_TERMINATED")	
+		$input : InputFact ( fact == "EMPLOYEE_WAGE_PENDING" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_WAGE_PENDING");
+		update($known);
+end
+rule "Is Employee Wage Retired"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_WAGE_ACTIVE" 
+			|| fact == "EMPLOYEE_WAGE_RETIRED" )
+		$input : InputFact ( fact == "EMPLOYEE_WAGE_RETIRED" )
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_WAGE_RETIRED");
+		update($known);
+end
+rule "Is Employee WAGE Terminated"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EMPLOYEE_WAGE_ACTIVE" 
+			||  fact == "EMPLOYEE_WAGE_TERMINATED" )
+		$input : InputFact ( fact == "EMPLOYEE_WAGE_TERMINATED")
+	then
+		retract($input);
+		$known.setFact("EMPLOYEE_WAGE_TERMINATED");
+		update($known);
+end
+rule "Is Agriculture Services Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "AGRICULTURE_SERVICES_ACTIVE"   || fact == "AGRICULTURE_SERVICES_INACTIVE" )
+		$input : InputFact (  fact == "AGRICULTURE_SERVICES_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("AGRICULTURE_SERVICES_ACTIVE");
+		update($known);
+                
+                
+end
+
+rule "Is  Agriculture Services Inactive"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "AGRICULTURE_SERVICES_ACTIVE" || fact == "AGRICULTURE_SERVICES_INACTIVE" )
+		$input : InputFact ( fact == "AGRICULTURE_SERVICES_INACTIVE")
+	then
+		retract($input);
+		$known.setFact("AGRICULTURE_SERVICES_INACTIVE");
+	update($known);
+                
+                
+end
+rule "Is BOT Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "BOARD_OF_TRUSTEES_ACTIVE"   || fact == "BOARD_OF_TRUSTEES_INACTIVE" )
+		$input : InputFact (  fact == "BOARD_OF_TRUSTEES_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("BOARD_OF_TRUSTEES_ACTIVE");
+		update($known);
+                
+                
+end
+
+rule "Is  BOT Former"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "BOARD_OF_TRUSTEES_ACTIVE" || fact == "BOARD_OF_TRUSTEES_INACTIVE" )
+		$input : InputFact ( fact == "BOARD_OF_TRUSTEES_INACTIVE")
+	then
+		retract($input);
+		$known.setFact("BOARD_OF_TRUSTEES_INACTIVE");
+	update($known);
+                
+                
+end
+rule "Is Commercial Services Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "COMMERCIAL_SERVICES_ACTIVE"   || fact == "COMMERCIAL_SERVICES_INACTIVE" )
+		$input : InputFact (  fact == "COMMERCIAL_SERVICES_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("COMMERCIAL_SERVICES_ACTIVE");
+		update($known);
+                
+                
+end
+
+rule "Is  Commercial Services Inactive"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "COMMERCIAL_SERVICES_ACTIVE" || fact == "COMMERCIAL_SERVICES_INACTIVE" )
+		$input : InputFact ( fact == "COMMERCIAL_SERVICES_INACTIVE")
+	then
+		retract($input);
+		$known.setFact("COMMERCIAL_SERVICES_INACTIVE");
+	update($known);
+                
+                
+end
+rule "Is Contractor Services  Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "CONTRACTOR_SERVICES_ACTIVE"   || fact == "CONTRACTOR_SERVICES_INACTIVE" )
+		$input : InputFact (  fact == "CONTRACTOR_SERVICES_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("CONTRACTOR_SERVICES_ACTIVE");
+		update($known);
+                
+                
+end
+
+rule "Is Contractor Services Inactive"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "CONTRACTOR_SERVICES_ACTIVE" || fact == "CONTRACTOR_SERVICES_INACTIVE" )
+		$input : InputFact ( fact == "CONTRACTOR_SERVICES_INACTIVE")
+	then
+		retract($input);
+		$known.setFact("CONTRACTOR_SERVICES_INACTIVE");
+	update($known);
+                
+                
+end
+rule "Is Donor Services Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "DONOR_SERVICES_ACTIVE"   || fact == "DONOR_SERVICES_INACTIVE" )
+		$input : InputFact (  fact == "DONOR_SERVICES_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("DONOR_SERVICES_ACTIVE");
+		update($known);
+                
+                
+end
+
+rule "Is Donor Services Inactive"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "DONOR_SERVICES_ACTIVE" || fact == "DONOR_SERVICES_INACTIVE" )
+		$input : InputFact ( fact == "DONOR_SERVICES_INACTIVE")
+	then
+		retract($input);
+		$known.setFact("DONOR_SERVICES_INACTIVE");
+	update($known);
+                
+                
+end
+rule "Is Educational Services Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EDUCATIONAL_SERVICES_ACTIVE"   || fact == "EDUCATIONAL_SERVICES_INACTIVE" )
+		$input : InputFact (  fact == "EDUCATIONAL_SERVICES_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("EDUCATIONAL_SERVICES_ACTIVE");
+		update($known);
+                
+                
+end
+
+rule "Is Educational Services Inactive"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "EDUCATIONAL_SERVICES_ACTIVE" || fact == "EDUCATIONAL_SERVICES_INACTIVE" )
+		$input : InputFact ( fact == "EDUCATIONAL_SERVICES_INACTIVE")
+	then
+		retract($input);
+		$known.setFact("EDUCATIONAL_SERVICES_INACTIVE");
+	update($known);
+                
+                
+end
+rule "Is Family Services  Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "FAMILY_SERVICES_ACTIVE"   || fact == "FAMILY_SERVICES_INACTIVE" )
+		$input : InputFact (  fact == "FAMILY_SERVICES_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("FAMILY_SERVICES_ACTIVE");
+		update($known);
+                
+                
+end
+
+rule "Is Family Services Inactive"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "FAMILY_SERVICES_ACTIVE" || fact == "FAMILY_SERVICES_INACTIVE" )
+		$input : InputFact ( fact == "FAMILY_SERVICES_INACTIVE")
+	then
+		retract($input);
+		$known.setFact("FAMILY_SERVICES_INACTIVE");
+	update($known);
+                
+                
+end
+rule "Is Government Services  Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "GOVERNMENT_SERVICES_ACTIVE"   || fact == "GOVERNMENT_SERVICES_INACTIVE" )
+		$input : InputFact (  fact == "GOVERNMENT_SERVICES_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("GOVERNMENT_SERVICES_ACTIVE");
+		update($known);
+                
+                
+end
+
+rule "Is Government Services Inactive"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "GOVERNMENT_SERVICES_ACTIVE" || fact == "GOVERNMENT_SERVICES_INACTIVE" )
+		$input : InputFact ( fact == "GOVERNMENT_SERVICES_INACTIVE")
+	then
+		retract($input);
+		$known.setFact("GOVERNMENT_SERVICES_INACTIVE");
+	update($known);
+                
+                
+end
+rule "Is Medical Services  Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "MEDICAL_SERVICES_ACTIVE"   || fact == "MEDICAL_SERVICES_INACTIVE" )
+		$input : InputFact (  fact == "MEDICAL_SERVICES_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("MEDICAL_SERVICES_ACTIVE");
+		update($known);
+                
+                
+end
+
+rule "Is Medical Services Inactive"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "MEDICAL_SERVICES_ACTIVE" || fact == "MEDICAL_SERVICES_INACTIVE" )
+		$input : InputFact ( fact == "MEDICAL_SERVICES_INACTIVE")
+	then
+		retract($input);
+		$known.setFact("MEDICAL_SERVICES_INACTIVE");
+	update($known);
+                
+                
+end
+rule "Is University Services  Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "UNIVERSITY_SERVICES_ACTIVE"   || fact == "UNIVERSITY_SERVICES_INACTIVE" )
+		$input : InputFact (  fact == "UNIVERSITY_SERVICES_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("UNIVERSITY_SERVICES_ACTIVE");
+		update($known);
+                
+                
+end
+
+rule "Is University Services Inactive"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "UNIVERSITY_SERVICES_ACTIVE" || fact == "UNIVERSITY_SERVICES_INACTIVE" )
+		$input : InputFact ( fact == "UNIVERSITY_SERVICES_INACTIVE")
+	then
+		retract($input);
+		$known.setFact("UNIVERSITY_SERVICES_INACTIVE");
+	update($known);
+                
+                
+end
+rule "Is Volunteer Services Active"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "VOLUNTEER_SERVICES_ACTIVE"   || fact == "VOLUNTEER_SERVICES_INACTIVE" )
+		$input : InputFact (  fact == "VOLUNTEER_SERVICES_ACTIVE" )
+	then
+		retract($input);
+		$known.setFact("VOLUNTEER_SERVICES_ACTIVE");
+		update($known);
+                
+                
+end
+
+rule "Is Volunteer Services Inactive"
+	salience 90
+	dialect "mvel"
+	lock-on-active true
+	when
+		$known : KnownFact ( fact == "VOLUNTEER_SERVICES_ACTIVE" || fact == "VOLUNTEER_SERVICES_INACTIVE" )
+		$input : InputFact ( fact == "VOLUNTEER_SERVICES_INACTIVE")
+	then
+		retract($input);
+		$known.setFact("VOLUNTEER_SERVICES_INACTIVE");
+	update($known);
+                
+                
+end
+/**
+rule "No existing Ugrad Affiliation"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROSPECT"  || fact == "STUDENT_UNDERGRADUATE_APPLICANT" 
+			||  fact == "STUDENT_UNDERGRADUATE_CURRENT" )
+	then
+		
+		
+end
+
+rule "No existing Grad Affiliation"
+ 	salience 10
+  	dialect "mvel"
+	lock-on-active true
+	when
+	
+		$input : InputFact ( fact == "STUDENT_GRADUATE_PROSPECT"  || fact == "STUDENT_GRADUATE_APPLICANT" 
+        	|| fact == "STUDENT_GRADUATE_CURRENT")
+	then
+
+end
+
+
+rule "No existing Law Affiliation"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+		$input : InputFact ( fact == "STUDENT_LAW_PROSPECT"  || fact == "STUDENT_LAW_APPLICANT" 
+			||  fact == "STUDENT_LAW_CURRENT" )
+	then
+		
+		
+end
+
+rule "No existing Medical Affiliation"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "STUDENT_MEDICAL_PROSPECT"  || fact == "STUDENT_MEDICAL_APPLICANT" 
+			|| fact == "STUDENT_MEDICAL_CURRENT")
+	then
+
+end
+
+rule "No existing UGrad Nondegree Affiliation"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_PROSPECT"  || fact == "STUDENT_UNDERGRADUATE_NONDEGREE_APPLICANT" 
+			||  fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CURRENT" )
+	then
+		
+		
+end
+
+rule "No existing Grad Nondegree Affiliation"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "STUDENT_GRADUATE_NONDEGREE_PROSPECT"  || fact == "STUDENT_GRADUATE_NONDEGREE_APPLICANT" 
+			|| fact == "STUDENT_GRADUATE_NONDEGREE_CURRENT")
+        then
+
+end
+
+rule "No existing UGrad NondegreeCertificate Affiliation"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_PROSPECT"  
+			|| fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_APPLICANT" 
+			||  fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_CURRENT" )
+	then
+		
+		
+end
+
+rule "No existing Grad Certificate Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "STUDENT_GRADUATE_CERTIFICATE_PROSPECT"  || fact == "STUDENT_GRADUATE_CERTIFICATE_APPLICANT" 
+			 || fact == "STUDENT_GRADUATE_CERTIFICATE_CURRENT")
+	then
+
+end
+rule "No existing UGrad Provisional Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_PROVISONAL_PROSPECT"  || fact == "STUDENT_UNDERGRADUATE_PROVISONAL_APPLICANT" 
+			 || fact == "STUDENT_UNDERGRADUATE_PROVISONAL_CURRENT")
+	then
+
+end
+rule "No existing Grad Provisional Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "STUDENT_GRADUATE_PROVISONAL_PROSPECT"  || fact == "STUDENT_GRADUATE_PROVISONAL_APPLICANT" 
+			 || fact == "STUDENT_GRADUATE_PROVISONAL_CURRENT")
+	then
+
+end
+rule "No existing Employee Applicant Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "EMPLOYEE_APPLICANT_ACTIVE" )
+	then
+
+end
+rule "No existing Employee Gradudate Assistant Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "EMPLOYEE_GRADUDATE_ASSISTANT_ACTIVE" )
+	then
+
+end
+rule "No existing Employee Paid Intern Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "EMPLOYEE_PAID_INTERN_ACTIVE" )
+	then
+
+end
+rule "No existing Employee Post Doc Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "EMPLOYEE_POSTDOC_ACTIVE" )
+	then
+
+end
+rule "No existing Employee Technical Services Affiliation"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+		$input : InputFact ( fact == "EMPLOYEE_TECHNICAL_SERVICES_ACTIVE"  
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_DECEASED" ||  fact == "EMPLOYEE_TECHNICAL_SERVICES_RETIRED" )
+	then
+		
+		
+end
+rule "No existing Employee Wage Affiliation"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+		$input : InputFact ( fact == "EMPLOYEE_WAGE_ACTIVE"  
+			|| fact == "EMPLOYEE_WAGE_DECEASED" ||  fact == "EMPLOYEE_WAGE_RETIRED" )
+	then
+		
+		
+end
+rule "No existing Employee Academic Affiliation"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_ACTIVE"  
+			|| fact == "EMPLOYEE_ACADEMIC_DECEASED" ||  fact == "EMPLOYEE_ACADEMIC__RETIRED"
+			|| fact == "EMPLOYEE_ACADEMIC_RETIRED" )
+	then
+		
+		
+end
+rule "No existing Employee Academic Adminstrator Affiliation"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+		$input : InputFact ( fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_ACTIVE"  
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_DECEASED" ||  fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_EMERITUS"
+			|| fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_RETIRED" )
+	then
+		
+		
+end
+rule "No existing Employee  Adminstrator Affiliation"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+		$input : InputFact ( fact == "EMPLOYEE_ADMINISTRATOR_ACTIVE"  
+			|| fact == "EMPLOYEE_ADMINISTRATOR_DECEASED" ||  fact == "EMPLOYEE_ADMINISTRATOR_EMERITUS"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_RETIRED" )
+	then
+		
+		
+end
+rule "No existing Employee  Executive  Affiliation"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+		$input : InputFact ( fact == "EMPLOYEE_EXECUTIVE_ACTIVE"  
+			|| fact == "EMPLOYEE_EXECUTIVE_DECEASED" ||  fact == "EMPLOYEE_EXECUTIVE_EMERITUS"
+			|| fact == "EMPLOYEE_EXECUTIVE_RETIRED" )
+	then
+		
+		
+end
+rule "No existing Employee  Faculty  Affiliation"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+		$input : InputFact ( fact == "EMPLOYEE_FACULTY_ACTIVE"  
+			|| fact == "EMPLOYEE_FACULTY_DECEASED" ||  fact == "EMPLOYEE_FACULTY_EMERITUS"
+			|| fact == "EMPLOYEE_FACULTY_RETIRED" )
+	then
+		
+		
+end
+rule "No existing Employee Staff  Affiliation"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+		$input : InputFact ( fact == "EMPLOYEE_STAFF_ACTIVE"  
+			|| fact == "EMPLOYEE_STAFF_DECEASED" ||  fact == "EMPLOYEE_STAFF_EMERITUS"
+			|| fact == "EMPLOYEE_STAFF_RETIRED" )
+	then
+		
+		
+end
+rule "No existing Agriculture Services Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "AGRICULTURE_SERVICES_ACTIVE" )
+	then
+
+end
+rule "No existing BOT Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "BOARD_OF_TRUSTEES_ACTIVE" )
+	then
+
+end
+rule "No existing Commercial Services Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "COMMERCIAL_SERVICES_ACTIVE" )
+	then
+
+end
+rule "No existing Contractor Services Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "CONTRACTOR_SERVICES_ACTIVE" )
+	then
+
+end
+rule "No existing Donor Services Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "DONOR_SERVICES_ACTIVE" )
+	then
+
+end
+rule "No existing Educational Services Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "EDUCATIONAL_SERVICES_ACTIVE" )
+	then
+
+end
+rule "No existing Family Services Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "FAMILY_SERVICES_ACTIVE" )
+	then
+
+end
+rule "No existing Government Services Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "GOVERNMENT_SERVICES_ACTIVE" )
+	then
+
+end
+rule "No existing Medical Services Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "MEDICAL_SERVICES_ACTIVE" )
+	then
+
+end
+rule "No existing University Services Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "UNIVERSITY_SERVICES_ACTIVE" )
+	then
+
+end
+rule "No existing Volunteer Services Affiliation"
+ 	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+
+		$input : InputFact ( fact == "VOLUNTEER_SERVICES_ACTIVE" )
+	then
+
+end
+*/
+rule "Former not valid when no existing affiliations"
+	salience 10
+	dialect "mvel"
+	lock-on-active true
+	when
+		
+		$input : InputFact ( fact == "STUDENT_UNDERGRADUATE_FORMER" || fact == "STUDENT_GRADUATE_FORMER"  
+			|| fact == "STUDENT_MEDICAL_FORMER" || fact == "STUDENT_LAW_FORMER"  
+			|| fact == "STUDENT_UNDERGRADUATE_NONDEGREE_FORMER" || fact == "STUDENT_GRADUATE_NONDEGREE_FORMER" 
+			|| fact == "STUDENT_UNDERGRADUATE_NONDEGREE_CERTIFICATE_FORMER"  || fact == "STUDENT_GRADUATE_NONDEGREE_CERTIFICATE_FORMER" 
+			|| fact == "STUDENT_UNDERGRADUATE_PROVISIONAL_FORMER"  || fact == "STUDENT_GRADUATE_PROVISIONAL_FORMER"
+			|| fact == "EMPLOYEE_ACADEMIC_TERMINATED"  || fact == "EMPLOYEE_ACADEMIC_ADMINISTRATOR_TERMINATED"
+			|| fact == "EMPLOYEE_ADMINISTRATOR_TERMINATED"  || fact == "EMPLOYEE_APPLICANT_TERMINATED"
+			|| fact == "EMPLOYEE_EXECUTIVE_TERMINATED"  || fact == "EMPLOYEE_FACULTY_TERMINATED"
+			|| fact == "EMPLOYEE_GRADUATE_ASSISTANT_TERMINATED"  || fact == "EMPLOYEE_PAID_INTERN_TERMINATED"
+			|| fact == "EMPLOYEE_POSTDOC_TERMINATED"  || fact == "EMPLOYEE_STAFF_TERMINATED"
+			|| fact == "EMPLOYEE_TECHNICAL_SERVICES_TERMINATED" 
+			|| fact == "AGRICULTURE_SERVICES_INACTIVE"
+			|| fact == "BOARD_OF_TRUSTEES_INACTIVE"  || fact == "COMMERCIAL_SERVICES_INACTIVE"
+			|| fact == "CONTRACTOR_SERVICES_INACTIVE"  || fact == "DONOR_SERVICES_INACTIVE"
+			|| fact == "EDUCATIONAL_SERVICES_INACTIVE"  || fact == "FAMILY_SERVICES_INACTIVE"
+			|| fact == "GOVERNMENT_SERVICES_INACTIVE"  || fact == "MEDICAL_SERVICES_INACTIVE"
+			|| fact == "UNIVERSITY_SERVICES_INACTIVE"  || fact == "VOLUNTEER_SERVICES_INACTIVE"
+			)
+	then
+		retract($input);
+end

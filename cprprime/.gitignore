@@ -8,3 +8,5 @@
 /lib
 /src/cpr.properties
 /src/hibernate.cfg.xml
+/src/main/resources/cpr.properties
+/src/main/resources/hibernate.cfg.xml

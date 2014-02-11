@@ -1,0 +1,426 @@
+package edu.psu.iam.cpr.core.rules.engine
+
+rule "invalid ID Card specification with existing id other than student "
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_STUDENT" )
+		$input : InputFact ( fact == "ID_CARD_FACULTY_STAFF" 
+			|| fact == "ID_CARD_FACULTY_STAFF_PEMA"
+			|| fact == "ID_CARD_FACULTY_STAFF_PROX"
+			|| fact == "ID_CARD_FACULTY_STAFF_STUDENT"
+			|| fact == "ID_CARD_AFFILIATE"
+			|| fact == "ID_CARD_RETIREE"
+			|| fact == "ID_CARD_EMERITUS"
+			|| fact == "ID_CARD_CONTRACTOR"
+			|| fact == "ID_CARD_WORLD_CAMPUS")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid ID Card specification with existing id other than faculty staff "
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_FACULTY_STAFF" )
+		$input : InputFact ( fact == "ID_CARD_STUDENT" 
+			|| fact == "ID_CARD_FACULTY_STAFF_PEMA"
+			|| fact == "ID_CARD_FACULTY_STAFF_PROX"
+			|| fact == "ID_CARD_FACULTY_STAFF_STUDENT"
+			|| fact == "ID_CARD_AFFILIATE"
+			|| fact == "ID_CARD_RETIREE"
+			|| fact == "ID_CARD_EMERITUS"
+			|| fact == "ID_CARD_CONTRACTOR"
+			|| fact == "ID_CARD_WORLD_CAMPUS")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid ID Card specification with existing id other than faculty staff pema "
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_FACULTY_STAFF_PEMA" )
+		$input : InputFact ( fact == "ID_CARD_STUDENT" 
+			|| fact == "ID_CARD_FACULTY_STAFF"
+			|| fact == "ID_CARD_FACULTY_STAFF_PROX"
+			|| fact == "ID_CARD_FACULTY_STAFF_STUDENT"
+			|| fact == "ID_CARD_AFFILIATE"
+			|| fact == "ID_CARD_RETIREE"
+			|| fact == "ID_CARD_EMERITUS"
+			|| fact == "ID_CARD_CONTRACTOR"
+			|| fact == "ID_CARD_WORLD_CAMPUS")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid ID Card specification with existing id other than faculty staff prox"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_FACULTY_STAFF_PROX" )
+		$input : InputFact ( fact == "ID_CARD_STUDENT" 
+			|| fact == "ID_CARD_FACULTY_STAFF"
+			|| fact == "ID_CARD_FACULTY_STAFF_PROX"
+			|| fact == "ID_CARD_FACULTY_STAFF_STUDENT"
+			|| fact == "ID_CARD_AFFILIATE"
+			|| fact == "ID_CARD_RETIREE"
+			|| fact == "ID_CARD_EMERITUS"
+			|| fact == "ID_CARD_CONTRACTOR"
+			|| fact == "ID_CARD_WORLD_CAMPUS")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid ID Card specification with existing id other than faculty staff student"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_FACULTY_STAFF_STUDENT" )
+		$input : InputFact ( fact == "ID_CARD_STUDENT" 
+		|| fact == "ID_CARD_FACULTY_STAFF"
+			|| fact == "ID_CARD_FACULTY_STAFF_PEMA"
+			|| fact == "ID_CARD_FACULTY_STAFF_PROX"
+			|| fact == "ID_CARD_AFFILIATE"
+			|| fact == "ID_CARD_RETIREE"
+			|| fact == "ID_CARD_EMERITUS"
+			|| fact == "ID_CARD_CONTRACTOR"
+			|| fact == "ID_CARD_WORLD_CAMPUS")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid ID Card specification with existing id other than affiliate"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_AFFILIATE" )
+		$input : InputFact ( fact == "ID_CARD_STUDENT" 
+			|| fact == "ID_CARD_FACULTY_STAFF"
+			|| fact == "ID_CARD_FACULTY_STAFF_PEMA"
+			|| fact == "ID_CARD_FACULTY_STAFF_PROX"
+			|| fact == "ID_CARD_FACULTY_STAFF_STUDENT"
+			|| fact == "ID_CARD_RETIREE"
+			|| fact == "ID_CARD_EMERITUS"
+			|| fact == "ID_CARD_CONTRACTOR"
+			|| fact == "ID_CARD_WORLD_CAMPUS")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid ID Card specification with existing id other than retiree"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_RETIREE" )
+		$input : InputFact ( fact == "ID_CARD_STUDENT" 
+			|| fact == "ID_CARD_FACULTY_STAFF"
+			|| fact == "ID_CARD_FACULTY_STAFF_PEMA"
+			|| fact == "ID_CARD_FACULTY_STAFF_PROX"
+			|| fact == "ID_CARD_FACULTY_STAFF_STUDENT"
+			|| fact == "ID_CARD_AFFILIATE"
+			|| fact == "ID_CARD_EMERITUS"
+			|| fact == "ID_CARD_CONTRACTOR"
+			|| fact == "ID_CARD_WORLD_CAMPUS")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid ID Card specification with existing id other than emeritus"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_EMERITUS" )
+		$input : InputFact ( fact == "ID_CARD_STUDENT" 
+			|| fact == "ID_CARD_FACULTY_STAFF"
+			|| fact == "ID_CARD_FACULTY_STAFF_PEMA"
+			|| fact == "ID_CARD_FACULTY_STAFF_PROX"
+			|| fact == "ID_CARD_FACULTY_STAFF_STUDENT"
+			|| fact == "ID_CARD_AFFILIATE"
+			|| fact == "ID_CARD_RETIREE"
+			|| fact == "ID_CARD_CONTRACTOR"
+			|| fact == "ID_CARD_WORLD_CAMPUS")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid ID Card specification with existing id other than contractor"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_CONTRACTOR" )
+		$input : InputFact ( fact == "ID_CARD_STUDENT" 
+			|| fact == "ID_CARD_FACULTY_STAFF"
+			|| fact == "ID_CARD_FACULTY_STAFF_PEMA"
+			|| fact == "ID_CARD_FACULTY_STAFF_PROX"
+			|| fact == "ID_CARD_FACULTY_STAFF_STUDENT"
+			|| fact == "ID_CARD_AFFILIATE"
+			|| fact == "ID_CARD_RETIREE"
+			|| fact == "ID_CARD_EMERITUS"
+			|| fact == "ID_CARD_WORLD_CAMPUS")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid ID Card specification with existing id other than world campus"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_WORLD_CAMPUS" )
+		$input : InputFact ( fact == "ID_CARD_STUDENT" 
+			|| fact == "ID_CARD_FACULTY_STAFF"
+			|| fact == "ID_CARD_FACULTY_STAFF_PEMA"
+			|| fact == "ID_CARD_FACULTY_STAFF_PROX"
+			|| fact == "ID_CARD_FACULTY_STAFF_STUDENT"
+			|| fact == "ID_CARD_AFFILIATE"
+			|| fact == "ID_CARD_RETIREE"
+			|| fact == "ID_CARD_EMERITUS"
+			|| fact == "ID_CARD_CONTRACTOR")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid ID Card specification with existing id other than health services"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_HEALTH_SERVICES" )
+		$input : InputFact ( fact == "ID_CARD_RESCOM" 
+			|| fact == "ID_CARD_VILLAGE_RESIDENT"
+			|| fact == "ID_CARD_HERSHEY_MEDICAL")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid ID Card specification with existing id other than rescom"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_RESCOM" )
+		$input : InputFact ( fact == "ID_CARD_HEALTH_SERVICES" 
+			|| fact == "ID_CARD_VILLAGE_RESIDENT"
+			|| fact == "ID_CARD_HERSHEY_MEDICAL")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid ID Card specification with existing id other than village resident"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_VILLAGE_RESIDENT" )
+		$input : InputFact ( fact == "ID_CARD_HEALTH_SERVICES" 
+			|| fact == "ID_CARD_RESCOM"
+			|| fact == "ID_CARD_HERSHEY_MEDICAL")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "invalid ID Card specification with existing id other than hershey medical"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_HERSHEY_MEDICAL" )
+		$input : InputFact ( fact == "ID_HEALTH_SERVICES" 
+			|| fact == "ID_CARD_RESCOM"
+			|| fact == "ID_CARD_VILLAGE_RESIDENT")
+	then
+		retract($input);
+		$known.setFact("ERROR");
+		update($known);
+end
+rule "valid ID Card student specification with existing student"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_STUDENT" )
+		$input : InputFact ( fact == "ID_CARD_STUDENT" )
+	then
+		retract($input);
+		$known.setFact("ID_CARD_STUDENT");
+		update($known);
+end
+rule "valid ID Card faculty staff specification with existing faculty staff"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_FACULTY_STAFF" )
+		$input : InputFact ( fact == "ID_CARD_FACULTY_STAFF" )
+	then
+		retract($input);
+		$known.setFact("ID_CARD_FACULTY_STAFF");
+		update($known);
+end
+rule "valid ID Card faculty staff pema specification with existing faculty staff pema"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_FACULTY_STAFF_PEMA" )
+		$input : InputFact ( fact == "ID_CARD_FACULTY_STAFF_PEMA" )
+	then
+		retract($input);
+		$known.setFact("ID_CARD_FACULTY_STAFF_PEMA");
+		update($known);
+end
+rule "valid ID Card faculty staff prox specification with existing faculty staff prox"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_FACULTY_STAFF_PROX" )
+		$input : InputFact ( fact == "ID_CARD_FACULTY_STAFF_PROX" )
+	then
+		retract($input);
+		$known.setFact("ID_CARD_FACULTY_STAFF_PROX");
+		update($known);
+end
+rule "valid ID Card faculty staff student specification with existing faculty staff student"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_FACULTY_STAFF_STUDENT" )
+		$input : InputFact ( fact == "ID_CARD_FACULTY_STAFF_STUDENT" )
+	then
+		retract($input);
+		$known.setFact("ID_CARD_FACULTY_STAFF_STUDENT");
+		update($known);
+end
+rule "valid ID Card affiliate specification with existing affiliate"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_AFFILIATE" )
+		$input : InputFact ( fact == "ID_CARD_AFFILIATE" )
+	then
+		retract($input);
+		$known.setFact("ID_CARD_FAFFILIATE");
+		update($known);
+end
+rule "valid ID Card retiree specification with existing retiree"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_RETIREE" )
+		$input : InputFact ( fact == "ID_CARD_RETIREE" )
+	then
+		retract($input);
+		$known.setFact("ID_CARD_RETIREE");
+		update($known);
+end
+rule "valid ID Card emeritus specification with existing emeritus"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_EMERITUS" )
+		$input : InputFact ( fact == "ID_CARD_EMERITUS" )
+	then
+		retract($input);
+		$known.setFact("ID_CARD_EMERITUS");
+		update($known);
+end
+rule "valid ID Card contractor specification with existing contractor"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_CONTRACTOR" )
+		$input : InputFact ( fact == "ID_CARD_CONTRACTOR" )
+	then
+		retract($input);
+		$known.setFact("ID_CARD_CONTRACTOR");
+		update($known);
+end
+rule "valid ID Card world campus specification with existing world campus"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_WORLD_CAMPUS" )
+		$input : InputFact ( fact == "ID_CARD_WORLD_CAMPUS" )
+	then
+		retract($input);
+		$known.setFact("ID_CARD_WORLD_CAMPUS");
+		update($known);
+end
+rule "valid ID health services specification with existing health services"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_HEALTH_SERVICES" )
+		$input : InputFact ( fact == "ID_CARD_HEALTH_SERVICES" )
+	then
+		retract($input);
+		$known.setFact("ID_CARD_HEALTH_SERVICES");
+		update($known);
+end
+rule "valid ID rescom specification with existing rescom"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_RESCOM" )
+		$input : InputFact ( fact == "ID_CARD_RESCOM" )
+	then
+		retract($input);
+		$known.setFact("ID_CARD_RESCOM");
+		update($known);
+end
+rule "valid ID village resident specification with existing village resident"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_VILLAGE_RESIDENT" )
+		$input : InputFact ( fact == "ID_CARD_VILLAGE_RESIDENT" )
+	then
+		retract($input);
+		$known.setFact("ID_CARD_VILLAGE_RESIDENT");
+		update($known);
+end
+rule "valid ID Hershey medical specification with existing Hershey Medical"
+	salience 100
+	dialect "mvel"
+	lock-on-active true
+	when
+ 		$known : KnownFact ( fact == "ID_CARD_HERSHEY_MEDICAL" )
+		$input : InputFact ( fact == "ID_CARD_HERSHEY_MEDICAL" )
+	then
+		retract($input);
+		$known.setFact("ID_CARD_HERSHEY_MEDICAL");
+		update($known);
+end

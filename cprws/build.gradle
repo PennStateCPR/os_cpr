@@ -1,0 +1,23 @@
+apply plugin: 'war'
+
+dependencies {
+	compile project(':cpr_core')
+	compile 'org.apache.cxf:apache-cxf:2.7.6'
+} 
+
+project.ext.set('wsdlFile', webAppDirName + "/wsdl/cprwsservice.wsdl")
+
+task('java2wsdl', dependsOn: 'classes', type: JavaExec) {
+    main = 'org.apache.cxf.tools.java2ws.JavaToWS'
+    classpath = sourceSets.main.runtimeClasspath
+    args '-wsdl'
+    args '-servicename', 'cprws'
+    args '-o', project.ext.properties.wsdlFile
+    args '-verbose'
+    args '-frontend', 'jaxws'
+    args '-databinding', 'jaxb'
+    args '-portname', 'cprws_port'
+    args 'edu.psu.iam.cpr.service.CprwsSEI'
+}
+
+war.dependsOn java2wsdl

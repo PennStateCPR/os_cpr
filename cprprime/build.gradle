@@ -1,0 +1,7 @@
+apply plugin: 'application'
+
+mainClassName='edu.psu.iam.cpr.utility.PrimeCPR'
+
+dependencies {
+	compile project(':cpr_core')
+}
