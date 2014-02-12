@@ -281,10 +281,10 @@ public class PersonAffiliationTable {
 					final List<String> newFacts = new ArrayList<String>(Arrays.asList(rulesReturn.getFacts()));
 					final Iterator<String> facts =newFacts.iterator();
 					while (facts.hasNext()) {
-						String newAffiliation = (String) facts.next();
+						String newAffiliation = facts.next();
 						Iterator<String> existing = existingAffiliations.iterator();
-						while(existing.hasNext()) {
-							String oldAffiliation = (String)existing.next();
+						while (existing.hasNext()) {
+							String oldAffiliation = existing.next();
 							if (newAffiliation.equals(oldAffiliation) ) {
 								facts.remove();
 								existing.remove();
