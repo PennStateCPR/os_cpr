@@ -25,7 +25,6 @@ package edu.psu.iam.cpr.core.database.tables.validate;
 
 import java.text.ParseException;
 
-import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.Years;
 
@@ -56,7 +55,6 @@ import edu.psu.iam.cpr.core.util.Validate;
  * @version $Rev: 5340 $
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
-@SuppressWarnings("deprecation")
 public final class ValidateDateOfBirth {
 	
 	private static final int MONTH_DAY_ONLY = 2;
@@ -163,7 +161,7 @@ public final class ValidateDateOfBirth {
 			return false;
 		}
 		
-		final DateMidnight birthDate = new DateMidnight(year, month, day);
+		final DateTime birthDate = new DateTime(year, month, day, 0, 0).withTimeAtStartOfDay();
 		final DateTime now = new DateTime();
 		int age = Years.yearsBetween(birthDate, now).getYears();
 
