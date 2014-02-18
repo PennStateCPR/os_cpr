@@ -143,14 +143,14 @@ public abstract class BaseAction extends ActionSupport
 			}
 			
 			// Don't double-enter a screen both when we arrive, and when they enter data and/or hit enter
-			ArrayList<String> navList = ((ArrayList<String>)getSessionMap().get(UIConstants.USER_ACTION_FLOW));
+			List<String> navList = ((List<String>)getSessionMap().get(UIConstants.USER_ACTION_FLOW));
 			
 			int listSize =  navList.size();
 
 
 			if(navList.isEmpty() ||  !navList.get(listSize -1).equals(prefix +"."))
 			{
-				((ArrayList<String>)getSessionMap().get(UIConstants.USER_ACTION_FLOW)).add(prefix+".");
+				((List<String>)getSessionMap().get(UIConstants.USER_ACTION_FLOW)).add(prefix+".");
 			}
 			
 			// 1st instance of ActionClass is a transfer from previous screen, next is a hit of 'continue' button
@@ -197,7 +197,7 @@ public abstract class BaseAction extends ActionSupport
 	 */
 	public List<String> getMessageElements(String countPropertyName)
 	{
-		ArrayList<String> messageList = new ArrayList<String>();
+		List<String> messageList = new ArrayList<String>();
 		int elementCount = 0;           
 		
 		String elementNamePrefix = countPropertyName.substring(0, countPropertyName.lastIndexOf('.'));   
@@ -321,7 +321,7 @@ public abstract class BaseAction extends ActionSupport
 	{
 		String nextScreen    = "";
 		String raScreenName  = getSessionString("rac.raScreens");     
-		ArrayList<String> screenList = (ArrayList<String>)getApplicationMap().get(raScreenName);
+		List<String> screenList = (List<String>)getApplicationMap().get(raScreenName);
 		int orderIndex = screenList.indexOf(currentScreenName);
 		
 		if(orderIndex > -1)
