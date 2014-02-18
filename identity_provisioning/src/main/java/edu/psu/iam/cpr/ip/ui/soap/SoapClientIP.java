@@ -295,19 +295,19 @@ public final class SoapClientIP {
 				MatchReturn highestReturn = personServiceReturn.getNearMatchArray()[0];
 				results.put(SRV_PERSON_ID, highestReturn.getPersonId().toString());
 				if (highestReturn.getPsuId() != null) {
-					results.put(SRV_PSU_ID, highestReturn.getPsuId().toString());
+					results.put(SRV_PSU_ID, highestReturn.getPsuId());
 				}
 				if (highestReturn.getUserId() != null) {
-					results.put(SRV_USER_ID, highestReturn.getUserId().toString());
+					results.put(SRV_USER_ID, highestReturn.getUserId());
 				}
 
 			} else {
 				results.put(SRV_PERSON_ID, Long.toString(personServiceReturn.getPersonID()));
 				if (personServiceReturn.getPsuID() != null) {
-					results.put(SRV_PSU_ID, personServiceReturn.getPsuID().toString());
+					results.put(SRV_PSU_ID, personServiceReturn.getPsuID());
 				}
 				if (personServiceReturn.getUserId() != null) {
-					results.put(SRV_USER_ID, personServiceReturn.getUserId().toString());
+					results.put(SRV_USER_ID, personServiceReturn.getUserId());
 				}
 				LOG.info(uniqueId +" " +"The person id is " + personServiceReturn.getPersonID());
 				LOG.info(uniqueId +" " +"The psu id is " + personServiceReturn.getPsuID());
