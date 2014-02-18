@@ -26,7 +26,8 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 public class PersonalInfoAction extends BaseAction 
 {
 
-	private String birthMonth;
+    private static final long serialVersionUID = -6708606956790094983L;
+    private String birthMonth;
 	private String birthDay;    
 	private String birthYear;       
 	private String gender;

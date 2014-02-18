@@ -23,7 +23,8 @@ import edu.psu.iam.cpr.ip.ui.helper.SessionDeleteHelper;
  */
 public class SuccessAction extends BaseAction 
 {
-	private String userId;
+    private static final long serialVersionUID = -6339833336450638348L;
+    private String userId;
 	private String psuId;
 	
 	// Registration Authority Name; such as, 'Undergratuate Admissions'

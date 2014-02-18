@@ -20,9 +20,11 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
  */
 public class CurrentAddressAction extends AddressBaseAction 
 {
-	/* (non-Javadoc)
-	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
-	 */
+    private static final long serialVersionUID = -8140212940541770636L;
+
+    /* (non-Javadoc)
+         * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
+         */
 	@Override
 	@Action(value="current_address",results={ @Result(name=SUCCESS,location="/previous_address",type=REDIRECT),
             @Result(name="Welcome"       ,location="/welcome"         ,type=REDIRECT),

@@ -22,7 +22,9 @@ import edu.psu.iam.cpr.ip.ui.common.MagicNumber;
 
 public class SecurityQuestion1Action extends SecurityQuestionBaseAction 
 {
-	@Action(value="sq1",results={ 
+    private static final long serialVersionUID = -3216868594274379735L;
+
+    @Action(value="sq1",results={
 			@Result(name=SUCCESS,location="/sq2",type=REDIRECT),
             @Result(name="Welcome"       ,location="/welcome"         ,type=REDIRECT),
             @Result(name="DataAccuracy"  ,location="/data_accuracy"   ,type=REDIRECT),

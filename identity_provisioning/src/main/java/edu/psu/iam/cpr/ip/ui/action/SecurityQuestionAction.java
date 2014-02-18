@@ -38,8 +38,9 @@ public class SecurityQuestionAction extends BaseAction
 {
 	private static final String SEC_RETRY_COUNT = "sec.retry.count";
 	private static final String ZERO = "0";
-	
-	// Users answer to question 1, 2 and 3
+    private static final long serialVersionUID = 2007566517768725745L;
+
+    // Users answer to question 1, 2 and 3
 	private String securityQuestion1Answer;
 	private String securityQuestion2Answer;
 	private String securityQuestion3Answer;

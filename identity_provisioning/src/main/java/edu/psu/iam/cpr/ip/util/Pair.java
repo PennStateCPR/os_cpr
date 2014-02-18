@@ -20,8 +20,9 @@ import java.io.Serializable;
  * @lastrevision $Date: 2012-11-27 09:13:31 -0500 (Tue, 27 Nov 2012) $
  */
 public class Pair<K, V> implements Serializable{
-	
-	private K key;
+
+    private static final long serialVersionUID = -9154850640754470788L;
+    private K key;
 	private V value;
 	
 	public Pair() {

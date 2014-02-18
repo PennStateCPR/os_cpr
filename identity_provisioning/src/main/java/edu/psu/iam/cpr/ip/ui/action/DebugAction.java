@@ -35,10 +35,11 @@ public class DebugAction extends BaseAction {
 	private static final String OFF   = "off";
 	private static final String YES   = "yes";
 	private static final String DEBUG = "debug";
-		
-	/* (non-Javadoc)
-	 * @see edu.psu.iam.cpr.ip.ui.action.BaseAction#execute()
-	 */
+    private static final long serialVersionUID = 8494655079499208788L;
+
+    /* (non-Javadoc)
+     * @see edu.psu.iam.cpr.ip.ui.action.BaseAction#execute()
+     */
 	private String debugSkipValidation;
 	private String deployed;
 	private String debug;

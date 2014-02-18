@@ -51,7 +51,8 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 public abstract class BaseAction extends ActionSupport
 {
 	private static final String RAC_VALID_SESSION = "rac.valid.session";
-	private String uiMessage;   
+    private static final long serialVersionUID = 6450239556690793313L;
+    private String uiMessage;
 	private String endPageHeader;
 	private String control;
 	private String btnsubmit;

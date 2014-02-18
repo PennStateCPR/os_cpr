@@ -21,7 +21,9 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
  */
 public class SecurityQuestionSplashAction extends BaseAction 
 {
-	@Override
+    private static final long serialVersionUID = 3165989555114862789L;
+
+    @Override
 	@Action(value="sq0",results={ 
 			                      @Result(name=SUCCESS,location="/sq1",type=REDIRECT),
                                   @Result(name="stay on page",location="/jsp/sq0.jsp"),

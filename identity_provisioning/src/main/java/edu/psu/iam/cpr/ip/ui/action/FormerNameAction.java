@@ -14,7 +14,9 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
  */
 public class FormerNameAction extends NameBaseAction 
 {
-	/**
+    private static final long serialVersionUID = -1571373660865821809L;
+
+    /**
 	 * Check for any required fields -- they must have data in them, else we stay on the current page
 	 * Check the fields passed to see if they have data in them
 	 * @return A string field indicating whether or not we should stay on this page, or null if we can progress

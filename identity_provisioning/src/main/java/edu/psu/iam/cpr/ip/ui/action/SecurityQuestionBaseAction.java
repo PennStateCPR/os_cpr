@@ -20,7 +20,8 @@ import edu.psu.iam.cpr.ip.util.AnswerHelper;
  */
 public abstract class SecurityQuestionBaseAction extends BaseAction 
 {
-	private String  securityQuestion;
+    private static final long serialVersionUID = 8217828502697548478L;
+    private String  securityQuestion;
 	private String  securityAnswer;
 	
 	/* (non-Javadoc)

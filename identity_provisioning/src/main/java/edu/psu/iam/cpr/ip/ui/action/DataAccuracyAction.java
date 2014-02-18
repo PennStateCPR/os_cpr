@@ -22,7 +22,8 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 public class DataAccuracyAction extends BaseAction 
 {
 
-	private String statementAgree;
+    private static final long serialVersionUID = 2750388667404081643L;
+    private String statementAgree;
 	
 	/* (non-Javadoc)
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()

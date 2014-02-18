@@ -38,9 +38,10 @@ public class VerifyInfoAction extends BaseAction
 	public static final String DATA_ENTRY_ERRORS2	  = "Please review/verify the data entered";
 	
 	public static final String FATAL_ERROR1_KEY     = "ui.error.unable.to.proceed";  
-	public static final String CALL_CUST_SERVICES   = "ui.error.call.cust.services"; 
-	
-	private String hasConfirmed = "false";
+	public static final String CALL_CUST_SERVICES   = "ui.error.call.cust.services";
+    private static final long serialVersionUID = 3371864564872507527L;
+
+    private String hasConfirmed = "false";
 	
 	/* (non-Javadoc)
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()

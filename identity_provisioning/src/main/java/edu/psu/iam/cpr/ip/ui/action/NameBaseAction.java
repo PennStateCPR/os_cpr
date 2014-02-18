@@ -23,7 +23,8 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
  */
 public abstract class NameBaseAction extends BaseAction 
 {
-	private String firstName;
+    private static final long serialVersionUID = -7601718484729391984L;
+    private String firstName;
 	private String middleNames;
 	private String lastName;
 	private String nameType;

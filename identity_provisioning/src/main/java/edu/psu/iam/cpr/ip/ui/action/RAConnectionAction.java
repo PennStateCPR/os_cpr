@@ -31,9 +31,10 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 public class RAConnectionAction extends BaseAction  
 {
 
-	private static final String ACTION = "action"; 
-	
-	private String principalId ;   // RA must send this on ra_connect
+	private static final String ACTION = "action";
+    private static final long serialVersionUID = 8600053409774294118L;
+
+    private String principalId ;   // RA must send this on ra_connect
 	private String password    ;   // RA must send  "" "" ""
 	private String requestedBy ;   // For Identity Provisioning is not necessary, will be used when users are logged in
 	private String sitename    ;   

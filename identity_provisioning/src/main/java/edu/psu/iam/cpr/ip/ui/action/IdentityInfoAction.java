@@ -26,8 +26,9 @@ public class IdentityInfoAction extends BaseAction
 {
 
 	private static final String PER_CITIZENSHIP = "per.citizenship";
-	
-	private String socialSecurityNumber;
+    private static final long serialVersionUID = 8728849150732563643L;
+
+    private String socialSecurityNumber;
 	private String pennStateId;
 	private String userId;
 	

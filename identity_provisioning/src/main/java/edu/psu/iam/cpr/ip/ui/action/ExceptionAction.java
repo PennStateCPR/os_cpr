@@ -34,8 +34,9 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 public class ExceptionAction extends BaseAction 
 {
 	private static final String DO_NOT_INVALIDATE = "do.not.invalidate";
+    private static final long serialVersionUID = -4539516386453991142L;
 
-	public String exception;
+    public String exception;
 	
 	@Override
 	@Action(value="error_report",results={ @Result(name=SUCCESS,location="/jsp/endPage.jsp"),

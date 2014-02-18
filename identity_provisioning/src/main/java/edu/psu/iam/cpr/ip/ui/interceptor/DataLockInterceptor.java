@@ -40,8 +40,9 @@ public class DataLockInterceptor implements Interceptor
 	private static final String DATALOCK_INITIAL_WARNING = "datalock.initial.warning";
 	/** Instance of logger */                                                     
 	private static final Logger LOG = Logger.getLogger(DataLockInterceptor.class);
-	
-	@Override
+    private static final long serialVersionUID = -1855238485022372087L;
+
+    @Override
 	public void destroy() 
 	{
 	}

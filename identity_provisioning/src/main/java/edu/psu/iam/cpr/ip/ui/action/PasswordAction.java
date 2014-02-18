@@ -40,7 +40,8 @@ public class PasswordAction extends BaseAction
 	private static final String YOU_MUST_ENTER_A_MATCHING_PASSWORD_IN_BOTH_FIELDS = "You must enter a matching password in both fields";
 	private static final String UI_SETPASSWORD_REPLY_QUEUE_NAME = "ui.setpassword.reply.queue.name";
 	private static final String UI_SETPASSWORD_QUEUE_NAME       = "ui.setpassword.queue.name";
-	private String password;
+    private static final long serialVersionUID = 1643016775815160131L;
+    private String password;
 	private String passwordConfirmed;
 	private String message;
 	

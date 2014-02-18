@@ -28,7 +28,8 @@ import edu.psu.iam.cpr.ip.util.MapHelper;
  */
 public class PolicyAction extends BaseAction 
 {
-	private String agree;
+    private static final long serialVersionUID = 6196042891299299497L;
+    private String agree;
 	
 	/* (non-Javadoc)
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()

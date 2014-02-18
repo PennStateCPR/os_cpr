@@ -2,7 +2,8 @@ package edu.psu.iam.cpr.ip.ui.exception;
 
 public class DataLockException extends Exception 
 {
-	String message;
+    private static final long serialVersionUID = -197406674388465080L;
+    String message;
 	
 	public DataLockException()
 	{ 

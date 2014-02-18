@@ -21,7 +21,8 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 public abstract class AddressBaseAction extends BaseAction 
 {
 
-	private String country;
+    private static final long serialVersionUID = -5203040704586444140L;
+    private String country;
 	private String addressLine1;
 	private String addressLine2;
 	private String addressLine3;

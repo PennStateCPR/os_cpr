@@ -20,7 +20,8 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 public class ContactInfoAction extends BaseAction 
 {
 
-	private String email;
+    private static final long serialVersionUID = 4240276287268642002L;
+    private String email;
 	private String phoneNumber;
 	private String extension;
 	private String internationalNumber;
