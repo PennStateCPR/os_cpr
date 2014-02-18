@@ -53,7 +53,7 @@ public class DateOfBirthLoader implements BeanLoader {
 				for (int i = 0; i < columns.length; ++i) {
 					if (columns[i].equals("dob")) {
 						DateFormat formatter = new SimpleDateFormat("M/d/y");
-						bean.setDob((Date) formatter.parse(fields[i]));
+						bean.setDob(formatter.parse(fields[i]));
 					}
 					else if (columns[i].equals("dob_char")) {
 						bean.setDobChar(fields[i]);

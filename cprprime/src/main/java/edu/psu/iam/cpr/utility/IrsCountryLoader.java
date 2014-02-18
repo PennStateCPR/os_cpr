@@ -76,7 +76,7 @@ public class IrsCountryLoader implements BeanLoader {
 						}
 						else {
 							DateFormat formatter = new SimpleDateFormat("MMddyyyy");
-							bean.setStartDate((Date)formatter.parse(fields[i]));
+							bean.setStartDate(formatter.parse(fields[i]));
 						}	
 					}
 					else if (columns[i].equals("end_date")) {
@@ -85,7 +85,7 @@ public class IrsCountryLoader implements BeanLoader {
 						}
 						else {
 							DateFormat formatter = new SimpleDateFormat("MMddyyyy");
-							bean.setEndDate((Date) formatter.parse(fields[i]));
+							bean.setEndDate(formatter.parse(fields[i]));
 						}	
 					}
 				}
