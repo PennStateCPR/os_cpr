@@ -88,7 +88,7 @@ public class ExceptionAction extends BaseAction
 		
 		if(statusCodeObj != null)
 		{
-			statusCode = ((Integer)getSessionMap().get("eh.status.code")).toString() ;
+			statusCode = getSessionMap().get("eh.status.code").toString() ;
 		}
 		
 		if(stackTraceElementObj != null)

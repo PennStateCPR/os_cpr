@@ -196,13 +196,13 @@ public class UIInitializationServlet extends HttpServlet
 			if(((String)mapEntry.getKey()).startsWith("gbl."))
 			{
 				globals.put((String)mapEntry.getKey(), mapEntry.getValue());
-				ctx.setAttribute((String)mapEntry.getKey(), (String)mapEntry.getValue());
+				ctx.setAttribute((String)mapEntry.getKey(), mapEntry.getValue());
 				continue;
 			}
 			
 			if(((String)mapEntry.getValue()).indexOf("%gbl.") == -1)
 			{
-				ctx.setAttribute((String)mapEntry.getKey(), (String)mapEntry.getValue());
+				ctx.setAttribute((String)mapEntry.getKey(), mapEntry.getValue());
 			}
 			else
 			{
