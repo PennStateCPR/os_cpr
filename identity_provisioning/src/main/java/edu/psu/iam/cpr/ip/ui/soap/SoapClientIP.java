@@ -174,7 +174,7 @@ public final class SoapClientIP {
 
 			// Person was not found, try search again with former name, if it exists
 			if (formerLastNameEntered || formerFirstNameEntered) {
-				LOG.info(String.format("%s Sending to find person with former name ", uniqueId, findPerson.toString()));
+				LOG.info(String.format("%s Sending to find person with former name %s", uniqueId, findPerson.toString()));
 
 				try {
 					//call the service
@@ -198,7 +198,7 @@ public final class SoapClientIP {
 					String previousCountry = (String)sessionData.get(UIConstants.PRA_COUNTRY);
 					if (!(mapValueIsEmpty(previousAddress1) || mapValueIsEmpty(previousPostalCode) || mapValueIsEmpty(previousCountry))) {
 
-						LOG.info(String.format("%s Sending to find person with former name and former address ", uniqueId, findPerson.toString()));
+						LOG.info(String.format("%s Sending to find person with former name and former address %s", uniqueId, findPerson.toString()));
 
 						findPerson.put(UIConstants.ADDRESS1, previousAddress1);
 						findPerson.put(UIConstants.ADDRESS2, (String)sessionData.get(UIConstants.PRA_ADDRESS_LINE2));
