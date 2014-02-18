@@ -169,7 +169,7 @@ public class CprApi implements CprApiInterface {
         otherParameters.put(GENDER_KEY, gender);
         otherParameters.put(RANK_CUTOFF_KEY, rankCutOff);
 
-		final HttpServletRequest request = (HttpServletRequest) messageContext.getHttpServletRequest();
+		final HttpServletRequest request = messageContext.getHttpServletRequest();
 		final UserPrincipal userPrincipal = (UserPrincipal) messageContext.getSecurityContext().getUserPrincipal();
 		final SearchForPersonImpl impl = new SearchForPersonImpl();
 		
@@ -575,7 +575,7 @@ public class CprApi implements CprApiInterface {
         otherParameters.put(AFFILIATION_KEY, affiliation);
         otherParameters.put(SSN_KEY, ssn);
 
-		final HttpServletRequest request = (HttpServletRequest) messageContext.getHttpServletRequest();
+		final HttpServletRequest request = messageContext.getHttpServletRequest();
 		final UserPrincipal userPrincipal = (UserPrincipal) messageContext.getSecurityContext().getUserPrincipal();
 		final AddPersonImpl impl = new AddPersonImpl();
 		
@@ -716,7 +716,7 @@ public class CprApi implements CprApiInterface {
         otherParameters.put(SSN_KEY, ssn);
 
 		
-		final HttpServletRequest request = (HttpServletRequest) messageContext.getHttpServletRequest();
+		final HttpServletRequest request = messageContext.getHttpServletRequest();
 		final UserPrincipal userPrincipal = (UserPrincipal) messageContext.getSecurityContext().getUserPrincipal();
 		final UpdatePersonImpl impl = new UpdatePersonImpl();
 		
@@ -755,7 +755,7 @@ public class CprApi implements CprApiInterface {
 			  final String identifier,
 			  final String requestedBy) {
 		
-		final HttpServletRequest request = (HttpServletRequest) messageContext.getHttpServletRequest();
+		final HttpServletRequest request = messageContext.getHttpServletRequest();
 		final UserPrincipal userPrincipal = (UserPrincipal) messageContext.getSecurityContext().getUserPrincipal();
 		final AddUseridImpl impl = new AddUseridImpl();
 		
@@ -1436,7 +1436,7 @@ public class CprApi implements CprApiInterface {
 			final String serviceName,
 			final BaseServiceImpl impl) {
 		
-		final HttpServletRequest request = (HttpServletRequest) messageContext.getHttpServletRequest();
+		final HttpServletRequest request = messageContext.getHttpServletRequest();
 		final UserPrincipal userPrincipal = (UserPrincipal) messageContext.getSecurityContext().getUserPrincipal();
         
         final ServiceReturn serviceReturn = (ServiceReturn) impl.implementService(
@@ -1473,7 +1473,7 @@ public class CprApi implements CprApiInterface {
 	private Response execGetName(final String identifierType, final String identifier,
 			final String requestedBy, final Map<String, Object> otherParameters) {
 		
-		final HttpServletRequest request = (HttpServletRequest) messageContext.getHttpServletRequest();
+		final HttpServletRequest request = messageContext.getHttpServletRequest();
 		final UserPrincipal userPrincipal = (UserPrincipal) messageContext.getSecurityContext().getUserPrincipal();
         final GetNameImpl impl = new GetNameImpl();
         final String nameKey = (String) otherParameters.get(NAME_KEY);
@@ -1520,7 +1520,7 @@ public class CprApi implements CprApiInterface {
 	private Response execGetAddress(final String identifierType, final String identifier,
 			final String requestedBy, final Map<String, Object> otherParameters) {
 		
-		final HttpServletRequest request = (HttpServletRequest) messageContext.getHttpServletRequest();
+		final HttpServletRequest request = messageContext.getHttpServletRequest();
 		final UserPrincipal userPrincipal = (UserPrincipal) messageContext.getSecurityContext().getUserPrincipal();
 		final GetAddressImpl impl = new GetAddressImpl();
 		final String addressKey = (String) otherParameters.get(ADDRESS_KEY);
@@ -1568,7 +1568,7 @@ public class CprApi implements CprApiInterface {
 	private Response execGetEmail(final String identifierType, final String identifier,
 			final String requestedBy, final Map<String, Object> otherParameters) {
 		
-		final HttpServletRequest request = (HttpServletRequest) messageContext.getHttpServletRequest();
+		final HttpServletRequest request = messageContext.getHttpServletRequest();
 		final UserPrincipal userPrincipal = (UserPrincipal) messageContext.getSecurityContext().getUserPrincipal();
 		final GetEmailAddressImpl impl = new GetEmailAddressImpl();
 		final String emailKey = (String) otherParameters.get(EMAIL_KEY);
@@ -1615,7 +1615,7 @@ public class CprApi implements CprApiInterface {
 	 */
 	private Response execGetPhone(final String identifierType, final String identifier,
 			final String requestedBy, final Map<String, Object> otherParameters) {
-		final HttpServletRequest request = (HttpServletRequest) messageContext.getHttpServletRequest();
+		final HttpServletRequest request =  messageContext.getHttpServletRequest();
 		final UserPrincipal userPrincipal = (UserPrincipal) messageContext.getSecurityContext().getUserPrincipal();
 		final GetPhoneImpl impl = new GetPhoneImpl();
 		final String phoneKey = (String) otherParameters.get(PHONE_KEY);
@@ -1663,7 +1663,7 @@ public class CprApi implements CprApiInterface {
 	private Response execGetComment(final String identifierType, final String identifier,
 			final String requestedBy, final Map<String, Object> otherParameters) {
 		
-		final HttpServletRequest request = (HttpServletRequest) messageContext.getHttpServletRequest();
+		final HttpServletRequest request = messageContext.getHttpServletRequest();
 		final UserPrincipal userPrincipal = (UserPrincipal) messageContext.getSecurityContext().getUserPrincipal();
 		final GetUserCommentsImpl impl = new GetUserCommentsImpl();
 		final String commentKey = (String) otherParameters.get(COMMENT_KEY);
@@ -1711,7 +1711,7 @@ public class CprApi implements CprApiInterface {
 	private Response execGetUserid(final String identifierType, final String identifier,
 			final String requestedBy, final Map<String, Object> otherParameters) {
 		
-		final HttpServletRequest request = (HttpServletRequest) messageContext.getHttpServletRequest();
+		final HttpServletRequest request = messageContext.getHttpServletRequest();
 		final UserPrincipal userPrincipal = (UserPrincipal) messageContext.getSecurityContext().getUserPrincipal();
 		final GetUseridImpl impl = new GetUseridImpl();
 		final String userid = (String) otherParameters.get(USERID_KEY);
@@ -1759,7 +1759,7 @@ public class CprApi implements CprApiInterface {
 	private Response execGetPerson(final String identifierType, final String identifier,
 			final String requestedBy, final Map<String, Object> otherParameters) {
 		
-		final HttpServletRequest request = (HttpServletRequest) messageContext.getHttpServletRequest();
+		final HttpServletRequest request = messageContext.getHttpServletRequest();
 		final UserPrincipal userPrincipal = (UserPrincipal) messageContext.getSecurityContext().getUserPrincipal();
 		final GetPersonImpl impl = new GetPersonImpl();
 		

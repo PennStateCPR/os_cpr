@@ -42,7 +42,7 @@ public class AuthorizationHandler implements RequestHandler {
 	 */
 	public Response handleRequest(Message message, ClassResourceInfo resourceClass) {
 		try {
-			AuthorizationPolicy policy = (AuthorizationPolicy) message.get(AuthorizationPolicy.class);
+			AuthorizationPolicy policy = message.get(AuthorizationPolicy.class);
 
 			final String username = policy.getUserName();
 			final String password = policy.getPassword();
