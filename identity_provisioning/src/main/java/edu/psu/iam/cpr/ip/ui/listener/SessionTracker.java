@@ -17,6 +17,7 @@ package edu.psu.iam.cpr.ip.ui.listener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,10 +29,10 @@ import javax.servlet.http.HttpSessionListener;
 
 import org.apache.log4j.Logger;
 
+import edu.psu.iam.cpr.core.ui.Pair;
 import edu.psu.iam.cpr.ip.ui.common.UIConstants;
 import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 import edu.psu.iam.cpr.ip.ui.valueobject.UserSession;
-import edu.psu.iam.cpr.ip.util.Pair;
 
 @WebListener("Accumulate and write-out performance data in milliseconds")
 public class SessionTracker implements HttpSessionListener 
@@ -116,9 +117,9 @@ public class SessionTracker implements HttpSessionListener
 	    activeUsers.remove(session.getId());
 	    
 	    // Output the performance timings to the log -- someone can later review them
-	    ArrayList<Pair<String, String>> performanceList = null; 
+	    List<Pair<String, String>> performanceList = null;
 	    performanceList =  (session.getAttribute(UIConstants.PERFORMANCE_DATA_KEY) == null) 
-	    		? new ArrayList<Pair<String, String>>() : (ArrayList<Pair<String, String>>)session.getAttribute(UIConstants.PERFORMANCE_DATA_KEY);
+	    		? new ArrayList<Pair<String, String>>() : (List<Pair<String, String>>)session.getAttribute(UIConstants.PERFORMANCE_DATA_KEY);
 	    	
 	    
 	    DecimalFormat df = new DecimalFormat("0000000");

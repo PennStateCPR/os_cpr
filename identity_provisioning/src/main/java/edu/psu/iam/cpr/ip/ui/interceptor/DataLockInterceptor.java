@@ -2,6 +2,7 @@
 package edu.psu.iam.cpr.ip.ui.interceptor;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -15,12 +16,12 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
 
+import edu.psu.iam.cpr.core.ui.Pair;
 import edu.psu.iam.cpr.ip.ui.action.BaseAction;
 import edu.psu.iam.cpr.ip.ui.common.UIConstants;
 import edu.psu.iam.cpr.ip.ui.exception.DataLockException;
 import edu.psu.iam.cpr.ip.ui.navigation.Navigation;
 import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
-import edu.psu.iam.cpr.ip.util.Pair;
 
 /**
  * DataLockInterceptor intercepts requests to return to pages which have been locked 
@@ -89,10 +90,10 @@ public class DataLockInterceptor implements Interceptor
 	 
 	    long endTime = System.currentTimeMillis();
 
-	    ArrayList<Pair<String, String>> performanceList = null; 
+	    List<Pair<String, String>> performanceList = null;
 	    performanceList =  (session.getAttribute(UIConstants.PERFORMANCE_DATA_KEY) == null) 
 	    		? new ArrayList<Pair<String, String>>() 
-	    		: (ArrayList<Pair<String, String>>)session.getAttribute(UIConstants.PERFORMANCE_DATA_KEY);
+	    		: (List<Pair<String, String>>)session.getAttribute(UIConstants.PERFORMANCE_DATA_KEY);
 	    Pair<String, String> timings = new Pair<String, String>(simpleClassName, Long.toString(endTime - startTime));
 	    performanceList.add(timings);
 

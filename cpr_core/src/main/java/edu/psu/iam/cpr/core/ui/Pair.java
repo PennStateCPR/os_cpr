@@ -2,6 +2,11 @@
 package edu.psu.iam.cpr.core.ui;
 
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
  * Pair is an object class for transporting the necessary key/value data from the database to the UI application
  * 
@@ -15,66 +20,79 @@ package edu.psu.iam.cpr.core.ui;
  * @lastrevision $Date: 2012-11-19 12:24:59 -0500 (Mon, 19 Nov 2012) $
  */
 
-public class Pair<K, V> {
-	
-	private K key;
-	private V value;
-	
-	public Pair() {
-		
-	}
+public class Pair<K, V> implements Serializable {
 
-	/**
-	* @param key key to be set
-	* @param value value to be set
-	*/
-	public Pair(final K key, final V value) {
+    private static final long serialVersionUID = -9154850640754470788L;
+    private K key;
+    private V value;
 
-		this.key = key;
-		this.value = value;
-	}
+    public Pair() {
 
-	/**
-	* @param key key to be set
-	* @param value value to be set
-	* @return this
-	*/
-	public Pair<K, V> setPair(final K key, final V value) {
-		this.key = key;
-		this.value = value;
-		return this;
-	}
+    }
 
-	/**
-	* @return key
-	*/
-	public K getKey() {
-		return key;
-	}
+    /**
+     * @param key key to be set
+     * @param value value to be set
+     */
+    public Pair(final K key, final V value) {
 
-	/**
-	* @param key key to be set
-	* @return this
-	*/
-	public Pair<K, V> setKey(final K key) {
-		this.key = key;
-		return this;
-	}
+        this.key = key;
+        this.value = value;
+    }
 
-	/**
-	* @return value
-	*/
-	public V getValue() {
-		return value;
-	}
+    /**
+     * @param key key to be set
+     * @param value value to be set
+     * @return this
+     */
+    public Pair<K, V> setPair(final K key, final V value) {
+        this.key = key;
+        this.value = value;
+        return this;
+    }
 
-	/**
-	* @param value value to be set
-	* @return this
-	*/
-	public Pair<K, V> setValue(final V value) {
-		this.value = value;
-		return this;
-	}
-	
+    /**
+     * @return key
+     */
+    public K getKey() {
+        return key;
+    }
+
+    /**
+     * @param key key to be set
+     * @return this
+     */
+    public Pair<K, V> setKey(final K key) {
+        this.key = key;
+        return this;
+    }
+
+    /**
+     * @return value
+     */
+    public V getValue() {
+        return value;
+    }
+
+    /**
+     * @param value value to be set
+     * @return this
+     */
+    public Pair<K, V> setValue(final V value) {
+        this.value = value;
+        return this;
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+    {
+        key   = (K)in.readObject();
+        value = (V)in.readObject();
+    }
+    private void writeObject(ObjectOutputStream out) throws IOException
+    {
+        out.writeObject(key);
+        out.writeObject(value);
+
+    }
+
 }
