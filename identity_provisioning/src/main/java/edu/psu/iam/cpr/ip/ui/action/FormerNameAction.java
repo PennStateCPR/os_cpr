@@ -6,8 +6,6 @@ package edu.psu.iam.cpr.ip.ui.action;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
-
 /**
  * @author jal55
  *
