@@ -32,9 +32,9 @@ public final class MapHelper
 	 * @return - A map consisting of only String objects with the original keys
 	 */
 	
-	public static HashMap genericObjToStringHashMap(Map<String, Object> argMap)
+	public static Map<String, String> genericObjToStringHashMap(Map<String, Object> argMap)
 	{
-		HashMap<String, String> resultMap = new HashMap<String, String>();
+		Map<String, String> resultMap = new HashMap<String, String>();
 		
 		Set<String> mapKeys = argMap.keySet();
 

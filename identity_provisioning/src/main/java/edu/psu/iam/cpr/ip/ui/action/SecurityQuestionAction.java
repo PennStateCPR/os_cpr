@@ -92,9 +92,9 @@ public class SecurityQuestionAction extends BaseAction
 		if(!returnLocation.equalsIgnoreCase(FAILURE))
 		{
 			/* Populate all '3' security questions */
-			ArrayList<Map<String,String>> securityQuestions = new ArrayList<Map<String, String>>();
+			List<Map<String,String>> securityQuestions = new ArrayList<Map<String, String>>();
 
-			securityQuestions = (ArrayList<Map<String, String>>) ((getApplicationMap().containsKey(UIConstants.IN_CORE_SECURITY_QUESTIONS)) 
+			securityQuestions = (List<Map<String, String>>) ((getApplicationMap().containsKey(UIConstants.IN_CORE_SECURITY_QUESTIONS))
 			                            ? getApplicationMap().get(UIConstants.IN_CORE_SECURITY_QUESTIONS)
 					                    : IdentityProvisioningDAO.loadSecurityQuestionsFromDb()); 
 
@@ -206,8 +206,8 @@ public class SecurityQuestionAction extends BaseAction
 
 				// update person
 				/* If the person was verify, and they have answered questions correctly -- then 'updatePerson' */
-				HashMap<String, String> argStringMap = MapHelper.genericObjToStringHashMap(getSessionMap());
-				HashMap<String, String> status = SoapClientIP.updatePerson(argStringMap, getUniqueId()); 
+				Map<String, String> argStringMap = MapHelper.genericObjToStringHashMap(getSessionMap());
+				Map<String, String> status = SoapClientIP.updatePerson(argStringMap, getUniqueId());
 				log.info(String.format("%s returnStatus from addPerson--> %s ", getUniqueId(), status));
 					
 				log.info(String.format("%s statuscode from addPerson[%s]", getUniqueId(), Integer.parseInt(status.get("statusCode"))));

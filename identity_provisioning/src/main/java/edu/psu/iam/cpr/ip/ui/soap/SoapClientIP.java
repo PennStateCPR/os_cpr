@@ -29,17 +29,6 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 import edu.psu.iam.cpr.core.api.returns.FindPersonServiceReturn;
 import edu.psu.iam.cpr.core.api.returns.PersonServiceReturn;
 import edu.psu.iam.cpr.core.api.returns.ServiceReturn;
-/**
- *
- * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To
- * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative
- * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
- *
- * @package edu.psu.iam.cpr.ip.ui.soap
- * @author $Author: slk24 $
- * @version $Rev: 5992 $
- * @lastrevision $Date: 2013-01-09 13:37:24 -0500 (Wed, 09 Jan 2013) $
- */
 
 /**
  *
@@ -337,7 +326,7 @@ public final class SoapClientIP {
 	 * @return The results will contain a statusCode (0 = success, 1 = warning, 3 = fatal) and statusMsg
 	 * @return If the add was successful, the ids (person, user, psu) that were created for the record are returned in the map
 	 */
-	public static Map<String, String> addPerson(HashMap<String, String> sessionData, String uniqueId) {
+	public static Map<String, String> addPerson(Map<String, String> sessionData, String uniqueId) {
 
 		// create the hashMap from the session data to send to add person
 		Map<String, String> addPerson = formatSessionData(sessionData);
@@ -394,10 +383,10 @@ public final class SoapClientIP {
 	 * @param sessionData contains the key-value pairs of the identity provisioning session data
 	 * @return The results will contain a statusCode (0 = success, 1 = warning, 3 = fatal) and statusMsg
 	 */
-	public static HashMap<String, String> updatePerson(HashMap<String, String> sessionData, String uniqueId) {
+	public static Map<String, String> updatePerson(Map<String, String> sessionData, String uniqueId) {
 
 		// create the hashMap from the session data to send to add person
-		HashMap<String, String> updatePerson = formatSessionData(sessionData);
+		Map<String, String> updatePerson = formatSessionData(sessionData);
 		
 		// Remove the request to assign person_id and PSU_id 
 		updatePerson.put(UIConstants.ASSIGN_PSU_ID,  "N");
@@ -471,9 +460,9 @@ public final class SoapClientIP {
 	 * @param sessionData contains the key-value pairs of the identity provisioning session data
 	 * @return true if the call was successful, false if not
 	 */
-	public static boolean addAddress(HashMap<String, String> sessionData) {
+	public static boolean addAddress(Map<String, String> sessionData) {
 
-		HashMap<String, String> addAddress = new HashMap<String, String>();
+		Map<String, String> addAddress = new HashMap<String, String>();
 		
 		addAddress.put(UIConstants.PRINCIPAL_ID, sessionData.get(UIConstants.RAC_PRINCIPAL_ID));
 		addAddress.put(UIConstants.PASSWORD, sessionData.get(UIConstants.RAC_PASSWORD));
@@ -484,7 +473,7 @@ public final class SoapClientIP {
 		addAddress.put(UIConstants.IDENTIFIER_TYPE, PERSON_ID);
 		addAddress.put("identifier", sessionData.get(SRV_PERSON_ID));
 
-		HashMap<String, String> formattedAddressData = formatAddressData(sessionData);
+		Map<String, String> formattedAddressData = formatAddressData(sessionData);
  
 		// Only call add address, if the required information is available
 		if (!formattedAddressData.isEmpty()) {
@@ -516,9 +505,9 @@ public final class SoapClientIP {
 	 * @param sessionData contains the key-value pairs of the identity provisioning session data
 	 * @return true if the call was successful, false if not
 	 */
-	public static boolean addPhone(HashMap<String, String> sessionData) {
+	public static boolean addPhone(Map<String, String> sessionData) {
 
-		HashMap<String, String> addPhone = new HashMap<String, String>();
+		Map<String, String> addPhone = new HashMap<String, String>();
 
 		addPhone.put(UIConstants.PRINCIPAL_ID, sessionData.get(UIConstants.RAC_PRINCIPAL_ID));
 		addPhone.put(UIConstants.PASSWORD, sessionData.get(UIConstants.RAC_PASSWORD));
@@ -529,7 +518,7 @@ public final class SoapClientIP {
 		addPhone.put(UIConstants.IDENTIFIER_TYPE, PERSON_ID);
 		addPhone.put("identifier", sessionData.get(SRV_PERSON_ID));
 
-		HashMap<String, String> formattedPhoneData = formatPhoneData(sessionData);
+		Map<String, String> formattedPhoneData = formatPhoneData(sessionData);
 		 
 		// Only call add phone, if the required information is available
 		if (!formattedPhoneData.isEmpty()) {
@@ -591,8 +580,8 @@ public final class SoapClientIP {
 	 * @param sessionData 
 	 * @return key-value hash of data reformatted for calling add or update person
 	 */
-	public static HashMap<String, String> formatSessionData(HashMap<String, String> sessionData) {
-		HashMap<String, String> formattedPersonData = new HashMap<String, String>();
+	public static Map<String, String> formatSessionData(Map<String, String> sessionData) {
+		Map<String, String> formattedPersonData = new HashMap<String, String>();
 
 		formattedPersonData.put(UIConstants.PRINCIPAL_ID, sessionData.get(UIConstants.RAC_PRINCIPAL_ID));
 		formattedPersonData.put(UIConstants.PASSWORD, sessionData.get(UIConstants.RAC_PASSWORD));
@@ -638,8 +627,8 @@ public final class SoapClientIP {
 	 * @param sessionData
 	 * @return if the required information is available, a key-value hash for add address, otherwise an empty hash
 	 */
-	public static HashMap<String, String> formatAddressData(HashMap<String, String> sessionData) {
-		HashMap<String, String> formattedAddressData = new HashMap<String, String>();
+	public static Map<String, String> formatAddressData(Map<String, String> sessionData) {
+		Map<String, String> formattedAddressData = new HashMap<String, String>();
 
 		// If the required elements are missing, return an empty map
 		if (!(mapValueIsEmpty(sessionData.get(UIConstants.CRA_ADDRESS_TYPE)) || mapValueIsEmpty(sessionData.get(UIConstants.CRA_ADDRESS_LINE1)) ||
@@ -679,8 +668,8 @@ public final class SoapClientIP {
 	 * @param sessionData
 	 * @return if the required information is available, a key-value hash for add phone, otherwise an empty hash
 	 */
-	public static HashMap<String, String> formatPhoneData(HashMap<String, String> sessionData) {
-		HashMap<String, String> formattedPhoneData = new HashMap<String, String>();
+	public static Map<String, String> formatPhoneData(Map<String, String> sessionData) {
+		Map<String, String> formattedPhoneData = new HashMap<String, String>();
 
 		// If the required elements are missing, return an empty map
 		if (!(mapValueIsEmpty(sessionData.get(UIConstants.CON_PHONE_TYPE)) || mapValueIsEmpty(sessionData.get(UIConstants.CON_PHONE_NUMBER)) ||
