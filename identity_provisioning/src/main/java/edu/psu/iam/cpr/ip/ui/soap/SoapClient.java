@@ -554,7 +554,7 @@ public final class SoapClient {
 		//Remove all entries with a value of empty string
 		Iterator<Entry<String,String>> hashIterator = addPerson.entrySet().iterator();
 		while (hashIterator.hasNext()) {
-			Entry<String, String> mapEntry = (Entry<String, String>)hashIterator.next();
+			Entry<String, String> mapEntry = hashIterator.next();
 			if (mapEntry.getValue() == null || mapEntry.getValue().trim().equals("")) {
 				cleansedHash.remove(mapEntry.getKey());
 			}

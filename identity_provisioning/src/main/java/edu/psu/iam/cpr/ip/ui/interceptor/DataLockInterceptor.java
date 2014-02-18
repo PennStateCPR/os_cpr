@@ -163,7 +163,7 @@ public class DataLockInterceptor implements Interceptor
 			return null;
 		}
 		// Option for a more eye-friendly session/Number
-		String simpleIdOption = (String)ctx.getInitParameter(UIConstants.TRANSACTION_ID_NUMBERING);
+		String simpleIdOption = ctx.getInitParameter(UIConstants.TRANSACTION_ID_NUMBERING);
 		if(FieldUtility.fieldIsPresent(simpleIdOption) && FieldUtility.isOptionYes(simpleIdOption))
 		{
 			return (String)session.getAttribute(UIConstants.SESSION_NEW_UNIQUE_ID); 

@@ -99,7 +99,7 @@ public class SessionTracker implements HttpSessionListener
 	    Map<String, UserSession>  activeUsers = (Map<String, UserSession>)ctx.getAttribute(ACTIVE_USERS);
 	    
 	    // When outputting, use the proper unique id:  sessionId, or simple unique Id
-	    String simpleIdOption = (String) ctx.getInitParameter(UIConstants.TRANSACTION_ID_NUMBERING);
+	    String simpleIdOption = ctx.getInitParameter(UIConstants.TRANSACTION_ID_NUMBERING);
 	    String uniqueId = "";
 	    String sessionId= session.getId();
 	    
