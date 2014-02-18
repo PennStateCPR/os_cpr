@@ -62,9 +62,8 @@ public class GetIdCardPrintEventImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Map<String,Object> otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		return (Object) new GetIdCardPrintEventApi().implementApi(serviceName, db, updatedBy, 
-				serviceCoreReturn, 
-				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
+		return new GetIdCardPrintEventApi().implementApi(serviceName, db, updatedBy,
+				serviceCoreReturn, otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 		
 	}
 
@@ -76,7 +75,7 @@ public class GetIdCardPrintEventImpl extends ExtendedBaseServiceImpl {
      */
 	@Override
 	public Object handleException(int statusCode, String statusMessage) {
-		return (Object) new IdCardPrintEventServiceReturn(statusCode, statusMessage);
+		return new IdCardPrintEventServiceReturn(statusCode, statusMessage);
 	}
 
 }

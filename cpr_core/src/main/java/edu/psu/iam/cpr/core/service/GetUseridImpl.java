@@ -61,9 +61,8 @@ public class GetUseridImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Map<String,Object> otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		return (Object) new GetUseridApi().implementApi(serviceName, db, updatedBy, 
-				serviceCoreReturn, 
-				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
+		return new GetUseridApi().implementApi(serviceName, db, updatedBy,
+				serviceCoreReturn, otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 
     /**
@@ -74,7 +73,7 @@ public class GetUseridImpl extends ExtendedBaseServiceImpl {
      */
 	@Override
 	public Object handleException(int statusCode, String statusMessage) {
-		return (Object) new UseridServiceReturn(statusCode, statusMessage);
+		return new UseridServiceReturn(statusCode, statusMessage);
 	}
 	
 }

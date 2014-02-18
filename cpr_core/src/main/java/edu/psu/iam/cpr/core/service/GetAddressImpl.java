@@ -61,9 +61,8 @@ public class GetAddressImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Map<String,Object> otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		return (Object) new GetAddressApi().implementApi(serviceName, db, updatedBy, 
-				serviceCoreReturn, 
-				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
+		return new GetAddressApi().implementApi(serviceName, db, updatedBy,
+				serviceCoreReturn, otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 		
 	}
 
@@ -75,6 +74,6 @@ public class GetAddressImpl extends ExtendedBaseServiceImpl {
 	 */
 	@Override
 	public Object handleException(int statusCode, String statusMessage) {
-		return (Object) new AddressServiceReturn(statusCode, statusMessage);
+		return new AddressServiceReturn(statusCode, statusMessage);
 	}
 }

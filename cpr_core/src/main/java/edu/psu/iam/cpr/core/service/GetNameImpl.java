@@ -63,9 +63,8 @@ public class GetNameImpl extends ExtendedBaseServiceImpl {
 			ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Map<String,Object> otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		return (Object) new GetNameApi().implementApi(serviceName, db, updatedBy, 
-				serviceCoreReturn, 
-				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
+		return new GetNameApi().implementApi(serviceName, db, updatedBy,
+				serviceCoreReturn, otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 
     /**
@@ -76,6 +75,6 @@ public class GetNameImpl extends ExtendedBaseServiceImpl {
      */
 	@Override
 	public Object handleException(int statusCode, String statusMessage) {
-		return (Object) new NamesServiceReturn(statusCode, statusMessage);
+		return new NamesServiceReturn(statusCode, statusMessage);
 	}
 }

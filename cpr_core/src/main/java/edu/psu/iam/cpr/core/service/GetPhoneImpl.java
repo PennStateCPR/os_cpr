@@ -60,9 +60,8 @@ public class GetPhoneImpl extends ExtendedBaseServiceImpl {
 	public Object runService(Database db, String serviceName,
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Map<String,Object> otherParameters) throws CprException, JMSException, JSONException, ParseException {
-		return (Object) new GetPhoneApi().implementApi(serviceName, db, updatedBy, 
-				serviceCoreReturn, 
-				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
+		return new GetPhoneApi().implementApi(serviceName, db, updatedBy,
+				serviceCoreReturn, otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 	
     /**
@@ -73,6 +72,6 @@ public class GetPhoneImpl extends ExtendedBaseServiceImpl {
      */
 	@Override
 	public Object handleException(int statusCode, String statusMessage) {
-		return (Object) new PhoneServiceReturn(statusCode, statusMessage);
+		return new PhoneServiceReturn(statusCode, statusMessage);
 	}
 }

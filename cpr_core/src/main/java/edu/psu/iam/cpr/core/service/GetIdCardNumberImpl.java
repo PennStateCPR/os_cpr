@@ -60,9 +60,8 @@ public class GetIdCardNumberImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Map<String,Object> otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		return (Object) new GetIdCardNumberApi().implementApi(serviceName, db, updatedBy, 
-				serviceCoreReturn, 
-				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
+		return new GetIdCardNumberApi().implementApi(serviceName, db, updatedBy,
+				serviceCoreReturn, otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 
     /**
@@ -73,6 +72,6 @@ public class GetIdCardNumberImpl extends ExtendedBaseServiceImpl {
      */
 	@Override
 	public Object handleException(int statusCode, String statusMessage) {
-		return (Object) new PersonIdCardNumberServiceReturn(statusCode, statusMessage);
+		return new PersonIdCardNumberServiceReturn(statusCode, statusMessage);
 	}
 }

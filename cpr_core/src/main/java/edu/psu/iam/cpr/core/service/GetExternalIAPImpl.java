@@ -60,9 +60,8 @@ public class GetExternalIAPImpl extends ExtendedBaseServiceImpl {
 			Logger log4jLogger, ServiceHelper serviceHelper, ServiceCoreReturn serviceCoreReturn, String updatedBy, 
 			Map<String,Object> otherParameters) throws CprException, JMSException, JSONException, ParseException {
 		
-		return (Object) new GetExternalIAPApi().implementApi(serviceName, db, updatedBy, 
-				serviceCoreReturn, 
-				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
+		return new GetExternalIAPApi().implementApi(serviceName, db, updatedBy,
+				serviceCoreReturn, otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 	
 	
@@ -74,6 +73,6 @@ public class GetExternalIAPImpl extends ExtendedBaseServiceImpl {
      */
 	@Override
 	public Object handleException(int statusCode, String statusMessage) {
-		return (Object) new IAPServiceReturn(statusCode, statusMessage);
+		return new IAPServiceReturn(statusCode, statusMessage);
 	}
 }

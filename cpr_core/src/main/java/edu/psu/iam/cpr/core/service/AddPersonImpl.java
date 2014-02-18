@@ -60,9 +60,8 @@ public class AddPersonImpl extends ExtendedBaseServiceImpl {
 			Map<String,Object> otherParameters) throws CprException, JSONException,
 			JMSException, ParseException {
 		
-		return (Object) new AddPersonApi().implementApi(serviceName, db, updatedBy, 
-				serviceCoreReturn, 
-				otherParameters, ApiHelper.DO_AUTHZ_CHECK);
+		return new AddPersonApi().implementApi(serviceName, db, updatedBy,
+				serviceCoreReturn, otherParameters, ApiHelper.DO_AUTHZ_CHECK);
 	}
 
 
@@ -74,7 +73,7 @@ public class AddPersonImpl extends ExtendedBaseServiceImpl {
 	 */
 	@Override
 	public Object handleException(int statusCode, String statusMessage) {
-		return (Object) new PersonServiceReturn(statusCode, statusMessage);
+		return new PersonServiceReturn(statusCode, statusMessage);
 	}
 
 }
