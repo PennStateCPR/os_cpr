@@ -105,9 +105,7 @@ public class CprApi implements CprApiInterface {
 	/** 
 	 * 
 	 * Implementation for service SearchForPerson
-	 * 
-	 * @param principalId The principal requesting the service. Mandatory.
-	 * @param password The password for principalId. Mandatory.
+	 *
 	 * @param requestedBy The user requesting the service. Mandatory.
 	 * @param psuId The Penn State id number of the user to be found. Optional.
 	 * @param userId The userId of the user to be found. Optional.
