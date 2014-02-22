@@ -122,6 +122,11 @@ public class UtilityTest {
     }
 
     @Test
+    public final void _83testIsOptionYes9() {
+        AssertJUnit.assertFalse(Utility.isOptionYes(null));
+    }
+
+    @Test
     public final void _82testIsOptionNo1() {
         AssertJUnit.assertTrue(Utility.isOptionNo("no"));
     }
@@ -155,6 +160,11 @@ public class UtilityTest {
     @Test
     public final void _82testIsOptionNo8() {
         AssertJUnit.assertFalse(Utility.isOptionNo("fOoBar"));
+    }
+
+    @Test
+    public final void _83testIsOptionNo9() {
+        AssertJUnit.assertFalse(Utility.isOptionNo(null));
     }
 
     @Test
