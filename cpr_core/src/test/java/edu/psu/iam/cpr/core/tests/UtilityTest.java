@@ -207,7 +207,7 @@ public class UtilityTest {
 
     @Test
     public final void _86testFieldIsPresent() {
-        AssertJUnit.assertFalse(Utility.fieldIsPresent(null));
+        AssertJUnit.assertFalse(Utility.fieldIsPresent((String[])null));
         AssertJUnit.assertFalse(Utility.fieldIsPresent("foo", null, "bar"));
         AssertJUnit.assertTrue(Utility.fieldIsPresent("foo"));
         AssertJUnit.assertTrue(Utility.fieldIsPresent(new String[] {}));
@@ -216,7 +216,7 @@ public class UtilityTest {
 
     @Test
     public final void _87testFieldIsNotPresent() {
-        AssertJUnit.assertTrue(Utility.fieldIsNotPresent(null));
+        AssertJUnit.assertTrue(Utility.fieldIsNotPresent((String[])null));
         AssertJUnit.assertTrue(Utility.fieldIsNotPresent("foo", null, "bar"));
         AssertJUnit.assertFalse(Utility.fieldIsNotPresent("foo"));
         AssertJUnit.assertFalse(Utility.fieldIsNotPresent(new String[]{}));
