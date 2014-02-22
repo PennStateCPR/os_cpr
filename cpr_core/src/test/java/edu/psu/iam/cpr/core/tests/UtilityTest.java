@@ -18,6 +18,7 @@ package edu.psu.iam.cpr.core.tests;
 
 
 
+import edu.psu.iam.cpr.core.database.types.GenderType;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 import java.util.Date;
@@ -154,6 +155,42 @@ public class UtilityTest {
     @Test
     public final void _82testIsOptionNo8() {
         AssertJUnit.assertFalse(Utility.isOptionNo("fOoBar"));
+    }
+
+    @Test
+    public final void _83testGenderNull() {
+        AssertJUnit.assertNull(Utility.genderStringToType(null));
+    }
+
+    @Test
+    public final void _83testGenderFemale() {
+        AssertJUnit.assertEquals(GenderType.GENDER_FEMALE, Utility.genderStringToType("F"));
+        AssertJUnit.assertEquals(GenderType.GENDER_FEMALE, Utility.genderStringToType("f"));
+        AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("Female"));
+        AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("female"));
+
+    }
+
+    @Test
+    public final void _83testGenderMale() {
+        AssertJUnit.assertEquals(GenderType.GENDER_MALE, Utility.genderStringToType("M"));
+        AssertJUnit.assertEquals(GenderType.GENDER_MALE, Utility.genderStringToType("m"));
+        AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("Male"));
+        AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("male"));
+
+    }
+
+    @Test
+    public final void _83testGenderOther() {
+        AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("O"));
+        AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("o"));
+        AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("Other"));
+        AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("other"));
+    }
+
+    @Test
+    public final void _83testGenderDefault() {
+        AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("foobar"));
     }
 
     @Test
