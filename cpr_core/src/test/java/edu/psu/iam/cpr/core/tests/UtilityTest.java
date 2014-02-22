@@ -21,7 +21,9 @@ package edu.psu.iam.cpr.core.tests;
 import edu.psu.iam.cpr.core.database.types.GenderType;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import edu.psu.iam.cpr.core.util.Utility;
 
@@ -255,6 +257,22 @@ public class UtilityTest {
     @Test
     public final void _91testFormatLong() {
         AssertJUnit.assertEquals("9,223,372,036,854,775,807", Utility.formatLong(Long.MAX_VALUE));
+    }
+
+    @Test
+    public final void _92testGetNameTokens() {
+        final List<String> emptyList = new ArrayList<String>();
+        final List<String> populatedList = new ArrayList<String>();
+
+        AssertJUnit.assertTrue(populatedList.add("foo"));
+        AssertJUnit.assertTrue(populatedList.add("bar"));
+        AssertJUnit.assertTrue(populatedList.add("baz"));
+
+        AssertJUnit.assertEquals(emptyList, Utility.getNameTokens(null));
+        AssertJUnit.assertEquals(emptyList, Utility.getNameTokens(""));
+        AssertJUnit.assertEquals(populatedList, Utility.getNameTokens("foo,bar,baz"));
+        AssertJUnit.assertEquals(populatedList, Utility.getNameTokens("foo, bar, baz"));
+        AssertJUnit.assertEquals(populatedList, Utility.getNameTokens("foo,      bar,  baz"));
     }
 
     @Test

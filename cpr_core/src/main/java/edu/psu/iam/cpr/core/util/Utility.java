@@ -231,11 +231,11 @@ public final class Utility {
     public static List<String> getNameTokens(final String names) {
         List<String> listNames = new ArrayList<String>();
         if (fieldIsPresent(names)) {
-            String[] tokens = names.split(",");
-
-            for (String token : tokens) {
-                if (token.trim().length() > 0) {
-                    listNames.add(token);
+            StringTokenizer stkn = new StringTokenizer(names, " ,");
+            while (stkn.hasMoreTokens()) {
+                String aName = stkn.nextToken();
+                if (aName.trim().length() > 0) {
+                    listNames.add(aName);
                 }
             }
         }
