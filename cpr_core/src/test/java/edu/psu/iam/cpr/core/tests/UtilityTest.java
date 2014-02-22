@@ -156,4 +156,118 @@ public class UtilityTest {
         AssertJUnit.assertFalse(Utility.isOptionNo("fOoBar"));
     }
 
+    @Test
+    public void testMayBeIPv6Address() {
+        AssertJUnit.assertFalse(Utility.mayBeIPv6Address(null));
+
+        AssertJUnit.assertTrue(Utility.mayBeIPv6Address("::1"));
+        AssertJUnit.assertTrue(Utility.mayBeIPv6Address("::"));
+        AssertJUnit.assertTrue(Utility.mayBeIPv6Address("2001:db8:0:0:1:0:0:1"));
+
+        AssertJUnit.assertFalse(Utility.mayBeIPv6Address(""));
+        AssertJUnit.assertFalse(Utility.mayBeIPv6Address(":1"));
+        AssertJUnit.assertFalse(Utility.mayBeIPv6Address("123.123.123.123"));
+        AssertJUnit.assertFalse(Utility.mayBeIPv6Address("tomcat.eu.apache.org:443"));
+    }
+
+    @Test
+    public void testcanonicalizeAddress() {
+        AssertJUnit.assertNull(Utility.canonicalizeAddress(null));
+        AssertJUnit.assertEquals("", Utility.canonicalizeAddress(""));
+
+        // IPv4-safe
+        AssertJUnit.assertEquals("123.123.123.123", Utility.canonicalizeAddress("123.123.123.123"));
+        AssertJUnit.assertEquals("123.1.2.23", Utility.canonicalizeAddress("123.1.2.23"));
+
+        // Introductory RFC 5952 examples
+        AssertJUnit.assertEquals("2001:db8::1:0:0:1", Utility.canonicalizeAddress("2001:db8:0:0:1:0:0:1"));
+        AssertJUnit.assertEquals("2001:db8::1:0:0:1", Utility.canonicalizeAddress("2001:0db8:0:0:1:0:0:1"));
+        AssertJUnit.assertEquals("2001:db8::1:0:0:1", Utility.canonicalizeAddress("2001:db8::1:0:0:1"));
+        AssertJUnit.assertEquals("2001:db8::1:0:0:1", Utility.canonicalizeAddress("2001:db8::0:1:0:0:1"));
+        AssertJUnit.assertEquals("2001:db8::1:0:0:1", Utility.canonicalizeAddress("2001:0db8::1:0:0:1"));
+        AssertJUnit.assertEquals("2001:db8::1:0:0:1", Utility.canonicalizeAddress("2001:db8:0:0:1::1"));
+        AssertJUnit.assertEquals("2001:db8::1:0:0:1", Utility.canonicalizeAddress("2001:db8:0000:0:1::1"));
+        AssertJUnit.assertEquals("2001:db8::1:0:0:1", Utility.canonicalizeAddress("2001:DB8:0:0:1::1"));
+
+        // Strip leading zeros (2.1)
+        AssertJUnit.assertEquals("2001:db8:aaaa:bbbb:cccc:dddd:eeee:1", Utility.canonicalizeAddress("2001:db8:aaaa:bbbb:cccc:dddd:eeee:0001"));
+        AssertJUnit.assertEquals("2001:db8:aaaa:bbbb:cccc:dddd:eeee:1", Utility.canonicalizeAddress("2001:db8:aaaa:bbbb:cccc:dddd:eeee:001"));
+        AssertJUnit.assertEquals("2001:db8:aaaa:bbbb:cccc:dddd:eeee:1", Utility.canonicalizeAddress("2001:db8:aaaa:bbbb:cccc:dddd:eeee:01"));
+        AssertJUnit.assertEquals("2001:db8:aaaa:bbbb:cccc:dddd:eeee:1", Utility.canonicalizeAddress("2001:db8:aaaa:bbbb:cccc:dddd:eeee:1"));
+
+        // Zero compression (2.2)
+        AssertJUnit.assertEquals("2001:db8:aaaa:bbbb:cccc:dddd:0:1", Utility.canonicalizeAddress("2001:db8:aaaa:bbbb:cccc:dddd::1"));
+        AssertJUnit.assertEquals("2001:db8:aaaa:bbbb:cccc:dddd:0:1", Utility.canonicalizeAddress("2001:db8:aaaa:bbbb:cccc:dddd:0:1"));
+
+        AssertJUnit.assertEquals("2001:db8::1", Utility.canonicalizeAddress("2001:db8:0:0:0::1"));
+        AssertJUnit.assertEquals("2001:db8::1", Utility.canonicalizeAddress("2001:db8:0:0::1"));
+        AssertJUnit.assertEquals("2001:db8::1", Utility.canonicalizeAddress("2001:db8:0::1"));
+        AssertJUnit.assertEquals("2001:db8::1", Utility.canonicalizeAddress("2001:db8::1"));
+
+        AssertJUnit.assertEquals("2001:db8::aaaa:0:0:1", Utility.canonicalizeAddress("2001:db8::aaaa:0:0:1"));
+        AssertJUnit.assertEquals("2001:db8::aaaa:0:0:1", Utility.canonicalizeAddress("2001:db8:0:0:aaaa::1"));
+
+        // Uppercase or lowercase (2.3)
+        AssertJUnit.assertEquals("2001:db8:aaaa:bbbb:cccc:dddd:eeee:aaaa", Utility.canonicalizeAddress("2001:db8:aaaa:bbbb:cccc:dddd:eeee:aaaa"));
+        AssertJUnit.assertEquals("2001:db8:aaaa:bbbb:cccc:dddd:eeee:aaaa", Utility.canonicalizeAddress("2001:db8:aaaa:bbbb:cccc:dddd:eeee:AAAA"));
+        AssertJUnit.assertEquals("2001:db8:aaaa:bbbb:cccc:dddd:eeee:aaaa", Utility.canonicalizeAddress("2001:db8:aaaa:bbbb:cccc:dddd:eeee:AaAa"));
+
+        // Some more zero compression for localhost addresses
+        AssertJUnit.assertEquals("::1", Utility.canonicalizeAddress("0:0:0:0:0:0:0:1"));
+        AssertJUnit.assertEquals("::1", Utility.canonicalizeAddress("0000:0:0:0:0:0:0:0001"));
+        AssertJUnit.assertEquals("::1", Utility.canonicalizeAddress("00:00:0:0:00:00:0:01"));
+        AssertJUnit.assertEquals("::1", Utility.canonicalizeAddress("::0001"));
+        AssertJUnit.assertEquals("::1", Utility.canonicalizeAddress("::1"));
+
+        // IPv6 unspecified address
+        AssertJUnit.assertEquals("::", Utility.canonicalizeAddress("0:0:0:0:0:0:0:0"));
+        AssertJUnit.assertEquals("::", Utility.canonicalizeAddress("0000:0:0:0:0:0:0:0000"));
+        AssertJUnit.assertEquals("::", Utility.canonicalizeAddress("00:00:0:0:00:00:0:00"));
+        AssertJUnit.assertEquals("::", Utility.canonicalizeAddress("::0000"));
+        AssertJUnit.assertEquals("::", Utility.canonicalizeAddress("::0"));
+        AssertJUnit.assertEquals("::", Utility.canonicalizeAddress("::"));
+
+        // Leading zeros (4.1)
+        AssertJUnit.assertEquals("2001:db8::1", Utility.canonicalizeAddress("2001:0db8::0001"));
+
+        // Shorten as much as possible (4.2.1)
+        AssertJUnit.assertEquals("2001:db8::2:1", Utility.canonicalizeAddress("2001:db8:0:0:0:0:2:1"));
+        AssertJUnit.assertEquals("2001:db8::", Utility.canonicalizeAddress("2001:db8:0:0:0:0:0:0"));
+
+        // Handling One 16-Bit 0 Field (4.2.2)
+        AssertJUnit.assertEquals("2001:db8:0:1:1:1:1:1", Utility.canonicalizeAddress("2001:db8:0:1:1:1:1:1"));
+        AssertJUnit.assertEquals("2001:db8:0:1:1:1:1:1", Utility.canonicalizeAddress("2001:db8::1:1:1:1:1"));
+
+        // Choice in Placement of "::" (4.2.3)
+        AssertJUnit.assertEquals("2001:0:0:1::1", Utility.canonicalizeAddress("2001:0:0:1:0:0:0:1"));
+        AssertJUnit.assertEquals("2001:db8::1:0:0:1", Utility.canonicalizeAddress("2001:db8:0:0:1:0:0:1"));
+
+        // IPv4 inside IPv6
+        AssertJUnit.assertEquals("::ffff:192.0.2.1", Utility.canonicalizeAddress("::ffff:192.0.2.1"));
+        AssertJUnit.assertEquals("::ffff:192.0.2.1", Utility.canonicalizeAddress("0:0:0:0:0:ffff:192.0.2.1"));
+        AssertJUnit.assertEquals("::192.0.2.1", Utility.canonicalizeAddress("::192.0.2.1"));
+        AssertJUnit.assertEquals("::192.0.2.1", Utility.canonicalizeAddress("0:0:0:0:0:0:192.0.2.1"));
+
+        // Zone ID
+        AssertJUnit.assertEquals("fe80::f0f0:c0c0:1919:1234%4", Utility.canonicalizeAddress("fe80::f0f0:c0c0:1919:1234%4"));
+        AssertJUnit.assertEquals("fe80::f0f0:c0c0:1919:1234%4", Utility.canonicalizeAddress("fe80:0:0:0:f0f0:c0c0:1919:1234%4"));
+
+        AssertJUnit.assertEquals("::%4", Utility.canonicalizeAddress("::%4"));
+        AssertJUnit.assertEquals("::%4", Utility.canonicalizeAddress("::0%4"));
+        AssertJUnit.assertEquals("::%4", Utility.canonicalizeAddress("0:0::0%4"));
+        AssertJUnit.assertEquals("::%4", Utility.canonicalizeAddress("0:0:0:0:0:0:0:0%4"));
+
+        AssertJUnit.assertEquals("::1%4", Utility.canonicalizeAddress("::1%4"));
+        AssertJUnit.assertEquals("::1%4", Utility.canonicalizeAddress("0:0::1%4"));
+        AssertJUnit.assertEquals("::1%4", Utility.canonicalizeAddress("0:0:0:0:0:0:0:1%4"));
+
+        AssertJUnit.assertEquals("::1%eth0", Utility.canonicalizeAddress("::1%eth0"));
+        AssertJUnit.assertEquals("::1%eth0", Utility.canonicalizeAddress("0:0::1%eth0"));
+        AssertJUnit.assertEquals("::1%eth0", Utility.canonicalizeAddress("0:0:0:0:0:0:0:1%eth0"));
+
+        // Hostname safety
+        AssertJUnit.assertEquals("www.apache.org", Utility.canonicalizeAddress("www.apache.org"));
+        AssertJUnit.assertEquals("ipv6.google.com", Utility.canonicalizeAddress("ipv6.google.com"));
+    }
+
 }
