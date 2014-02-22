@@ -22,6 +22,7 @@ import edu.psu.iam.cpr.core.database.types.GenderType;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -275,6 +276,40 @@ public class UtilityTest {
         AssertJUnit.assertEquals(populatedList, Utility.getNameTokens("foo,bar,baz"));
         AssertJUnit.assertEquals(populatedList, Utility.getNameTokens("foo, bar, baz"));
         AssertJUnit.assertEquals(populatedList, Utility.getNameTokens("foo,      bar,  baz"));
+    }
+
+    @Test
+    public void _93testMakeStartDate() {
+        final Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2014);
+        cal.set(Calendar.MONTH, Calendar.FEBRUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+
+        final Calendar endCal = Calendar.getInstance();
+        endCal.setTime(cal.getTime());
+        endCal.set(Calendar.HOUR_OF_DAY, 0);
+        endCal.set(Calendar.MINUTE, 0);
+        endCal.set(Calendar.SECOND, 0);
+        endCal.set(Calendar.MILLISECOND, 0);
+
+        AssertJUnit.assertEquals(0, endCal.getTime().compareTo(Utility.makeStartDate(cal.getTime())));
+    }
+
+    @Test
+    public void _94testMakeEndDate() {
+        final Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2014);
+        cal.set(Calendar.MONTH, Calendar.FEBRUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+
+        final Calendar endCal = Calendar.getInstance();
+        endCal.setTime(cal.getTime());
+        endCal.set(Calendar.HOUR_OF_DAY, 23);
+        endCal.set(Calendar.MINUTE, 59);
+        endCal.set(Calendar.SECOND, 59);
+        endCal.set(Calendar.MILLISECOND, 0);
+
+        AssertJUnit.assertEquals(0, endCal.getTime().compareTo(Utility.makeEndDate(cal.getTime())));
     }
 
     @Test
