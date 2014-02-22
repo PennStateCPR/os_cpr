@@ -163,6 +163,10 @@ public final class Utility {
       /* false means at least one field is null or empty
        * true  means all fields have real data 
        */
+        if (names == null) {
+            return false;
+        }
+
         boolean isPresent = true;
 
         // All fields must be present

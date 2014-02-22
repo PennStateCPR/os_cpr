@@ -194,6 +194,36 @@ public class UtilityTest {
     }
 
     @Test
+    public final void _84testSafeConvertLongToString() {
+        AssertJUnit.assertNull(Utility.safeConvertLongToString(null));
+        AssertJUnit.assertEquals("9223372036854775807", Utility.safeConvertLongToString(Long.MAX_VALUE));
+    }
+
+    @Test
+    public final void _85testSafeConvertStringToLong() {
+        AssertJUnit.assertEquals(new Long(-1L), Utility.safeConvertStringToLong(null));
+        AssertJUnit.assertEquals(new Long(Long.MAX_VALUE), Utility.safeConvertStringToLong("9223372036854775807"));
+    }
+
+    @Test
+    public final void _86testFieldIsPresent() {
+        AssertJUnit.assertFalse(Utility.fieldIsPresent(null));
+        AssertJUnit.assertFalse(Utility.fieldIsPresent("foo", null, "bar"));
+        AssertJUnit.assertTrue(Utility.fieldIsPresent("foo"));
+        AssertJUnit.assertTrue(Utility.fieldIsPresent(new String[] {}));
+        AssertJUnit.assertTrue(Utility.fieldIsPresent(new String[] {"foo", "bar", "baz"}));
+    }
+
+    @Test
+    public final void _87testFieldIsNotPresent() {
+        AssertJUnit.assertTrue(Utility.fieldIsNotPresent(null));
+        AssertJUnit.assertTrue(Utility.fieldIsNotPresent("foo", null, "bar"));
+        AssertJUnit.assertFalse(Utility.fieldIsNotPresent("foo"));
+        AssertJUnit.assertFalse(Utility.fieldIsNotPresent(new String[]{}));
+        AssertJUnit.assertFalse(Utility.fieldIsNotPresent(new String[]{"foo", "bar", "baz"}));
+    }
+
+    @Test
     public void testMayBeIPv6Address() {
         AssertJUnit.assertFalse(Utility.mayBeIPv6Address(null));
 
