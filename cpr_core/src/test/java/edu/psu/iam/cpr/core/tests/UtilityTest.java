@@ -234,6 +234,30 @@ public class UtilityTest {
     }
 
     @Test
+    public final void _88testConvertStringToInt() {
+        AssertJUnit.assertEquals(0, Utility.convertStringToInt(null));
+        AssertJUnit.assertEquals(0, Utility.convertStringToInt("foo"));
+        AssertJUnit.assertEquals(Integer.MAX_VALUE, Utility.convertStringToInt("2147483647"));
+    }
+
+    @Test
+    public final void _89testIntegerOrDefault() {
+        AssertJUnit.assertEquals(0, Utility.integerOrDefault(null, 0));
+        AssertJUnit.assertEquals(0, Utility.integerOrDefault("foo", 0));
+        AssertJUnit.assertEquals(Integer.MAX_VALUE, Utility.integerOrDefault("2147483647", 0));
+    }
+
+    @Test
+    public final void _90testFormatInt() {
+        AssertJUnit.assertEquals("2,147,483,647", Utility.formatInt(Integer.MAX_VALUE));
+    }
+
+    @Test
+    public final void _91testFormatLong() {
+        AssertJUnit.assertEquals("9,223,372,036,854,775,807", Utility.formatLong(Long.MAX_VALUE));
+    }
+
+    @Test
     public void testMayBeIPv6Address() {
         AssertJUnit.assertFalse(Utility.mayBeIPv6Address(null));
 
