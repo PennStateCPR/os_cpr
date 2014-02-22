@@ -83,4 +83,77 @@ public class UtilityTest {
 		Long l2 = 1L;
 		AssertJUnit.assertTrue(Utility.areLongFieldsEqual(l1,l2));
 	}
+
+    @Test
+    public final void _82testIsOptionYes1() {
+        AssertJUnit.assertTrue(Utility.isOptionYes("yes"));
+    }
+
+    @Test
+    public final void _82testIsOptionYes2() {
+        AssertJUnit.assertTrue(Utility.isOptionYes("Yes"));
+    }
+    @Test
+    public final void _82testIsOptionYes3() {
+        AssertJUnit.assertTrue(Utility.isOptionYes("YES"));
+    }
+    @Test
+    public final void _82testIsOptionYes4() {
+        AssertJUnit.assertTrue(Utility.isOptionYes("y"));
+    }
+    @Test
+    public final void _82testIsOptionYes5() {
+        AssertJUnit.assertTrue(Utility.isOptionYes("Y"));
+    }
+    @Test
+    public final void _82testIsOptionYes6() {
+        AssertJUnit.assertTrue(Utility.isOptionYes("yE"));
+    }
+
+    @Test
+    public final void _82testIsOptionYes7() {
+        AssertJUnit.assertFalse(Utility.isOptionYes("No"));
+    }
+
+    @Test
+    public final void _82testIsOptionYes8() {
+        AssertJUnit.assertFalse(Utility.isOptionYes("fOoBar"));
+    }
+
+    @Test
+    public final void _82testIsOptionNo1() {
+        AssertJUnit.assertTrue(Utility.isOptionNo("no"));
+    }
+
+    @Test
+    public final void _82testIsOptionNo2() {
+        AssertJUnit.assertTrue(Utility.isOptionNo("No"));
+    }
+    @Test
+    public final void _82testIsOptionNo3() {
+        AssertJUnit.assertTrue(Utility.isOptionNo("NO"));
+    }
+    @Test
+    public final void _82testIsOptionNo4() {
+        AssertJUnit.assertTrue(Utility.isOptionNo("n"));
+    }
+    @Test
+    public final void _82testIsOptionNo5() {
+        AssertJUnit.assertTrue(Utility.isOptionNo("N"));
+    }
+    @Test
+    public final void _82testIsOptionNo6() {
+        AssertJUnit.assertTrue(Utility.isOptionNo("nO"));
+    }
+
+    @Test
+    public final void _82testIsOptionNo7() {
+        AssertJUnit.assertFalse(Utility.isOptionNo("Yes"));
+    }
+
+    @Test
+    public final void _82testIsOptionNo8() {
+        AssertJUnit.assertFalse(Utility.isOptionNo("fOoBar"));
+    }
+
 }
