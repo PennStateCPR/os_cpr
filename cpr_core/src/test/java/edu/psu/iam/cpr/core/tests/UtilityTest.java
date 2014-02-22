@@ -31,12 +31,14 @@ public class UtilityTest {
 
 	@Test
 	public final void testConvertDateToString() {
+        AssertJUnit.assertEquals(null, Utility.convertDateToString(null));
 		Utility.convertDateToString(new Date());
 	}
 
 	@Test
 	public final void testConvertTimestampToString() {
-		Utility.convertTimestampToString(new Date());
+        AssertJUnit.assertEquals(null, Utility.convertTimestampToString(null));
+        Utility.convertTimestampToString(new Date());
 	}
 
 	@Test
