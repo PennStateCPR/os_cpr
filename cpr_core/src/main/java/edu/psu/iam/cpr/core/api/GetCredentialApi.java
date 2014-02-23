@@ -68,7 +68,7 @@ public class GetCredentialApi extends ExtendedBaseApi {
 		// Do the query from the database.
 		final CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, personId, 
 																	updatedBy, credentialType, returnHistory);
-		final CredentialReturn queryResults[] = credentialTable.getCredentialForPersonId(db, personId);
+		final CredentialReturn[] queryResults = credentialTable.getCredentialForPersonId(db, personId);
 		
 		// Build the return class.
 		return new CredentialServiceReturn(ReturnType.SUCCESS.index(), ApiHelper.SUCCESS_MESSAGE, queryResults, 

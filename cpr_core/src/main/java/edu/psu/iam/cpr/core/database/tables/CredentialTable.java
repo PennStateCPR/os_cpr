@@ -335,7 +335,7 @@ public class CredentialTable {
 
 		// Perform the query.
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			CredentialReturn credentialReturn = new CredentialReturn();
 
 			credentialReturn.setCredentialType(CredentialType.get((Long) res[CREDENTIAL_TYPE]).toString());			

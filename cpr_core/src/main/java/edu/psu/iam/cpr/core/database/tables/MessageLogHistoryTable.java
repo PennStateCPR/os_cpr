@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -131,7 +132,7 @@ public class MessageLogHistoryTable {
 	public MessageLogHistoryReturn[] getMessageLogHistory(final Database db, final String messageId) {
 		
 		// Init some variables.
-		final ArrayList<MessageLogHistoryReturn> results = new ArrayList<MessageLogHistoryReturn>();
+		final List<MessageLogHistoryReturn> results = new ArrayList<MessageLogHistoryReturn>();
 		final Session session = db.getSession();
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 
@@ -164,7 +165,7 @@ public class MessageLogHistoryTable {
 		while (it.hasNext()) {
 
 			// For each result, store its value in the return class.
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 
 			MessageLogHistoryReturn msgLogHistory = new MessageLogHistoryReturn();
 			msgLogHistory.setMessageId(messageId);

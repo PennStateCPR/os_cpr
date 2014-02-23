@@ -103,7 +103,7 @@ public class CountryTable {
 		final Iterator<?> it = query.list().iterator();
 
 		if (it.hasNext()) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			bean.setCountryKey((Long) res[0]);
 			bean.setCountry((String) res[1]);
 			found = true;

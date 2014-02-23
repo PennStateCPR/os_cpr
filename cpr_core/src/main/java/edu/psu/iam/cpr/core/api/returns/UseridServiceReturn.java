@@ -34,7 +34,7 @@ public class UseridServiceReturn {
 	private String statusMessage;
 	
 	/** Contains an array of userid returns.  Only has a value as the result of executing a get. */
-	private UseridReturn useridReturnRecord[] = null;
+	private UseridReturn[] useridReturnRecord = null;
 	
 	/** Contains the number of elements in the array. */
 	private int numberElements = 0;
@@ -113,7 +113,7 @@ public class UseridServiceReturn {
 	/**
 	 * @param useridReturnArray the useridReturnRecord to set
 	 */
-	public void setUseridReturnRecord(UseridReturn[] useridReturnArray) {
+	public void setUseridReturnRecord(final UseridReturn[] useridReturnArray) {
 		if (useridReturnArray != null) {
 			this.useridReturnRecord = Arrays.copyOf(useridReturnArray, useridReturnArray.length);
 		}

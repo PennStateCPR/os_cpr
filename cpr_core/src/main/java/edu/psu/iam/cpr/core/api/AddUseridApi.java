@@ -73,7 +73,7 @@ public class AddUseridApi extends ExtendedBaseApi {
 		useridTable.addUserid(db);
 		
 		final UseridServiceReturn serviceReturn = new UseridServiceReturn(ReturnType.SUCCESS.index(), ApiHelper.SUCCESS_MESSAGE);
-		final UseridReturn useridReturn[] = new UseridReturn[1];
+		final UseridReturn[] useridReturn = new UseridReturn[1];
 		useridReturn[0] = new UseridReturn(useridTable.getUseridBean().getUserid(), useridTable.getUseridBean().getPrimaryFlag());
 		serviceReturn.setNumberElements(1);
 		serviceReturn.setUseridReturnRecord(useridReturn);

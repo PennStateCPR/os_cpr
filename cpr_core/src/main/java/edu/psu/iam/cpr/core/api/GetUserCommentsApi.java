@@ -68,7 +68,7 @@ public class GetUserCommentsApi extends ExtendedBaseApi {
 		final UserCommentTable userCommentTable = ValidateUserComment.validateGetUserCommentsParameters(db, 
 				serviceCoreReturn.getPersonId(), updatedBy, userCommentType, returnHistory, commentKey);
 		
-		final UserCommentReturn queryResults[] = userCommentTable.getUserComments( db, userId );
+		final UserCommentReturn[] queryResults = userCommentTable.getUserComments( db, userId );
 
 		// Build the return class.
 		return new UserCommentServiceReturn(ReturnType.SUCCESS.index(), ApiHelper.SUCCESS_MESSAGE, queryResults, 

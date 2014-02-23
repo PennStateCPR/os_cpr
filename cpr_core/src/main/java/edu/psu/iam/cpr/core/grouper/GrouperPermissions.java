@@ -65,7 +65,7 @@ public class GrouperPermissions {
 		}
 		else
 		{		
-			final WsGetGroupsResult groupArray[] = wsGetGroupsResults.getResults();
+			final WsGetGroupsResult[] groupArray = wsGetGroupsResults.getResults();
 			
 			for (int grpIndx = 0; grpIndx < groupArray.length; grpIndx++) {
 				if (groupArray[grpIndx].getWsGroups() == null ) {
@@ -108,13 +108,13 @@ public class GrouperPermissions {
 									/*
 									 * get the group attributes
 									 */
-									String groupAttributesNames[] =groupDetail.getAttributeNames();
+									String[] groupAttributesNames =groupDetail.getAttributeNames();
 									if (groupDetail.getAttributeValues() == null ) {
 										return raGroupData;
 									}
 									else
 									{
-										String groupAttributesValues[] =groupDetail.getAttributeValues();
+										String[] groupAttributesValues =groupDetail.getAttributeValues();
 										for (int attrIndex = 0; attrIndex < groupAttributesNames.length; attrIndex++) {
 											/*
 											 * look for the suspend flag
@@ -174,7 +174,7 @@ public class GrouperPermissions {
 		else 
 		{
 			
-			final WsPermissionAssign permissionArray[] = wsPermissionResults.getWsPermissionAssigns();
+			final WsPermissionAssign[] permissionArray = wsPermissionResults.getWsPermissionAssigns();
 			/*
 			 * determine if the requestor is allowed to use affiliation
 			 */
@@ -222,7 +222,7 @@ public class GrouperPermissions {
 		else 
 		{
 
-			final WsPermissionAssign permissionArray[] = wsPermissionResults.getWsPermissionAssigns();
+			final WsPermissionAssign[] permissionArray = wsPermissionResults.getWsPermissionAssigns();
 			/*
 			 * is the action allowed
 			 */
@@ -265,10 +265,10 @@ public class GrouperPermissions {
 		}
 		else
 		{
-			final WsPermissionAssign permissionArray[] = wsPermissionResults.getWsPermissionAssigns();
+			final WsPermissionAssign[] permissionArray = wsPermissionResults.getWsPermissionAssigns();
 	
 			
-			for ( int permIndex = 0;permIndex < permissionArray.length; permIndex++)  {
+			for (int permIndex = 0; permIndex < permissionArray.length; permIndex++)  {
 				/*
 				 * is access allowed
 				 */
@@ -305,7 +305,7 @@ public class GrouperPermissions {
 		}
 		else
 		{
-			final WsHasMemberResult membersArray[] = wsHasMembersResults.getResults();
+			final WsHasMemberResult[] membersArray = wsHasMembersResults.getResults();
 			
 			final WsSubject member = membersArray[0].getWsSubject();
 			/*
@@ -333,14 +333,14 @@ public class GrouperPermissions {
 	 * @param raName contains the name of the registration authority.
 	 * @return will return a string.
 	 */
-	private String returnRaName (String raName ) {
-			
-			final String parts[] = raName.split(":");
-			final StringBuilder result = new StringBuilder(BUFFER_SIZE);
-			result.append(parts[parts.length -1].substring( 0, parts[parts.length-1].length() - MASTER_STRING_LENGTH));
-			return result.toString();
-		
-		}
+    private String returnRaName(String raName) {
+
+        final String[] parts = raName.split(":");
+        final StringBuilder result = new StringBuilder(BUFFER_SIZE);
+        result.append(parts[parts.length - 1].substring(0, parts[parts.length - 1].length() - MASTER_STRING_LENGTH));
+        return result.toString();
+    }
+
 //	/**
 //	 * This routine determines is the requestor is authorized to use a service
 //	 * @param principalId principal id
@@ -376,6 +376,6 @@ public class GrouperPermissions {
 //
 //		}
 //		
-		
-	}
+
+}
 

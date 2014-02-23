@@ -68,7 +68,7 @@ public class GetPersonLinkageApi extends ExtendedBaseApi {
 		final PersonLinkageTable personLinkageTable = ValidatePersonLinkage.validateGetPersonLinkageParameters(db, 
 										personId, updatedBy, returnHistory);
 		
-		final PersonLinkageReturn queryResults[] = personLinkageTable.getPersonLinkage(db, personId);
+		final PersonLinkageReturn[] queryResults = personLinkageTable.getPersonLinkage(db, personId);
 		
 		// Build the return class.
 		return new PersonLinkageServiceReturn(ReturnType.SUCCESS.index(), ApiHelper.SUCCESS_MESSAGE, queryResults.length, 

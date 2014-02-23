@@ -43,7 +43,7 @@ public class UserCommentServiceReturn {
 	 * this will only be populated during a GetUserComments and 
 	 * GetUserCommentByType service calls.
 	 */		
-	private UserCommentReturn userCommentReturnRecord[] = null;
+	private UserCommentReturn[] userCommentReturnRecord = null;
 
 	/**
 	 * Contains the number of elements in the emailAddressReturnRecord array.
@@ -126,8 +126,7 @@ public class UserCommentServiceReturn {
 	/**
 	 * @param userCommentReturnArray the userCommentReturnRecord to set
 	 */
-	public void setUserCommentReturnRecord(
-			UserCommentReturn[] userCommentReturnArray) {
+	public void setUserCommentReturnRecord(final UserCommentReturn[] userCommentReturnArray) {
 		if (userCommentReturnArray != null) {
 			this.userCommentReturnRecord = Arrays.copyOf(userCommentReturnArray, userCommentReturnArray.length);
 		}

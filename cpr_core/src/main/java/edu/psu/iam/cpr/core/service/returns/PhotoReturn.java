@@ -29,7 +29,7 @@ import java.util.Arrays;
 public class PhotoReturn {
 
 	/** Contains the photo. */
-	private byte photo[];
+	private byte[] photo;
 	
 	/** Contains the date the photo was taken. */
 	private String dateTaken;

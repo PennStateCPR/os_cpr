@@ -36,7 +36,7 @@ public class IAPServiceReturn {
 	/** 
 	 * Contains an array of iapReturn records returns.
 	 */
-	private IAPReturn iapReturnRecord[] = null;
+	private IAPReturn[] iapReturnRecord = null;
 	
 	/** 
 	 * Contains the number of elements in the array.
@@ -84,7 +84,7 @@ public class IAPServiceReturn {
 	/**
 	 * @param iapReturnArray the iapReturnRecord to set
 	 */
-	public void setIapReturnRecord(IAPReturn[] iapReturnArray) {
+	public void setIapReturnRecord(final IAPReturn[] iapReturnArray) {
 		if (iapReturnArray != null) {
 			this.iapReturnRecord = Arrays.copyOf(iapReturnArray, iapReturnArray.length);
 		}

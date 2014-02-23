@@ -41,7 +41,7 @@ public class AffiliationServiceReturn {
 	/**
 	 *  Contains an array of AffiliationTable returns.
 	 */
-	private AffiliationReturn affiliationReturnRecord[] = null;
+	private AffiliationReturn[] affiliationReturnRecord = null;
 	
 	/**
 	 *  Contains the number of elements in the array.
@@ -85,7 +85,7 @@ public class AffiliationServiceReturn {
 	/**
 	 * @param affiliationReturnArray the affiliationReturnRecord to set
 	 */
-	public void setAffiliationReturnRecord( AffiliationReturn[] affiliationReturnArray) {
+	public void setAffiliationReturnRecord(final AffiliationReturn[] affiliationReturnArray) {
 		if (affiliationReturnArray != null) {
 			this.affiliationReturnRecord = Arrays.copyOf(affiliationReturnArray, affiliationReturnArray.length);
 		}
@@ -149,6 +149,7 @@ public class AffiliationServiceReturn {
 		}
 		this.numberElements = numberElements;
 	}
+
 	/**
 	 * @return a string value.
 	 */

@@ -711,7 +711,7 @@ public class JsonMessage {
 			 newGender,  newConfidentialty);
 
 		 if (newEmployee != null)  {
-		boolean employeeChanges[] = {true, true, true, true, true, true, true, true, true};
+		boolean[] employeeChanges = {true, true, true, true, true, true, true, true, true};
 		newEmployeeObject = setEmployeeData(employeeChanges,newEmployee, newEmployeeCampusCode);
 		setValue(MessageKeyName.NEW_EMPLOYEE_DATA, newEmployeeObject);
 		 }
@@ -733,7 +733,7 @@ public class JsonMessage {
 		}
 		JSONObject oldEmployeeObject = null;
 		JSONObject newEmployeeObject= null;
-		boolean employeeChanges[] = {true, true, true, true, true, true, true, true, true};
+		boolean[] employeeChanges = {true, true, true, true, true, true, true, true, true};
 		boolean changesFound = false;
 		if (oldCampusCode != null) {
 			if (newCampusCode != null) {
@@ -1035,7 +1035,7 @@ public class JsonMessage {
 			newGender,  newConfidentialty);
 
 
-		boolean studentChanges[] = {true, true, true, true, true,true, true, true};
+		boolean[] studentChanges = {true, true, true, true, true,true, true, true};
 		setValue(MessageKeyName.SEMESTER_CODE, newStudent.getSemesterCode());
 		newStudentObject = setStudentData(studentChanges,newStudent, newStudentCampusCode, newAcadCollege,
 				newAcadDept, newMajor);
@@ -1064,7 +1064,7 @@ public class JsonMessage {
 		}
 		JSONObject oldStudentObject = null;
 		JSONObject newStudentObject= null;
-		boolean studentChanges[] = {true, true, true, true, true, true, true, true};
+		boolean[] studentChanges = {true, true, true, true, true, true, true, true};
 		boolean changesFound = false;
 		if ( oldCampusCode != null) {
 			if ( newCampusCode != null) {
@@ -1403,7 +1403,7 @@ public class JsonMessage {
 	 * @return JSONObject contain employee data
 	 * @throws JSONException
 	 */
-	private JSONObject setEmployeeData( boolean dataStatus[],Employee bean, String campusCode) throws JSONException  {
+	private JSONObject setEmployeeData(final boolean[] dataStatus, final Employee bean, final String campusCode) throws JSONException  {
 		JSONObject anObject = new JSONObject();
 
 		if (dataStatus[JOB_TITLE] ){
@@ -1489,8 +1489,8 @@ public class JsonMessage {
 	 * @return a JSONObject containing all the student data
 	 * @throws JSONException
 	 */
-	private JSONObject setStudentData(boolean dataStatus[],Student bean, String campusCode, StudentAcademicCollege anAcadCollege,
-			StudentAcademicDepartment anAcadDept, StudentMajor aMajor) throws JSONException  {
+	private JSONObject setStudentData(final boolean[] dataStatus, final Student bean, final String campusCode, final StudentAcademicCollege anAcadCollege,
+			final StudentAcademicDepartment anAcadDept, final StudentMajor aMajor) throws JSONException  {
 		JSONObject anObject = new JSONObject();
 		if (dataStatus[CAMPUS_CODE] ){
 			if (campusCode == null) {

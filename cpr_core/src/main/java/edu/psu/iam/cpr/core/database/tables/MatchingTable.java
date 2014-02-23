@@ -191,11 +191,11 @@ public class MatchingTable {
 	/**
 	 * This routine is used to obtain a match set from the database.
 	 * @param db contains the database object which hold an open database connection.
-	 * @return will return an ArrayList of match results items.
+	 * @return will return a List of match results items.
 	 */
 	public List<MatchResultsTable> getMatchSet(final Database db) {
 		
-		final ArrayList<MatchResultsTable> matchResultsTable = new ArrayList<MatchResultsTable>();
+		final List<MatchResultsTable> matchResultsTable = new ArrayList<MatchResultsTable>();
 		final Session session = db.getSession();
 		final SQLQuery query = session.createSQLQuery(GET_MATCH_SET_SQL);
 		query.setParameter(MATCH_SET_KEY_STRING, getMatchSetKey());
@@ -204,7 +204,7 @@ public class MatchingTable {
 		query.addScalar("score", StandardBasicTypes.LONG);
 		final Iterator<?> it = query.list().iterator();
 		while (it.hasNext()) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			matchResultsTable.add(new MatchResultsTable((Long) res[RES_MATCH_SET_KEY], (Long) res[RES_PERSON_ID], (Long) res[RES_SCORE]));
 		}
 		return matchResultsTable;
@@ -217,12 +217,12 @@ public class MatchingTable {
 	 * @param db contains the database object which hold an open database connection.
 	 * @param maxResults The maximum number of results to retrieve.
 	 * 
-	 * @return will return an ArrayList of match results items containing up to maxResults items.
+	 * @return will return a List of match results items containing up to maxResults items.
 	 * 
 	 */
 	public List<MatchResultsTable> getMatchSetWithLimit(final Database db, int maxResults)  {
 		
-		ArrayList<MatchResultsTable> matchResultsTable = new ArrayList<MatchResultsTable>(maxResults);
+		List<MatchResultsTable> matchResultsTable = new ArrayList<MatchResultsTable>(maxResults);
 		final Session session = db.getSession();
 
 		final SQLQuery query = session.createSQLQuery(GET_MATCH_SET_SQL_LIMIT);
@@ -234,12 +234,12 @@ public class MatchingTable {
 		final Iterator<?> it = query.list().iterator();
 
 		while (it.hasNext()) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			matchResultsTable.add(new MatchResultsTable((Long) res[RES_MATCH_SET_KEY], (Long) res[RES_PERSON_ID], (Long) res[RES_SCORE]));
 		}	
 		// XXX: error checking on maxResults (>0)
 
-		matchResultsTable.trimToSize();
+        ((ArrayList<MatchResultsTable>) matchResultsTable).trimToSize();
 		return matchResultsTable;
 	}
 
@@ -260,7 +260,7 @@ public class MatchingTable {
 		// XXX: error checking on maxResults (non-negative)
 		// XXX: error checking on minMatchScore (non-negative)
 				
-		final ArrayList<MatchResultsTable> matchResultsTable = new ArrayList<MatchResultsTable>(maxResults);
+		final List<MatchResultsTable> matchResultsTable = new ArrayList<MatchResultsTable>(maxResults);
 		
 		final Session session = db.getSession();
 		final SQLQuery query = session.createSQLQuery(GET_MATCH_SET_MIN_SCORE_SQL_LIMIT);
@@ -273,10 +273,11 @@ public class MatchingTable {
 		final Iterator<?> it = query.list().iterator();
 
 		while (it.hasNext()) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			matchResultsTable.add(new MatchResultsTable((Long) res[RES_MATCH_SET_KEY], (Long) res[RES_PERSON_ID], (Long) res[RES_SCORE]));
-		}				
-		matchResultsTable.trimToSize();
+		}
+
+        ((ArrayList<MatchResultsTable>) matchResultsTable).trimToSize();
 		return matchResultsTable;
 	}
 }

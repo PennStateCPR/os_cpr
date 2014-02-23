@@ -69,7 +69,7 @@ public class GetNameApi extends ExtendedBaseApi {
 		
 		final NamesTable namesTable = ValidateName.validateGetNameParameters(db, personId, updatedBy, nameType, returnHistory, nameKey);
 		
-		final NameReturn queryResults[] = namesTable.getNamesForPersonId(db, personId);
+		final NameReturn[] queryResults = namesTable.getNamesForPersonId(db, personId);
 		
 		// Build the return class.
 		return new NamesServiceReturn(ReturnType.SUCCESS.index(), ApiHelper.SUCCESS_MESSAGE, queryResults, queryResults.length);

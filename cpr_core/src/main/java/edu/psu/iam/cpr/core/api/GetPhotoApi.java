@@ -65,7 +65,7 @@ public class GetPhotoApi extends ExtendedBaseApi {
 		ValidatePersonPhoto.validateGetPhotoParameters(db, personId, updatedBy);
 		
 		final PersonPhotoTable personPhotoTable = new PersonPhotoTable();
-		final PhotoReturn queryResults[] = personPhotoTable.getPhoto(db, personId);
+		final PhotoReturn[] queryResults = personPhotoTable.getPhoto(db, personId);
 		
 		// Build the return class.
 		return new PhotoServiceReturn(ReturnType.SUCCESS.index(), ApiHelper.SUCCESS_MESSAGE,

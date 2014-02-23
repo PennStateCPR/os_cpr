@@ -211,14 +211,14 @@ public class UpdatePersonApi extends ExtendedBaseApi {
 		personServiceReturn.setPersonReturn(new PersonReturn(personTable.getPersonBean().getPersonId()));
 		
 		if (useridTable != null) {
-			final UseridReturn useridReturn[] = new UseridReturn[1];
+			final UseridReturn[] useridReturn = new UseridReturn[1];
 			useridReturn[0] = new UseridReturn(useridTable.getUseridBean().getUserid(), useridTable.getUseridBean().getPrimaryFlag());
 			personServiceReturn.setUseridReturnRecord(useridReturn);
 			personServiceReturn.setNumberOfUserids(1);
 		}
 		
 		if (psuIdTable != null) {
-			final PsuIdReturn psuIdReturn[] = new PsuIdReturn[1];
+			final PsuIdReturn[] psuIdReturn = new PsuIdReturn[1];
 			psuIdReturn[0] = new PsuIdReturn(psuIdTable.getPsuIdBean().getPsuId());
 			personServiceReturn.setPsuIdReturnRecord(psuIdReturn);
 			personServiceReturn.setNumberOfPsuIds(1);

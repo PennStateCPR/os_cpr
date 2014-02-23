@@ -42,7 +42,7 @@ public class PhoneServiceReturn {
 	/** 
 	 * Contains an array of phoneReturn recordsreturns.
 	 */
-	private PhoneReturn phoneReturnRecord[] = null;
+	private PhoneReturn[] phoneReturnRecord = null;
 	
 	/** 
 	 *  Contains the number of elements in the array.

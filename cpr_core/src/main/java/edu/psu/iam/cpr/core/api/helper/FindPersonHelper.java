@@ -402,7 +402,7 @@ public class FindPersonHelper {
 		
 		LOG4J_LOGGER.debug("FPH: ready for conversion to retrieve date from DOB table");	
 		dobTable.setReturnHistoryFlag(false);
-		DateOfBirthReturn dobReturn[] = dobTable.getDateOfBirthForPersonId(db, personId);
+		DateOfBirthReturn[] dobReturn = dobTable.getDateOfBirthForPersonId(db, personId);
 		if (dobReturn.length == 0 || dobReturn[0].getDob() == null) {
 			LOG4J_LOGGER.debug("FPH: no dob found");	
 			return false;

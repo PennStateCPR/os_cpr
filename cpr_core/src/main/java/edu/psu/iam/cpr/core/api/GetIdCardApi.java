@@ -70,8 +70,8 @@ public class GetIdCardApi extends ExtendedBaseApi {
 		final IdCardTable idCardTable = ValidateIdCard.validateGetIdCardParameters(db, personId, 
 						updatedBy, idCardType, returnHistory);
 
-		final PersonIdCardReturn queryResults[] = idCardTable.getIdCardForPersonId(db, personId); 
-		final PhotoReturn photoReturn[] = new PersonPhotoTable().getPhoto(db, personId);
+		final PersonIdCardReturn[] queryResults = idCardTable.getIdCardForPersonId(db, personId);
+		final PhotoReturn[] photoReturn = new PersonPhotoTable().getPhoto(db, personId);
 
 		// Build the return class.
 		return new IdCardServiceReturn(ReturnType.SUCCESS.index(),

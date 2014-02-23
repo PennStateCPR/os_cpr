@@ -1,10 +1,7 @@
 /* SVN FILE: $Id: UseridTable.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
 package edu.psu.iam.cpr.core.database.tables;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.UUID;
+import java.util.*;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -263,7 +260,7 @@ public class UseridTable {
 		Iterator<?> it = query.list().iterator();
 
 		if (it.hasNext()) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			bean.setEndDate((Date) res[0]);
 			bean.setPrimaryFlag((String) res[1]);
 
@@ -363,7 +360,7 @@ public class UseridTable {
 			Iterator<?> it = query.list().iterator();
 
 			if (it.hasNext()) {
-				Object res[] = (Object []) it.next();
+				Object[] res = (Object []) it.next();
 				bean.setEndDate((Date) res[0]);
 				bean.setPrimaryFlag((String) res[1]);
 
@@ -455,7 +452,7 @@ public class UseridTable {
 			Iterator<?> it = query.list().iterator();
 
 			if (it.hasNext()) {
-				Object res[] = (Object []) it.next();
+				Object[] res = (Object []) it.next();
 				bean.setEndDate((Date) res[0]);
 				bean.setPrimaryFlag((String) res[1]);
 
@@ -558,12 +555,12 @@ public class UseridTable {
 	 * This routine will obtain a list of userids for a person id.
 	 * @param db contains an open database connection.
 	 * @param personId contains the person id.
-	 * @return list of userids.
+	 * @return an array of userids.
 	 */
 	public UseridReturn[] getUseridsForPersonId(final Database db, final long personId) {
 		
 		final Session session = db.getSession();
-		final ArrayList<UseridReturn> results = new ArrayList<UseridReturn>();
+		final List<UseridReturn> results = new ArrayList<UseridReturn>();
 
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT userid, primary_flag, ");
@@ -602,7 +599,7 @@ public class UseridTable {
 
 
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			results.add(new UseridReturn((String) res[USERID], 							
 					(String) res[PRIMARY_FLAG],										
 					Utility.formatDateToISO8601((Date) res[START_DATE]),		
@@ -669,22 +666,20 @@ public class UseridTable {
 			if (s == null || s.length() == 0) {
 				return null;
 			}
-			final char c[] = s.toCharArray();
+			final char[] c = s.toCharArray();
 			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			for (int i = 0; i < c.length; ++i) {
 				if ((c[i] >= 'a' && c[i] <= 'z') ||
 						c[i] == '$' ||
 						c[i] == '_') {
 					sb.append(c[i]);
-				}
-				else {
+				} else {
 					break;
 				}
 			}
 			
 			return sb.toString();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -700,19 +695,17 @@ public class UseridTable {
 			if (s == null || s.length() == 0) {
 				return null;
 			}
-			final char c[] = s.toCharArray();
+			final char[] c = s.toCharArray();
 			final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 			for (int i = charPart.length(); i < c.length; ++i) {
 				if (c[i] >= '0' && c[i] <= '9') {
 					sb.append(c[i]);
-				}
-				else {
+				} else {
 					break;
 				}
 			}
 			return Long.valueOf(sb.toString());
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}

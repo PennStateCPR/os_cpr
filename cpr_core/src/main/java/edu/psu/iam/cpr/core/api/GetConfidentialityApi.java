@@ -69,7 +69,7 @@ public class GetConfidentialityApi extends ExtendedBaseApi {
 										personId, updatedBy, returnHistory);
 		
 		// Get the data about the hold.
-		final ConfidentialityReturn queryResults[] = confidentialityTable.getConfidentiality(db, personId);
+		final ConfidentialityReturn[] queryResults = confidentialityTable.getConfidentiality(db, personId);
 
 		// Build the return class.
 		return new ConfidentialityServiceReturn(ReturnType.SUCCESS.index(), ApiHelper.SUCCESS_MESSAGE, 

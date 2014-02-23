@@ -36,7 +36,7 @@ public class NamesServiceReturn {
 	private String statusMessage;
 
 	/** Contains the names return information, this will only be populated during a GetNames service call. */
-	private NameReturn namesReturnRecord[] = null;
+	private NameReturn[] namesReturnRecord = null;
 	
 	/** Contains the number of elements in the namesReturnRecord array. */
 	private int numberElements = 0;
@@ -90,7 +90,7 @@ public class NamesServiceReturn {
 	/**
 	 * @param namesReturnArray the namesReturnRecord to set
 	 */
-	public void setNamesReturnRecord(NameReturn[] namesReturnArray) {
+	public void setNamesReturnRecord(final NameReturn[] namesReturnArray) {
 		if (namesReturnArray != null) {
 			this.namesReturnRecord = Arrays.copyOf(namesReturnArray, namesReturnArray.length);
 		}

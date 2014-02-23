@@ -4,6 +4,7 @@ package edu.psu.iam.cpr.core.database.tables;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -252,7 +253,7 @@ public class ConfidentialityTable {
 	public ConfidentialityReturn[] getConfidentiality(final Database db, final long personId) {
 		
 		// Init some variables.
-		final ArrayList<ConfidentialityReturn> results = new ArrayList<ConfidentialityReturn>();
+		final List<ConfidentialityReturn> results = new ArrayList<ConfidentialityReturn>();
 		final Session session = db.getSession();
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 
@@ -290,7 +291,7 @@ public class ConfidentialityTable {
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 
 			// For each result, store its value in the return class.
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 
 			ConfidentialityReturn c = new ConfidentialityReturn(ConfidentialityType.get((Long) res[CONFIDENTIALITY_TYPE]).toString(),
 					Utility.formatDateToISO8601((Date) res[START_DATE]), 	

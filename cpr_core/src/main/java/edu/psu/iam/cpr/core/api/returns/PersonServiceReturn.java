@@ -48,37 +48,37 @@ public class PersonServiceReturn {
 	private int numberOfAddresses = 0;
 	
 	/** Contains the address return data. */
-	private AddressReturn addressReturnRecord[] = null;
+	private AddressReturn[] addressReturnRecord = null;
 	
 	/** Contains the number of affiliations returned from a get. */
 	private int numberOfAffiliations = 0;
 	
 	/** Contains the affiliations data.  */
-	private AffiliationReturn affiliationReturnRecord[] = null;
+	private AffiliationReturn[] affiliationReturnRecord = null;
 	
 	/** Contains the number of date of birth records */
 	private int numberOfDateOfBirthdays = 0;
 	
 	/** Contains the date of birth information. */
-	private DateOfBirthReturn dateOfBirthRecord[] = null;
+	private DateOfBirthReturn[] dateOfBirthRecord = null;
 	
 	/** Contains the number of email addresses returned from a get. */
 	private int numberOfEmailAddresses = 0;
 	
 	/** Contains the email address information. */
-	private EmailAddressReturn emailAddressReturnRecord[] = null;
+	private EmailAddressReturn[] emailAddressReturnRecord = null;
 	
 	/** Contains the number of genders */
 	private int numberOfGenders = 0;
 	
 	/** Contains the gender information. */
-	private GenderReturn genderReturnRecord[] = null;
+	private GenderReturn[] genderReturnRecord = null;
 	
 	/** Contains the number of names returned from a get. */
 	private int numberOfNames = 0;
 	
 	/** Contains the name information. */
-	private NameReturn nameReturnRecord[] = null;
+	private NameReturn[] nameReturnRecord = null;
 	
 	/** Contains the person return information. */
 	private PersonReturn personReturn = null;
@@ -87,25 +87,25 @@ public class PersonServiceReturn {
 	private int numberOfPhones = 0;
 	
 	/** Contains the phones data. */
-	private PhoneReturn phoneReturnRecord[] = null;
+	private PhoneReturn[] phoneReturnRecord = null;
 	
 	/** Contains the number of PSU IDs */
 	private int numberOfPsuIds = 0;
 	
 	/** Contains the psu id data. */
-	private PsuIdReturn psuIdReturnRecord[] = null;
+	private PsuIdReturn[] psuIdReturnRecord = null;
 	
 	/** Contains the number of userids returned as the result of a get. */
 	private int numberOfUserids = 0;
 	
 	/** Contains the userid. */
-	private UseridReturn useridReturnRecord[] = null;
+	private UseridReturn[] useridReturnRecord = null;
 	
 	/** Contains the number of matches that the match process has found. */
 	private int numberofNearMatches = 0;
 	
 	/** Contains an array of matches. */
-	private MatchReturn nearMatchReturnRecord[] = null;
+	private MatchReturn[] nearMatchReturnRecord = null;
 	
 	/** Contains the exact match information */
 	private MatchReturn exactMatchReturn = null;
@@ -281,7 +281,7 @@ public class PersonServiceReturn {
 	/**
 	 * @param nameArray the nameReturnRecord to set
 	 */
-	public void setNameReturnRecord(NameReturn[] nameArray) {
+	public void setNameReturnRecord(final NameReturn[] nameArray) {
 		if (nameArray != null) {
 			this.nameReturnRecord = Arrays.copyOf(nameArray, nameArray.length);
 		}
@@ -361,7 +361,7 @@ public class PersonServiceReturn {
 	/**
 	 * @param useridArray the useridReturnRecord to set
 	 */
-	public void setUseridReturnRecord(UseridReturn[] useridArray) {
+	public void setUseridReturnRecord(final UseridReturn[] useridArray) {
 		if (useridArray != null) {
 			this.useridReturnRecord = Arrays.copyOf(useridArray, useridArray.length);
 		}
@@ -387,7 +387,7 @@ public class PersonServiceReturn {
 	/**
 	 * @param nearMatchArray the nearMatchReturnRecord to set
 	 */
-	public void setNearMatchReturnRecord(MatchReturn nearMatchArray[]) {
+	public void setNearMatchReturnRecord(final MatchReturn[] nearMatchArray) {
 		if (nearMatchArray != null) {
 			this.nearMatchReturnRecord = Arrays.copyOf(nearMatchArray, nearMatchArray.length);
 		}
@@ -427,7 +427,7 @@ public class PersonServiceReturn {
 	/**
 	 * @param dateOfBirthArray the dateOfBirthRecord to set
 	 */
-	public void setDateOfBirthRecord(DateOfBirthReturn[] dateOfBirthArray) {
+	public void setDateOfBirthRecord(final DateOfBirthReturn[] dateOfBirthArray) {
 		if (dateOfBirthArray != null) {
 			this.dateOfBirthRecord = Arrays.copyOf(dateOfBirthArray, dateOfBirthArray.length);
 		}
@@ -460,7 +460,7 @@ public class PersonServiceReturn {
 	/**
 	 * @param genderArray the genderReturnRecord to set
 	 */
-	public void setGenderReturnRecord(GenderReturn[] genderArray) {
+	public void setGenderReturnRecord(final GenderReturn[] genderArray) {
 		if (genderArray != null) {
 			this.genderReturnRecord = Arrays.copyOf(genderArray, genderArray.length);
 		}

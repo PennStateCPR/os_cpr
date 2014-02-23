@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.jms.JMSException;
 
+import edu.psu.iam.cpr.core.util.Utility;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
@@ -162,7 +163,7 @@ public class AddPersonApi extends ExtendedBaseApi {
 
 		// Do matching only if the find person flag is set to Y.  The only case that would be true
 		// would be from IAM online where the matching is already done ahead of time.
-		if (doFindPersonFlag.equals("Y")) {
+		if (Utility.isOptionYes(doFindPersonFlag)) {
             LOG4J_LOGGER.info(apiName + ": Doing a find person!");
 			personServiceReturn = performPersonMatch(db, serviceCoreReturn, updatedBy, ssn);
 
@@ -202,13 +203,13 @@ public class AddPersonApi extends ExtendedBaseApi {
 		personServiceReturn.setStatusMessage(ApiHelper.SUCCESS_MESSAGE);
 		personServiceReturn.setPersonReturn(new PersonReturn(personTable.getPersonBean().getPersonId()));
 		if (useridTable != null) {
-			final UseridReturn useridReturn[] = new UseridReturn[1];
+			final UseridReturn[] useridReturn = new UseridReturn[1];
 			useridReturn[0] = new UseridReturn(useridTable.getUseridBean().getUserid(), useridTable.getUseridBean().getPrimaryFlag());
 			personServiceReturn.setUseridReturnRecord(useridReturn);
 			personServiceReturn.setNumberOfUserids(1);
 		}
 		if (psuIdTable != null) {
-			final PsuIdReturn psuIdReturn[] = new PsuIdReturn[1];
+			final PsuIdReturn[] psuIdReturn = new PsuIdReturn[1];
 			psuIdReturn[0] = new PsuIdReturn(psuIdTable.getPsuIdBean().getPsuId());
 			personServiceReturn.setPsuIdReturnRecord(psuIdReturn);
 			personServiceReturn.setNumberOfPsuIds(1);

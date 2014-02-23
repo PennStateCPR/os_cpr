@@ -99,15 +99,14 @@ public class AddressServiceReturn {
 	public void setNumberElements(int numberElements) {
 		this.numberElements = numberElements;
 	}
+
 	/**
 	 *  Contains an array of addressReturn records returns.
 	 */
-	
-	private AddressReturn addressReturnRecord[] = null;
+	private AddressReturn[] addressReturnRecord = null;
 	
 	/** 
 	 *  Contains the number of elements in the array.
-	 * 
 	 */
 	private int numberElements = 0;
 
@@ -152,6 +151,7 @@ public class AddressServiceReturn {
 		}
 		this.numberElements = numberElements;
 	}
+
 	/**
 	 * @return a string value.
 	 */

@@ -72,7 +72,7 @@ public class GetPersonIdentifierApi extends ExtendedBaseApi {
 					returnHistory);
 		
 		// Do the get.
-		final PersonIdentifierReturn queryResults[] = personIdentifierTable.getPersonIdentifiersForPersonId(db, 
+		final PersonIdentifierReturn[] queryResults = personIdentifierTable.getPersonIdentifiersForPersonId(db,
 				personId);
 		
 		// Build the return class.

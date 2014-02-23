@@ -4,6 +4,7 @@ package edu.psu.iam.cpr.core.database.tables;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -549,7 +550,7 @@ public class IdCardTable {
 	 */
 	public PersonIdCardReturn[] getIdCardForPersonId(final Database db, final long personId) {
 		
-		final ArrayList <PersonIdCardReturn> results = new ArrayList<PersonIdCardReturn> ();
+		final List <PersonIdCardReturn> results = new ArrayList<PersonIdCardReturn> ();
 		final Session session = db.getSession();
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT data_type_key, id_card_number, id_serial_number, " );
@@ -588,7 +589,7 @@ public class IdCardTable {
 		query.addScalar("created_by", StandardBasicTypes.STRING);
 		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
 		for (final Iterator<?> it=query.list().iterator(); it.hasNext();) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			PersonIdCardReturn personIdCardReturn = new PersonIdCardReturn();
 			personIdCardReturn.setIdCardType(IdCardType.get((Long) res[ID_CARD_TYPE]).toString());
 			personIdCardReturn.setIdCardNumber((String) res[ID_CARD_NUMBER]);
@@ -611,7 +612,7 @@ public class IdCardTable {
 	 */
 	public PersonIdCardNumberReturn[] getIdCardNumberForPersonId(final Database db, final long personId) {
 		
-		final ArrayList <PersonIdCardNumberReturn> results = new ArrayList<PersonIdCardNumberReturn> ();
+		final List<PersonIdCardNumberReturn> results = new ArrayList<PersonIdCardNumberReturn> ();
 		final Session session = db.getSession();
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT data_type_key, id_card_number " );
@@ -627,7 +628,7 @@ public class IdCardTable {
 		query.addScalar("id_card_number", StandardBasicTypes.STRING);
 
 		for (final Iterator<?> it=query.list().iterator(); it.hasNext();) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			PersonIdCardNumberReturn personIdCardNumberReturn = new PersonIdCardNumberReturn();
 			personIdCardNumberReturn.setIdCardType(IdCardType.get((Long) res[0]).toString());
 			personIdCardNumberReturn.setIdCardNumber((String) res[1]);

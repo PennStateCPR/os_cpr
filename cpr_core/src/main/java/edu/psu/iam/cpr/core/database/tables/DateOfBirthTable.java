@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -163,7 +164,7 @@ public class DateOfBirthTable {
 	public static String toDobChar(final String dobString) {
 		
 		
-		final int lengthArray[] = { MONTH_DAY_SIZE, MONTH_DAY_SIZE, YEAR_SIZE };
+		final int[] lengthArray = { MONTH_DAY_SIZE, MONTH_DAY_SIZE, YEAR_SIZE };
 
 		// Empty string just return.
 		if (dobString == null) {
@@ -234,7 +235,7 @@ public class DateOfBirthTable {
 	 */
 	public DateOfBirthReturn[] getDateOfBirthForPersonId(final Database db, long personId) {
 
-		final ArrayList<DateOfBirthReturn> results = new ArrayList<DateOfBirthReturn>();
+		final List<DateOfBirthReturn> results = new ArrayList<DateOfBirthReturn>();
 		final Session session = db.getSession();
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 
@@ -265,7 +266,7 @@ public class DateOfBirthTable {
 		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
 
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			String dobChar = (String) res[DOB_CHAR];
 
 			if (dobChar != null && dobChar.length() == MMDDYYYY_SIZE) {

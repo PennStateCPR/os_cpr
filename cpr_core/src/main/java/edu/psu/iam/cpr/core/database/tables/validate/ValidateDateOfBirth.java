@@ -147,7 +147,7 @@ public final class ValidateDateOfBirth {
 	 */
 	private static boolean isAgeValid(final String dateOfBirth) {
 		
-		final String dobParts[] = dateOfBirth.split("/");
+		final String[] dobParts = dateOfBirth.split("/");
 		int month;
 		int day;
 		int year;

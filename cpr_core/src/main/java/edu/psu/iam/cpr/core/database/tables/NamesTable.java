@@ -4,6 +4,7 @@ package edu.psu.iam.cpr.core.database.tables;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -256,7 +257,7 @@ public class NamesTable {
 	 */
 	public NameReturn[] getNamesForPersonId(final Database db, final long personId) {
 		
-		final ArrayList<NameReturn> results = new ArrayList<NameReturn>();
+		final List<NameReturn> results = new ArrayList<NameReturn>();
 		final Session session = db.getSession();
 
 		// Build the query string.
@@ -317,7 +318,7 @@ public class NamesTable {
 
 		// Perform the query.
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			NameReturn nameReturn = new NameReturn();
 			
 			nameReturn.setNameKey(((Long) res[NAME_KEY]).toString());

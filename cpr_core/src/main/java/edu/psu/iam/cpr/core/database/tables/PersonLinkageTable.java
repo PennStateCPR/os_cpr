@@ -4,6 +4,7 @@ package edu.psu.iam.cpr.core.database.tables;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -260,7 +261,7 @@ public class PersonLinkageTable {
 	 */
 	public PersonLinkageReturn[] getPersonLinkage(final Database db, final long personId) {
 		
-		final ArrayList<PersonLinkageReturn> results = new ArrayList<PersonLinkageReturn>();
+		final List<PersonLinkageReturn> results = new ArrayList<PersonLinkageReturn>();
 		final Session session = db.getSession();
 
 		// Build the query string.
@@ -297,7 +298,7 @@ public class PersonLinkageTable {
 
 		// Perform the query.
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			PersonLinkageReturn personLinkageReturn = new PersonLinkageReturn(
 					LinkageType.get((Long) res[LINKAGE_TYPE]).toString(),			
 					(Long) res[PERSON_ID],										

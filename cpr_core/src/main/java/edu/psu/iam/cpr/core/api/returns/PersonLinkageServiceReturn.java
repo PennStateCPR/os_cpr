@@ -38,7 +38,7 @@ public class PersonLinkageServiceReturn {
 	private int numberElements;
 	
 	/** Contains the array of elements returned for a "get". */
-	private PersonLinkageReturn personLinkageReturn[];
+	private PersonLinkageReturn[] personLinkageReturn;
 	
 	/**
 	 * Constructor. 
@@ -129,7 +129,7 @@ public class PersonLinkageServiceReturn {
 	/**
 	 * @param personLinkageArray the personLinkageReturn to set
 	 */
-	public void setPersonLinkageReturn(PersonLinkageReturn[] personLinkageArray) {
+	public void setPersonLinkageReturn(final PersonLinkageReturn[] personLinkageArray) {
 		if (personLinkageArray != null) {
 			this.personLinkageReturn = Arrays.copyOf(personLinkageArray, personLinkageArray.length);
 		}

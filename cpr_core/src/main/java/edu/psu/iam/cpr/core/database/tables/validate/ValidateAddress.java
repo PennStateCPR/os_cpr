@@ -333,9 +333,9 @@ public final class ValidateAddress {
 			localDocumentType = documentType.trim().toUpperCase();
 		}
 		
-		String dbColumnNames[] = { ADDRESS1, ADDRESS2, ADDRESS3, CITY, STATE, POSTAL_CODE, PROVINCE };
-		String inputFields[] = { localAddress1, localAddress2, localAddress3, localCity, stateName, localPostalCode, provinceName };
-		String prettyNames[] = {  "Address line 1", "Address line 2 ",
+		String[] dbColumnNames = { ADDRESS1, ADDRESS2, ADDRESS3, CITY, STATE, POSTAL_CODE, PROVINCE };
+		String[] inputFields = { localAddress1, localAddress2, localAddress3, localCity, stateName, localPostalCode, provinceName };
+		String[] prettyNames = {  "Address line 1", "Address line 2 ",
 				"Address line 3", "City", "State", "Postal code", "Province" };
 		for (int i = 0; i < dbColumnNames.length; ++i) {
 			if (inputFields[i] != null && (! ValidateHelper.isFieldLengthValid(db, inputFields[i], dbColumnNames[i]))) {

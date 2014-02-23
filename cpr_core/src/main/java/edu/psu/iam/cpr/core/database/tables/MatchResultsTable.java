@@ -146,9 +146,4 @@ public class MatchResultsTable implements Comparable<MatchResultsTable> {
 		return false;
 	
 	}
-	
-	@Override 
-	public int hashCode() {
-		return super.hashCode();
-	}
 }

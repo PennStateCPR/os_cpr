@@ -207,7 +207,7 @@ public class Database {
 		// See if a record is found, if so get its data.
 		Iterator<?> it = query.list().iterator();
 		if (it.hasNext()) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			localRegistrationAuthoritykey= (Long) res[RA_KEY_INDEX];
 			suspendFlag 			= (String) res[RA_SUSPEND_FLAG];
 			raServerPrincipalKey 	= (Long) res[RA_SERVER_PRINCIPAL_KEY_INDEX];
@@ -308,7 +308,7 @@ public class Database {
 
 		// Perform the query.
 		for (Iterator<?> it = query.list().iterator(); it.hasNext();) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			localCprAccessGroupsKey = (Long) res[CPR_ACCESS_GROUPS_KEY];
 			grpMbrsSuspendFlag = (String) res[GRP_MBRS_SUSPEND_FLAG];
 			cprAccGrpsSuspendFlag = (String) res[CPR_GRPS_SUSPEND_FLAG];
@@ -390,7 +390,7 @@ public class Database {
 		query.addScalar("archive_flag", StandardBasicTypes.STRING);
 
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			readFlag = (String) res[0];
 			writeFlag = (String) res[1];
 			archiveFlag = (String) res[2];
@@ -475,7 +475,7 @@ public class Database {
 
 		final Iterator<?> it = query.list().iterator();
 		if (it.hasNext()) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			readFlag = (String) res[0];
 			writeFlag = (String) res[1];
 			archiveFlag = (String) res[2];

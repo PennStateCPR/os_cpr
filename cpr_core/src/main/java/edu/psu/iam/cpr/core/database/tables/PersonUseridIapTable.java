@@ -258,7 +258,7 @@ public class PersonUseridIapTable {
 				query.addScalar("created_on",StandardBasicTypes.TIMESTAMP );
 				
 				for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-					Object res[] = (Object []) it.next();
+					Object[] res = (Object []) it.next();
 					IAPReturn anIAP = new IAPReturn();
 					anIAP.setIap((String) res[IAP]);
 					anIAP.setStartDate(Utility.formatDateToISO8601((Date) res[START_DATE]));

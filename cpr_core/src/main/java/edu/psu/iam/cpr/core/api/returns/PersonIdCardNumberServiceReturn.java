@@ -37,7 +37,7 @@ public class PersonIdCardNumberServiceReturn {
 	private String statusMessage;
 	
 	/** Contains the id card return information, this will only be populated during a GetIdCard service call. */
-	private PersonIdCardNumberReturn idCardNumberReturnRecord[] = null;
+	private PersonIdCardNumberReturn[] idCardNumberReturnRecord = null;
 	
 	/** Contains the number of elements in the idCardsReturnRecord array. */
 	private int numberIdCardNumberElements = 0;
@@ -80,8 +80,7 @@ public class PersonIdCardNumberServiceReturn {
 	/**
 	 * @param idCardNumberReturnArray the idCardNumberReturnRecord to set
 	 */
-	public void setIdCardNumberReturnRecord(
-			PersonIdCardNumberReturn[] idCardNumberReturnArray) {
+	public void setIdCardNumberReturnRecord(final PersonIdCardNumberReturn[] idCardNumberReturnArray) {
 		if (idCardNumberReturnArray != null) {
 			this.idCardNumberReturnRecord = Arrays.copyOf(idCardNumberReturnArray, idCardNumberReturnArray.length);
 		}

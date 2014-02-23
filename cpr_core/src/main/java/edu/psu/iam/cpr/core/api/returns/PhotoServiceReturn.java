@@ -37,7 +37,7 @@ public class PhotoServiceReturn {
 	private int numberElements;
 	
 	/** Contains the array of elements returned for a "get". */
-	private PhotoReturn photoReturn[];
+	private PhotoReturn[] photoReturn;
 
 	/**
 	 * Empty Constructor.
@@ -129,7 +129,7 @@ public class PhotoServiceReturn {
 	/**
 	 * @param photoArray the photoReturn to set
 	 */
-	public void setPhotoReturn(PhotoReturn[] photoArray) {
+	public void setPhotoReturn(final PhotoReturn[] photoArray) {
 		if (photoArray != null) {
 			this.photoReturn = Arrays.copyOf(photoArray, photoArray.length);
 		}

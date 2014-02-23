@@ -220,7 +220,7 @@ public class PersonAffiliationTable {
 
 		RulesReturn rulesReturn = null;
 		boolean fatalError = false;
-		final ArrayList<String> existingAffiliations = new ArrayList<String>();
+		final List<String> existingAffiliations = new ArrayList<String>();
 		Long anAffiliationKey = null;
 		Long newAffiliationKey = null;
 		Long oldAffiliationKey = null;
@@ -259,6 +259,7 @@ public class PersonAffiliationTable {
 
 				existingAffiliations.add(AffiliationsType.get(anAffiliationKey).toString());
 			}
+
 			// pass the existingAffliliations to the rules engine 
 			String[] existingArray = new String[existingAffiliations.size()];
 			existingArray = existingAffiliations.toArray(existingArray);				
@@ -266,18 +267,12 @@ public class PersonAffiliationTable {
 
 			if (rulesReturn.getStatusCode() != 0) {
 				fatalError = true;
-			}
-			else
-			{
+			} else {
 				if  ((rulesReturn.getNumberOfFacts()  <  existingAffiliations.size() )||
 						(rulesReturn.getNumberOfFacts()  >  existingAffiliations.size() + 1 )) {
 					fatalError = true;
-				}
-				else 
-				{
-
-
-					//process the returned array
+				} else {
+					// process the returned array
 					final List<String> newFacts = new ArrayList<String>(Arrays.asList(rulesReturn.getFacts()));
 					final Iterator<String> facts =newFacts.iterator();
 					while (facts.hasNext()) {
@@ -297,16 +292,14 @@ public class PersonAffiliationTable {
 						// make the change
 						if (newFacts.size() != 1 ) {	
 							fatalError = true;
-						}
-						else
-						{ 
+						} else {
 							// archive the old affiliation
 							// store the new affiliations
 
 							if (newFacts.get(0).equals(newAffiliationString)) {
 								oldAffiliationKey = AffiliationsType.valueOf((existingAffiliations.get(0)).toUpperCase().trim()).index();
 								// archive the affiliation
-								sqlQuery = "from PersonAffiliation where personId = :person_id_in  AND affiliationKey = :l_aff_key AND endDate IS NULL";
+								sqlQuery = "from PersonAffiliation where personId = :person_id_in AND affiliationKey = :l_aff_key AND endDate IS NULL";
 								query = session.createQuery(sqlQuery);
 								query.setParameter("person_id_in", bean.getPersonId());
 								query.setParameter("l_aff_key", oldAffiliationKey );
@@ -323,31 +316,24 @@ public class PersonAffiliationTable {
 
 								session.save(bean);
 								session.flush();
-							}
-							else 
-							{
+							} else {
 								fatalError = true;
 							}
-
 						}
-					}
-					else 
-					{
+					} else {
 						// add the new affiliation
 						session.save(bean);
 						session.flush();
-
 					}
-				}	
-
+				}
 			}	
 		}
 
 		if (fatalError) {
 			throw new CprException(ReturnType.ADD_FAILED_EXCEPTION, "affiliation");
 		}
-		
 	}
+
 	/**
 	 * This method add an affiliation record to the CPR
 	 *
@@ -358,8 +344,7 @@ public class PersonAffiliationTable {
 		
 		boolean notFound = false;
 		boolean alreadyArchived = false;
-		
-		
+
 		final Session session = db.getSession();
 		final PersonAffiliation bean = getPersonAffiliationBean();
 
@@ -369,8 +354,7 @@ public class PersonAffiliationTable {
 		query.setParameter("affiliation_key", bean.getAffiliationKey());
 		if (query.list().size() == 0) {
 			notFound = true;
-		}
-		else {
+		} else {
 			sqlQuery = "from PersonAffiliation where personId = :person_id AND affiliationKey = :affiliation_key and endDate is NULL";
 			query = session.createQuery(sqlQuery);
 			query.setParameter("person_id", bean.getPersonId());
@@ -385,8 +369,7 @@ public class PersonAffiliationTable {
 				dbBean.setLastUpdateOn(bean.getLastUpdateOn());
 				session.update(dbBean);
 				session.flush();				
-			}
-			else {
+			} else {
 				alreadyArchived = true;
 			}
 		}
@@ -397,21 +380,18 @@ public class PersonAffiliationTable {
 		if (alreadyArchived) {
 			throw new CprException(ReturnType.ALREADY_DELETED_EXCEPTION, TABLE_NAME);
 		}
-			
 	}
+
 	/**
 	 * This method will obtain a list of all PSU affiliations for a person id
 	 * @param db contains the Database object
 	 * @param personId contains the person id.
 	 * 
-	 * @return list of PSU Affiliations.
-	 * 
-	 * 
+	 * @return an array of PSU Affiliations.
 	 */
-	
 	public AffiliationReturn[] getAllAffiliationsForPersonId(final Database db, final long personId)  {
 
-		final ArrayList<AffiliationReturn> results = new ArrayList<AffiliationReturn>();
+		final List<AffiliationReturn> results = new ArrayList<AffiliationReturn>();
 		final Session session = db.getSession();
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT affiliations.enum_string, affiliations.affiliation, person_affiliation.primary_flag, ");
@@ -444,10 +424,8 @@ public class PersonAffiliationTable {
 		query.addScalar("created_on",StandardBasicTypes.TIMESTAMP );
 
 		Iterator<?> it = query.list().iterator();
-
-
 		while (it.hasNext()) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			AffiliationReturn newAffRet = new AffiliationReturn();
 			newAffRet.setAffiliationType((String) res[ALL_AFFILIATION_TYPE]);
 			newAffRet.setAffiliation((String)res[ALL_AFFILIATION]);
@@ -459,7 +437,6 @@ public class PersonAffiliationTable {
 			newAffRet.setCreatedBy((String) res[ALL_CREATED_BY]);
 			newAffRet.setCreatedOn(Utility.formatDateToISO8601((Date) res[ALL_CREATED_ON]));
 			results.add(newAffRet);
-
 		}
 
 		sb.setLength(0);
@@ -481,29 +458,29 @@ public class PersonAffiliationTable {
 		it = query.list().iterator();
 
 		while (it.hasNext()) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 
 			AffiliationReturn newAffRet = new AffiliationReturn();
 			newAffRet.setPrimary((String) res[EXT_AFF_PRIMARY_FLAG]);
 			newAffRet.setAffiliationType((String) res[EXT_AFF_AFFILIATION_TYPE]);
 			newAffRet.setAffiliation((String) res[EXT_AFF_AFFILIATION]);
 			results.add(newAffRet);
-
 		}
 
 		return	results.toArray(new AffiliationReturn[results.size()]);
 	}
+
 	/**
 	 * This method will obtain a list of PSU Affiliation for a person id.
 	 * @param db contains the Database object
 	 * @param personId contains the person id.
 	 * 
-	 * @return list of PSU Affiliations.
+	 * @return An array of PSU Affiliations.
 	 * @throws CprException 
 	 * 	 
 	 */
 	public AffiliationReturn[] getExternalAffiliationsForPersonId(final Database db, final long personId) throws CprException {
-		final ArrayList<AffiliationReturn> results = new ArrayList<AffiliationReturn>();
+		final List<AffiliationReturn> results = new ArrayList<AffiliationReturn>();
 		
 		final Session session = db.getSession();
 
@@ -520,7 +497,7 @@ public class PersonAffiliationTable {
 		final Iterator<?> it = query.list().iterator();
 
 		while (it.hasNext() ) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 
 			AffiliationReturn newAffRet = new AffiliationReturn();
 			// fix the call  
@@ -532,25 +509,21 @@ public class PersonAffiliationTable {
 			results.add(newAffRet);		
 		}		
 
-		return	results.toArray(new AffiliationReturn[results.size()]);
-		
+		return results.toArray(new AffiliationReturn[results.size()]);
 	}
 	
 	/**
 	 * This method will obtain a list of PSU Affiliation for a person id.
 	 * @param db contains the Database object
 	 * @param personId contains the person id.
-	 * @return list of PSU Affiliations.
+	 * @return an array of PSU Affiliations.
 	 */
 	public AffiliationReturn[] getInternalAffiliationsForPersonId(final Database db, final long personId) {
 
-		final ArrayList<AffiliationReturn> results = new ArrayList<AffiliationReturn>();
+		final List<AffiliationReturn> results = new ArrayList<AffiliationReturn>();
 		final Session session = db.getSession();
 
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-
-
-
 		sb.append("SELECT affiliations.enum_string, affiliations.affiliation,person_affiliation.primary_flag, ");
 		sb.append("person_affiliation.start_date, ");
 		sb.append("person_affiliation.end_date, ");
@@ -583,10 +556,8 @@ public class PersonAffiliationTable {
 		query.addScalar("affiliation_key", StandardBasicTypes.INTEGER);
 
 		Iterator<?> it = query.list().iterator();
-
-
 		while (it.hasNext()) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			AffiliationReturn newAffRet = new AffiliationReturn();
 			newAffRet.setAffiliationType((String) res[INT_AFFILIATION_TYPE]);
 			newAffRet.setAffiliation((String)res[INT_AFFILIATION]);
@@ -598,12 +569,11 @@ public class PersonAffiliationTable {
 			newAffRet.setCreatedBy((String) res[INT_CREATED_BY]);
 			newAffRet.setCreatedOn(Utility.convertTimestampToString((Date) res[INT_CREATED_ON]));
 			results.add(newAffRet);
-
 		}
-
 
 		return results.toArray(new AffiliationReturn[results.size()]);
 	}
+
 	/**
 	 * This method is used to set a user's primary name.
 	 * @param db contains the Database object
@@ -623,11 +593,13 @@ public class PersonAffiliationTable {
 		sb.append("WHERE person_id = :person_id_in ");
 		sb.append("AND affiliation_key = :affiliation_key_in ");
 		sb.append("AND end_date IS NULL ");
-		final SQLQuery query = session.createSQLQuery(sb.toString());
+
+        final SQLQuery query = session.createSQLQuery(sb.toString());
 		query.setParameter("person_id_in", bean.getPersonId());
 		query.setParameter("affiliation_key_in", bean.getAffiliationKey());
 		query.addScalar("primary_flag", StandardBasicTypes.STRING);
-		Iterator<?> it = query.list().iterator();
+
+        Iterator<?> it = query.list().iterator();
 		if (! it.hasNext()) {
 			notFound = true;
 		}
@@ -675,14 +647,14 @@ public class PersonAffiliationTable {
 			throw new CprException(ReturnType.SET_PRIMARY_FAILED_EXCEPTION, TABLE_NAME);
 		}
 	}
+
 	/**
 	 * This methods add an affiliation record to the CPR
 	 *
 	 * @param db contains the Database object
 	 * @throws CprException 
 	 */
-	public void  updateAffiliation(final Database db) throws CprException { 
-		
+	public void  updateAffiliation(final Database db) throws CprException {
 		addAffiliation(db);
 	}
 
@@ -692,11 +664,11 @@ public class PersonAffiliationTable {
 	 * @return Return's the edu person affiliation.
 	 * @throws CprException will be thrown if there are any problems.
 	 */
-	private String getEduPersonAffiliation( final String personAffiliation) throws CprException {
+	private String getEduPersonAffiliation(final String personAffiliation) throws CprException {
 		
 		RulesReturn rulesReturn = null;
 		
-		ArrayList <String> knownFacts  = new ArrayList <String>();
+		List <String> knownFacts  = new ArrayList <String>();
 		knownFacts.add(null);
 
 		String[] existingArray = new String[knownFacts.size()];
@@ -704,15 +676,10 @@ public class PersonAffiliationTable {
 		rulesReturn = new RulesEngineHelper().processRules("eduPersonRules.drl", existingArray, personAffiliation);
 		if (rulesReturn.getStatusCode() != ReturnType.SUCCESS.index()) {
 			throw new CprException(ReturnType.GENERAL_EXCEPTION, rulesReturn.getStatusMessage());
-		}
-		
-		else 
-		{	
+		} else {
 			if (rulesReturn.getNumberOfFacts() == 1 ) {
 				return rulesReturn.getFacts()[0];
-			}
-			else
-			{
+			} else {
 				throw new CprException(ReturnType.GENERAL_EXCEPTION, "Unable to retrieve Affiliations for person");			
 			}
 		}

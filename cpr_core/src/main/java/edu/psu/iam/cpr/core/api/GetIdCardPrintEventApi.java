@@ -67,7 +67,7 @@ public class GetIdCardPrintEventApi extends ExtendedBaseApi {
 		final IdCardPrintLogTable idCardPrintLogTable = ValidateIdCardPrintLog.validateGetIdCardPrintLogParameters(db, identifierType, 
 															identifier);
 		
-		final IdCardPrintLogReturn queryResults[] = idCardPrintLogTable.getIdCardPrintLog(db); 
+		final IdCardPrintLogReturn[] queryResults = idCardPrintLogTable.getIdCardPrintLog(db);
 		
 		// Build the return class.
 		return new IdCardPrintEventServiceReturn(ReturnType.SUCCESS.index(),

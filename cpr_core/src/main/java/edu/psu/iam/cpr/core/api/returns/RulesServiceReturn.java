@@ -36,7 +36,7 @@ public class RulesServiceReturn {
 	private int numberOfFacts = 0;
 	
 	/** Contains the facts return data. */
-	private String facts[] = null;
+	private String[] facts = null;
 
 	/**
 	 * Constructor
@@ -129,7 +129,7 @@ public class RulesServiceReturn {
 	/**
 	 * @param factsArray the facts to set
 	 */
-	public void setFacts(String[] factsArray) {
+	public void setFacts(final String[] factsArray) {
 		if (factsArray != null) {
 			this.facts = Arrays.copyOf(factsArray, factsArray.length);
 		}

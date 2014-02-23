@@ -35,7 +35,7 @@ public class CredentialServiceReturn {
 	private String statusMessage;
 	
 	/** Contains the names return information, this will only be populated during a GetNames service call. */
-	private CredentialReturn credentialReturnRecord[] = null;
+	private CredentialReturn[] credentialReturnRecord = null;
 	
 	/** Contains the number of elements in the namesReturnRecord array. */
 	private int numberElements = 0;
@@ -116,7 +116,7 @@ public class CredentialServiceReturn {
 	/**
 	 * @param credentialReturnRecordArray the credentialReturnRecord to set
 	 */
-	public void setCredentialReturnRecord(CredentialReturn[] credentialReturnRecordArray) {
+	public void setCredentialReturnRecord(final CredentialReturn[] credentialReturnRecordArray) {
 		if (credentialReturnRecord != null) {
 			this.credentialReturnRecord = Arrays.copyOf(credentialReturnRecordArray, credentialReturnRecordArray.length);
 		}

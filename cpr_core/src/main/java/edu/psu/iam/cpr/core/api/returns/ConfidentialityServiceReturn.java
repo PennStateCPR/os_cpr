@@ -42,7 +42,7 @@ public class ConfidentialityServiceReturn {
 	 * Contains the number of elements in return array.
 	 */
 	
-	private ConfidentialityReturn confidentialityReturn[];
+	private ConfidentialityReturn[] confidentialityReturn;
 	/**
 	 * Contains an array of results from executing the GetConfidentialityHold service.
 	 */
@@ -131,7 +131,7 @@ public class ConfidentialityServiceReturn {
 	/**
 	 * @param confidentialityReturnArray the confidentialityReturn to set
 	 */
-	public void setConfidentialityReturn(ConfidentialityReturn confidentialityReturnArray[]) {
+	public void setConfidentialityReturn(final ConfidentialityReturn[] confidentialityReturnArray) {
 		if (confidentialityReturnArray != null) {
 			this.confidentialityReturn = Arrays.copyOf(confidentialityReturnArray, confidentialityReturnArray.length);
 		}

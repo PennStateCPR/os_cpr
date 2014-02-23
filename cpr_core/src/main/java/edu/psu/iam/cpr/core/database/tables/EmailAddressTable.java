@@ -4,6 +4,7 @@ package edu.psu.iam.cpr.core.database.tables;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -345,7 +346,7 @@ public class EmailAddressTable {
 	 */
 	public EmailAddressReturn[] getEmailAddressForPersonId(final Database db, final long personId) throws CprException {
 		
-		final ArrayList<EmailAddressReturn> results = new ArrayList<EmailAddressReturn>();
+		final List<EmailAddressReturn> results = new ArrayList<EmailAddressReturn>();
 		final Session session = db.getSession();
 
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
@@ -388,7 +389,7 @@ public class EmailAddressTable {
 		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
 
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
 			emailAddressReturn.setEmailKey(((Long) res[EMAIL_KEY]).toString());
 			emailAddressReturn.setEmailAddressType(EmailAddressType.get((Long) res[EMAIL_ADDRESS_TYPE]).toString());

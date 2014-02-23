@@ -210,7 +210,7 @@ public class PsuDirectoryTable {
 		final Iterator<?> it = query.list().iterator();
 
 		if (it.hasNext()) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 
 			final PsuDirectory bean = new PsuDirectory();
 			bean.setPersonId(personId);

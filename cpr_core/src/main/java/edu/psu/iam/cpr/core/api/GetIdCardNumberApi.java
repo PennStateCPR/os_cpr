@@ -66,7 +66,7 @@ public class GetIdCardNumberApi extends ExtendedBaseApi {
 		final IdCardTable idCardTable = ValidateIdCard.validateGetIdCardParameters(db, personId, 
 															updatedBy, null, null);
 		
-		final PersonIdCardNumberReturn queryResults[] = idCardTable.getIdCardNumberForPersonId(db, personId); 
+		final PersonIdCardNumberReturn[] queryResults = idCardTable.getIdCardNumberForPersonId(db, personId);
 		
 		// Build the return class.
 		return new PersonIdCardNumberServiceReturn(ReturnType.SUCCESS.index(),

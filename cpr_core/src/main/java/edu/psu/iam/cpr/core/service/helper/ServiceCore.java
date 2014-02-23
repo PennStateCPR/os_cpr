@@ -136,7 +136,7 @@ public class ServiceCore {
 		try {
 			md = MessageDigest.getInstance("SHA");
 			md.update(password.getBytes("UTF-8"));
-			byte raw[] = md.digest();
+			byte[] raw = md.digest();
 			hash = Base64.encodeBase64String(raw);
 		} 
 		catch (NoSuchAlgorithmException e) {

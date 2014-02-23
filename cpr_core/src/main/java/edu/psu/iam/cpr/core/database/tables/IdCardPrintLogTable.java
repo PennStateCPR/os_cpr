@@ -192,7 +192,7 @@ public class IdCardPrintLogTable {
 		query.addScalar("printed_by", StandardBasicTypes.STRING);
 		query.addScalar("printed_on", StandardBasicTypes.TIMESTAMP);
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			IdCardPrintLogReturn anIdLog = new IdCardPrintLogReturn();
 			anIdLog.setPersonId((Long) res[PERSON_ID]);
 			anIdLog.setIdCardNumber((String) res[ID_CARD_NUMBER]);

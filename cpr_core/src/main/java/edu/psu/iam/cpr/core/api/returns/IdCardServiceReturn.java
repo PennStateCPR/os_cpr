@@ -35,7 +35,7 @@ public class IdCardServiceReturn {
 	private String statusMessage;
 	
 	/** Contains the id card return information, this will only be populated during a GetIdCard service call. */
-	private PersonIdCardReturn personIdCardsReturnRecord[] = null;
+	private PersonIdCardReturn[] personIdCardsReturnRecord = null;
 	
 	/** Contains the number of elements in the idCardsReturnRecord array. */
 	private int numberPersonIdCardElements = 0;
@@ -43,7 +43,7 @@ public class IdCardServiceReturn {
 	/**
 	 * Contain the photo for the id Card
 	 */
-	private PhotoReturn photoReturn[] = null;
+	private PhotoReturn[] photoReturn = null;
 	
 	/**
 	 * @return the statusCode
@@ -78,8 +78,7 @@ public class IdCardServiceReturn {
 	/**
 	 * @param personIdCardsReturnArray the personIdCardsReturnRecord to set
 	 */
-	public void setPersonIdCardsReturnRecord(
-			PersonIdCardReturn[] personIdCardsReturnArray) {
+	public void setPersonIdCardsReturnRecord(final PersonIdCardReturn[] personIdCardsReturnArray) {
 		if (personIdCardsReturnArray != null) {
 			this.personIdCardsReturnRecord = Arrays.copyOf(personIdCardsReturnArray, personIdCardsReturnArray.length);
 		}

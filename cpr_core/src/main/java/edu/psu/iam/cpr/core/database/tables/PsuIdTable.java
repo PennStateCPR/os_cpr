@@ -4,7 +4,7 @@ package edu.psu.iam.cpr.core.database.tables;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -166,7 +166,7 @@ public class PsuIdTable {
 	public PsuIdReturn[] getPsuIdForPersonId(final Database db, final long personId) {
 
 		final Session session = db.getSession();
-		final ArrayList<PsuIdReturn> results = new ArrayList<PsuIdReturn>();
+		final List<PsuIdReturn> results = new ArrayList<PsuIdReturn>();
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 
 		sb.append("SELECT psu_id, ");
@@ -195,7 +195,7 @@ public class PsuIdTable {
 		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
 
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			results.add(new PsuIdReturn((String) res[PSU_ID],									
 					Utility.formatDateToISO8601((Date) res[START_DATE]),		
 					Utility.formatDateToISO8601((Date) res[END_DATE]),		

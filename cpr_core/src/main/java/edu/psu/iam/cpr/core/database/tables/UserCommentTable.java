@@ -4,6 +4,7 @@ package edu.psu.iam.cpr.core.database.tables;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -346,11 +347,11 @@ public class UserCommentTable {
 	 * Obtain user comments.
 	 * @param db
 	 * @param userId contains the user id of person.
-	 * @return a list of user comments.
+	 * @return an array of user comments.
 	 */
 	public UserCommentReturn[] getUserComments( final Database db, final String userId ) {
 
-		final ArrayList<UserCommentReturn> results = new ArrayList<UserCommentReturn>();
+		final List<UserCommentReturn> results = new ArrayList<UserCommentReturn>();
 
 		final Session session = db.getSession();
 
@@ -406,7 +407,7 @@ public class UserCommentTable {
 
 		// Process the results.
 		while (it.hasNext()) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			UserCommentReturn ucr = new UserCommentReturn();
 			ucr.setCommentKey(((Long) res[COMMENT_KEY]).toString());
 			ucr.setUserCommentType(UserCommentType.get((Long) res[USER_COMMENT_TYPE]).toString());

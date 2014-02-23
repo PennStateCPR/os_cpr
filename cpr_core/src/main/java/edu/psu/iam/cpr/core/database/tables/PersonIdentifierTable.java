@@ -324,7 +324,7 @@ public class PersonIdentifierTable {
 
 		// Perform the query.
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			PersonIdentifierReturn personIdentifierReturn = new PersonIdentifierReturn();
 
 			// Need to find the matching identifier type object.

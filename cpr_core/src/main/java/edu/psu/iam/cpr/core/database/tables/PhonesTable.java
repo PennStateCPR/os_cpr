@@ -4,6 +4,7 @@ package edu.psu.iam.cpr.core.database.tables;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -17,6 +18,7 @@ import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.service.returns.PhoneReturn;
 import edu.psu.iam.cpr.core.util.Utility;
+
 /**
  *  This class provides an implementation for interfacing with the Phones database
  * table.  There are methods within here to add, archive,  update, and get an address for a 
@@ -426,7 +428,7 @@ public class PhonesTable {
 	 */
 	public PhoneReturn[] getPhones (final Database db, final long personId) {
 
-		final ArrayList<PhoneReturn> results = new ArrayList<PhoneReturn>();
+		final List<PhoneReturn> results = new ArrayList<PhoneReturn>();
 
 		final Session session = db.getSession();
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
@@ -478,8 +480,9 @@ public class PhonesTable {
 		query.addScalar("last_update_on",StandardBasicTypes.TIMESTAMP );
 		query.addScalar("created_by",StandardBasicTypes.STRING );
 		query.addScalar("created_on",StandardBasicTypes.TIMESTAMP );
-		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-			Object res[] = (Object []) it.next();
+
+        for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+			Object[] res = (Object []) it.next();
 			PhoneReturn aPhone = new PhoneReturn();
 			aPhone.setPhoneKey(((Long) res[PHONE_KEY]).toString());
 			aPhone.setPhoneType(PhoneType.get((Long) res[PHONE_TYPE]).toString());

@@ -673,7 +673,7 @@ public class AddressesTable {
 		query.addScalar("country", StandardBasicTypes.STRING);
 
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 
 			AddressReturn anAddress = new AddressReturn();
 			anAddress.setAddressKey(((Long) res[ADDRESS_KEY]).toString());

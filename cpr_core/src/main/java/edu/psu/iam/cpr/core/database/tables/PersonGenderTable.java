@@ -4,6 +4,7 @@ package edu.psu.iam.cpr.core.database.tables;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -194,7 +195,7 @@ public class PersonGenderTable {
 
 		final Session session = db.getSession();
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-		final ArrayList<GenderReturn> results = new ArrayList<GenderReturn>();
+		final List<GenderReturn> results = new ArrayList<GenderReturn>();
 
 		sb.append("SELECT data_type_key, ");
 		sb.append("start_date, ");
@@ -223,7 +224,7 @@ public class PersonGenderTable {
 		query.addScalar("created_on", StandardBasicTypes.TIMESTAMP);
 
 		for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-			Object res[] = (Object []) it.next();
+			Object[] res = (Object []) it.next();
 			results.add(new GenderReturn(GenderType.get((Long) res[GENDER_TYPE]).toString(),			
 					Utility.formatDateToISO8601((Date) res[START_DATE]),	
 					Utility.formatDateToISO8601((Date) res[END_DATE]),	

@@ -100,7 +100,7 @@ public class GetPersonApi extends ExtendedBaseApi {
 		// Get the DOB.
 		final DateOfBirthTable dateOfBirthTable = new DateOfBirthTable();
 		dateOfBirthTable.setReturnHistoryFlag(returnHistoryFlag);
-		final DateOfBirthReturn dateOfBirthReturn[] = dateOfBirthTable.getDateOfBirthForPersonId(db, 
+		final DateOfBirthReturn[] dateOfBirthReturn = dateOfBirthTable.getDateOfBirthForPersonId(db,
 				personId);
 		personServiceReturn.setNumberOfDateOfBirthdays(dateOfBirthReturn.length);
 		personServiceReturn.setDateOfBirthRecord(dateOfBirthReturn);
@@ -108,7 +108,7 @@ public class GetPersonApi extends ExtendedBaseApi {
 		// Get the Gender.
 		final PersonGenderTable perGenderRelTable = new PersonGenderTable();
 		perGenderRelTable.setReturnHistoryFlag(returnHistoryFlag);
-		final GenderReturn genderReturn[] = perGenderRelTable.getGenderForPersonId(db, 
+		final GenderReturn[] genderReturn = perGenderRelTable.getGenderForPersonId(db,
 				personId);
 		personServiceReturn.setNumberOfGenders(genderReturn.length);
 		personServiceReturn.setGenderReturnRecord(genderReturn);
@@ -116,7 +116,7 @@ public class GetPersonApi extends ExtendedBaseApi {
 		// Get the PSU ID.
 		final PsuIdTable psuIdTable = new PsuIdTable();
 		psuIdTable.setReturnHistoryFlag(returnHistoryFlag);
-		final PsuIdReturn psuIdReturn[] = psuIdTable.getPsuIdForPersonId(db, 
+		final PsuIdReturn[] psuIdReturn = psuIdTable.getPsuIdForPersonId(db,
 				personId);
 		personServiceReturn.setNumberOfPsuIds(psuIdReturn.length);
 		personServiceReturn.setPsuIdReturnRecord(psuIdReturn);
@@ -124,35 +124,35 @@ public class GetPersonApi extends ExtendedBaseApi {
 		// Get the names.
 		final NamesTable namesTable = new NamesTable();
 		namesTable.setReturnHistoryFlag(returnHistoryFlag);
-		final NameReturn nameReturn[] = namesTable.getNamesForPersonId(db, personId);
+		final NameReturn[] nameReturn = namesTable.getNamesForPersonId(db, personId);
 		personServiceReturn.setNumberOfNames(nameReturn.length);
 		personServiceReturn.setNameReturnRecord(nameReturn);
 
 		// Get the addresses.
 		final AddressesTable addressesTable = new AddressesTable();
 		addressesTable.setReturnHistoryFlag(returnHistoryFlag);
-		final AddressReturn addressReturn[] = addressesTable.getAddress(db, personId);
+		final AddressReturn[] addressReturn = addressesTable.getAddress(db, personId);
 		personServiceReturn.setNumberOfAddresses(addressReturn.length);
 		personServiceReturn.setAddressReturnRecord(addressReturn);
 
 		// Get the phones.
 		final PhonesTable phonesTable = new PhonesTable();
 		phonesTable.setReturnHistoryFlag(returnHistoryFlag);
-		final PhoneReturn phoneReturn[] = phonesTable.getPhones(db, personId);
+		final PhoneReturn[] phoneReturn = phonesTable.getPhones(db, personId);
 		personServiceReturn.setNumberOfPhones(phoneReturn.length);
 		personServiceReturn.setPhoneReturnRecord(phoneReturn);
 
 		// Get the email addresses.
 		final EmailAddressTable emailAddressTable = new EmailAddressTable();
 		emailAddressTable.setReturnHistoryFlag(returnHistoryFlag);
-		final EmailAddressReturn emailAddressReturn[] = emailAddressTable.getEmailAddressForPersonId(db, personId);			
+		final EmailAddressReturn[] emailAddressReturn = emailAddressTable.getEmailAddressForPersonId(db, personId);
 		personServiceReturn.setNumberOfEmailAddresses(emailAddressReturn.length);
 		personServiceReturn.setEmailAddressReturnRecord(emailAddressReturn);
 
 		// Get the userids.
 		final UseridTable useridTable = new UseridTable();
 		useridTable.setReturnHistoryFlag(returnHistoryFlag);
-		final UseridReturn useridReturn[] = useridTable.getUseridsForPersonId(db, personId);
+		final UseridReturn[] useridReturn = useridTable.getUseridsForPersonId(db, personId);
 		personServiceReturn.setNumberOfUserids(useridReturn.length);
 		personServiceReturn.setUseridReturnRecord(useridReturn);
 
@@ -160,7 +160,7 @@ public class GetPersonApi extends ExtendedBaseApi {
 		// Get the affiliations.
 		final PersonAffiliationTable affiliationsTable = new PersonAffiliationTable();
 		affiliationsTable.setReturnHistoryFlag(returnHistoryFlag);
-		final AffiliationReturn affiliationReturn[] = affiliationsTable.getAllAffiliationsForPersonId(db, personId);
+		final AffiliationReturn[] affiliationReturn = affiliationsTable.getAllAffiliationsForPersonId(db, personId);
 		personServiceReturn.setNumberOfAffiliations(affiliationReturn.length);
 		personServiceReturn.setAffiliationReturnRecord(affiliationReturn);
 		

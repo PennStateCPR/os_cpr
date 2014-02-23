@@ -36,7 +36,7 @@ public class IdCardPrintEventServiceReturn {
 	private String statusMessage;
 	
 	/** Contains the id card return information, this will only be populated during a GetIdCard service call. */
-	private IdCardPrintLogReturn idCardPrintEventReturnRecord[] = null;
+	private IdCardPrintLogReturn[] idCardPrintEventReturnRecord = null;
 	
 	/** Contains the number of elements in the idCardsReturnRecord array. */
 	private int numberIdCardPrintEventElements = 0;
@@ -72,8 +72,7 @@ public class IdCardPrintEventServiceReturn {
 	/**
 	 * @param idCardPrintEventReturnArray the idCardPrintEventReturnRecord to set
 	 */
-	public void setIdCardPrintEventReturnRecord(
-			IdCardPrintLogReturn[] idCardPrintEventReturnArray) {
+	public void setIdCardPrintEventReturnRecord(final IdCardPrintLogReturn[] idCardPrintEventReturnArray) {
 		if (idCardPrintEventReturnArray != null) {
 			this.idCardPrintEventReturnRecord = Arrays.copyOf(idCardPrintEventReturnArray, idCardPrintEventReturnArray.length);
 		}

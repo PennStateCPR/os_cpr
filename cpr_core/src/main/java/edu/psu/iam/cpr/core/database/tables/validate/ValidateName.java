@@ -181,9 +181,9 @@ public final class ValidateName {
 			localDocumentType = documentType.trim().toUpperCase();
 		}
 		
-		final String dbColumnNames[] = { FIRST_NAME, MIDDLE_NAMES, SUFFIX, NICKNAME };
-		final String inputFields[]   = { localFirstName, localMiddleNames, localSuffix, localNickname };
-		final String prettyNames[] = { "First name", "Middle name(s)", "Suffix", "Nickname" };
+		final String[] dbColumnNames = { FIRST_NAME, MIDDLE_NAMES, SUFFIX, NICKNAME };
+		final String[] inputFields   = { localFirstName, localMiddleNames, localSuffix, localNickname };
+		final String[] prettyNames = { "First name", "Middle name(s)", "Suffix", "Nickname" };
 		
 		// Verify that the lengths for the individual fields do not exceed the maximum for the database.
 		for (int i = 0; i < dbColumnNames.length; ++i) {
