@@ -341,12 +341,12 @@ public class UtilityTest {
         final Calendar cal1 = Calendar.getInstance();
         cal1.set(Calendar.YEAR, 2014);
         cal1.set(Calendar.MONTH, Calendar.FEBRUARY);
-        cal1.set(Calendar.DAY_OF_MONTH, 1);
-        cal1.set(Calendar.HOUR, 10);
-        cal1.set(Calendar.MINUTE, 30);
-        cal1.set(Calendar.SECOND, 5);
+        cal1.set(Calendar.DAY_OF_MONTH, 23);
+        cal1.set(Calendar.HOUR_OF_DAY, 14);
+        cal1.set(Calendar.MINUTE, 46);
+        cal1.set(Calendar.SECOND, 3);
 
-        AssertJUnit.assertEquals("2014-02-01T15:30:05+0000", Utility.formatDateToISO8601(cal1.getTime()));
+        AssertJUnit.assertEquals("2014-02-23T19:46:03+0000", Utility.formatDateToISO8601(cal1.getTime()));
     }
 
     @Test
@@ -355,7 +355,7 @@ public class UtilityTest {
         cal1.set(Calendar.YEAR, 2014);
         cal1.set(Calendar.MONTH, Calendar.FEBRUARY);
         cal1.set(Calendar.DAY_OF_MONTH, 1);
-        cal1.set(Calendar.HOUR, 10);
+        cal1.set(Calendar.HOUR_OF_DAY, 10);
         cal1.set(Calendar.MINUTE, 30);
         cal1.set(Calendar.SECOND, 5);
 
