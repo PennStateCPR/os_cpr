@@ -449,8 +449,6 @@ public final class Utility {
             } else if (parm1 == null && parm2 != null ||
                     parm1 != null && parm2 == null) {
                 return false;
-            } else if (parm1 != null && parm2 == null) {
-                return false;
             } else {
                 return parm1.equals(parm2);
             }

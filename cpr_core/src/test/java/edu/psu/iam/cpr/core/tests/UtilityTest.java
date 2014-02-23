@@ -225,13 +225,13 @@ public class UtilityTest {
         AssertJUnit.assertFalse(Utility.fieldIsPresent((String[])null));
         AssertJUnit.assertFalse(Utility.fieldIsPresent("foo", null, "bar"));
         AssertJUnit.assertTrue(Utility.fieldIsPresent("foo"));
-        AssertJUnit.assertTrue(Utility.fieldIsPresent(new String[] {}));
-        AssertJUnit.assertTrue(Utility.fieldIsPresent(new String[] {"foo", "bar", "baz"}));
+        AssertJUnit.assertTrue(Utility.fieldIsPresent(new String[]{}));
+        AssertJUnit.assertTrue(Utility.fieldIsPresent(new String[]{"foo", "bar", "baz"}));
     }
 
     @Test
     public final void _87testFieldIsNotPresent() {
-        AssertJUnit.assertTrue(Utility.fieldIsNotPresent((String[])null));
+        AssertJUnit.assertTrue(Utility.fieldIsNotPresent((String[]) null));
         AssertJUnit.assertTrue(Utility.fieldIsNotPresent("foo", null, "bar"));
         AssertJUnit.assertFalse(Utility.fieldIsNotPresent("foo"));
         AssertJUnit.assertFalse(Utility.fieldIsNotPresent(new String[]{}));
@@ -310,6 +310,66 @@ public class UtilityTest {
         endCal.set(Calendar.MILLISECOND, 0);
 
         AssertJUnit.assertEquals(0, endCal.getTime().compareTo(Utility.makeEndDate(cal.getTime())));
+    }
+
+    @Test
+    public void _95TestAreDateFieldsEqual() {
+        final Calendar cal1 = Calendar.getInstance();
+        cal1.set(Calendar.YEAR, 2014);
+        cal1.set(Calendar.MONTH, Calendar.FEBRUARY);
+        cal1.set(Calendar.DAY_OF_MONTH, 1);
+
+        final Calendar cal2 = Calendar.getInstance();
+        cal2.set(Calendar.YEAR, 2014);
+        cal2.set(Calendar.MONTH, Calendar.FEBRUARY);
+        cal2.set(Calendar.DAY_OF_MONTH, 1);
+
+        final Calendar cal3 = Calendar.getInstance();
+        cal3.set(Calendar.YEAR, 2016);
+        cal3.set(Calendar.MONTH, Calendar.MARCH);
+        cal3.set(Calendar.DAY_OF_MONTH, 15);
+
+        AssertJUnit.assertTrue(Utility.areDateFieldsEqual(null, null));
+        AssertJUnit.assertFalse(Utility.areDateFieldsEqual(cal1.getTime(), null));
+        AssertJUnit.assertFalse(Utility.areDateFieldsEqual(null, cal2.getTime()));
+        AssertJUnit.assertTrue(Utility.areDateFieldsEqual(cal1.getTime(), cal2.getTime()));
+        AssertJUnit.assertFalse(Utility.areDateFieldsEqual(cal1.getTime(), cal3.getTime()));
+    }
+
+    @Test
+    public void _96TestFormatDateToISO8601() {
+        final Calendar cal1 = Calendar.getInstance();
+        cal1.set(Calendar.YEAR, 2014);
+        cal1.set(Calendar.MONTH, Calendar.FEBRUARY);
+        cal1.set(Calendar.DAY_OF_MONTH, 1);
+        cal1.set(Calendar.HOUR, 10);
+        cal1.set(Calendar.MINUTE, 30);
+        cal1.set(Calendar.SECOND, 5);
+
+        AssertJUnit.assertEquals("2014-02-01T15:30:05+0000", Utility.formatDateToISO8601(cal1.getTime()));
+    }
+
+    @Test
+    public void _97TformatTimeMsToISO8601() {
+        final Calendar cal1 = Calendar.getInstance();
+        cal1.set(Calendar.YEAR, 2014);
+        cal1.set(Calendar.MONTH, Calendar.FEBRUARY);
+        cal1.set(Calendar.DAY_OF_MONTH, 1);
+        cal1.set(Calendar.HOUR, 10);
+        cal1.set(Calendar.MINUTE, 30);
+        cal1.set(Calendar.SECOND, 5);
+
+        AssertJUnit.assertEquals("2014-02-01T15:30:05+0000", Utility.formatTimeMsToISO8601(cal1.getTime().getTime()));
+    }
+
+    @Test
+    public void _98TestConstructUri() {
+        final String path = "path/to/some/service";
+        final String key = "serviceName";
+
+        AssertJUnit.assertEquals("/" + path + "/" + "null", Utility.constructUri(path, null));
+        AssertJUnit.assertEquals("/null/" + key, Utility.constructUri(null, key));
+        AssertJUnit.assertEquals("/" + path + "/" + key, Utility.constructUri(path, key));
     }
 
     @Test
