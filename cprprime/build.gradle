@@ -5,3 +5,7 @@ mainClassName='edu.psu.iam.cpr.utility.PrimeCPR'
 dependencies {
 	compile project(':cpr_core')
 }
+
+run {
+	args = ['prime_data/data.order', 'prime_data']
+}
