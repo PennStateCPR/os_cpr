@@ -12,5 +12,6 @@
 	<classpathentry exported="true" kind="lib" path="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/org.beanshell/bsh/2.0b4/jar/a05f0a0feefa8d8467ac80e16e7de071489f0d9c/bsh-2.0b4.jar"/>
 	<classpathentry exported="true" kind="lib" path="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/com.beust/jcommander/1.27/jar/58c9cbf0f1fa296f93c712f2cf46de50471920f9/jcommander-1.27.jar" sourcepath="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/com.beust/jcommander/1.27/source/fae697ac46477a5227a5ee14f8f3a1270a4627b0/jcommander-1.27-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/org.yaml/snakeyaml/1.12/bundle/ebe66a6b88caab31d7a19571ad23656377523545/snakeyaml-1.12.jar" sourcepath="/Users/jvuccolo/.gradle/caches/artifacts-26/filestore/org.yaml/snakeyaml/1.12/source/f86c67beb22f7d1edb5d6c6a3c4dab77a23234da/snakeyaml-1.12-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/jvuccolo/Desktop/cprws.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
