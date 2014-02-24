@@ -774,7 +774,7 @@ public class AddressesTable {
 		else {
 
 			final String primaryFlag = (String) it.next();
-			if (primaryFlag.equals("Y")) {
+			if (Utility.isOptionYes(primaryFlag)) {
 				alreadyPrimary = true;
 			}
 			else {

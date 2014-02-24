@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import edu.psu.iam.cpr.core.util.Utility;
 import org.hibernate.Query;
 
 import edu.psu.iam.cpr.core.database.Database;
@@ -559,7 +560,7 @@ public class DatabaseUI extends Database {
 			throw new CprException(ReturnType.GENERAL_DATABASE_EXCEPTION,"Application not found with name " + applicationName);
 		}
 		UiApplications dbBean = (UiApplications)appQuery.list().get(UI_APPLICATION);
-		if (dbBean.getSuspendFlag().equals("Y")) {
+		if (Utility.isOptionYes(dbBean.getSuspendFlag())) {
 			throw new CprException(ReturnType.GENERAL_DATABASE_EXCEPTION,"UI Application suspended.");
 		}
 		
@@ -603,7 +604,7 @@ public class DatabaseUI extends Database {
 			throw new CprException(ReturnType.GENERAL_DATABASE_EXCEPTION,"RA application not found for ui_application_key " + uiApplicationKey + " and registration_authority_key " + registrationAuthorityKey);
 		}
 		RaApplications dbBean = (RaApplications)raQuery.list().get(GET_ITEM_0);
-		if (dbBean.getSuspendFlag().equals("Y")) {
+		if (Utility.isOptionYes(dbBean.getSuspendFlag())) {
 			throw new CprException(ReturnType.GENERAL_DATABASE_EXCEPTION,"RA application suspended.");
 		}
 		

@@ -271,12 +271,12 @@ public class UpdatePersonApi extends ExtendedBaseApi {
 			affiliationsTable.updateAffiliation(db);
 		}
 
-		if (assignUserid.equals("Y")) {
+		if (Utility.isOptionYes(assignUserid)) {
 			useridTable = ValidateUserid.validateUseridParameters(db, personTable.getPersonBean().getPersonId(), updatedBy);
 			useridTable.addUserid(db);
 		}
 
-		if (assignPsuId.equals("Y")) {
+		if (Utility.isOptionYes(    assignPsuId)) {
 			psuIdTable = new PsuIdTable(personTable.getPersonBean().getPersonId(), null, updatedBy);
 			psuIdTable.addPsuIdForPersonId(db);
 		}

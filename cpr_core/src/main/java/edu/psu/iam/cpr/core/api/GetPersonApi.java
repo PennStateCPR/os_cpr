@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.jms.JMSException;
 
+import edu.psu.iam.cpr.core.util.Utility;
 import org.json.JSONException;
 
 import edu.psu.iam.cpr.core.api.helper.ApiHelper;
@@ -85,7 +86,7 @@ public class GetPersonApi extends ExtendedBaseApi {
 		if (returnHistory == null) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
-		boolean returnHistoryFlag = (returnHistory.equals("Y")) ? true : false;
+		boolean returnHistoryFlag = Utility.isOptionYes(returnHistory);
 		
 		// Validate the person parameters.
 		ValidatePerson.validatePersonParameters(db, personId, updatedBy);

@@ -6,6 +6,7 @@ import edu.psu.iam.cpr.core.database.beans.IdentifierType;
 import edu.psu.iam.cpr.core.database.tables.PersonIdentifierTable;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.Utility;
 
 /**
  * This class contains functions that are used to validate information that was specified during an Add/Archive/Get 
@@ -76,7 +77,7 @@ public final class ValidatePersonIdentifier {
 			if (identifierType == null) {
 				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, IDENTIFIER_TYPE_STRING);
 			}
-			if (identifierType.getCanAssignFlag().equals("N")) {
+			if (Utility.isOptionNo(identifierType.getCanAssignFlag())) {
 				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, IDENTIFIER_TYPE_STRING);
 			}
 			personIdentifierTable.setIdentifierType(identifierType);

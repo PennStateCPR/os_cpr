@@ -363,7 +363,7 @@ public class NamesPostProcessor {
 			
 			// Call Validate to ensure the student aid flag is a Y/N value.
 			final String flag = Validate.isValidYesNo(bean.getStudentAidFlag());
-			if (flag.equalsIgnoreCase("Y")) {
+			if (Utility.isOptionYes(flag)) {
 				setStudentAid(true);
 			}
 			else {

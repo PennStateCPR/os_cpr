@@ -605,7 +605,7 @@ public class PersonAffiliationTable {
 		}
 		else {
 			String primaryFlag = (String) it.next();
-			if (primaryFlag.equals("Y")) {
+			if (Utility.isOptionYes(primaryFlag)) {
 				alreadyPrimary = true;
 			}
 			else {

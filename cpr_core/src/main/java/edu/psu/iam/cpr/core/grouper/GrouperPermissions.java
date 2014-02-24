@@ -20,6 +20,8 @@ import edu.internet2.middleware.grouperClient.ws.beans.WsSubject;
 import edu.internet2.middleware.grouperClient.ws.beans.WsSubjectLookup;
 import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.util.CprProperties;
+import edu.psu.iam.cpr.core.util.Utility;
+
 /**
  *  This class provides an implementation for interfacing with the Grouper.  There are methods
  *  here to send REST request to grouper and process the response.
@@ -35,11 +37,12 @@ import edu.psu.iam.cpr.core.util.CprProperties;
  * @lastrevision $Date: 2012-12-11 09:07:11 -0500 (Tue, 11 Dec 2012) $
  */
 public class GrouperPermissions {
-	
-	private static final int BUFFER_SIZE = 512;
+
+    private static final int BUFFER_SIZE = 512;
 	private static final int MASTER_STRING_LENGTH = 6;
-     
-     /**
+    protected static final String SUSPEND_FLAG = "suspend_flag";
+
+    /**
  	 * 	Constructor
  	 */
  	public GrouperPermissions() {
@@ -119,8 +122,8 @@ public class GrouperPermissions {
 											/*
 											 * look for the suspend flag
 											 */
-											if (groupAttributesNames[attrIndex].equals("suspend_flag") ) {
-												if (groupAttributesValues[attrIndex].equals("Y")) {
+											if (SUSPEND_FLAG.equals(groupAttributesNames[attrIndex]) ) {
+												if (Utility.isOptionYes(groupAttributesValues[attrIndex])) {
 													raGroupData.setRegistrationAuthoritySuspendFlag(true);
 													return raGroupData;
 												}
@@ -180,7 +183,7 @@ public class GrouperPermissions {
 			 */
 			for ( int permIndex = 0;permIndex < permissionArray.length; permIndex++)  {
 				if (permissionArray[permIndex].getAttributeDefNameName().equals(grouperAffiliationType.toString())) {
-					return (permissionArray[permIndex].getAllowedOverall().equals("T")) ;
+					return ("T".equals(permissionArray[permIndex].getAllowedOverall())) ;
 					
 				}
 		
@@ -228,7 +231,7 @@ public class GrouperPermissions {
 			 */
 			for ( int permIndex = 0;permIndex < permissionArray.length; permIndex++)  {
 				if (permissionArray[permIndex].getAttributeDefNameName().equals(grouperDataResource.toString())) {
-					return (permissionArray[permIndex].getAllowedOverall().equals("T")) ;
+					return ("T".equals(permissionArray[permIndex].getAllowedOverall())) ;
 				}
 
 			}
@@ -273,7 +276,7 @@ public class GrouperPermissions {
 				 * is access allowed
 				 */
 				if (permissionArray[permIndex].getAttributeDefNameName().equals(grouperWebService.toString())) {
-					return  (permissionArray[permIndex].getAllowedOverall().equals("T")); 
+					return  ("T".equals(permissionArray[permIndex].getAllowedOverall()));
 				}
 		
 			}
@@ -313,7 +316,7 @@ public class GrouperPermissions {
 			 * 
 			 */
 			if (member.getSuccess() != null) {
-				if (member.getSuccess().equals("T")) {
+				if ("T".equals(member.getSuccess())) {
 					return true;							
 				}							
 				else							

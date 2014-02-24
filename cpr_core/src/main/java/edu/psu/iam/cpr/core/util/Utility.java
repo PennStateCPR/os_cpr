@@ -694,9 +694,9 @@ public final class Utility {
 
         final String genderTrim = gender.trim().toUpperCase();
 
-        if (genderTrim.equals("M")) {
+        if ("M".equals(genderTrim)) {
             genderType = GenderType.GENDER_MALE;
-        } else if (genderTrim.equals("F")) {
+        } else if ("F".equals(genderTrim)) {
             genderType = GenderType.GENDER_FEMALE;
         } else {
             genderType = GenderType.GENDER_OTHER;

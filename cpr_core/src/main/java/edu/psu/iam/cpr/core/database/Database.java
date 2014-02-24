@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import edu.psu.iam.cpr.core.util.Utility;
 import org.apache.log4j.Logger;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -217,7 +218,7 @@ public class Database {
 		// Is the RA suspended?
 		if (localRegistrationAuthoritykey.equals(NOT_FOUND_VALUE) ||
 				raServerPrincipalKey.equals(NOT_FOUND_VALUE) ||
-				suspendFlag.equals("Y")) {
+                Utility.isOptionYes(suspendFlag)) {
 			throw new CprException(ReturnType.NOT_AUTHORIZED_EXCEPTION, serviceName);
 		}
 		
@@ -318,9 +319,9 @@ public class Database {
 
 		// If any of the suspend flags is set to Yes, we need to throw an exception.
 		if (localCprAccessGroupsKey.equals(NOT_FOUND_VALUE) ||
-				grpMbrsSuspendFlag.equals("Y") ||
-				cprAccGrpsSuspendFlag.equals("Y") ||
-				webSrvAccSuspendFlag.equals("Y")) {
+				Utility.isOptionYes(grpMbrsSuspendFlag) ||
+				Utility.isOptionYes(cprAccGrpsSuspendFlag) ||
+				Utility.isOptionYes(webSrvAccSuspendFlag)) {
 			throw new CprException(ReturnType.NOT_AUTHORIZED_EXCEPTION, serviceName);
 		}
 
@@ -398,13 +399,13 @@ public class Database {
 		
 		boolean hasAccess = false;
 		if (accessOperationKey == AccessType.ACCESS_OPERATION_ARCHIVE.index()) {
-			hasAccess = archiveFlag.equals("Y");
+			hasAccess = Utility.isOptionYes(archiveFlag);
 		}
 		else if (accessOperationKey == AccessType.ACCESS_OPERATION_READ.index()) {
-			hasAccess = readFlag.equals("Y");
+			hasAccess = Utility.isOptionYes(readFlag);
 		}
 		else if (accessOperationKey == AccessType.ACCESS_OPERATION_WRITE.index()) {
-			hasAccess = writeFlag.equals("Y");
+			hasAccess = Utility.isOptionYes(writeFlag);
 		}
 		
 		if (! hasAccess) {
@@ -483,13 +484,13 @@ public class Database {
 		
 		boolean hasAccess = false;
 		if (accessOperationKey == AccessType.ACCESS_OPERATION_ARCHIVE.index()) {
-			hasAccess = archiveFlag.equals("Y");
+			hasAccess = Utility.isOptionYes(archiveFlag);
 		}
 		else if (accessOperationKey == AccessType.ACCESS_OPERATION_READ.index()) {
-			hasAccess = readFlag.equals("Y");
+			hasAccess = Utility.isOptionYes(readFlag);
 		}
 		else if (accessOperationKey == AccessType.ACCESS_OPERATION_WRITE.index()) {
-			hasAccess = writeFlag.equals("Y");
+			hasAccess = Utility.isOptionYes(writeFlag);
 		}
 		
 		if (! hasAccess) {

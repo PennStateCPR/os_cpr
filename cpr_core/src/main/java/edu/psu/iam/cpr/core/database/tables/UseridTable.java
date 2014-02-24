@@ -270,7 +270,7 @@ public class UseridTable {
 			}
 
 			// Already primary, we have an error.
-			else if (bean.getPrimaryFlag().equals("Y")) {
+			else if (Utility.isOptionYes(bean.getPrimaryFlag())) {
 				alreadyPrimary = true;
 			}
 			else {
@@ -370,7 +370,7 @@ public class UseridTable {
 				}
 
 				// If there are more than one record and this one is primary, do not all the archival.
-				else if (activeCount > 1 && bean.getPrimaryFlag().equals("Y")) {
+				else if (activeCount > 1 && Utility.isOptionYes(bean.getPrimaryFlag())) {
 					cannotArchive = true;
 				}
 

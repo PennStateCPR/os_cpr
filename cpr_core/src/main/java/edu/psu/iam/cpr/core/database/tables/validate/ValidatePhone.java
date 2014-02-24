@@ -11,6 +11,7 @@ import edu.psu.iam.cpr.core.database.types.CprPropertyName;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
 import edu.psu.iam.cpr.core.util.CprProperties;
+import edu.psu.iam.cpr.core.util.Utility;
 import edu.psu.iam.cpr.core.util.Validate;
 
 
@@ -110,7 +111,7 @@ public final class ValidatePhone {
     		return false;
     	}
      	
-    	if (localIsInternational.equals("Y")) {
+    	if (Utility.isOptionYes(localIsInternational)) {
     		// Check the format for an international number format
     		if (Pattern.matches(CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_REGEX_INT_PHONE_NUMBER.toString()), 
     				localPhoneNumber)) {

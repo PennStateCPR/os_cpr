@@ -102,13 +102,13 @@ public final class ValidateSSN {
 	 */
 	private static boolean isSSNPartValid(final String areaNumber,
 			final String groupNumber, final String serialNumber) {
-		
-		if (areaNumber.equals("000") || groupNumber.equals("00") || serialNumber.equals("0000")) {
+
+		if ("000".equals(areaNumber) || "00".equals(groupNumber) || "0000".equals(serialNumber)) {
 	    	return false;
 	    }
 
 	    // SSNs in the range 987-65-4320 to 987-65-4329 are reserved for advertising
-	    if (areaNumber.equals("987") && groupNumber.equals("65")) {
+	    if ("987".equals(areaNumber) && "65".equals(groupNumber)) {
 	    	int areaNum = Integer.parseInt(serialNumber);
 	    	if (areaNum >= DEMO_SSN_MIN && areaNum <= DEMO_SSN_MAX) {
 	    		return false;

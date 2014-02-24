@@ -4,6 +4,7 @@ package edu.psu.iam.cpr.core.database.tables;
 import java.util.Date;
 import java.util.Iterator;
 
+import edu.psu.iam.cpr.core.util.Utility;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -74,7 +75,7 @@ public class CprComponentStatusTable {
 			boolean activeFlag = false;
 			for (Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
 				CprComponentStatus cprComponentStatus = (CprComponentStatus) it.next();
-				if (cprComponentStatus.getActiveFlag().equals("Y")) {
+				if (Utility.isOptionYes(cprComponentStatus.getActiveFlag())) {
 					activeFlag = true;
 				}
 			}

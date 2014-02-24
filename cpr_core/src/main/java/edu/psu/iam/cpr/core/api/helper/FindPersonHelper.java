@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import edu.psu.iam.cpr.core.util.Utility;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
@@ -463,7 +464,7 @@ public class FindPersonHelper {
 		}
 		
 		for (UseridReturn uid : queryResults) {
-			if (uid.getPrimary().equals("Y")) {
+			if (Utility.isOptionYes(uid.getPrimary())) {
 				return uid.getUserid();
 			}
 		}
@@ -493,7 +494,7 @@ public class FindPersonHelper {
 		LOG4J_LOGGER.debug("FPH: number of userids found = " + queryResults.length);
 		
 		for (UseridReturn uid : queryResults) {
-			if (uid.getPrimary().equals("Y")) {
+			if (Utility.isOptionYes(uid.getPrimary())) {
 				return uid.getUserid();
 			}
 		}

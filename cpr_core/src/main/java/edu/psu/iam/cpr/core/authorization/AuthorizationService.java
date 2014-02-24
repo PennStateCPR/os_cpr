@@ -36,7 +36,9 @@ import edu.psu.iam.cpr.core.util.CprProperties;
  */
 public class AuthorizationService {
 
-	/** Grouper Permission object */
+    public static final String GROUPER = "grouper";
+
+    /** Grouper Permission object */
 	private GrouperPermissions grouperPerm;
 	
 	/**
@@ -61,7 +63,7 @@ public class AuthorizationService {
 		boolean theResult = false;
 		CprComponentStatusTable cprComponentStatusTable = new CprComponentStatusTable();
 		String authzModel = CprProperties.INSTANCE.getProperties().getProperty(CprPropertyName.CPR_AUTHZ_MODEL.toString());
-		if (authzModel.equals("grouper") ) {
+		if (GROUPER.equals(authzModel)) {
 			if (cprComponentStatusTable.isCprComponentActive(db, CprComponent.GROUPER) )
 			{
 				theResult = grouperPerm.isDataActionAuthorized(dataResource,  action.toLowerCase(), requestor);
@@ -96,7 +98,7 @@ public class AuthorizationService {
 		/* 
 		 * if authzM
 		 */
-		if (authzModel.equals("grouper") ) {
+		if (GROUPER.equals(authzModel) ) {
 			if (cprComponentStatusTable.isCprComponentActive(db, CprComponent.GROUPER) ){
 				grouperPerm = new GrouperPermissions();	
 				localGroupData = grouperPerm.getGroupNameFromPrincipal(principalId);

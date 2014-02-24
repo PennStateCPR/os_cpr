@@ -353,7 +353,7 @@ public final class ValidateAddress {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, ADDRESS_DOCUMENT_TYPE);
 		}
 
-		if (localCountryCode.equalsIgnoreCase("USA")) {
+		if ("USA".equalsIgnoreCase(localCountryCode)) {
 			stateName = localStateOrProvince;
 			if (! isAddressValid(db, localAddress1, localAddress2, localAddress3, localCity, stateName, localPostalCode, true)) {
 				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, ADDRESS);

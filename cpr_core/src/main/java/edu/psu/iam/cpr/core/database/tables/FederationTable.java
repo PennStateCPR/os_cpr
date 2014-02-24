@@ -3,6 +3,7 @@ package edu.psu.iam.cpr.core.database.tables;
 
 import java.util.Iterator;
 
+import edu.psu.iam.cpr.core.util.Utility;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.type.StandardBasicTypes;
@@ -63,7 +64,7 @@ public class FederationTable {
 		final Iterator<?> it = query.list().iterator();
 		if (it.hasNext()) {
 			activeFlag = (String) it.next();
-			if (activeFlag.equals("Y")) {
+			if (Utility.isOptionYes(activeFlag)) {
 				fedValid = true;
 			}
 		}

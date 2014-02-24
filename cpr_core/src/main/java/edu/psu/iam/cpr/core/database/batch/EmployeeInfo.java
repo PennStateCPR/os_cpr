@@ -410,7 +410,7 @@ public class EmployeeInfo extends PersonBio {
 			localDepartment = department.toUpperCase();
 		}
 		if (getBatchDataSource() == BatchDataSource.IBIS || getBatchDataSource() == BatchDataSource.UNIT_TEST) {
-			if (primaryAppt.equals("Y")) {
+			if (Utility.isOptionYes(primaryAppt)) {
 				query = session.createQuery("from Employee where personId = :person_id and primaryApptFlag = :primary_appt_flag");
 				query.setParameter("person_id", getPersonId());
 				query.setParameter("primary_appt_flag", primaryAppt);

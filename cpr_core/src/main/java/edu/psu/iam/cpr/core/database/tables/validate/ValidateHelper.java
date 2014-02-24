@@ -3,6 +3,7 @@ package edu.psu.iam.cpr.core.database.tables.validate;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.error.CprException;
 import edu.psu.iam.cpr.core.error.ReturnType;
+import edu.psu.iam.cpr.core.util.Utility;
 import edu.psu.iam.cpr.core.util.Validate;
 
 /**
@@ -109,7 +110,7 @@ public final class ValidateHelper {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Return history");
 		}
 		
-		if (localInput.equals("Y")) {
+		if (Utility.isOptionYes(localInput)) {
 			return true;
 		}
 		else {
