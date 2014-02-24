@@ -213,7 +213,7 @@ public class RulesEngine {
 			}
 		}
 		
-		if (facts.size() == 0) {
+		if (facts.isEmpty()) {
 			returnValue = ReturnType.GENERAL_EXCEPTION.index();
 		}
 

@@ -114,7 +114,7 @@ public final class ApiHelper {
 	 */
 	public static String dumpParameters(final Map<String, Object> otherParameters) {
 		
-		if (otherParameters == null || otherParameters.size() == 0) {
+		if (otherParameters == null || otherParameters.isEmpty()) {
 			return "";
 		}
 
