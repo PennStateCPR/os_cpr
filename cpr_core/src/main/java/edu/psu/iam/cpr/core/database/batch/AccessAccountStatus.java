@@ -36,7 +36,7 @@ public class AccessAccountStatus {
 	private StatelessSession databaseSession;
 	
 	/** Contains the batch data source */
-	private final BatchDataSource batchDataSource = BatchDataSource.OASIS;
+	private static final BatchDataSource batchDataSource = BatchDataSource.OASIS;
 	
 	/** Contains the date the service was added, effectively when this batch program was executed. */
 	private final Date serviceDate = new Date();
