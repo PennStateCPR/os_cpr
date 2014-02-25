@@ -38,7 +38,15 @@ public class ValidateSSNTest {
 	public void testNullSSN() {
 		AssertJUnit.assertEquals(ValidateSSN.validateSSN(null), false);
 	}
-	
+
+    /**
+     * Test for {@link edu.psu.iam.cpr.core.util.ValidateSSN#validateSSN(String)}
+     */
+    @Test
+    public void testEmptySSN() {
+        AssertJUnit.assertEquals(ValidateSSN.validateSSN(""), false);
+    }
+
 	/**
 	 * Test for {@link edu.psu.iam.cpr.core.util.ValidateSSN#validateSSN(String)}
 	 */
