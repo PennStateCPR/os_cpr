@@ -1,6 +1,7 @@
 package edu.psu.iam.cpr.core.tests;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
@@ -19,16 +20,16 @@ public class ScreenUITest {
 	 */
 	@Test
 	public final void testScreenUI() {
-		ScreenUI test = new ScreenUI();
+		final ScreenUI test = new ScreenUI();
 		AssertJUnit.assertNotNull(test);
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.ui.ScreenUI#ScreenUI(String screenName, ArrayList<FieldUI> fieldList)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.ui.ScreenUI#ScreenUI(String screenName, List<FieldUI> fieldList)}.
 	 */
 	@Test
 	public final void testScreenUIArgs() {
-		ScreenUI test = new ScreenUI("TestScreen", new ArrayList<FieldUI>());
+		final ScreenUI test = new ScreenUI("TestScreen", new ArrayList<FieldUI>());
 		AssertJUnit.assertNotNull(test);
 	}
 	
@@ -37,7 +38,7 @@ public class ScreenUITest {
 	 */
 	@Test
 	public final void testGetScreenName() {
-		ScreenUI test = new ScreenUI();
+		final ScreenUI test = new ScreenUI();
 		test.setScreenName("TestScreen");
 		AssertJUnit.assertEquals("TestScreen", test.getScreenName());
 	}
@@ -47,7 +48,7 @@ public class ScreenUITest {
 	 */
 	@Test
 	public final void testGetFieldList() {
-		ScreenUI test = new ScreenUI();
+		final ScreenUI test = new ScreenUI();
 		test.setFieldList(new ArrayList<FieldUI>());
 		AssertJUnit.assertNotNull(test.getFieldList());
 	}
@@ -57,7 +58,16 @@ public class ScreenUITest {
 	 */
 	@Test
 	public final void testToString() {
-		ScreenUI test = new ScreenUI("TestScreen", new ArrayList<FieldUI>());
-		AssertJUnit.assertTrue(test.toString() instanceof java.lang.String);
+        final FieldUI foo = new FieldUI("foo", true);
+        final FieldUI bar = new FieldUI("bar", false);
+        final FieldUI baz = new FieldUI("baz", true);
+
+        final List<FieldUI> fieldUIList = new ArrayList<FieldUI>();
+        AssertJUnit.assertTrue(fieldUIList.add(foo));
+        AssertJUnit.assertTrue(fieldUIList.add(bar));
+        AssertJUnit.assertTrue(fieldUIList.add(baz));
+
+		final ScreenUI test = new ScreenUI("TestScreen", fieldUIList);
+		AssertJUnit.assertEquals("TestScreen[foo true,bar false,baz true]", test.toString());
 	}
 }
