@@ -53,6 +53,16 @@ public class RulesReturnTest {
         AssertJUnit.assertEquals(4, rulesReturn.getNumberOfFacts());
     }
 
+    @Test
+    public void testConstructorParameters4Null() {
+        final RulesReturn rulesReturn = new RulesReturn(15, "StatusMessage",
+                4, null);
+        AssertJUnit.assertNotNull(rulesReturn);
+        AssertJUnit.assertEquals(15, rulesReturn.getStatusCode());
+        AssertJUnit.assertEquals("StatusMessage", rulesReturn.getStatusMessage());
+        AssertJUnit.assertNull(rulesReturn.getFacts());
+        AssertJUnit.assertEquals(4, rulesReturn.getNumberOfFacts());
+    }
 
     @Test
     public void testSetStatusCode() {
@@ -80,5 +90,12 @@ public class RulesReturnTest {
         final RulesReturn rulesReturn = new RulesReturn();
         rulesReturn.setFacts(new String[] { "fact1", "fact2", "fact3", "fact4"});
         AssertJUnit.assertArrayEquals(new String[] { "fact1", "fact2", "fact3", "fact4"}, rulesReturn.getFacts());
+    }
+
+    @Test
+    public void testSetFactsNull() {
+        final RulesReturn rulesReturn = new RulesReturn();
+        rulesReturn.setFacts(null);
+        AssertJUnit.assertNull(rulesReturn.getFacts());
     }
 }
