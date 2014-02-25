@@ -73,4 +73,15 @@ public class PairTest {
         AssertJUnit.assertEquals("foo", pair.getKey());
         AssertJUnit.assertEquals("baz", pair.getValue());
     }
+
+    /**
+     * Test for {@link edu.psu.iam.cpr.core.ui.Pair#setPair(Object, Object)}
+     */
+    @Test
+    public void testSetPair() {
+        final Pair<String, String> pair = new Pair<String, String>();
+        pair.setPair("foo", "bar");
+        AssertJUnit.assertEquals("foo", pair.getKey());
+        AssertJUnit.assertEquals("bar", pair.getValue());
+    }
 }
