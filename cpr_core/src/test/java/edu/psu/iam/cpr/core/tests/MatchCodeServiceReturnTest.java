@@ -17,7 +17,6 @@ package edu.psu.iam.cpr.core.tests;
  */
 
 import edu.psu.iam.cpr.core.api.returns.MatchCodeServiceReturn;
-import edu.psu.iam.cpr.core.gi.AddSsnServiceReturn;
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 
