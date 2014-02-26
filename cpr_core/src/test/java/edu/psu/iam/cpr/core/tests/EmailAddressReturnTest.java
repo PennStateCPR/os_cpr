@@ -57,9 +57,9 @@ public class EmailAddressReturnTest {
 	 */
 	@Test
 	public final void testGetEmailAddressType() {
-		EmailAddressReturn n = new EmailAddressReturn();
-		n.setEmailAddressType("home");
-		AssertJUnit.assertEquals(n.getEmailAddressType(), "home");
+		final EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
+		emailAddressReturn.setEmailAddressType("home");
+		AssertJUnit.assertEquals("home", emailAddressReturn.getEmailAddressType());
 	}
 
 	/**
@@ -67,9 +67,9 @@ public class EmailAddressReturnTest {
 	 */
 	@Test
 	public final void testSetEmailAddressType() {
-		EmailAddressReturn n = new EmailAddressReturn();
-		n.setEmailAddressType("home");
-		AssertJUnit.assertEquals(n.getEmailAddressType(), "home");
+		final EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
+		emailAddressReturn.setEmailAddressType("home");
+		AssertJUnit.assertEquals("home", emailAddressReturn.getEmailAddressType());
 	}
 
 	/**
@@ -77,9 +77,9 @@ public class EmailAddressReturnTest {
 	 */
 	@Test
 	public final void testGetEmailAddress() {
-		EmailAddressReturn n = new EmailAddressReturn();
-		n.setEmailAddress("xyz123@psu.edu");
-		AssertJUnit.assertEquals(n.getEmailAddress(), "xyz123@psu.edu");
+		final EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
+		emailAddressReturn.setEmailAddress("xyz123@psu.edu");
+		AssertJUnit.assertEquals("xyz123@psu.edu", emailAddressReturn.getEmailAddress());
 	}
 
 	/**
@@ -87,9 +87,70 @@ public class EmailAddressReturnTest {
 	 */
 	@Test
 	public final void testSetEmailAddress() {
-		EmailAddressReturn n = new EmailAddressReturn();
-		n.setEmailAddress("xyz123@psu.edu");
-		AssertJUnit.assertEquals(n.getEmailAddress(), "xyz123@psu.edu");
+		final EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
+		emailAddressReturn.setEmailAddress("xyz123@psu.edu");
+		AssertJUnit.assertEquals("xyz123@psu.edu", emailAddressReturn.getEmailAddress());
 	}
 
+    @Test
+    public final void testSetStartDate() {
+        final EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
+        emailAddressReturn.setStartDate("1/1/2014");
+        AssertJUnit.assertEquals("1/1/2014", emailAddressReturn.getStartDate());
+    }
+
+    @Test
+    public final void testSetEndDate() {
+        final EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
+        emailAddressReturn.setEndDate("1/1/2014");
+        AssertJUnit.assertEquals("1/1/2014", emailAddressReturn.getEndDate());
+    }
+
+    @Test
+    public final void testGetUri() {
+        final EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
+        emailAddressReturn.setUri("uri");
+        AssertJUnit.assertEquals("uri", emailAddressReturn.getUri());
+    }
+
+    @Test
+    public final void testGetEmailKey() {
+        final EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
+        emailAddressReturn.setEmailKey("emailKey");
+        AssertJUnit.assertEquals("emailKey", emailAddressReturn.getEmailKey());
+    }
+
+    @Test
+    public final void testGetCreatedOn() {
+        final EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
+        emailAddressReturn.setCreatedOn("1/1/2014");
+        AssertJUnit.assertEquals("1/1/2014", emailAddressReturn.getCreatedOn());
+    }
+
+    @Test
+    public final void testGetCreatedBy() {
+        final EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
+        emailAddressReturn.setCreatedBy("cpruser");
+        AssertJUnit.assertEquals("cpruser", emailAddressReturn.getCreatedBy());
+    }
+
+    @Test
+    public final void testGetLastUpdatedOn() {
+        final EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
+        emailAddressReturn.setLastUpdateOn("1/1/2014");
+        AssertJUnit.assertEquals("1/1/2014", emailAddressReturn.getLastUpdateOn());
+    }
+
+    @Test
+    public final void testGetLastUpdatedBy() {
+        final EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
+        emailAddressReturn.setLastUpdateBy("cpruser");
+        AssertJUnit.assertEquals("cpruser", emailAddressReturn.getLastUpdateBy());
+    }
+
+    @Test
+    public final void testToString() {
+        final EmailAddressReturn emailAddressReturn = new EmailAddressReturn();
+        AssertJUnit.assertEquals("EmailAddressReturn", emailAddressReturn.toString());
+    }
 }

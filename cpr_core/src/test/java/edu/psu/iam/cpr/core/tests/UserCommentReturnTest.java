@@ -1,4 +1,4 @@
-package edu.psu.iam.cpr.core.tests;
+package eduserCommentReturnpsuserCommentReturniam.cpr.core.tests;
 
 /**
  * Copyright 2012 The Pennsylvania State University
@@ -23,9 +23,6 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.service.returns.UserCommentReturn;
 
 public class UserCommentReturnTest {
-
-	UserCommentReturn u = new UserCommentReturn();
-	String s = "abcd";
 	
 	@Test
 	public final void testUserCommentReturn() {
@@ -39,44 +36,70 @@ public class UserCommentReturnTest {
 
 	@Test
 	public final void testGetUserCommentType() {
-		u.setUserCommentType("USER_COMMENT_MISUSE");
-		AssertJUnit.assertEquals(u.getUserCommentType(),"USER_COMMENT_MISUSE");
+        final UserCommentReturn userCommentReturn = new UserCommentReturn();
+        userCommentReturn.setUserCommentType("USER_COMMENT_MISUSE");
+		AssertJUnit.assertEquals(userCommentReturn.getUserCommentType(),"USER_COMMENT_MISUSE");
 	}
 
 	@Test
 	public final void testGetCommentDateString() {
-		u.setCommentDateString(s);
-		AssertJUnit.assertEquals(u.getCommentDateString(),s);
+        final UserCommentReturn userCommentReturn = new UserCommentReturn();
+        userCommentReturn.setCommentDateString("1/1/2014");
+		AssertJUnit.assertEquals("1/1/2014", userCommentReturn.getCommentDateString());
 	}
 
 	@Test
 	public final void testGetEndDate() {
-		u.setEndDate(s);
-		AssertJUnit.assertEquals(u.getEndDate(),s);
+        final UserCommentReturn userCommentReturn = new UserCommentReturn();
+        userCommentReturn.setEndDate("1/1/2014");
+		AssertJUnit.assertEquals("1/1/2014", userCommentReturn.getEndDate());
 	}
 
 	@Test
 	public final void testGetCommenter() {
-		u.setCommenter(s);
-		AssertJUnit.assertEquals(u.getCommenter(),s);
+        final UserCommentReturn userCommentReturn = new UserCommentReturn();
+        userCommentReturn.setCommenter("cpruser");
+		AssertJUnit.assertEquals("cpruser", userCommentReturn.getCommenter());
 	}
 
 	@Test
 	public final void testGetComment() {
-		u.setComment(s);
-		AssertJUnit.assertEquals(u.getComment(),s);
+        final UserCommentReturn userCommentReturn = new UserCommentReturn();
+        userCommentReturn.setComment("comment");
+		AssertJUnit.assertEquals("comment", userCommentReturn.getComment());
 	}
 
 	@Test
 	public final void testGetLastUpdatedBy() {
-		u.setLastUpdatedBy(s);
-		AssertJUnit.assertEquals(u.getLastUpdatedBy(),s);
+        final UserCommentReturn userCommentReturn = new UserCommentReturn();
+        userCommentReturn.setLastUpdatedBy("cpruser");
+		AssertJUnit.assertEquals("cpruser", userCommentReturn.getLastUpdatedBy());
 	}
 
 	@Test
 	public final void testGetLastUpdateOn() {
-		u.setLastUpdateOn(s);
-		AssertJUnit.assertEquals(u.getLastUpdateOn(),s);
+        final UserCommentReturn userCommentReturn = new UserCommentReturn();
+        userCommentReturn.setLastUpdateOn("1/1/2014");
+		AssertJUnit.assertEquals("1/1/2014", userCommentReturn.getLastUpdateOn());
 	}
 
+    @Test
+    public final void testGetCommentKey() {
+        final UserCommentReturn userCommentReturn = new UserCommentReturn();
+        userCommentReturn.setCommentKey("commentKey");
+        AssertJUnit.assertEquals("commentKey", userCommentReturn.getCommentKey());
+    }
+
+    @Test
+    public final void testGetUri() {
+        final UserCommentReturn userCommentReturn = new UserCommentReturn();
+        userCommentReturn.setUri("uri");
+        AssertJUnit.assertEquals("uri", userCommentReturn.getUri());
+    }
+
+    @Test
+    public final void testToString() {
+        final UserCommentReturn userCommentReturn = new UserCommentReturn();
+        AssertJUnit.assertEquals("UserCommentReturn", userCommentReturn.toString());
+    }
 }

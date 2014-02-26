@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.psu.iam.cpr.core.tests;
+package edu.psu.iamatchReturn.cpr.core.tests;
 
 /**
  * Copyright 2012 The Pennsylvania State University
@@ -36,8 +36,8 @@ public class MatchReturnTest {
 	 */
 	@Test
 	public final void testMatchReturn() {
-		MatchReturn m = new MatchReturn();
-		AssertJUnit.assertNotNull(m);
+		MatchReturn matchReturn= new MatchReturn();
+		AssertJUnit.assertNotNull(matchReturn);
 	}
 
 	/**
@@ -46,8 +46,8 @@ public class MatchReturnTest {
 	@Test
 	public final void testMatchReturnLongLong() {
 		new MatchReturn(1L,330L);
-		MatchReturn m = new MatchReturn();
-		AssertJUnit.assertNotNull(m);
+		MatchReturn matchReturn= new MatchReturn();
+		AssertJUnit.assertNotNull(matchReturn);
 	}
 	
 	/**
@@ -56,8 +56,8 @@ public class MatchReturnTest {
 	@Test
 	public final void testMatchReturnLongLongString() {
 		new MatchReturn(1L,330L, "9500000001");
-		MatchReturn m = new MatchReturn();
-		AssertJUnit.assertNotNull(m);
+		MatchReturn matchReturn= new MatchReturn();
+		AssertJUnit.assertNotNull(matchReturn);
 	}
 
 	
@@ -67,8 +67,8 @@ public class MatchReturnTest {
 	@Test
 	public final void testMatchReturnLongLongStringString() {
 		new MatchReturn(1L,330L, "9500000001", "abc1");
-		MatchReturn m = new MatchReturn();
-		AssertJUnit.assertNotNull(m);
+		MatchReturn matchReturn = new MatchReturn();
+		AssertJUnit.assertNotNull(matchReturn);
 	}
 	
 	/**
@@ -76,8 +76,8 @@ public class MatchReturnTest {
 	 */
 	@Test
 	public final void testGetPersonId() {
-		MatchReturn m = new MatchReturn(1L, 330L, "9500000001", "abc1");
-		AssertJUnit.assertEquals(m.getPersonId(), new Long(1));
+		final MatchReturn matchReturn = new MatchReturn(1L, 330L, "9500000001", "abc1");
+		AssertJUnit.assertEquals(new Long(1), matchReturn.getPersonId());
 	}
 
 	/**
@@ -85,9 +85,9 @@ public class MatchReturnTest {
 	 */
 	@Test
 	public final void testSetPersonId() {
-		MatchReturn m = new MatchReturn();
-		m.setPersonId(1L);
-		AssertJUnit.assertEquals(m.getPersonId(), new Long(1));
+		final MatchReturn matchReturn = new MatchReturn();
+		matchReturn.setPersonId(1L);
+		AssertJUnit.assertEquals(new Long(1), matchReturn.getPersonId());
 	}
 
 	/**
@@ -95,18 +95,31 @@ public class MatchReturnTest {
 	 */
 	@Test
 	public final void testGetScore() {
-		MatchReturn m = new MatchReturn(1L, 330L);
-		AssertJUnit.assertEquals(m.getScore(),new Long(330));
+		final MatchReturn matchReturn = new MatchReturn(1L, 330L);
+		AssertJUnit.assertEquals(new Long(330), matchReturn.getScore());
 	}
 
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.service.returns.MatchReturn#setScore(int)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.service.returns.MatchReturn#setScore(Long)}
 	 */
 	@Test
 	public final void testSetScore() {
-		MatchReturn m = new MatchReturn();
-		m.setScore(1L);
-		AssertJUnit.assertEquals(m.getScore(),new Long(1));
+		final MatchReturn matchReturn = new MatchReturn();
+		matchReturn.setScore(1L);
+		AssertJUnit.assertEquals(new Long(1), matchReturn.getScore());
 	}
 
+    @Test
+    public final void testSetPsuId() {
+        final MatchReturn matchReturn = new MatchReturn();
+        matchReturn.setPsuId("cpruser");
+        AssertJUnit.assertEquals("cpruser", matchReturn.getPsuId());
+    }
+
+    @Test
+    public final void testSetUserId() {
+        final MatchReturn matchReturn = new MatchReturn();
+        matchReturn.setUserId("cpruser");
+        AssertJUnit.assertEquals("cpruser", matchReturn.getUserId());
+    }
 }

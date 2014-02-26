@@ -30,74 +30,101 @@ import edu.psu.iam.cpr.core.service.returns.UseridReturn;
  *
  */
 public class UseridReturnTest {
-
-	private UseridReturn ur = new UseridReturn();
-	private String str = "abcd";
 	
 	@Test
 	public final void testGetUseridReturn() {
 		new UseridReturn();
 	}
-	@Test
+
+    @Test
+    public final void testConstructor2() {
+        final UseridReturn useridReturn = new UseridReturn("cpruser", "N");
+        AssertJUnit.assertEquals("cpruser", useridReturn.getUserid());
+        AssertJUnit.assertEquals("N", useridReturn.getPrimary());
+        AssertJUnit.assertNull(useridReturn.getStartDate());
+        AssertJUnit.assertNull(useridReturn.getEndDate());
+        AssertJUnit.assertNull(useridReturn.getLastUpdateBy());
+        AssertJUnit.assertNull(useridReturn.getLastUpdateOn());
+        AssertJUnit.assertNull(useridReturn.getCreatedBy());
+        AssertJUnit.assertNull(useridReturn.getCreatedOn());
+    }
+
+    @Test
 	public final void testGetUseridReturnStringString() {
 		new UseridReturn("xyz123", "n","","","","","","");
 	}
-	@Test
+	
+    @Test
 	public final void testGetUserid() {
-		UseridReturn u = new UseridReturn("xyz123", "N","","","","","","");
-		AssertJUnit.assertEquals(u.getUserid(), "xyz123");
+		final UseridReturn u = new UseridReturn("xyz123", "N","","","","","","");
+		AssertJUnit.assertEquals("xyz123", u.getUserid());
 	}
-	@Test
+	
+    @Test
 	public final void testSetUserid() {
-		UseridReturn u = new UseridReturn();
+		final UseridReturn u = new UseridReturn();
 		u.setUserid("xyz123");
-		AssertJUnit.assertEquals(u.getUserid(), "xyz123");
+		AssertJUnit.assertEquals("xyz123", u.getUserid());
 	}
-	@Test
+	
+    @Test
 	public final void testGetPrimary() {
-		UseridReturn u = new UseridReturn("xyz123", "N","","","","","","");
-		AssertJUnit.assertEquals(u.getPrimary(), "N");
+		final UseridReturn u = new UseridReturn("xyz123", "N","","","","","","");
+		AssertJUnit.assertEquals("N", u.getPrimary());
 	}
+    
 	@Test
 	public final void testSetPrimary() {
-		UseridReturn u = new UseridReturn();
+		final UseridReturn u = new UseridReturn();
 		u.setPrimary("N");
-		AssertJUnit.assertEquals(u.getPrimary(), "N");
+		AssertJUnit.assertEquals("N", u.getPrimary());
 	}
 	@Test
 	public final void testGetStartDate() {
-		ur.setStartDate(str);
-		AssertJUnit.assertEquals(ur.getStartDate(),str);
+        final UseridReturn useridReturn = new UseridReturn();
+		useridReturn.setStartDate("1/1/2014");
+		AssertJUnit.assertEquals("1/1/2014", useridReturn.getStartDate());
 	}
 	
 	@Test 
 	public final void testGetEndDate() {
-		ur.setEndDate(str);
-		AssertJUnit.assertEquals(ur.getEndDate(),str);
+        final UseridReturn useridReturn = new UseridReturn();
+        useridReturn.setEndDate("1/1/2014");
+		AssertJUnit.assertEquals("1/1/2014", useridReturn.getEndDate());
 	}
 	
 	@Test
 	public final void testGetLastUpdateBy() {
-		ur.setLastUpdateBy(str);
-		AssertJUnit.assertEquals(ur.getLastUpdateBy(),str);
+        final UseridReturn useridReturn = new UseridReturn();
+        useridReturn.setLastUpdateBy("cpruser");
+		AssertJUnit.assertEquals("cpruser", useridReturn.getLastUpdateBy());
 	}
 	
 	@Test
 	public final void testGetLastUpdateOn() {
-		ur.setLastUpdateOn(str);
-		AssertJUnit.assertEquals(ur.getLastUpdateOn(),str);
+        final UseridReturn useridReturn = new UseridReturn();
+        useridReturn.setLastUpdateOn("1/1/2014");
+		AssertJUnit.assertEquals("1/1/2014", useridReturn.getLastUpdateOn());
 	}
 	
 	@Test
 	public final void testGetCreatedBy() {
-		ur.setCreatedBy(str);
-		AssertJUnit.assertEquals(ur.getCreatedBy(),str);
+        final UseridReturn useridReturn = new UseridReturn();
+        useridReturn.setCreatedBy("cpruser");
+		AssertJUnit.assertEquals("cpruser", useridReturn.getCreatedBy());
 	}
 	
 	@Test
 	public final void testGetCreatedOn() {
-		ur.setCreatedOn(str);
-		AssertJUnit.assertEquals(ur.getCreatedOn(),str);
+        final UseridReturn useridReturn = new UseridReturn();
+        useridReturn.setCreatedOn("1/1/2014");
+		AssertJUnit.assertEquals("1/1/2014", useridReturn.getCreatedOn());
 	}
 
+    @Test
+    public final void testSetUri() {
+        final UseridReturn useridReturn = new UseridReturn();
+        useridReturn.setUri("uri");
+        AssertJUnit.assertEquals("uri", useridReturn.getUri());
+    }
 }

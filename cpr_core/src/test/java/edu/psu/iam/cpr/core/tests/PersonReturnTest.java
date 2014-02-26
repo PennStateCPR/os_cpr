@@ -36,16 +36,22 @@ public class PersonReturnTest {
 
 	@Test
 	public final void testSetPersonId() {
-		PersonReturn p = new PersonReturn();
+		final PersonReturn p = new PersonReturn();
 		p.setPersonId(100000);
-		AssertJUnit.assertEquals(p.getPersonId(), 100000);
+		AssertJUnit.assertEquals(100000, p.getPersonId());
 	}
 
 	@Test
 	public final void testGetPersonId() {
-		PersonReturn p = new PersonReturn();
+		final PersonReturn p = new PersonReturn();
 		p.setPersonId(100000);
-		AssertJUnit.assertEquals(p.getPersonId(), 100000);
+		AssertJUnit.assertEquals(100000, p.getPersonId());
 	}
 
+    @Test
+    public final void testGetPersonUri() {
+        final PersonReturn p = new PersonReturn();
+        p.setUri("personUri");
+        AssertJUnit.assertEquals("personUri", p.getUri());
+    }
 }
