@@ -9,14 +9,14 @@ import java.io.Serializable;
 
 /**
  * Pair is an object class for transporting the necessary key/value data from the database to the UI application
- * 
- * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To 
- * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative 
+ * <p/>
+ * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To
+ * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative
  * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
- * @package edu.psu.iam.cpr.core.database
  * @author $Author: slk24 $
  * @version $Rev: 5659 $
+ * @package edu.psu.iam.cpr.core.database
  * @lastrevision $Date: 2012-11-19 12:24:59 -0500 (Mon, 19 Nov 2012) $
  */
 
@@ -31,7 +31,7 @@ public class Pair<K, V> implements Serializable {
     }
 
     /**
-     * @param key key to be set
+     * @param key   key to be set
      * @param value value to be set
      */
     public Pair(final K key, final V value) {
@@ -41,7 +41,7 @@ public class Pair<K, V> implements Serializable {
     }
 
     /**
-     * @param key key to be set
+     * @param key   key to be set
      * @param value value to be set
      * @return this
      */
@@ -83,16 +83,15 @@ public class Pair<K, V> implements Serializable {
         return this;
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-    {
-        key   = (K)in.readObject();
-        value = (V)in.readObject();
+    @SuppressWarnings("unchecked")
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        key = (K) in.readObject();
+        value = (V) in.readObject();
     }
-    private void writeObject(ObjectOutputStream out) throws IOException
-    {
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
         out.writeObject(key);
         out.writeObject(value);
-
     }
 
 }
