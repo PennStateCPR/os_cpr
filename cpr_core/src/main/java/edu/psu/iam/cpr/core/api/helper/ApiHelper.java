@@ -144,7 +144,7 @@ public final class ApiHelper {
 			parameters.append("] ");			
 		}
 		
-		return parameters.toString();
+		return parameters.toString().trim();
 	}
 
 }
