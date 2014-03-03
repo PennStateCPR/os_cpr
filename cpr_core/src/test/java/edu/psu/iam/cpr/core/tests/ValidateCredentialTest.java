@@ -40,27 +40,27 @@ public class ValidateCredentialTest {
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateGetCredentialParameters1() throws Exception {
-		ValidateCredential.validateGetCredentialParameters(null, 1L, null,null,null);
+		ValidateCredential.validateGetCredentialParameters(null, 1L, null,null,null, null);
 	}
 
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateGetCredentialParameters2() throws Exception {
 		openDbConnection();
-		ValidateCredential.validateGetCredentialParameters(db, 1L, null,null,"Y");
+		ValidateCredential.validateGetCredentialParameters(db, 1L, null,null,"Y", null);
 		db.closeSession();
 	}
 	
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateGetCredentialParameters3() throws Exception {
 		openDbConnection();
-		ValidateCredential.validateGetCredentialParameters(db, 1L, "1234567890123456789012345678901234567890",null,"Y");
+		ValidateCredential.validateGetCredentialParameters(db, 1L, "1234567890123456789012345678901234567890",null,"Y", null);
 		db.closeSession();
 	}
 	
 	@Test
 	public final void testValidateGetCredentialParameters4() throws Exception {
 		openDbConnection();
-		CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, 1L, "cpruser",null,"Y");
+		CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, 1L, "cpruser",null,"Y", null);
 		assertTrue(credentialTable.isReturnHistoryFlag());
 		db.closeSession();
 	}
@@ -68,7 +68,7 @@ public class ValidateCredentialTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateGetCredentialParameters5() throws Exception {
 		openDbConnection();
-		CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, 1L, "cpruser","abcd","Y");
+		CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, 1L, "cpruser","abcd","Y", null);
 		assertTrue(credentialTable.isReturnHistoryFlag());
 		db.closeSession();
 	}
@@ -76,7 +76,7 @@ public class ValidateCredentialTest {
 	@Test
 	public final void testValidateGetCredentialParameters6() throws Exception {
 		openDbConnection();
-		CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, 1L, "cpruser","CREDENTIAL_TYPE_OPENID","N");
+		CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, 1L, "cpruser","CREDENTIAL_TYPE_OPENID","N", null);
 		assertFalse(credentialTable.isReturnHistoryFlag());
 		assertEquals(credentialTable.getCredentialType(),CredentialType.CREDENTIAL_TYPE_OPENID);
 		db.closeSession();

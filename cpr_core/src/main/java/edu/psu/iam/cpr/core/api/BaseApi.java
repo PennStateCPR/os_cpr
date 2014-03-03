@@ -86,6 +86,7 @@ public abstract class BaseApi {
 	public static final String PERSONID_KEY = "personid";
 	public static final String AFFILIATION_KEY = "affiliation";
 	public static final String CONFIDENTIALITY_TYPE_KEY = "confidentiality_type";
+	public static final String CREDENTIAL_KEY = "credential_key";
 	public static final String CREDENTIAL_TYPE_KEY = "credential_type";
 	public static final String CREDENTIAL_DATA_KEY = "credential_data";
 	public static final String LINKAGE_TYPE_KEY = "linkage_type";

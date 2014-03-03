@@ -71,8 +71,11 @@ public class AddCredentialApi extends BaseApi {
 		// Add the credential to the database table.
 		credentialTable.addCredential(db);
 		
-		// This service does not generate a message.
-		return null;
+		// Create a new json message.
+		final JsonMessage jsonMessage = new JsonMessage(db, personId, apiName, updatedBy);
+		jsonMessage.setCredential(credentialTable);
+		
+		return jsonMessage;
 	}
 
 }

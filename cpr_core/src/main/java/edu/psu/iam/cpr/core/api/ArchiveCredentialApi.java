@@ -71,7 +71,11 @@ public class ArchiveCredentialApi extends BaseApi {
 		// Attempt to do the archive.
 		credentialTable.archiveCredential(db);
 		
-		return null;
+		// Create a new json message.
+		final JsonMessage jsonMessage = new JsonMessage(db, serviceCoreReturn.getPersonId(), apiName, updatedBy);
+		jsonMessage.setCredential(credentialTable);
+		
+		return jsonMessage;
 	}
 
 }

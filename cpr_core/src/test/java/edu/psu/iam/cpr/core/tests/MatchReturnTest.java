@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.psu.iamatchReturn.cpr.core.tests;
+package edu.psu.iam.cpr.core.tests;
 
 /**
  * Copyright 2012 The Pennsylvania State University

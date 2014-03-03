@@ -64,10 +64,11 @@ public class GetCredentialApi extends ExtendedBaseApi {
 		final long personId = serviceCoreReturn.getPersonId();
 		final String credentialType = (String) otherParameters.get(CREDENTIAL_TYPE_KEY);
 		final String returnHistory 	= (String) otherParameters.get(RETURN_HISTORY_KEY);
+		final String credentialKey 	= (String) otherParameters.get(CREDENTIAL_KEY);
 		
 		// Do the query from the database.
 		final CredentialTable credentialTable = ValidateCredential.validateGetCredentialParameters(db, personId, 
-																	updatedBy, credentialType, returnHistory);
+																	updatedBy, credentialType, returnHistory, credentialKey);
 		final CredentialReturn[] queryResults = credentialTable.getCredentialForPersonId(db, personId);
 		
 		// Build the return class.

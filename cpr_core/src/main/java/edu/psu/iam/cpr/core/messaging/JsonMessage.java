@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.beans.Addresses;
 import edu.psu.iam.cpr.core.database.beans.Confidentiality;
+import edu.psu.iam.cpr.core.database.beans.Credential;
 import edu.psu.iam.cpr.core.database.beans.DateOfBirth;
 import edu.psu.iam.cpr.core.database.beans.EmailAddress;
 import edu.psu.iam.cpr.core.database.beans.Employee;
@@ -31,6 +32,7 @@ import edu.psu.iam.cpr.core.database.beans.UserComments;
 import edu.psu.iam.cpr.core.database.beans.Userid;
 import edu.psu.iam.cpr.core.database.tables.AddressesTable;
 import edu.psu.iam.cpr.core.database.tables.ConfidentialityTable;
+import edu.psu.iam.cpr.core.database.tables.CredentialTable;
 import edu.psu.iam.cpr.core.database.tables.DateOfBirthTable;
 import edu.psu.iam.cpr.core.database.tables.EmailAddressTable;
 import edu.psu.iam.cpr.core.database.tables.IdCardTable;
@@ -345,6 +347,21 @@ public class JsonMessage {
 		}
 
 	}
+
+	/**
+	 * This routine is used to set the credential portion of a message.
+	 * @param credentialTable contains a CredentialTable object containing the credential information.
+	 * @throws JSONException
+	 */
+	public void setCredential(CredentialTable credentialTable) throws JSONException   {
+		setValue(MessageKeyName.CREDENTIAL_TYPE, credentialTable.getCredentialType().toString());
+		if (! getServiceName().equals(CprServiceName.ArchiveName.toString())) {
+			final Credential bean = credentialTable.getCredentialBean();
+			setValue(MessageKeyName.CREDENTIAL_DATA, bean.getCredentialData());
+		}
+
+	}
+
 	/**
 	 * This routine creates the OLD_NAME and NEW_NAME JSON data for an name change
 	 * @param oldName - Names bean containing the old name ( may be null)

@@ -47,27 +47,33 @@ public final class ValidateCredential {
 	 * @param requestedBy contains the service principal and/or userid that requested the information.
 	 * @param credentialType contains the credential type.
 	 * @param returnHistory Y/N flag that indicates whether to return history records or not.
-	 * @return CredentialTable will be reutrn if this function is successful.
+	 * @param credentialKey contains the credential key that is used for a RESTful query.
+	 * @return CredentialTable will be return if this function is successful.
 	 * @throws InvalidParametersException
 	 * @throws CprException 
 	 */
 	public static CredentialTable validateGetCredentialParameters(final Database db, final long personId, 
-			final String requestedBy, final String credentialType, final String returnHistory) throws CprException {
+			final String requestedBy, final String credentialType, final String returnHistory, 
+			final String credentialKey) throws CprException {
 		
 		db.getAllTableColumns(DATABASE_TABLE_NAME);
 		
 		@SuppressWarnings("unused")
 		String localRequestedBy = ValidateHelper.checkField(db, requestedBy, LAST_UPDATE_BY, "Requested by", true);
-		boolean returnHistoryFlag = ValidateHelper.checkReturnHistory(returnHistory);
 				
 		final CredentialTable credentialTable = new CredentialTable();
 		
-		if (credentialType != null) {
-			credentialTable.setCredentialType(credentialTable.findCredentialEnum(credentialType));
+		if (credentialKey == null) {
+			boolean returnHistoryFlag = ValidateHelper.checkReturnHistory(returnHistory);
+			if (credentialType != null) {
+				credentialTable.setCredentialType(credentialTable.findCredentialEnum(credentialType));
+			}
+			credentialTable.setReturnHistoryFlag(returnHistoryFlag);
+		}
+		else {
+			credentialTable.setCredentialKey(Long.valueOf(credentialKey));
 		}
 		
-		credentialTable.setReturnHistoryFlag(returnHistoryFlag);
-
 		return credentialTable;
 	}
 	

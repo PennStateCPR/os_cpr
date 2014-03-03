@@ -12,6 +12,7 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.cxf.jaxrs.ext.MessageContext;
 
 import edu.psu.iam.cpr.core.api.returns.AddressServiceReturn;
+import edu.psu.iam.cpr.core.api.returns.CredentialServiceReturn;
 import edu.psu.iam.cpr.core.api.returns.EmailAddressServiceReturn;
 import edu.psu.iam.cpr.core.api.returns.FindPersonServiceReturn;
 import edu.psu.iam.cpr.core.api.returns.NamesServiceReturn;
@@ -22,6 +23,7 @@ import edu.psu.iam.cpr.core.api.returns.UserCommentServiceReturn;
 import edu.psu.iam.cpr.core.api.returns.UseridServiceReturn;
 import edu.psu.iam.cpr.core.database.types.CprServiceName;
 import edu.psu.iam.cpr.core.service.AddAddressImpl;
+import edu.psu.iam.cpr.core.service.AddCredentialImpl;
 import edu.psu.iam.cpr.core.service.AddEmailAddressImpl;
 import edu.psu.iam.cpr.core.service.AddNameImpl;
 import edu.psu.iam.cpr.core.service.AddPersonImpl;
@@ -29,6 +31,7 @@ import edu.psu.iam.cpr.core.service.AddPhoneImpl;
 import edu.psu.iam.cpr.core.service.AddUserCommentImpl;
 import edu.psu.iam.cpr.core.service.AddUseridImpl;
 import edu.psu.iam.cpr.core.service.ArchiveAddressImpl;
+import edu.psu.iam.cpr.core.service.ArchiveCredentialImpl;
 import edu.psu.iam.cpr.core.service.ArchiveEmailAddressImpl;
 import edu.psu.iam.cpr.core.service.ArchiveNameImpl;
 import edu.psu.iam.cpr.core.service.ArchivePersonImpl;
@@ -37,6 +40,7 @@ import edu.psu.iam.cpr.core.service.ArchiveUserCommentImpl;
 import edu.psu.iam.cpr.core.service.ArchiveUseridImpl;
 import edu.psu.iam.cpr.core.service.BaseServiceImpl;
 import edu.psu.iam.cpr.core.service.GetAddressImpl;
+import edu.psu.iam.cpr.core.service.GetCredentialImpl;
 import edu.psu.iam.cpr.core.service.GetEmailAddressImpl;
 import edu.psu.iam.cpr.core.service.GetNameImpl;
 import edu.psu.iam.cpr.core.service.GetPersonImpl;
@@ -50,6 +54,7 @@ import edu.psu.iam.cpr.core.service.UpdatePersonImpl;
 import edu.psu.iam.cpr.core.service.UpdatePhoneImpl;
 import edu.psu.iam.cpr.core.service.UpdateUserCommentImpl;
 import edu.psu.iam.cpr.core.service.returns.AddressReturn;
+import edu.psu.iam.cpr.core.service.returns.CredentialReturn;
 import edu.psu.iam.cpr.core.service.returns.EmailAddressReturn;
 import edu.psu.iam.cpr.core.service.returns.NameReturn;
 import edu.psu.iam.cpr.core.service.returns.PersonReturn;
@@ -58,6 +63,7 @@ import edu.psu.iam.cpr.core.service.returns.UserCommentReturn;
 import edu.psu.iam.cpr.core.service.returns.UseridReturn;
 import edu.psu.iam.cpr.core.util.Utility;
 import edu.psu.iam.cpr.rest.handler.UserPrincipal;
+import edu.psu.iam.cpr.rest.returns.GetCredentialReturn;
 import edu.psu.iam.cpr.rest.returns.SearchPersonReturn;
 import edu.psu.iam.cpr.rest.returns.UpdatePersonReturn;
 import edu.psu.iam.cpr.rest.returns.WriteApiReturn;
@@ -306,6 +312,26 @@ public class CprApi implements CprApiInterface {
 	}
 	
 	/**
+	 * This method is used to delete (archive) a credential record.
+	 * @param identifierType the type of identifier to be used to find the user in the CPR.
+	 * @param identifier the value of the identifier.
+	 * @param requestedBy the person (userid) who is archiving the name, this person will be an RA agent.
+	 * @param credentialKey contains the credential key that identifies the record.
+	 * @return will return a standard HTTP response.
+	 */
+	public Response deleteCredentialUsingKey(
+			  final String identifierType,
+			  final String identifier,
+			  final String credentialKey,
+			  final String requestedBy) {
+		
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(CREDENTIAL_KEY, credentialKey);
+
+		return Response.status(501).header("Status", "501: Not implemented").build();
+	}
+	
+	/**
 	 * Archive User Comment RESTful API.
 	 *  
 	 * @param identifierType the type of identifier to be used to find the user in the CPR.
@@ -445,6 +471,27 @@ public class CprApi implements CprApiInterface {
 
 		return execWriteApi(identifierType, identifier, requestedBy, otherParameters,
 				CprServiceName.ArchiveName.toString(), new ArchiveNameImpl());
+	}
+	
+	/**
+	 * This method is used to delete (archive) a credential record.
+	 * @param identifierType the type of identifier to be used to find the user in the CPR.
+	 * @param identifier the value of the identifier.
+	 * @param requestedBy the person (userid) who is archiving the name, this person will be an RA agent.
+	 * @param credentialType contains the type of credential to be archived.
+	 * @return will return a standard HTTP response.
+	 */
+	public Response deleteCredential(
+			  final String identifierType,
+			  final String identifier,
+			  final String credentialType,
+			  final String requestedBy) {
+		
+		final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+	    otherParameters.put(CREDENTIAL_TYPE_KEY, credentialType);
+
+		return execWriteApi(identifierType, identifier, requestedBy, otherParameters,
+				CprServiceName.ArchiveCredential.toString(), new ArchiveCredentialImpl());
 	}
 	
 	/**
@@ -889,6 +936,54 @@ public class CprApi implements CprApiInterface {
         
 		return execWriteApi(identifierType, identifier, requestedBy, otherParameters,
 				CprServiceName.UpdateAddress.toString(), new UpdateAddressImpl());
+	}
+
+	/**
+	 * Add Credential RESTful service.
+	 * @param identifierType contains the type of identifier.
+	 * @param identifier contains the value of the identifier.
+	 * @param requestedBy contains the requestor.
+	 * @param credentialType contains the credential type to be added.
+	 * @param credentialData contains data associated with the credential.
+	 * @return will return the results to the caller.
+	 */
+	public Response addCredential(
+			  final String identifierType,
+			  final String identifier,
+			  final String requestedBy,
+			  final String credentialType,
+			  final String credentialData) {
+		
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(CREDENTIAL_TYPE_KEY, credentialType);
+        otherParameters.put(CREDENTIAL_DATA_KEY, credentialData);
+		
+		return execWriteApi(identifierType, identifier, requestedBy, otherParameters,
+				CprServiceName.AddCredential.toString(), new AddCredentialImpl());
+	}
+
+	/**
+	 * Update Credentials RESTful service.
+	 * @param identifierType contains the type of identifier.
+	 * @param identifier contains the value of the identifier.
+	 * @param requestedBy contains the requestor.
+	 * @param credentialType contains the credential type to be added.
+	 * @param credentialData contains data associated with the credential.
+	 * @return will return the results to the caller.
+	 */
+	public Response updateCredential(
+			  final String identifierType,
+			  final String identifier,
+			  final String requestedBy,
+			  final String credentialType,
+			  final String credentialData) {
+		
+        final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(CREDENTIAL_TYPE_KEY, credentialType);
+        otherParameters.put(CREDENTIAL_DATA_KEY, credentialData);
+		
+		return execWriteApi(identifierType, identifier, requestedBy, otherParameters,
+				CprServiceName.AddCredential.toString(), new AddCredentialImpl());
 	}
 
 	/**
@@ -1418,6 +1513,48 @@ public class CprApi implements CprApiInterface {
 	}
 
 	/**
+	 * Get credential RESTful service.
+	 * @param identifierType contains the type of identifier.
+	 * @param identifier contains the value of the identifier.
+	 * @param returnHistory contains a Y/N flag that indicates whether to return history or not.
+	 * @param credentialType contains the type of credential to query.
+	 * @param requestedBy contains the requestor.
+	 * @return will return the results to the caller.
+	 */
+	public Response getCredential(
+			  final String identifierType,
+			  final String identifier,
+			  final String returnHistory,
+			  final String credentialType,
+			  final String requestedBy) {
+		
+		final Map<String, Object> otherParameters = new HashMap<String, Object>(2);
+        otherParameters.put(CREDENTIAL_TYPE_KEY, credentialType);
+        otherParameters.put(RETURN_HISTORY_KEY, returnHistory);
+        
+		return execGetCredential(identifierType, identifier, requestedBy, otherParameters);
+	}
+	
+	/**
+	 * Get credential RESTful service.
+	 * @param identifierType contains the type of identifier.
+	 * @param identifier contains the value of the identifier.
+	 * @param credentialKey contains the specific credential key to be returned.
+	 * @param requestedBy contains the requestor.
+	 * @return will return the results to the caller.
+	 */
+	public Response getCredentialUsingKey(
+			  final String identifierType,
+			  final String identifier,
+			  final String credentialKey,
+			  final String requestedBy) {
+		final Map<String, Object> otherParameters = new HashMap<String, Object>(1);
+        otherParameters.put(CREDENTIAL_KEY, credentialKey);
+        
+		return execGetCredential(identifierType, identifier, requestedBy, otherParameters);
+	}
+	
+	/**
 	 * This method provides the actual implementation of an write API.
 	 * @param identifierType contains the type of identifier.
 	 * @param identifier contains the value of the identifier.
@@ -1505,6 +1642,53 @@ public class CprApi implements CprApiInterface {
         		new GetNameReturn(new ResourceMetadata(null, uriInfo.getBaseUri().toString(), namesServiceReturn.getStatusMessage()), 
         		new ResponseMeta(impl.getResponseTimestamp(), impl.getElapsedTime(), null, httpStatusCode, SERVER_VERSION), 
         		namesServiceReturn)).build();
+	}
+	
+	/**
+	 * This method provides the actual implementation of the Get Credential RESTful service.
+	 * @param identifierType contains the type of identifier.
+	 * @param identifier contains the value of the identifier.
+	 * @param requestedBy contains the requestor.
+	 * @param otherParameters contains the parameters that are passed to GetName implementation.
+	 * @return will return the results to the caller.
+	 */
+	private Response execGetCredential(final String identifierType, final String identifier,
+			final String requestedBy, final Map<String, Object> otherParameters) {
+		
+		final HttpServletRequest request = messageContext.getHttpServletRequest();
+		final UserPrincipal userPrincipal = (UserPrincipal) messageContext.getSecurityContext().getUserPrincipal();
+        final GetCredentialImpl impl = new GetCredentialImpl();
+        final String credentialKey = (String) otherParameters.get(CREDENTIAL_KEY);
+        final CredentialServiceReturn credentialServiceReturn = (CredentialServiceReturn) impl.implementService(
+                                        CprServiceName.GetCredential.toString(), 
+                                        request.getRemoteAddr(), 
+                                        userPrincipal.getName(), 
+                                        userPrincipal.getPassword(), 
+                                        requestedBy, 
+                                        identifierType,
+                                        identifier, 
+                                        otherParameters);	
+        
+        final int httpStatusCode = Utility.convertCprReturnToHttpStatus(credentialServiceReturn.getStatusCode());
+        
+        final String path = uriInfo.getPath();
+        if (credentialServiceReturn.getCredentialReturnRecord() != null) {
+        	if (credentialKey == null) {
+        		for (CredentialReturn n: credentialServiceReturn.getCredentialReturnRecord()) {
+        			n.setUri(Utility.constructUri(path, n.getCredentialKey()));
+        		}
+        	}
+        	else {
+        		for (CredentialReturn n: credentialServiceReturn.getCredentialReturnRecord()) {
+        			n.setUri(path);
+        		}
+        	}
+        }
+        
+        return Response.status(httpStatusCode).entity(
+        		new GetCredentialReturn(new ResourceMetadata(null, uriInfo.getBaseUri().toString(), credentialServiceReturn.getStatusMessage()), 
+        		new ResponseMeta(impl.getResponseTimestamp(), impl.getElapsedTime(), null, httpStatusCode, SERVER_VERSION), 
+        		credentialServiceReturn)).build();
 	}
 	
 	/**

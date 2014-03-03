@@ -29,7 +29,8 @@ import java.util.Map;
 public enum CredentialType {
         CREDENTIAL_TYPE_OPENID(129),
         CREDENTIAL_TYPE_FACEBOOK(130),
-        CREDENTIAL_TYPE_SECUREID(131);
+        CREDENTIAL_TYPE_SECUREID(131),
+        CREDENTIAL_TYPE_ORCID(132);
 
    /**
     * Contains the index

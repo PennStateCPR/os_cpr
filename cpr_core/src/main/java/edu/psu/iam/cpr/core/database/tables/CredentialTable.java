@@ -48,14 +48,16 @@ public class CredentialTable {
 	/** Contains the name of the database table */
 	private static final String TABLE_NAME = "Credential";
 	
-	private static final int CREDENTIAL_TYPE = 0;
-	private static final int CREDENTIAL_DATA = 1;
-	private static final int START_DATE = 2;
-	private static final int END_DATE = 3;
-	private static final int LAST_UPDATE_BY = 4;
-	private static final int LAST_UPDATE_ON = 5;
-	private static final int CREATED_BY = 6;
-	private static final int CREATED_ON = 7;
+	private static final int CREDENTIAL_KEY = 0;
+	private static final int CREDENTIAL_TYPE = 1;
+	private static final int CREDENTIAL_DATA = 2;
+	private static final int START_DATE = 3;
+	private static final int END_DATE = 4;
+	private static final int LAST_UPDATE_BY = 5;
+	private static final int LAST_UPDATE_ON = 6;
+	private static final int CREATED_BY = 7;
+	private static final int CREATED_ON = 8;
+	
 	private static final int BUFFER_SIZE = 2048;
 	
 	private static final String DATA_TYPE_KEY_STRING = "data_type_key";
@@ -68,6 +70,9 @@ public class CredentialTable {
 	
 	/** This flag will be true if all records are to be returned on a GET. */
 	private boolean returnHistoryFlag;
+	
+	/** Contains the credential key that is only used for RESTful GETs */
+	private Long credentialKey = 0L;
 	
 	/**
 	 * Constructor.
@@ -294,7 +299,7 @@ public class CredentialTable {
 
 		// Build the query string.
 		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-		sb.append("SELECT data_type_key, credential_data, ");
+		sb.append("SELECT credential_key, data_type_key, credential_data, ");
 		sb.append("start_date, ");
 		sb.append("end_date, ");
 		sb.append("last_update_by, ");
@@ -304,6 +309,11 @@ public class CredentialTable {
 		sb.append("FROM {h-schema}credential ");
 		sb.append("WHERE person_id = :person_id_in ");
 
+		// Check to see if we are doing a query for credential key.
+		if (getCredentialKey() > 0L) {
+			sb.append("AND credential_key = :credential_key_in ");
+		}
+		
 		// If we are doing a query for a specific credential type, we need to specify this clause.
 		if (getCredentialType() != null) {
 			sb.append("AND data_type_key = :data_type_key_in ");
@@ -323,7 +333,12 @@ public class CredentialTable {
 		if (getCredentialType() != null) {
 			query.setParameter("data_type_key_in", getCredentialType().index());
 		}
+		
+		if (getCredentialKey() > 0L) {
+			query.setParameter("credential_key_in", getCredentialKey());
+		}
 
+		query.addScalar("credential_key", StandardBasicTypes.LONG);
 		query.addScalar(DATA_TYPE_KEY_STRING, StandardBasicTypes.LONG);
 		query.addScalar("credential_data", StandardBasicTypes.STRING);
 		query.addScalar("start_date", StandardBasicTypes.TIMESTAMP);
@@ -338,6 +353,7 @@ public class CredentialTable {
 			Object[] res = (Object []) it.next();
 			CredentialReturn credentialReturn = new CredentialReturn();
 
+			credentialReturn.setCredentialKey(((Long) res[CREDENTIAL_KEY]).toString());
 			credentialReturn.setCredentialType(CredentialType.get((Long) res[CREDENTIAL_TYPE]).toString());			
 			credentialReturn.setCredentialData((String) res[CREDENTIAL_DATA]);
 			credentialReturn.setStartDate(Utility.formatDateToISO8601((Date) res[START_DATE]));
@@ -353,5 +369,19 @@ public class CredentialTable {
 
 		// Check on the results.
 		return results.toArray(new CredentialReturn[results.size()]);
+	}
+
+	/**
+	 * @return the credentialKey
+	 */
+	public Long getCredentialKey() {
+		return credentialKey;
+	}
+
+	/**
+	 * @param credentialKey the credentialKey to set
+	 */
+	public void setCredentialKey(Long credentialKey) {
+		this.credentialKey = credentialKey;
 	}
 }

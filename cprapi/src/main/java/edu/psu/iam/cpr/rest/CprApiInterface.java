@@ -318,6 +318,24 @@ public interface CprApiInterface {
 			  @QueryParam("requestedBy") final String requestedBy);
 	
 	/**
+	 * This method is used to delete (archive) a credential record.
+	 * @param identifierType the type of identifier to be used to find the user in the CPR.
+	 * @param identifier the value of the identifier.
+	 * @param requestedBy the person (userid) who is archiving the name, this person will be an RA agent.
+	 * @param credentialType contains the type of credential to be archived.
+	 * @return will return a standard HTTP response.
+	 */
+	@DELETE
+	@Path("/people/{identifier_type}:{identifier}/credentials")
+	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML,MediaType.APPLICATION_FORM_URLENCODED})
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	Response deleteCredential(
+			  @PathParam("identifier_type") final String identifierType,
+			  @PathParam("identifier") final String identifier,
+			  @QueryParam("credentialType") final String credentialType,
+			  @QueryParam("requestedBy") final String requestedBy);
+	
+	/**
 	 * This method is used to delete (archive) a name record.
 	 * @param identifierType the type of identifier to be used to find the user in the CPR.
 	 * @param identifier the value of the identifier.
@@ -333,6 +351,24 @@ public interface CprApiInterface {
 			  @PathParam("identifier_type") final String identifierType,
 			  @PathParam("identifier") final String identifier,
 			  @PathParam("nameKey") final String nameKey,
+			  @QueryParam("requestedBy") final String requestedBy);
+
+	/**
+	 * This method is used to delete (archive) a credential record.
+	 * @param identifierType the type of identifier to be used to find the user in the CPR.
+	 * @param identifier the value of the identifier.
+	 * @param requestedBy the person (userid) who is archiving the name, this person will be an RA agent.
+	 * @param credentialKey contains the credential key that identifies the record.
+	 * @return will return a standard HTTP response.
+	 */
+	@DELETE
+	@Path("/people/{identifier_type}:{identifier}/credentials/{credentialKey}")
+	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML,MediaType.APPLICATION_FORM_URLENCODED})
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	Response deleteCredentialUsingKey(
+			  @PathParam("identifier_type") final String identifierType,
+			  @PathParam("identifier") final String identifier,
+			  @PathParam("credentialKey") final String credentialKey,
 			  @QueryParam("requestedBy") final String requestedBy);
 
 		
@@ -650,6 +686,46 @@ public interface CprApiInterface {
 			  @FormParam("nickname") final String nickname);
 
 	/**
+	 * Add Credential RESTful service.
+	 * @param identifierType contains the type of identifier.
+	 * @param identifier contains the value of the identifier.
+	 * @param requestedBy contains the requestor.
+	 * @param credentialType contains the credential type to be added.
+	 * @param credentialData contains data associated with the credential.
+	 * @return will return the results to the caller.
+	 */
+	@POST
+	@Path("/people/{identifier_type}:{identifier}/credentials")
+	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML,MediaType.APPLICATION_FORM_URLENCODED})
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	Response addCredential(
+			  @PathParam("identifier_type") final String identifierType,
+			  @PathParam("identifier") final String identifier,
+			  @FormParam("requestedBy") final String requestedBy,
+			  @FormParam("credentialType") final String credentialType,
+			  @FormParam("credentialData") final String credentialData);
+
+	/**
+	 * Update Credentials RESTful service.
+	 * @param identifierType contains the type of identifier.
+	 * @param identifier contains the value of the identifier.
+	 * @param requestedBy contains the requestor.
+	 * @param credentialType contains the credential type to be added.
+	 * @param credentialData contains data associated with the credential.
+	 * @return will return the results to the caller.
+	 */
+	@PUT
+	@Path("/people/{identifier_type}:{identifier}/credentials")
+	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML,MediaType.APPLICATION_FORM_URLENCODED})
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	Response updateCredential(
+			  @PathParam("identifier_type") final String identifierType,
+			  @PathParam("identifier") final String identifier,
+			  @FormParam("requestedBy") final String requestedBy,
+			  @FormParam("credentialType") final String credentialType,
+			  @FormParam("credentialData") final String credentialData);
+
+	/**
 	 * Add Phone RESTful service.
 	 * 
 	 * @param identifierType the type of identifier to be used to find the user in the CPR.
@@ -944,6 +1020,44 @@ public interface CprApiInterface {
 			  @PathParam("identifier_type") final String identifierType,
 			  @PathParam("identifier") final String identifier,
 			  @PathParam("phone_key") final String phoneKey,
+			  @QueryParam("requestedBy") final String requestedBy);
+	
+	/**
+	 * Get credential RESTful service.
+	 * @param identifierType contains the type of identifier.
+	 * @param identifier contains the value of the identifier.
+	 * @param returnHistory contains a Y/N flag that indicates whether to return history or not.
+	 * @param credentialType contains the type of credential to query.
+	 * @param requestedBy contains the requestor.
+	 * @return will return the results to the caller.
+	 */
+	@GET
+	@Path("/people/{identifier_type}:{identifier}/credentials")
+	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	Response getCredential(
+			  @PathParam("identifier_type") final String identifierType,
+			  @PathParam("identifier") final String identifier,
+			  @DefaultValue("N") @QueryParam("history") final String returnHistory,
+			  @QueryParam("type") final String credentialType,
+			  @QueryParam("requestedBy") final String requestedBy);
+	
+	/**
+	 * Get credential RESTful service.
+	 * @param identifierType contains the type of identifier.
+	 * @param identifier contains the value of the identifier.
+	 * @param credentialKey contains the specific credential key to be returned.
+	 * @param requestedBy contains the requestor.
+	 * @return will return the results to the caller.
+	 */
+	@GET
+	@Path("/people/{identifier_type}:{identifier}/credentials/{credential_key}")
+	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	Response getCredentialUsingKey(
+			  @PathParam("identifier_type") final String identifierType,
+			  @PathParam("identifier") final String identifier,
+			  @PathParam("credential_key") final String credentialKey,
 			  @QueryParam("requestedBy") final String requestedBy);
 	
 	/**

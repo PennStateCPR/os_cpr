@@ -26,6 +26,9 @@ package edu.psu.iam.cpr.core.service.returns;
  */
 public class CredentialReturn {
 
+	/** Contains the credential key */
+	private String credentialKey;
+	
 	/** Contains the credential type */
 	private String credentialType;
 	
@@ -49,6 +52,9 @@ public class CredentialReturn {
 	
 	/** Contains the date the record was created on */
 	private String createdOn;
+	
+	/** Contains the URI that is only used for RESTful services */
+	private String uri;
 
 	/**
 	 * Constructor 
@@ -192,6 +198,34 @@ public class CredentialReturn {
 	 */
 	public void setCreatedOn(String createdOn) {
 		this.createdOn = createdOn;
+	}
+
+	/**
+	 * @return the uri
+	 */
+	public String getUri() {
+		return uri;
+	}
+
+	/**
+	 * @param uri the uri to set
+	 */
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
+	/**
+	 * @return the credentialKey
+	 */
+	public String getCredentialKey() {
+		return credentialKey;
+	}
+
+	/**
+	 * @param credentialKey the credentialKey to set
+	 */
+	public void setCredentialKey(String credentialKey) {
+		this.credentialKey = credentialKey;
 	}
 
 		

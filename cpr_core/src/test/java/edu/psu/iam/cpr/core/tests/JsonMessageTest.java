@@ -27,6 +27,7 @@ import org.testng.AssertJUnit;
 import edu.psu.iam.cpr.core.database.Database;
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.tables.AddressesTable;
+import edu.psu.iam.cpr.core.database.tables.CredentialTable;
 import edu.psu.iam.cpr.core.database.tables.PersonAffiliationTable;
 import edu.psu.iam.cpr.core.database.tables.ConfidentialityTable;
 import edu.psu.iam.cpr.core.database.tables.DateOfBirthTable;
@@ -205,6 +206,15 @@ public class JsonMessageTest {
 		j.setUserComment(c);
 		db.closeSession();
 
+	}
+	
+	@Test
+	public final void testCredential() throws Exception {
+		CredentialTable t = new CredentialTable(100000L, "CREDENTIAL_TYPE_OPENID", "abc123@gmail.com", "cpruser");
+		openDbConnection();
+		JsonMessage j  = new JsonMessage(db, 100000, CprServiceName.AddCredential.toString(), "cpruser");
+		j.setCredential(t);
+		db.closeSession();
 	}
 	
 	

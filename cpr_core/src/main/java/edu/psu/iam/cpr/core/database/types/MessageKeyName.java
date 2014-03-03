@@ -85,6 +85,9 @@ public enum MessageKeyName {
 	// PSU Affiliations
 	PSU_AFFILIATION,
 
+	// Credential
+	CREDENTIAL_TYPE,
+	CREDENTIAL_DATA,
 	
 	// Confidentiality
 	CONFIDENTIALITY_TYPE,

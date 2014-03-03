@@ -73,6 +73,7 @@ null|Y|128|0|N|CREDENTIAL_TYPE|Credential Type
 OpenID|Y|129|128|Y|CREDENTIAL_TYPE_OPENID|Credential Type
 Facebook Connect|Y|130|128|Y|CREDENTIAL_TYPE_FACEBOOK|Credential Type
 SecureID|Y|131|128|Y|CREDENTIAL_TYPE_SECUREID|Credential Type
+Orcid|Y|132|128|Y|CREDENTIAL_TYPE_ORCID|Credential Type
 Id+ Card Hershey Faculty Staff|Y|329|166|Y|ID_CARD_ID_PLUS_CARD_HERSHEY_FACULTY_STAFF|Id+ Card Hershey Faculty Staff
 Id+ Card Hershey Faculty Staff Student|Y|330|166|Y|ID_CARD_ID_PLUS_CARD_HERSHEY_FACULTY_STAFF_STUDENT|Id+ Card Hershey Faculty Staff Student
 Id+ Card Hershey Retiree|Y|331|166|Y|ID_CARD_ID_PLUS_CARD_HERSHEY_RETIREE|Id+ Card Hershey Retiree
