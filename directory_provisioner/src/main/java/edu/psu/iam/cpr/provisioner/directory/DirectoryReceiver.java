@@ -36,8 +36,10 @@ public class DirectoryReceiver {
 			directoryMessageProcessor.processMessages();
 		} 
 		catch (JMSException e) {
+			e.printStackTrace();
 		} 
 		catch (NamingException e) {
+			e.printStackTrace();
 		}
 		finally {
 			directoryMessageProcessor.closeDirectoryContext();
