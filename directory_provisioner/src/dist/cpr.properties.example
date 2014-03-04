@@ -1,0 +1,19 @@
+#
+# JMS
+#
+cpr.jms.broker=<PUT BROKER URI HERE> - example: tcp://host.somedomain.edu:61616
+cpr.jms.userid=<PUT USERID HERE>
+cpr.jms.password=<PUT PASSWORD HERE>
+cpr.jms.replyto=Queue.CPR
+cpr.jms.dir.queue=Queue.Directory
+
+#
+# LDAP Information
+#
+cpr.ldap.url=<PUT LDAP SERVER URL HERE> - example: ldap://host.somedomain.edu
+cpr.ldap.people.base.dn=<PUT LDAP DN HERE> 
+cpr.ldap.people.dn.prefix=cn
+cpr.ldap.security.authentication=simple
+cpr.ldap.security.protocol=<NOTE THIS WILL NEED TO BE SET TO EITHER SSL OR TLS IF YOU ARE USING LDAPS>
+cpr.ldap.manager.dn=<PUT THE MANAGER ROOT USER HERE>
+cpr.ldap.manager.password=<PUT THE MANAGER ROOT PASSWORD HERE>
