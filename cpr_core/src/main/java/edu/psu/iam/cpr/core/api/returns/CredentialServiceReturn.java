@@ -59,7 +59,7 @@ public class CredentialServiceReturn {
 		super();
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		if (credentialReturnRecord != null) {
+		if (credentialReturnRecordArray != null) {
 			this.credentialReturnRecord = Arrays.copyOf(credentialReturnRecordArray, credentialReturnRecordArray.length);
 		}
 		else {
