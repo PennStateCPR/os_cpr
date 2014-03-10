@@ -95,7 +95,7 @@ public class UseridHelper {
 		final char[] letters = namePart.toLowerCase().trim().toCharArray();
 		for (int i = 0; i < letters.length; ++i) {
 			if (letters[i] >= 'a' && letters[i] <= 'z') {
-				return new Character(letters[i]).toString();
+				return Character.toString(letters[i]);
 			}
 		}
 		return null;
