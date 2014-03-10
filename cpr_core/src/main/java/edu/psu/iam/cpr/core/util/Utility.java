@@ -68,6 +68,8 @@ public final class Utility {
      * Contains the value for the UTC timezone string
      */
     private static final String UTC_TIMEZONE = "UTC";
+    protected static final String YES = "yes";
+    protected static final String NO = "no";
 
     /**
      * Constructor
@@ -204,8 +206,8 @@ public final class Utility {
         if (field == null) {
             return false;
         }
-        final int length = Math.min("yes".length(), field.length());
-        return "yes".substring(0, length).equalsIgnoreCase(field);
+        final int length = Math.min(YES.length(), field.length());
+        return YES.substring(0, length).equalsIgnoreCase(field);
     }
 
     /**
@@ -218,8 +220,8 @@ public final class Utility {
         if (field == null) {
             return false;
         }
-        final int length = Math.min("no".length(), field.length());
-        return "no".substring(0, length).equalsIgnoreCase(field);
+        final int length = Math.min(NO.length(), field.length());
+        return NO.substring(0, length).equalsIgnoreCase(field);
     }
 
     /**
