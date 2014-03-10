@@ -241,7 +241,7 @@ public class Database {
 		Long localRaServerPrincipalKey = NOT_FOUND_VALUE;
 		final String WILD_CARD_IP = "*";
 		
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("select ra_server_principal_key from {h-schema}server_principal_ip ");
 		sb.append("where ra_server_principal_key = :ra_server_principal_key AND ");
 		sb.append("(ip_address = :wildcard or ip_address = :client_ip_address)");
@@ -288,7 +288,7 @@ public class Database {
 		// Determine the user's status and group for the particular RA.
 			
 		// Build the query.
-		StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("SELECT cpr_access_groups_key, grpmbrs_suspend_flag, cpraccgprs_suspend_flag, websrvacc_suspend_flag ");
 		sb.append("FROM {h-schema}v_ra_group_web_service ");
 		sb.append("WHERE registration_authority_key = :l_ra_key ");

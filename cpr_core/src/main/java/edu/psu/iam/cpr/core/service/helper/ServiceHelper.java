@@ -112,7 +112,7 @@ public class ServiceHelper {
 		String exceptionMessage = e.getMessage();
 		exceptionMessage = (exceptionMessage == null) ? "EMPTY" : exceptionMessage;
 		
-		StringBuffer sb = new StringBuffer(BUFFER_SIZE);
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("Database Exception: ");
 		sb.append("Message = ");
 		sb.append(exceptionMessage);

@@ -120,7 +120,7 @@ public final class ValidateAddress {
 	 * @throws CprException 
 	 */
 	public static Long validCampusCode(final Database db, final String campusCode,
-			final StringBuffer campusName, final String updatedBy) throws CprException {
+			final StringBuilder campusName, final String updatedBy) throws CprException {
 		CampusCsTable campusData = new CampusCsTable();
 		
 		// Null is valid
@@ -170,7 +170,7 @@ public final class ValidateAddress {
 	 * @throws CprException 
 	 */
 	public static long validCountryCode(final Database db, final String countryCode,
-			final StringBuffer countryName, final String retrievedBy) throws CprException {
+			final StringBuilder countryName, final String retrievedBy) throws CprException {
 		CountryTable countryData = new CountryTable();
 		
 		
@@ -302,8 +302,8 @@ public final class ValidateAddress {
 			final String campusCode) throws 
 			CprException {
 				
-		StringBuffer countryName = new StringBuffer(BUFFER_SIZE);
-		StringBuffer campusName = new StringBuffer(BUFFER_SIZE);
+		final StringBuilder countryName = new StringBuilder(BUFFER_SIZE);
+		final StringBuilder campusName = new StringBuilder(BUFFER_SIZE);
 		
 		Long countryCodeId = -1L;
 		Long campusCodeId = -1L;

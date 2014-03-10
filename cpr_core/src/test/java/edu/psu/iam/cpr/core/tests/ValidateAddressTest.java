@@ -44,7 +44,7 @@ public class ValidateAddressTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuilder, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -64,30 +64,30 @@ public class ValidateAddressTest {
 		db.closeSession();
 	} 
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuilder, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
 	public final void testvalidCampusCodeLower() throws Exception {
 		openDbConnection();
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "up",s, "cpruser"), new Long(100048));
 		AssertJUnit.assertEquals(s.toString(), "UNIVERSITY PARK CAMPUS");
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuilder, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
 	public final void testvalidCampusCodeMixed() throws Exception {
 		openDbConnection();
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "Up", s,"cpruser"), new Long(100048));
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuilder, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
@@ -95,83 +95,83 @@ public class ValidateAddressTest {
 		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, null,null, "cpruser"), null);
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuilder, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
 	public final void testvalidCampusCodeSpaceUP() throws Exception {
 		openDbConnection();
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, " UP",s, "cpruser"),new Long(100048));
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuilder, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
 	public final void testvalidCampusCodeUP() throws Exception {
 		openDbConnection();
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "UP",s, "cpruser"), new Long(100048));
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuilder, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
 	public final void testvalidCampusCodeUPSpace() throws Exception {
 		openDbConnection();
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "UP ", s, "cpruser"), new Long(100048));
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuilder, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test (expectedExceptions=Exception.class)
 	public final void testvalidCampusCodeUPNoDB() throws Exception {
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		ValidateAddress.validCampusCode(db, "UP", s, "cpruser");
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuilder, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
 	public final void testvalidCampusCodeUp123() throws Exception {
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "UP123",s, "cpruser"), new Long(-1));
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuilder, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test
 	public final void testvalidCampusCodeUpa() throws Exception {
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "UPa",s, "cpruser"), new Long(-1));
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuilder, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testvalidCampusCodeUz() throws Exception {
 		openDbConnection();
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "Uz",s, "cpruser"), new Long(-1));
 		db.closeSession();
 	}
 	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuffer, java.lang.String)}.
+	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidateAddress#validCampusCode(Database, java.lang.String, java.lang.StringBuilder, java.lang.String)}.
 	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testIsValidCampusDBProblem() throws Exception {
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCampusCode(db, "Uz", s , "cpruser"), new Long(-1));
 
 	}
@@ -191,7 +191,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testvalidCountryCodeLower() throws Exception {
 		openDbConnection();
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "usa",s, "cpruser"),100069);
 		db.closeSession();
 	}
@@ -202,7 +202,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testvalidCountryCodeMixed() throws Exception {
 		openDbConnection();
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "UsA",s, "cpruser"), 100069);
 		db.closeSession();
 	}
@@ -212,7 +212,7 @@ public class ValidateAddressTest {
 	 */
 	@Test
 	public final void testvalidCountryCodeNull() throws Exception{
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, null,s, "cpruser"), -1);
 	}
 	/**
@@ -222,7 +222,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testvalidCountryCodeSpaceUSA() throws Exception {
 		openDbConnection();
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, " USA",s, "cpruser"), 100069);
 		db.closeSession();
 	}
@@ -233,7 +233,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testvalidCountryCodeUSA() throws Exception {
 		openDbConnection();
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "USA",s, "cpruser"), 100069);
 		db.closeSession();
 	}
@@ -244,7 +244,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testvalidCountryCodeUSASpace() throws Exception {
 		openDbConnection();
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "USA ",s, "cpruser"), 100069);
 		db.closeSession();
 	}
@@ -255,7 +255,7 @@ public class ValidateAddressTest {
 	 */
 	@Test
 	public final void testvalidCountryCodeUsa123() throws Exception {
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "Usa123",s, "cpruser"), -1);
 	}
 	/**
@@ -264,7 +264,7 @@ public class ValidateAddressTest {
 	 */
 	@Test
 	public final void testvalidCountryCodeUsaa() throws Exception {
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "Usaa",s, "cpruser"),-1);
 	}
 	/**
@@ -273,7 +273,7 @@ public class ValidateAddressTest {
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testvalidCountryCodeUSANoDB() throws Exception {
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		ValidateAddress.validCountryCode(db, "USA",s, "cpruser");
 	}
 	/**
@@ -283,7 +283,7 @@ public class ValidateAddressTest {
 	@Test(expectedExceptions=Exception.class)
 	public final void testvalidCountryCodeUz() throws Exception {
 		openDbConnection();
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "UPA",s, "cpruser"), -1);
 		db.closeSession();
 	}
@@ -294,7 +294,7 @@ public class ValidateAddressTest {
 	@Test
 	public final void testvalidCountryCodeUSADB() throws Exception {
 		openDbConnection();
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		AssertJUnit.assertEquals(ValidateAddress.validCountryCode(db, "USA",s, "cpruser"), 100069);
 		db.closeSession();
 	}

@@ -177,7 +177,7 @@ public class IdCardPrintLogTable {
 		final List<IdCardPrintLogReturn> results = new ArrayList<IdCardPrintLogReturn>();
 		final Session session = db.getSession();
 
-		final StringBuffer sb = new StringBuffer(BUFFER_SIZE);
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append("SELECT person_id, id_card_number, work_station_ip_address, ");
 		sb.append("work_station_name, printed_by , printed_on ");
 		sb.append("FROM {h-schema}v_person_id_card_print_log WHERE id_card_number = :id_card_number_in ");

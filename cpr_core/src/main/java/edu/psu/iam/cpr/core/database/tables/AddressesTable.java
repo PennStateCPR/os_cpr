@@ -604,7 +604,7 @@ public class AddressesTable {
 		final Session session = db.getSession();
 		final List<AddressReturn> results = new ArrayList<AddressReturn>();
 
-		final StringBuffer sb = new StringBuffer(BUFFER_SIZE);
+		final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 
 		sb.append("SELECT addresses.address_key, addresses.data_type_key, addresses.document_type_key, addresses.group_id,");
 		sb.append("addresses.primary_flag,addresses.address1, addresses.address2, addresses.address3, ");
