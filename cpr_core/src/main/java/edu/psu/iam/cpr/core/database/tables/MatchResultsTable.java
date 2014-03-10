@@ -146,4 +146,12 @@ public class MatchResultsTable implements Comparable<MatchResultsTable> {
 		return false;
 	
 	}
+
+    @Override
+    public int hashCode() {
+        int result = matchSetKey != null ? matchSetKey.hashCode() : 0;
+        result = 31 * result + (personId != null ? personId.hashCode() : 0);
+        result = 31 * result + (score != null ? score.hashCode() : 0);
+        return result;
+    }
 }
