@@ -214,24 +214,6 @@ public class EmployeeInfo extends PersonBio {
 	}
 
 	/**
-	 * Utility method to convert a 'Y' or 'N' into a boolean.
-	 *
-	 * @param boolString A string that should contain a 'Y' or an 'N'
-	 * @return true if the string contains a 'Y' otherwise false.
-	 */
-	protected boolean booleanFromString(final String boolString) {
-		if (ValidateHelper.isFieldEmpty(boolString)) {
-			return false;
-		}
-
-		if ("Y".equals(boolString.trim().toUpperCase())) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * @return the newEmployee
 	 */
 	public Employee getNewEmployee() {
@@ -537,7 +519,7 @@ public class EmployeeInfo extends PersonBio {
 			}
 
 
-			final boolean oldEmployeeShowDir = booleanFromString(employee.getShowInDirectoryFlag());
+			final boolean oldEmployeeShowDir = Utility.isOptionYes(employee.getShowInDirectoryFlag());
 			final boolean newEmployeeShowDir = showEmployeeInDirectory(directPhoneCode);
 			if (oldEmployeeShowDir != newEmployeeShowDir) {
 				changeFound = true;
