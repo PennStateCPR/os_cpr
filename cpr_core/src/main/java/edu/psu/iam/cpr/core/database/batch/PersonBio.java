@@ -148,7 +148,7 @@ public class PersonBio {
 	private final Date updateDate = new Date();
 
 	/** Instance of logger */
-	private static final Logger LOG = Logger.getLogger(PersonBio.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(PersonBio.class);
 	
 	/**
 	 * Constructor
@@ -1263,7 +1263,7 @@ public class PersonBio {
 				bean.setCountryCodeTwo(countryBean.getCountryCodeTwo());
 			}
 			catch (CprException e) {
-				LOG.warn("Unknown country code: " + countryCode + " for record " + e);
+				LOG4J_LOGGER.warn("Unknown country code: " + countryCode + " for record " + e);
 			}
 		}
 		else {
@@ -1280,7 +1280,7 @@ public class PersonBio {
 				bean.setCampusCode(campusCode);
 			} 
 			catch (CprException e) {
-				LOG.warn("Unknown campus code: " + campusCode + " for record " + e);
+				LOG4J_LOGGER.warn("Unknown campus code: " + campusCode + " for record " + e);
 			}
 		}
 		else {
@@ -1333,7 +1333,7 @@ public class PersonBio {
 				countryThreeCharCode = countryBean.getCountryCodeThree();
 			}
 			catch (CprException e) {
-				LOG.warn("Unknown country code: " + countryCode + " for record " + e);
+				LOG4J_LOGGER.warn("Unknown country code: " + countryCode + " for record " + e);
 			}
 		}
 
@@ -1348,7 +1348,7 @@ public class PersonBio {
 			}
 		}
 		catch (CprException e) {
-			LOG.warn("Unknown campus code: " + campusCode + " for record " + e);
+			LOG4J_LOGGER.warn("Unknown campus code: " + campusCode + " for record " + e);
 		}
 
 		// Create an instance of the addresses table.

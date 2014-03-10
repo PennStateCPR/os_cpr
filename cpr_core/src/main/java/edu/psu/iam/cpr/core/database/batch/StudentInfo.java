@@ -69,7 +69,7 @@ public class StudentInfo extends PersonBio {
 	private StudentAcademicDepartment newStudentAcademicDepartment = null;
 	
 	/** Instance of logger */
-	private static final Logger LOG = Logger.getLogger(StudentInfo.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(StudentInfo.class);
 
 	/**
 	 * Default constructor.
@@ -160,7 +160,7 @@ public class StudentInfo extends PersonBio {
 					}
 				}
 				catch (CprException e) {
-					LOG.warn("Unknown campus code: " + campusCode + " for record " + e);
+					LOG4J_LOGGER.warn("Unknown campus code: " + campusCode + " for record " + e);
 				}
 			}
 			
@@ -272,7 +272,7 @@ public class StudentInfo extends PersonBio {
 	    		student.setCampusCodeKey(campusCsBean.getCampusCodeKey());
 			}
 			catch (Exception e) {
-				LOG.warn("Unknown campus code: " + campusCode + " for record " + e);
+				LOG4J_LOGGER.warn("Unknown campus code: " + campusCode + " for record " + e);
 			}
 		}
    	

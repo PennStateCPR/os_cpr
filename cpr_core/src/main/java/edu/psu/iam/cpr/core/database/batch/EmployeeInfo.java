@@ -33,7 +33,7 @@ import edu.psu.iam.cpr.core.util.Validate;
 public class EmployeeInfo extends PersonBio {
 
 	/** Instance of logger */
-	private static final Logger LOG = Logger.getLogger(EmployeeInfo.class);
+	private static final Logger LOG4J_LOGGER = Logger.getLogger(EmployeeInfo.class);
 
 	/** Contains a reference to the old employee bean */
 	private Employee oldEmployee = null;
@@ -185,7 +185,7 @@ public class EmployeeInfo extends PersonBio {
 				final CampusCs campusCsBean = getCampusBean(campusCode);
 				employee.setCampusCodeKey(campusCsBean.getCampusCodeKey());
 			} catch (final CprException ex) {
-				LOG.warn("Unknown campus code: " + campusCode + " for record " + transEmplKey , ex);
+				LOG4J_LOGGER.warn("Unknown campus code: " + campusCode + " for record " + transEmplKey, ex);
 			}
 		}
 
@@ -532,7 +532,7 @@ public class EmployeeInfo extends PersonBio {
 						newEmployee.setCampusCodeKey(newCampusCode);
 					}
 				} catch (final CprException ex) {
-					LOG.warn("Unknown campus code: " + campusCode + " for record " + transEmplKey , ex);
+					LOG4J_LOGGER.warn("Unknown campus code: " + campusCode + " for record " + transEmplKey, ex);
 				}
 			}
 
@@ -571,7 +571,7 @@ public class EmployeeInfo extends PersonBio {
 			// with multiple secondary appts and a term date change
 			// on one of the secondary appts.
 			if (!changeFound && changedTermDate && processingSecondary) {
-				LOG.error("Unable to determine which record to update. Trans_empl_key: " + transEmplKey);
+				LOG4J_LOGGER.error("Unable to determine which record to update. Trans_empl_key: " + transEmplKey);
 			}
 
 			// save changes to the database
