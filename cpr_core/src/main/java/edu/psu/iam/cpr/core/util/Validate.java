@@ -80,19 +80,18 @@ public final class Validate {
      * @return if successful will return a Y/N, otherwise it will return a null object.
      */
     public static String isValidYesNo(final String yesNo) {
-    	
-    	if (yesNo == null || "".equals(yesNo)) {
-    		return "N";
-    	}
 
-    	final String s = yesNo.toUpperCase().trim();
+        if (yesNo == null || "".equals(yesNo)) {
+            return "N";
+        }
 
-    	if (s.equals("Y") || s.equals("YES") ||
-    			s.equals("N") || s.equals("NO")) {
-    		return s.substring(0,1);
-    	}
-
-    	return null;
+        if (Utility.isOptionYes(yesNo)) {
+            return "Y";
+        } else if (Utility.isOptionNo(yesNo)) {
+            return "N";
+        } else {
+            return null;
+        }
     }
 
 	/**

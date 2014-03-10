@@ -48,32 +48,56 @@ public class ValidateTest {
 	@Test
 	public final void testIsValidYesNo1() {
 		String retValue = Validate.isValidYesNo(null);
-		AssertJUnit.assertEquals(retValue, "N");
+		AssertJUnit.assertEquals("N", retValue);
 	}
 
-	/**
-	 * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidYesNo(java.lang.String)}.
-	 */
-	@Test
-	public final void testIsValidYesNo2() {
-		String retValue = Validate.isValidYesNo("X");
-		AssertJUnit.assertEquals(retValue, null);
-	}
+    /**
+     * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidYesNo(java.lang.String)}.
+     */
+    @Test
+    public final void testIsValidYesNo2() {
+        String retValue = Validate.isValidYesNo("");
+        AssertJUnit.assertEquals("N", retValue);
+    }
 
-	/**
+    /**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidYesNo(java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidYesNo3() {
+		String retValue = Validate.isValidYesNo("X");
+		AssertJUnit.assertNull(retValue);
+	}
+
+	/**
+	 * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidYesNo(java.lang.String)}.
+	 */
+	@Test
+	public final void testIsValidYesNo4() {
 		String retValue = Validate.isValidYesNo("y");
-		AssertJUnit.assertEquals(retValue, "Y");
+		AssertJUnit.assertEquals("Y", retValue);
 	}
 	
 	@Test
-	public final void testIsValidYesNo4() {
+	public final void testIsValidYesNo5() {
 		String retValue = Validate.isValidYesNo("yes");
-		AssertJUnit.assertEquals(retValue, "Y");
+		AssertJUnit.assertEquals("Y", retValue);
 	}
+
+    /**
+     * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidYesNo(java.lang.String)}.
+     */
+    @Test
+    public final void testIsValidYesNo6() {
+        String retValue = Validate.isValidYesNo("n");
+        AssertJUnit.assertEquals("N", retValue);
+    }
+
+    @Test
+    public final void testIsValidYesNo7() {
+        String retValue = Validate.isValidYesNo("no");
+        AssertJUnit.assertEquals("N", retValue);
+    }
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidPsuId(java.lang.String)}.
@@ -81,7 +105,7 @@ public class ValidateTest {
 	@Test
 	public final void testIsValidPsuId1() {
 		boolean retValue = Validate.isValidPsuId(null);
-		AssertJUnit.assertEquals(retValue, false);
+		AssertJUnit.assertFalse(retValue);
 	}
 	
 	/**
@@ -90,7 +114,7 @@ public class ValidateTest {
 	@Test
 	public final void testIsValidPsuId2() {
 		boolean retValue = Validate.isValidPsuId("");
-		AssertJUnit.assertEquals(retValue, false);
+		AssertJUnit.assertFalse(retValue);
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidPsuId(java.lang.String)}.
@@ -98,7 +122,7 @@ public class ValidateTest {
 	@Test
 	public final void testIsValidPsuId3() {
 		boolean retValue = Validate.isValidPsuId("9");
-		AssertJUnit.assertEquals(retValue, false);
+		AssertJUnit.assertFalse(retValue);
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidPsuId(java.lang.String)}.
@@ -106,7 +130,7 @@ public class ValidateTest {
 	@Test
 	public final void testIsValidPsuId4() {
 		boolean retValue = Validate.isValidPsuId("91234567890");
-		AssertJUnit.assertEquals(retValue, false);
+		AssertJUnit.assertFalse(retValue);
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.util.Validate#isValidPsuId(java.lang.String)}.
@@ -114,58 +138,58 @@ public class ValidateTest {
 	@Test
 	public final void testIsValidPsuId5() {
 		boolean retValue = Validate.isValidPsuId("912345678");
-		AssertJUnit.assertEquals(retValue, true);
+		AssertJUnit.assertTrue(retValue);
 	}
 
 	@Test
 	public final void testIsValidDate1() {
 		boolean retValue = Validate.isValidDate(null);
-		AssertJUnit.assertEquals(retValue, false);
+		AssertJUnit.assertFalse(retValue);
 	}
 	@Test
 	public final void testIsValidDate2() {
 		boolean retValue = Validate.isValidDate("");
-		AssertJUnit.assertEquals(retValue, false);
+		AssertJUnit.assertFalse(retValue);
 	}
 	@Test
 	public final void testIsValidDate3() {
 		boolean retValue = Validate.isValidDate("m/d/y");
-		AssertJUnit.assertEquals(retValue, false);
+		AssertJUnit.assertFalse(retValue);
 	}
 	@Test
 	public final void testIsValidDate4() {
 		boolean retValue = Validate.isValidDate("1/1/1");
-		AssertJUnit.assertEquals(retValue, true);
+		AssertJUnit.assertTrue(retValue);
 	}
 	@Test
 	public final void testIsValidDate5() {
 		boolean retValue = Validate.isValidDate("12/33/2010");
-		AssertJUnit.assertEquals(retValue, false);
+		AssertJUnit.assertFalse(retValue);
 	}
 	@Test
 	public final void testIsValidDate6() {
 		boolean retValue = Validate.isValidDate("12/31/2010");
-		AssertJUnit.assertEquals(retValue, true);
+		AssertJUnit.assertTrue(retValue);
 	}
 	@Test
 	public final void testIsValidPartialDate1() {
 		boolean retValue = Validate.isValidPartialDate(null);
-		AssertJUnit.assertEquals(retValue, false);
+		AssertJUnit.assertFalse(retValue);
 	}
 	@Test
 	public final void testIsValidPartialDate2() {
 		boolean retValue = Validate.isValidPartialDate("");
-		AssertJUnit.assertEquals(retValue, false);
+		AssertJUnit.assertFalse(retValue);
 	}
 	@Test
 	public final void testIsValidPartialDate3() {
 		boolean retValue = Validate.isValidPartialDate("1");
-		AssertJUnit.assertEquals(retValue, false);
+		AssertJUnit.assertFalse(retValue);
 	}
 	@Test
 	public final void testIsValidPartialDate4() {
 		boolean retValue = Validate.isValidPartialDate("1/1");
-		AssertJUnit.assertEquals(retValue, true);
+		AssertJUnit.assertTrue(retValue);
 	}
 	
 }
