@@ -56,7 +56,7 @@ public class EduPersonAffiliationCalculator extends PersonBio {
 	private Long primaryOverride = null;
 		
 	/** Map contains all of the working affiliations, separated by categories. */
-	private final Map<AffiliationCalculatorKey, ArrayList<PersonAffiliation>> currentAffiliations = new HashMap<AffiliationCalculatorKey, ArrayList<PersonAffiliation>>();
+	private final Map<AffiliationCalculatorKey, List<PersonAffiliation>> currentAffiliations = new HashMap<AffiliationCalculatorKey, List<PersonAffiliation>>();
 	
 	/** Contains the map of the final affiliations */
 	private final Map<Long, PersonAffiliation> finalAffiliations = new HashMap<Long, PersonAffiliation>();
@@ -215,7 +215,7 @@ public class EduPersonAffiliationCalculator extends PersonBio {
 	 */
 	private static List<Long> affiliationKeyList() {
 		
-		List<Long> affiliationsList = new ArrayList<Long>();
+		final List<Long> affiliationsList = new ArrayList<Long>();
 		
 		affiliationsList.add(AffiliationsType.EMERITUS.index());
 		affiliationsList.add(AffiliationsType.EMPLOYEE.index());
@@ -257,7 +257,7 @@ public class EduPersonAffiliationCalculator extends PersonBio {
 	 */
 	public void processAffiliationChange(final AffiliationCalculatorKey key, final long affiliationKey) {
 		
-		ArrayList<PersonAffiliation> affiliationBeans = getCurrentAffiliations().get(key);
+		List<PersonAffiliation> affiliationBeans = getCurrentAffiliations().get(key);
 		
 		// Add it.
 		if (affiliationBeans == null) {
@@ -330,8 +330,8 @@ public class EduPersonAffiliationCalculator extends PersonBio {
 	 * @param primary contains the primary flag Y/N.
 	 */
 	private void handleEmployeeChange(final AffiliationCalculatorKey key, final long affiliationKey, final String primary) {
-		ArrayList<PersonAffiliation> affiliationBeans = getCurrentAffiliations().get(key);
-		ArrayList<PersonAffiliation> copy = new ArrayList<PersonAffiliation>(affiliationBeans);
+		final List<PersonAffiliation> affiliationBeans = getCurrentAffiliations().get(key);
+		final List<PersonAffiliation> copy = new ArrayList<PersonAffiliation>(affiliationBeans);
 		
 		for (PersonAffiliation bean: affiliationBeans) {
 			if (! bean.getAffiliationKey().equals(affiliationKey)) {
@@ -351,7 +351,7 @@ public class EduPersonAffiliationCalculator extends PersonBio {
 	 */
 	private void addNewAffiliation(final AffiliationCalculatorKey key, final long affiliationKey, final String primary) {
 		
-		ArrayList<PersonAffiliation> affiliationBeans;
+		final List<PersonAffiliation> affiliationBeans;
 		PersonAffiliation bean = createPersonAffiliation(affiliationKey, primary);
 		affiliationBeans = new ArrayList<PersonAffiliation>();
 		affiliationBeans.add(bean);
@@ -450,7 +450,7 @@ public class EduPersonAffiliationCalculator extends PersonBio {
 	private void storeCurrentAffiliation(final AffiliationCalculatorKey affiliationType, final PersonAffiliation affiliationDbBean) throws CprException {
 		
 		// Obtain the list of affiliations for the specified type.  If no list was found, create one and add it.
-		ArrayList<PersonAffiliation> affiliationsList = currentAffiliations.get(affiliationType);
+		List<PersonAffiliation> affiliationsList = currentAffiliations.get(affiliationType);
 		if (affiliationsList == null) {
 			affiliationsList = new ArrayList<PersonAffiliation>();
 			currentAffiliations.put(affiliationType, affiliationsList);
@@ -686,7 +686,7 @@ public class EduPersonAffiliationCalculator extends PersonBio {
 	 * @param key contains the affiliation key (EMPLOYEE, STUDENT or MEMBER).
 	 */
 	private void storeFinalAffiliations(final AffiliationCalculatorKey key) {
-		ArrayList<PersonAffiliation> list = currentAffiliations.get(key);
+		final List<PersonAffiliation> list = currentAffiliations.get(key);
 		if (list != null) {
 			for (PersonAffiliation bean : list) {
 				finalAffiliations.put(bean.getAffiliationKey(), bean);
@@ -736,7 +736,7 @@ public class EduPersonAffiliationCalculator extends PersonBio {
 	/**
 	 * @return the currentAffiliations
 	 */
-	public Map<AffiliationCalculatorKey, ArrayList<PersonAffiliation>> getCurrentAffiliations() {
+	public Map<AffiliationCalculatorKey, List<PersonAffiliation>> getCurrentAffiliations() {
 		return currentAffiliations;
 	}
 

@@ -2,6 +2,7 @@
 package edu.psu.iam.cpr.core.authentication;
 
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.naming.Context;
@@ -65,7 +66,7 @@ public final class AuthenticateService {
 
 		final Properties props = CprProperties.INSTANCE.getProperties();
 		DirContext ctx = null;
-		final Hashtable<String,String> env = new Hashtable<String,String>();
+		final Map<String, String> env = new Hashtable<String,String>();
 
 		// Verify that a service principal and a password were specified.
 		if (userid == null || userid.length() == 0) {
@@ -96,7 +97,7 @@ public final class AuthenticateService {
 			env.put(Context.SECURITY_CREDENTIALS, password);
 
 			try {
-				ctx = new InitialDirContext(env);
+				ctx = new InitialDirContext((Hashtable<String, String>)env);
 			}
 			finally {
 				try {

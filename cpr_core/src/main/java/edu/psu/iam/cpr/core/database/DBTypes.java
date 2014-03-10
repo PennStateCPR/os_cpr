@@ -47,14 +47,14 @@ public enum DBTypes {
 	public static final int IDENTIFIER_TYPE = 0;
 	
 	/** Contains the array of hash maps of database types */
-	private final List<Map<String,Object>> typeMaps = new ArrayList<Map<String,Object>>();
+	private final List<Map<String, Object>> typeMaps = new ArrayList<Map<String,Object>>();
 	
 	/**
 	 * This method will return a particular hashmap.
 	 * @param index contains the index of the map to be returned.
 	 * @return will contain the returned hash map.
 	 */
-	public Map<String,Object> getTypeMaps(final int index) {
+	public Map<String, Object> getTypeMaps(final int index) {
 		return typeMaps.get(index);
 	}
 	
@@ -72,7 +72,7 @@ public enum DBTypes {
 
 			for (int i = 0; i < typeTableNames.length; ++i) {
 
-				HashMap<String,Object> map = new HashMap<String,Object>();
+				Map<String, Object> map = new HashMap<String,Object>();
 				final String sqlQuery = "from " + typeTableNames[i];
 				final Query query = session.createQuery(sqlQuery);
 

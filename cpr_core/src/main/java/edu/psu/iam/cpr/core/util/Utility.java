@@ -324,7 +324,7 @@ public final class Utility {
      */
     @SuppressWarnings("unchecked")
     public static Map<Long, MessageConsumer> convertConsumerListToMap(final List<?> consumerList) {
-        HashMap<Long, MessageConsumer> resultMap = new HashMap<Long, MessageConsumer>();
+        final Map<Long, MessageConsumer> resultMap = new HashMap<Long, MessageConsumer>();
 
         // Convert consumer list to Map
         for (MessageConsumer messageConsumer : (List<MessageConsumer>) consumerList) {

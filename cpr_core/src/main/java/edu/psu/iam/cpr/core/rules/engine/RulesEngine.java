@@ -72,7 +72,7 @@ public class RulesEngine {
 	 * @param knownFacts contains an array of strings that represent the known facts.
 	 * @param inputFact contains the input fact.
 	 */
-	public RulesEngine(String rulesetName, String[] knownFacts, String inputFact) {
+	public RulesEngine(final String rulesetName, final String[] knownFacts, final String inputFact) {
 		super();
 		this.rulesetName = rulesetName;
 		this.inputFact = new InputFact(inputFact);
@@ -86,7 +86,7 @@ public class RulesEngine {
 	/**
 	 * @param knowledgeBase the knowledgeBase to set
 	 */
-	public void setKnowledgeBase(KnowledgeBase knowledgeBase) {
+	public void setKnowledgeBase(final KnowledgeBase knowledgeBase) {
 		this.knowledgeBase = knowledgeBase;
 	}
 
@@ -107,14 +107,14 @@ public class RulesEngine {
 	/**
 	 * @param rulesetName the rulesetName to set
 	 */
-	public void setRulesetName(String rulesetName) {
+	public void setRulesetName(final String rulesetName) {
 		this.rulesetName = rulesetName;
 	}
 
 	/**
 	 * @param ruleExecutionResults the ruleExecutionResults to set
 	 */
-	public void setRuleExecutionResults(ArrayList<String> ruleExecutionResults) {
+	public void setRuleExecutionResults(final List<String> ruleExecutionResults) {
 		this.ruleExecutionResults = ruleExecutionResults;
 	}
 
@@ -135,7 +135,7 @@ public class RulesEngine {
 	/**
 	 * @param knownFacts the knownFacts to set
 	 */
-	public void setKnownFacts(ArrayList<KnownFact> knownFacts) {
+	public void setKnownFacts(final List<KnownFact> knownFacts) {
 		this.knownFacts = knownFacts;
 	}
 

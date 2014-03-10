@@ -4,12 +4,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 
-
-
-
-
-
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -90,7 +84,7 @@ public class EduPersonAffiliationCalculatorTest {
 			try {
 				session.close();
 			}
-			catch (Exception e) { // $codepro.audit.disable emptyCatchClause
+			catch (Exception e) {
 			}
 		}
 	}
@@ -154,7 +148,7 @@ public class EduPersonAffiliationCalculatorTest {
 		affiliationCalc.determineCurrentPersonAffiliations();
 		AssertJUnit.assertEquals((long) affiliationCalc.getPrimaryAffiliation().getAffiliationKey(), (long) AffiliationsType.MEMBER.index());
 		AssertJUnit.assertEquals(affiliationCalc.getCurrentAffiliations().size(), 3);
-		final ArrayList<PersonAffiliation> l = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> l = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertEquals(l.size(), 1);
 		AssertJUnit.assertEquals((long) l.get(0).getAffiliationKey(), (long) AffiliationsType.EMERITUS.index());
 		closeDbConnection();
@@ -173,7 +167,7 @@ public class EduPersonAffiliationCalculatorTest {
 		affiliationCalc.determineCurrentPersonAffiliations();
 		AssertJUnit.assertEquals((long) affiliationCalc.getPrimaryAffiliation().getAffiliationKey(), (long) AffiliationsType.MEMBER.index());
 		AssertJUnit.assertEquals(affiliationCalc.getCurrentAffiliations().size(), 3);
-		final ArrayList<PersonAffiliation> l = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> l = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertEquals(l.size(), 2);
 		AssertJUnit.assertEquals((long) l.get(0).getAffiliationKey(), (long) AffiliationsType.EMERITUS.index());
 		AssertJUnit.assertEquals((long) l.get(1).getAffiliationKey(), (long) AffiliationsType.FACULTY.index());
@@ -194,7 +188,7 @@ public class EduPersonAffiliationCalculatorTest {
 			affiliationCalc.determineCurrentPersonAffiliations();
 			AssertJUnit.assertEquals((long) affiliationCalc.getPrimaryAffiliation().getAffiliationKey(), (long) AffiliationsType.MEMBER.index());
 			AssertJUnit.assertEquals(affiliationCalc.getCurrentAffiliations().size(), 3);
-			final ArrayList<PersonAffiliation> l = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+			final List<PersonAffiliation> l = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 			AssertJUnit.assertEquals(l.size(), 2);
 			AssertJUnit.assertEquals((long) l.get(0).getAffiliationKey(), (long) AffiliationsType.EMERITUS.index());
 			AssertJUnit.assertEquals((long) l.get(1).getAffiliationKey(), (long) AffiliationsType.FACULTY.index());
@@ -218,7 +212,7 @@ public class EduPersonAffiliationCalculatorTest {
 		affiliationCalc.determineCurrentPersonAffiliations();
 		AssertJUnit.assertEquals((long) affiliationCalc.getPrimaryAffiliation().getAffiliationKey(), (long) AffiliationsType.MEMBER.index());
 		AssertJUnit.assertEquals(affiliationCalc.getCurrentAffiliations().size(), 3);
-		final ArrayList<PersonAffiliation> l = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> l = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertEquals(l.size(), 3);
 		AssertJUnit.assertEquals((long) l.get(0).getAffiliationKey(), (long) AffiliationsType.EMERITUS.index());
 		AssertJUnit.assertEquals((long) l.get(1).getAffiliationKey(), (long) AffiliationsType.FACULTY.index());
@@ -235,11 +229,11 @@ public class EduPersonAffiliationCalculatorTest {
 		closeDbConnection();
 		openDbConnection(BatchDataSource.UNIT_TEST);
 		affiliationCalc.determineCurrentPersonAffiliations();
-		final ArrayList<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertEquals(e.size(), 1);
-		final ArrayList<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
+		final List<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
 		AssertJUnit.assertNull(s);
-		final ArrayList<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
+		final List<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
 		AssertJUnit.assertEquals(m.size(), 1);
 		closeDbConnection();
 	}
@@ -252,11 +246,11 @@ public class EduPersonAffiliationCalculatorTest {
 		closeDbConnection();
 		openDbConnection(BatchDataSource.UNIT_TEST);
 		affiliationCalc.determineCurrentPersonAffiliations();
-		final ArrayList<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertNull(e);
-		final ArrayList<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
+		final List<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
 		AssertJUnit.assertEquals(s.size(), 1);
-		final ArrayList<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
+		final List<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
 		AssertJUnit.assertEquals(m.size(), 1);
 		closeDbConnection();
 	}
@@ -273,11 +267,11 @@ public class EduPersonAffiliationCalculatorTest {
 		closeDbConnection();
 		openDbConnection(BatchDataSource.UNIT_TEST);
 		affiliationCalc.determineCurrentPersonAffiliations();
-		final ArrayList<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertNull(e);
-		final ArrayList<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
+		final List<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
 		AssertJUnit.assertEquals(s.size(), 1);
-		final ArrayList<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
+		final List<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
 		AssertJUnit.assertEquals(m.size(), 1);
 		closeDbConnection();
 	}
@@ -293,11 +287,11 @@ public class EduPersonAffiliationCalculatorTest {
 		closeDbConnection();
 		openDbConnection(BatchDataSource.UNIT_TEST);
 		affiliationCalc.determineCurrentPersonAffiliations();
-		final ArrayList<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertNull(e);
-		final ArrayList<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
+		final List<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
 		AssertJUnit.assertEquals(s.size(), 1);
-		final ArrayList<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
+		final List<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
 		AssertJUnit.assertEquals(m.size(), 1);
 		closeDbConnection();
 	}
@@ -313,11 +307,11 @@ public class EduPersonAffiliationCalculatorTest {
 		closeDbConnection();
 		openDbConnection(BatchDataSource.UNIT_TEST);
 		affiliationCalc.determineCurrentPersonAffiliations();
-		final ArrayList<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertNull(e);
-		final ArrayList<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
+		final List<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
 		AssertJUnit.assertEquals(s.size(), 1);
-		final ArrayList<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
+		final List<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
 		AssertJUnit.assertEquals(m.size(), 1);
 		closeDbConnection();
 	}
@@ -333,11 +327,11 @@ public class EduPersonAffiliationCalculatorTest {
 		closeDbConnection();
 		openDbConnection(BatchDataSource.UNIT_TEST);
 		affiliationCalc.determineCurrentPersonAffiliations();
-		final ArrayList<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertNull(e);
-		final ArrayList<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
+		final List<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
 		AssertJUnit.assertNull(s);
-		final ArrayList<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
+		final List<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
 		AssertJUnit.assertEquals(m.size(), 1);
 		closeDbConnection();
 	}
@@ -354,11 +348,11 @@ public class EduPersonAffiliationCalculatorTest {
 		closeDbConnection();
 		openDbConnection(BatchDataSource.UNIT_TEST);
 		affiliationCalc.determineCurrentPersonAffiliations();
-		final ArrayList<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertEquals(e.size(), 1);
-		final ArrayList<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
+		final List<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
 		AssertJUnit.assertEquals(s.size(), 1);
-		final ArrayList<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
+		final List<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
 		AssertJUnit.assertEquals(m.size(), 1);
 		closeDbConnection();
 	}
@@ -375,12 +369,12 @@ public class EduPersonAffiliationCalculatorTest {
 		closeDbConnection();
 		openDbConnection(BatchDataSource.UNIT_TEST);
 		affiliationCalc.determineCurrentPersonAffiliations();
-		final ArrayList<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertEquals(e.size(), 1);
 		AssertJUnit.assertEquals(e.get(0).getLastUpdateBy(), BatchDataSource.HMC.toString());
-		final ArrayList<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
+		final List<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
 		AssertJUnit.assertEquals(s.size(), 1);
-		final ArrayList<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
+		final List<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
 		AssertJUnit.assertEquals(m.size(), 1);
 		closeDbConnection();
 	}
@@ -415,12 +409,12 @@ public class EduPersonAffiliationCalculatorTest {
 		closeDbConnection();
 		openDbConnection(BatchDataSource.UNIT_TEST);
 		affiliationCalc.determineCurrentPersonAffiliations();
-		final ArrayList<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertNull(e);
-		final ArrayList<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
+		final List<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
 		AssertJUnit.assertEquals(s.size(), 1);
 		AssertJUnit.assertEquals(s.get(0).getPrimaryFlag(),"Y");
-		final ArrayList<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
+		final List<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
 		AssertJUnit.assertEquals(m.size(), 1);
 		AssertJUnit.assertEquals(m.get(0).getPrimaryFlag(),"N");
 		closeDbConnection();
@@ -442,11 +436,11 @@ public class EduPersonAffiliationCalculatorTest {
 		closeDbConnection();
 		openDbConnection(BatchDataSource.UNIT_TEST);
 		affiliationCalc.determineCurrentPersonAffiliations();
-		final ArrayList<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertNull(e);
-		final ArrayList<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
+		final List<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
 		AssertJUnit.assertNull(s);
-		final ArrayList<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
+		final List<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
 		AssertJUnit.assertEquals(m.size(), 1);
 		AssertJUnit.assertEquals(m.get(0).getPrimaryFlag(),"Y");
 		closeDbConnection();
@@ -468,11 +462,11 @@ public class EduPersonAffiliationCalculatorTest {
 		closeDbConnection();
 		openDbConnection(BatchDataSource.UNIT_TEST);
 		affiliationCalc.determineCurrentPersonAffiliations();
-		final ArrayList<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertEquals(e.get(0).getPrimaryFlag(), "Y");
-		final ArrayList<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
+		final List<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
 		AssertJUnit.assertNull(s);
-		final ArrayList<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
+		final List<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
 		AssertJUnit.assertEquals(m.size(), 1);
 		AssertJUnit.assertEquals(m.get(0).getPrimaryFlag(),"N");
 		closeDbConnection();
@@ -492,11 +486,11 @@ public class EduPersonAffiliationCalculatorTest {
 		closeDbConnection();
 		openDbConnection(BatchDataSource.UNIT_TEST);
 		affiliationCalc.determineCurrentPersonAffiliations();
-		final ArrayList<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
+		final List<PersonAffiliation> e = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.EMPLOYEE);
 		AssertJUnit.assertEquals(e.get(0).getPrimaryFlag(), "Y");
-		final ArrayList<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
+		final List<PersonAffiliation> s = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.STUDENT);
 		AssertJUnit.assertNull(s);
-		final ArrayList<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
+		final List<PersonAffiliation> m = affiliationCalc.getCurrentAffiliations().get(AffiliationCalculatorKey.MEMBER);
 		AssertJUnit.assertEquals(m.size(), 1);
 		AssertJUnit.assertEquals(m.get(0).getPrimaryFlag(),"N");
 		closeDbConnection();

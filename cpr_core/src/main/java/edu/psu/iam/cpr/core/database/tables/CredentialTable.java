@@ -4,6 +4,7 @@ package edu.psu.iam.cpr.core.database.tables;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -294,7 +295,7 @@ public class CredentialTable {
 	 * @return will return a CredentialReturn array.
 	 */
 	public CredentialReturn[] getCredentialForPersonId(final Database db, final long personId) {
-		final ArrayList<CredentialReturn> results = new ArrayList<CredentialReturn>();
+		final List<CredentialReturn> results = new ArrayList<CredentialReturn>();
 		final Session session = db.getSession();
 
 		// Build the query string.
