@@ -218,61 +218,61 @@ public class PersonUseridIapTable {
 	 * @return A list of IAPs
 	 * @throws CprException 
 	 */
-	public  IAPReturn[] getPSUIAP( final Database db, final long personId, final String userid) throws CprException  {
+	public IAPReturn[] getPSUIAP( final Database db, final long personId, final String userid) throws CprException  {
 		
 		boolean useridValid = false;
-			final Session session = db.getSession();
-			useridValid = db.isValidUserid(personId, userid);
-			if (useridValid) {
-		
-				final List<IAPReturn> results = new ArrayList<IAPReturn>();
-				final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-				sb.append("SELECT iap.iap, ");
-				sb.append("person_userid_iap.start_date, ");
-				sb.append("person_userid_iap.end_date, ");
-				sb.append("person_userid_iap.last_update_by, " );
-				sb.append("person_userid_iap.last_update_on, ");
-				sb.append("person_userid_iap.created_by, " );
-				sb.append("person_userid_iap.created_on ");
-				sb.append("FROM {h-schema}iap ");
-				sb.append("LEFT JOIN {h-schema}person_userid_iap ON iap.iap_key = person_userid_iap.iap_key ");
-				sb.append("WHERE person_userid_iap.person_id = :person_id_in ");
-				sb.append("AND person_userid_iap.userid=:userid_in ");
-				
-				
-				// If we are not returning all records, we need to just return the active ones.
-				if (! isReturnHistoryFlag()) {
-					sb.append("AND person_userid_iap.end_date IS NULL ");
-				}		
-				sb.append("ORDER BY iap.iap_key ASC, person_userid_iap.start_date ASC ");
-				final SQLQuery query = session.createSQLQuery(sb.toString());
-				query.setParameter("person_id_in", personId);
+        final Session session = db.getSession();
+        useridValid = db.isValidUserid(personId, userid);
+        if (useridValid) {
 
-				query.setParameter("userid_in",userid);
-				query.addScalar("iap",StandardBasicTypes.STRING );
-				query.addScalar("start_date",StandardBasicTypes.TIMESTAMP );
-				query.addScalar("end_date",StandardBasicTypes.TIMESTAMP );
-				query.addScalar("last_update_by",StandardBasicTypes.STRING );
-				query.addScalar("last_update_on",StandardBasicTypes.TIMESTAMP );
-				query.addScalar("created_by",StandardBasicTypes.STRING );
-				query.addScalar("created_on",StandardBasicTypes.TIMESTAMP );
-				
-				for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
-					Object[] res = (Object []) it.next();
-					IAPReturn anIAP = new IAPReturn();
-					anIAP.setIap((String) res[IAP]);
-					anIAP.setStartDate(Utility.formatDateToISO8601((Date) res[START_DATE]));
-					anIAP.setEndDate(Utility.formatDateToISO8601((Date)res[END_DATE]));
-					anIAP.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
-					anIAP.setLastUpdateOn(Utility.formatDateToISO8601((Date) res[LAST_UPDATE_ON]));
-					anIAP.setCreatedBy((String) res[CREATED_BY]);
-					anIAP.setCreatedOn(Utility.formatDateToISO8601((Date) res[CREATED_ON]));
-					results.add(anIAP);
+            final List<IAPReturn> results = new ArrayList<IAPReturn>();
+            final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+            sb.append("SELECT iap.iap, ");
+            sb.append("person_userid_iap.start_date, ");
+            sb.append("person_userid_iap.end_date, ");
+            sb.append("person_userid_iap.last_update_by, " );
+            sb.append("person_userid_iap.last_update_on, ");
+            sb.append("person_userid_iap.created_by, " );
+            sb.append("person_userid_iap.created_on ");
+            sb.append("FROM {h-schema}iap ");
+            sb.append("LEFT JOIN {h-schema}person_userid_iap ON iap.iap_key = person_userid_iap.iap_key ");
+            sb.append("WHERE person_userid_iap.person_id = :person_id_in ");
+            sb.append("AND person_userid_iap.userid=:userid_in ");
 
-				}
-				
-				return results.toArray(new IAPReturn[results.size()]);
-			}
+
+            // If we are not returning all records, we need to just return the active ones.
+            if (! isReturnHistoryFlag()) {
+                sb.append("AND person_userid_iap.end_date IS NULL ");
+            }
+            sb.append("ORDER BY iap.iap_key ASC, person_userid_iap.start_date ASC ");
+            final SQLQuery query = session.createSQLQuery(sb.toString());
+            query.setParameter("person_id_in", personId);
+
+            query.setParameter("userid_in",userid);
+            query.addScalar("iap",StandardBasicTypes.STRING );
+            query.addScalar("start_date",StandardBasicTypes.TIMESTAMP );
+            query.addScalar("end_date",StandardBasicTypes.TIMESTAMP );
+            query.addScalar("last_update_by",StandardBasicTypes.STRING );
+            query.addScalar("last_update_on",StandardBasicTypes.TIMESTAMP );
+            query.addScalar("created_by",StandardBasicTypes.STRING );
+            query.addScalar("created_on",StandardBasicTypes.TIMESTAMP );
+
+            for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+                Object[] res = (Object []) it.next();
+                IAPReturn anIAP = new IAPReturn();
+                anIAP.setIap((String) res[IAP]);
+                anIAP.setStartDate(Utility.formatDateToISO8601((Date) res[START_DATE]));
+                anIAP.setEndDate(Utility.formatDateToISO8601((Date)res[END_DATE]));
+                anIAP.setLastUpdateBy((String) res[LAST_UPDATE_BY]);
+                anIAP.setLastUpdateOn(Utility.formatDateToISO8601((Date) res[LAST_UPDATE_ON]));
+                anIAP.setCreatedBy((String) res[CREATED_BY]);
+                anIAP.setCreatedOn(Utility.formatDateToISO8601((Date) res[CREATED_ON]));
+                results.add(anIAP);
+
+            }
+
+            return results.toArray(new IAPReturn[results.size()]);
+        }
 		
 		if (!useridValid) {
 			throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, USERID_ARG);
