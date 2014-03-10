@@ -1012,8 +1012,6 @@ public class Database {
 	 * @param tableName contains the name of the database table.
 	 * @param columnName contains the name of the database column to validate against.
 	 * @throws CprException will be thrown if there are any CPR specific problems.
-	 * @throws InvalidParametersException 
-	 * @throws NotSpecifiedException 
 	 */
     public void doIdentifierLengthCheck(final String identifier, 
     		final String identifierName, final String tableName, final String columnName) throws CprException {
