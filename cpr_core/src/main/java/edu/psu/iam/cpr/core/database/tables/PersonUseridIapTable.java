@@ -159,56 +159,57 @@ public class PersonUseridIapTable {
 	public boolean isReturnHistoryFlag() {
 		return returnHistoryFlag;
 	}
-	
-		/**
-		 * Retrieve all active PSU IAPS for a userid.
-		 * 
-		 * @param db contains the Database Object
-		 * @param personId contains the personId
-		 * @param userid The userid to query
-		 * @param federation contains the name of the federation
-		 * @return A list of IAPs
-		 * @throws CprException 
-		 */
-		public  IAPReturn[] getExternalIAP( final Database db,  final long personId, final String userid, final String federation ) throws CprException {
-		
-			boolean useridValid = false;
 
-			final Session session = db.getSession();
-			useridValid = db.isValidUserid(personId, userid);
-			if (useridValid) {
-				final String upperFed = federation.toUpperCase();
-				final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+    /**
+     * Retrieve all active PSU IAPS for a userid.
+     *
+     * @param db contains the Database Object
+     * @param personId contains the personId
+     * @param userid The userid to query
+     * @param federation contains the name of the federation
+     * @return A list of IAPs
+     * @throws CprException
+     */
+    public IAPReturn[] getExternalIAP(final Database db,  final long personId, final String userid, final String federation ) throws CprException {
 
-				final List<IAPReturn> results = new ArrayList<IAPReturn>();
-				sb.append("SELECT external_iap ");
-				sb.append("FROM {h-schema}v_external_iap_federation ");
-				sb.append("WHERE userid = :userid_in ");
-				sb.append("AND person_id = :person_id ");
-				sb.append("AND UPPER(federation)=:federation_in");
-				final SQLQuery query  = session.createSQLQuery(sb.toString());
-				query.setParameter("userid_in", userid);
-				query.setParameter("person_id", personId);
-				query.setParameter("federation_in",upperFed);
-				final Iterator<?> it = query.list().iterator();
+        boolean useridValid = false;
 
-				while (it.hasNext()) {
-					String iapFed= (String) it.next();
-					IAPReturn anIAP = new IAPReturn();
-					anIAP.setIap( iapFed);
-					results.add(anIAP);
+        final Session session = db.getSession();
+        useridValid = db.isValidUserid(personId, userid);
+        if (useridValid) {
+            final String upperFed = federation.toUpperCase();
+            final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 
-				}
-				return results.toArray(new IAPReturn[results.size()]);
-			}
+            final List<IAPReturn> results = new ArrayList<IAPReturn>();
+            sb.append("SELECT external_iap ");
+            sb.append("FROM {h-schema}v_external_iap_federation ");
+            sb.append("WHERE userid = :userid_in ");
+            sb.append("AND person_id = :person_id ");
+            sb.append("AND UPPER(federation)=:federation_in");
+            final SQLQuery query  = session.createSQLQuery(sb.toString());
+            query.setParameter("userid_in", userid);
+            query.setParameter("person_id", personId);
+            query.setParameter("federation_in",upperFed);
+            final Iterator<?> it = query.list().iterator();
 
-			if (!useridValid) {
-				throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, USERID_ARG);
-			}
-			else {
-				return null;
-			}        
-		}
+            while (it.hasNext()) {
+                String iapFed= (String) it.next();
+                IAPReturn anIAP = new IAPReturn();
+                anIAP.setIap( iapFed);
+                results.add(anIAP);
+
+            }
+            return results.toArray(new IAPReturn[results.size()]);
+        }
+
+        if (!useridValid) {
+            throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, USERID_ARG);
+        }
+        else {
+            return null;
+        }
+    }
+
 	/**
 	 * Retrieve all active PSU IAPS for a userid.
 	 * @param db An active database handle
