@@ -50,6 +50,7 @@ public class ValidatePhoneTest {
 	public final void testIsValidExtension1() {
 		AssertJUnit.assertEquals(ValidatePhone.isValidExtension(null), true);
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#isValidExtension(java.lang.String)}.
 	 */
@@ -57,6 +58,7 @@ public class ValidatePhoneTest {
 	public final void testIsValidExtension2() {
 		AssertJUnit.assertEquals(ValidatePhone.isValidExtension(""), true);
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#isValidExtension(java.lang.String)}.
 	 */
@@ -64,6 +66,7 @@ public class ValidatePhoneTest {
 	public final void testIsValidExtension3() {
 		AssertJUnit.assertEquals(ValidatePhone.isValidExtension("x"), false);
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#isValidExtension(java.lang.String)}.
 	 */
@@ -71,6 +74,7 @@ public class ValidatePhoneTest {
 	public final void testIsValidExtension4() {
 		AssertJUnit.assertEquals(ValidatePhone.isValidExtension("x1"), true);
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#isValidExtension(java.lang.String)}.
 	 */
@@ -86,6 +90,7 @@ public class ValidatePhoneTest {
 	public final void testIsValidPhoneNumber1() {
 		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber(null, null), false);
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#isValidPhoneNumber(java.lang.String, java.lang.String)}.
 	 */
@@ -93,6 +98,7 @@ public class ValidatePhoneTest {
 	public final void testIsValidPhoneNumber2() {
 		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("Y", null), false);
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#isValidPhoneNumber(java.lang.String, java.lang.String)}.
 	 */
@@ -100,6 +106,7 @@ public class ValidatePhoneTest {
 	public final void testIsValidPhoneNumber3() {
 		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("N", "112-1111"), false);
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#isValidPhoneNumber(java.lang.String, java.lang.String)}.
 	 */
@@ -107,6 +114,7 @@ public class ValidatePhoneTest {
 	public final void testIsValidPhoneNumber4() {
 		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("N", "8141112456"), true);
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#isValidPhoneNumber(java.lang.String, java.lang.String)}.
 	 */
@@ -115,13 +123,13 @@ public class ValidatePhoneTest {
 		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("N", "814 111 2456"), true);
 
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#isValidPhoneNumber(java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	public final void testIsValidPhoneNumber6() {
 		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("N", "814-111-2456"), true);
-
 	}
 
 	/**
@@ -130,7 +138,6 @@ public class ValidatePhoneTest {
 	@Test
 	public final void testIsValidPhoneNumber7() {
 		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("N", "(814)-111-2456"), true);
-
 	}
 
 	/**
@@ -140,6 +147,7 @@ public class ValidatePhoneTest {
 	public final void testIsValidPhoneNumber8() {
 		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("N", "(814)-111-2456"), true);
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#isValidPhoneNumber(java.lang.String, java.lang.String)}.
 	 */
@@ -147,6 +155,7 @@ public class ValidatePhoneTest {
 	public final void testIsValidPhoneNumber9() {
 		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("Y", "+44 20 1112 1112"), true);
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#isValidPhoneNumber(java.lang.String, java.lang.String)}.
 	 */
@@ -154,17 +163,16 @@ public class ValidatePhoneTest {
 	public final void testIsValidPhoneNumber10() {
 		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("N", "814-278-9153"), true);
 	}
+
 	@Test
 	public final void testIsValidPhoneNumberNotYesOrNo() {
 		AssertJUnit.assertEquals(ValidatePhone.isValidPhoneNumber("F", "814-278-9153"), false);
 	}
 
-
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 )}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersNoType() throws Exception {
@@ -172,12 +180,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateAddPhonesParameters(db, 0, null,  null, null, null, null);
 		db.closeSession();
 	}
-	
-	
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesRequestedByNull() throws Exception {
@@ -185,10 +191,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateAddPhonesParameters(db, 0, "home",  "814-278-9153", "1121", null, null);
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesRequestedByBlank() throws Exception {
@@ -196,10 +202,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateAddPhonesParameters(db, 0, "home",  "814-278-9153", "1121", null, "");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesRequestedByTooLong() throws Exception {
@@ -207,10 +213,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateAddPhonesParameters(db, 0, "home", "814-278-9153", "1121", null, "asdfghjklzxcvbnmqwertyuiopasdfgh");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersInvalidType() throws Exception {
@@ -218,10 +224,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateAddPhonesParameters(db, 0, "home",  "814-278-9153", "1121", "N", "system");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersInvalidTypenull() throws Exception {
@@ -233,7 +239,6 @@ public class ValidatePhoneTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
-	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersInvalidTypeBlank() throws Exception {
@@ -241,10 +246,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateAddPhonesParameters(db, 0, "", "814-278-9153", "1121", "N", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersInvalidPhoneNumber() throws Exception {
@@ -252,21 +257,21 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateAddPhonesParameters(db, 0, "Local_phone",  "84-278-9153", "1121", "N", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
- @Test(expectedExceptions=Exception.class)
+    @Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParameterInvalidIntlPhone() throws Exception {
 		openDbConnection();
 		ValidatePhone.validateAddPhonesParameters(db, 0, "Local_phone",  "84-278-9153", "1121", "Y", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersValidPhoneBadIntl() throws Exception {
@@ -278,7 +283,6 @@ public class ValidatePhoneTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
-	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesBadExtension() throws Exception {
@@ -286,9 +290,9 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateAddPhonesParameters(db, 0, "home", "814-278-9153", "abcd", "N", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
 	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -297,9 +301,9 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateAddPhonesParameters(db, 0, "LOCAL_PHONE",  "814-278-9153", "1121", "F", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
 	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -312,7 +316,6 @@ public class ValidatePhoneTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
-	 * @throws Exception 
 	 */
 	@Test
 	public final void testValidateAddPhonesParametersGoodRequest() throws Exception {
@@ -320,10 +323,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateAddPhonesParameters(db, 100000,  "permanent_phone",  "814-278-9153", "1121", "N", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersPhoneTooLong() throws Exception {
@@ -331,10 +334,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateAddPhonesParameters(db, 100000,  "local_phone", "123456789012345678901234567890123456789012", "1121", "N", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersExtensionTooLong() throws Exception {
@@ -342,10 +345,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateAddPhonesParameters(db, 100000,  "permanent_phone", "814-278-9153", "123456789012345678901234567890123456789012", "N", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateAddPhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateAddPhonesParametersBadType() throws Exception {
@@ -353,10 +356,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateAddPhonesParameters(db, 100000,  "phone", "814-278-9153", "123456789012345678901234567890123456789012", "N", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateArchivePhonesParameters(int, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchivePhonesGroupId() throws Exception {
@@ -367,7 +370,6 @@ public class ValidatePhoneTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateArchivePhonesParameters(int, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
-	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchivePhonesTypeNull() throws Exception {
@@ -375,10 +377,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateArchiveAndSetPrimaryPhonesParameters(db, 100000, null, 1L,"system", null);
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateArchivePhonesParameters(int, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchivePhonesTypeBlank() throws Exception {
@@ -386,9 +388,9 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateArchiveAndSetPrimaryPhonesParameters(db, 100000, "", 1L,"system", null);
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateArchivePhonesParameters(int, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
 	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -397,10 +399,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateArchiveAndSetPrimaryPhonesParameters(db, 100000, "Legal_name", 1L,"system", null);
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateArchivePhonesParameters(int, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchivePhonesNullRequestedBy() throws Exception {
@@ -409,9 +411,9 @@ public class ValidatePhoneTest {
 		db.closeSession();
 		
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateArchivePhonesParameters(int, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
 	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -424,7 +426,6 @@ public class ValidatePhoneTest {
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateArchivePhonesParameters(int, java.lang.String, java.lang.String)}.
 	 * @throws Exception 
-	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateArchivePhonesTooLongRequestedBy() throws Exception {
@@ -435,8 +436,7 @@ public class ValidatePhoneTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateArchivePhonesParameters(int, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test
 	public final void testValidateArchivePhonesGoodData() throws Exception {
@@ -444,11 +444,9 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateArchiveAndSetPrimaryPhonesParameters(db, 0, "permanent_phone", 1L, "system", null);
 		db.closeSession();
 	}	
-	
-	
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateGetPhonesParameters(int, java.lang.String)}.
-	 * @throws Exception 
 	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -469,10 +467,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateGetPhonesParameters(db, 0, " ",null,"Y", null);
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateGetPhonesParameters(int, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateGetPhonesRequestedTooLong() throws Exception {
@@ -497,8 +495,7 @@ public class ValidatePhoneTest {
 
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesBlankType() throws Exception {
@@ -506,9 +503,9 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateUpdatePhonesParameters(db, 0,"", 1L,  null, null, null, "system");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
 	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -517,10 +514,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateUpdatePhonesParameters(db, 0, null, 1L,  null, null, null, "system");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesBadType() throws Exception {
@@ -530,8 +527,7 @@ public class ValidatePhoneTest {
 	}
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesUpdateParametersInvalidGroupId() throws Exception {
@@ -539,12 +535,9 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateUpdatePhonesParameters(db, 0, "local_phone", null, "814 278 9153", null, null, "system");
 		db.closeSession();
 	}
-	
-	
-	
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
 	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -553,9 +546,9 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateUpdatePhonesParameters(db, 0, "local_phone", 1L,  "84-278-9153", "1121", "N", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
 	 * @throws Exception 
 	 */
 	@Test
@@ -564,10 +557,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateUpdatePhonesParameters(db, 0, "local_phone", 1L,  "12345842789153", "1121", "Y", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesParameters9() throws Exception {
@@ -576,10 +569,10 @@ public class ValidatePhoneTest {
 		db.closeSession();
 		
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesInvalidType() throws Exception {
@@ -587,9 +580,9 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateUpdatePhonesParameters(db, 0, "home", 1L,  "814-278-9153", "1121", "N", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
 	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -601,8 +594,7 @@ public class ValidatePhoneTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesNonPhoneNo() throws Exception {
@@ -610,9 +602,9 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateUpdatePhonesParameters(db, 0, "work_phone",1L, null, "1121", "N", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
 	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -621,10 +613,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateUpdatePhonesParameters(db, 0, "work_phone", 1L,  "814-278-9153", "1121", "F", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test
 	public final void testValidateUpdatePhonesParameters13() throws Exception {
@@ -632,10 +624,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateUpdatePhonesParameters(db, 100000, "work_phone", 1L,  "814-278-9153", "1121", "N", "cpruser");
 		db.closeSession();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesPhoneTooLong() throws Exception {
@@ -643,9 +635,9 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateUpdatePhonesParameters(db, 0, "employee_home", null,  "123456789012345678901234567890123456789012", "1234", "N", "cpruser");
 		openDbConnection();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
 	 * @throws Exception 
 	 */
 	@Test(expectedExceptions=Exception.class)
@@ -657,8 +649,7 @@ public class ValidatePhoneTest {
 	
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesUpdateByTooLong() throws Exception {
@@ -666,10 +657,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateUpdatePhonesParameters(db, 0, "permanent_phone", 1L,  "814-278-9153", "1234", "N", "asdfghjklqwertyuiopzxcvbnmasdfg");
 		openDbConnection();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesUpdateNull() throws Exception {
@@ -677,10 +668,10 @@ public class ValidatePhoneTest {
 		ValidatePhone.validateUpdatePhonesParameters(db, 0, "permanent_phone", 1L,  "814-278-9153", "1234", "N", null);
 		openDbConnection();
 	}
+
 	/**
 	 * Test method for {@link edu.psu.iam.cpr.core.database.tables.validate.ValidatePhone#validateUpdatePhonesParameters(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
-	 * @throws Exception 
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test(expectedExceptions=Exception.class)
 	public final void testValidateUpdatePhonesUpdateByBlank() throws Exception {
