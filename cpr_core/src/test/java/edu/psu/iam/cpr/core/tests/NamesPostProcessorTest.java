@@ -4,7 +4,6 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-
 import java.util.Date;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -129,7 +128,7 @@ public class NamesPostProcessorTest {
 			try {
 				session.close();
 			}
-			catch (Exception e) { // $codepro.audit.disable emptyCatchClause
+			catch (Exception e) { 
 			}
 		}
 	}

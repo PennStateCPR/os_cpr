@@ -3,7 +3,6 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-
 import java.util.Iterator;
 
 import org.hibernate.HibernateException;
@@ -102,7 +101,7 @@ public class StudentInfoTest {
 			try {
 				session.close();
 			}
-			catch (Exception e) { // $codepro.audit.disable emptyCatchClause
+			catch (Exception e) {
 			}
 		}
 	}

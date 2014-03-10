@@ -3,7 +3,6 @@ package edu.psu.iam.cpr.core.tests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-
 import static org.junit.Assert.assertEquals;
 
 import java.text.ParseException;
@@ -76,7 +75,7 @@ public class EmployeeInfoTest {
 			try {
 				session.close();
 			}
-			catch (final Exception e) { // $codepro.audit.disable emptyCatchClause, logExceptions
+			catch (final Exception e) {
 			}
 		}
 	}
@@ -121,7 +120,7 @@ public class EmployeeInfoTest {
 			try {
 				session.close();
 			}
-			catch (final Exception e) { // $codepro.audit.disable emptyCatchClause, logExceptions
+			catch (final Exception e) {
 			}
 		}
 

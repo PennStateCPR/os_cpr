@@ -4,7 +4,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -17,7 +16,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.StatelessSession;
 import org.hibernate.Transaction;
-
 
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
 import edu.psu.iam.cpr.core.database.batch.PersonBio;
@@ -87,7 +85,7 @@ public class PersonBioTest {
 			try {
 				session.close();
 			}
-			catch (final Exception e) { // $codepro.audit.disable emptyCatchClause
+			catch (final Exception e) {
 			}
 		}
 	}
@@ -119,7 +117,7 @@ public class PersonBioTest {
 			try {
 				session.close();
 			}
-			catch (final Exception e) { // $codepro.audit.disable emptyCatchClause
+			catch (final Exception e) {
 			}
 		}
 	}

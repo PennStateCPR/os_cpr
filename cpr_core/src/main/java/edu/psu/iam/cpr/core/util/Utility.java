@@ -119,7 +119,7 @@ public final class Utility {
         if (enumClass != null && stringValue != null) {
             try {
                 return Enum.valueOf(enumClass, stringValue.trim().toUpperCase());
-            } catch (final IllegalArgumentException ex) { // $codepro.audit.disable emptyCatchClause, logExceptions
+            } catch (final IllegalArgumentException ex) {
             }
         }
         return null;
@@ -385,7 +385,7 @@ public final class Utility {
             final String tempString2 = s2 == null || s2.trim().length() == 0 ? "NULL" : s2.trim();
 
             return tempString1.equals(tempString2);
-        } catch (final Exception e) { // $codepro.audit.disable logExceptions
+        } catch (final Exception e) {
             return false;
         }
     }
@@ -404,7 +404,7 @@ public final class Utility {
             final String tempString2 = s2 == null || s2.trim().length() == 0 ? "NULL" : s2.trim();
 
             return tempString1.equalsIgnoreCase(tempString2);
-        } catch (final Exception e) { // $codepro.audit.disable logExceptions
+        } catch (final Exception e) {
             return false;
         }
     }
@@ -429,7 +429,7 @@ public final class Utility {
             } else {
                 return parm1.equals(parm2);
             }
-        } catch (final Exception e) { // $codepro.audit.disable logExceptions
+        } catch (final Exception e) {
             return false;
         }
     }
@@ -452,7 +452,7 @@ public final class Utility {
             } else {
                 return parm1.equals(parm2);
             }
-        } catch (final Exception e) { // $codepro.audit.disable logExceptions
+        } catch (final Exception e) {
             return false;
         }
     }

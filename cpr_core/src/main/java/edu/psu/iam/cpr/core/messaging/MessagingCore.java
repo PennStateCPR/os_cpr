@@ -257,13 +257,13 @@ public class MessagingCore {
 		try {
 			jmsSession.close();
 		}
-		catch (Exception e) { // $codepro.audit.disable logExceptions, emptyCatchClause
+		catch (Exception e) {
 		}
 
 		try {
 			jmsConnection.close();
 		}
-		catch (Exception e) { // $codepro.audit.disable logExceptions, emptyCatchClause
+		catch (Exception e) {
 		}
 
 		jmsSession = null;
@@ -458,7 +458,7 @@ public class MessagingCore {
     				msgSender.close();
     			}
     		}
-    		catch (JMSException e) { // $codepro.audit.disable logExceptions, emptyCatchClause
+    		catch (JMSException e) {
 
     		}
     	}
@@ -528,7 +528,7 @@ public class MessagingCore {
     				msgSender.close();
     			}
     		}
-    		catch (JMSException e) { // $codepro.audit.disable logExceptions, emptyCatchClause
+    		catch (JMSException e) {
 
     		}
     	}
@@ -625,7 +625,7 @@ public class MessagingCore {
     				msgSender.close();
     			}
     		}
-    		catch (JMSException e) { // $codepro.audit.disable logExceptions, emptyCatchClause
+    		catch (JMSException e) {
 
     		}
     	}

@@ -148,7 +148,7 @@ public class AddressPostProcessorTest {
 			try {
 				session.close();
 			}
-			catch (Exception e) { // $codepro.audit.disable emptyCatchClause
+			catch (Exception e) {
 			}
 		}
 	}
@@ -221,7 +221,7 @@ public class AddressPostProcessorTest {
 			try {
 				session.close();
 			}
-			catch (Exception e) { // $codepro.audit.disable emptyCatchClause
+			catch (Exception e) {
 			}
 		}
 	}
