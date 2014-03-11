@@ -64,7 +64,37 @@ public class PersonUseridIapTable {
 	
 	/** Boolean flag that indicates whether to return all historical records or not */
 	private boolean returnHistoryFlag;
-	
+
+    /**
+     * Constructor
+     */
+    public PersonUseridIapTable() {
+        super();
+    }
+
+    /**
+     * Constructor
+     * @param personId contains the personId
+     * @param userId contains the userid
+     * @param iapTypeString contains the IAP type string
+     * @param updatedBy contains the userid of updater
+     * @throws CprException will be thrown if there are any CPR related problems.
+     */
+    public PersonUseridIapTable(final long personId, final String userId, final String iapTypeString, final String updatedBy) throws CprException {
+
+        super();
+        final PersonUseridIap bean = new PersonUseridIap();
+        setPersonUseridIapBean(bean);
+        final Date d = new Date();
+        bean.setPersonId(personId);
+        bean.setUserid(userId);
+        setIapType(findIapTypeEnum(iapTypeString));
+        bean.setCreatedOn(d);
+        bean.setCreatedBy(updatedBy);
+        bean.setLastUpdateBy(updatedBy);
+        bean.setLastUpdateOn(d);
+    }
+
 	/** 
 	 * 
 	 * @return IapType
@@ -73,11 +103,11 @@ public class PersonUseridIapTable {
 		return iapType;
 		
 	}
+
 	/**
 	 * @param iapType the iapType to set
 	 * 
 	 */
-	
 	public final void setIapType (final IapType iapType) {
 		this.iapType = iapType;
 	}
@@ -88,7 +118,6 @@ public class PersonUseridIapTable {
 	 * @return will contain the enum if successful.
 	 * @throws CprException will be thrown if there are any CPR related problems.
 	 */
-	
 	public final IapType findIapTypeEnum(final String iapTypeString) throws CprException {
 		if (iapTypeString != null) {
 			IapType iapTypeEnum = Utility.getEnumFromString(IapType.class, iapTypeString);
@@ -97,9 +126,7 @@ public class PersonUseridIapTable {
 			}
 		}
 		throw new CprException(ReturnType.INVALID_PARAMETERS_EXCEPTION, "Iap Type");
-	};
-
-	
+	}
 	
 	/**
 	 * @param personUseridIapBean the personUserIapBean to set
@@ -111,48 +138,17 @@ public class PersonUseridIapTable {
 	/**
 	 * @return the addressesBean
 	 */
-	public PersonUseridIap  getPersonUseridIapBean() {
+	public PersonUseridIap getPersonUseridIapBean() {
 		return personUseridIapBean;
 	}
-	
-	/**
-	 * Constructor
-	 */
-	public PersonUseridIapTable() {
-		super();
-		
-	}
 
-	/**
-	 * Constructor
-	 * @param personId contains the personId
-	 * @param userId contains the userid
-	 * @param iapTypeString contains the IAP type string
-	 * @param updatedBy contains the userid of updater
-	 * @throws CprException will be thrown if there are any CPR related problems.
-	 */
-	public PersonUseridIapTable(final long personId, final String userId, final String iapTypeString, final String updatedBy) throws CprException {
-		
-		super();
-		final PersonUseridIap bean = new PersonUseridIap();
-		setPersonUseridIapBean(bean);
-		final Date d = new Date();
-		bean.setPersonId(personId);
-		bean.setUserid(userId);
-		setIapType(findIapTypeEnum(iapTypeString));
-		bean.setCreatedOn(d);
-		bean.setCreatedBy(updatedBy);
-		bean.setLastUpdateBy(updatedBy);
-		bean.setLastUpdateOn(d);
-
-	}
-	
 	/**
 	 * @param returnHistoryFlag the returnHistoryFlag to set
 	 */
 	public void setReturnHistoryFlag(final boolean returnHistoryFlag) {
 		this.returnHistoryFlag = returnHistoryFlag;
 	}
+
 	/**
 	 * @return the returnHistoryFlag
 	 */
@@ -214,7 +210,7 @@ public class PersonUseridIapTable {
 	 * @return A list of IAPs
 	 * @throws CprException 
 	 */
-	public IAPReturn[] getPSUIAP( final Database db, final long personId, final String userid) throws CprException  {
+	public IAPReturn[] getPSUIAP(final Database db, final long personId, final String userid) throws CprException  {
 		
 		boolean useridValid = false;
         final Session session = db.getSession();
