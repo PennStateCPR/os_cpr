@@ -1,4 +1,3 @@
-/* SVN FILE: $Id: Database.java 5340 2012-09-27 14:48:52Z jvuccolo $ */
 package edu.psu.iam.cpr.core.database;
 
 import java.sql.Connection;
@@ -64,7 +63,14 @@ public class Database {
 	
 	/** ID Card string */
 	public static final String ID_CARD_IDENTIFIER 	= "ID_CARD";
-	
+
+    /** Wildcard value for IP addresses */
+    private static  final String WILD_CARD_IP = "*";
+
+    private static final int RA_KEY_INDEX 					= 0;
+    private static final int RA_SUSPEND_FLAG 			    = 1;
+    private static final int RA_SERVER_PRINCIPAL_KEY_INDEX  = 2;
+
 	/** Instance of logger */
 	private static final Logger LOG4J_LOGGER = Logger.getLogger(Database.class);
 
@@ -182,11 +188,7 @@ public class Database {
 		
 		Long localRegistrationAuthoritykey 		= NOT_FOUND_VALUE;
 		Long raServerPrincipalKey 				= NOT_FOUND_VALUE;
-		
-		final int RA_KEY_INDEX 					= 0;
-		final int RA_SUSPEND_FLAG 				= 1;
-		final int RA_SERVER_PRINCIPAL_KEY_INDEX = 2;
-		
+
 		String suspendFlag 						= "Y";
 
 		// Build the query.
@@ -239,7 +241,6 @@ public class Database {
 	private void verifyClientIpAddress(final Long raServerPrincipalKey, final String serviceName, final String clientIpAddress) throws CprException {
 		
 		Long localRaServerPrincipalKey = NOT_FOUND_VALUE;
-		final String WILD_CARD_IP = "*";
 		
 		final StringBuilder sb = new StringBuilder();
 		sb.append("select ra_server_principal_key from {h-schema}server_principal_ip ");
