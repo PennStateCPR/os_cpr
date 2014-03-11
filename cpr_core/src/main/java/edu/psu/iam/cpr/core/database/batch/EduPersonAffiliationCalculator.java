@@ -36,14 +36,65 @@ import edu.psu.iam.cpr.core.util.DataQualityService;
  *
  */
 public class EduPersonAffiliationCalculator extends PersonBio {
-	
-	/** Yes character flag */
+
+    /** Yes character flag */
 	private static final String YES = "Y";
 	
 	/** No character flag */
 	private static final String NO = "N";
 
-	/** Contains a reference to the current primary affiliation bean */
+    /** Staff class code Administrator */
+    protected static final String STAFF_CLASS_ADMIN = "ADMR";
+
+    /** Staff class code Clerical */
+    protected static final String STAFF_CLASS_CLERICAL = "CLER";
+
+    /** Staff class code Executive */
+    protected static final String STAFF_CLASS_EXECUTIVE = "EXEC";
+
+    /** Staff class code Standing Exempt */
+    protected static final String STAFF_CLASS_STANDING_EXEMPT = "STEX";
+
+    /** Staff class code Standing Non-Exempt */
+    protected static final String STAFF_CLASS_STANDING_NONEXEMPT = "STNE";
+
+    /** Staff class code*/
+    protected static final String STAFF_CLASS_STAFF = "STFF";
+
+    /** Tech Services Employee class code */
+    protected static final String EMPLOYEE_CLASS_TECH_SERV = "TECH";
+
+    /** Employee status code: Retiree */
+    protected static final String EMPLOYEE_STATUS_CODE_RETIREE = "RET";
+
+    /** Employee status code: Active */
+    protected static final String EMPLOYEE_STATUS_CODE_ACTIVE = "ACT";
+
+    /** Employee special status flag */
+    protected static final String EMPLOYEE_SPECIAL_STATUS_CODE = "E";
+
+    /** Student status code: Advanced Registration */
+    protected static final String STUDENT_STATUS_CODE_ADVANCED_REGISTRATION = "REGADV";
+
+    /** Student status code: Correspondence registration only */
+    protected static final String STUDENT_STATUS_CODE_CORRESPONDENCE_REGISTRATION = "REGIND";
+
+    /** Student status code: Regular registration */
+    protected static final String STUDENT_STATUS_CODE_REGULAR_REGISTRATION = "REGIST";
+
+    /** Student status code: Late registration - after 10 days */
+    protected static final String STUDENT_STATUS_CODE_LATE_REGISTRATION = "REGLAT";
+
+    /** Student status code: Schedule Students course */
+    protected static final String STUDENT_STATUS_CODE_SCHEDULE = "SCHED";
+
+    /** Faculty class: Academic */
+    protected static final String FACULTY_CLASS_ACADEMIC = "ACAD";
+
+    /** Faculty class: Academic Administrator */
+    protected static final String FACULTY_CLASS_ACAD_ADMIN = "ACAM";
+
+    /** Contains a reference to the current primary affiliation bean */
 	private PersonAffiliation currentPrimary = null;
 	
 	/** Contains a reference to the old primary affiliation bean */
@@ -147,28 +198,21 @@ public class EduPersonAffiliationCalculator extends PersonBio {
 
 		AffiliationsType affiliation = AffiliationsType.MEMBER;
 
-		if (statusCode != null) {
-			if (statusCode.equals("RET")) {
-				if (specialStatus != null && specialStatus.equals("E")) {
-					affiliation = AffiliationsType.EMERITUS;
-				}
-				else {
-					affiliation = AffiliationsType.RETIREE;
-				}
-			}
-
-			else if (statusCode.equals("ACT") && classCode != null) {
-				if (isFacultyClass(classCode)) {
-					affiliation = AffiliationsType.FACULTY;
-				}
-				else if (isStaffClass(classCode)) {
-					affiliation = AffiliationsType.STAFF;
-				}
-				else if (isEmployeeClass(classCode)) {
-					affiliation = AffiliationsType.EMPLOYEE;
-				}
-			}
-		}
+        if (EMPLOYEE_STATUS_CODE_RETIREE.equals(statusCode)) {
+            if (EMPLOYEE_SPECIAL_STATUS_CODE.equals(specialStatus)) {
+                affiliation = AffiliationsType.EMERITUS;
+            } else {
+                affiliation = AffiliationsType.RETIREE;
+            }
+        } else if (EMPLOYEE_STATUS_CODE_ACTIVE.equals(statusCode)) {
+            if (isFacultyClass(classCode)) {
+                affiliation = AffiliationsType.FACULTY;
+            } else if (isStaffClass(classCode)) {
+                affiliation = AffiliationsType.STAFF;
+            } else if (isEmployeeClass(classCode)) {
+                affiliation = AffiliationsType.EMPLOYEE;
+            }
+        }
 		
 		return affiliation;
 	}
@@ -179,34 +223,17 @@ public class EduPersonAffiliationCalculator extends PersonBio {
 	 * @return AffiliationsType representing a eduPerson affiliation type
 	 */
 	public AffiliationsType calculateStudentAffiliation (final String statusCode) {
-		
-		AffiliationsType affiliation = AffiliationsType.MEMBER;
-		
-		if (statusCode != null) {
-			
-			// Advanced Registration
-			if (statusCode.equals("REGADV")) {
-				affiliation = AffiliationsType.STUDENT;
-			}
-			// Correspondence registration only
-			else if (statusCode.equals("REGIND")) {
-				affiliation = AffiliationsType.STUDENT;
-			}
-			// Regular Registration
-			else if (statusCode.equals("REGIST")) {
-				affiliation = AffiliationsType.STUDENT;
-			}
-			// Late Registration - after 10 days
-			else if (statusCode.equals("REGLAT")) {
-				affiliation = AffiliationsType.STUDENT;
-			}
-			// Schedule Students courses
-			else if (statusCode.equals("SCHED")) {
-				affiliation = AffiliationsType.STUDENT;
-			}
-		}
-		
-		return affiliation;
+
+        if (STUDENT_STATUS_CODE_ADVANCED_REGISTRATION.equals(statusCode) ||
+            STUDENT_STATUS_CODE_CORRESPONDENCE_REGISTRATION.equals(statusCode) ||
+            STUDENT_STATUS_CODE_LATE_REGISTRATION.equals(statusCode) ||
+            STUDENT_STATUS_CODE_REGULAR_REGISTRATION.equals(statusCode) ||
+            STUDENT_STATUS_CODE_SCHEDULE.equals(statusCode)) {
+
+            return AffiliationsType.STUDENT;
+        } else {
+            return AffiliationsType.MEMBER;
+        }
 	}
 	
 	/**
@@ -525,16 +552,12 @@ public class EduPersonAffiliationCalculator extends PersonBio {
 	 * @return true if this is a faculty position, false otherwise
 	 */
 	private boolean isFacultyClass(final String classCode) {
-		
-		// Academic
-		if (classCode.equals("ACAD")) {
-			return true;
-		}
-		// Academic Administrator
-		else if (classCode.equals("ACAM")) {
-			return true;
-		}
-		return false;
+
+        if (FACULTY_CLASS_ACADEMIC.equals(classCode) || FACULTY_CLASS_ACAD_ADMIN.equals(classCode)) {
+            return true;
+        } else {
+            return false;
+        }
 	}
 	
 	/**
@@ -543,32 +566,17 @@ public class EduPersonAffiliationCalculator extends PersonBio {
 	 * @return true if this is a staff position, false otherwise
 	 */
 	private boolean isStaffClass(final String classCode) {
-		
-		// Staff Administrator
-		if (classCode.equals("ADMR")) {
-			return true;
-		}
-		// Clerical
-		if (classCode.equals("CLER")) {
-			return true;
-		}
-		// Executive
-		if (classCode.equals("EXEC")) {
-			return true;
-		}
-		// Standing Exempt
-		if (classCode.equals("STEX")) {
-			return true;
-		}
-		// Standing Non-Exempt
-		if (classCode.equals("STNE")) {
-			return true;
-		}
-		// Staff
-		if (classCode.equals("STFF")) {
-			return true;
-		}
-		return false;
+
+        if (STAFF_CLASS_ADMIN.equals(classCode) ||
+            STAFF_CLASS_CLERICAL.equals(classCode) ||
+            STAFF_CLASS_EXECUTIVE.equals(classCode) ||
+            STAFF_CLASS_STANDING_EXEMPT.equals(classCode) ||
+            STAFF_CLASS_STANDING_NONEXEMPT.equals(classCode) ||
+            STAFF_CLASS_STAFF.equals(classCode)) {
+            return true;
+        } else {
+		    return false;
+        }
 	}
 	
 	/**
@@ -577,13 +585,12 @@ public class EduPersonAffiliationCalculator extends PersonBio {
 	 * @return will return true if the class is of a tech services person, otherwise it will return false.
 	 */
 	private boolean isEmployeeClass(final String classCode) {
-		
-		// Technical Services
-		if (classCode.equals("TECH")) {
-			return true;
-		}
-		return false;
-		
+
+        if (EMPLOYEE_CLASS_TECH_SERV.equals(classCode)) {
+            return true;
+        } else {
+            return false;
+        }
 	}
 	
 	/**
