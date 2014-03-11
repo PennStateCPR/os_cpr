@@ -216,7 +216,7 @@ public class PersonAffiliationTable {
 	 * @param db contains the Database object
 	 * @throws CprException 
 	 */
-	public void  addAffiliation(final Database db) throws  CprException { 
+	public void addAffiliation(final Database db) throws  CprException {
 
 		RulesReturn rulesReturn = null;
 		boolean fatalError = false;
@@ -340,7 +340,7 @@ public class PersonAffiliationTable {
 	 * @param db contains the Database object
 	 * @throws CprException 
 	 */
-	public void  archiveAffiliation(final Database db) throws CprException { 
+	public void archiveAffiliation(final Database db) throws CprException {
 		
 		boolean notFound = false;
 		boolean alreadyArchived = false;
