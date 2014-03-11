@@ -1,5 +1,5 @@
-/* SVN FILE: $Id$ */
 package edu.psu.iam.cpr.core.util;
+
 /**
  * 
  * This class provides several methods and static variables that are useful for the matching
@@ -27,8 +27,6 @@ package edu.psu.iam.cpr.core.util;
  * @lastrevision $Date$
  *
 */
-
-
 public final class MatchingUtilities {
 	
 	/** Matching data type for a person's name. */
@@ -71,7 +69,7 @@ public final class MatchingUtilities {
 		
 		final StringBuilder builder = new StringBuilder(BUFFER_SIZE);
 		
-		if (firstName != null && !firstName.trim().equals("")) {
+		if (!Utility.isStringEmpty(firstName)) {
 			builder.append(firstName.trim());
 		}
 		
@@ -80,17 +78,13 @@ public final class MatchingUtilities {
 		 * In the future may include middle name
 		 */
 	
-		if (lastName != null && !lastName.trim().equals("")) {
+		if (!Utility.isStringEmpty(lastName)) {
 			if (builder.length() > 0) {
 				builder.append(" ");
 			}
 			builder.append(lastName.trim());
 		}
-		
-		if (builder.length() == 0) {
-			return "";
-		}
-		
+
 		return builder.toString();
 	}
 
@@ -107,26 +101,22 @@ public final class MatchingUtilities {
 		
 		final StringBuilder builder = new StringBuilder(BUFFER_SIZE);
 		
-		if (address1 != null && !address1.trim().equals("")) {
+		if (!Utility.isStringEmpty(address1)) {
 			builder.append(address1.trim());
 		}
 		
-		if (address2 != null && !address2.trim().equals("")) {
+		if (!Utility.isStringEmpty(address2)) {
 			if (builder.length() > 0) {
 				builder.append(" ");
 			}
 			builder.append(address2.trim());
 		}
 	
-		if (address3 != null && !address3.trim().equals("")) {
+		if (!Utility.isStringEmpty(address3)) {
 			if (builder.length() > 0) {
 				builder.append(" ");
 			}
 			builder.append(address3.trim());
-		}
-		
-		if (builder.length() == 0) {
-			return "";
 		}
 		
 		return builder.toString();
@@ -161,28 +151,24 @@ public final class MatchingUtilities {
 	
 		final StringBuilder builder = new StringBuilder(BUFFER_SIZE);
 		
-		if (city != null && !city.trim().equals("")) {
+		if (!Utility.isStringEmpty(city)) {
 			builder.append(city.trim());
 		}
 		
-		if (state != null && !state.trim().equals("")) {
+		if (!Utility.isStringEmpty(state)) {
 			if (builder.length() > 0) {
 				builder.append(" ");
 			}
 			builder.append(state.trim());
 		}
 		
-		if (postalCode != null && !postalCode.trim().equals("")) {
+		if (!Utility.isStringEmpty(postalCode)) {
 			if (builder.length() > 0) {
 				builder.append(" ");
 			}
 			builder.append(postalCode.trim());
-		}	
-		
-		if (builder.length() == 0) {
-			return "";
 		}
-		
+
 		return builder.toString();
 	}
 }

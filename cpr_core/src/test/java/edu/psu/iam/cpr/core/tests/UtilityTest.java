@@ -486,4 +486,23 @@ public class UtilityTest {
         AssertJUnit.assertEquals("ipv6.google.com", Utility.canonicalizeAddress("ipv6.google.com"));
     }
 
+    @Test
+    public void testIsStringEmptyNullInput() {
+        AssertJUnit.assertTrue(Utility.isStringEmpty(null));
+    }
+
+    @Test
+    public void testStringEmptyEmptyInput() {
+        AssertJUnit.assertTrue(Utility.isStringEmpty(""));
+    }
+
+    @Test
+    public void testStringEmptyWhitespaceInput() {
+        AssertJUnit.assertTrue(Utility.isStringEmpty("    "));
+    }
+
+    @Test
+    public void testStringEmptyNonemptyInput() {
+        AssertJUnit.assertFalse(Utility.isStringEmpty("  foo    "));
+    }
 }

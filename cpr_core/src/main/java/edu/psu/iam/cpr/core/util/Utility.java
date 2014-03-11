@@ -70,6 +70,7 @@ public final class Utility {
     private static final String UTC_TIMEZONE = "UTC";
     protected static final String YES = "yes";
     protected static final String NO = "no";
+    protected static final String EMPTY_STRING = "";
 
     /**
      * Constructor
@@ -880,5 +881,15 @@ public final class Utility {
         sb.append(FORWARD_SLASH);
         sb.append(key);
         return sb.toString();
+    }
+
+    /**
+     * This method checks if a String is empty.
+     *
+     * @param string The string to check.
+     * @return true if string is null or contains only whitespace
+     */
+    public static boolean isStringEmpty(final String string) {
+        return string == null || EMPTY_STRING.equals(string.trim());
     }
 }
