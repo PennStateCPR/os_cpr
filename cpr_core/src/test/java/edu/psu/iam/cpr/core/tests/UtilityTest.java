@@ -32,171 +32,176 @@ public class UtilityTest {
 
 	@Test
 	public final void testConvertDateToString() {
-        AssertJUnit.assertEquals(null, Utility.convertDateToString(null));
-		Utility.convertDateToString(new Date());
+        AssertJUnit.assertNull(Utility.convertDateToString(null));
 	}
 
 	@Test
 	public final void testConvertTimestampToString() {
-        AssertJUnit.assertEquals(null, Utility.convertTimestampToString(null));
-        Utility.convertTimestampToString(new Date());
+        AssertJUnit.assertNull(Utility.convertTimestampToString(null));
 	}
 
 	@Test
-	public final void _74testAreFieldsEqual1() {
-		String s1 = null;
-		String s2 = null;
-		AssertJUnit.assertTrue(Utility.areStringFieldsEqual(s1,s2));
+	public final void testAreFieldsEqual1() {
+		final String s1 = null;
+		final String s2 = null;
+		AssertJUnit.assertTrue(Utility.areStringFieldsEqual(s1, s2));
 	}
 
     @Test
-	public final void _75testAreFieldsEqual2() {
+	public final void testAreFieldsEqual2() {
 		AssertJUnit.assertFalse(Utility.areStringFieldsEqual(null, "abcd"));
 	}
 
     @Test
-	public final void _76testAreFieldsEqual3() {
+	public final void testAreFieldsEqual3() {
 		AssertJUnit.assertTrue(Utility.areStringFieldsEqual("", ""));
 	}
 
     @Test
-	public final void _77testAreFieldsEqual4() {
+	public final void testAreFieldsEqual4() {
 		AssertJUnit.assertFalse(Utility.areStringFieldsEqual("", "abcd"));
 	}
 
     @Test
-	public final void _78testAreFieldsEqual6() {
+	public final void testAreFieldsEqual6() {
 		AssertJUnit.assertFalse(Utility.areStringFieldsEqual("ABCD1", "abcd"));
 	}
 
     @Test
-	public final void _79testAreFieldsEqual7() {
-		Long l1 = null;
-		Long l2 = null;
-		AssertJUnit.assertTrue(Utility.areLongFieldsEqual(l1,l2));
+	public final void testAreFieldsEqual7() {
+		final Long l1 = null;
+		final Long l2 = null;
+		AssertJUnit.assertTrue(Utility.areLongFieldsEqual(l1, l2));
 	}
 
     @Test
-	public final void _80testAreFieldsEqual8() {
-		Long l1 = null;
-		Long l2 = 1L;
-		AssertJUnit.assertFalse(Utility.areLongFieldsEqual(l1,l2));
+	public final void testAreFieldsEqual8() {
+		final Long l1 = null;
+		final Long l2 = 1L;
+		AssertJUnit.assertFalse(Utility.areLongFieldsEqual(l1, l2));
 	}
 
     @Test
-	public final void _81testAreFieldsEqual9() {
-		Long l1 = 1L;
-		Long l2 = 1L;
-		AssertJUnit.assertTrue(Utility.areLongFieldsEqual(l1,l2));
+	public final void testAreFieldsEqual9() {
+		final Long l1 = 1L;
+		final Long l2 = 1L;
+		AssertJUnit.assertTrue(Utility.areLongFieldsEqual(l1, l2));
 	}
 
     @Test
-    public final void _82testIsOptionYes1() {
+    public final void testIsOptionYes1() {
         AssertJUnit.assertTrue(Utility.isOptionYes("yes"));
     }
 
     @Test
-    public final void _82testIsOptionYes2() {
+    public final void testIsOptionYes2() {
         AssertJUnit.assertTrue(Utility.isOptionYes("Yes"));
     }
+    
     @Test
-    public final void _82testIsOptionYes3() {
+    public final void testIsOptionYes3() {
         AssertJUnit.assertTrue(Utility.isOptionYes("YES"));
     }
+    
     @Test
-    public final void _82testIsOptionYes4() {
+    public final void testIsOptionYes4() {
         AssertJUnit.assertTrue(Utility.isOptionYes("y"));
     }
+    
     @Test
-    public final void _82testIsOptionYes5() {
+    public final void testIsOptionYes5() {
         AssertJUnit.assertTrue(Utility.isOptionYes("Y"));
     }
+    
     @Test
-    public final void _82testIsOptionYes6() {
+    public final void testIsOptionYes6() {
         AssertJUnit.assertTrue(Utility.isOptionYes("yE"));
     }
 
     @Test
-    public final void _82testIsOptionYes7() {
+    public final void testIsOptionYes7() {
         AssertJUnit.assertFalse(Utility.isOptionYes("No"));
     }
 
     @Test
-    public final void _82testIsOptionYes8() {
+    public final void testIsOptionYes8() {
         AssertJUnit.assertFalse(Utility.isOptionYes("fOoBar"));
     }
 
     @Test
-    public final void _83testIsOptionYes9() {
+    public final void testIsOptionYes9() {
         AssertJUnit.assertFalse(Utility.isOptionYes(null));
     }
 
     @Test
-    public final void _82testIsOptionNo1() {
+    public final void testIsOptionNo1() {
         AssertJUnit.assertTrue(Utility.isOptionNo("no"));
     }
 
     @Test
-    public final void _82testIsOptionNo2() {
+    public final void testIsOptionNo2() {
         AssertJUnit.assertTrue(Utility.isOptionNo("No"));
     }
+    
     @Test
-    public final void _82testIsOptionNo3() {
+    public final void testIsOptionNo3() {
         AssertJUnit.assertTrue(Utility.isOptionNo("NO"));
     }
+    
+    
     @Test
-    public final void _82testIsOptionNo4() {
+    public final void testIsOptionNo4() {
         AssertJUnit.assertTrue(Utility.isOptionNo("n"));
     }
+    
     @Test
-    public final void _82testIsOptionNo5() {
+    public final void testIsOptionNo5() {
         AssertJUnit.assertTrue(Utility.isOptionNo("N"));
     }
+    
     @Test
-    public final void _82testIsOptionNo6() {
+    public final void testIsOptionNo6() {
         AssertJUnit.assertTrue(Utility.isOptionNo("nO"));
     }
 
     @Test
-    public final void _82testIsOptionNo7() {
+    public final void testIsOptionNo7() {
         AssertJUnit.assertFalse(Utility.isOptionNo("Yes"));
     }
 
     @Test
-    public final void _82testIsOptionNo8() {
+    public final void testIsOptionNo8() {
         AssertJUnit.assertFalse(Utility.isOptionNo("fOoBar"));
     }
 
     @Test
-    public final void _83testIsOptionNo9() {
+    public final void testIsOptionNo9() {
         AssertJUnit.assertFalse(Utility.isOptionNo(null));
     }
 
     @Test
-    public final void _83testGenderNull() {
+    public final void testGenderNull() {
         AssertJUnit.assertNull(Utility.genderStringToType(null));
     }
 
     @Test
-    public final void _83testGenderFemale() {
+    public final void testGenderFemale() {
         AssertJUnit.assertEquals(GenderType.GENDER_FEMALE, Utility.genderStringToType("F"));
         AssertJUnit.assertEquals(GenderType.GENDER_FEMALE, Utility.genderStringToType("f"));
         AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("Female"));
         AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("female"));
-
     }
 
     @Test
-    public final void _83testGenderMale() {
+    public final void testGenderMale() {
         AssertJUnit.assertEquals(GenderType.GENDER_MALE, Utility.genderStringToType("M"));
         AssertJUnit.assertEquals(GenderType.GENDER_MALE, Utility.genderStringToType("m"));
         AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("Male"));
         AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("male"));
-
     }
 
     @Test
-    public final void _83testGenderOther() {
+    public final void testGenderOther() {
         AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("O"));
         AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("o"));
         AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("Other"));
@@ -204,25 +209,25 @@ public class UtilityTest {
     }
 
     @Test
-    public final void _83testGenderDefault() {
+    public final void testGenderDefault() {
         AssertJUnit.assertEquals(GenderType.GENDER_OTHER, Utility.genderStringToType("foobar"));
     }
 
     @Test
-    public final void _84testSafeConvertLongToString() {
+    public final void testSafeConvertLongToString() {
         AssertJUnit.assertNull(Utility.safeConvertLongToString(null));
         AssertJUnit.assertEquals("9223372036854775807", Utility.safeConvertLongToString(Long.MAX_VALUE));
     }
 
     @Test
-    public final void _85testSafeConvertStringToLong() {
+    public final void testSafeConvertStringToLong() {
         AssertJUnit.assertEquals(new Long(-1L), Utility.safeConvertStringToLong(null));
         AssertJUnit.assertEquals(new Long(Long.MAX_VALUE), Utility.safeConvertStringToLong("9223372036854775807"));
     }
 
     @Test
-    public final void _86testFieldIsPresent() {
-        AssertJUnit.assertFalse(Utility.fieldIsPresent((String[])null));
+    public final void testFieldIsPresent() {
+        AssertJUnit.assertFalse(Utility.fieldIsPresent((String[]) null));
         AssertJUnit.assertFalse(Utility.fieldIsPresent("foo", null, "bar"));
         AssertJUnit.assertTrue(Utility.fieldIsPresent("foo"));
         AssertJUnit.assertTrue(Utility.fieldIsPresent(new String[]{}));
@@ -230,7 +235,7 @@ public class UtilityTest {
     }
 
     @Test
-    public final void _87testFieldIsNotPresent() {
+    public final void testFieldIsNotPresent() {
         AssertJUnit.assertTrue(Utility.fieldIsNotPresent((String[]) null));
         AssertJUnit.assertTrue(Utility.fieldIsNotPresent("foo", null, "bar"));
         AssertJUnit.assertFalse(Utility.fieldIsNotPresent("foo"));
@@ -239,7 +244,7 @@ public class UtilityTest {
     }
 
     @Test
-    public final void _88testConvertStringToInt() {
+    public final void testConvertStringToInt() {
         AssertJUnit.assertEquals(0, Utility.convertStringToInt(null));
         AssertJUnit.assertEquals(0, Utility.convertStringToInt("foo"));
         AssertJUnit.assertEquals(Integer.MAX_VALUE, Utility.convertStringToInt("2147483647"));
@@ -253,17 +258,17 @@ public class UtilityTest {
     }
 
     @Test
-    public final void _90testFormatInt() {
+    public final void testFormatInt() {
         AssertJUnit.assertEquals("2,147,483,647", Utility.formatInt(Integer.MAX_VALUE));
     }
 
     @Test
-    public final void _91testFormatLong() {
+    public final void testFormatLong() {
         AssertJUnit.assertEquals("9,223,372,036,854,775,807", Utility.formatLong(Long.MAX_VALUE));
     }
 
     @Test
-    public final void _92testGetNameTokens() {
+    public final void testGetNameTokens() {
         final List<String> emptyList = new ArrayList<String>();
         final List<String> populatedList = new ArrayList<String>();
 
@@ -279,7 +284,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void _93testMakeStartDate() {
+    public void testMakeStartDate() {
         final Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2014);
         cal.set(Calendar.MONTH, Calendar.FEBRUARY);
@@ -296,7 +301,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void _94testMakeEndDate() {
+    public void testMakeEndDate() {
         final Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2014);
         cal.set(Calendar.MONTH, Calendar.FEBRUARY);
@@ -313,7 +318,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void _95TestAreDateFieldsEqual() {
+    public void testAreDateFieldsEqual() {
         final Calendar cal1 = Calendar.getInstance();
         cal1.set(Calendar.YEAR, 2014);
         cal1.set(Calendar.MONTH, Calendar.FEBRUARY);
@@ -337,7 +342,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void _96TestFormatDateToISO8601() {
+    public void testFormatDateToISO8601() {
         final Calendar cal1 = Calendar.getInstance();
         cal1.set(Calendar.YEAR, 2014);
         cal1.set(Calendar.MONTH, Calendar.FEBRUARY);
@@ -350,7 +355,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void _97TformatTimeMsToISO8601() {
+    public void testformatTimeMsToISO8601() {
         final Calendar cal1 = Calendar.getInstance();
         cal1.set(Calendar.YEAR, 2014);
         cal1.set(Calendar.MONTH, Calendar.FEBRUARY);
@@ -363,7 +368,7 @@ public class UtilityTest {
     }
 
     @Test
-    public void _98TestConstructUri() {
+    public void testConstructUri() {
         final String path = "path/to/some/service";
         final String key = "serviceName";
 
