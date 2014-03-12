@@ -29,13 +29,13 @@ public class CprException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/** Contains the return type enumerated value. */
-	private ReturnType returnType;
+	private final ReturnType returnType;
 
 	/** Contains the parameter value string (optional). */
-	private String parameterValue;
+	private final String parameterValue;
 
 	/** Contains a throwable that caused this exception. */
-	private Throwable cause;
+	private final Throwable cause;
 
 
 	/**
@@ -44,20 +44,22 @@ public class CprException extends Exception {
 	 * @param returnType contains the return type parameter.
 	 * @param parameterValue contains the  parameter value.
 	 */
-	public CprException(ReturnType returnType, String parameterValue) {
+	public CprException(final ReturnType returnType, final String parameterValue) {
 		super();
 		this.returnType = returnType;
 		this.parameterValue = parameterValue;
+        this.cause = null;
 	}
 
 	/**
 	 * Constructor
 	 * @param returnType contains the return type parameter.
 	 */
-	public CprException(ReturnType returnType) {
+	public CprException(final ReturnType returnType) {
 		super();
 		this.returnType = returnType;
 		this.parameterValue = null;
+        this.cause = null;
 	}
 
 	/**
@@ -67,7 +69,7 @@ public class CprException extends Exception {
 	 * @param parameterValue contains the parameter value.
 	 * @param cause The detail cause for the exception
 	 */
-	public CprException(ReturnType returnType, String parameterValue, Throwable cause) {
+	public CprException(final ReturnType returnType, final String parameterValue, final Throwable cause) {
 		super();
 		this.returnType = returnType;
 		this.parameterValue = parameterValue;
@@ -79,7 +81,7 @@ public class CprException extends Exception {
 	 * @param returnType contains the return type parameter.
 	 * @param cause The detail cause for the exception
 	 */
-	public CprException(ReturnType returnType, Throwable cause) {
+	public CprException(final ReturnType returnType, final Throwable cause) {
 		super();
 		this.returnType = returnType;
 		this.parameterValue = null;
@@ -90,26 +92,18 @@ public class CprException extends Exception {
 	 * Conntructor
 	 * @param cause The detail cause for the exception
 	 */
-	public CprException(Throwable cause) {
+	public CprException(final Throwable cause) {
 		super(cause);
 		this.returnType = null;
 		this.parameterValue = null;
 		this.cause = cause;
 	}
 
-
 	/**
 	 * @return the returnType
 	 */
 	public ReturnType getReturnType() {
 		return returnType;
-	}
-
-	/**
-	 * @param returnType the returnType to set
-	 */
-	public void setReturnType(ReturnType returnType) {
-		this.returnType = returnType;
 	}
 
 	/**
@@ -120,14 +114,6 @@ public class CprException extends Exception {
 	}
 
 	/**
-	 * @param parameterValue the parameterValue to set
-	 */
-	public void setParameterValue(String parameterValue) {
-		this.parameterValue = parameterValue;
-	}
-
-
-	/**
 	 * @return the detail cause.
 	 */
 	@Override
@@ -135,10 +121,4 @@ public class CprException extends Exception {
 		return this.cause;
 	}
 
-	/**
-	 * @param cause The detail cause for the exception
-	 */
-	public void setCause(Throwable cause) {
-		this.cause = cause;
-	}
 }
