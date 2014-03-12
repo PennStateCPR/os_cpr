@@ -692,7 +692,7 @@ public class AddressesTable {
 			anAddress.setCity((String) res[CITY]);
 			String tempState = (String) res[STATE]; 
 			anAddress.setPostalCode((String) res[POSTAL_CODE]);
-			String tempProvince = ((String) res[PROVINCE]);
+			String tempProvince = (String) res[PROVINCE];
 			anAddress.setVerifiedFlag((String) res[VERIFIED_FLAG]);
 			anAddress.setStartDate(Utility.formatDateToISO8601((Date) res[START_DATE]));
 			anAddress.setEndDate(Utility.formatDateToISO8601((Date) res[END_DATE]));

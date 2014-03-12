@@ -42,6 +42,9 @@ public class GrouperPermissions {
 	private static final int MASTER_STRING_LENGTH = 6;
     protected static final String SUSPEND_FLAG = "suspend_flag";
 
+    /** Grouper success code */
+    protected static final String SUCCESS_CODE = "T";
+
     /**
  	 * 	Constructor
  	 */
@@ -183,7 +186,7 @@ public class GrouperPermissions {
 			 */
 			for ( int permIndex = 0;permIndex < permissionArray.length; permIndex++)  {
 				if (permissionArray[permIndex].getAttributeDefNameName().equals(grouperAffiliationType.toString())) {
-					return ("T".equals(permissionArray[permIndex].getAllowedOverall())) ;
+					return SUCCESS_CODE.equals(permissionArray[permIndex].getAllowedOverall());
 					
 				}
 		
@@ -231,7 +234,7 @@ public class GrouperPermissions {
 			 */
 			for ( int permIndex = 0;permIndex < permissionArray.length; permIndex++)  {
 				if (permissionArray[permIndex].getAttributeDefNameName().equals(grouperDataResource.toString())) {
-					return ("T".equals(permissionArray[permIndex].getAllowedOverall())) ;
+					return SUCCESS_CODE.equals(permissionArray[permIndex].getAllowedOverall()) ;
 				}
 
 			}
@@ -276,7 +279,7 @@ public class GrouperPermissions {
 				 * is access allowed
 				 */
 				if (permissionArray[permIndex].getAttributeDefNameName().equals(grouperWebService.toString())) {
-					return  ("T".equals(permissionArray[permIndex].getAllowedOverall()));
+					return  SUCCESS_CODE.equals(permissionArray[permIndex].getAllowedOverall());
 				}
 		
 			}
@@ -316,13 +319,7 @@ public class GrouperPermissions {
 			 * 
 			 */
 			if (member.getSuccess() != null) {
-				if ("T".equals(member.getSuccess())) {
-					return true;							
-				}							
-				else							
-				{			
-					return false;
-				}
+				return SUCCESS_CODE.equals(member.getSuccess());
 			}
 			else 
 			{
