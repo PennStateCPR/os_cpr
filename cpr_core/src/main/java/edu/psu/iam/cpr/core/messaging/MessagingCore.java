@@ -145,7 +145,7 @@ public class MessagingCore {
 	 * @param session contains the stateless database session.
 	 * @param consumer contains the consumer to be searched for.
 	 */
-	private void getMessageConsumerKey(StatelessSession session, String consumer) {
+	private final void getMessageConsumerKey(StatelessSession session, String consumer) {
 
 		Query query = session.createQuery("from MessageConsumer where consumer = :consumer AND endDate is NULL");
 		query.setParameter("consumer", consumer);
@@ -179,7 +179,7 @@ public class MessagingCore {
      * @param databaseSession contains the database stateless session
      * @param serviceName contains the serviceName
      */
-    private void initQueueMap(StatelessSession databaseSession, String serviceName) {
+    private final void initQueueMap(StatelessSession databaseSession, String serviceName) {
 
 		// Load data from view
     	final String notificationSqlQuery = "from VConsumerNotificationDest";

@@ -382,7 +382,7 @@ public class AddressPostProcessor {
 	/**
 	 * This method will generate all the mappings of codes to keys
 	 */
-	private void generateMaps() {
+	private final void generateMaps() {
 		generateCampusMap();
 		generateCountryMaps();
 	}
@@ -390,7 +390,7 @@ public class AddressPostProcessor {
 	/**
 	 * This method will generate the campus mappings of codes to keys
 	 */
-	private void generateCampusMap() {
+	private final void generateCampusMap() {
 		
 		campusMap = new HashMap<String, Long>();
 		
@@ -409,7 +409,7 @@ public class AddressPostProcessor {
 	/**
 	 * The method will generate the country mappings of codes to keys
 	 */
-	private void generateCountryMaps() {
+	private final void generateCountryMaps() {
 		
 		countryThreeMap = new HashMap<String, Long>();
 		countryTwoMap = new HashMap<String, Long>();
