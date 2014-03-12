@@ -156,7 +156,7 @@ public class Employee implements Serializable {
             super();
         }
 
-/**
+        /**
 		 * Copy Constructor.
 		 *
 		 * @param employee An Employee object to duplicate.
@@ -252,7 +252,7 @@ public class Employee implements Serializable {
         /**
          * @param alternateJobTitle the alternateJobTitle to set.
          */
-        public void setAlternateJobTitle(String alternateJobTitle) {
+        public final void setAlternateJobTitle(String alternateJobTitle) {
                 this.alternateJobTitle = alternateJobTitle;
         }
 
@@ -266,7 +266,7 @@ public class Employee implements Serializable {
         /**
          * @param employeeKey the employeeKey to set.
          */
-        public void setEmployeeKey(Long employeeKey) {
+        public final void setEmployeeKey(Long employeeKey) {
                 this.employeeKey = employeeKey;
         }
 
@@ -280,7 +280,7 @@ public class Employee implements Serializable {
         /**
          * @param benefitsRate the benefitsRate to set.
          */
-        public void setBenefitsRate(String benefitsRate) {
+        public final void setBenefitsRate(String benefitsRate) {
                 this.benefitsRate = benefitsRate;
         }
 
@@ -294,7 +294,7 @@ public class Employee implements Serializable {
         /**
          * @param importFrom the importFrom to set.
          */
-        public void setImportFrom(String importFrom) {
+        public final void setImportFrom(String importFrom) {
                 this.importFrom = importFrom;
         }
 
@@ -308,7 +308,7 @@ public class Employee implements Serializable {
         /**
          * @param layoffFlag the layoffFlag to set.
          */
-        public void setLayoffFlag(String layoffFlag) {
+        public final void setLayoffFlag(String layoffFlag) {
                 this.layoffFlag = layoffFlag;
         }
 
@@ -322,7 +322,7 @@ public class Employee implements Serializable {
         /**
          * @param lastDatePaid the lastDatePaid to set.
          */
-        public void setLastDatePaid(Date lastDatePaid) {
+        public final void setLastDatePaid(Date lastDatePaid) {
                 this.lastDatePaid = lastDatePaid;
         }
 
@@ -336,7 +336,7 @@ public class Employee implements Serializable {
         /**
          * @param jobTitle the jobTitle to set.
          */
-        public void setJobTitle(String jobTitle) {
+        public final void setJobTitle(String jobTitle) {
                 this.jobTitle = jobTitle;
         }
 
@@ -350,7 +350,7 @@ public class Employee implements Serializable {
         /**
          * @param createdBy the createdBy to set.
          */
-        public void setCreatedBy(String createdBy) {
+        public final void setCreatedBy(String createdBy) {
                 this.createdBy = createdBy;
         }
 
@@ -364,7 +364,7 @@ public class Employee implements Serializable {
         /**
          * @param lastUpdateOn the lastUpdateOn to set.
          */
-        public void setLastUpdateOn(Date lastUpdateOn) {
+        public final void setLastUpdateOn(Date lastUpdateOn) {
                 this.lastUpdateOn = lastUpdateOn;
         }
 
@@ -378,7 +378,7 @@ public class Employee implements Serializable {
         /**
          * @param primaryApptFlag the primaryApptFlag to set.
          */
-        public void setPrimaryApptFlag(String primaryApptFlag) {
+        public final void setPrimaryApptFlag(String primaryApptFlag) {
                 this.primaryApptFlag = primaryApptFlag;
         }
 
@@ -392,7 +392,7 @@ public class Employee implements Serializable {
         /**
          * @param hireDate the hireDate to set.
          */
-        public void setHireDate(Date hireDate) {
+        public final void setHireDate(Date hireDate) {
                 this.hireDate = hireDate;
         }
 
@@ -406,7 +406,7 @@ public class Employee implements Serializable {
         /**
          * @param payFreqCode the payFreqCode to set.
          */
-        public void setPayFreqCode(String payFreqCode) {
+        public final void setPayFreqCode(String payFreqCode) {
                 this.payFreqCode = payFreqCode;
         }
 
@@ -420,7 +420,7 @@ public class Employee implements Serializable {
         /**
          * @param apptCode the apptCode to set.
          */
-        public void setApptCode(String apptCode) {
+        public final void setApptCode(String apptCode) {
                 this.apptCode = apptCode;
         }
 
@@ -434,7 +434,7 @@ public class Employee implements Serializable {
         /**
          * @param campusCodeKey the campusCodeKey to set.
          */
-        public void setCampusCodeKey(Long campusCodeKey) {
+        public final void setCampusCodeKey(Long campusCodeKey) {
                 this.campusCodeKey = campusCodeKey;
         }
 
@@ -448,7 +448,7 @@ public class Employee implements Serializable {
         /**
          * @param department the department to set.
          */
-        public void setDepartment(String department) {
+        public final void setDepartment(String department) {
                 this.department = department;
         }
 
@@ -462,7 +462,7 @@ public class Employee implements Serializable {
         /**
          * @param showInDirectoryFlag the showInDirectoryFlag to set.
          */
-        public void setShowInDirectoryFlag(String showInDirectoryFlag) {
+        public final void setShowInDirectoryFlag(String showInDirectoryFlag) {
                 this.showInDirectoryFlag = showInDirectoryFlag;
         }
 
@@ -476,7 +476,7 @@ public class Employee implements Serializable {
         /**
          * @param statusCode the statusCode to set.
          */
-        public void setStatusCode(String statusCode) {
+        public final void setStatusCode(String statusCode) {
                 this.statusCode = statusCode;
         }
 
@@ -490,7 +490,7 @@ public class Employee implements Serializable {
         /**
          * @param classCode the classCode to set.
          */
-        public void setClassCode(String classCode) {
+        public final void setClassCode(String classCode) {
                 this.classCode = classCode;
         }
 
@@ -504,7 +504,7 @@ public class Employee implements Serializable {
         /**
          * @param visaType the visaType to set.
          */
-        public void setVisaType(String visaType) {
+        public final void setVisaType(String visaType) {
                 this.visaType = visaType;
         }
 
@@ -518,7 +518,7 @@ public class Employee implements Serializable {
         /**
          * @param lastUpdateBy the lastUpdateBy to set.
          */
-        public void setLastUpdateBy(String lastUpdateBy) {
+        public final void setLastUpdateBy(String lastUpdateBy) {
                 this.lastUpdateBy = lastUpdateBy;
         }
 
@@ -532,7 +532,7 @@ public class Employee implements Serializable {
         /**
          * @param importDate the importDate to set.
          */
-        public void setImportDate(Date importDate) {
+        public final void setImportDate(Date importDate) {
                 this.importDate = importDate;
         }
 
@@ -546,7 +546,7 @@ public class Employee implements Serializable {
         /**
          * @param specialStatus the specialStatus to set.
          */
-        public void setSpecialStatus(String specialStatus) {
+        public final void setSpecialStatus(String specialStatus) {
                 this.specialStatus = specialStatus;
         }
 
@@ -560,7 +560,7 @@ public class Employee implements Serializable {
         /**
          * @param startDate the startDate to set.
          */
-        public void setStartDate(Date startDate) {
+        public final void setStartDate(Date startDate) {
                 this.startDate = startDate;
         }
 
@@ -574,7 +574,7 @@ public class Employee implements Serializable {
         /**
          * @param createdOn the createdOn to set.
          */
-        public void setCreatedOn(Date createdOn) {
+        public final void setCreatedOn(Date createdOn) {
                 this.createdOn = createdOn;
         }
 
@@ -588,7 +588,7 @@ public class Employee implements Serializable {
         /**
          * @param personId the personId to set.
          */
-        public void setPersonId(Long personId) {
+        public final void setPersonId(Long personId) {
                 this.personId = personId;
         }
 
@@ -602,7 +602,7 @@ public class Employee implements Serializable {
         /**
          * @param studentStatus the studentStatus to set.
          */
-        public void setStudentStatus(String studentStatus) {
+        public final void setStudentStatus(String studentStatus) {
                 this.studentStatus = studentStatus;
         }
 
@@ -616,7 +616,7 @@ public class Employee implements Serializable {
         /**
          * @param adminArea the adminArea to set.
          */
-        public void setAdminArea(String adminArea) {
+        public final void setAdminArea(String adminArea) {
                 this.adminArea = adminArea;
         }
 
@@ -630,7 +630,7 @@ public class Employee implements Serializable {
         /**
          * @param adminAreaCode the adminAreaCode to set.
          */
-        public void setAdminAreaCode(String adminAreaCode) {
+        public final void setAdminAreaCode(String adminAreaCode) {
                 this.adminAreaCode = adminAreaCode;
         }
 
@@ -644,7 +644,7 @@ public class Employee implements Serializable {
         /**
          * @param terminatedDate the terminatedDate to set.
          */
-        public void setTerminatedDate(Date terminatedDate) {
+        public final void setTerminatedDate(Date terminatedDate) {
                 this.terminatedDate = terminatedDate;
         }
 

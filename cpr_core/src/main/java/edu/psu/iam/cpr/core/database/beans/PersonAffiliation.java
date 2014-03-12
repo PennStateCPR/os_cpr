@@ -132,7 +132,7 @@ public class PersonAffiliation implements Serializable {
         /**
          * @param startDate the startDate to set.
          */
-        public void setStartDate(Date startDate) {
+        public final void setStartDate(Date startDate) {
                 this.startDate = startDate;
         }
 
@@ -146,7 +146,7 @@ public class PersonAffiliation implements Serializable {
         /**
          * @param createdBy the createdBy to set.
          */
-        public void setCreatedBy(String createdBy) {
+        public final void setCreatedBy(String createdBy) {
                 this.createdBy = createdBy;
         }
 
@@ -160,7 +160,7 @@ public class PersonAffiliation implements Serializable {
         /**
          * @param lastUpdateOn the lastUpdateOn to set.
          */
-        public void setLastUpdateOn(Date lastUpdateOn) {
+        public final void setLastUpdateOn(Date lastUpdateOn) {
                 this.lastUpdateOn = lastUpdateOn;
         }
 
@@ -174,7 +174,7 @@ public class PersonAffiliation implements Serializable {
         /**
          * @param primaryFlag the primaryFlag to set.
          */
-        public void setPrimaryFlag(String primaryFlag) {
+        public final void setPrimaryFlag(String primaryFlag) {
                 this.primaryFlag = primaryFlag;
         }
 
@@ -188,7 +188,7 @@ public class PersonAffiliation implements Serializable {
         /**
          * @param createdOn the createdOn to set.
          */
-        public void setCreatedOn(Date createdOn) {
+        public final void setCreatedOn(Date createdOn) {
                 this.createdOn = createdOn;
         }
 
@@ -202,7 +202,7 @@ public class PersonAffiliation implements Serializable {
         /**
          * @param lastUpdateBy the lastUpdateBy to set.
          */
-        public void setLastUpdateBy(String lastUpdateBy) {
+        public final void setLastUpdateBy(String lastUpdateBy) {
                 this.lastUpdateBy = lastUpdateBy;
         }
 
@@ -216,7 +216,7 @@ public class PersonAffiliation implements Serializable {
         /**
          * @param affiliationKey the affiliationKey to set.
          */
-        public void setAffiliationKey(Long affiliationKey) {
+        public final void setAffiliationKey(Long affiliationKey) {
                 this.affiliationKey = affiliationKey;
         }
 
@@ -230,7 +230,7 @@ public class PersonAffiliation implements Serializable {
         /**
          * @param personId the personId to set.
          */
-        public void setPersonId(Long personId) {
+        public final void setPersonId(Long personId) {
                 this.personId = personId;
         }
 
@@ -244,7 +244,7 @@ public class PersonAffiliation implements Serializable {
         /**
          * @param endDate the endDate to set.
          */
-        public void setEndDate(Date endDate) {
+        public final void setEndDate(Date endDate) {
                 this.endDate = endDate;
         }
 
@@ -258,7 +258,7 @@ public class PersonAffiliation implements Serializable {
         /**
          * @param personAffiliationKey the personAffiliationKey to set.
          */
-        public void setPersonAffiliationKey(Long personAffiliationKey) {
+        public final void setPersonAffiliationKey(Long personAffiliationKey) {
                 this.personAffiliationKey = personAffiliationKey;
         }
 
@@ -272,7 +272,7 @@ public class PersonAffiliation implements Serializable {
         /**
          * @param exceptionFlag the exceptionFlag to set.
          */
-        public void setExceptionFlag(String exceptionFlag) {
+        public final void setExceptionFlag(String exceptionFlag) {
                 this.exceptionFlag = exceptionFlag;
         }
 
@@ -286,7 +286,7 @@ public class PersonAffiliation implements Serializable {
         /**
          * @param exceptionComments the exceptionComments to set.
          */
-        public void setExceptionComments(String exceptionComments) {
+        public final void setExceptionComments(String exceptionComments) {
                 this.exceptionComments = exceptionComments;
         }
 
