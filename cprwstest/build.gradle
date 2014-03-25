@@ -2,10 +2,15 @@ configurations {
 	jaxws
 }
 
+test {
+        useTestNG()
+        maxParallelForks 5
+}
+
 dependencies {
 	jaxws 'com.sun.xml.ws:jaxws-tools:2.2.7'
+	testCompile 'org.testng:testng:6.8.7'
 	compile project(':cpr_core')
-    compile project(':cprws')
 }
 
 task wsimport {
