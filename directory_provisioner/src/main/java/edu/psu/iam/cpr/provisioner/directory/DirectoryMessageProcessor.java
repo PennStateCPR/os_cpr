@@ -31,7 +31,6 @@ import javax.naming.directory.SearchResult;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ContainerFactory;
@@ -65,6 +64,10 @@ import edu.psu.iam.cpr.core.util.CprProperties;
  * @lastrevision $Date: 2012-09-27 10:48:52 -0400 (Thu, 27 Sep 2012) $
  */
 public class DirectoryMessageProcessor {
+
+	private static final String DOLLAR_SIGN = "$";
+
+	private static final String BLANK = " ";
 
 	private enum ResponseKeyword {
 		STATUS_CODE,
@@ -138,16 +141,12 @@ public class DirectoryMessageProcessor {
 	/** JSON Object */
 	private JSONObject jsonObject = null;
 
-	private static String logClassPath = DirectoryMessageProcessor.class.getName();
-
-	/** Log properties file name */
-	private static final String LOG_PROPERTIES_FILE = "log4j.properties";
+    /** Contains the log4j Logger instance */
+    private static final Logger LOG4J_LOGGER = Logger.getLogger(DirectoryMessageProcessor.class);
 	
 	/** String Builder buffer size */
 	private static final int BUFFER_SIZE = 500;
 
-	private static Logger log = null;
-	
 	/** 
 	 * Constructor.
 	 * @throws JMSException 
@@ -157,9 +156,7 @@ public class DirectoryMessageProcessor {
 		super();
 		initializeMessaging();
 		initializeDirectoryContext();
-		
-		PropertyConfigurator.configure(LOG_PROPERTIES_FILE);
-		log = Logger.getLogger(logClassPath);
+		LOG4J_LOGGER.info("End of message processor initialization");
 	}
 	
 	/**
@@ -169,6 +166,7 @@ public class DirectoryMessageProcessor {
 	private void initializeMessaging() throws JMSException {
 		
 		// Get a connection and start a session.
+		LOG4J_LOGGER.info("Initializing messaging");
 		Properties props = CprProperties.INSTANCE.getProperties();
 		jmsConnectionFactory = new ActiveMQConnectionFactory(props.getProperty(CprPropertyName.CPR_JMS_BROKER.toString()));
 		jmsConnection = jmsConnectionFactory.createConnection(props.getProperty(CprPropertyName.CPR_JMS_USERID.toString()), 
@@ -177,6 +175,7 @@ public class DirectoryMessageProcessor {
 		jmsSession = jmsConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		messageConsumer = jmsSession.createConsumer(jmsSession.createQueue(props.getProperty(CPR_JMS_DIR_QUEUE)));
 		messageProducer = jmsSession.createProducer(jmsSession.createQueue(props.getProperty(CprPropertyName.CPR_JMS_REPLYTO.toString())));
+		LOG4J_LOGGER.info("End of message initialization");
 	}
 	
 	/**
@@ -232,6 +231,7 @@ public class DirectoryMessageProcessor {
 	 */
 	private void initializeDirectoryContext() throws NamingException {
 		
+		LOG4J_LOGGER.info("Beginning of directory initialization");
 		Properties props = CprProperties.INSTANCE.getProperties();
 		Properties env = new Properties();
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
@@ -242,6 +242,7 @@ public class DirectoryMessageProcessor {
 
 		// Establish a new directory context 
 		directoryContext = new InitialDirContext(env);
+		LOG4J_LOGGER.info("End of directory initialization");
 	}
 	
 	/**
@@ -262,6 +263,7 @@ public class DirectoryMessageProcessor {
 			}
 		};
 	
+		LOG4J_LOGGER.info("Entering the message processor infinite loop");
 		while (true) {
 			
 			String correlationId = null;
@@ -292,7 +294,7 @@ public class DirectoryMessageProcessor {
 								sendResponse(MessageProcessorStatus.SUCCESS, msgString, correlationId);
 							}
 							else {
-								log.info("Skipping message... serviceName = " + serviceName + " requested by = " + requestedBy + " userid= " + userId);
+								LOG4J_LOGGER.info("Skipping message... serviceName = " + serviceName + " requested by = " + requestedBy + " userid= " + userId);
 							}
 						}
 					}
@@ -300,19 +302,19 @@ public class DirectoryMessageProcessor {
 			}
 			catch (JSONException e) {
 				e.printStackTrace();
-				log.info("JSON Exception: " + e.getMessage());
+				LOG4J_LOGGER.info("JSON Exception: " + e.getMessage());
 			}
 			catch (JMSException e) {
 				e.printStackTrace();
-				log.info("JMS Exception: " + e.getMessage());
+				LOG4J_LOGGER.info("JMS Exception: " + e.getMessage());
 			} 
 			catch (ParseException e) {
 				e.printStackTrace();
-				log.info("Parse Exception: " + e.getMessage());
+				LOG4J_LOGGER.info("Parse Exception: " + e.getMessage());
 			} 
 			catch (NamingException e) {
 				e.printStackTrace();
-				log.info("Naming Exception: " + e.getMessage());
+				LOG4J_LOGGER.info("Naming Exception: " + e.getMessage());
 			}
 		}
 	}
@@ -348,7 +350,7 @@ public class DirectoryMessageProcessor {
 		ModificationItem mod = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute(attribute, value));
 		ModificationItem mods[] = new ModificationItem[1];
 		mods[0] = mod;
-		log.info("Replacing " + attribute + " for dn " + dn + ".");
+		LOG4J_LOGGER.info("Replacing " + attribute + " for dn " + dn + ".");
 		directoryContext.modifyAttributes(dn, mods);
 	}
 
@@ -375,7 +377,7 @@ public class DirectoryMessageProcessor {
 		sb.append(")");
 		
 		filter = sb.toString();
-		log.info("filter = " + filter);
+		LOG4J_LOGGER.info("filter = " + filter);
 
 		NamingEnumeration<SearchResult> n = directoryContext.search(
 				props.getProperty(CprPropertyName.CPR_LDAP_PEOPLE_BASE_DN.toString()), filter, c);
@@ -385,10 +387,10 @@ public class DirectoryMessageProcessor {
 		while (n.hasMore()) {
 			SearchResult sr = n.next();
 			dn = sr.getNameInNamespace();
-			log.info("DN found = " + dn);
+			LOG4J_LOGGER.info("DN found = " + dn);
 		}
 		if (dn == null) {
-			log.info("No entry found in directory for filter " + filter);
+			LOG4J_LOGGER.info("No entry found in directory for filter " + filter);
 		}
 		return dn;
 
@@ -401,7 +403,7 @@ public class DirectoryMessageProcessor {
 	 */
 	private void processSetPasswordMessage() throws JSONException, NamingException {
 		
-		log.info("Processing Set Password Messsage");
+		LOG4J_LOGGER.info("Processing Set Password Messsage");
 
 		String userId = getMapValue("USERID");
 		String password = getMapValue("PASSWORD");
@@ -412,7 +414,7 @@ public class DirectoryMessageProcessor {
 			}
 		}
 		else {
-			log.info("Skipping password change because userid and/or password was empty");
+			LOG4J_LOGGER.info("Skipping password change because userid and/or password was empty");
 		}
 	}
 	
@@ -423,101 +425,116 @@ public class DirectoryMessageProcessor {
 	 */
 	private void processAddPersonMessage() throws JSONException, NamingException {
 		
-		log.info("Processing Add Person Messsage");
+		LOG4J_LOGGER.info("Processing Add Person Messsage");
 
-		String userId = getMapValue("USERID");
+		final String userId = getMapValue("USERID");
 
-		Attributes attrs = new BasicAttributes();
-		Attribute objClass = new BasicAttribute("objectclass");
+		final Attributes attrs = new BasicAttributes();
+		final Attribute objClass = new BasicAttribute("objectclass");
 		objClass.add("top");
 		objClass.add("inetOrgPerson");
 		objClass.add("eduPerson");
 		attrs.put(objClass);
 
-		String lastName = getMapValue("LAST_NAME");
-		String nameType = getMapValue("NAME_TYPE");
+		final String lastName = getMapValue("LAST_NAME");
+		final String nameType = getMapValue("NAME_TYPE");
 
 		if (lastName.length() != 0 && nameType.length() != 0) {
-			String firstName = getMapValue("FIRST_NAME");
-			String middleNames = getMapValue("MIDDLE_NAMES");
-			String suffix = getMapValue("SUFFIX");
+			final String firstName = getMapValue("FIRST_NAME");
+			final String middleNames = getMapValue("MIDDLE_NAMES");
 
 			attrs.put(new BasicAttribute("sn", lastName));
 
-			String displayName = firstName + " " + lastName;
+			final String displayName = firstName + BLANK + lastName;
 			attrs.put(new BasicAttribute("displayName", displayName));
 
-			String cn = firstName + " " + middleNames + " " + lastName + " " + suffix;
-			attrs.put(new BasicAttribute("cn", cn));
-
-			String givenName = firstName + " " + middleNames;
-			attrs.put(new BasicAttribute("givenName", givenName));
+			final StringBuilder sb = new StringBuilder(1024);
+			if (firstName.length() != 0) {
+				sb.append(firstName);
+			}
+			if (middleNames.length() != 0) {
+				sb.append(BLANK);
+				sb.append(middleNames);
+			}
+			if (sb.length() > 0) {
+				attrs.put(new BasicAttribute("givenName", sb.toString()));
+			}
 		}
 		
 		attrs.put(new BasicAttribute("cn", userId));
 		
 		attrs.put(new BasicAttribute("uid", getMapValue("PERSON_ID")));
 
-		String address1 = getMapValue("ADDRESS1");
-		String addressType = getMapValue("ADDRESS_TYPE");
+		final String address1 = getMapValue("ADDRESS1");
+		final String addressType = getMapValue("ADDRESS_TYPE");
 		if (address1.length() != 0 && addressType.length() != 0) {
 
-			String postalCode = getMapValue("POSTAL_CODE");
-			String city = getMapValue("CITY");
-			String address2 = getMapValue("ADDRESS2");
-			String address3 = getMapValue("ADDRESS3");
-			String state = getMapValue("STATE");
-			String country = getMapValue("COUNTRY_NAME");
+			final String postalCode = getMapValue("POSTAL_CODE");
+			final String city = getMapValue("CITY");
+			final String address2 = getMapValue("ADDRESS2");
+			final String address3 = getMapValue("ADDRESS3");
+			final String state = getMapValue("STATE");
+			final String country = getMapValue("COUNTRY_NAME");
 
 			// build the address string to insert into the directory (address1$address2$address3$city, state postal code$country)
-			StringBuffer directoryAddress = new StringBuffer(address1 + "$");
+			final StringBuilder directoryAddress =  new StringBuilder(2048);
+			directoryAddress.append(address1);
+			directoryAddress.append(DOLLAR_SIGN);
 			if (address2.length() != 0) {
-				directoryAddress.append(address2 + "$");
+				directoryAddress.append(address2);
+				directoryAddress.append(DOLLAR_SIGN);
 			}
 			if (address3.length() != 0) {
-				directoryAddress.append(address3 + "$");
+				directoryAddress.append(address3);
+				directoryAddress.append(DOLLAR_SIGN);
 			}
 			if (city.length() != 0) {
-				directoryAddress.append(city + ",");
+				directoryAddress.append(city);
+				directoryAddress.append(",");
 			}
 			if (state.length() != 0) {
-				directoryAddress.append(" " + state);
+				directoryAddress.append(BLANK);
+				directoryAddress.append(state);
 			}
 			if (postalCode.length() != 0) {
-				directoryAddress.append(" " + postalCode);
+				directoryAddress.append(BLANK);
+				directoryAddress.append(postalCode);
 			}
 			if (country.length() != 0) {
-				directoryAddress.append("$" + country);
+				directoryAddress.append(DOLLAR_SIGN);
+				directoryAddress.append(country);
 			}
 
 			attrs.put(new BasicAttribute("postalAddress", directoryAddress.toString()));
 		}
 
-		String phoneNumber = getMapValue("PHONE_NUMBER");
-		String phoneType = getMapValue("PHONE_TYPE");
+		final String phoneNumber = getMapValue("PHONE_NUMBER");
+		final String phoneType = getMapValue("PHONE_TYPE");
 		if (phoneNumber.length() != 0 && phoneType.length() != 0) {
 
-			String extension = getMapValue("EXTENSION");
-			String directoryPhone = null;
+			final String extension = getMapValue("EXTENSION");
+			final StringBuilder directoryPhone = new StringBuilder(256);
 			if (extension.length() != 0) {
-				directoryPhone = phoneNumber;
+				directoryPhone.append(phoneNumber);
 			}
 			else {
-				directoryPhone = phoneNumber + "  " + extension;
+				directoryPhone.append(phoneNumber);
+				directoryPhone.append(BLANK);
+				directoryPhone.append(extension);
 			}
 
 			attrs.put(new BasicAttribute("telephoneNumber", directoryPhone.toString()));
 		}
 
-		String emailAddressType = getMapValue("EMAIL_ADDRESS_TYPE");
-		String emailAddress = getMapValue("EMAIL_ADDRESS");
+		final String emailAddressType = getMapValue("EMAIL_ADDRESS_TYPE");
+		final String emailAddress = getMapValue("EMAIL_ADDRESS");
 		if (emailAddressType.length() != 0 && emailAddress.length() != 0) {
 
 			attrs.put(new BasicAttribute("mail", emailAddress));
 			attrs.put(new BasicAttribute("eduPersonPrincipalName", emailAddress));
 		}
 
-		log.info("Adding entry for user " + userId);
+		LOG4J_LOGGER.info("Adding entry for user " + userId);
 		directoryContext.createSubcontext(buildDN(userId), attrs);
 
 	}
