@@ -27,8 +27,7 @@ import edu.psu.iam.cpr.ip.ui.common.UIConstants;
  * @version $Rev: 5968 $
  * @lastrevision $Date: 2013-01-04 09:57:59 -0500 (Fri, 04 Jan 2013) $
  */
-@SuppressWarnings("ALL")
-public final class Navigation
+public final class Navigation 
 {
 	/**
 	 * Prevent or make it difficult for someone to instantiate this utility class

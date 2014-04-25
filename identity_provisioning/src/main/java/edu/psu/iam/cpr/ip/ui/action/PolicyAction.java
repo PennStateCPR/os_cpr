@@ -28,8 +28,7 @@ import edu.psu.iam.cpr.ip.util.MapHelper;
  */
 public class PolicyAction extends BaseAction 
 {
-    private static final long serialVersionUID = 6196042891299299497L;
-    private String agree;
+	private String agree;
 	
 	/* (non-Javadoc)
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
@@ -64,7 +63,7 @@ public class PolicyAction extends BaseAction
 		/* If the person was not found in verify, and they have agreed to the policy -- then 'addPerson' */
 		if(returnLocation.equalsIgnoreCase(SUCCESS) && ((String)getSessionMap().get("vfy.person.found")).equalsIgnoreCase("no"))
 		{
-			Map<String, String> argStringMap = MapHelper.genericObjToStringHashMap(getSessionMap());
+			HashMap<String, String> argStringMap = MapHelper.genericObjToStringHashMap(getSessionMap());
 			Map<String, String> status = SoapClientIP.addPerson(argStringMap, getUniqueId()); 
 			log.info(String.format("%s returnStatus from addPerson--> %s ", getUniqueId(), status));
 				

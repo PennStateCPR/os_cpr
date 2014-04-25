@@ -207,7 +207,13 @@ public final class SoapClient {
 	        otherParameters.put(PLUS4_KEY, findPersonData.get("plus4"));
 	        otherParameters.put(COUNTRY_KEY, findPersonData.get(UIConstants.COUNTRY));
 	        otherParameters.put(DOB_KEY, findPersonData.get(UIConstants.DOB));
-	        otherParameters.put(GENDER_KEY, findPersonData.get(UIConstants.GENDER));
+
+		String localGender = null;
+		if (! findPersonData.get(UIConstants.GENDER).equals("0")) {
+			localGender = findPersonData.get(UIConstants.GENDER);
+		}	
+	        otherParameters.put(GENDER_KEY, localGender);
+
 	        otherParameters.put(RANK_CUTOFF_KEY, findPersonData.get("rankCutOff"));
 	        
 			findPersonServiceReturn = (FindPersonServiceReturn) new SearchForPersonApi().implementApi(
@@ -249,7 +255,8 @@ public final class SoapClient {
 		LOG.info(uniqueId +" " +"Sending to add person " + addPerson.get(UIConstants.PRINCIPAL_ID) + addPerson.get(UIConstants.REQUESTED_BY) + 
 				addPerson.get(UIConstants.ASSIGN_PSU_ID) + addPerson.get(UIConstants.ASSIGN_USER_ID) + addPerson.get(UIConstants.GENDER) +  addPerson.get(UIConstants.DOB) + 
 				addPerson.get(UIConstants.NAME_TYPE) + addPerson.get(UIConstants.NAME_DOCUMENT_TYPE) + addPerson.get(UIConstants.FIRST_NAME) + addPerson.get(UIConstants.MIDDLE_NAMES) + 
-				addPerson.get(UIConstants.LAST_NAME) + addPerson.get(UIConstants.SUFFIX) + addPerson.get(UIConstants.ADDRESS_TYPE) + addPerson.get(UIConstants.ADDRESS_DOCUMENT_TYPE) + 
+				addPerson.get(UIConstants.LAST_NAME) + addPerson.get(UIConstants.SUFFIX) + addPerson.get(UIConstants.NICKNAME) +
+				addPerson.get(UIConstants.ADDRESS_TYPE) + addPerson.get(UIConstants.ADDRESS_DOCUMENT_TYPE) + 
 				addPerson.get(UIConstants.ADDRESS1) +  addPerson.get(UIConstants.ADDRESS2) +  addPerson.get(UIConstants.ADDRESS3) + 
 				addPerson.get(UIConstants.CITY) + addPerson.get(UIConstants.STATE_OR_PROV) +  addPerson.get(UIConstants.POSTAL_CODE) + addPerson.get(UIConstants.COUNTRY) +
 				addPerson.get(UIConstants.CAMPUS) + addPerson.get(UIConstants.PHONE_TYPE) + addPerson.get(UIConstants.PHONE_NUMBER) + 
@@ -266,11 +273,17 @@ public final class SoapClient {
 			db.setSession(apiSession);
 			serviceCoreReturn.setPersonId(-1L);
 
-	        final Map<String, Object> otherParameters = new HashMap<String, Object>(30);
+	        final Map<String, Object> otherParameters = new HashMap<String, Object>(31);
 	        otherParameters.put(DO_FIND_PERSON_KEY, UIConstants.LETTER_N);
 	        otherParameters.put(ASSIGN_PSU_ID_FLAG_KEY, addPerson.get(UIConstants.ASSIGN_PSU_ID));
 	        otherParameters.put(ASSIGN_USERID_FLAG_KEY, addPerson.get(UIConstants.ASSIGN_USER_ID));
-	        otherParameters.put(GENDER_KEY, addPerson.get(UIConstants.GENDER));
+
+		String localGender = null;
+		if (! addPerson.get(UIConstants.GENDER).equals("0")) {
+		     localGender = addPerson.get(UIConstants.GENDER);
+		}
+	        otherParameters.put(GENDER_KEY, localGender);
+
 	        otherParameters.put(DOB_KEY, addPerson.get(UIConstants.DOB));
 	        otherParameters.put(NAME_TYPE_KEY, addPerson.get(UIConstants.NAME_TYPE));
 	        otherParameters.put(NAME_DOCUMENT_TYPE_KEY, addPerson.get(UIConstants.NAME_DOCUMENT_TYPE));
@@ -278,6 +291,7 @@ public final class SoapClient {
 	        otherParameters.put(MIDDLE_NAMES_KEY, addPerson.get(UIConstants.MIDDLE_NAMES));
 	        otherParameters.put(LAST_NAME_KEY, addPerson.get(UIConstants.LAST_NAME));
 	        otherParameters.put(SUFFIX_KEY, addPerson.get(UIConstants.SUFFIX));
+	        otherParameters.put(NICKNAME_KEY, addPerson.get(UIConstants.NICKNAME));
 	        otherParameters.put(ADDRESS_TYPE_KEY, addPerson.get(UIConstants.ADDRESS_TYPE));
 	        otherParameters.put(ADDRESS_DOCUMENT_TYPE_KEY, addPerson.get(UIConstants.ADDRESS_DOCUMENT_TYPE));
 	        otherParameters.put(ADDRESS1_KEY, addPerson.get(UIConstants.ADDRESS1));
@@ -311,6 +325,7 @@ public final class SoapClient {
 			return personServiceReturn;
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			try {
 				apiSession.getTransaction().rollback();
 			}
@@ -434,11 +449,18 @@ public final class SoapClient {
 		addAddressData = cleanseHash(addAddressData);
 		
 		// call service
-		LOG.info("Sending to add address " + addAddressData.get(UIConstants.PRINCIPAL_ID) + addAddressData.get(UIConstants.REQUESTED_BY) + 
-				addAddressData.get(UIConstants.IDENTIFIER_TYPE) + addAddressData.get(UIConstants.IDENTIFIER) +
-				addAddressData.get(UIConstants.ADDRESS_TYPE) + addAddressData.get(UIConstants.ADDRESS_DOCUMENT_TYPE) + 
-				addAddressData.get(UIConstants.ADDRESS1) + addAddressData.get(UIConstants.ADDRESS2) +  addAddressData.get(UIConstants.ADDRESS3) + 
-				addAddressData.get(UIConstants.CITY) + addAddressData.get(UIConstants.STATE_OR_PROV) +  addAddressData.get(UIConstants.POSTAL_CODE) + addAddressData.get(UIConstants.COUNTRY) +
+		LOG.info("Sending to add address " +  
+				addAddressData.get(UIConstants.IDENTIFIER_TYPE) + 
+				addAddressData.get(UIConstants.IDENTIFIER) +
+				addAddressData.get(UIConstants.ADDRESS_TYPE) + 
+				addAddressData.get(UIConstants.ADDRESS_DOCUMENT_TYPE) + 
+				addAddressData.get(UIConstants.ADDRESS1) + 
+				addAddressData.get(UIConstants.ADDRESS2) +  
+				addAddressData.get(UIConstants.ADDRESS3) + 
+				addAddressData.get(UIConstants.CITY) + 
+				addAddressData.get(UIConstants.STATE_OR_PROV) +  
+				addAddressData.get(UIConstants.POSTAL_CODE) + 
+				addAddressData.get(UIConstants.COUNTRY) +
 				addAddressData.get(UIConstants.CAMPUS));
 
 		Session apiSession = null;
@@ -554,7 +576,7 @@ public final class SoapClient {
 		//Remove all entries with a value of empty string
 		Iterator<Entry<String,String>> hashIterator = addPerson.entrySet().iterator();
 		while (hashIterator.hasNext()) {
-			Entry<String, String> mapEntry = hashIterator.next();
+			Entry<String, String> mapEntry = (Entry<String, String>)hashIterator.next();
 			if (mapEntry.getValue() == null || mapEntry.getValue().trim().equals("")) {
 				cleansedHash.remove(mapEntry.getKey());
 			}

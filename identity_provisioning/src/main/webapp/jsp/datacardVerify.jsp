@@ -102,7 +102,7 @@ Country of Origin:&nbsp;&nbsp;<s:property value="#session['per.country']" /><br>
 </div>
 </div>
 <p>&nbsp;</p>
-</div
+</div>
 
 <s:if test="hasActionMessages()">
    <div id="hasactionmessage" class="help-block actionmessage">

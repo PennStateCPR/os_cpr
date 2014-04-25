@@ -72,7 +72,7 @@ public class ErrorHandler extends HttpServlet {
 		LOG.info(String.format("%s error status code [%s]"   , uniqueId, request.getAttribute("javax.servlet.error.status_code")));
 		LOG.info(String.format("%s error message [%s]"       , uniqueId, request.getAttribute("javax.servlet.error.message")));
 		LOG.info(String.format("%s error exception type [%s]", uniqueId, request.getAttribute("javax.servlet.error.exception_type")));
-		LOG.info(String.format("%s error request uri [%s]"   , uniqueId, request.getAttribute("javax.servlet.error.request_uri")));
+		LOG.info(String.format("%s error request uri [%s]"   , uniqueId, (String) request.getAttribute("javax.servlet.error.request_uri")));
 	    Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
 		
 	    if(session != null)

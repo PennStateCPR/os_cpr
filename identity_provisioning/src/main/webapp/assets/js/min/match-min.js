@@ -1,0 +1,1 @@
+var commit=commit||{};(function(){"use strict";commit.match={selectors:{form:"#matchfound"},utils:{},validator:{},validate:function(){var selectors=this.selectors;this.validator=new commit.validator({selectors:selectors})},initialize:function(){_.bindAll(this),this.utils=commit.utils,this.validate()}},commit.match.initialize()})(jQuery);

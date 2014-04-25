@@ -121,6 +121,7 @@ public final class UIConstants
 	public static final String PHONE_NUMBER 			= "phoneNumber";
 	public static final String CAMPUS 					= "campus";
 	public static final String SUFFIX 					= "suffix";
+	public static final String NICKNAME					= "nickname";
 	public static final String ADDRESS_TYPE 			= "addressType";
 	public static final String ADDRESS_DOCUMENT_TYPE 	= "addressDocumentType";
 	public static final String ADDRESS_GROUP_ID         = "addressGroupId";
@@ -154,6 +155,7 @@ public final class UIConstants
 	public static final String LNA_MIDDLE_NAMES         = "lna.middleNames";
 	public static final String LNA_LAST_NAME            = "lna.lastName";
 	public static final String LNA_SUFFIX               = "lna.suffix";
+	public static final String LNA_NICKNAME				= "lna.nickName";
 
 	public static final String IDI_SOCIAL_SECURITY_NUMBER = "idi.socialSecurityNumber";
 	
@@ -173,6 +175,8 @@ public final class UIConstants
 	public static final String CRA_POSTAL_CODE          = "cra.postalCode";
 	public static final String CRA_ADDRESS_DOCUMENT_TYPE= "cra.addressDocumentType";
 	public static final String CRA_ADDRESS_GROUP_ID     = "cra.addressGroupId";
+	public static final String CRA_ALTERNATE_ADDRESS_FLAG	
+														= "cra.alternateAddressFlag";
 
 	public static final String CON_PHONE_TYPE           = "con.phoneType";
 	public static final String CON_PHONE_GROUP_ID       = "con.phoneGroupId";
@@ -181,9 +185,16 @@ public final class UIConstants
 	public static final String CON_INTERNATIONAL_NUMBER = "con.internationalNumber";
 	public static final String CON_EMAIL_TYPE           = "con.emailType";
 	public static final String CON_EMAIL                = "con.email";
+	public static final String CON_DOB					= "con.dob";
 	
 	public static final String FMR_FIRST_NAME           = "fmr.firstName";
 	public static final String FMR_LAST_NAME            = "fmr.lastName";
+	
+	public static final String FGOT_COMMIT_ID			= "fgot.commitId";
+	public static final String FGOT_FIRST_NAME			= "fgot.firstName";
+	public static final String FGOT_LAST_NAME			= "fgot.lastName";
+	public static final String FGOT_CITY				= "fgot.city";
+	public static final String FGOT_DOB					= "fgot.dob";
 	
 	public static final String RAC_REQUESTED_BY         = "rac.requestedBy";
 	
@@ -197,6 +208,15 @@ public final class UIConstants
 	public static final String PRA_PROVINCE             = "pra.province";
 	public static final String PRA_POSTAL_CODE          = "pra.postalCode";
 	public static final String PRA_COUNTRY              = "pra.country";
+	
+	public static final String ALT_ADDRESS_LINE1        = "alt.addressLine1";
+	public static final String ALT_ADDRESS_LINE2        = "alt.addressLine2";
+	public static final String ALT_ADDRESS_LINE3        = "alt.addressLine3";
+	public static final String ALT_CITY					= "alt.city";
+	public static final String ALT_STATE                = "alt.state";
+	public static final String ALT_PROVINCE             = "alt.province";
+	public static final String ALT_POSTAL_CODE          = "alt.postalCode";
+	public static final String ALT_COUNTRY              = "alt.country";
 	
 	// Key to access the security question they selected in a past iteration
 	public static final String SEC_PREVIOUS_SECURITY_QUESTION = "sec.previous.security.question";
@@ -220,7 +240,7 @@ public final class UIConstants
 	public static final String POPULATE_USERID_WITH_EMAIL = "populate.userid.with.email.address";
 	
 	// The letter 'N'
-	public static final String LETTER_N = "Y";
+	public static final String LETTER_N = "N";
 	
 	// The letter 'Y'
 	public static final String LETTER_Y = "Y";
@@ -255,7 +275,9 @@ public final class UIConstants
 	// Regex pattern for validating SSN on Identity Information Screen [idi]
 	public static final String IDI_REGEX_KEY_SSN    = "ssn.regex"   ; 		
 	
-	
+        // Indicates whether or not a SSN has been specified as input --
+        public static final String SSN_FLAG = "vfy.ssnFlag";
+
 	/**
 	 * Prevent or make it difficult for someone to instantiate this utility class
 	 */

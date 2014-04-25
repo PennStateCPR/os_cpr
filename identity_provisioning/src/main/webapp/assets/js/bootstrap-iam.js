@@ -287,22 +287,25 @@ function notempty(value) {
 }
 
 function toggle(element) {
+	alert('Inside of TOGGLE!!!!');
 	//define the sender
 	var sender = element.id;
 	//initialize the checkbox
 	var checkbox = document.forms[0].elements[0];
-	//alert('Sender '+ sender);
+	alert('Sender '+ sender);
 	if (sender == 'checkboxcontainer') {
 		//toggle the checkbox
 		if (checkbox.checked == true) {
 			checkbox.checked = false;
-			document.getElementById('continueLarge').style.visibility="hidden";
-			document.getElementById('continueSmall').style.visibility="hidden";
+			document.getElementById('continueButton').style.visibility="hidden";
+			document.getElementById('continueButton').style.visibility="hidden";
+			document.getElementById('btnsubmit').value="";
 		}
 		else {
 			checkbox.checked = true;
-			document.getElementById('continueLarge').style.visibility="visible";
-			document.getElementById('continueSmall').style.visibility="visible";
+			document.getElementById('continueButton').style.visibility="visible";
+			document.getElementById('continueButton').style.visibility="visible";
+			document.getElementById('btnsubmit').value=".";
 		}
 	}
 	
@@ -310,15 +313,22 @@ function toggle(element) {
 		//toggle the checkbox
 		if (checkbox.checked == true) {
 			checkbox.checked = false;
-			document.getElementById('continueLarge').style.visibility="hidden";
-			document.getElementById('continueSmall').style.visibility="hidden";
+			document.getElementById('continueButton').style.visibility="hidden";
+			document.getElementById('continueButton').style.visibility="hidden";
+			document.getElementById('btnsubmit').value="";
 		}
 		else {
 			checkbox.checked = true;
-			document.getElementById('continueLarge').style.visibility="visible";
-			document.getElementById('continueSmall').style.visibility="visible";
+			document.getElementById('continueButton').style.visibility="visible";
+			document.getElementById('continueButton').style.visibility="visible";
+			document.getElementById('btnsubmit').value=".";
 		}
 	}
+	
+	alert('Value of the submit button is ' + document.getElementById('btnsubmit').value);
+	
+	alert('Value of the checkbox is ' + document.getElementById('agree').value);
+	
 }
 
 function stateorprovince(country) {

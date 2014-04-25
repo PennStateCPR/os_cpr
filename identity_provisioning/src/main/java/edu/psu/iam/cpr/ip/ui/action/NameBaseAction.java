@@ -1,11 +1,7 @@
 /* SVN FILE: $Id: NameBaseAction.java 6102 2013-01-30 15:09:55Z jal55 $ */
 package edu.psu.iam.cpr.ip.ui.action;
 
-import javax.naming.NamingException;
-
 import edu.psu.iam.cpr.core.database.types.AccessType;
-import edu.psu.iam.cpr.core.error.CprException;
-import edu.psu.iam.cpr.ip.ui.exception.IPException;
 import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 
 /**
@@ -23,12 +19,17 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
  */
 public abstract class NameBaseAction extends BaseAction 
 {
-    private static final long serialVersionUID = -7601718484729391984L;
-    private String firstName;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private String firstName;
 	private String middleNames;
 	private String lastName;
 	private String nameType;
 	private String suffix;
+	private String nickName;
 
 	@Override
 	public String execute() 
@@ -137,6 +138,20 @@ public abstract class NameBaseAction extends BaseAction
 	 */
 	public void setSuffix(String suffix) {
 		this.suffix = suffix;
+	}
+
+	/**
+	 * @param nickName the nickName to set
+	 */
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	/**
+	 * @return the nickName
+	 */
+	public String getNickName() {
+		return nickName;
 	}
 
 }

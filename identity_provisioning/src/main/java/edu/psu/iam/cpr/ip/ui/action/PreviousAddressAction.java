@@ -21,11 +21,9 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
  */
 public class PreviousAddressAction extends AddressBaseAction 
 {
-    private static final long serialVersionUID = -6729753725583967911L;
-
-    /* (non-Javadoc)
-         * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
-         */
+	/* (non-Javadoc)
+	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
+	 */
 	@Override
 	@Action(value="previous_address",results={ 
 			@Result(name=SUCCESS,location="/contact_info",type=REDIRECT),
@@ -36,6 +34,7 @@ public class PreviousAddressAction extends AddressBaseAction
             @Result(name="ContactInfo"   ,location="/contact_info"    ,type=REDIRECT),
             @Result(name="PersonalInfo"  ,location="/personal_info"   ,type=REDIRECT),
             @Result(name="IdentityInfo"  ,location="/identity_info"   ,type=REDIRECT),
+            @Result(name="VerifyInfo"    ,location="/verify_info"     ,type=REDIRECT),
 			                                   @Result(name="stay on page",location="/jsp/previousAddress.jsp"),
 					                           @Result(name="verify",location="/verify_info",type=REDIRECT),
                                                @Result(name="failure",location="/jsp/endPage.jsp")

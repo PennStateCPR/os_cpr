@@ -23,8 +23,11 @@ import edu.psu.iam.cpr.ip.ui.helper.SessionDeleteHelper;
  */
 public class SuccessAction extends BaseAction 
 {
-    private static final long serialVersionUID = -6339833336450638348L;
-    private String userId;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String userId;
 	private String psuId;
 	
 	// Registration Authority Name; such as, 'Undergratuate Admissions'
@@ -55,7 +58,9 @@ public class SuccessAction extends BaseAction
 		homeURL    = getSessionString("rac.homeURL");
 		raReferrer = getSessionString("rac.raReferrer");
 		
-		psuId = RegexHelper.formatUniversityId( getApplicationMap(), psuId);
+		if (psuId != null) {
+			psuId = RegexHelper.formatUniversityId( getApplicationMap(), psuId);
+		}
 
 		log.info(String.format("%s Request complete", getUniqueId()));
 		getSessionMap().put("suc.request.complete","true");

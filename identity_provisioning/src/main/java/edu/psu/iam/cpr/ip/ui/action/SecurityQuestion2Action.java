@@ -22,28 +22,24 @@ import edu.psu.iam.cpr.ip.ui.common.MagicNumber;
 
 public class SecurityQuestion2Action extends SecurityQuestionBaseAction 
 {
-    private static final long serialVersionUID = 2457389853736209963L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    @Action(value="sq2",results={
+	@Action(value="sq2",results={ 
 			@Result(name=SUCCESS,location="/sq3",type=REDIRECT),
-            @Result(name="Welcome"       ,location="/welcome"         ,type=REDIRECT),
-            @Result(name="DataAccuracy"  ,location="/data_accuracy"   ,type=REDIRECT),
-            @Result(name="LegalName"     ,location="/legal_name"      ,type=REDIRECT),
-            @Result(name="CurrentAddress",location="/current_address" ,type=REDIRECT),
-            @Result(name="ContactInfo"   ,location="/contact_info"    ,type=REDIRECT),
-            @Result(name="PersonalInfo"  ,location="/personal_info"   ,type=REDIRECT),
-            @Result(name="IdentityInfo"  ,location="/identity_info"   ,type=REDIRECT),
-			                                   @Result(name="stay on page",location="/jsp/sq2.jsp"),
-					                           @Result(name="verify",location="/verify_info",type=REDIRECT),
-                                               @Result(name="failure",location="/jsp/endPage.jsp")
-                                            })
+            @Result(name="stay on page",location="/jsp/sq2.jsp"),
+			@Result(name="verify",location="/verify_info",type=REDIRECT),
+            @Result(name="failure",location="/jsp/endPage.jsp")
+            })
          
     /**
      *  Execute all of the common logic for Security Question Answers, when each answer is a separate page                                        
      */
 	public String execute()
 	{
-		setPrefix(getPrefix());
+		setPrefix("sq2");
 		return super.execute();
 	}
 	

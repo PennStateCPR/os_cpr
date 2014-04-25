@@ -2,7 +2,6 @@
 package edu.psu.iam.cpr.ip.ui.interceptor;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -16,12 +15,12 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
 
-import edu.psu.iam.cpr.core.ui.Pair;
 import edu.psu.iam.cpr.ip.ui.action.BaseAction;
 import edu.psu.iam.cpr.ip.ui.common.UIConstants;
 import edu.psu.iam.cpr.ip.ui.exception.DataLockException;
 import edu.psu.iam.cpr.ip.ui.navigation.Navigation;
 import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
+import edu.psu.iam.cpr.ip.util.Pair;
 
 /**
  * DataLockInterceptor intercepts requests to return to pages which have been locked 
@@ -41,9 +40,8 @@ public class DataLockInterceptor implements Interceptor
 	private static final String DATALOCK_INITIAL_WARNING = "datalock.initial.warning";
 	/** Instance of logger */                                                     
 	private static final Logger LOG = Logger.getLogger(DataLockInterceptor.class);
-    private static final long serialVersionUID = -1855238485022372087L;
-
-    @Override
+	
+	@Override
 	public void destroy() 
 	{
 	}
@@ -90,10 +88,10 @@ public class DataLockInterceptor implements Interceptor
 	 
 	    long endTime = System.currentTimeMillis();
 
-	    List<Pair<String, String>> performanceList = null;
+	    ArrayList<Pair<String, String>> performanceList = null; 
 	    performanceList =  (session.getAttribute(UIConstants.PERFORMANCE_DATA_KEY) == null) 
 	    		? new ArrayList<Pair<String, String>>() 
-	    		: (List<Pair<String, String>>)session.getAttribute(UIConstants.PERFORMANCE_DATA_KEY);
+	    		: (ArrayList<Pair<String, String>>)session.getAttribute(UIConstants.PERFORMANCE_DATA_KEY);
 	    Pair<String, String> timings = new Pair<String, String>(simpleClassName, Long.toString(endTime - startTime));
 	    performanceList.add(timings);
 
@@ -164,7 +162,7 @@ public class DataLockInterceptor implements Interceptor
 			return null;
 		}
 		// Option for a more eye-friendly session/Number
-		String simpleIdOption = ctx.getInitParameter(UIConstants.TRANSACTION_ID_NUMBERING);
+		String simpleIdOption = (String)ctx.getInitParameter(UIConstants.TRANSACTION_ID_NUMBERING);
 		if(FieldUtility.fieldIsPresent(simpleIdOption) && FieldUtility.isOptionYes(simpleIdOption))
 		{
 			return (String)session.getAttribute(UIConstants.SESSION_NEW_UNIQUE_ID); 

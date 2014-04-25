@@ -10,6 +10,12 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import edu.psu.iam.cpr.ip.ui.soap.SoapClientIP;
 import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
+import edu.psu.iam.cpr.ip.ui.helper.RegexHelper;
+import edu.psu.iam.cpr.ip.util.MapHelper;
+import edu.psu.iam.cpr.ip.ui.common.MagicNumber;
+import edu.psu.iam.cpr.ip.ui.common.UIConstants;
+
+import java.util.HashMap;
 
 /**
  * VerifyInfoAction - Confirmation/Verification of user-entered data prior to database update.
@@ -25,6 +31,11 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
  */
 public class VerifyInfoAction extends BaseAction 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/* Key in map for return code from findPerson */
 	static final String STATUS_CODE      = "statusCode";
 	
@@ -39,17 +50,19 @@ public class VerifyInfoAction extends BaseAction
 	
 	public static final String FATAL_ERROR1_KEY     = "ui.error.unable.to.proceed";  
 	public static final String CALL_CUST_SERVICES   = "ui.error.call.cust.services";
-    private static final long serialVersionUID = 3371864564872507527L;
 
-    private String hasConfirmed = "false";
+	private static final String YES_FLAG = "Yes"; 
+	
+	private String hasConfirmed = "false";
 	
 	/* (non-Javadoc)
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
 	 */
 	@Override
-	@Action(value="verify_info",results={ @Result(name=SUCCESS,location="/policy_info",type=REDIRECT),
-			                              @Result(name="success_security_questions",location="/security_questions",type=REDIRECT),
+	@Action(value="verify_info",results={ @Result(name=SUCCESS,location="/privacy_policy",type=REDIRECT),
+			                              @Result(name="privacy_policy",location="/privacy_policy",type=REDIRECT),
                                           @Result(name="stay on page",location="/jsp/verify.jsp"),
+                                          @Result(name="success_security_questions",location="/security_questions",type=REDIRECT),
                                           @Result(name="failure",location="/jsp/endPage.jsp")
                                          })
 	public String execute() 
@@ -99,8 +112,38 @@ public class VerifyInfoAction extends BaseAction
 				
 				case PERSON_NOT_FOUND:           getSessionMap().put(getPrefix() +".person.found", "no");
 				                                 getSessionMap().put("sec.password.setting", "initial");        
-				                                 log.info(String.format("%s the person was not FOUND by add person", getUniqueId()));
-					                             break;                                                 
+				                                 HashMap<String, String> argStringMap = MapHelper.genericObjToStringHashMap(getSessionMap());
+				                                 Map<String, String> status = SoapClientIP.addPerson(argStringMap, getUniqueId());
+
+				                                 log.info(String.format("%s statuscode from addPerson[%s] ", getUniqueId(), Integer.parseInt(status.get("statusCode"))));
+                        					 switch(Integer.parseInt(status.get("statusCode")))
+                        					 {
+                           						/* 0: Send these id(s) to the success page */
+                           						case 0:
+                                        					getSessionMap().put("suc.personId", status.get("srv.personId"));
+                                    						getSessionMap().put("suc.psuId"   , status.get("srv.psuId"));
+                                    						getSessionMap().put("suc.userId"  , status.get("srv.userId"));
+                                    						argStringMap.put("srv.personId", status.get("srv.personId"));
+                                    						argStringMap.put("srv.psuId"   , status.get("srv.psuId"));
+                                    						argStringMap.put("srv.userId"  , status.get("srv.userId"));
+                                    						getSessionMap().put("formatted.university.id"
+                                                              					, RegexHelper.formatUniversityId(getApplicationMap(), status.get("srv.psuId")));
+                                    						//Navigation.lock(getSessionMap());
+                                    						if (YES_FLAG.equals(argStringMap.get(UIConstants.CRA_ALTERNATE_ADDRESS_FLAG))) {
+                                    							SoapClientIP.addAlternateAddress(argStringMap);
+                                    						}
+                                            				break;
+
+                        						/* We think we found you */
+                           						case MagicNumber.I3:
+                                        					setEndPageHeader(getApplicationString("ui.near.match.header"));
+                                            					addActionMessage(getApplicationString("ui.near.match.message1"));
+                                            					addActionMessage(getApplicationString("ui.near.match.message2"));
+                                            					addReferenceNumber();
+                                            					returnLocation = FAILURE;
+                                            					break;
+                        					    }
+					                            break;                                                 
 
 				case PERSON_DATA_ENTRY_ERROR:    returnLocation = STAY_ON_PAGE;                         
 				                                 addActionMessage(getApplicationString(DATA_ENTRY_ERRORS1));

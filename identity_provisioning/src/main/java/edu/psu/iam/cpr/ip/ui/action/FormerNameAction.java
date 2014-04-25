@@ -1,20 +1,23 @@
-/**
- * 
- */
+/* SVN FILE: $Id: FormerNameAction.java 7362 2013-05-23 12:32:05Z jal55 $ */
 package edu.psu.iam.cpr.ip.ui.action;
+/**
+ * FormerNameAction processes the former legal name of a user.
+ *
+ * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To
+ * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative
+ * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+ *
+ * @package edu.psu.iam.cpr.ip.ui.action
+ * @author $Author: jal55 $
+ * @version $Rev: 7362 $
+ * @lastrevision $Date: 2013-05-23 08:32:05 -0400 (Thu, 23 May 2013) $
+ */
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
-
-/**
- * @author jal55
- *
- */
 public class FormerNameAction extends NameBaseAction 
 {
-    private static final long serialVersionUID = -1571373660865821809L;
-
-    /**
+	/**
 	 * Check for any required fields -- they must have data in them, else we stay on the current page
 	 * Check the fields passed to see if they have data in them
 	 * @return A string field indicating whether or not we should stay on this page, or null if we can progress
@@ -28,6 +31,7 @@ public class FormerNameAction extends NameBaseAction
             @Result(name="ContactInfo"   ,location="/contact_info"    ,type=REDIRECT),
             @Result(name="PersonalInfo"  ,location="/personal_info"   ,type=REDIRECT),
             @Result(name="IdentityInfo"  ,location="/identity_info"   ,type=REDIRECT),
+            @Result(name="VerifyInfo"    ,location="/verify_info"     ,type=REDIRECT),
 			                              @Result(name="stay on page",location="/jsp/formerName.jsp"),
 			                              @Result(name="verify",location="/verify_info",type=REDIRECT),
                                           @Result(name="failure",location="/jsp/endPage.jsp")

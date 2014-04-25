@@ -12,10 +12,10 @@
 # 
 
 # Global variables used for nested includes should be first, and begin with 'gbl'
-gbl.sitename=IAM Penn State
-gbl.name.familiar=Penn State
-gbl.name.formal=The Pennsylvania State University
-gbl.name.nickname=PSU
+gbl.sitename=The CommIT Project
+gbl.name.familiar=The CommIT project
+gbl.name.formal=The CommIT Project
+gbl.name.nickname=The CommIT project
 gbl.ui.application.name=Identity Provisioning
 
 # Manually increment version number each time application is deployed
@@ -55,18 +55,20 @@ ui.password.validation.error2=Password must have at least one lowercase letter.
 ui.password.validation.error3=Password must be at least 8 characters in length.
 
 #HTML email related entries
-ui.mail.host=smtp.psu.edu
-ui.mail.from=noreply@psu.edu
+ui.mail.host=smtp.internet2.edu
+ui.mail.from=commonidtrust@internet2.edu
 ui.mail.from.person=Identity Provisioning
-ui.mail.success.subject=Your PSU Identity Has Been Created
-ui.mail.success.text=Your identity at Penn State University has been created
-ui.mail.success.html=<b>Hello %lna.firstName% %lna.lastName%,</b><br/><br/>Congratulations!<br/><br/><i>Your Pennsylvania State University Identity has been created.<br/><br/>Your user id is '%suc.userId%'.</i><br/><br/>Your 9-digit Penn State Id Number is '%formatted.university.id%'
+ui.mail.success.subject=Your CommIT Identity Has Been Created
+ui.mail.success.text=Your CommIT identity has been created
+#ui.mail.success.html=<b>Hello %lna.firstName% %lna.lastName%,</b><br/><br/><i>Your CommIT Identity has been created.<br/><br/>Your user id is %suc.userId%.</i>
+ui.mail.success.html=Hello %lna.firstName% %lna.lastName%,<br/>Thank you for registering for a Common Identity & Trust (CommIT) ID.  Your<br/>identity has been successfully created and your Username is %suc.userId%.<br/></br>CommIT was developed to make it easier and safer for you to apply to<br/>college.  Your CommIT ID will give you a single username and password that<br/>you can use at a growing number of schools and for services that help you<br/>apply to college.<br/><br/>The CommIT service that you are using is a one-year demonstration pilot<br/>project among several university and vendor partners.  Your CommIT ID will<br/>continue to support a growing number of schools and services as the pilot<br/>progresses.<br/><br/>For more information, visit URL goes here.
 
-ui.mail.success.reset.subject=Your PSU Identity Has Been Reset
-ui.mail.success.reset.text=Your identity at Penn State University has been reset.
-ui.mail.success.reset.html=<b>Hello %lna.firstName% %lna.lastName%,</b><br/><br/><i>Your Pennsylvania State University password has been reset, for your userid '%suc.userId%'.</i><br/>Your 9-digit Penn State id is '%formatted.university.id%'<br/></br>If you did not request this change, please contact Customer Services.
 
-ui.mail.bcc=Jerome_Lumpkin@yahoo.com
+ui.mail.success.reset.subject=Your CommIT Identity Password Has Been Reset
+ui.mail.success.reset.text=Your CommIT identity has been reset.
+ui.mail.success.reset.html=<b>Hello %lna.firstName% %lna.lastName%,</b><br/><br/><i>Your CommIT password has been reset, for your userid %suc.userId%.</i>
+
+ui.mail.bcc=
 
 Account Creation=ui.mail.success
 Password Reset=ui.mail.success.reset
@@ -76,70 +78,70 @@ ui.error.security.questions.must.answer.all=If you answer, or select, one questi
 
 # icon paths (in document head)
 #----------------------------------------------------------------------------
-ui.shortcut.icon=./assets/ico/psuicon.png
-ui.apple.touch.icon.144=./assets/ico/iamps144.png
-ui.apple.touch.icon.114=./assets/ico/iamps114.png
-ui.apple.touch.icon.72=./assets/ico/iamps72.png
-ui.apple.touch.icon.57=./assets/ico/iamps57.png
+ui.shortcut.icon=./assets/ico/icon.png
+ui.apple.touch.icon.144=./assets/ico/icon144.png
+ui.apple.touch.icon.114=./assets/ico/icon114.png
+ui.apple.touch.icon.72=./assets/ico/icon72.png
+ui.apple.touch.icon.57=./assets/ico/icon57.png
 
 # header links -- href's need to be encoded before storing on the server
 #----------------------------------------------------------------------------
-ui.header.links.title=SEARCH :
-ui.header.link1.title=People
-ui.header.link1.href=http://www.psu.edu/directory/
-ui.header.link2.title=Departments
-ui.header.link2.href=http://www.psu.edu/directory/dept/
-ui.header.link3.title=%gbl.name.familiar%
-ui.header.link3.href=http://search.psu.edu/
+ui.header.links.title=
+ui.header.link1.title=
+ui.header.link1.href=
+ui.header.link2.title=
+ui.header.link2.href=
+ui.header.link3.title=
+ui.header.link3.href=
 
 # footer page links -- href's need to be encoded before storing on the server
 #----------------------------------------------------------------------------
-ui.footer.link1.title=The Pennsylvania State University
-ui.footer.link1.href=http://www.psu.edu
-ui.footer.link2.title=Privacy and Legal Statements
-ui.footer.link2.href=http://www.psu.edu/ur/legal.html
+ui.footer.link1.title=
+ui.footer.link1.href=
+ui.footer.link2.title=
+ui.footer.link2.href=
 
 # website name - USAGE: <s:property value="#application['ui.sitename']"/>
-ui.sitename=IAM Penn State
+ui.sitename=The CommIT project
 
-ui.name.formal=The Pennsylvania State University
-ui.name.familiar=Penn State
+ui.name.formal=The CommIT project
+ui.name.familiar=The CommIT project
 ui.name.nickname=%gbl.name.nickname%
 
 #logo 
-ui.university.logo.path=./assets/img/psulogo.png
-ui.university.logo.href=http://www.psu.edu
+ui.university.logo.path=./assets/img/commit_logo.png
+ui.university.logo.href=https://login.commonidtrust.org/idp/Authn/UserPassword
 
 #datacard header (title text)
 ui.welcome.header=Welcome!
-ui.welcome.actionmsg=Warning: Please close your browser if you do not complete this process. Failure to do so could allow others to obtain the information you have entered. 
+ui.welcome.actionmsg=Warning: Please close your browser if you do not complete this process. Failure to do so could allow others to obtain the information you have entered.
 
 #Generic Help/Service Desk messages
-ui.help.contact.message=Please call the Service Desk at (814) 865-HELP (4357) if you require further assistance.
+ui.help.contact.message=Please call the Service Desk at (555) 555-5555 if you require further assistance.
 
 #near match messages
 ui.near.match.header=Multiple Matches Found
 ui.near.match.message1=There are several accounts that could be you.
-ui.near.match.message2=Please call the ITS Help Desk: (814) 865-HELP (4357)
+ui.near.match.message2=Please call the Help Desk: (555) 555-5555
 
-#404 -- invalid action requested either by end-user entering into browser, or a Struts action 
+#404 -- invalid action requested either by end-user entering into browser, or a Struts action
 ui.404.error.header=Unable To Service Your Request
 ui.404.error.message1=Your request cannot be serviced--Request Undefined.
 
 ui.error.unable.to.proceed=We are unable to create your online identity.
-ui.error.call.cust.services=Please call the ITS Help Desk: (814) 865-HELP (4357)
+ui.error.call.cust.services=Please call the Help Desk: (555) 555-5555
 
 # The person was found, but they did not previously answer their security questions
 #----------------------------------------------------------------------------------
 ui.pswd.help.desk.reset.pswd.header=SESSION ENDED
-ui.pswd.help.desk.must.reset.pswd=Please call the ITS Help Desk: (814) 865-HELP (4357) to reset your password.
+ui.pswd.help.desk.must.reset.pswd=Please call the Help Desk: (555) 555-5555 to reset your password.
 
 # The person failed to answer their [previously existing] security questions and exceed the retry count
 #------------------------------------------------------------------------------------------------------
 ui.security.answers.incorrect.header=SESSION ENDED
 ui.security.answers.incorrect.count=2
 ui.security.answers.incorrect1=You have not answered the security questions correctly.
-ui.security.answers.incorrect2=Please call the ITS Help Desk: (814) 865-HELP (4357)
+ui.security.answers.incorrect2=Please call the Help Desk: (555) 555-5555
 
 # The end-user answered one or more security questions incorrectly, but still has retires left
 #---------------------------------------------------------------------------------------------
@@ -150,13 +152,13 @@ ui.incorrect.security.answer.try.again=Incorrect Answer for 1 or more security q
 ui.ra_auth_failed.header=SESSION ENDED
 ui.ra_auth_failed.message.count=2
 ui.ra_auth_failed.message1=Access to this site is unauthorized.
-ui.ra_auth_failed.message2=Please call the ITS Help Desk: (814) 865-HELP (4357) 
+ui.ra_auth_failed.message2=Please call the Help Desk: (555) 555-5555
 
 # In PasswordAction, setting Password, there is no Person Id in session
 #----------------------------------------------------------------------
 ui.set.password.no.person.id.header=SESSION ENDED
 ui.set.password.no.person.id=Password Error
-ui.set.password.no.person.id.message=Please call the ITS Help Desk: (814) 865-HELP (4357) and reference error 101
+ui.set.password.no.person.id.message=Please call the Help Desk: (555) 555-5555 and reference error 101
 
 # JMS Items
 #---------------
@@ -168,7 +170,7 @@ ui.setpassword.reply.queue.name=Queue.CPR
 ui.update.person.error1a1.header=SESSION ENDED
 ui.update.person.error1a1.message.count=2
 ui.update.person.error1a1.message1=We could not update your records.
-ui.update.person.error1a1.message2=Please call the ITS Help Desk: (814) 865-HELP (4357) and reference error 1A1
+ui.update.person.error1a1.message2=Please call the Help Desk: (555) 555-5555 and reference error 1A1
 
 #test global includes
 ui.test.global1=Once you arrive at %gbl.name.formal% you will be asked to register for a Web Access account.
@@ -178,7 +180,7 @@ ui.test.global2=At %gbl.name.nickname%, you are challenged to do your best!
 exception.database.connection.header=DATABASE EXCEPTION
 exception.database.connection.message.count=2
 exception.database.connection.message1=We are experiencing a technical difficulty.
-exception.database.connection.message2=Please call the ITS Help Desk: (814) 865-HELP (4357)
+exception.database.connection.message2=Please call the Help Desk: (555) 555-5555
 
 exception.datalock.header=DATA INTEGRITY
 exception.data.lock.message.count=2
@@ -222,8 +224,10 @@ logic.security.questions.person.found=go to sq splash
 #logic.security.questions.person.found=default
 
 #   names of the optional screens, and after what screen they should be inserted -- used by debug option 'allPages=yes'
-logic.optional.screens=FormerName,PreviousAddress
-logic.optional.insert.after=LegalName,CurrentAddress
+#logic.optional.screens=FormerName,AlternateAddress
+#logic.optional.insert.after=LegalName,CurrentAddress
+logic.optional.screens=FormerName
+logic.optional.insert.after=LegalName
 
 
 # end of logic flow alternatives section
@@ -250,7 +254,7 @@ populate.userid.with.email.address=no
 # number of seconds to delay before delting session object
 delete.session.delay.in.seconds=2
 
-# Regex patterns for validating data on Identity Information Screen: Note:entity.id is Penn State Id
+# Regex patterns for validating data on Identity Information Screen.
 userid.regex=^[a-z]{3}[0-9]{0,5}
 ssn.regex=^\d{3}[\s-]?\d{2}[\s-]?\d{4}
 entity.id.regex=^[9]{1}[\s-]?[0-9]{4}[\s-]?[0-9]{4}
@@ -258,8 +262,11 @@ entity.id.regex=^[9]{1}[\s-]?[0-9]{4}[\s-]?[0-9]{4}
 # Message if the user enters invalid data - Identity Information Screen 
 userid.is.invalid=The userid specified is invalid
 ssn.is.invalid=Social Security Number entry is invalid
-entity.id.is.invalid=Penn State ID entry is invalid
+entity.id.is.invalid=ID entry is invalid
 
 #Optionally hide certain fields
 ui.fields.hidden.userid=yes
 ui.fields.hidden.universityid=yes
+
+# JAV Added to hide a screen.
+screens.to.hide=IdentityInfo

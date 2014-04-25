@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: SecurityQuestionAction.java 5953 2012-12-20 22:21:58Z jal55 $ */
+/* SVN FILE: $Id: SecurityQuestionAction.java 6207 2013-02-13 21:36:58Z jal55 $ */
 package edu.psu.iam.cpr.ip.ui.action;
 
 import java.util.ArrayList;
@@ -22,39 +22,42 @@ import edu.psu.iam.cpr.ip.util.AnswerHelper;
 import edu.psu.iam.cpr.ip.util.MapHelper;
 
 /**
- * SecurityQuestionAction processes the rendering of the security question screen 
+ * SecurityQuestionAction processes the rendering of the security question screen
  * and the processing of end-user responses.
- * 
- * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To 
- * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative 
+ *
+ * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To
+ * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative
  * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
  *
- * @package edu.psu.iam.cpr.ip.ui.action 
+ * @package edu.psu.iam.cpr.ip.ui.action
  * @author $Author: jal55 $
- * @version $Rev: 5953 $
- * @lastrevision $Date: 2012-12-20 17:21:58 -0500 (Thu, 20 Dec 2012) $
+ * @version $Rev: 6207 $
+ * @lastrevision $Date: 2013-02-13 16:36:58 -0500 (Wed, 13 Feb 2013) $
  */
-public class SecurityQuestionAction extends BaseAction 
+public class SecurityQuestionAction extends BaseAction
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final String SEC_RETRY_COUNT = "sec.retry.count";
 	private static final String ZERO = "0";
-    private static final long serialVersionUID = 2007566517768725745L;
 
-    // Users answer to question 1, 2 and 3
+	// Users answer to question 1, 2 and 3
 	private String securityQuestion1Answer;
 	private String securityQuestion2Answer;
 	private String securityQuestion3Answer;
-	
+
 	// Used to send the list of questions/dropdowns to the form
 	private Map<String, String> securityQuestions1;
 	private Map<String, String> securityQuestions2;
 	private Map<String, String> securityQuestions3;
-	
+
 	// The indicator of which question was selected via the drop down -- its a number indicating the question id
 	private String securityQuestion1;
 	private String securityQuestion2;
 	private String securityQuestion3;
-	
+
 	/* (non-Javadoc)
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
 	 */
@@ -64,44 +67,35 @@ public class SecurityQuestionAction extends BaseAction
                                                  @Result(name="go to sq splash", location="/sq0", type=REDIRECT),
                                                  @Result(name="failure",location="/jsp/endPage.jsp")
                                                })
-	public String execute() 
+	public String execute()
 	{
 		if(!setup("sec"))
 		{
 			return FAILURE;
 		}
-		
+
 		log.debug(String.format("%s ", getUniqueId()))  ;
-		
+
 		String returnLocation = SUCCESS;
-		
+
 		if(FieldUtility.fieldIsNotPresent(getBtnsubmit()))
 		{
 			returnLocation = STAY_ON_PAGE;
 		}
-		
+
 		if(personWasFound() && securityQuestionsPreviouslyNotSet())
 		{
-			setEndPageHeader(getApplicationString( UIConstants.HELP_DESK_RESET_PSWD_HEADER));
-			addActionMessage(getApplicationString(UIConstants.HELP_DESK_RESET_PSWD_TEXT  ));
-			addReferenceNumber();
+			handlePersonFoundSecurityQuestionsPreviouslyNotSet();
+
 			returnLocation = FAILURE;
 		}
-		
+
 		/* Populate the security question drop-downs */
 		if(!returnLocation.equalsIgnoreCase(FAILURE))
 		{
-			/* Populate all '3' security questions */
-			List<Map<String,String>> securityQuestions = new ArrayList<Map<String, String>>();
+			// Populate all '3' security questions
+			populateSecurityQuestions();
 
-			securityQuestions = (List<Map<String, String>>) ((getApplicationMap().containsKey(UIConstants.IN_CORE_SECURITY_QUESTIONS))
-			                            ? getApplicationMap().get(UIConstants.IN_CORE_SECURITY_QUESTIONS)
-					                    : IdentityProvisioningDAO.loadSecurityQuestionsFromDb()); 
-
-			securityQuestions1 = securityQuestions.get(0);
-			securityQuestions2 = securityQuestions.get(1);
-			securityQuestions3 = securityQuestions.get(2);
-			
 			/* Need to check if the person was found again.
 			 * If they were, then we already know their question were
 			 * previously set, so let's scroll the drop-downs to those questions,
@@ -109,76 +103,36 @@ public class SecurityQuestionAction extends BaseAction
 			 */
 			if(personWasFound())
 			{
-				List<SecurityQuestionAnswers> list = getListSecurityQuestions();
-				
-				securityQuestion1 = Long.toString(list.get(0).getSecQuestKey());
-				securityQuestion2 = Long.toString(list.get(1).getSecQuestKey());
-				securityQuestion3 = Long.toString(list.get(2).getSecQuestKey());
-				
-				getSessionMap().put(UIConstants.SEC_PREVIOUS_RECORDED_ANSWER +"1", list.get(0).getAnswer());
-				getSessionMap().put(UIConstants.SEC_PREVIOUS_RECORDED_ANSWER +"2", list.get(1).getAnswer());
-				getSessionMap().put(UIConstants.SEC_PREVIOUS_RECORDED_ANSWER +"3", list.get(2).getAnswer());
-				
-				// Change to we-found-you logic.  Now, we will instantly go to the splash page
-				// but we need the info from this section to be saved first
-                getSessionMap().put(UIConstants.SEC_PREVIOUS_SECURITY_QUESTION +"1", securityQuestions1.get(securityQuestion1));
-                getSessionMap().put(UIConstants.SEC_PREVIOUS_SECURITY_QUESTION +"2", securityQuestions2.get(securityQuestion2));
-                getSessionMap().put(UIConstants.SEC_PREVIOUS_SECURITY_QUESTION +"3", securityQuestions3.get(securityQuestion3));
-                
+				// Present Security Question drop downs
+				positionSecurityQuestionsToPreviousSelections();
+
+                /* Determine if we should present separate security screens, or all 3 questions on one screen.
+                 * The new flow says to present each on a separate page, if the person was found
+                 * The old [default] flow presents all 3 questions on a single page
+                 */
+
                 if(FieldUtility.fieldIsPresent(getApplicationString(UIConstants.LOGIC_SECURITY_QUESTIONS_PERSON_FOUND)))
                 {
                 	//"go to sq splash"
-                	String newLogicFlow = getApplicationString(UIConstants.LOGIC_SECURITY_QUESTIONS_PERSON_FOUND);      
+                	String newLogicFlow = getApplicationString(UIConstants.LOGIC_SECURITY_QUESTIONS_PERSON_FOUND);
                 	if(!newLogicFlow.equalsIgnoreCase("default"))
                 	{
                 		returnLocation = newLogicFlow;
                 	}
                 }
 			}
-		
-	
+
+
 			saveFieldsToSession(getPrefix());
-		
+
 			/* If they answer one question, they must answer all three */
 			if(returnLocation.equalsIgnoreCase(ActionSupport.SUCCESS))
 			{
-				int numberAnswers = 0;
-			
-				if(FieldUtility.fieldIsPresent(securityQuestion1Answer))
-				{
-					numberAnswers++;
-				}
-			
-				if(FieldUtility.fieldIsPresent(securityQuestion2Answer))
-				{
-					numberAnswers++;
-				}
- 
-				if(FieldUtility.fieldIsPresent(securityQuestion3Answer))
-				{
-					numberAnswers++;
-				}
-			
-				int numberQuestionsSelected = 0;
-				try
-				{
-					if(Integer.parseInt(securityQuestion1) > 0)
-					{
-						numberQuestionsSelected++;
-					}
-				
-					if(Integer.parseInt(securityQuestion2) > 0)
-					{
-						numberQuestionsSelected++;
-					}
-				
-					if(Integer.parseInt(securityQuestion3) > 0)
-					{
-						numberQuestionsSelected++;
-					}
-				}
-				catch(Exception e) {}
-			
+				int numberAnswers = howManyQuestionsWereAnswered();
+
+				int numberQuestionsSelected = howManySecurityQuestionsSelected();
+
+
 				// If you answer one question, you must answer and select all three
 				if((numberAnswers > 0 || numberQuestionsSelected > 0) && (numberAnswers !=MagicNumber.I3 || numberQuestionsSelected !=MagicNumber.L3))
 				{
@@ -186,43 +140,33 @@ public class SecurityQuestionAction extends BaseAction
 					returnLocation = STAY_ON_PAGE;
 				}
 			}
-			
+
 			/* Write security questions and answers to database*/
-			String personId = (String)getSessionMap().get("suc.personId");
-			String userId   = (String)getSessionMap().get("suc.userId");
-		
-			/* Default to password should be initial setting */
-			if(returnLocation.equalsIgnoreCase(SUCCESS) && personWasNotFound()   &&
-				FieldUtility.fieldIsPresent(personId, userId, securityQuestion1Answer, securityQuestion2Answer, securityQuestion3Answer))  
-			{
-				IdentityProvisioningDAO.saveUserSecurityQuestionAnswers(createAnswerQuestionObjects());
-			}
-		
+			saveQuestionsAndAnswers(returnLocation);
+
 			/* Note: The person was found, and the questions were preset, and btnSubmit was hit */
-			if(returnLocation.equalsIgnoreCase(SUCCESS) && personWasFound() && FieldUtility.fieldIsPresent(getBtnsubmit())) 
+			if(returnLocation.equalsIgnoreCase(SUCCESS) && personWasFound() && FieldUtility.fieldIsPresent(getBtnsubmit()))
 			{
-				// Proceed to password RESET function	
-				returnLocation = SUCCESS;                  
+				// Proceed to password RESET function
+				returnLocation = SUCCESS;
 
 				// update person
 				/* If the person was verify, and they have answered questions correctly -- then 'updatePerson' */
-				Map<String, String> argStringMap = MapHelper.genericObjToStringHashMap(getSessionMap());
-				Map<String, String> status = SoapClientIP.updatePerson(argStringMap, getUniqueId());
+				HashMap<String, String> argStringMap = MapHelper.genericObjToStringHashMap(getSessionMap());
+				HashMap<String, String> status = SoapClientIP.updatePerson(argStringMap, getUniqueId());
 				log.info(String.format("%s returnStatus from addPerson--> %s ", getUniqueId(), status));
-					
+
 				log.info(String.format("%s statuscode from addPerson[%s]", getUniqueId(), Integer.parseInt(status.get("statusCode"))));
 				switch(Integer.parseInt(status.get("statusCode")))
 				{
 				    // Updates were made by updatePerson
-					case 0: 
+					case 0:
 					// Maybe address was updated, but phone was a duplicate -- minor, and ignore
-					case 1: 
+					case 1:
 							break;
-							  	   
+
 					// Error from updatePerson
-					default:setEndPageHeader(getApplicationString("ui.update.person.error1.header"));    
-			           		addActionMessage(getMessageElements("ui.update.person.error1.message1.count"));
-		           			addReferenceNumber();
+					default:handleErrorFromUpdatePerson();
 			           		returnLocation = FAILURE;
 			           		break;
 				}
@@ -237,24 +181,13 @@ public class SecurityQuestionAction extends BaseAction
 					}
 
 					int retryCount = Integer.parseInt((String)getSessionMap().get(SEC_RETRY_COUNT)) ;
-				
-					if(++retryCount >= UIConstants.MAX_SECURITY_QUESTION_RETRIES )				
-					{
-						setEndPageHeader(getApplicationString("ui.security.answers.incorrect.header"));
 
-						List<String> messageList = getMessageElements("ui.security.answers.incorrect.count");
-					
-						for(String message: messageList)
-						{
-							addActionMessage(message);
-						}
-						addReferenceNumber();
-					
-						log.info(String.format("%s Security Answers did not match", getUniqueId()));
-					
+					if(++retryCount >= UIConstants.MAX_SECURITY_QUESTION_RETRIES )
+					{
+                        handleSecurityAnswersIncorrect();
 						returnLocation = FAILURE;
 					}
-					if(!hasActionMessages() && FieldUtility.fieldIsPresent(getBtnsubmit()))   
+					if(!hasActionMessages() && FieldUtility.fieldIsPresent(getBtnsubmit()))
 					{
 						getSessionMap().put(SEC_RETRY_COUNT, String.format("%s", retryCount));
 						addActionMessage(getApplicationString(UIConstants.SECURITY_QUESTION_ANSWER_INCORRECT));
@@ -262,11 +195,164 @@ public class SecurityQuestionAction extends BaseAction
 					}
 				}
 			}
-		}   
-			   
+		}
+
 		return returnLocation;
 	}
-	
+
+	/**
+	 *  Format the user's screen when update person returns an error
+	 */
+	public void handleErrorFromUpdatePerson()
+	{
+	    setEndPageHeader(getApplicationString("ui.update.person.error1.header"));
+   		addActionMessage(getMessageElements("ui.update.person.error1.message1.count"));
+	    addReferenceNumber();
+	}
+
+	/**
+	 * Present the proper messages on the error screen if the person was found,
+	 * but failed to set their security questions in a previous iteration.
+	 *
+	 * have them contact the Help Desk/Service Desk
+	 */
+	public void handlePersonFoundSecurityQuestionsPreviouslyNotSet()
+	{
+		setEndPageHeader(getApplicationString( UIConstants.HELP_DESK_RESET_PSWD_HEADER));
+		addActionMessage(getApplicationString(UIConstants.HELP_DESK_RESET_PSWD_TEXT  ));
+		addReferenceNumber();
+	}
+
+	/**
+	 * Handle the instances when the user has failed to answer the questions correctly for the 3rd time
+	 */
+	public void handleSecurityAnswersIncorrect()
+	{
+		setEndPageHeader(getApplicationString("ui.security.answers.incorrect.header"));
+
+		List<String> messageList = getMessageElements("ui.security.answers.incorrect.count");
+
+		for(String message: messageList)
+		{
+			addActionMessage(message);
+		}
+		addReferenceNumber();
+
+		log.info(String.format("%s Security Answers did not match", getUniqueId()));
+	}
+
+	/**
+	 * Save the Security Questions selected, along with the user-entered answers
+	 * @param returnLocation Indicator of where the action class will go next -- we do a readonly reference here
+	 */
+	public void saveQuestionsAndAnswers(String returnLocation)
+	{
+		String personId = (String)getSessionMap().get("suc.personId");
+		String userId   = (String)getSessionMap().get("suc.userId");
+
+		/* Default to password should be initial setting */
+		if(returnLocation.equalsIgnoreCase(SUCCESS) && personWasNotFound()   &&
+			FieldUtility.fieldIsPresent(personId, userId, securityQuestion1Answer, securityQuestion2Answer, securityQuestion3Answer))
+		{
+			IdentityProvisioningDAO.saveUserSecurityQuestionAnswers(createAnswerQuestionObjects());
+		}
+
+	}
+
+	/**
+	 * If a user was found, and they previously answered and selected security questions
+	 * then we will preset [pre-scroll] the questions to what they selected before
+	 */
+	public void positionSecurityQuestionsToPreviousSelections()
+	{
+		List<SecurityQuestionAnswers> list = getListSecurityQuestions();
+
+		securityQuestion1 = Long.toString(list.get(0).getSecQuestKey());
+		securityQuestion2 = Long.toString(list.get(1).getSecQuestKey());
+		securityQuestion3 = Long.toString(list.get(2).getSecQuestKey());
+
+		getSessionMap().put(UIConstants.SEC_PREVIOUS_RECORDED_ANSWER +"1", list.get(0).getAnswer());
+		getSessionMap().put(UIConstants.SEC_PREVIOUS_RECORDED_ANSWER +"2", list.get(1).getAnswer());
+		getSessionMap().put(UIConstants.SEC_PREVIOUS_RECORDED_ANSWER +"3", list.get(2).getAnswer());
+
+		// Change to we-found-you logic.  Now, we will instantly go to the splash page
+		// but we need the info from this section to be saved first
+        getSessionMap().put(UIConstants.SEC_PREVIOUS_SECURITY_QUESTION +"1", securityQuestions1.get(securityQuestion1));
+        getSessionMap().put(UIConstants.SEC_PREVIOUS_SECURITY_QUESTION +"2", securityQuestions2.get(securityQuestion2));
+        getSessionMap().put(UIConstants.SEC_PREVIOUS_SECURITY_QUESTION +"3", securityQuestions3.get(securityQuestion3));
+	}
+
+	/**
+	 * Populate all three security question drop downs on the UI
+	 */
+	public void populateSecurityQuestions()
+	{
+		ArrayList<Map<String,String>> securityQuestions = new ArrayList<Map<String, String>>();
+
+		securityQuestions = (ArrayList<Map<String, String>>) ((getApplicationMap().containsKey(UIConstants.IN_CORE_SECURITY_QUESTIONS))
+		                            ? getApplicationMap().get(UIConstants.IN_CORE_SECURITY_QUESTIONS)
+				                    : IdentityProvisioningDAO.loadSecurityQuestionsFromDb());
+
+		securityQuestions1 = securityQuestions.get(0);
+		securityQuestions2 = securityQuestions.get(1);
+		securityQuestions3 = securityQuestions.get(2);
+	}
+
+	/**
+	 * Compute how many security questions were answered
+	 * @return Ant 'int' representing how many security questions were answered
+	 */
+	public int howManyQuestionsWereAnswered()
+	{
+		int numberAnswers = 0;
+
+		if(FieldUtility.fieldIsPresent(securityQuestion1Answer))
+		{
+			numberAnswers++;
+		}
+
+		if(FieldUtility.fieldIsPresent(securityQuestion2Answer))
+		{
+			numberAnswers++;
+		}
+
+		if(FieldUtility.fieldIsPresent(securityQuestion3Answer))
+		{
+			numberAnswers++;
+		}
+
+		return numberAnswers;
+	}
+
+	/**
+	 * Determine the number of security question drop downs that were positioned to viable questions
+	 * @return An 'int' representing the number of drop downs that are positionin at viable questions
+	 */
+	public int howManySecurityQuestionsSelected()
+	{
+		int numberQuestionsSelected = 0;
+		try
+		{
+			if(Integer.parseInt(securityQuestion1) > 0)
+			{
+				numberQuestionsSelected++;
+			}
+
+			if(Integer.parseInt(securityQuestion2) > 0)
+			{
+				numberQuestionsSelected++;
+			}
+
+			if(Integer.parseInt(securityQuestion3) > 0)
+			{
+				numberQuestionsSelected++;
+			}
+		}
+		catch(Exception e) {}
+
+		return numberQuestionsSelected;
+	}
+
 	/**
 	 * Determine, for found persons, if their current answers match their previously entered answers
 	 * @return
@@ -278,7 +364,7 @@ public class SecurityQuestionAction extends BaseAction
 		       AnswerHelper.equals(securityQuestion3Answer, getSessionString("sec.previous.recorded.answer3"))) ;
 
 	}
-	
+
 	/**
 	 * Return 'true' if security questions previously set for this credential
 	 * @return
@@ -294,7 +380,7 @@ public class SecurityQuestionAction extends BaseAction
 
 		return previousQuestionsExist;
 	}
-	
+
 	/**
 	 * Return 'true' if security questions previously not set for this credential
 	 * @return
@@ -303,7 +389,7 @@ public class SecurityQuestionAction extends BaseAction
 	{
 		// Default to true for this test
 		boolean securityQuestionsPreviouslyNotSet = true;
-		
+
 		// Our default was incorrect, but we'll be right 50% of the time-- probably!
 		if(securityQuestionsPreviouslySet())
 		{
@@ -311,25 +397,25 @@ public class SecurityQuestionAction extends BaseAction
 		}
 
 		return securityQuestionsPreviouslyNotSet;
-			
+
 	}
-	
+
 	/**
 	 * Get the SecurityQuestionAnswer objects from the database
 	 * @return The security questions, and answers for this credential
 	 */
 	public List<SecurityQuestionAnswers> getListSecurityQuestions()
 	{
-		return IdentityProvisioningDAO.loadSecurityAnswersFromDb(Long.parseLong(getSessionString("suc.personId")), 
+		return IdentityProvisioningDAO.loadSecurityAnswersFromDb(Long.parseLong(getSessionString("suc.personId")),
                                                                  getSessionString("suc.userId"));
-		
+
 	}
 
     /**
      * 	The routine creates SecurityQuestionAnswers objects from the security
      *  questions and answers on the end-users's screen.
-     *  
-     * @return - an List of SecurityQuestionAnswers objects 
+     *
+     * @return - an List of SecurityQuestionAnswers objects
      */
 	public List<SecurityQuestionAnswers> createAnswerQuestionObjects()
 	{
@@ -337,19 +423,19 @@ public class SecurityQuestionAction extends BaseAction
 		Date dateCreatedOn = new Date();
 		String userId      = (String)getSessionMap().get("suc.userId");
 		Long   personId    = Long.parseLong((String)getSessionMap().get("suc.personId"));
-		
+
 
 		SecurityQuestionAnswers sqa = new SecurityQuestionAnswers();
-        
+
 		// Question 1
 		sqa.setPersonId(personId);
 		sqa.setUserid(userId);
 		sqa.setSecQuestKey(Long.parseLong(securityQuestion1));
-		sqa.setSecQuestGroupKey(MagicNumber.L1);    
+		sqa.setSecQuestGroupKey(MagicNumber.L1);
 		sqa.setAnswer(AnswerHelper.compress(securityQuestion1Answer));
 		sqa.setCreatedOn(dateCreatedOn);
 		list.add(sqa);
-		
+
 		// Question 2
 		sqa = new SecurityQuestionAnswers();
 		sqa.setPersonId(personId);
@@ -359,7 +445,7 @@ public class SecurityQuestionAction extends BaseAction
 		sqa.setAnswer(AnswerHelper.compress(securityQuestion2Answer));
 		sqa.setCreatedOn(dateCreatedOn);
 		list.add(sqa);
-		
+
 		// Question 3
 		sqa = new SecurityQuestionAnswers();
 		sqa.setPersonId(personId);
@@ -369,7 +455,7 @@ public class SecurityQuestionAction extends BaseAction
 		sqa.setAnswer(AnswerHelper.compress(securityQuestion3Answer));
 		sqa.setCreatedOn(dateCreatedOn);
 		list.add(sqa);
-		
+
 		return list;
 	}
 

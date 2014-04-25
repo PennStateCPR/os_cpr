@@ -23,10 +23,10 @@ public class IPException extends Exception
 	{
 		SESSION_EXPIRATION, 
 		REQUEST_COMPLETE  ,
-		ALL_TYPES
-    }
-
-    /**
+		ALL_TYPES;
+	};
+	
+	/**
 	 * Note:  This table must be maintained/synchronized with RETURN_TYPE
 	 */
 	private static String[] literalReturntype = 

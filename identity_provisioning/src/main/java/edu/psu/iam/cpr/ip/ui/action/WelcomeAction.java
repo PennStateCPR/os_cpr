@@ -19,11 +19,9 @@ import org.apache.struts2.convention.annotation.Result;
  */
 public class WelcomeAction extends BaseAction  
 {
-    private static final long serialVersionUID = 6521263535647612868L;
-
-    /* (non-Javadoc)
-         * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
-         */
+	/* (non-Javadoc)
+	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
+	 */
 	@Override
 	@Action(value="welcome",results={ @Result(name=SUCCESS         ,location="/data_accuracy"   ,type=REDIRECT), 
 						              @Result(name="Welcome"       ,location="/welcome"         ,type=REDIRECT),
@@ -33,6 +31,7 @@ public class WelcomeAction extends BaseAction
 						              @Result(name="ContactInfo"   ,location="/contact_info"    ,type=REDIRECT),
 						              @Result(name="PersonalInfo"  ,location="/personal_info"   ,type=REDIRECT),
 						              @Result(name="IdentityInfo"  ,location="/identity_info"   ,type=REDIRECT),
+						              @Result(name="VerifyInfo"    ,location="/verify_info"     ,type=REDIRECT),
 			                          @Result(name="stay on page"  ,location="/jsp/welcome.jsp"),			
                                       @Result(name="failure",location="/jsp/endPage.jsp")
                                      })

@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: RAConnectionAction.java 6113 2013-02-01 08:59:19Z jal55 $ */
+/* SVN FILE: $Id: RAConnectionAction.java 7246 2013-05-10 15:35:11Z jal55 $ */
 package edu.psu.iam.cpr.ip.ui.action;
 
 import java.util.List;
@@ -25,40 +25,62 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
  *
  * @package edu.psu.iam.cpr.ip.ui.action 
  * @author $Author: jal55 $
- * @version $Rev: 6113 $
- * @lastrevision $Date: 2013-02-01 03:59:19 -0500 (Fri, 01 Feb 2013) $
+ * @version $Rev: 7246 $
+ * @lastrevision $Date: 2013-05-10 11:35:11 -0400 (Fri, 10 May 2013) $
  */
 public class RAConnectionAction extends BaseAction  
 {
 
-	private static final String ACTION = "action";
-    private static final long serialVersionUID = 8600053409774294118L;
+	private static final long serialVersionUID = 1L;
 
-    private String principalId ;   // RA must send this on ra_connect
-	private String password    ;   // RA must send  "" "" ""
-	private String requestedBy ;   // For Identity Provisioning is not necessary, will be used when users are logged in
-	private String sitename    ;   
-	private String ra          ;   // Registration Authority Name
-	private String raReferrer  ;   // Return to URL
-	private String assignUserId;   // If blank in post, then use from properties file
-	private String assignPsuId ;   // if blank is post, then use from properties file
-	private String homeURL     ;   // Home URL for RA
-	private String showSSN     ;   // RA Switch to show SSN, or not
-	private String ssnMessage  ;   // SSN is required to be collected, etc..
-	private String raMessage   ;   // Please create an online identity for the applicant
-	private String emailMessage;   // By clicking this box, you are granting permission...
-	private String raScreens   ;   // The property name of the RA Screens order/name table
-	private String screenCount ;   // Total Number of screens the user will view
-	private String screenNumber;   // Present # of screen within screenCount
+	private static final String ACTION = "action"; 
+	
+	private String principalId ;   
+	private String password    ;   
+	private String requestedBy ; 
+	private String siteName;
+
+	// Registration Authority acronym; such as, uao, or gso
+	private String ra          ;   
+	
+	// Return to URL
+	private String raReferrer  ;   
+	private String assignUserId;   
+	private String assignPsuId ;   
+	
+	// Home URL for RA
+	private String homeURL     ;
+	
+	// RA Switch to show SSN, or not
+	private String showSSN     ;   
+	
+	// SSN is required to be collected, etc..
+	private String ssnMessage  ;   
+	
+	// Please create an online identity for the applicant
+	private String raMessage   ;   
+	
+	// By clicking this box, you are granting permission...
+	private String emailMessage;   
+	
+	// The property name of the RA Screens order/name table
+	private String raScreens   ;   
+	
+	// Total Number of screens the user will view
+	private String screenCount ;   
+	
+	// Present # of screen within screenCount
+	private String screenNumber;   
 	
 	
 	/* (non-Javadoc)
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
 	 */
 	@Override
-	@Action(value="ra_connect",results={ @Result(name=SUCCESS         ,location="/welcome",type=REDIRECT),
-							             @Result(name="Welcome"       ,location="/welcome",type=REDIRECT),
-                                         @Result(name="failure",location="/jsp/endPage.jsp")
+	@Action(value="ra_connect",results={ @Result(name=SUCCESS, location="/welcome", type=REDIRECT),
+							             @Result(name="LegalName", location="/legal_name", type=REDIRECT),
+                                         @Result(name="VerifyInfo", location="/verify_info", type=REDIRECT),
+                                         @Result(name="failure", location="/jsp/endPage.jsp")
                                      })
 	public String execute() throws CprException, NamingException  
 	{
@@ -75,8 +97,15 @@ public class RAConnectionAction extends BaseAction
 			principalId = (String) this.getHttpServletRequest().getAttribute("principalId");
 			password    = (String) this.getHttpServletRequest().getAttribute("password");
 			requestedBy = (String) this.getHttpServletRequest().getAttribute("requestedBy");
-			sitename    = (String) this.getHttpServletRequest().getAttribute("sitename");
+			siteName    = (String) this.getHttpServletRequest().getAttribute("sitename");
 		}
+
+		// Hard Code Until Jerome has a fix.
+ 		ra = "IAMTAG";
+ 		siteName    = "CommIT";
+ 		requestedBy = "cpruser";
+ 		principalId = "cpruser";
+ 		password    = "abcd1234";
 		
 		String returnLocation = "success";
 		
@@ -95,38 +124,40 @@ public class RAConnectionAction extends BaseAction
 			
 			// Get RA Properties
 			String appName = (String)getApplicationMap().get(UIConstants.UI_APPLICATION_NAME);
-			Map<String, String> RAProperties = ProxyDb.loadRAPropertiestFromDb(getApplicationMap(), appName, principalId);
+			Map<String, String> raProperties = ProxyDb.loadRAPropertiestFromDb(getApplicationMap(), appName, principalId);
 			
-			if(RAProperties == null)
+			if(raProperties == null)
 			{
 				throw new CprException(ReturnType.GENERAL_DATABASE_EXCEPTION,"Unable to obtain a database connection from the connection pool");
 			}
-			assignUserId = RAProperties.get(UIConstants.RA_CREATE_USER_ID);  
-			assignPsuId  = RAProperties.get(UIConstants.RA_CREATE_PSUID  );
-			ra           = RAProperties.get(UIConstants.RA_NAME          );
-			raReferrer   = RAProperties.get(UIConstants.RA_RETURN_URL    );
-			homeURL      = RAProperties.get(UIConstants.RA_HOME_URL      );
+			assignUserId = raProperties.get(UIConstants.RA_CREATE_USER_ID);  
+			assignPsuId  = raProperties.get(UIConstants.RA_CREATE_PSUID  );
+			ra           = raProperties.get(UIConstants.RA_NAME          );
+			raReferrer   = raProperties.get(UIConstants.RA_RETURN_URL    );
+			homeURL      = raProperties.get(UIConstants.RA_HOME_URL      );
 			
 			// If posted form field ['requestedBy'] is not present, then get from database
 			if(FieldUtility.fieldIsNotPresent(requestedBy))
-				requestedBy  = RAProperties.get(UIConstants.RA_REQUESTED_BY  );
+			{
+				requestedBy  = raProperties.get(UIConstants.RA_REQUESTED_BY  );
+			}
 			
-			showSSN      = RAProperties.get(UIConstants.RA_SHOW_SSN      );
-			ssnMessage   = RAProperties.get(UIConstants.RA_SSN_MSG       );
-			raMessage    = RAProperties.get(UIConstants.RA_MSG           );
-			emailMessage = RAProperties.get(UIConstants.RA_EMAIL_MSG     );
+			showSSN      = raProperties.get(UIConstants.RA_SHOW_SSN      );
+			ssnMessage   = raProperties.get(UIConstants.RA_SSN_MSG       );
+			raMessage    = raProperties.get(UIConstants.RA_MSG           );
+			emailMessage = raProperties.get(UIConstants.RA_EMAIL_MSG     );
 			raScreens    = String.format("%s.%s.%s", UIConstants.IN_CORE_RA_SCREEN_KEY_PREFIX, appName, principalId);
 			
 			
 			// Put application/principal screen order into memory
-			List<String> RAScreens = ProxyDb.loadRAScreens(getApplicationMap(), appName, principalId);
-			log.info(String.format("%s Screen Map/Order-> %s", getUniqueId(), RAScreens));
+                        List<String> screenList = ProxyDb.loadRAScreens(getApplicationMap(), appName, principalId, getApplicationString("screens.to.hide"));
+			log.info(String.format("%s Screen Map/Order-> %s", getUniqueId(), screenList));
 			
 			// Front-end needs a list of screens/actions in the order they will be executed, for this RA
-			getSessionMap().put(UIConstants.RA_SCREEN_ORDER, RAScreens.toString());
+			getSessionMap().put(UIConstants.RA_SCREEN_ORDER, screenList.toString());
 			
 			// Produce a List of screens for the front-end with 'true' or 'false' by them
-			for(String screenName: RAScreens)
+			for(String screenName: screenList)
 			{
 				getSessionMap().put(String.format("%s.%s", ACTION, screenName), "true");
 			}
@@ -354,6 +385,20 @@ public class RAConnectionAction extends BaseAction
 	 */
 	public void setRaReferrer(String raReferrer) {
 		this.raReferrer = raReferrer;
+	}
+
+	/**
+	 * @return the siteName
+	 */
+	public String getSiteName() {
+		return siteName;
+	}
+
+	/**
+	 * @param siteName the siteName to set
+	 */
+	public void setSiteName(String siteName) {
+		this.siteName = siteName;
 	}
 
 }

@@ -1,10 +1,17 @@
 /* SVN FILE: $Id: CurrentAddressAction.java 6110 2013-02-01 04:44:33Z jal55 $ */
 package edu.psu.iam.cpr.ip.ui.action;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
+import edu.psu.iam.cpr.ip.ui.common.UIConstants;
 import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
+import edu.psu.iam.cpr.ip.util.MapHelper;
 /**
  * CurrentAddressAction is responsible for acquiring the current address of  
  * the student.
@@ -20,28 +27,71 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
  */
 public class CurrentAddressAction extends AddressBaseAction 
 {
-    private static final long serialVersionUID = -8140212940541770636L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /* (non-Javadoc)
-         * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
-         */
+	/** No flag constant value */
+	private static final String NO_FLAG = "No";
+
+	/** Yes flag constant value */
+	private static final String YES_FLAG = "Yes";
+
+	/** contains the value for the starting default alternate address, will be set to Yes, if there is one */
+	private String defaultAlternateAddress;
+	
+	/** Contains the list of alternate address values Yes/No. */
+	private List<String> alternateAddressList;
+	
+	/** Contains the user selected alternate address value */
+	private String alternateAddressFlag;
+	
+	/**
+	 * Constructor.
+	 */
+	public CurrentAddressAction() {
+		
+		// Initalize the alternate address default value, based on whether there is an alternate address value.
+        HashMap<String, String> argStringMap = MapHelper.genericObjToStringHashMap(getSessionMap());
+        if (YES_FLAG.equals(argStringMap.get(UIConstants.CRA_ALTERNATE_ADDRESS_FLAG))) {
+        	setDefaultAlternateAddress(YES_FLAG);
+        }
+        else {
+        	setDefaultAlternateAddress(NO_FLAG);
+        }
+		alternateAddressList = new ArrayList<String>();
+		alternateAddressList.add(YES_FLAG);
+		alternateAddressList.add(NO_FLAG);
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
+	 */
 	@Override
-	@Action(value="current_address",results={ @Result(name=SUCCESS,location="/previous_address",type=REDIRECT),
-            @Result(name="Welcome"       ,location="/welcome"         ,type=REDIRECT),
-            @Result(name="DataAccuracy"  ,location="/data_accuracy"   ,type=REDIRECT),
-            @Result(name="LegalName"     ,location="/legal_name"      ,type=REDIRECT),
-            @Result(name="CurrentAddress",location="/current_address" ,type=REDIRECT),
-            @Result(name="ContactInfo"   ,location="/contact_info"    ,type=REDIRECT),
-            @Result(name="PersonalInfo"  ,location="/personal_info"   ,type=REDIRECT),
-            @Result(name="IdentityInfo"  ,location="/identity_info"   ,type=REDIRECT),
-			                                  @Result(name="stay on page",location="/jsp/currentAddress.jsp"),
-					                          @Result(name="verify",location="/verify_info",type=REDIRECT),
-                                              @Result(name="failure",location="/jsp/endPage.jsp")
-                                            })
+	@Action(value="current_address",results={ 
+			@Result(name=SUCCESS, location="/contact_info", type=REDIRECT),
+            @Result(name="AlternateAddress", location="/alternate_address", type=REDIRECT),
+            @Result(name="ContactInfo", location="/contact_info", type=REDIRECT),
+            @Result(name="VerifyInfo", location="/verify_info", type=REDIRECT),
+			@Result(name="stay on page", location="/jsp/currentAddress.jsp"),
+			@Result(name="verify", location="/verify_info", type=REDIRECT),
+            @Result(name="failure", location="/jsp/endPage.jsp")
+            })
 	public String execute() 
 	{
 		setPrefix("cra");
-		return super.execute();
+		
+		String nextPage = super.execute();
+		
+		Map<String, Object> session = getSessionMap();
+		session.put(UIConstants.CRA_ALTERNATE_ADDRESS_FLAG, getAlternateAddressFlag());
+		
+		if (YES_FLAG.equals(getAlternateAddressFlag())) {
+			nextPage = "AlternateAddress";
+		}
+		
+		return nextPage;
 	}
 
 	@Override
@@ -54,21 +104,16 @@ public class CurrentAddressAction extends AddressBaseAction
 		String returnLocation = null; 
 		
 		// Current address requires the following fields.  
-		// You may Remove a 'getter' method call if a field is not required
-		if(FieldUtility.fieldIsNotPresent( getCountry()
-				                         , getAddressLine1()
-				                         , getCity()
-				                         , getPostalCode()))
-		{
-			returnLocation =  STAY_ON_PAGE;
+		if ("USA".equals(getCountry())) {
+			if(FieldUtility.fieldIsNotPresent(getCountry(), getAddressLine1(), getCity(), getState(), getPostalCode())) {
+				returnLocation =  STAY_ON_PAGE;
+			}
 		}
-		
-		// State or Province is required for Current Address
-		if(FieldUtility.fieldIsNotPresent(getState()) && FieldUtility.fieldIsNotPresent(getProvince()))
-		{
-			returnLocation = STAY_ON_PAGE;
+		else {
+			if(FieldUtility.fieldIsNotPresent(getCountry(), getAddressLine1(), getCity())) {
+				returnLocation =  STAY_ON_PAGE;
+			}
 		}
-		
 		return returnLocation;
 	}
 
@@ -78,5 +123,35 @@ public class CurrentAddressAction extends AddressBaseAction
 	 * This method should only be overridden for address other than Current Address
 	 */
 	public void countryCheck(String returnLocation) 	{ }
+
+	public String getDefaultAlternateAddress() {
+		return defaultAlternateAddress;
+	}
+
+	public void setDefaultAlternateAddress(String defaultAlternateAddress) {
+		this.defaultAlternateAddress = defaultAlternateAddress;
+	}
+
+	public List<String> getAlternateAddressList() {
+		return alternateAddressList;
+	}
+
+	public void setAlternateAddressList(List<String> alternateAddressList) {
+		this.alternateAddressList = alternateAddressList;
+	}
+	
+	/**
+	 * @return the alternateAddressFlag
+	 */
+	public String getAlternateAddressFlag() {
+		return alternateAddressFlag;
+	}
+
+	/**
+	 * @param alternateAddressFlag the alternateAddressFlag to set
+	 */
+	public void setAlternateAddressFlag(String alternateAddressFlag) {
+		this.alternateAddressFlag = alternateAddressFlag;
+	}
 
 }

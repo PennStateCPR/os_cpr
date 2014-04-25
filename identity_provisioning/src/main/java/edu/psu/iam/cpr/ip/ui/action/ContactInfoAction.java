@@ -3,6 +3,8 @@ package edu.psu.iam.cpr.ip.ui.action;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
+import org.joda.time.LocalDate;
+import org.joda.time.Years;
 
 import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 
@@ -20,33 +22,33 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 public class ContactInfoAction extends BaseAction 
 {
 
-    private static final long serialVersionUID = 4240276287268642002L;
-    private String email;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private String email;
 	private String phoneNumber;
 	private String extension;
 	private String internationalNumber;
 	private String phoneType;
 	private String emailType;
+	private String dob;
 	
 	/* (non-Javadoc)
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
 	 */
 	@Override
-	@Action(value="contact_info",results={ @Result(name=SUCCESS,location="/personal_info",type=REDIRECT),
-            @Result(name="Welcome"       ,location="/welcome"         ,type=REDIRECT),
-            @Result(name="DataAccuracy"  ,location="/data_accuracy"   ,type=REDIRECT),
-            @Result(name="LegalName"     ,location="/legal_name"      ,type=REDIRECT),
-            @Result(name="CurrentAddress",location="/current_address" ,type=REDIRECT),
-            @Result(name="ContactInfo"   ,location="/contact_info"    ,type=REDIRECT),
-            @Result(name="PersonalInfo"  ,location="/personal_info"   ,type=REDIRECT),
-            @Result(name="IdentityInfo"  ,location="/identity_info"   ,type=REDIRECT),
-			                               @Result(name="stay on page",location="/jsp/contactInformation.jsp"),
-				                           @Result(name="verify",location="/verify_info",type=REDIRECT),
-                                           @Result(name="failure",location="/jsp/endPage.jsp")
-                                         })
+	@Action(value="contact_info",results={ 
+			@Result(name=SUCCESS, location="/verify_info", type=REDIRECT),
+            @Result(name="VerifyInfo", location="/verify_info", type=REDIRECT),
+			@Result(name="stay on page", location="/jsp/contactInformation.jsp"),
+		    @Result(name="verify", location="/verify_info", type=REDIRECT),
+            @Result(name="failure", location="/jsp/endPage.jsp")
+    })
+	
 	public String execute() 
 	{
-		// TODO Business logic for Contact Information
 		if(!setup("con"))
 		{
 			return FAILURE;
@@ -62,6 +64,22 @@ public class ContactInfoAction extends BaseAction
 		if(FieldUtility.fieldIsNotPresent(getBtnsubmit()))
 		{
 			returnLocation =  STAY_ON_PAGE;
+		}
+		
+		// Reformat DOB to the correct format.
+		if (getDob() != null) {
+			String[] parts = getDob().split("/");
+			final int month = Integer.parseInt(parts[0]);
+			final int day = Integer.parseInt(parts[1]);
+			final int year = Integer.parseInt(parts[2]);
+			setDob(String.format("%02d/%02d/%04d", month, day, year));
+			
+			Years age = Years.yearsBetween(new LocalDate(year, month, day), new LocalDate());
+			
+			if (age.getYears() < 13) {
+				returnLocation = STAY_ON_PAGE;
+				addActionMessage("You must be 13 years old or older to create a CommIT Username.");
+			}
 		}
 		
 		// Save form data to session
@@ -164,6 +182,22 @@ public class ContactInfoAction extends BaseAction
 	 */
 	public void setEmailType(String emailType) {
 		this.emailType = emailType;
+	}
+
+
+	/**
+	 * @param dob the dob to set
+	 */
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+
+
+	/**
+	 * @return the dob
+	 */
+	public String getDob() {
+		return dob;
 	}
 
 

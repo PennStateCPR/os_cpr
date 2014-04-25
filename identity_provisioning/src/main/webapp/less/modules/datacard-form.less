@@ -1,0 +1,56 @@
+/* Datacard Form
+--------------------------------------*/
+.datacard-form {
+	.shadow;
+	.round;
+	background-color: @datacardBg;
+	width: 540px;
+
+	form {margin: 0;}
+
+	.titlebar {
+		.round(@bottomRight: 0, @bottomLeft: 0);
+		.gradient(@startColor: @datacardTitleGradientStart, @fromColor: @datacardTitleGradientEnd);
+		border-bottom: 1px solid @datacardTitleBorder;
+		padding: 8px 20px 6px 20px;
+
+		h1 {
+			font-size: @datacardTitleFontSize;
+			font-weight: normal;
+			padding: 0;
+			margin: 0;
+		}
+	}
+
+	.content {
+		.gradient(@startColor: @datacardContentGradientStart, @startColorStop: 0%, @fromColor: @datacardContentGradientEnd, @fromColorStop: 10%);
+		border-top: 1px solid @datacardContentBorder;
+		padding: 25px 20px 25px 20px;
+		margin: 0;
+	}
+
+	.actions {
+		background: @datacardActionBg;
+		padding: 40px 20px 25px 20px;
+		.round(@topLeft: 0, @topRight: 0);
+	}
+}
+
+/* Responsive
+--------------------------------------*/
+// Large desktops.
+@media (min-width: 1200px) {
+	.datacard-form {width: 540px;}
+}
+// Portrait & landscape tablet and desktop.
+@media (min-width: 768px) and (max-width: 979px) {
+	.datacard-form {width: 490px;}
+}
+// Landscape phone and portrait tablet.
+@media (max-width: 767px) {
+	.datacard-form {width: auto;}
+}
+// Landscape phones and down.
+@media (max-width: 480px) {
+	.datacard-form {width: auto;}
+}

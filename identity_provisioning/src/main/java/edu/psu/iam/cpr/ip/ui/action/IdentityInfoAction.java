@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: IdentityInfoAction.java 6152 2013-02-09 18:14:22Z jal55 $ */
+/* SVN FILE: $Id: IdentityInfoAction.java 7362 2013-05-23 12:32:05Z jal55 $ */
 package edu.psu.iam.cpr.ip.ui.action;
 
 import java.util.regex.Matcher;
@@ -19,16 +19,15 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
  *
  * @package edu.psu.iam.cpr.ip.ui.action 
  * @author $Author: jal55 $
- * @version $Rev: 6152 $
- * @lastrevision $Date: 2013-02-09 13:14:22 -0500 (Sat, 09 Feb 2013) $
+ * @version $Rev: 7362 $
+ * @lastrevision $Date: 2013-05-23 08:32:05 -0400 (Thu, 23 May 2013) $
  */
 public class IdentityInfoAction extends BaseAction 
 {
 
 	private static final String PER_CITIZENSHIP = "per.citizenship";
-    private static final long serialVersionUID = 8728849150732563643L;
-
-    private String socialSecurityNumber;
+	
+	private String socialSecurityNumber;
 	private String pennStateId;
 	private String userId;
 	
@@ -49,6 +48,7 @@ public class IdentityInfoAction extends BaseAction
             @Result(name="ContactInfo"   ,location="/contact_info"    ,type=REDIRECT),
             @Result(name="PersonalInfo"  ,location="/personal_info"   ,type=REDIRECT),
             @Result(name="IdentityInfo"  ,location="/identity_info"   ,type=REDIRECT),
+            @Result(name="VerifyInfo"    ,location="/verify_info"     ,type=REDIRECT),
 			                                 @Result(name="stay on page",location="/jsp/identityInformation.jsp"),
 				                             @Result(name="verify",location="/verify_info",type=REDIRECT),
                                              @Result(name="failure",location="/jsp/endPage.jsp")
@@ -87,7 +87,8 @@ public class IdentityInfoAction extends BaseAction
 		}
 		
 		// Validate fields if data exists
-		returnLocation = validateScreenFields(returnLocation);
+		String copyReturnLocation = returnLocation;
+		returnLocation = validateScreenFields(copyReturnLocation);
 
 		
 		// Save form data to session
@@ -103,19 +104,23 @@ public class IdentityInfoAction extends BaseAction
 	 */
 	public String validateScreenFields(String returnLocation)
 	{
+		String copyReturnLocation = returnLocation;
+		
 		// Validate the SSN if entered -- just check for 9 digits, with or without delimiter of space or dash
+		getSessionMap().put(UIConstants.SSN_FLAG, "false");
 		if(FieldUtility.fieldIsPresent(socialSecurityNumber))
 		{
 			String pattern = getApplicationString(UIConstants.IDI_REGEX_KEY_SSN);
-			returnLocation = validateByRegex(returnLocation, socialSecurityNumber, 
+			copyReturnLocation = validateByRegex(copyReturnLocation, socialSecurityNumber, 
 					                         pattern, UIConstants.IDI_INVALID_SSN);
+			getSessionMap().put(UIConstants.SSN_FLAG, (copyReturnLocation.equals(SUCCESS) ? "true" : "false"));
 		}
 		
 		// Validate the entity id (Penn State Id) if entered 
 		if(FieldUtility.fieldIsPresent(pennStateId))
 		{
 			String pattern = getApplicationString(UIConstants.IDI_REGEX_KEY_ENTITY_ID);
-			returnLocation = validateByRegex(returnLocation, pennStateId, 
+			copyReturnLocation = validateByRegex(copyReturnLocation, pennStateId, 
 					                         pattern, UIConstants.IDI_INVALID_ENTITY_ID);
 		}
 		
@@ -124,10 +129,10 @@ public class IdentityInfoAction extends BaseAction
 		{
 			userId = userId.toLowerCase();
 			String pattern = getApplicationString(UIConstants.IDI_REGEX_KEY_USERID);
-			returnLocation = validateByRegex(returnLocation, userId, pattern, UIConstants.IDI_INVALID_USERID);
+			copyReturnLocation = validateByRegex(copyReturnLocation, userId, pattern, UIConstants.IDI_INVALID_USERID);
 		}
 		
-		return returnLocation;
+		return copyReturnLocation;
 	}
 	
 	/**
@@ -138,6 +143,8 @@ public class IdentityInfoAction extends BaseAction
 	 */
 	public String validateByRegex(String returnLocation, String field, String regexPattern, String errorMessageKey)
 	{
+		String copyReturnLocation = returnLocation;
+		
 		String  fieldPattern = regexPattern;
 		Pattern pattern;
 		Matcher matcher;
@@ -148,10 +155,10 @@ public class IdentityInfoAction extends BaseAction
 		if(!matcher.matches())
 		{
 			addActionMessage(getApplicationString(errorMessageKey));
-	        returnLocation = STAY_ON_PAGE;
+	        copyReturnLocation = STAY_ON_PAGE;
 		}
 		
-		return returnLocation;
+		return copyReturnLocation;
 	}
 
 

@@ -16,13 +16,17 @@ package edu.psu.iam.cpr.ip.ui.dao;
   */
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 import edu.psu.iam.cpr.core.database.SessionFactoryUtil;
+import edu.psu.iam.cpr.core.database.beans.EmailAddress;
 import edu.psu.iam.cpr.core.database.beans.SecurityQuestionAnswers;
 import edu.psu.iam.cpr.core.ui.DatabaseUI;
 import edu.psu.iam.cpr.core.ui.EmailMsgUI;
@@ -364,28 +368,59 @@ public final class IdentityProvisioningDAO
 	public static Map<String, EmailMsgUI> getEmailObjectsFromDbByKey()
 	{
 		Map<String, EmailMsgUI> map = new HashMap<String, EmailMsgUI>();
-		DatabaseUI db = new DatabaseUI();
-		
-		try 
-		{
-			db.openSession(SessionFactoryUtil.getSessionFactory());
-			map.put(UIConstants.EMAIL_ACCOUNT_CREATION_KEY, db.getEmailContents(UIConstants.EMAIL_ACCOUNT_CREATION_KEY));
-			map.put(UIConstants.EMAIL_PASSWORD_RESET_KEY  , db.getEmailContents(UIConstants.EMAIL_PASSWORD_RESET_KEY  ));
-		} 
-		catch(Exception e)   
-		{
-			LOG.info(String.format("  Exception [%s] encountered", e.getMessage()));
-			logStackTrace(e);
-		}
-
-		finally{
-			db.closeSession();
-		}
-		
+//		DatabaseUI db = new DatabaseUI();
+//		
+//		try 
+//		{
+//			db.openSession(SessionFactoryUtil.getSessionFactory());
+//			map.put(UIConstants.EMAIL_ACCOUNT_CREATION_KEY, db.getEmailContents(UIConstants.EMAIL_ACCOUNT_CREATION_KEY));
+//			map.put(UIConstants.EMAIL_PASSWORD_RESET_KEY  , db.getEmailContents(UIConstants.EMAIL_PASSWORD_RESET_KEY  ));
+//		} 
+//		catch(Exception e)   
+//		{
+//			LOG.info(String.format("  Exception [%s] encountered", e.getMessage()));
+//			logStackTrace(e);
+//		}
+//
+//		finally{
+//			db.closeSession();
+//		}
+//		
 		LOG.info("EmailMsgUI map from database " +(map == null || map.isEmpty()
 				? "empty -- property file version in effect"
 				: "overriding property file version"));
 		return map;
+	}
+	
+	/**
+	 * This method is used to obtain a person's email address.  This method is only used by the forgot userid and/or forgot password flows.
+	 * @param personId contains the person identifier to be searched for.
+	 * @return will return the person's email address.
+	 */
+	public static String getEmailAddress(String personId) {
+		
+		DatabaseUI db = new DatabaseUI();
+		String emailAddress = null;
+		
+		try {
+			final long personIdLong = Long.valueOf(personId);
+			db.openSession(SessionFactoryUtil.getSessionFactory());
+			final Session session = db.getSession();
+			final Query query = session.createQuery("from EmailAddress where personId = :person_id and endDate is null");
+			query.setParameter("person_id", personIdLong);
+			for (final Iterator<?> it = query.list().iterator(); it.hasNext(); ) {
+				EmailAddress bean = (EmailAddress) it.next();
+				emailAddress = bean.getEmailAddress();
+			}
+		}
+		catch (Exception e) {
+			LOG.info(String.format("  Exception [%s] encountered", e.getMessage()));
+			logStackTrace(e);			
+		}
+		finally {
+			db.closeSession();
+		}
+		return emailAddress;
 	}
 	
 	/**

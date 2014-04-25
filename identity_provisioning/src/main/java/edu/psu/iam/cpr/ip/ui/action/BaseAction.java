@@ -1,4 +1,4 @@
-/* SVN FILE: $Id: BaseAction.java 6102 2013-01-30 15:09:55Z jal55 $ */
+/* SVN FILE: $Id: BaseAction.java 7246 2013-05-10 15:35:11Z jal55 $ */
 package edu.psu.iam.cpr.ip.ui.action;
 
 import java.lang.reflect.Field;
@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,8 +39,8 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
  *
  * @package edu.psu.iam.cpr.ip.ui.action 
  * @author $Author: jal55 $
- * @version $Rev: 6102 $
- * @lastrevision $Date: 2013-01-30 10:09:55 -0500 (Wed, 30 Jan 2013) $
+ * @version $Rev: 7246 $
+ * @lastrevision $Date: 2013-05-10 11:35:11 -0400 (Fri, 10 May 2013) $
  */
 
 @ParentPackage("datalockPackage")
@@ -50,9 +51,14 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 
 public abstract class BaseAction extends ActionSupport
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public static final String RA_CONNECTION = "RAConnection";
 	private static final String RAC_VALID_SESSION = "rac.valid.session";
-    private static final long serialVersionUID = 6450239556690793313L;
-    private String uiMessage;
+	private String uiMessage;   
 	private String endPageHeader;
 	private String control;
 	private String btnsubmit;
@@ -63,10 +69,13 @@ public abstract class BaseAction extends ActionSupport
 	public static final String STAY_ON_PAGE      = "stay on page";
 	public static final String VALIDATION_ERROR  = "validation error";
 	public static final String FAILURE           = "failure";
-	public static final String CONNECTION_ACTION = "RaConnectionAction";
+	public static final String CONNECTION_ACTION = "RAConnectionAction";
+	public static final String PASSWORD_CONNECTION_ACTION = "ForgotPasswordConnectionAction";
+	public static final String USERID_CONNECTION_ACTION = "ForgotUseridConnectionAction";
 	
 	// Annotation constants
 	public static final String REDIRECT          = "redirect";
+	private static final int FIRST_SCREEN = 0;
 	
 	/** Instance of logger */                                                     
 	Logger log = Logger.getLogger(this.getClass().getName());
@@ -84,7 +93,7 @@ public abstract class BaseAction extends ActionSupport
 		throw new DataLockException("..Data Lock Condition");
 	}
 	
-	public void noSession() throws Exception
+	public void noSession() throws IPException
 	{
 		throw new IPException(IPException.RETURN_TYPE.SESSION_EXPIRATION);
 	}
@@ -95,12 +104,10 @@ public abstract class BaseAction extends ActionSupport
 		
 		this.prefix = prefix;
 
-		/* @@@debug -- remove this code for now while we debug lock-down stuff 
-		if(prefix.equalsIgnoreCase("exa"))
-		{
-			return true;
-		}
-*/		
+		/*
+		 * In a previous version of this code there was a 'return true' here if the following condition were true
+		 * (prefix.equalsIgnoreCase("exa"))
+		 */
 		// If the user has already completed this session, then remind them
 		// they have completed their request
 		String requestCompleted = getSessionString("suc.request.complete");
@@ -143,14 +150,14 @@ public abstract class BaseAction extends ActionSupport
 			}
 			
 			// Don't double-enter a screen both when we arrive, and when they enter data and/or hit enter
-			List<String> navList = ((List<String>)getSessionMap().get(UIConstants.USER_ACTION_FLOW));
+			ArrayList<String> navList = ((ArrayList<String>)getSessionMap().get(UIConstants.USER_ACTION_FLOW));
 			
 			int listSize =  navList.size();
 
 
 			if(navList.isEmpty() ||  !navList.get(listSize -1).equals(prefix +"."))
 			{
-				((List<String>)getSessionMap().get(UIConstants.USER_ACTION_FLOW)).add(prefix+".");
+				((ArrayList<String>)getSessionMap().get(UIConstants.USER_ACTION_FLOW)).add(prefix+".");
 			}
 			
 			// 1st instance of ActionClass is a transfer from previous screen, next is a hit of 'continue' button
@@ -172,14 +179,21 @@ public abstract class BaseAction extends ActionSupport
 				getSessionMap().put(UIConstants.CURRENT_SCREEN_NUMBER, newScreenNumber);
 			}
             // Do not add Exception Actions
-//			if(!this.getClass().getSimpleName().startsWith("Exception")) //@@@debug @@@dbg 
+			/*
+			 * In a previous version there was an if stmt surrounding the bracketed code below consisting of this conditional
+			 * (!this.getClass().getSimpleName().startsWith("Exception"))
+			 */
+ 
 			{
 				String uri = this.getHttpServletRequest().getRequestURI();
 				Navigation.addAction(this.getClass().getSimpleName(), uri, getSessionMap());
 			}
 		}
-		
-		if(!getClass().getSimpleName().equals("RAConnectionAction") && !getClass().getSimpleName().equals("WelcomeAction"))
+				
+		if(! getClass().getSimpleName().equals(CONNECTION_ACTION) && 
+				!getClass().getSimpleName().equals("WelcomeAction") &&
+				! getClass().getSimpleName().equals(PASSWORD_CONNECTION_ACTION) && 
+				! getClass().getSimpleName().equals(USERID_CONNECTION_ACTION))
 		{
 			previousAction = Navigation.getPreviousAction(getSessionMap(), getClass().getSimpleName(), Navigation.RETURN_TYPE.LATTER); 
 		}
@@ -197,7 +211,7 @@ public abstract class BaseAction extends ActionSupport
 	 */
 	public List<String> getMessageElements(String countPropertyName)
 	{
-		List<String> messageList = new ArrayList<String>();
+		ArrayList<String> messageList = new ArrayList<String>();
 		int elementCount = 0;           
 		
 		String elementNamePrefix = countPropertyName.substring(0, countPropertyName.lastIndexOf('.'));   
@@ -238,11 +252,15 @@ public abstract class BaseAction extends ActionSupport
 		boolean allow          = true;
 		
 		/* Clean-up any old[er] session data on every RA_CONNECTION */
-		if(className.equalsIgnoreCase(CONNECTION_ACTION))                    
+		if(className.equalsIgnoreCase(CONNECTION_ACTION) ||
+				className.equalsIgnoreCase(PASSWORD_CONNECTION_ACTION) ||
+				className.equalsIgnoreCase(USERID_CONNECTION_ACTION))                    
 		{
 			deleteOldSessionData();
 			allow = true;
             getSessionMap().put(RAC_VALID_SESSION, "y");
+            getSessionMap().put("client.ip.address", getHttpServletRequest().getRemoteAddr());
+            log.info(String.format("%s client.ip.address(%s)", getUniqueId(), getHttpServletRequest().getRemoteAddr()));
 		}
 		else 
 		if(getHttpServletRequest().getSession(false) == null || 
@@ -250,6 +268,11 @@ public abstract class BaseAction extends ActionSupport
 		  !getSessionMap().get(RAC_VALID_SESSION).equals("y"))              
 		{
 			allow = false;
+            log.error(String.format("%s SESSION[%s] -- RAC_VALID_SESSION[%s]"
+                    , getUniqueId()
+                    , getHttpServletRequest().getSession(false)
+                    , getSessionMap().get(RAC_VALID_SESSION)
+                    ));
 		}
 		
 		return allow;
@@ -264,7 +287,9 @@ public abstract class BaseAction extends ActionSupport
 		String uniqueId      =  getUniqueId();
 		ses.clear();
 		if(uniqueId != null)
+		{
 			ses.put(UIConstants.SESSION_NEW_UNIQUE_ID, uniqueId);
+		}
 	}
 	
 	/**
@@ -321,8 +346,20 @@ public abstract class BaseAction extends ActionSupport
 	{
 		String nextScreen    = "";
 		String raScreenName  = getSessionString("rac.raScreens");     
-		List<String> screenList = (List<String>)getApplicationMap().get(raScreenName);
+		ArrayList<String> screenList = (ArrayList<String>)getApplicationMap().get(raScreenName);
 		int orderIndex = screenList.indexOf(currentScreenName);
+		
+		log.info("current screen name = " + currentScreenName);
+		log.info("ra screen name = " + raScreenName);
+		log.info("order index = " + orderIndex);
+		
+		// When we are at RAConnection, then be sure to follow order in database for next screen
+		String currentAction = this.getClass().getSimpleName();
+		if(currentScreenName.equals(RA_CONNECTION) && currentScreenName.equals(currentAction.substring(0, currentAction.length()- "Action".length())))
+		{
+			nextScreen = screenList.get(FIRST_SCREEN);
+			return nextScreen;
+		}
 		
 		if(orderIndex > -1)
 		{
@@ -330,7 +367,7 @@ public abstract class BaseAction extends ActionSupport
 		}
 		
 		// Prevent IndexOutOfBoundsException
-		if((orderIndex > -1) && (orderIndex < (screenList.size() - 1)))
+		if((orderIndex > -1) && (orderIndex <= (screenList.size() - 1)))
 		{
 			nextScreen = screenList.get(orderIndex);
 		}
@@ -347,6 +384,7 @@ public abstract class BaseAction extends ActionSupport
 			nextScreen = SUCCESS;
 		}
 		
+		log.info("Next screen = " + nextScreen);
 		return nextScreen;
 	}
 	
@@ -359,7 +397,7 @@ public abstract class BaseAction extends ActionSupport
 		{
 			isNextScreenOptional = true;
 		}
-		
+		log.info("Next Screen optional "  + isNextScreenOptional);
 		return isNextScreenOptional;
 	}
 	
@@ -436,12 +474,13 @@ public abstract class BaseAction extends ActionSupport
 	 */
 	protected void saveFieldsToSession(String prefixName )
 	{
-		LOG.debug("base class name ->> " +this.getClass().getSuperclass().getSimpleName());
 		Method[] methods = this.getClass().getDeclaredMethods();
 		
 		if(!this.getClass().getSuperclass().getSimpleName().equalsIgnoreCase("BaseAction"))
-//		if(this.getClass().getSimpleName().equalsIgnoreCase("LegalNameAction"))
+		{
 			methods = this.getClass().getSuperclass().getDeclaredMethods();
+		}
+		
 		Map<String, Object> session   = getSessionMap();
 		
 		for(Method method: methods)
@@ -476,7 +515,7 @@ public abstract class BaseAction extends ActionSupport
 			}
 		}
 		// Indicate this is a 2nd to n instance of screen
-		getSessionMap().put("control", prefix);    
+		getSessionMap().put("control", prefix);		
 		control = prefix;
 	}
 	
@@ -557,7 +596,7 @@ public abstract class BaseAction extends ActionSupport
 			methodNameGet = String.format("get%s%s", methodNameGet.substring(0,1).toUpperCase(), methodNameGet.substring(1));
 			try 
 			{
-				if(otherSuperClass == false)
+				if(!otherSuperClass )
 				{
 					method = this.getClass().getDeclaredMethod(methodNameSet, args);
 					method2 = this.getClass().getDeclaredMethod(methodNameGet);

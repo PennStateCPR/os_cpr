@@ -26,8 +26,7 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 public class PersonalInfoAction extends BaseAction 
 {
 
-    private static final long serialVersionUID = -6708606956790094983L;
-    private String birthMonth;
+	private String birthMonth;
 	private String birthDay;    
 	private String birthYear;       
 	private String gender;
@@ -42,9 +41,11 @@ public class PersonalInfoAction extends BaseAction
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
 	 */
 	@Override
-	@Action(value="personal_info",results={ @Result(name=SUCCESS,location="/identity_info",type=REDIRECT),
+        @Action(value="personal_info",results={ @Result(name=SUCCESS,location="/verify_info",type=REDIRECT),
+                                                @Result(name="IdentityInfo"  ,location="/identity_info"   ,type=REDIRECT),  // @add this
+                                                @Result(name="VerifyInfo"   ,location="/verify_info"   ,type=REDIRECT),     // @add this
                                              @Result(name="stay on page",location="/jsp/personalInformation.jsp"),
-    			                             @Result(name="verify",location="/verify_info",type=REDIRECT),
+                                                     @Result(name="verify",location="/verify_info",type=REDIRECT),
                                              @Result(name="failure",location="/jsp/endPage.jsp")
                                              })
 	public String execute() 

@@ -28,24 +28,30 @@
  HttpServletRequest req = request;
  
  // uao 
- if(request.getParameter("ra").equalsIgnoreCase("uao"))
- {
- 	ra          = request.getParameter("ra");
- 	sitename    = "Undergraduate Admissions";
- 	requestedBy = "cpruser";
- 	principalId = "cpruser";
- 	password    = "abcd1234";
- }
- 
-  // gso 
- if(request.getParameter("ra").equalsIgnoreCase("gso"))
- {
- 	ra          = request.getParameter("ra");
- 	sitename    = "COMM-IT";
- 	requestedBy = "cpruser";
- 	principalId = "cpruser";
- 	password    = "abcd1234";
- }
+// if(request.getParameter("ra").equalsIgnoreCase("uao"))
+// {
+// 	ra          = request.getParameter("ra");
+// 	sitename    = "Undergraduate Admissions";
+// 	requestedBy = "cpruser";
+// 	principalId = "cpruser";
+// 	password    = "abcd1234";
+// }
+// 
+//  // gso 
+// if(request.getParameter("ra").equalsIgnoreCase("gso"))
+// {
+// 	ra          = request.getParameter("ra");
+// 	sitename    = "COMM-IT";
+// 	requestedBy = "cpruser";
+// 	principalId = "cpruser";
+// 	password    = "abcd1234";
+// }
+
+ ra = "IAMTAG";
+ sitename    = "COMM-IT";
+ requestedBy = "cpruser";
+ principalId = "cpruser";
+ password    = "abcd1234";
  
  request.setAttribute("ra", ra);
  request.setAttribute("sitename", sitename);

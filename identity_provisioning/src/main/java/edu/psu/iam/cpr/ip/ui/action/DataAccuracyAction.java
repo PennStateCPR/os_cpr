@@ -22,8 +22,7 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 public class DataAccuracyAction extends BaseAction 
 {
 
-    private static final long serialVersionUID = 2750388667404081643L;
-    private String statementAgree;
+	private String statementAgree;
 	
 	/* (non-Javadoc)
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
@@ -37,6 +36,7 @@ public class DataAccuracyAction extends BaseAction
             @Result(name="ContactInfo"   ,location="/contact_info"    ,type=REDIRECT),
             @Result(name="PersonalInfo"  ,location="/personal_info"   ,type=REDIRECT),
             @Result(name="IdentityInfo"  ,location="/identity_info"   ,type=REDIRECT),
+            @Result(name="VerifyInfo"    ,location="/verify_info"     ,type=REDIRECT),
 			                                @Result(name="failure",location="/jsp/dataAccuracy.jsp"),
 			                                @Result(name="stay on page",location="/jsp/dataAccuracy.jsp"),
 				                            @Result(name="verify",location="/verify_info",type=REDIRECT),

@@ -87,6 +87,6 @@ public final class StringHelper
 			
 		}
 
-		return result;
+		return result.toString();
 	}
 }

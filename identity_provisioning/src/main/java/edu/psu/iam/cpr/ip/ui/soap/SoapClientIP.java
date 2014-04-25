@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import edu.psu.iam.cpr.core.database.types.AddressType;
 import edu.psu.iam.cpr.core.database.types.MatchType;
 import edu.psu.iam.cpr.core.service.returns.MatchReturn;
 import edu.psu.iam.cpr.core.service.returns.PersonReturn;
@@ -29,6 +30,17 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 import edu.psu.iam.cpr.core.api.returns.FindPersonServiceReturn;
 import edu.psu.iam.cpr.core.api.returns.PersonServiceReturn;
 import edu.psu.iam.cpr.core.api.returns.ServiceReturn;
+/**
+ *
+ * This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To
+ * view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative
+ * Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+ *
+ * @package edu.psu.iam.cpr.ip.ui.soap
+ * @author $Author: slk24 $
+ * @version $Rev: 5992 $
+ * @lastrevision $Date: 2013-01-09 13:37:24 -0500 (Wed, 09 Jan 2013) $
+ */
 
 /**
  *
@@ -106,15 +118,22 @@ public final class SoapClientIP {
 		}
 		findPerson.put(PLUS4, (String)sessionData.get("cra.plus4"));
 		findPerson.put(UIConstants.COUNTRY, (String)sessionData.get(UIConstants.CRA_COUNTRY));
-		if (!(mapValueIsEmpty((String)sessionData.get(UIConstants.PER_BIRTH_MONTH)) || mapValueIsEmpty((String)sessionData.get(UIConstants.PER_BIRTH_DAY)))) 
-		{
-			String dob = sessionData.get(UIConstants.PER_BIRTH_MONTH) + "/" + sessionData.get(UIConstants.PER_BIRTH_DAY);
-			if (!mapValueIsEmpty((String)sessionData.get(UIConstants.PER_BIRTH_YEAR))) {
-				dob += "/" + sessionData.get(UIConstants.PER_BIRTH_YEAR);
-			}
-			findPerson.put(UIConstants.DOB, dob);
-		}
-		findPerson.put(UIConstants.GENDER, (String)sessionData.get(UIConstants.PER_GENDER));
+		
+		
+		
+//		if (!(mapValueIsEmpty((String)sessionData.get(UIConstants.PER_BIRTH_MONTH)) || mapValueIsEmpty((String)sessionData.get(UIConstants.PER_BIRTH_DAY)))) 
+//		{
+//			String dob = sessionData.get(UIConstants.PER_BIRTH_MONTH) + "/" + sessionData.get(UIConstants.PER_BIRTH_DAY);
+//			if (!mapValueIsEmpty((String)sessionData.get(UIConstants.PER_BIRTH_YEAR))) {
+//				dob += "/" + sessionData.get(UIConstants.PER_BIRTH_YEAR);
+//			}
+//			findPerson.put(UIConstants.DOB, dob);
+//		}
+		
+		findPerson.put(UIConstants.DOB, (String) sessionData.get(UIConstants.CON_DOB));
+		
+//		findPerson.put(UIConstants.GENDER, (String)sessionData.get(UIConstants.PER_GENDER));
+		findPerson.put(UIConstants.GENDER, "0");
 
 		LOG.info(uniqueId +" " +"Sending to find person client " + findPerson.get(UIConstants.PRINCIPAL_ID) + findPerson.get(UIConstants.REQUESTED_BY) + 
 				findPerson.get(PSU_ID) + findPerson.get(USER_ID) + findPerson.get(UIConstants.SSN) + findPerson.get(UIConstants.FIRST_NAME) + findPerson.get(UIConstants.LAST_NAME) +  
@@ -163,7 +182,7 @@ public final class SoapClientIP {
 
 			// Person was not found, try search again with former name, if it exists
 			if (formerLastNameEntered || formerFirstNameEntered) {
-				LOG.info(String.format("%s Sending to find person with former name %s", uniqueId, findPerson.toString()));
+				LOG.info(String.format("%s Sending to find person with former name ", uniqueId, findPerson.toString()));
 
 				try {
 					//call the service
@@ -187,7 +206,7 @@ public final class SoapClientIP {
 					String previousCountry = (String)sessionData.get(UIConstants.PRA_COUNTRY);
 					if (!(mapValueIsEmpty(previousAddress1) || mapValueIsEmpty(previousPostalCode) || mapValueIsEmpty(previousCountry))) {
 
-						LOG.info(String.format("%s Sending to find person with former name and former address %s", uniqueId, findPerson.toString()));
+						LOG.info(String.format("%s Sending to find person with former name and former address ", uniqueId, findPerson.toString()));
 
 						findPerson.put(UIConstants.ADDRESS1, previousAddress1);
 						findPerson.put(UIConstants.ADDRESS2, (String)sessionData.get(UIConstants.PRA_ADDRESS_LINE2));
@@ -252,6 +271,70 @@ public final class SoapClientIP {
 		return results;
 	}
 
+	public static Map<String, String> findPersonForgotUserOrPassword(Map<String, Object> sessionData, String uniqueId) {
+
+		// create the hashMap to send to find person using the current name and address
+		HashMap<String, String> findPerson = new HashMap<String, String>();
+
+		findPerson.put(UIConstants.PRINCIPAL_ID, (String)sessionData.get(UIConstants.RAC_PRINCIPAL_ID));
+		findPerson.put(UIConstants.PASSWORD, (String)sessionData.get(UIConstants.RAC_PASSWORD));
+		findPerson.put(UIConstants.REQUESTED_BY, (String)sessionData.get(UIConstants.RAC_REQUESTED_BY));
+		if (sessionData.containsKey(UIConstants.IDI_PENN_STATE_ID))
+		{
+			// make sure psuId is formatted correctly (only numbers)
+			findPerson.put(PSU_ID, removeNonDigits((String)sessionData.get(UIConstants.IDI_PENN_STATE_ID)));	
+		}
+		findPerson.put(USER_ID, (String)sessionData.get(UIConstants.IDI_USER_ID));
+		if (sessionData.containsKey(UIConstants.IDI_SOCIAL_SECURITY_NUMBER))
+		{
+			// make sure ssn is formatted correctly (only numbers or null)
+			findPerson.put(UIConstants.SSN, removeNonDigits((String)sessionData.get(UIConstants.IDI_SOCIAL_SECURITY_NUMBER)));	
+		}
+		findPerson.put(UIConstants.FIRST_NAME, (String)sessionData.get(UIConstants.FGOT_FIRST_NAME));
+		findPerson.put(UIConstants.LAST_NAME, (String)sessionData.get(UIConstants.FGOT_LAST_NAME));
+		findPerson.put(UIConstants.MIDDLE_NAMES, null);
+		findPerson.put(UIConstants.ADDRESS1, null);
+		findPerson.put(UIConstants.ADDRESS2, null);
+		findPerson.put(UIConstants.ADDRESS3, null);
+		findPerson.put(UIConstants.CITY, (String)sessionData.get(UIConstants.FGOT_CITY));
+		findPerson.put(UIConstants.STATE_OR_PROV, null);	
+		findPerson.put(UIConstants.POSTAL_CODE, null);		
+		findPerson.put(PLUS4, null);
+		findPerson.put(UIConstants.COUNTRY, null);
+		findPerson.put(UIConstants.DOB, (String) sessionData.get(UIConstants.FGOT_DOB));
+		findPerson.put(UIConstants.GENDER, "0");
+
+		LOG.info(uniqueId +" " +"Sending to find person client " + findPerson.get(UIConstants.PRINCIPAL_ID) + findPerson.get(UIConstants.REQUESTED_BY) + 
+				findPerson.get(PSU_ID) + findPerson.get(USER_ID) + findPerson.get(UIConstants.SSN) + findPerson.get(UIConstants.FIRST_NAME) + findPerson.get(UIConstants.LAST_NAME) +  
+				findPerson.get(UIConstants.MIDDLE_NAMES) + findPerson.get(UIConstants.ADDRESS1) +  findPerson.get(UIConstants.ADDRESS2) +  findPerson.get(UIConstants.ADDRESS3) +  findPerson.get(UIConstants.CITY) + 
+				findPerson.get(UIConstants.STATE_OR_PROV) +  findPerson.get(UIConstants.POSTAL_CODE) + findPerson.get(PLUS4) +  findPerson.get(UIConstants.COUNTRY) +  findPerson.get(UIConstants.DOB) + 
+				findPerson.get(UIConstants.GENDER) + findPerson.get("rankCutOff"));
+		
+		FindPersonServiceReturn personServiceReturn = null;
+		Map<String, String> results = new HashMap<String, String>();
+		
+		try {
+			//call the service
+			personServiceReturn = SoapClient.callFindPersonService(findPerson, uniqueId);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			// Print the stack trace in case someone needs it for debugging
+			LOG.info(String.format("%s exception calling FindPersonService [%s]", uniqueId, e.getMessage()));
+			showTraceOutput(e);
+			results.put(STATUS_CODE, "3");
+			results.put(STATUS_MSG, e.getMessage());
+			return results;
+		}
+	
+		LOG.info(String.format("%s %s %s", uniqueId, THE_RESULTS_CODE_IS, personServiceReturn.getStatusCode()));
+		LOG.info(String.format("%s %s %s", uniqueId, THE_RESULTS_MESSAGE_IS, personServiceReturn.getStatusMessage()));
+		results = evaluateResults(personServiceReturn, uniqueId);
+		
+		// return the statusCode, statusMsg and if found, person identity keys
+		return results;
+	}
+
 	/**
 	 * Provide a listing of the stack trace when necessary
 	 * @param e - The exception object
@@ -284,19 +367,19 @@ public final class SoapClientIP {
 				MatchReturn highestReturn = personServiceReturn.getNearMatchArray()[0];
 				results.put(SRV_PERSON_ID, highestReturn.getPersonId().toString());
 				if (highestReturn.getPsuId() != null) {
-					results.put(SRV_PSU_ID, highestReturn.getPsuId());
+					results.put(SRV_PSU_ID, highestReturn.getPsuId().toString());
 				}
 				if (highestReturn.getUserId() != null) {
-					results.put(SRV_USER_ID, highestReturn.getUserId());
+					results.put(SRV_USER_ID, highestReturn.getUserId().toString());
 				}
 
 			} else {
 				results.put(SRV_PERSON_ID, Long.toString(personServiceReturn.getPersonID()));
 				if (personServiceReturn.getPsuID() != null) {
-					results.put(SRV_PSU_ID, personServiceReturn.getPsuID());
+					results.put(SRV_PSU_ID, personServiceReturn.getPsuID().toString());
 				}
 				if (personServiceReturn.getUserId() != null) {
-					results.put(SRV_USER_ID, personServiceReturn.getUserId());
+					results.put(SRV_USER_ID, personServiceReturn.getUserId().toString());
 				}
 				LOG.info(uniqueId +" " +"The person id is " + personServiceReturn.getPersonID());
 				LOG.info(uniqueId +" " +"The psu id is " + personServiceReturn.getPsuID());
@@ -326,7 +409,7 @@ public final class SoapClientIP {
 	 * @return The results will contain a statusCode (0 = success, 1 = warning, 3 = fatal) and statusMsg
 	 * @return If the add was successful, the ids (person, user, psu) that were created for the record are returned in the map
 	 */
-	public static Map<String, String> addPerson(Map<String, String> sessionData, String uniqueId) {
+	public static Map<String, String> addPerson(HashMap<String, String> sessionData, String uniqueId) {
 
 		// create the hashMap from the session data to send to add person
 		Map<String, String> addPerson = formatSessionData(sessionData);
@@ -383,10 +466,10 @@ public final class SoapClientIP {
 	 * @param sessionData contains the key-value pairs of the identity provisioning session data
 	 * @return The results will contain a statusCode (0 = success, 1 = warning, 3 = fatal) and statusMsg
 	 */
-	public static Map<String, String> updatePerson(Map<String, String> sessionData, String uniqueId) {
+	public static HashMap<String, String> updatePerson(HashMap<String, String> sessionData, String uniqueId) {
 
 		// create the hashMap from the session data to send to add person
-		Map<String, String> updatePerson = formatSessionData(sessionData);
+		HashMap<String, String> updatePerson = formatSessionData(sessionData);
 		
 		// Remove the request to assign person_id and PSU_id 
 		updatePerson.put(UIConstants.ASSIGN_PSU_ID,  "N");
@@ -460,20 +543,17 @@ public final class SoapClientIP {
 	 * @param sessionData contains the key-value pairs of the identity provisioning session data
 	 * @return true if the call was successful, false if not
 	 */
-	public static boolean addAddress(Map<String, String> sessionData) {
+	public static boolean addAddress(HashMap<String, String> sessionData) {
 
-		Map<String, String> addAddress = new HashMap<String, String>();
+		HashMap<String, String> addAddress = new HashMap<String, String>();
 		
-		addAddress.put(UIConstants.PRINCIPAL_ID, sessionData.get(UIConstants.RAC_PRINCIPAL_ID));
-		addAddress.put(UIConstants.PASSWORD, sessionData.get(UIConstants.RAC_PASSWORD));
-
 		// Add the entered current address as a new permanent address
 		addAddress.put(UIConstants.REQUESTED_BY, sessionData.get(UIConstants.RAC_REQUESTED_BY));
 
 		addAddress.put(UIConstants.IDENTIFIER_TYPE, PERSON_ID);
 		addAddress.put("identifier", sessionData.get(SRV_PERSON_ID));
 
-		Map<String, String> formattedAddressData = formatAddressData(sessionData);
+		HashMap<String, String> formattedAddressData = formatAddressData(sessionData);
  
 		// Only call add address, if the required information is available
 		if (!formattedAddressData.isEmpty()) {
@@ -501,13 +581,55 @@ public final class SoapClientIP {
 	}
 
 	/**
+	 * This method uses the data entered during the identity provisioning process to call the add address soap service.
+	 * @param sessionData contains the key-value pairs of the identity provisioning session data
+	 * @return true if the call was successful, false if not
+	 */
+	public static boolean addAlternateAddress(HashMap<String, String> sessionData) {
+
+		HashMap<String, String> addAddress = new HashMap<String, String>();
+		
+		// Add the entered current address as a new permanent address
+		addAddress.put(UIConstants.REQUESTED_BY, sessionData.get(UIConstants.RAC_REQUESTED_BY));
+
+		addAddress.put(UIConstants.IDENTIFIER_TYPE, PERSON_ID);
+		addAddress.put("identifier", sessionData.get(SRV_PERSON_ID));
+		
+		HashMap<String, String> formattedAddressData = formatAlternateAddressData(sessionData);
+ 
+		// Only call add address, if the required information is available
+		if (!formattedAddressData.isEmpty()) {
+						
+			addAddress.putAll(formattedAddressData);
+	
+			ServiceReturn addressServiceReturn = null;
+			
+			try {
+				//call the service
+				addressServiceReturn = SoapClient.callAddAddressService(addAddress);
+			} catch (Exception e) {
+				LOG.info("Error occurred during add address: " + e.getMessage());
+				return false;
+			}
+			
+			// if the add was successful or the address already exists
+			if (addressServiceReturn.getStatusCode() == 0 || addressServiceReturn.getStatusCode() == MagicNumber.INT_201) {
+		        // return success
+				return true;
+			}
+			LOG.info("Error occurred during add address: " + addressServiceReturn.getStatusMessage() + " code: " + addressServiceReturn.getStatusCode());
+		}
+		return false;
+	}
+
+	/**
 	 * This method uses the data entered during the identity provisioning process to call the add phone soap service.
 	 * @param sessionData contains the key-value pairs of the identity provisioning session data
 	 * @return true if the call was successful, false if not
 	 */
-	public static boolean addPhone(Map<String, String> sessionData) {
+	public static boolean addPhone(HashMap<String, String> sessionData) {
 
-		Map<String, String> addPhone = new HashMap<String, String>();
+		HashMap<String, String> addPhone = new HashMap<String, String>();
 
 		addPhone.put(UIConstants.PRINCIPAL_ID, sessionData.get(UIConstants.RAC_PRINCIPAL_ID));
 		addPhone.put(UIConstants.PASSWORD, sessionData.get(UIConstants.RAC_PASSWORD));
@@ -518,7 +640,7 @@ public final class SoapClientIP {
 		addPhone.put(UIConstants.IDENTIFIER_TYPE, PERSON_ID);
 		addPhone.put("identifier", sessionData.get(SRV_PERSON_ID));
 
-		Map<String, String> formattedPhoneData = formatPhoneData(sessionData);
+		HashMap<String, String> formattedPhoneData = formatPhoneData(sessionData);
 		 
 		// Only call add phone, if the required information is available
 		if (!formattedPhoneData.isEmpty()) {
@@ -567,7 +689,7 @@ public final class SoapClientIP {
 	 * @param mapValue to check
 	 * @return true is the value is null or empty, false otherwise
 	 */
-	private static boolean mapValueIsEmpty(String mapValue) {
+	public static boolean mapValueIsEmpty(String mapValue) {
 		if (mapValue == null || mapValue.trim().equals("") || mapValue.equals("null"))
 		{
 			return true;
@@ -580,8 +702,8 @@ public final class SoapClientIP {
 	 * @param sessionData 
 	 * @return key-value hash of data reformatted for calling add or update person
 	 */
-	public static Map<String, String> formatSessionData(Map<String, String> sessionData) {
-		Map<String, String> formattedPersonData = new HashMap<String, String>();
+	public static HashMap<String, String> formatSessionData(HashMap<String, String> sessionData) {
+		HashMap<String, String> formattedPersonData = new HashMap<String, String>();
 
 		formattedPersonData.put(UIConstants.PRINCIPAL_ID, sessionData.get(UIConstants.RAC_PRINCIPAL_ID));
 		formattedPersonData.put(UIConstants.PASSWORD, sessionData.get(UIConstants.RAC_PASSWORD));
@@ -592,12 +714,14 @@ public final class SoapClientIP {
 		formattedPersonData.put(UIConstants.ASSIGN_PSU_ID, sessionData.get(UIConstants.RAC_ASSIGN_PSU_ID));
 		formattedPersonData.put(UIConstants.ASSIGN_USER_ID, sessionData.get(UIConstants.RAC_ASSIGN_USER_ID));
 
-		formattedPersonData.put(UIConstants.GENDER, sessionData.get(UIConstants.PER_GENDER));
+//		formattedPersonData.put(UIConstants.GENDER, sessionData.get(UIConstants.PER_GENDER));
+		formattedPersonData.put(UIConstants.GENDER, "0");
 		formattedPersonData.put(UIConstants.NAME_TYPE, sessionData.get("lna.nameType"));
 		formattedPersonData.put(UIConstants.FIRST_NAME, sessionData.get(UIConstants.LNA_FIRST_NAME));
 		formattedPersonData.put(UIConstants.MIDDLE_NAMES, sessionData.get(UIConstants.LNA_MIDDLE_NAMES));
 		formattedPersonData.put(UIConstants.LAST_NAME, sessionData.get(UIConstants.LNA_LAST_NAME));
 		formattedPersonData.put(UIConstants.SUFFIX, sessionData.get(UIConstants.LNA_SUFFIX));
+		formattedPersonData.put(UIConstants.NICKNAME, sessionData.get(UIConstants.LNA_NICKNAME));
 
 		if (sessionData.containsKey(UIConstants.IDI_SOCIAL_SECURITY_NUMBER))
 		{
@@ -605,14 +729,15 @@ public final class SoapClientIP {
 			formattedPersonData.put(UIConstants.SSN, removeNonDigits(sessionData.get(UIConstants.IDI_SOCIAL_SECURITY_NUMBER)));	
 		}
 
-		if (!(mapValueIsEmpty(sessionData.get(UIConstants.PER_BIRTH_MONTH)) || mapValueIsEmpty(sessionData.get(UIConstants.PER_BIRTH_DAY))))
-		{
-			String dob = sessionData.get(UIConstants.PER_BIRTH_MONTH) + "/" + sessionData.get(UIConstants.PER_BIRTH_DAY);
-			if (!mapValueIsEmpty(sessionData.get(UIConstants.PER_BIRTH_YEAR))) {
-				dob += "/" + sessionData.get(UIConstants.PER_BIRTH_YEAR);
-			}
-			formattedPersonData.put(UIConstants.DOB, dob);
-		}
+//		if (!(mapValueIsEmpty(sessionData.get(UIConstants.PER_BIRTH_MONTH)) || mapValueIsEmpty(sessionData.get(UIConstants.PER_BIRTH_DAY))))
+//		{
+//			String dob = sessionData.get(UIConstants.PER_BIRTH_MONTH) + "/" + sessionData.get(UIConstants.PER_BIRTH_DAY);
+//			if (!mapValueIsEmpty(sessionData.get(UIConstants.PER_BIRTH_YEAR))) {
+//				dob += "/" + sessionData.get(UIConstants.PER_BIRTH_YEAR);
+//			}
+//			formattedPersonData.put(UIConstants.DOB, dob);
+//		}
+		formattedPersonData.put(UIConstants.DOB, sessionData.get(UIConstants.CON_DOB));
 
 		formattedPersonData.put(UIConstants.EMAIL_TYPE, sessionData.get(UIConstants.CON_EMAIL_TYPE));
 		formattedPersonData.put(UIConstants.EMAIL, sessionData.get(UIConstants.CON_EMAIL));
@@ -627,8 +752,8 @@ public final class SoapClientIP {
 	 * @param sessionData
 	 * @return if the required information is available, a key-value hash for add address, otherwise an empty hash
 	 */
-	public static Map<String, String> formatAddressData(Map<String, String> sessionData) {
-		Map<String, String> formattedAddressData = new HashMap<String, String>();
+	public static HashMap<String, String> formatAddressData(HashMap<String, String> sessionData) {
+		HashMap<String, String> formattedAddressData = new HashMap<String, String>();
 
 		// If the required elements are missing, return an empty map
 		if (!(mapValueIsEmpty(sessionData.get(UIConstants.CRA_ADDRESS_TYPE)) || mapValueIsEmpty(sessionData.get(UIConstants.CRA_ADDRESS_LINE1)) ||
@@ -662,14 +787,56 @@ public final class SoapClientIP {
 		return formattedAddressData;
 	}
 	
+	/**
+	 * This method formats the alternate address data for calling the add address service
+	 * @param sessionData
+	 * @return if the required information is available, a key-value hash for add address, otherwise an empty hash
+	 */
+	public static HashMap<String, String> formatAlternateAddressData(HashMap<String, String> sessionData) {
+		HashMap<String, String> formattedAddressData = new HashMap<String, String>();
+
+		// If the required elements are missing, return an empty map
+		
+		if (! (mapValueIsEmpty(sessionData.get(UIConstants.ALT_ADDRESS_LINE1)) ||
+				mapValueIsEmpty(sessionData.get(UIConstants.ALT_COUNTRY)) || 
+				mapValueIsEmpty(sessionData.get(UIConstants.ALT_POSTAL_CODE)))) {
+
+			formattedAddressData.put(UIConstants.ADDRESS_TYPE, AddressType.ALTERNATE_ADDRESS.toString());
+			formattedAddressData.put(UIConstants.ADDRESS_DOCUMENT_TYPE, null);
+			formattedAddressData.put(UIConstants.ADDRESS_GROUP_ID, "1");
+			formattedAddressData.put(UIConstants.ADDRESS1, sessionData.get(UIConstants.ALT_ADDRESS_LINE1));
+			formattedAddressData.put(UIConstants.ADDRESS2, sessionData.get(UIConstants.ALT_ADDRESS_LINE2));
+			formattedAddressData.put(UIConstants.ADDRESS3, sessionData.get(UIConstants.ALT_ADDRESS_LINE3));
+			formattedAddressData.put(UIConstants.CITY, sessionData.get(UIConstants.ALT_CITY));
+			formattedAddressData.put(UIConstants.COUNTRY, sessionData.get(UIConstants.ALT_COUNTRY));
+	
+			if (!mapValueIsEmpty(sessionData.get(UIConstants.ALT_STATE))) 
+			{
+				formattedAddressData.put(UIConstants.STATE_OR_PROV, sessionData.get(UIConstants.ALT_STATE));	
+			}
+			else if (!mapValueIsEmpty(sessionData.get(UIConstants.ALT_PROVINCE))) 
+			{
+				formattedAddressData.put(UIConstants.STATE_OR_PROV, sessionData.get(UIConstants.ALT_PROVINCE));	
+			}
+	
+			if (sessionData.containsKey(UIConstants.ALT_POSTAL_CODE)) 
+			{
+				// make sure postal code is formatted correctly (only numbers or null)
+				formattedAddressData.put(UIConstants.POSTAL_CODE, removeNonDigits(sessionData.get(UIConstants.ALT_POSTAL_CODE)));		
+			}
+		}
+		
+		return formattedAddressData;
+	}
+	
 
 	/**
 	 * This method formats the phone data for calling the add phone service
 	 * @param sessionData
 	 * @return if the required information is available, a key-value hash for add phone, otherwise an empty hash
 	 */
-	public static Map<String, String> formatPhoneData(Map<String, String> sessionData) {
-		Map<String, String> formattedPhoneData = new HashMap<String, String>();
+	public static HashMap<String, String> formatPhoneData(HashMap<String, String> sessionData) {
+		HashMap<String, String> formattedPhoneData = new HashMap<String, String>();
 
 		// If the required elements are missing, return an empty map
 		if (!(mapValueIsEmpty(sessionData.get(UIConstants.CON_PHONE_TYPE)) || mapValueIsEmpty(sessionData.get(UIConstants.CON_PHONE_NUMBER)) ||

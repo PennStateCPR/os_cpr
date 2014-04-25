@@ -37,11 +37,14 @@ import edu.psu.iam.cpr.ip.util.HtmlEmail;
  */
 public class PasswordAction extends BaseAction 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final String YOU_MUST_ENTER_A_MATCHING_PASSWORD_IN_BOTH_FIELDS = "You must enter a matching password in both fields";
 	private static final String UI_SETPASSWORD_REPLY_QUEUE_NAME = "ui.setpassword.reply.queue.name";
 	private static final String UI_SETPASSWORD_QUEUE_NAME       = "ui.setpassword.queue.name";
-    private static final long serialVersionUID = 1643016775815160131L;
-    private String password;
+	private String password;
 	private String passwordConfirmed;
 	private String message;
 	
@@ -50,14 +53,13 @@ public class PasswordAction extends BaseAction
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
 	 */
 	@Override
-	@Action(value="password",results={ @Result(name=SUCCESS,location="/success",type=REDIRECT),
-			                           @Result(name="stay on page",location="/jsp/setPassword.jsp"),
-			                           @Result(name="validation error",location="/jsp/setPassword.jsp"),
-                                       @Result(name="failure",location="/jsp/endPage.jsp")
+	@Action(value="password",results={ @Result(name=SUCCESS, location="/success", type=REDIRECT),
+			                           @Result(name="stay on page", location="/jsp/setPassword.jsp"),
+			                           @Result(name="validation error", location="/jsp/setPassword.jsp"),
+                                       @Result(name="failure", location="/jsp/endPage.jsp")
                                      })
 	public String execute() 
 	{
-		// TODO Business logic 
 		if(!setup("psw"))
 		{
 			return FAILURE;
@@ -193,11 +195,13 @@ public class PasswordAction extends BaseAction
 			{	
 				if(name.toLowerCase().contains("middle"))
 				{
-					listOfNames.addAll(FieldUtility.getNameTokens(actualName));
+					for (String middleName: FieldUtility.getNameTokens(actualName)) {
+						listOfNames.add(middleName.trim());
+					}
 				}
 				else
 				{
-					listOfNames.add(actualName);
+					listOfNames.add(actualName.trim());
 				}
 			}
 		}
