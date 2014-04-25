@@ -12,10 +12,10 @@
 # 
 
 # Global variables used for nested includes should be first, and begin with 'gbl'
-gbl.sitename=The CommIT Project
-gbl.name.familiar=The CommIT project
-gbl.name.formal=The CommIT Project
-gbl.name.nickname=The CommIT project
+gbl.sitename=The <PROJECT NAME GOES HERE> Project
+gbl.name.familiar=The <PROJECT NAME GOES HERE> project
+gbl.name.formal=The <PROJECT NAME GOES HERE> Project
+gbl.name.nickname=The <PROJECT NAME GOES HERE> project
 gbl.ui.application.name=Identity Provisioning
 
 # Manually increment version number each time application is deployed
@@ -55,18 +55,21 @@ ui.password.validation.error2=Password must have at least one lowercase letter.
 ui.password.validation.error3=Password must be at least 8 characters in length.
 
 #HTML email related entries
-ui.mail.host=smtp.internet2.edu
-ui.mail.from=commonidtrust@internet2.edu
+ui.mail.host=
+ui.mail.port=
+ui.mail.username=
+ui.mail.password=
+ui.mail.from=
 ui.mail.from.person=Identity Provisioning
-ui.mail.success.subject=Your CommIT Identity Has Been Created
-ui.mail.success.text=Your CommIT identity has been created
-#ui.mail.success.html=<b>Hello %lna.firstName% %lna.lastName%,</b><br/><br/><i>Your CommIT Identity has been created.<br/><br/>Your user id is %suc.userId%.</i>
-ui.mail.success.html=Hello %lna.firstName% %lna.lastName%,<br/>Thank you for registering for a Common Identity & Trust (CommIT) ID.  Your<br/>identity has been successfully created and your Username is %suc.userId%.<br/></br>CommIT was developed to make it easier and safer for you to apply to<br/>college.  Your CommIT ID will give you a single username and password that<br/>you can use at a growing number of schools and for services that help you<br/>apply to college.<br/><br/>The CommIT service that you are using is a one-year demonstration pilot<br/>project among several university and vendor partners.  Your CommIT ID will<br/>continue to support a growing number of schools and services as the pilot<br/>progresses.<br/><br/>For more information, visit URL goes here.
+ui.mail.success.subject=Your <PROJECT NAME GOES HERE> Identity Has Been Created
+ui.mail.success.text=Your <PROJECT NAME GOES HERE> identity has been created
+#ui.mail.success.html=<b>Hello %lna.firstName% %lna.lastName%,</b><br/><br/><i>Your <PROJECT NAME GOES HERE> Identity has been created.<br/><br/>Your user id is %suc.userId%.</i>
+ui.mail.success.html=Hello %lna.firstName% %lna.lastName%,<br/>Thank you for registering for a Common Identity & Trust (<PROJECT NAME GOES HERE>) ID.  Your<br/>identity has been successfully created and your Username is %suc.userId%.<br/></br><PROJECT NAME GOES HERE> was developed to make it easier and safer for you to apply to<br/>college.  Your <PROJECT NAME GOES HERE> ID will give you a single username and password that<br/>you can use at a growing number of schools and for services that help you<br/>apply to college.<br/><br/>The <PROJECT NAME GOES HERE> service that you are using is a one-year demonstration pilot<br/>project among several university and vendor partners.  Your <PROJECT NAME GOES HERE> ID will<br/>continue to support a growing number of schools and services as the pilot<br/>progresses.<br/><br/>For more information, visit URL goes here.
 
 
-ui.mail.success.reset.subject=Your CommIT Identity Password Has Been Reset
-ui.mail.success.reset.text=Your CommIT identity has been reset.
-ui.mail.success.reset.html=<b>Hello %lna.firstName% %lna.lastName%,</b><br/><br/><i>Your CommIT password has been reset, for your userid %suc.userId%.</i>
+ui.mail.success.reset.subject=Your <PROJECT NAME GOES HERE> Identity Password Has Been Reset
+ui.mail.success.reset.text=Your <PROJECT NAME GOES HERE> identity has been reset.
+ui.mail.success.reset.html=<b>Hello %lna.firstName% %lna.lastName%,</b><br/><br/><i>Your <PROJECT NAME GOES HERE> password has been reset, for your userid %suc.userId%.</i>
 
 ui.mail.bcc=
 
@@ -102,15 +105,15 @@ ui.footer.link2.title=
 ui.footer.link2.href=
 
 # website name - USAGE: <s:property value="#application['ui.sitename']"/>
-ui.sitename=The CommIT project
+ui.sitename=The <PROJECT NAME GOES HERE> project
 
-ui.name.formal=The CommIT project
-ui.name.familiar=The CommIT project
+ui.name.formal=The <PROJECT NAME GOES HERE> project
+ui.name.familiar=The <PROJECT NAME GOES HERE> project
 ui.name.nickname=%gbl.name.nickname%
 
 #logo 
 ui.university.logo.path=./assets/img/commit_logo.png
-ui.university.logo.href=https://login.commonidtrust.org/idp/Authn/UserPassword
+ui.university.logo.href=
 
 #datacard header (title text)
 ui.welcome.header=Welcome!
@@ -268,5 +271,4 @@ entity.id.is.invalid=ID entry is invalid
 ui.fields.hidden.userid=yes
 ui.fields.hidden.universityid=yes
 
-# JAV Added to hide a screen.
 screens.to.hide=IdentityInfo
