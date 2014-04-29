@@ -39,15 +39,17 @@ public final class EmailHelper
 		String text = (type.equalsIgnoreCase("created")) 
 				? (String)applicationMap.get("ui.mail.success.text") : (String)applicationMap.get("ui.mail.success.reset.text");
 				
-		return  new HtmlEmail( (String)applicationMap.get("ui.mail.host")
-	            ,(String)applicationMap.get("ui.mail.from")
-	            ,(String)applicationMap.get("ui.mail.from.person")
-	            ,to
-	            ,(String)applicationMap.get("ui.mail.bcc")
-	            ,subject
-	            ,text
-	            ,textHtml
-	            ,uniqueId
-               );
+		return  new HtmlEmail((String) applicationMap.get("ui.mail.host"),
+				(String) applicationMap.get("ui.mail.port"),
+				(String) applicationMap.get("ui.mail.username"),
+				(String) applicationMap.get("ui.mail.password"),
+				(String) applicationMap.get("ui.mail.from"),
+				(String) applicationMap.get("ui.mail.from.person"),
+				to,
+				(String) applicationMap.get("ui.mail.bcc"),
+				subject,
+				text,
+				textHtml,
+				uniqueId);
 	}
 }

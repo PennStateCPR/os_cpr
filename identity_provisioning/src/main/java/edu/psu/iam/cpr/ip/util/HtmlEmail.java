@@ -6,6 +6,7 @@ import java.util.Properties;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -34,6 +35,9 @@ import edu.psu.iam.cpr.ip.ui.validation.FieldUtility;
 public class HtmlEmail implements Runnable
 {
 	private String       host       ;
+	private String		 port		;
+	private String       userName   ;
+	private String       password   ;
 	private String       from       ;
 	private String       fromPerson ;
 	private String       to         ;
@@ -52,26 +56,24 @@ public class HtmlEmail implements Runnable
   {
   }
   
-  public HtmlEmail( String      host
-          		  , String      from
-          		  , String      fromPerson
-          		  , String      to
-          		  , String      archiveBcc
-          		  , String      subject
-          		  , String      plainText
-          		  , String      htmlText
-          		  , String      uniqueId
-          		  )
+  public HtmlEmail(String host, String port, String userName, String password, String from, 
+		  String fromPerson, String to, String archiveBcc, String subject, 
+		  String plainText, String htmlText, String uniqueId)
   {
-	  this.host       = host      ;
-	  this.from       = from      ;
-	  this.fromPerson = fromPerson;
-	  this.to         = to        ;
-	  this.archiveBcc= archiveBcc; 
-	  this.subject    = subject   ;
-	  this.plainText  = plainText ;
-	  this.htmlText   = htmlText  ;
-	  this.uniqueId   = uniqueId  ;
+	  this.host		= host;
+	  this.port 	= port;
+	  this.userName = userName;
+	  this.password = password;
+	  this.from		= from;
+	  this.fromPerson 
+	  				= fromPerson;
+	  this.to		= to;
+	  this.archiveBcc 
+	  				= archiveBcc; 
+	  this.subject 	= subject;
+	  this.plainText= plainText ;
+	  this.htmlText = htmlText  ;
+	  this.uniqueId = uniqueId  ;
 	  
 	  // Debugging log statement at info level, later change to debug level
 	  LOG.info("---------------------------");
@@ -107,8 +109,16 @@ public class HtmlEmail implements Runnable
 	 {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.starttls.enable", "true");
+		//props.put("mail.smtp.port", "465");
+		props.put("mail.smtp.port", getPort());
         props.put("mail.smtp.sendpartial","true");
-        Session session  = Session.getInstance(props, null);
+		Session session = Session.getInstance(props,
+				  new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(getUserName(), getPassword());
+					}
+				  });
 
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress(from, fromPerson));
@@ -156,28 +166,46 @@ public class HtmlEmail implements Runnable
      }
   }      
 
-  /**
-   * The main method is provided solely as a standalone test mechanism
-   * @param args
-   */
-  public static void main(String[] args) 
-  {
-     HtmlEmail mailObj 
-     	= new HtmlEmail("smtp.psu.edu" 
-                      , "noreply@psu.edu"
-                      , "Identity Provisioning"
-                      , "jal55@psu.edu" 
-                      , "Jerome_Lumpkin@yahoo.com"
-                      , "Your PSU Identity Has Been Created"
-                      , "Your identity at Penn State University has been created"
-                      ,"<b>Hello Self</b><br><br>Congraulations!<br><br><br><i>Your Penn State identity has been created.</i><br><br><br>"
-                      , "session-id-12345"
-                      );
-     Thread mailThread = new Thread(mailObj);
-     mailThread.start();
-     
-     LOG.info(String.format("%s all done sending email", "session-id-12345"));
-       
-  }
+/**
+ * @return the port
+ */
+public String getPort() {
+	return port;
+}
+
+/**
+ * @param port the port to set
+ */
+public void setPort(String port) {
+	this.port = port;
+}
+
+/**
+ * @return the userName
+ */
+public String getUserName() {
+	return userName;
+}
+
+/**
+ * @param userName the userName to set
+ */
+public void setUserName(String userName) {
+	this.userName = userName;
+}
+
+/**
+ * @return the password
+ */
+public String getPassword() {
+	return password;
+}
+
+/**
+ * @param password the password to set
+ */
+public void setPassword(String password) {
+	this.password = password;
+}
 
 }  
