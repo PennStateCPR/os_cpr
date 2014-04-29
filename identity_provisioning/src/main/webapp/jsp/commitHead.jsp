@@ -2,7 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
 <!--VARS-->
-<s:set name="IDP_URL" value="%{'https://login.commonidtrust.org/idp/Authn/UserPassword'}"/>
+<s:set name="IDP_URL" value="%{'http://iamtestbed.org/welcome'}"/>
 <s:set name="ICO_DIR" value="%{'./assets/ico'}"/>
 <s:set name="CSS_DIR" value="%{'./assets/css'}"/>
 <s:set name="JS_DIR" value="%{'./assets/js'}"/>
