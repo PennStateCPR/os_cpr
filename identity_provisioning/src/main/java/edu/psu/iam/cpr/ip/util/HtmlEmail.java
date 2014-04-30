@@ -39,10 +39,12 @@ public class HtmlEmail implements Runnable
 	private String       userName   ;
 	private String       password   ;
 	private String       from       ;
+	@SuppressWarnings("unused")
 	private String       fromPerson ;
 	private String       to         ;
 	
 	// This 'cc' address is primarily used during testing to send a copy of all emails to an archive mailbox 
+	@SuppressWarnings("unused")
 	private String       archiveBcc;
 	private String       subject    ;
 	private String       plainText  ;
@@ -121,15 +123,8 @@ public class HtmlEmail implements Runnable
 				  });
 
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(from, fromPerson));
-       	message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-       	
-       	// This extra recipient being added for debugging -- to be removed dater
-       	if(FieldUtility.fieldIsPresent(archiveBcc))
-       	{
-       		message.addRecipient(Message.RecipientType.BCC, new InternetAddress(archiveBcc));
-       	}
-        
+        message.setFrom(new InternetAddress(from));
+       	message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));       	
         message.setSubject(subject);
         
         //use a MimeMultipart as we need to allow the user's browser to select either HTML [preferred] or plain text message 
@@ -145,12 +140,7 @@ public class HtmlEmail implements Runnable
         
         message.setContent(multipart);
         
-        
-        Transport transport = session.getTransport("smtp");
-        transport.connect();
-        
-        transport.sendMessage(message, message.getAllRecipients());
-        transport.close();
+        Transport.send(message);        
      }
      catch(Exception e) 
      {
