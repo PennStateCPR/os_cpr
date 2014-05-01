@@ -80,6 +80,7 @@ public class HtmlEmail implements Runnable
 	  // Debugging log statement at info level, later change to debug level
 	  LOG.info("---------------------------");
 	  LOG.info(String.format("%s Email parameters follow", uniqueId));
+	  LOG.info("mail host " + host + " port " + port + " username " + userName + " password " + password + " from " + from);
 	  LOG.info(String.format("%s host(%s), from(%s), fromPerson(%s)", uniqueId, host, from, fromPerson));
 	  LOG.info(String.format("%s to(%s), subject(%s)", uniqueId, to, subject));
 	  LOG.info(String.format("%s plainText(%s)", uniqueId, plainText));
@@ -112,9 +113,9 @@ public class HtmlEmail implements Runnable
 		Properties props = new Properties();
 		props.put("mail.smtp.host", host);
 		props.put("mail.smtp.starttls.enable", "true");
-		//props.put("mail.smtp.port", "465");
 		props.put("mail.smtp.port", getPort());
         props.put("mail.smtp.sendpartial","true");
+        LOG.info("In sendMail2 mail host = " + host + " port " + getPort() + " username " + getUserName() + " password " + getPassword() + " from " + from);
 		Session session = Session.getInstance(props,
 				  new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
@@ -144,7 +145,7 @@ public class HtmlEmail implements Runnable
      }
      catch(Exception e) 
      {
-    	 LOG.warn(String.format(" ..exception [%s] ", e.getMessage()));
+    	 LOG.info(String.format(" ..exception [%s] ", e.getMessage()));
     	 
     	 StackTraceElement[] trace = e.getStackTrace();
     	 
