@@ -3,6 +3,7 @@ package edu.psu.iam.cpr.ip.util;
 
 import java.util.Properties;
 
+import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.Multipart;
@@ -115,6 +116,7 @@ public class HtmlEmail implements Runnable
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.port", getPort());
         props.put("mail.smtp.sendpartial","true");
+        props.put("mail.smtp.auth", "true");
         LOG.info("In sendMail2 mail host = " + host + " port " + getPort() + " username " + getUserName() + " password " + getPassword() + " from " + from);
 		Session session = Session.getInstance(props,
 				  new javax.mail.Authenticator() {
