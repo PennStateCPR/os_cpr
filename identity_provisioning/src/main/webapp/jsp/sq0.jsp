@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>The CommIT Project: Match Found</title>
+		<title>The IAM Testbed Project: Match Found</title>
 		<jsp:include page="commitHead.jsp" />
 	</head>
 	<body class="page matchfound-page">

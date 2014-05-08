@@ -106,7 +106,7 @@ public class ForgotPasswordAction extends BaseAction {
 				}
 				else {
 					setEndPageHeader("Please Contact Customer Services");
-					addActionMessage("The CommIT Id you entered did not match the one found in the database.");
+					addActionMessage("The IAM Testbed Id you entered did not match the one found in the database.");
 					addActionMessage(getApplicationString(CALL_CUST_SERVICES));
 					addReferenceNumber();
 					returnLocation = FAILURE; 

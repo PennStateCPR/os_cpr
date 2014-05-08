@@ -78,7 +78,7 @@ public class ContactInfoAction extends BaseAction
 			
 			if (age.getYears() < 13) {
 				returnLocation = STAY_ON_PAGE;
-				addActionMessage("You must be 13 years old or older to create a CommIT Username.");
+				addActionMessage("You must be 13 years old or older to create a IAM Testbed Username.");
 			}
 		}
 		

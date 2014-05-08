@@ -9,7 +9,7 @@
 						<s:form namespace="/" autocomplete="off" action="forgot_userid" id="reset" method="post" cssClass="form-horizontal" theme="simple">
 							<div class="titlebar">
 								<h1>
-									<span>Forgot CommIT ID</span>
+									<span>Forgot IAM Testbed ID</span>
 									<i id="formPopover" data-toggle="popover" class="icon icon-question-sign hidden"></i>
 								</h1>
 							</div>

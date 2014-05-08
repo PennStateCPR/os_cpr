@@ -17,7 +17,7 @@
 								<div class="content">
 									<div id="checkboxcontainer" class="checkboxcontainer">
 										<s:checkbox name="agree" id="agree" class="checkbox inline" onclick="javascript:toggle(this);" /> 
-											By clicking this box, you acknowledge that you have read and agree to the CommIT Terms of Use and Privacy Policy.
+											By clicking this box, you acknowledge that you have read and agree to the IAM Testbed Terms of Use and Privacy Policy.
 									</div>
 								</div>
 								<!--FORM CONTROLS-->

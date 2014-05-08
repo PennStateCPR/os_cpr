@@ -12,7 +12,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>
-			The CommIT Project: <s:property value='#PASSWORD_TITLE_CONTEXT'/> Password
+			The IAM Testbed Project: <s:property value='#PASSWORD_TITLE_CONTEXT'/> Password
 		</title>
 		<jsp:include page="commitHead.jsp" />
 	</head>

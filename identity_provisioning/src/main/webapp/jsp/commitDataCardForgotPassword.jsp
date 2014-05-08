@@ -24,7 +24,7 @@
 
 								<!--COMMIT ID-->
 								<div class="control-group">
-									<label class="control-label" for="commitId">CommIT Username:</label>
+									<label class="control-label" for="commitId">IAM Testbed Username:</label>
 									<div class="controls">
 										<s:textfield name="commitId" cssClass="input-large" id="commitId" maxlength="60" />
 									</div>

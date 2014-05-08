@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>The CommIT Project: Home Address</title>
+		<title>The IAM Testbed Project: Home Address</title>
 		<jsp:include page="commitHead.jsp" />
 	</head>
 	<body class="page currentaddress-page">
