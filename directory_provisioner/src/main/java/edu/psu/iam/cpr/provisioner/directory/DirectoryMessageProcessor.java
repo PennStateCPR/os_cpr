@@ -447,6 +447,7 @@ public class DirectoryMessageProcessor {
 
 			final String displayName = firstName + BLANK + lastName;
 			attrs.put(new BasicAttribute("displayName", displayName));
+			attrs.put(new BasicAttribute("description", displayName));
 
 			final StringBuilder sb = new StringBuilder(1024);
 			if (firstName.length() != 0) {
