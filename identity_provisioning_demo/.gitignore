@@ -1,0 +1,12 @@
+/build
+/javadoc
+/dist
+/ivy
+/lib
+/.classpath
+/.project
+/build-jars
+/src/main/resources/cpr.properties
+/src/main/resources/hibernate.cfg.xml
+/src/main/resources/ui_properties.txt
+/bin
