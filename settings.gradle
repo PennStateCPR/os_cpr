@@ -1,1 +1,1 @@
-include 'cpr_core','directory_provisioner', 'topic_sender_example','batch_processing', 'cprprime', 'cprws', 'cprwstest', 'identity_provisioning', 'cprapi'
+include 'cpr_core','directory_provisioner', 'topic_sender_example','batch_processing', 'cprprime', 'cprws', 'cprwstest', 'identity_provisioning', 'cprapi','identity_provisioning_demo'

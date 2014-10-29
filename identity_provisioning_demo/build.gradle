@@ -10,5 +10,5 @@ dependencies {
 }
 
 war {
-	archiveName="IdentityProvisioning.war"
+	archiveName="IdentityProvisioningDemo.war"
 }
