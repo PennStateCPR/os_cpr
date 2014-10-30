@@ -29,7 +29,7 @@
 			<script type="text/javascript">
 				var dob = $('#dobControl').dob();
 			</script>
-			<script type="text/javascript" src="<s:property value='#JS_MIN_DIR'/>/contact-info-min.js"></script>
+			<script type="text/javascript" src="<s:property value='#JS_SRC_DIR'/>/contact-info.js"></script>
 		</s:else>
 	</body>
 </html>

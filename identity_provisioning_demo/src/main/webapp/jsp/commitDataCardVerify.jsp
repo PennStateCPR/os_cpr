@@ -47,7 +47,6 @@
 									<!--MINI:DATACARD:ADDRESS-->
 									<div class="datacard-mini">
 										<div class="datacard-mini-titlebar">
-											<h2><a href="current_address" class="verification-link">Home Address<i class="icon-edit"></i></a></h2>
 										</div>
 										<div class="datacard-mini-content">
 											<p class="help-block">
@@ -56,7 +55,7 @@
 												<s:property value="#session['cra.addressLine3']" />
 											</p>
 											<p class="help-block">
-												<s:property value="#session['cra.city']" />,
+												<s:property value="#session['cra.city']" />
 												<s:property value="#session['cra.state']" />
 												<s:property value="#session['cra.province']" />
 												<s:property value="#session['cra.postalCode']" />
@@ -80,7 +79,7 @@
 													<s:property value="#session['alt.addressLine3']" />
 												</p>
 												<p class="help-block">
-													<s:property value="#session['alt.city']" />,
+													<s:property value="#session['alt.city']" />
 													<s:property value="#session['alt.state']" />
 													<s:property value="#session['alt.province']" />
 													<s:property value="#session['alt.postalCode']" />
@@ -121,6 +120,11 @@
 												<span><strong>Date of Birth: </strong></span>
 												<s:property value="#session['con.dob']" />
 											</p>
+											<p class="help-block">
+												<span><strong>City: </strong></span>
+												<s:property value="#session['con.city']" />
+											</p>
+
 										</div>
 									</div>
 								</div>
@@ -147,10 +151,8 @@
 						<div class="datacard-tabs">
 							<ul class="unstyled">
 								<li><span>Legal Name</span></li>
-								<li><span>Address</span></li>
 								<li><span>Additional</span></li>
 								<li><span class="active">Verify</span></li>
-								<li><span>Privacy Policy</span></li>
 								<li><span>Security</span></li>
 								<li><span>Password</span></li>
 							</ul>

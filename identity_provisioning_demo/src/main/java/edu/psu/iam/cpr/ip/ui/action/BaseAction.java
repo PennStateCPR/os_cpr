@@ -316,6 +316,8 @@ public abstract class BaseAction extends ActionSupport
 	{
 		String filterSuccess = "";
 
+		log.info("Beginning of filter success = " + originalStatus);
+
 		if(getSessionMap().containsKey("debug.skip.validation") && getSessionString("debug.skip.validation").equalsIgnoreCase("on" )
 			&& FieldUtility.fieldIsPresent(btnsubmit))
 		{
@@ -329,9 +331,12 @@ public abstract class BaseAction extends ActionSupport
 		}
 		else if(originalStatus.equalsIgnoreCase(SUCCESS))
 		{
+			log.info("Checking for success!");
 			String className         = this.getClass().getSimpleName();
 			String currentActionName = className.substring(0, className.indexOf("Action"));
+			log.info("Current action name = " + currentActionName);
 			String nextActionName   = getNextActionName(currentActionName, originalStatus);
+			log.info("Next action = " + nextActionName);
 			filterSuccess =  nextActionName;
 		}
 		else

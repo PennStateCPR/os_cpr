@@ -47,7 +47,15 @@
 											<s:textfield name="dob" cssClass="input-small hide" id="dob" placeholder="mm/dd/yyyy" />
 										</div>
 									</div>
-
+									
+									<!--CITY-->
+									<div id="cityControlGroup" class="control-group">
+										<label class="control-label" for="city">City:</label>
+										<div class="controls">
+											<s:textfield name="city" cssClass="input-medium" maxlength="60" id="city"/>
+										</div>
+									</div>
+									
 									<!--INTERNATIONAL CHECKBOX-->
 									<div class="control-group">
 										<label class="control-label" for="internationalNumber">Non-US Phone Number:</label>
@@ -72,6 +80,7 @@
 											<s:textfield name="extension" cssClass="input-mini" maxlength="40" id="extension"/>
 										</div>
 									</div>
+
 
 									<!--EMAIL POPOVER-->
 									<div id="emailPopoverContent" class="hidden">
@@ -135,10 +144,8 @@
 						<div class="datacard-tabs">
 							<ul class="unstyled">
 								<li><span>Legal Name</span></li>
-								<li><span>Address</span></li>
 								<li><span class="active">Additional</span></li>
 								<li><span>Verify</span></li>
-								<li><span>Privacy Policy</span></li>
 								<li><span>Security</span></li>
 								<li><span>Password</span></li>
 							</ul>

@@ -65,8 +65,8 @@ public class LegalNameAction extends NameBaseAction
 	 */
 	@Override
 	@Action(value="legal_name",results={ 
-			@Result(name=SUCCESS, location="/former_name", type=REDIRECT),
-            @Result(name="CurrentAddress",location="/current_address", type=REDIRECT),
+			@Result(name=SUCCESS, location="/contact_info", type=REDIRECT),
+            @Result(name="ContactInfo",location="/contact_info", type=REDIRECT),
             @Result(name="VerifyInfo",location="/verify_info", type=REDIRECT),
 			@Result(name="stay on page", location="/jsp/legalName.jsp"),
 			@Result(name="verify", location="/verify_info", type=REDIRECT),
@@ -79,7 +79,11 @@ public class LegalNameAction extends NameBaseAction
 	public String execute()
 	{
 		setPrefix("lna");
-		return super.execute();
+		String returnLocation = super.execute();
+		if ("CurrentAddress".equals(returnLocation)) {
+			returnLocation = "ContactInfo";
+		}
+		return returnLocation;
 	}
 	
 	/**

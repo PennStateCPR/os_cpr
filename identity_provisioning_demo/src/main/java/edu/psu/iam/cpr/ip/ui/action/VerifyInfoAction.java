@@ -59,7 +59,7 @@ public class VerifyInfoAction extends BaseAction
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
 	 */
 	@Override
-	@Action(value="verify_info",results={ @Result(name=SUCCESS,location="/privacy_policy",type=REDIRECT),
+	@Action(value="verify_info",results={ @Result(name=SUCCESS,location="/security_questions",type=REDIRECT),
 			                              @Result(name="privacy_policy",location="/privacy_policy",type=REDIRECT),
                                           @Result(name="stay on page",location="/jsp/verify.jsp"),
                                           @Result(name="success_security_questions",location="/security_questions",type=REDIRECT),

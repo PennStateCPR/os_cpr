@@ -99,10 +99,8 @@
 						<div class="datacard-tabs">
 							<ul class="unstyled">
 								<li><span>Legal Name</span></li>
-								<li><span>Address</span></li>
 								<li><span>Additional</span></li>
 								<li><span>Verify</span></li>
-								<li><span>Privacy Policy</span></li>
 								<li><span class="active">Security</span></li>
 								<li><span>Password</span></li>
 							</ul>

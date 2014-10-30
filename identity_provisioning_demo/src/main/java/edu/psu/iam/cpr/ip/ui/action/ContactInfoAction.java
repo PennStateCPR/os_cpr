@@ -34,6 +34,7 @@ public class ContactInfoAction extends BaseAction
 	private String phoneType;
 	private String emailType;
 	private String dob;
+	private String city;
 	
 	/* (non-Javadoc)
 	 * @see edu.psu.iam.cpr.ui.action.BaseAction#execute()
@@ -198,6 +199,22 @@ public class ContactInfoAction extends BaseAction
 	 */
 	public String getDob() {
 		return dob;
+	}
+
+
+	/**
+	 * @return the city
+	 */
+	public String getCity() {
+		return city;
+	}
+
+
+	/**
+	 * @param city the city to set
+	 */
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 

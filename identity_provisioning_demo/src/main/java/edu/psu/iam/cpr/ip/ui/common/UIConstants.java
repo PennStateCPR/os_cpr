@@ -186,6 +186,7 @@ public final class UIConstants
 	public static final String CON_EMAIL_TYPE           = "con.emailType";
 	public static final String CON_EMAIL                = "con.email";
 	public static final String CON_DOB					= "con.dob";
+	public static final String CON_CITY					= "con.city";
 	
 	public static final String FMR_FIRST_NAME           = "fmr.firstName";
 	public static final String FMR_LAST_NAME            = "fmr.lastName";

@@ -102,7 +102,8 @@ public final class SoapClientIP {
 		findPerson.put(UIConstants.ADDRESS1, (String)sessionData.get(UIConstants.CRA_ADDRESS_LINE1));
 		findPerson.put(UIConstants.ADDRESS2, (String)sessionData.get(UIConstants.CRA_ADDRESS_LINE2));
 		findPerson.put(UIConstants.ADDRESS3, (String)sessionData.get(UIConstants.CRA_ADDRESS_LINE3));
-		findPerson.put(UIConstants.CITY, (String)sessionData.get(UIConstants.CRA_CITY));
+//		findPerson.put(UIConstants.CITY, (String)sessionData.get(UIConstants.CRA_CITY));
+		findPerson.put(UIConstants.CITY, (String)sessionData.get(UIConstants.CON_CITY));
 		if (!mapValueIsEmpty((String)sessionData.get(UIConstants.CRA_STATE))) 
 		{
 			findPerson.put(UIConstants.STATE_OR_PROV, (String)sessionData.get(UIConstants.CRA_STATE));	
@@ -755,35 +756,17 @@ public final class SoapClientIP {
 	public static HashMap<String, String> formatAddressData(HashMap<String, String> sessionData) {
 		HashMap<String, String> formattedAddressData = new HashMap<String, String>();
 
-		// If the required elements are missing, return an empty map
-		if (!(mapValueIsEmpty(sessionData.get(UIConstants.CRA_ADDRESS_TYPE)) || mapValueIsEmpty(sessionData.get(UIConstants.CRA_ADDRESS_LINE1)) ||
-				mapValueIsEmpty(sessionData.get(UIConstants.CRA_COUNTRY)) || mapValueIsEmpty(sessionData.get(UIConstants.CRA_POSTAL_CODE)))) {
+		formattedAddressData.put(UIConstants.ADDRESS_TYPE, "PERMANENT_ADDRESS");
+		formattedAddressData.put(UIConstants.ADDRESS_DOCUMENT_TYPE, null);
+		formattedAddressData.put(UIConstants.ADDRESS_GROUP_ID, null);
+		formattedAddressData.put(UIConstants.ADDRESS1, "1123 Junk Address");
+		formattedAddressData.put(UIConstants.ADDRESS2, null);
+		formattedAddressData.put(UIConstants.ADDRESS3, null);
+		formattedAddressData.put(UIConstants.CITY, sessionData.get(UIConstants.CON_CITY));
+		formattedAddressData.put(UIConstants.COUNTRY, "USA");
+		formattedAddressData.put(UIConstants.STATE_OR_PROV, "PA");	
+		formattedAddressData.put(UIConstants.POSTAL_CODE, removeNonDigits("16801"));		
 
-			formattedAddressData.put(UIConstants.ADDRESS_TYPE, sessionData.get(UIConstants.CRA_ADDRESS_TYPE));
-			formattedAddressData.put(UIConstants.ADDRESS_DOCUMENT_TYPE, sessionData.get(UIConstants.CRA_ADDRESS_DOCUMENT_TYPE));
-			formattedAddressData.put(UIConstants.ADDRESS_GROUP_ID, sessionData.get(UIConstants.CRA_ADDRESS_GROUP_ID));
-			formattedAddressData.put(UIConstants.ADDRESS1, sessionData.get(UIConstants.CRA_ADDRESS_LINE1));
-			formattedAddressData.put(UIConstants.ADDRESS2, sessionData.get(UIConstants.CRA_ADDRESS_LINE2));
-			formattedAddressData.put(UIConstants.ADDRESS3, sessionData.get(UIConstants.CRA_ADDRESS_LINE3));
-			formattedAddressData.put(UIConstants.CITY, sessionData.get(UIConstants.CRA_CITY));
-			formattedAddressData.put(UIConstants.COUNTRY, sessionData.get(UIConstants.CRA_COUNTRY));
-	
-			if (!mapValueIsEmpty(sessionData.get(UIConstants.CRA_STATE))) 
-			{
-				formattedAddressData.put(UIConstants.STATE_OR_PROV, sessionData.get(UIConstants.CRA_STATE));	
-			}
-			else if (!mapValueIsEmpty(sessionData.get(UIConstants.CRA_PROVINCE))) 
-			{
-				formattedAddressData.put(UIConstants.STATE_OR_PROV, sessionData.get(UIConstants.CRA_PROVINCE));	
-			}
-	
-			if (sessionData.containsKey(UIConstants.CRA_POSTAL_CODE)) 
-			{
-				// make sure postal code is formatted correctly (only numbers or null)
-				formattedAddressData.put(UIConstants.POSTAL_CODE, removeNonDigits(sessionData.get(UIConstants.CRA_POSTAL_CODE)));		
-			}
-		}
-		
 		return formattedAddressData;
 	}
 	

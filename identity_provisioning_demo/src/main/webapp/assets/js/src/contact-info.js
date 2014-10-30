@@ -98,6 +98,9 @@ var commit = commit || {};
 						required: true,
 						email: true
 					},
+					city: {
+						required: true,
+					},
 					phoneNumber: {
 						required: true,
 						phoneCommit: true
@@ -113,6 +116,9 @@ var commit = commit || {};
 					},
 					phoneNumber: {
 						required: 'Please enter your phone number.'
+					},
+					city: {
+						required: 'Please enter your city.'
 					}
 				},
 //				formModal: true,
