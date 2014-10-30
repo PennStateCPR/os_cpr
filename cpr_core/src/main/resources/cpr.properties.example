@@ -5,6 +5,7 @@ cpr.jms.broker=
 cpr.jms.userid=
 cpr.jms.password=
 cpr.jms.replyto=Queue.CPR
+cpr.jms.dir.queue=Queue.Directory
 
 #
 # Formats
